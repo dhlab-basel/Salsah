@@ -1,2 +1,3 @@
 # Salsah
-A graphical user interface for Knora
+
+SALSAH repository for a info page
