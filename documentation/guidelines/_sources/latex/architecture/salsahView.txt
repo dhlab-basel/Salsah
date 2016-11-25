@@ -1,0 +1,82 @@
+salsahView
+==========
+
+gridView (search results and collections)
+-----------------------------------------
+
+.. figure:: salsahView_grid.png
+   :alt: salsahView: grid (inspired by the old light table and the LFI
+   news)
+   :width: 90.0%
+
+   salsahView: grid (inspired by the old light table and the LFI news)
+
+listView (search results)
+-------------------------
+
+.. figure:: salsahView_list.png
+   :alt: salsahView: list (inspired by Google’s inbox
+   :width: 90.0%
+
+   salsahView: list (inspired by Google’s inbox
+
+tableView (search results of one resource type)
+-----------------------------------------------
+
+.. figure:: salsahView_table.png
+   :alt: salsahView: table (inspired by Excel)
+   :width: 90.0%
+
+   salsahView: table (inspired by Excel)
+
+From the list view (grid, list or tableView) the user can select more
+than one resource (well known from e-mail applications). In that case,
+an additional header provides some tools to do something with the
+selected resources. If the user selects some resources which are from
+the same resource type, he can edit them by one click. A modal box shows
+the properties of the selected resources. It’s the same process as
+Apple’s iTunes has (s. Fig. [fig:itunes]).
+
+.. figure:: iTunes-edit-selection.png
+   :alt: Example from iTunes: Selection of some songs; “Get info” opens
+   a modal box, where the user can edit the properties for the whole
+   selection.
+   :width: 90.0%
+
+   Example from iTunes: Selection of some songs; “Get info” opens a
+   modal box, where the user can edit the properties for the whole
+   selection.
+
+resourceView
+------------
+
+.. figure:: salsahView_resource.png
+   :alt: salsahView: default resource card/modal (inspired by the window
+   element of elementary OS)
+   :width: 90.0%
+
+   salsahView: default resource card/modal (inspired by the window
+   element of elementary OS)
+
+splitView (compare resources)
+-----------------------------
+
+Resource comparison viewer with a maximum of six flexible boxes.
+
+.. figure:: salsahView_split.png
+   :alt: salsahView: split (inspired by codepen.io)
+   :width: 90.0%
+
+   salsahView: split (inspired by codepen.io)
+
+graphView
+---------
+
+Something with D3.js (d3js.org)
+
+dashboardView
+-------------
+
+Place for activity thread includes updates from all projects the user is
+part of or has subscribed to. Activity thread should also be possible
+for user’s activity.

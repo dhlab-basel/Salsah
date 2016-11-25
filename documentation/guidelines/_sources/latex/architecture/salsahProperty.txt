@@ -1,0 +1,34 @@
+salsahProperty
+==============
+
+various GUI elements for different properties like salsahSelection
+(simple and hierarchical), salsahLocation (geonmame connection),
+salsahResourcePointer, salsahText, salsahNumber, salsahDate (simple and
+as a period), salsahTime, salsahRegion (?)
+
+stringElement (text)
+--------------------
+
+numberElement (integer or floating point)
+-----------------------------------------
+
+richtextElement (textarea)
+--------------------------
+
+dateElement (incl. period)
+--------------------------
+
+timeElement (incl. interval)
+----------------------------
+
+locationElement (connection to geonames.org)
+--------------------------------------------
+
+resourcePointerElement (autocomplete or dropdown)
+-------------------------------------------------
+
+selectionElement (dropdown, checkbox or radio)
+----------------------------------------------
+
+hierarchicalListElement (dropdown or radio)
+-------------------------------------------
