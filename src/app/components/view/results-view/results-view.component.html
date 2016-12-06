@@ -1,0 +1,43 @@
+<div class="salsah-results-header">
+    <md-toolbar>
+        <span>Results: {{searchResponse?.nhits}}</span>
+        <span class="fill-remaining-space"><!-- This fills the remaining space of the current row --></span>
+        <md-button-toggle-group name="alignment">
+            <md-button-toggle checked="true" value="list" title="List" (click)="toggleView('list')" ><md-icon>view_headline</md-icon></md-button-toggle>
+            <md-button-toggle value="grid" title="Grid" (click)="toggleView('grid')"><md-icon>view_module</md-icon></md-button-toggle>
+            <md-button-toggle value="table" title="Table" disabled><md-icon>view_comfy</md-icon></md-button-toggle>
+        </md-button-toggle-group>
+    </md-toolbar>
+</div>
+<div class="salsah-view-results">
+    <div class="error" *ngIf="errorMessage">{{errorMessage}}</div>
+
+    <div *ngIf="list" class="list-view">
+        <md-list>
+            <md-list-item *ngFor="let item of searchResponse?.subjects" >
+                <img md-list-avatar [src]="item.preview_path" (click)="openResource(item.obj_id, item)" (error)="previewError($event, item.preview_path)" />
+                <p md-line>
+                    <button md-icon-button  class="resource-icon">
+                        <!-- show the resource type icon -->
+                        <md-icon (click)="toggleResourceSelection()">folder</md-icon>
+                        <!-- behind the icon is a checkbox to select a resource -->
+                        <md-checkbox [checked]="completed" (change)="completed = $event" hidden></md-checkbox>
+                    </button>
+                    <span (click)="openResource(item.obj_id)">{{item.valuelabel[0]}}:
+                                <strong>{{item.value[0]}}</strong>
+                            </span>
+                </p>
+                <p md-line (click)="openResource(item.obj_id)" >{{item.valuelabel[1]}}: {{item.value[1]}}</p>
+            </md-list-item>
+        </md-list>
+    </div>
+
+    <div *ngIf="grid" class="grid-view">
+        <md-grid-list cols="3" gutterSize="12px">
+            <md-grid-tile *ngFor="let item of searchResponse?.subjects" >
+                <img [src]="item.preview_path" (error)="previewError($event)" />
+                <p>{{item.value[0]}}</p>
+            </md-grid-tile>
+        </md-grid-list>
+    </div>
+</div>

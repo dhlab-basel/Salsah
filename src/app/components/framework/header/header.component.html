@@ -1,0 +1,69 @@
+<md-toolbar>
+    <div class="salsah-project-buttons">
+        <span>
+            <button md-icon-button [md-menu-trigger-for]="projectMenu">
+                <md-icon>keyboard_arrow_down</md-icon>
+            </button>
+            <md-menu #projectMenu="mdMenu" class="salsah-project-selection">
+                <div md-menu-item>
+                    <span class="salsah-add-button">
+                        <button md-icon-button>
+                            <md-icon>add</md-icon>
+                        </button>
+                    </span>
+                    <span class="salsah-user-project">New project</span>
+                </div>
+                <hr/>
+                <div *ngFor="let project of user.userProjects" md-menu-item>
+                    <span class="salsah-user-project">{{project.longname}}</span>
+                    <span *ngIf="project.admin" class="salsah-admin-button">
+                        <button md-icon-button>
+                            <md-icon>settings</md-icon>
+                        </button>
+                    </span>
+                </div>
+            </md-menu>
+        </span>
+        <!-- image of active/current project logo -->
+        <a href="/">
+            <img class="logo" src="{{ currentProject.logo }}" alt="{{ currentProject.name }}" title="{{ currentProject.title }}">
+        </a>
+    </div>
+
+    <span class="fill-remaining-space"><!-- This fills the remaining space of the current row --></span>
+
+    <salsah-search></salsah-search><!-- salsah specific search panel incl. simple and extended search menu -->
+
+    <span class="fill-remaining-space"><!-- This fills the remaining space of the current row --></span>
+
+    <div class="salsah-toolbar-buttons">
+        <span>
+            <button md-icon-button [md-menu-trigger-for]="addMenu">
+                <md-icon>{{add.icon}}</md-icon>
+            </button>
+            <md-menu x-position="before" #addMenu="mdMenu">
+                <button *ngFor="let item of add.menuItems" md-menu-item> {{item.text}} </button>
+            </md-menu>
+        </span>
+        <span>
+            <button md-icon-button href="/documentation">
+                <md-icon>{{documentation.icon}}</md-icon>
+            </button>
+        </span>
+        <span>
+            <button md-icon-button [md-menu-trigger-for]="userMenu">
+                <md-icon>{{user.icon}}</md-icon>
+            </button>
+            <md-menu x-position="before" #userMenu="mdMenu">
+                <div *ngFor="let item of user.menuItems; let last=last">
+                    <hr *ngIf="last"/>
+                    <div md-menu-item>
+                        <a href="{{item.routerLink}}">
+                            <md-icon>{{item.icon}}</md-icon><span>{{item.text}}</span>
+                        </a>
+                    </div>
+                </div>
+            </md-menu>
+        </span>
+    </div>
+</md-toolbar>

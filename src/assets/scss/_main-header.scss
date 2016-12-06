@@ -1,0 +1,43 @@
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * This file is part of SALSAH.
+ * SALSAH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * SALSAH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You should have received a copy of the GNU Affero General Public
+ * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+ * */
+
+.fill-remaining-space {
+    flex: 1 1 auto
+}
+
+img.logo {
+    height: 48px;
+    margin-top: 16px;
+}
+
+.md-menu.salsah-project-selection {
+    max-width: 420px;
+    div {
+        min-height: 32px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        span.salsah-user-project {
+            max-width: 320px;
+            -moz-hyphens: auto;
+            -webkit-hyphens: auto;
+            -ms-hyphens: auto;
+            hyphens: auto;
+            white-space: pre-wrap;
+        }
+        span.salsah-admin-button {
+            right: 12px;
+            position: absolute;
+        }
+    }
+}

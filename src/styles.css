@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* including the material icons */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+/* style from material design */
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
+/* own style setting */
+@import 'assets/css/main.css';
+
