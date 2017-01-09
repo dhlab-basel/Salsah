@@ -1,12 +1,42 @@
+..  Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+    Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+    This file is part of SALSAH.
+    SALSAH is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    SALSAH is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    You should have received a copy of the GNU Affero General Public
+    License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+
+
 salsahObject
 ============
 
-Like in SALSAH 1 we have a few predefined default resource objects. Most
-of the objects depend on the different kind of media types: emptyObject
-(object without a file, metadata only), imageObject, documentObject,
-videoObject, audioObject, collectionObject, regionObject,
-sequenceObject. Every salsah resource object needs his own viewer
-environment (card) with specific predefined tools.
+salsahObjects are just a few GUI elements for the various resource types depending on media and file type: text, image, video, audio
+
+For every salsahObject we have to build one component. Some of them could have sub-components as well.
+
+- emptyObject (object without a  file, metadata only)
+
+- imageObject
+
+- documentObject (object for
+
+- videoObject
+
+- audioObject
+
+- collectionObject
+
+- regionObject
+
+- sequenceObject
+
+Every salsah (resource) object needs his own viewer environment (card) with default, but also specific tools.
+The default tools are as following:
 
 -  **close** and **resize** the resource card; fullscreen and back to
    card size; (minimize? add the resource to one field (of 6) in the
@@ -55,11 +85,9 @@ files e.g. srt)
 
 Inspired by existing tools: Transcribe, f4, ELAN, MaxQData
 
-.. figure:: salsahObject_video.png
-   :alt: video Object (top left) embedded in the sequenceTranscription
-   tool
+.. figure:: figures/salsahObject_video.png
 
-   video Object (top left) embedded in the sequenceTranscription tool
+       video Object (top left) embedded in the sequenceTranscription tool
 
 audioObject
 -----------
@@ -69,6 +97,7 @@ extra object for musical notes (musicNotationObject ?)
 
 collectionObject (collection / link / book) / salsahCollection
 --------------------------------------------------------------
+The collectionObject is a special GUI element. We can use it for every object type which should connect various salsah objects.
 
 **collectionObject/linkObject**
 
@@ -86,3 +115,7 @@ regionObject (for images and documents)
 
 sequenceObject (for video and audio)
 ------------------------------------
+
+
+
+

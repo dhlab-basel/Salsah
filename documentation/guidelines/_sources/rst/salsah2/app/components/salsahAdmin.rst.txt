@@ -11,18 +11,9 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-.. _salsah2:
 
-########
-SALSAH 2
-########
+salsahAdmin
+===========
 
-SALSAH - System for Annotation and Linkage of Sources in Arts and Humanities
 
-..  toctree::
-    :maxdepth: 2
 
-    introduction/index
-    components/index
-    directives/index
-    services/index
