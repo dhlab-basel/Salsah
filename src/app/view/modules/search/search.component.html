@@ -1,0 +1,21 @@
+<!-- the next element -- div.extended-search-panel -- is a hidden dropdown filter menu -->
+<div class="extended-search-panel" [@dropdown]="_searchFocus">
+  <p>Show me on focus of the simple search</p>
+</div>
+
+<div class="simple-search-panel" [ngClass]="_panelSize">
+  <!--
+  <button class="prefix">
+      <md-icon>filter_list</md-icon>
+  </button>
+  -->
+  <button class="prefix"  (click)="doSearch(search)">
+    <md-icon>search</md-icon>
+  </button>
+  <input #search type="search" [placeholder]="_searchLabel" (keyup)="onKey($event)" value={{_searchQuery}} (focus)="onFocus()" (click)="onFocus()"/>
+  <!-- [(ngModel)]="_searchQuery" -->
+  <button class="suffix" *ngIf="_searchFocus" (click)="clearSearch(search)">
+    <md-icon class="md-24">close</md-icon>
+  </button>
+</div>
+

@@ -1,0 +1,247 @@
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * This file is part of SALSAH.
+ * SALSAH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * SALSAH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You should have received a copy of the GNU Affero General Public
+ * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+ * */
+
+
+@import 'mixins';
+@import 'config';
+@import 'loading';
+@import 'form';
+@import 'view';
+@import 'error';
+
+
+//
+//  general html style
+//
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    padding: 0;
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+    overflow-x: hidden;
+    margin: 0 0 24px; /* bottom = footer height */
+}
+
+//
+//  Overlay element:
+//  it hides the content of salsah in the case of
+//  modal pop-ups or dropdown animations
+//
+
+salsah-overlay {
+    width: 100vw;
+    height: 100vh;
+    z-index: -5;
+    background-color: rgba(41, 41, 41, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    &.fullscreen {
+        z-index: 100;
+        background-color: rgba(249, 249, 249, 1);
+        display: block;
+    }
+}
+//  -- /overlay --
+//
+
+//
+//  modules: header, content, footer
+//
+
+//
+//  -- Header --
+//
+.salsah-main-header {
+    md-toolbar {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        height: 64px;
+
+        .salsah-project-buttons {
+            .salsah-project-select-button {
+                position: relative;
+                top: -12px;
+            }
+        }
+        img.logo {
+            height: 48px;
+            margin-top: 16px;
+        }
+    }
+}
+
+.md-menu-panel.salsah-project-selection {
+    width: 420px;
+    max-width: 420px;
+    div {
+        min-height: 32px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        span.salsah-user-project {
+            max-width: 320px;
+            -moz-hyphens: auto;
+            -webkit-hyphens: auto;
+            -ms-hyphens: auto;
+            hyphens: auto;
+            white-space: pre-wrap;
+        }
+        span.salsah-admin-button {
+            right: 12px;
+            bottom: 12px;
+            left: 360px;
+            position: absolute;
+            z-index: 1000;
+            md-icon {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    }
+}
+
+
+//  -- /header --
+//
+header.salsah-main-header {
+    height: 64px;
+}
+// -- /main header --
+//
+
+//
+//  -- Main content --
+//
+main.salsah-main-content {
+    //    position: relative;
+    //    margin-top: 64px;
+    width: 100vw;
+}
+//  -- /main content --
+//
+
+//
+//  -- Footer --
+//
+footer.salsah-main-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 24px;
+    width: 100vw;
+    background-color: rgba(whitesmoke, 0.91);
+
+    p {
+        font-size: 10px;
+        font-weight: 300;
+        text-align: center;
+        color: dimgrey;
+        letter-spacing: 2px;
+        a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: bolder;
+        }
+
+    }
+}
+
+
+//  -- /footer --
+//
+
+
+.salsah-error {
+    color: orangered;
+    max-width: 640px;
+    //    margin: 24px auto;
+}
+.salsah-warning {
+    color: indianred;
+    max-width: 640px;
+    //    margin: 24px auto;
+}
+.salsah-hint {
+    position: relative;
+    &.md-hint {
+        position: relative;
+    }
+}
+.salsah-note {
+    background-color: lightgoldenrodyellow;
+    max-width: 640px;
+    margin: 24px auto;
+}
+
+.salsah-avatar-image {
+    border-radius: 50%;
+}
+
+.fill-remaining-space {
+    flex: 1 1 auto
+}
+
+.show {
+    display: block;
+}
+.hide {
+    display: none;
+}
+
+.half-width {
+    width: 50%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.golden-ratio-small-width {
+    width: 39%;
+}
+.golden-ratio-large-width {
+    width: 61%;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.previous, .back, .left {
+    float: left;
+}
+.forward, .next, .right {
+    float: right;
+}
+
+md-card.no-shadow {
+    box-shadow: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+md-card.fix-width {
+    width: 100%;
+    max-width: 640px;
+    min-width: 480px;
+}
+
