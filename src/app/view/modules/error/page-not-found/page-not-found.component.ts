@@ -12,31 +12,18 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { JsonObject, JsonProperty } from 'json2typescript';
-import {User} from "./user";
+import { Component, OnInit } from '@angular/core';
 
+@Component({
+  selector: 'salsah-page-not-found',
+  templateUrl: './page-not-found.component.html',
+  styleUrls: ['./page-not-found.component.css']
+})
+export class PageNotFoundComponent implements OnInit {
 
-/**
- * This module contains interfaces that are used by other modules (message components).
- * It does not represent a particular API request or response format.
- */
+  constructor() { }
 
-/**
- * Basic members of the Knora API V1 response format.
- */
-
-@JsonObject
-export class BasicResponse {
-
-    @JsonProperty('status', Number)
-    public status: Number = undefined;
-
-    @JsonProperty('userdata', User)
-    public user: User = undefined;
-}
-
-
-@JsonObject
-export class BasicMessage {
+  ngOnInit() {
+  }
 
 }

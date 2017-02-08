@@ -12,19 +12,17 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
 
-import { ApiService } from './api.service';
+import {ApiService} from './api.service';
 import {Session} from "../classes/session";
-
-
 
 @Injectable()
 export class SessionService extends ApiService {
 
-  getSession(): Observable<Session> {
-    return this.httpGet('/session');
-  }
+    getSession(): Observable<Session> {
+        return this.httpGet('/session');
+    }
 
 }

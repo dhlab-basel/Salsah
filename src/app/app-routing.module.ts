@@ -15,18 +15,25 @@
 import {Routes, RouterModule} from "@angular/router";
 import {NgModule} from "@angular/core";
 
-import {StartComponent} from "./view/dashboard/start/start.component";
 import {LoginComponent} from "./view/login/login.component";
+import {DashboardComponent} from "./view/dashboard/dashboard.component";
+import {PageNotFoundComponent} from "./view/modules/error/page-not-found/page-not-found.component";
+
 
 const appRoutes: Routes = [
     {
         path: '',
-        component: StartComponent
+        component: DashboardComponent
     },
     {
         path: 'login',
         component: LoginComponent
-    }
+    },
+    {
+        path: 'logout',
+        component: DashboardComponent
+    },
+    { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

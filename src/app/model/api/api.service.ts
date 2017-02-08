@@ -28,7 +28,7 @@ export class ApiService {
         // Json convert error handling
         //
 
-        JsonConvert.debugMode = true;
+//        JsonConvert.debugMode = true;
 //        JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
         JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
     }
@@ -47,10 +47,10 @@ export class ApiService {
             try {
                 return response.json();
             } catch (e) {
-                return Observable.throw(this.handleError(response, url));
+                return Observable.throw(ApiService.handleError(response, url));
             }
         }).catch((error: any) => {
-            return Observable.throw(this.handleError(error, url));
+            return Observable.throw(ApiService.handleError(error, url));
         });
     }
 
@@ -72,14 +72,14 @@ export class ApiService {
                 apiServiceResult.body = response.json();
                 return apiServiceResult;
             } catch (e) {
-                return this.handleError(response, url);
+                return ApiService.handleError(response, url);
             }
         }).catch((error: any) => {
-            return Observable.throw(this.handleError(error, url));
+            return Observable.throw(ApiService.handleError(error, url));
         });
     }
 
-    handleError(error: any, url: string): ApiServiceError {
+    static handleError(error: any, url: string): ApiServiceError {
 
         let response = new ApiServiceError();
         if (error instanceof Response) {

@@ -114,6 +114,7 @@ div.file-upload-zone {
         background-color: transparent;
         //        color: rgb(33,33,33);
         color: rgba(0, 0, 0, 0.38);
+        position: relative;
         &:active {
             color: rgb(81,81,81);
         }
@@ -133,7 +134,7 @@ div.file-upload-zone {
     @include box-shadow();
     position: absolute;
     padding-top: 60px;
-    z-index: -1;
+//    z-index: -1;
     border-radius: $border-radius;
     display: none;
 }

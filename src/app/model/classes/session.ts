@@ -15,8 +15,6 @@
 import { JsonObject, JsonProperty } from 'json2typescript';
 import { BasicResponse } from './basic-response';
 
-
-
 /**
  * Represents the knora session
  *

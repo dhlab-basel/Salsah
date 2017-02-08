@@ -24,6 +24,8 @@ function getDocument(): any {
     return document;
 }
 
+
+
 @Component({
     selector: 'salsah-login',
     templateUrl: './login.component.html',
@@ -69,16 +71,17 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(this._router.url === '/logout') LoginComponent.logout();
+
     }
 
     onSubmit(lf: any): void {
 
         this._loginService.login(lf.email, lf.password).subscribe(
             (result: ApiServiceResult) => {
-                let sessionJson: Session = result.getBody(Session);
-                getDocument().cookie = "sid=" + sessionJson.sid;
-                getDocument().cookie = "KnoraAuthentication=" + sessionJson.sid;
+                let session: Session = result.getBody(Session);
+
+                getDocument().cookie = "sid=" + session.sid;
+                getDocument().cookie = "KnoraAuthentication=" + session.sid;
 
                 //
                 // after successful login, we want to go back to the previous page e.g. search incl. query
@@ -89,7 +92,7 @@ export class LoginComponent implements OnInit {
                     data => goToUrl = data['hb']
                 );
                 if( goToUrl === undefined ) goToUrl = '/';
-//                this._router.navigateByUrl(goToUrl, true);
+                this._router.navigateByUrl(goToUrl, true);
 
             },
             (error: ApiServiceError) => {
@@ -112,12 +115,6 @@ export class LoginComponent implements OnInit {
             }
         );
 
-    }
-
-    static logout() {
-        getDocument().cookie = "sid=;expires=-1";
-        getDocument().cookie = "KnoraAuthentication=;expires=-1";
-//        this._router.navigateByUrl('/login', true);
     }
 
 }

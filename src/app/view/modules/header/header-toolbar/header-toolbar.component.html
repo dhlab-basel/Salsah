@@ -1,0 +1,41 @@
+<!--
+    toolbar menu on the top right corner;
+    only visible if the session is valid
+-->
+
+<!-- add menu -->
+<span class="add-menu">
+        <button md-icon-button [mdMenuTriggerFor]="addMenu">
+            <md-icon>{{create.icon}}</md-icon>
+        </button>
+        <md-menu #addMenu="mdMenu">
+            <div *ngFor="let item of create.menu; let last=last">
+                <button md-menu-item [routerLink]="item.route">
+                    <md-icon> {{item.icon}} </md-icon>
+                    <span> {{item.title}} </span>
+                </button>
+            </div>
+        </md-menu>
+    </span>
+<span class="documentation-menu" mdTooltip="Help" mdTooltipPosition="below">
+    <a md-icon-button href="http://dhlab-basel.github.io/Salsah" target="_blank">
+        <md-icon>{{help.icon}}</md-icon>
+    </a>
+</span>
+<!-- user profile menu -->
+<span class="user-menu">
+    <!-- if the user is logged in, show the user profile menu button -->
+    <button md-icon-button [mdMenuTriggerFor]="userMenu">
+        <img salsahGravatar [email]="session.userdata.email" class="salsah-avatar-image"/>
+    </button>
+    <md-menu #userMenu="mdMenu" class="salsah-user-menu">
+        <div *ngFor="let item of user.menu; let last=last">
+            <hr *ngIf="last"/>
+            <button md-menu-item [routerLink]="item.route">
+                <md-icon> {{item.icon}} </md-icon>
+                <span> {{item.title}} </span>
+            </button>
+        </div>
+    </md-menu>
+</span>
+

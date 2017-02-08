@@ -13,26 +13,25 @@
  * */
 
 import { JsonObject, JsonProperty } from 'json2typescript';
-import { ProjectItem } from './project-item';
 
 /**
  * Represents the current user's data
  */
 
 @JsonObject
-export class User {
+export class UserData {
 
     @JsonProperty('email', null)
-    public email: string = null;
+    public email: string = undefined;
 
     @JsonProperty('firstname', null)
     public firstname: string = undefined;
 
     @JsonProperty('isActiveUser', Boolean)
-    public active: boolean = undefined;
+    public isActiveUser: boolean = undefined;
 
     @JsonProperty('lang', String)
-    public language: string = undefined;
+    public lang: string = undefined;
 
     @JsonProperty('lastname', null)
     public lastname: string = undefined;
