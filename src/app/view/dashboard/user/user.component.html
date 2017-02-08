@@ -1,3 +1,22 @@
-<p>
-  user works!
-</p>
+<div class="salsah-module-header">
+    <!-- this component has his own toolbar header
+        with tabs for navigation through the settings
+    -->
+
+    <md-toolbar class="salsah-user-header">
+
+        <!-- This fills the remaining space of the current row -->
+        <span class="fill-remaining-space"></span>
+
+        <button md-button routerLink="/settings">Settings</button>
+
+    </md-toolbar>
+
+</div>
+<!-- this component has a loader element -->
+<div class="loading" *ngIf="_isLoading">
+    <md-progress-bar mode="indeterminate"></md-progress-bar>
+</div>
+
+
+<router-outlet (tabRequest)="activateTab($event)"></router-outlet>

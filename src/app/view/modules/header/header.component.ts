@@ -1,6 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {Session} from "../../../model/classes/session";
-import {SessionService} from "../../../model/api/session.service";
+import {Component, OnInit, Input} from '@angular/core';
 
 @Component({
     selector: 'salsah-header',
@@ -9,23 +7,13 @@ import {SessionService} from "../../../model/api/session.service";
 })
 export class HeaderComponent implements OnInit {
 
-    errorMessage: string = undefined;
-    session: Session = new Session();
+    @Input() session: any;
 
-
-    constructor( private _sessionService: SessionService) {
+    constructor( ) {
     }
 
     ngOnInit() {
-        this._sessionService.getSession()
-            .subscribe(
-                (data: Session) => {
-                    this.session = data;
-                },
-                error => {
-                    this.errorMessage = <any>error;
-                }
-            );
+
     }
 
     //
@@ -33,7 +21,7 @@ export class HeaderComponent implements OnInit {
     // the default title text is in english.
     // TODO: It will be overwritten, by the user's preferred language by a special language JSON file?!
     //
-    create: Object = {
+    create = {
         title: '',
         icon: 'add',
         menu: [
@@ -55,31 +43,31 @@ export class HeaderComponent implements OnInit {
         ]
     };
 
-    help: Object = {
+    help = {
         title: '',
         icon: 'help',
         route: ''
     };
 
-    user: Object = {
+    user = {
         title: '',
         icon: 'person',
         menu: [
             {
                 title: 'Projects',
                 icon: 'assignment',
-                route: '/user/username/projects'
+                route: '/projects'
             },
             {
                 title: 'Collections',
                 icon: 'bookmark_outline',
-                route: '/user/username/collections'
+                route: '/collections'
             },
             {
                 title: 'Profile',
                 //icon: 'account_box'
                 icon: 'fingerprint',
-                route: '/user/username'
+                route: '/settings'
             },
             {
                 title: 'Sign out',
@@ -89,7 +77,7 @@ export class HeaderComponent implements OnInit {
         ]
     };
 
-    currentProject: Object = {
+    currentProject = {
         name: 'SALSAH',
         title: 'System for Annotation and Linkage of Sources in Arts and Humanities',
         logo: './assets/img/salsah-logo.png'

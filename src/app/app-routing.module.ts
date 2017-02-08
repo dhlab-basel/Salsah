@@ -17,13 +17,40 @@ import {NgModule} from "@angular/core";
 
 import {LoginComponent} from "./view/login/login.component";
 import {DashboardComponent} from "./view/dashboard/dashboard.component";
+import {StartComponent} from "./view/dashboard/start/start.component";
+import {UserComponent} from "./view/dashboard/user/user.component";
+import {ProfileComponent} from "./view/dashboard/user/profile/profile.component";
+import {ProjectComponent} from "./view/dashboard/project/project.component";
 import {PageNotFoundComponent} from "./view/modules/error/page-not-found/page-not-found.component";
+import {SettingsComponent} from "./view/dashboard/user/settings/settings.component";
 
 
 const appRoutes: Routes = [
     {
         path: '',
-        component: DashboardComponent
+        component: DashboardComponent,
+        children: [
+            {
+                path: '', component: StartComponent
+            },
+            {
+                path: 'user/:uid', component: UserComponent,
+                children: [
+                    {
+                        path: '', component: ProfileComponent
+                    },
+                    { path: '**', component: PageNotFoundComponent }
+                ]
+            },
+            {
+                // User settings
+                path: 'settings', component: SettingsComponent
+            },
+            {
+                path: 'project/:pid', component: ProjectComponent
+            },
+            { path: '**', component: PageNotFoundComponent }
+        ]
     },
     {
         path: 'login',

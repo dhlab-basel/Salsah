@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {Session} from "../../model/classes/session";
+import {SessionService} from "../../model/api/session.service";
 
 function getDocument(): any {
     return document;
@@ -12,12 +14,25 @@ function getDocument(): any {
 })
 export class DashboardComponent implements OnInit {
 
+    errorMessage: string = undefined;
+    session: Session = new Session();
+
     constructor(
-        private _router: Router
+        private _router: Router,
+        private _sessionService: SessionService
     ) {
     }
 
     ngOnInit() {
+        this._sessionService.getSession()
+            .subscribe(
+                (data: Session) => {
+                    this.session = data;
+                },
+                error => {
+                    this.errorMessage = <any>error;
+                }
+            );
         if (this._router.url === '/logout') this.logout();
     }
 

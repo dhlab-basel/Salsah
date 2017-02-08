@@ -7,10 +7,10 @@ import {Component, OnInit, Input} from '@angular/core';
 })
 export class HeaderToolbarComponent implements OnInit {
 
-    @Input() session: Object;
-    @Input() help: Object;
-    @Input() create: Object;
-    @Input() user: Object;
+    @Input() session: any;
+    @Input() help: any;
+    @Input() create: any;
+    @Input() user: any;
 
 
     constructor() {

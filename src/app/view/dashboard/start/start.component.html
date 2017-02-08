@@ -1,0 +1,32 @@
+<!-- this component has a loader element -->
+<div class="loading" *ngIf="_isLoading">
+    <md-progress-bar mode="indeterminate" ></md-progress-bar>
+</div>
+
+<div class="salsah-module-content">
+    <p>
+        Welcome to Salsah &mdash; a web-based virtual research environment that helps researchers in the humanities to
+        deal with digital sources. It allows the annotation and linkage of arbitrary sources such as
+        digital texts, still and moving images, and sound.
+    </p>
+    <p>
+        SALSAH is one (generic) user interface to handle the data from the main repository called <a
+            href="http://knora.org"
+            title="Knora: Knowledge Organization, Representation, and Annotation">Knora</a>.
+    </p>
+
+
+    <md-list>
+        <h3 md-subheader>Public projects in Knora</h3>
+        <md-list-item *ngFor="let item of projects?.projects">
+            <md-icon md-list-avatar>chrome_reader_mode</md-icon>
+            <h4 md-line>{{item.longname}}</h4>
+            <p md-line>{{item.description}}</p>
+
+
+        </md-list-item>
+    </md-list>
+</div>
+
+
+

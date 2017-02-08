@@ -13,7 +13,7 @@
  * */
 
 
-.salsah-component-header {
+.salsah-module-header {
     position: fixed;
     top: 64px;
     width: 100vw;
@@ -53,6 +53,12 @@
                 }
             }
         }
+        &.salsah-user-header {
+            background: none;
+            box-shadow: none;
+            padding-left: 0;
+            padding-right: 0;
+        }
     }
     div.loading {
 
@@ -65,7 +71,7 @@
 }
 
 
-.salsah-component-content {
+.salsah-module-content {
     max-width: 960px;
     margin-left: auto;
     margin-right: auto;
@@ -129,7 +135,7 @@
         }
     }
 
-    .salsah-component-header {
+    .salsah-module-header {
         position: relative;
         top: 0;
         width: auto;

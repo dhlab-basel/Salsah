@@ -117,28 +117,17 @@ salsah-overlay {
     }
 }
 
+//
+// The Dashboard has a main header and a main content area
 
-//  -- /header --
-//
-header.salsah-main-header {
-    height: 64px;
-}
-// -- /main header --
-//
-
-//
-//  -- Main content --
-//
 main.salsah-main-content {
-    //    position: relative;
-    //    margin-top: 64px;
+    position: absolute;
+    top: 64px;
     width: 100vw;
 }
-//  -- /main content --
-//
 
 //
-//  -- Footer --
+//  The main app footer should always be visible
 //
 footer.salsah-main-footer {
     position: absolute;
