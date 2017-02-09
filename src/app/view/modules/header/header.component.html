@@ -1,34 +1,27 @@
-<md-toolbar>
-    <a routerLink="/">
-        <img class="logo" src="{{ currentProject.logo }}" alt="{{ currentProject.name }}"
-             title="{{ currentProject.title }}">
-    </a>
-    <!-- project buttons on the top left corner -->
+<header class="salsah-main-header">
+    <md-toolbar>
+        <a routerLink="/">
+            <img class="logo" src="{{ currentProject.logo }}" alt="{{ currentProject.name }}"
+                 title="{{ currentProject.title }}">
+        </a>
+        <!-- project buttons on the top left corner -->
 
-    <!--
-    <salsah-header-projects [projects]="user?.userProjects" [currentProject]="currentProject" (selectRequest)="onSelectProject($event)"></salsah-header-projects>
-  -->
+        <!--
+        <salsah-header-projects [projects]="user?.userProjects" [currentProject]="currentProject" (selectRequest)="onSelectProject($event)"></salsah-header-projects>
+      -->
 
-    <span class="fill-remaining-space"></span>
+        <span class="fill-remaining-space"></span>
 
-    <!-- salsah specific search panel incl.
-         simple and extended search menu -->
-    <salsah-search></salsah-search>
+        <!-- salsah specific search panel incl.
+             simple and extended search menu -->
+        <salsah-search></salsah-search>
 
-    <span class="fill-remaining-space"></span>
+        <span class="fill-remaining-space"></span>
 
-    <!-- if the session is valid: show the toolbar buttons -->
-    <salsah-header-toolbar *ngIf="session.status === 0"
-                           [create]="create"
-                           [help]="help"
-                           [session]="session"
-                           [user]="user">
+        <salsah-header-toolbar [create]="create"
+                               [help]="help"
+                               [user]="user">
+        </salsah-header-toolbar>
 
-    </salsah-header-toolbar>
-    <!-- else: show show only a login button -->
-    <button *ngIf="session.status !== 0" md-raised-button routerLink="/login" mdTooltip="Login"
-            mdTooltipPosition="below" class="md-primary">
-        Log In
-    </button>
-
-</md-toolbar>
+    </md-toolbar>
+</header>

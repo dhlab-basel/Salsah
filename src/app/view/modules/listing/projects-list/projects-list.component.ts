@@ -10,9 +10,9 @@ import {Router} from "@angular/router";
 })
 export class ProjectsListComponent implements OnInit {
 
-    _isLoading: boolean = true;
+    isLoading: boolean = true;
 
-    _errorMessage: any = undefined;
+    errorMessage: any = undefined;
 
     projects: Projects = new Projects();
 
@@ -27,10 +27,11 @@ export class ProjectsListComponent implements OnInit {
             .subscribe(
                 (data: Projects) => {
                     this.projects = data;
-                    this._isLoading = false;
+                    this.isLoading = false;
                 },
                 error => {
-                    this._errorMessage = <any>error;
+                    this.errorMessage = <any>error;
+                    this.isLoading = false;
                 }
             );
     }

@@ -83,6 +83,11 @@ export class LoginComponent implements OnInit {
                 getDocument().cookie = "sid=" + session.sid;
                 getDocument().cookie = "KnoraAuthentication=" + session.sid;
 
+                localStorage.setItem('auth', JSON.stringify({
+                    user: session.userdata.email,
+                    session: session.sid
+                }));
+
                 //
                 // after successful login, we want to go back to the previous page e.g. search incl. query
                 // for this case, we stored the previous url parameters in the current login url as query params

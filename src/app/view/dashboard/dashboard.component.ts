@@ -40,6 +40,7 @@ export class DashboardComponent implements OnInit {
         getDocument().cookie = "sid=;expires=-1";
         getDocument().cookie = "KnoraAuthentication=;expires=-1";
         this._router.navigateByUrl('/', true);
+        localStorage.removeItem('auth');
     }
 
 }

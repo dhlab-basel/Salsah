@@ -1,4 +1,12 @@
-<md-card class="salsah-warning">
-  ERROR {{error?.status}}: {{error?.statusText}}<br><br>
-  The request failed on: {{error?.request}}
+<md-card class="salsah-api-error">
+    <md-icon>warning</md-icon>
+    <md-card-subtitle>
+        ERROR {{error?.status}}
+    </md-card-subtitle>
+    <md-card-title>
+        {{error?.statusText}}
+    </md-card-title>
+    <md-card-content>
+        The request failed on: {{error?.request}}
+    </md-card-content>
 </md-card>

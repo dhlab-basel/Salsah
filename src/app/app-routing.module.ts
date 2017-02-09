@@ -25,6 +25,7 @@ import {ProjectComponent} from "./view/dashboard/project/project.component";
 import {ProjectSettingsComponent} from "./view/dashboard/project/project-settings/project-settings.component";
 import {PageNotFoundComponent} from "./view/modules/error/page-not-found/page-not-found.component";
 import {ProjectProfileComponent} from "./view/dashboard/project/project-profile/project-profile.component";
+import {AppComponent} from "./app.component";
 
 
 
@@ -32,34 +33,6 @@ const appRoutes: Routes = [
     {
         path: '',
         component: DashboardComponent,
-        children: [
-            {
-                path: '', component: StartComponent
-            },
-            {
-                path: 'user/:uid', component: UserComponent,
-                children: [
-                    {
-                        path: '', component: UserProfileComponent
-                    },
-                    { path: '**', component: PageNotFoundComponent }
-                ]
-            },
-            {
-                // User settings
-                path: 'settings', component: UserSettingsComponent
-            },
-            {
-                path: 'project/:pid', component: ProjectComponent,
-                children: [
-                    {
-                        path: '', component: ProjectProfileComponent
-                    },
-                    { path: '**', component: PageNotFoundComponent }
-                ]
-            },
-            { path: '**', component: PageNotFoundComponent }
-        ]
     },
     {
         path: 'login',
@@ -68,6 +41,28 @@ const appRoutes: Routes = [
     {
         path: 'logout',
         component: DashboardComponent
+    },
+    {
+        path: ' user/:uid', component: UserComponent,
+        children: [
+            {
+                path: '', component: UserProfileComponent
+            },
+            { path: '**', component: PageNotFoundComponent }
+        ]
+    },
+    {
+        // User settings
+        path: 'settings', component: UserSettingsComponent
+    },
+    {
+        path: 'project/:pid', component: ProjectComponent,
+        children: [
+            {
+                path: '', component: ProjectProfileComponent
+            },
+            { path: '**', component: PageNotFoundComponent }
+        ]
     },
     { path: '**', component: PageNotFoundComponent }
 ];
