@@ -1,8 +1,3 @@
-<!-- this component has a loader element -->
-<div class="loading" *ngIf="_isLoading">
-    <md-progress-bar mode="indeterminate" ></md-progress-bar>
-</div>
-
 <div class="salsah-module-content">
     <p>
         Welcome to Salsah &mdash; a web-based virtual research environment that helps researchers in the humanities to
@@ -15,17 +10,8 @@
             title="Knora: Knowledge Organization, Representation, and Annotation">Knora</a>.
     </p>
 
+    <salsah-projects-list></salsah-projects-list>
 
-    <md-list>
-        <h3 md-subheader>Public projects in Knora</h3>
-        <md-list-item *ngFor="let item of projects?.projects">
-            <md-icon md-list-avatar>chrome_reader_mode</md-icon>
-            <h4 md-line>{{item.longname}}</h4>
-            <p md-line>{{item.description}}</p>
-
-
-        </md-list-item>
-    </md-list>
 </div>
 
 

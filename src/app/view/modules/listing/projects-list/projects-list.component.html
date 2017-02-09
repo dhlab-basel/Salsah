@@ -1,0 +1,13 @@
+<!-- this component has a loader element -->
+
+<md-list>
+    <h3 md-subheader>Public projects in Knora</h3>
+    <md-progress-spinner *ngIf="_isLoading" mode="indeterminate"></md-progress-spinner>
+    <md-list-item *ngFor="let item of projects?.projects" (click)="openProject(item.shortname)">
+        <md-icon md-list-avatar>chrome_reader_mode</md-icon>
+        <h4 md-line>{{item.longname}}</h4>
+        <p md-line>{{item.description}}</p>
+
+
+    </md-list-item>
+</md-list>

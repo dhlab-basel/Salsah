@@ -12,25 +12,27 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 
-import {ApiService} from "./api.service";
-import {Projects} from "../classes/projects";
+@Component({
+    selector: 'salsah-user-profile',
+    templateUrl: './user-profile.component.html',
+    styleUrls: ['./user-profile.component.css']
+})
+export class UserProfileComponent implements OnInit {
 
+    userName: string = undefined;
 
-@Injectable()
-export class ProjectsService extends ApiService {
-
-
-//    getProject(pid: string): Observable<Project> {
-//        return this.httpGet("/projects/" + pid);
-//    }
-
-
-    getAllProjects(): Observable<Projects> {
-        return this.httpGet("/projects");
+    constructor(private _router: Router) {
     }
 
+    ngOnInit() {
+        // get the user name from the url
+        this.userName = decodeURIComponent(this._router.url.split('user/')[1]);
+
+        // get the user's profile data incl. collections, history etc.
+        // httpGet...
+    }
 
 }

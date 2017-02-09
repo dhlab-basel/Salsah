@@ -19,10 +19,13 @@ import {LoginComponent} from "./view/login/login.component";
 import {DashboardComponent} from "./view/dashboard/dashboard.component";
 import {StartComponent} from "./view/dashboard/start/start.component";
 import {UserComponent} from "./view/dashboard/user/user.component";
-import {ProfileComponent} from "./view/dashboard/user/profile/profile.component";
+import {UserProfileComponent} from "./view/dashboard/user/user-profile/user-profile.component";
+import {UserSettingsComponent} from "./view/dashboard/user/user-settings/user-settings.component";
 import {ProjectComponent} from "./view/dashboard/project/project.component";
+import {ProjectSettingsComponent} from "./view/dashboard/project/project-settings/project-settings.component";
 import {PageNotFoundComponent} from "./view/modules/error/page-not-found/page-not-found.component";
-import {SettingsComponent} from "./view/dashboard/user/settings/settings.component";
+import {ProjectProfileComponent} from "./view/dashboard/project/project-profile/project-profile.component";
+
 
 
 const appRoutes: Routes = [
@@ -37,17 +40,23 @@ const appRoutes: Routes = [
                 path: 'user/:uid', component: UserComponent,
                 children: [
                     {
-                        path: '', component: ProfileComponent
+                        path: '', component: UserProfileComponent
                     },
                     { path: '**', component: PageNotFoundComponent }
                 ]
             },
             {
                 // User settings
-                path: 'settings', component: SettingsComponent
+                path: 'settings', component: UserSettingsComponent
             },
             {
-                path: 'project/:pid', component: ProjectComponent
+                path: 'project/:pid', component: ProjectComponent,
+                children: [
+                    {
+                        path: '', component: ProjectProfileComponent
+                    },
+                    { path: '**', component: PageNotFoundComponent }
+                ]
             },
             { path: '**', component: PageNotFoundComponent }
         ]
