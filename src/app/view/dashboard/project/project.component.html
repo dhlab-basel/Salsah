@@ -26,12 +26,13 @@
 
 
     </md-toolbar>
+    <!-- this component has a loader element -->
+    <div class="loading" *ngIf="isLoading">
+        <md-progress-bar mode="indeterminate"></md-progress-bar>
+    </div>
+</div>
 
-</div>
-<!-- this component has a loader element -->
-<div class="loading" *ngIf="_isLoading">
-    <md-progress-bar mode="indeterminate"></md-progress-bar>
-</div>
 
 
 <router-outlet (tabRequest)="activateTab($event)"></router-outlet>
+

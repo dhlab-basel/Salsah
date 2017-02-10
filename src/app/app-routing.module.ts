@@ -25,6 +25,7 @@ import {ProjectSettingsComponent} from "./view/dashboard/project/project-setting
 import {PageNotFoundComponent} from "./view/modules/error/page-not-found/page-not-found.component";
 import {ProjectProfileComponent} from "./view/dashboard/project/project-profile/project-profile.component";
 import {AccessDeniedComponent} from "./view/modules/error/access-denied/access-denied.component";
+import {ResultsComponent} from "./view/modules/listing/results/results.component";
 
 
 
@@ -53,6 +54,10 @@ const appRoutes: Routes = [
     {
         // User settings
         path: 'settings', component: UserSettingsComponent
+    },
+    {
+        path: 'search/:q',
+        component: ResultsComponent
     },
     {
         path: 'project/:pid', component: ProjectComponent,

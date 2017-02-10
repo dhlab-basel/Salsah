@@ -218,12 +218,12 @@ footer.salsah-main-footer {
     float: right;
 }
 
-md-card.no-shadow {
+.no-shadow {
     box-shadow: none;
     margin-left: auto;
     margin-right: auto;
 }
-md-card.fix-width {
+.fix-width {
     width: 100%;
     max-width: 640px;
     min-width: 480px;

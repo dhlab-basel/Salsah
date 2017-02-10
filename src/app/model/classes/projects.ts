@@ -23,10 +23,10 @@ import { BasicResponse } from './basic-response';
  */
 
 @JsonObject
-export class Projects extends BasicResponse {
+export class ProjectsList extends BasicResponse {
 
-    @JsonProperty('projects', [ProjectItem])
-    public projects: ProjectItem[] = undefined;
+    @JsonProperty('projects', [Project])
+    public projects: Project[] = undefined;
 
 }
 
@@ -35,7 +35,7 @@ export class Projects extends BasicResponse {
  */
 
 @JsonObject
-export class ProjectItem {
+export class Project {
 
     @JsonProperty('basepath', String)
     public basepath: string = undefined;

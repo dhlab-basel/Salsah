@@ -1,0 +1,21 @@
+<div class="salsah-module-header">
+    <md-toolbar class="salsah-results-header">
+        <span>Results: </span>
+        <span class="fill-remaining-space"><!-- This fills the remaining space of the current row --></span>
+        <!-- menu to switch the view: list, grid, table -->
+        <!--
+        <md-button-toggle-group name="alignment" [(ngModel)]="selectedView">
+            <md-button-toggle *ngFor="let view of viewOptions" [value]=view.name [title]=view.title
+                              [disabled]="view.isDisabled">
+                <md-icon>{{view.icon}}</md-icon>
+            </md-button-toggle>
+        </md-button-toggle-group>
+        -->
+    </md-toolbar>
+    <!-- this component has a loader element -->
+    <div class="loading" *ngIf="isLoading">
+        <md-progress-bar mode="indeterminate"></md-progress-bar>
+    </div>
+</div>
+
+

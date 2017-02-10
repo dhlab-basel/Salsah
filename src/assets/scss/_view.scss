@@ -18,46 +18,41 @@
     top: 64px;
     width: 100vw;
     z-index: 99;
+    @include box-shadow-bottom();
 
     md-toolbar {
         z-index: 90;
         padding-left: 64px;
         padding-right: 64px;
-        @include box-shadow-bottom();
 
-        &.salsah-project-header {
+        &.transparent {
+            background: none;
+        }
 
-            .salsah-tab-group {
-                margin-bottom: -20px;
+        .salsah-tab-group {
+            margin-bottom: -20px;
 
-                .salsah-tab-item {
-                    line-height: 48px;
-                    height: 48px;
-                    padding: 0 12px;
-                    font-size: 14px;
-                    font-weight: 500;
-                    cursor: pointer;
-                    box-sizing: border-box;
-                    opacity: 0.6;
-                    min-width: 160px;
-                    text-align: center;
-                    display: inline;
-                    &.active {
-                        border-bottom: 2px solid teal;
-                    }
+            .salsah-tab-item {
+                line-height: 48px;
+                height: 48px;
+                padding: 0 12px;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                box-sizing: border-box;
+                opacity: 0.6;
+                min-width: 160px;
+                text-align: center;
+                display: inline;
+                &.active {
+                    border-bottom: 2px solid teal;
+                }
 
-                    &:active {
-                        border-bottom: 2px solid teal;
-                        background-color: rgba(teal, 0.08);
-                    }
+                &:active {
+                    border-bottom: 2px solid teal;
+                    background-color: rgba(teal, 0.08);
                 }
             }
-        }
-        &.salsah-user-header {
-            background: none;
-            box-shadow: none;
-            padding-left: 0;
-            padding-right: 0;
         }
     }
     div.loading {

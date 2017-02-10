@@ -24,6 +24,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {SessionService} from "./model/api/session.service";
 import {LoginService} from "./model/api/login.service";
 import {ProjectsService} from "./model/api/projects.service";
+import {SearchService} from "./model/api/search.service";
 
 //
 // import all app components
@@ -50,6 +51,7 @@ import {ProjectsListComponent} from './view/modules/listing/projects-list/projec
 
 import {GravatarDirective} from './view/modules/other/gravatar.directive';
 import {OverlayDirective} from './view/modules/other/overlay.directive';
+import { ResultsComponent } from './view/modules/listing/results/results.component';
 
 
 @NgModule({
@@ -75,7 +77,8 @@ import {OverlayDirective} from './view/modules/other/overlay.directive';
         ProjectProfileComponent,
         ProjectsListComponent,
         OverlayDirective,
-        AccessDeniedComponent
+        AccessDeniedComponent,
+        ResultsComponent
     ],
     imports: [
         BrowserModule,
@@ -87,6 +90,7 @@ import {OverlayDirective} from './view/modules/other/overlay.directive';
     providers: [
         LoginService,
         ProjectsService,
+        SearchService,
         SessionService
     ],
     bootstrap: [AppComponent]

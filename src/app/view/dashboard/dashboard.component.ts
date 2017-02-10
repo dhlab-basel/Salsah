@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Session} from "../../model/classes/session";
-import {SessionService} from "../../model/api/session.service";
 
 function getDocument(): any {
     return document;

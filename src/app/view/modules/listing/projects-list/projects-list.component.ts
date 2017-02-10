@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Projects} from "../../../../model/classes/projects";
+import {ProjectsList} from "../../../../model/classes/projects";
 import {ProjectsService} from "../../../../model/api/projects.service";
 import {Router} from "@angular/router";
 
@@ -14,7 +14,7 @@ export class ProjectsListComponent implements OnInit {
 
     errorMessage: any = undefined;
 
-    projects: Projects = new Projects();
+    projects: ProjectsList = new ProjectsList();
 
     constructor(
         private _router: Router,
@@ -25,7 +25,7 @@ export class ProjectsListComponent implements OnInit {
     ngOnInit() {
         this._projectsService.getAllProjects()
             .subscribe(
-                (data: Projects) => {
+                (data: ProjectsList) => {
                     this.projects = data;
                     this.isLoading = false;
                 },

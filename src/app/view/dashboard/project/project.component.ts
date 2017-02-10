@@ -22,6 +22,9 @@ import {ProjectsService} from "../../../model/api/projects.service";
     styleUrls: ['./project.component.css']
 })
 export class ProjectComponent implements OnInit {
+
+    isLoading: boolean = true;
+
     public menu: any = [
         {
             name: 'Project',
@@ -61,7 +64,7 @@ export class ProjectComponent implements OnInit {
                 .subscribe(
                     (data: Projects) => {
                         this.projects = data;
-                        this._isLoading = false;
+                        this.isLoading = false;
                     },
                     error => {
                         this._errorMessage = <any>error;

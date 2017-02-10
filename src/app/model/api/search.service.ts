@@ -16,21 +16,13 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {ApiService} from "./api.service";
-import {ProjectsList} from "../classes/projects";
-
+import {Search} from "../classes/search";
 
 @Injectable()
-export class ProjectsService extends ApiService {
+export class SearchService extends ApiService {
 
-
-//    getProject(pid: string): Observable<Project> {
-//        return this.httpGet("/projects/" + pid);
-//    }
-
-
-    getAllProjects(): Observable<ProjectsList> {
-        return this.httpGet("/projects");
+    doSearch(query, type = 'fulltext'): Observable<Search> {
+        return this.httpGet("/search/" + query + "?searchtype=" + type);
     }
-
 
 }
