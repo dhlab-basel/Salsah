@@ -1,62 +1,65 @@
-<div class="salsah-overlay-header">
-  <img routerLink="/" class="logo" src="/assets/img/salsah-logo.png" alt="SALSAH"
-       title="SALSAH">
-  <p>Sign in to SALSAH</p>
-</div>
+<div class="salsah-overlay fullscreen">
 
-<md-card class="salsah-login">
-  <md-card-header>
-    <md-card-title>
-      {{login.title | uppercase }}
-    </md-card-title>
-  </md-card-header>
+    <div class="salsah-overlay-header">
+      <img routerLink="/" class="logo" src="/assets/img/salsah-logo.png" alt="SALSAH"
+           title="SALSAH">
+      <p>Sign in to SALSAH</p>
+    </div>
 
-  <md-card-content class="login">
-    <!-- This is the login form (lf) -->
-    <form class="login-form" #lf="ngForm" (ngSubmit)="onSubmit(lf.value)">
-      <!-- Username -->
-      <md-input-container class="full-width">
-        <md-icon md-prefix>person</md-icon>
-        <input
-                md-input
-                [placeholder]="login.name"
-                autofocus
-                required
-                name="email"
-                ngModel>
-        <md-hint *ngIf="loginErrorUser" class="salsah-error">{{login.error.user}}</md-hint>
-      </md-input-container>
-      <br><br><br>
-      <!-- Password -->
-      <md-input-container class="full-width">
-        <md-icon md-prefix>lock</md-icon>
-        <input
-                md-input
-                type="password"
-                [placeholder]="login.pw"
-                name="password"
-                required
-                ngModel
-        >
-        <md-hint *ngIf="loginErrorPw" class="salsah-error">{{login.error.pw}}</md-hint>
-      </md-input-container>
-      <br><br><br>
-      <!-- Button: Login -->
+    <md-card class="salsah-login">
+      <md-card-header>
+        <md-card-title>
+          {{login.title | uppercase }}
+        </md-card-title>
+      </md-card-header>
+
+      <md-card-content class="login">
+        <!-- This is the login form (lf) -->
+        <form class="login-form" #lf="ngForm" (ngSubmit)="onSubmit(lf.value)">
+          <!-- Username -->
+          <md-input-container class="full-width">
+            <md-icon md-prefix>person</md-icon>
+            <input
+                    md-input
+                    [placeholder]="login.name"
+                    autofocus
+                    required
+                    name="email"
+                    ngModel>
+            <md-hint *ngIf="loginErrorUser" class="salsah-error">{{login.error.user}}</md-hint>
+          </md-input-container>
+          <br><br><br>
+          <!-- Password -->
+          <md-input-container class="full-width">
+            <md-icon md-prefix>lock</md-icon>
+            <input
+                    md-input
+                    type="password"
+                    [placeholder]="login.pw"
+                    name="password"
+                    required
+                    ngModel
+            >
+            <md-hint *ngIf="loginErrorPw" class="salsah-error">{{login.error.pw}}</md-hint>
+          </md-input-container>
+          <br><br><br>
+          <!-- Button: Login -->
+          <div class="button-row full-width">
+            <button *ngIf="!loginErrorServer" md-raised-button type="submit" [disabled]="!lf.valid" class="full-width login md-primary">{{login.button | uppercase}}</button>
+            <span *ngIf="loginErrorServer" class="salsah-error">{{login.error.server}}</span>
+
+          </div>
+        </form>
+      </md-card-content>
+
+
+    </md-card>
+
+    <div class="salsah-overlay-footer">
+      <h4>{{signup.title | uppercase}}</h4>
+      <h5>{{signup.subtitle}}</h5>
       <div class="button-row full-width">
-        <button *ngIf="!loginErrorServer" md-raised-button type="submit" [disabled]="!lf.valid" class="full-width login md-primary">{{login.button | uppercase}}</button>
-        <span *ngIf="loginErrorServer" class="salsah-error">{{login.error.server}}</span>
-
+        <button md-button class="full-width">{{signup.button | uppercase}}</button>
       </div>
-    </form>
-  </md-card-content>
-
-
-</md-card>
-
-<div class="salsah-overlay-footer">
-  <h4>{{signup.title | uppercase}}</h4>
-  <h5>{{signup.subtitle}}</h5>
-  <div class="button-row full-width">
-    <button md-button class="full-width">{{signup.button | uppercase}}</button>
-  </div>
+    </div>
 </div>

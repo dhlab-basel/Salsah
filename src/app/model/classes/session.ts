@@ -36,10 +36,16 @@ export class Session extends BasicResponse {
      */
     @JsonProperty('sid', String)
     public sid: string = undefined;
-
-
 }
 
+@JsonObject
+export class Authentication {
+    @JsonProperty('user', String)
+    public user: string = undefined;
+
+    @JsonProperty('session', String)
+    public session: string = undefined;
+}
 
 
 

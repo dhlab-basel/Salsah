@@ -14,6 +14,20 @@
 
 md-card.salsah-api-error {
 
+  background-color: lightcoral;
+//  box-shadow: none;
+  max-width: 640px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  md-icon {
+    float: right;
+  }
+}
+
+md-card.salsah-api-warning {
+
   background-color: lightyellow;
 //  box-shadow: none;
   max-width: 640px;
@@ -24,11 +38,6 @@ md-card.salsah-api-error {
   md-icon {
     float: right;
   }
-
-    img {
-        max-width: 420px;
-        object-fit: cover;
-    }
 }
 
 md-card.salsah-page-error {

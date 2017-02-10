@@ -16,13 +16,34 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {ApiService} from './api.service';
-import {Session} from "../classes/session";
+import {Session, Authentication} from "../classes/session";
 
 @Injectable()
 export class SessionService extends ApiService {
 
     getSession(): Observable<Session> {
         return this.httpGet('/session');
+    }
+
+    /**
+     *
+     * @param deny (access to the page) if true: go to the login page
+     * @returns {Authentication}
+     */
+    checkAuth(deny = false): Authentication {
+        let auth: Authentication = JSON.parse(localStorage.getItem('auth'));
+
+        if (auth === null && deny === true) {
+            this.goToLogin();
+        }
+        else {
+            return auth;
+        }
+    }
+
+
+    goToLogin(): any {
+        window.location.replace('/login');
     }
 
 }

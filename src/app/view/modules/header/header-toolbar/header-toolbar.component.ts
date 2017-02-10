@@ -1,4 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
+import {SessionService} from "../../../../model/api/session.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -16,11 +18,14 @@ export class HeaderToolbarComponent implements OnInit {
         session: undefined
     };
 
-    constructor() {
+    constructor(
+        private _router: Router,
+        private _session: SessionService
+    ) {
     }
 
     ngOnInit() {
-        this.auth = JSON.parse(localStorage.getItem('auth'));
+        this.auth = this._session.checkAuth();
 
         if(this.auth !== null) this.userName = this.auth.user;
 

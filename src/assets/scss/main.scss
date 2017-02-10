@@ -43,16 +43,16 @@ body {
 //  modal pop-ups or dropdown animations
 //
 
-salsah-overlay {
+.salsah-overlay {
     width: 100vw;
     height: 100vh;
-    z-index: -5;
+    z-index: 100;
     background-color: rgba(41, 41, 41, 0.4);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    display: none;
+
     &.fullscreen {
         z-index: 100;
         background-color: rgba(249, 249, 249, 1);

@@ -14,6 +14,8 @@
 
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {Authentication} from "../../../../model/classes/session";
+import {SessionService} from "../../../../model/api/session.service";
 
 @Component({
     selector: 'salsah-user-profile',
@@ -23,13 +25,28 @@ import {Router} from "@angular/router";
 export class UserProfileComponent implements OnInit {
 
     userName: string = undefined;
+    auth: Authentication = undefined;
 
-    constructor(private _router: Router) {
+    constructor(
+        private _session: SessionService,
+        private _router: Router
+    ) {
     }
 
     ngOnInit() {
         // get the user name from the url
         this.userName = decodeURIComponent(this._router.url.split('user/')[1]);
+        // checke the authentication and compare the userName with the auth.user
+        this.auth = this._session.checkAuth();
+        if(this.auth.user !== this.userName) {
+            // access denied
+            this._router.navigateByUrl('/denied');
+        }
+        else {
+            // show user's profile page incl. settings button
+        }
+
+        //
 
         // get the user's profile data incl. collections, history etc.
         // httpGet...

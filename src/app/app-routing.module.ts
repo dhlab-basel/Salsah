@@ -17,7 +17,6 @@ import {NgModule} from "@angular/core";
 
 import {LoginComponent} from "./view/login/login.component";
 import {DashboardComponent} from "./view/dashboard/dashboard.component";
-import {StartComponent} from "./view/dashboard/start/start.component";
 import {UserComponent} from "./view/dashboard/user/user.component";
 import {UserProfileComponent} from "./view/dashboard/user/user-profile/user-profile.component";
 import {UserSettingsComponent} from "./view/dashboard/user/user-settings/user-settings.component";
@@ -25,7 +24,7 @@ import {ProjectComponent} from "./view/dashboard/project/project.component";
 import {ProjectSettingsComponent} from "./view/dashboard/project/project-settings/project-settings.component";
 import {PageNotFoundComponent} from "./view/modules/error/page-not-found/page-not-found.component";
 import {ProjectProfileComponent} from "./view/dashboard/project/project-profile/project-profile.component";
-import {AppComponent} from "./app.component";
+import {AccessDeniedComponent} from "./view/modules/error/access-denied/access-denied.component";
 
 
 
@@ -43,7 +42,7 @@ const appRoutes: Routes = [
         component: DashboardComponent
     },
     {
-        path: ' user/:uid', component: UserComponent,
+        path: 'user/:uid', component: UserComponent,
         children: [
             {
                 path: '', component: UserProfileComponent
@@ -63,6 +62,10 @@ const appRoutes: Routes = [
             },
             { path: '**', component: PageNotFoundComponent }
         ]
+    },
+    {
+        path: 'denied',
+        component: AccessDeniedComponent
     },
     { path: '**', component: PageNotFoundComponent }
 ];

@@ -33,7 +33,6 @@ import {HeaderToolbarComponent} from './view/modules/header/header-toolbar/heade
 import {HeaderProjectsComponent} from './view/modules/header/header-projects/header-projects.component';
 import {FooterComponent} from './view/modules/footer/footer.component';
 import {DashboardComponent} from './view/dashboard/dashboard.component';
-import {StartComponent} from './view/dashboard/start/start.component';
 import {LoginComponent} from './view/login/login.component';
 import {UserComponent} from './view/dashboard/user/user.component';
 import {UserProfileComponent} from './view/dashboard/user/user-profile/user-profile.component';
@@ -46,8 +45,11 @@ import {SimpleSearchComponent} from './view/modules/search/simple-search/simple-
 import {ExtendedSearchComponent} from './view/modules/search/extended-search/extended-search.component';
 import {PageNotFoundComponent} from './view/modules/error/page-not-found/page-not-found.component';
 import {ApiErrorComponent} from './view/modules/error/api-error/api-error.component';
+import {AccessDeniedComponent} from './view/modules/error/access-denied/access-denied.component';
+import {ProjectsListComponent} from './view/modules/listing/projects-list/projects-list.component';
+
 import {GravatarDirective} from './view/modules/other/gravatar.directive';
-import { ProjectsListComponent } from './view/modules/listing/projects-list/projects-list.component';
+import {OverlayDirective} from './view/modules/other/overlay.directive';
 
 
 @NgModule({
@@ -55,7 +57,6 @@ import { ProjectsListComponent } from './view/modules/listing/projects-list/proj
         AppComponent,
         HeaderComponent,
         FooterComponent,
-        StartComponent,
         UserComponent,
         LoginComponent,
         ProjectComponent,
@@ -72,7 +73,9 @@ import { ProjectsListComponent } from './view/modules/listing/projects-list/proj
         ProjectSettingsComponent,
         UserProfileComponent,
         ProjectProfileComponent,
-        ProjectsListComponent
+        ProjectsListComponent,
+        OverlayDirective,
+        AccessDeniedComponent
     ],
     imports: [
         BrowserModule,

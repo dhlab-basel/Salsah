@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
                     data => goToUrl = data['hb']
                 );
                 if( goToUrl === undefined ) goToUrl = '/';
-                this._router.navigateByUrl(goToUrl, true);
+                window.location.replace(goToUrl);
 
             },
             (error: ApiServiceError) => {

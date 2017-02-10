@@ -18,29 +18,23 @@ export class DashboardComponent implements OnInit {
     session: Session = new Session();
 
     constructor(
-        private _router: Router,
-        private _sessionService: SessionService
+        private _router: Router
     ) {
     }
 
     ngOnInit() {
-        this._sessionService.getSession()
-            .subscribe(
-                (data: Session) => {
-                    this.session = data;
-                },
-                error => {
-                    this.errorMessage = <any>error;
-                }
-            );
-        if (this._router.url === '/logout') this.logout();
+
+        if (this._router.url === '/logout') DashboardComponent.logout();
     }
 
-    logout() {
+    static logout() {
+        // remove all the session cookies
         getDocument().cookie = "sid=;expires=-1";
         getDocument().cookie = "KnoraAuthentication=;expires=-1";
-        this._router.navigateByUrl('/', true);
+        // remove the local storage authentication values
         localStorage.removeItem('auth');
+        // go to the start page with a reload of the whole app
+        window.location.replace('/');
     }
 
 }
