@@ -1,6 +1,6 @@
 <div class="salsah-module-header">
     <md-toolbar class="salsah-results-header">
-        <span>Results: </span>
+        <span>Results: {{result.nhits}}</span>
         <span class="fill-remaining-space"><!-- This fills the remaining space of the current row --></span>
         <!-- menu to switch the view: list, grid, table -->
         <!--
@@ -18,4 +18,29 @@
     </div>
 </div>
 
+<div class="salsah-module-content">
+
+    <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+
+    <div *ngIf="selectedView=='list' && result" class="{{selectedView}}-view">
+        <!--
+        <salsah-list-view [searchResponse]="searchResponse" (openRequest)="openResource($event)"
+                          (errorRequest)="previewError($event)"></salsah-list-view>
+                          -->
+    </div>
+
+    <div *ngIf="selectedView=='grid' && result" class="{{selectedView}}-view">
+        <!--
+        <salsah-grid-view [searchResponse]="searchResponse" (openRequest)="openResource($event)"
+                          (errorRequest)="previewError($event)"></salsah-grid-view>
+                          -->
+    </div>
+
+    <md-list>
+        <md-list-item *ngFor="let subj of result.subjects">
+            {{subj.obj_id}}
+        </md-list-item>
+    </md-list>
+
+</div>
 

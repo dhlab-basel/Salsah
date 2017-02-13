@@ -11,9 +11,14 @@ import {Search} from "../../../../model/classes/search";
 export class ResultsComponent implements OnInit {
 
     isLoading: boolean = true;
-
-    results: Search = new Search();
     errorMessage: any;
+
+    selectedView: string = 'list';
+
+    result: Search = new Search();
+
+
+
 
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -30,13 +35,11 @@ export class ResultsComponent implements OnInit {
             this._searchService.doSearch(query)
                 .subscribe(
                     (data: Search) => {
-                        this.results = data;
-                        console.log(this.results);
+                        this.result = data;
                         this.isLoading = false;
                     },
                     error => {
                         this.errorMessage = <any>error;
-                        console.log(this.errorMessage);
                         this.isLoading = false;
                     }
                 );
