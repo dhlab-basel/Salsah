@@ -21,10 +21,11 @@ import {AppRoutingModule} from "./app-routing.module";
 //
 // import all needed services
 //
-import {SessionService} from "./model/api/session.service";
 import {LoginService} from "./model/api/login.service";
 import {ProjectsService} from "./model/api/projects.service";
+import {ResourceService} from "./model/api/resource.service";
 import {SearchService} from "./model/api/search.service";
+import {SessionService} from "./model/api/session.service";
 
 //
 // import all app components
@@ -51,7 +52,10 @@ import {ProjectsListComponent} from './view/modules/listing/projects-list/projec
 
 import {GravatarDirective} from './view/modules/other/gravatar.directive';
 import {OverlayDirective} from './view/modules/other/overlay.directive';
-import { ResultsComponent } from './view/modules/listing/results/results.component';
+import {ResultsComponent} from './view/modules/listing/results/results.component';
+import {ResourceListComponent} from './view/modules/listing/resource-list/resource-list.component';
+import {ResourceGridListComponent} from './view/modules/listing/resource-grid-list/resource-grid-list.component';
+import {ObjectComponent} from './view/modules/object/object.component';
 
 
 @NgModule({
@@ -78,7 +82,10 @@ import { ResultsComponent } from './view/modules/listing/results/results.compone
         ProjectsListComponent,
         OverlayDirective,
         AccessDeniedComponent,
-        ResultsComponent
+        ResultsComponent,
+        ResourceListComponent,
+        ResourceGridListComponent,
+        ObjectComponent
     ],
     imports: [
         BrowserModule,
@@ -90,6 +97,7 @@ import { ResultsComponent } from './view/modules/listing/results/results.compone
     providers: [
         LoginService,
         ProjectsService,
+        ResourceService,
         SearchService,
         SessionService
     ],

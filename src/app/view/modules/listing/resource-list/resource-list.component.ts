@@ -12,7 +12,27 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-export class AppConfig {
-    public static get API_ENDPOINT(): string { return 'http://localhost:3333/v1'; }
-    public static get MEDIA_SERVER(): string { return 'http://localhost:1024/knora'; }
+import {Component, EventEmitter, OnInit, Input, Output} from '@angular/core';
+import {Search} from "../../../../model/classes/search";
+
+@Component({
+    selector: 'salsah-resource-list',
+    templateUrl: './resource-list.component.html',
+    styleUrls: ['./resource-list.component.css']
+})
+export class ResourceListComponent implements OnInit {
+
+    @Input() result: Search = new Search();
+    @Output() openResource = new EventEmitter<any>();
+
+    constructor() {
+    }
+
+    ngOnInit() {
+    }
+
+    open(id: string) {
+        this.openResource.emit(id);
+    }
+
 }

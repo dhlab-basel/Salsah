@@ -3,14 +3,12 @@
         <span>Results: {{result.nhits}}</span>
         <span class="fill-remaining-space"><!-- This fills the remaining space of the current row --></span>
         <!-- menu to switch the view: list, grid, table -->
-        <!--
         <md-button-toggle-group name="alignment" [(ngModel)]="selectedView">
             <md-button-toggle *ngFor="let view of viewOptions" [value]=view.name [title]=view.title
                               [disabled]="view.isDisabled">
                 <md-icon>{{view.icon}}</md-icon>
             </md-button-toggle>
         </md-button-toggle-group>
-        -->
     </md-toolbar>
     <!-- this component has a loader element -->
     <div class="loading" *ngIf="isLoading">
@@ -20,27 +18,35 @@
 
 <div class="salsah-module-content">
 
-    <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+    <div class="salsah-preview-list" [ngClass]="[position.preview, size]">
+        <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
 
-    <div *ngIf="selectedView=='list' && result" class="{{selectedView}}-view">
-        <!--
-        <salsah-list-view [searchResponse]="searchResponse" (openRequest)="openResource($event)"
-                          (errorRequest)="previewError($event)"></salsah-list-view>
-                          -->
+        <!-- show the results in a simple list -->
+        <salsah-resource-list *ngIf="selectedView=='list' && result"
+                              class="list-view"
+                              [result]="result"
+                              (openResource)="openResource($event)">
+        </salsah-resource-list>
+
+        <!-- show the results in a grid list -->
+        <salsah-resource-grid-list *ngIf="selectedView=='grid' && result"
+                                   class="grid-view"
+                                   [result]="result"
+                                   [cols]="cols"
+                                   (openResource)="openResource($event)">
+        </salsah-resource-grid-list>
     </div>
 
-    <div *ngIf="selectedView=='grid' && result" class="{{selectedView}}-view">
-        <!--
-        <salsah-grid-view [searchResponse]="searchResponse" (openRequest)="openResource($event)"
-                          (errorRequest)="previewError($event)"></salsah-grid-view>
-                          -->
+    <!-- resource view on the right hand side -->
+    <div  *ngIf="resource" class="salsah-resource-view" [ngClass]="position.resource">
+        <button md-icon-button (click)="closeResource()" class="right">
+            <md-icon>close</md-icon>
+        </button>
+
+        <salsah-object [iri]="resource"></salsah-object>
+
     </div>
 
-    <md-list>
-        <md-list-item *ngFor="let subj of result.subjects">
-            {{subj.obj_id}}
-        </md-list-item>
-    </md-list>
 
 </div>
 

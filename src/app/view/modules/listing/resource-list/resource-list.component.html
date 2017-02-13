@@ -1,0 +1,9 @@
+<md-list>
+    <md-list-item *ngFor="let res of result.subjects" (click)="open(res.obj_id)" class="">
+        <img md-list-avatar [src]="res.preview_path" />
+        <p md-line *ngFor="let val of res.value">
+            {{val}}
+        </p>
+
+    </md-list-item>
+</md-list>
