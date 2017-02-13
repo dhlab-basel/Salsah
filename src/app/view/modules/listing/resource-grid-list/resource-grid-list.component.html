@@ -1,5 +1,5 @@
 <md-grid-list [cols]="cols" gutterSize="12px" rowHeight="480px">
-    <md-grid-tile *ngFor="let res of result.subjects" (click)="open(res.obj_id)" class="">
+    <md-grid-tile *ngFor="let res of result.subjects" (click)="open(res.obj_id)" [id]="res.obj_id">
         <md-card>
             <img md-card-image [src]="res.preview_path" class="salsah-preview-image" />
 
