@@ -79,7 +79,7 @@ div.file-upload-zone {
 
 
 
-.simple-search-panel {
+.search-panel {
     width: $search-width;
     height: 40px;
     border-radius: 4px;
@@ -127,7 +127,7 @@ div.file-upload-zone {
     }
 }
 
-.extended-search-panel {
+.simple-search, .extended-search {
     width: $search-width;
     min-height: $search-height;
     background-color: white;

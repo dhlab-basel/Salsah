@@ -29,6 +29,7 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isLoading  = false;
     }
 
 }

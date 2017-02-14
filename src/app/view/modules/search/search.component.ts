@@ -23,7 +23,14 @@ import {ActivatedRoute, Router, Params} from '@angular/router';
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.css'],
     animations: [
-        trigger('dropdown',
+        trigger('dropdown4simple',
+            [
+                state('false', style({height: '0px', display: 'none'})),
+                state('true', style({height: '560px', display: 'block'})),
+                transition('false => true', animate('500ms ease-in')),
+                transition('true => false', animate('500ms ease-out'))
+            ]),
+        trigger('dropdown4extended',
             [
                 state('false', style({height: '0px', display: 'none'})),
                 state('true', style({height: '560px', display: 'block'})),
@@ -46,33 +53,27 @@ import {ActivatedRoute, Router, Params} from '@angular/router';
 
 export class SearchComponent implements OnInit {
 
+    searchQuery: string;
+    focusOnSimple: boolean;
+    focusOnExtended: boolean;
+    searchLabel: string = 'Search';
+    filterIcon: string = 'filter_list';
 
-    private _searchQuery: string;
-    private _searchFocus: boolean;
-    private _panelSize: string = 'large';
-    private url_params: any;
 
-    private cur_query_array: string[];
-
-    private _searchLabel: string = 'Search';
-
-//    private defaultView: string = 'list';
-
-//    private panelSize: string = 'large';
-//    private showExtended: boolean = false;
-
-    private simpleSearch(searchQuery: string) {
-        this._router.navigate(['/search/' + this._searchQuery], {relativeTo: this._route});
-    }
-
-    constructor(private _route: ActivatedRoute,
+    constructor(private _activatedRoute: ActivatedRoute,
                 private _router: Router,
                 private _eleRef: ElementRef) {
     }
 
     ngOnInit() {
 
+        /*
+        this._activatedRoute.params.forEach((params: Params) => {
+            this.searchQuery = params['q'];
+            console.log(params);
 
+        });
+        */
     }
 
     @HostListener('document:click', ['$event'])
@@ -82,54 +83,66 @@ export class SearchComponent implements OnInit {
         }
     }
 
+    simpleSearch(searchQuery: string) {
+        this._router.navigate(['/search/' + this.searchQuery], {relativeTo: this._activatedRoute});
+    }
 
     onKey(event: any) {
-        this._searchQuery = event.target.value;
+        this.searchQuery = event.target.value;
 
-        if (this._searchQuery) {
-            this._searchFocus = true;
+        if (this.searchQuery) {
+            this.focusOnSimple = true;
             // the ENTER key is active when the text input is not empty
             if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
-                this.simpleSearch(this._searchQuery);
-                this._searchFocus = false;
+                this.simpleSearch(this.searchQuery);
+                this.focusOnSimple = false;
             }
         }
         else {
-            this._searchFocus = false;
+            this.focusOnSimple = false;
         }
     }
 
 
     public onFocus() {
-        this._searchFocus = true;
+        this.focusOnSimple = true;
     }
 
     public noFocus() {
-        this._searchFocus = false;
+        this.focusOnSimple = false;
     }
 
 
     public doSearch(search_ele: HTMLElement) {
-        if (this._searchQuery) {
-            this.simpleSearch(this._searchQuery);
-            this._searchFocus = false;
+        if (this.searchQuery) {
+            this.simpleSearch(this.searchQuery);
+            this.focusOnSimple = false;
         }
         else {
             search_ele.focus();
-            this._searchFocus = true;
+            this.focusOnSimple = true;
         }
     }
 
     public clearSearch(search_ele: HTMLElement) {
-        if (this._searchQuery) {
-            this._searchQuery = null;
+        if (this.searchQuery) {
+            this.searchQuery = null;
             search_ele.focus();
-            this._searchFocus = true;
+            this.focusOnSimple = true;
         }
         else {
             search_ele.focus();
-            this._searchFocus = false;
+            this.focusOnSimple = false;
         }
+    }
+
+    public extendedSearch() {
+        this.focusOnExtended = (this.focusOnExtended === false);
+        this.filterIcon = (this.focusOnExtended === false ? 'filter_list' : 'close');
+        this.searchLabel = (this.focusOnExtended === false ? 'Search' : 'Extended / advanced search');
+    }
+    public closeExtendedSearch() {
+        this.focusOnExtended = false;
     }
 
 }

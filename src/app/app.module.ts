@@ -42,6 +42,8 @@ import {UserSettingsComponent} from './view/dashboard/user/user-settings/user-se
 import {ProjectComponent} from './view/dashboard/project/project.component';
 import {ProjectProfileComponent} from './view/dashboard/project/project-profile/project-profile.component';
 import {ProjectSettingsComponent} from './view/dashboard/project/project-settings/project-settings.component';
+import {ProjectTeamComponent} from './view/dashboard/project/project-team/project-team.component';
+import {ProjectResourcesComponent} from './view/dashboard/project/project-resources/project-resources.component';
 import {SearchComponent} from './view/modules/search/search.component';
 import {SimpleSearchComponent} from './view/modules/search/simple-search/simple-search.component';
 import {ExtendedSearchComponent} from './view/modules/search/extended-search/extended-search.component';
@@ -56,6 +58,8 @@ import {ResultsComponent} from './view/modules/listing/results/results.component
 import {ResourceListComponent} from './view/modules/listing/resource-list/resource-list.component';
 import {ResourceGridListComponent} from './view/modules/listing/resource-grid-list/resource-grid-list.component';
 import {ObjectComponent} from './view/modules/object/object.component';
+import {NewProjectComponent} from './view/modules/create/new-project/new-project.component';
+import {NewUserComponent} from './view/modules/create/new-user/new-user.component';
 
 
 @NgModule({
@@ -85,7 +89,11 @@ import {ObjectComponent} from './view/modules/object/object.component';
         ResultsComponent,
         ResourceListComponent,
         ResourceGridListComponent,
-        ObjectComponent
+        ObjectComponent,
+        ProjectTeamComponent,
+        ProjectResourcesComponent,
+        NewProjectComponent,
+        NewUserComponent
     ],
     imports: [
         BrowserModule,
