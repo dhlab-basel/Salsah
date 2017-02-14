@@ -7,6 +7,9 @@ import {Component, OnInit, Input} from '@angular/core';
 })
 export class ApiErrorComponent implements OnInit {
 
+    /**
+     * Attribute: error = errorMessage
+     */
     @Input() error: any;
 
     constructor() {

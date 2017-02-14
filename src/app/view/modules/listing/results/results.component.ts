@@ -62,13 +62,13 @@ export class ResultsComponent implements OnInit {
     resource: string = undefined;
 
 
-    constructor(private _activatedRoute: ActivatedRoute,
+    constructor(private _route: ActivatedRoute,
                 private _searchService: SearchService) {
     }
 
     ngOnInit() {
 
-        this._activatedRoute.params.forEach((params: Params) => {
+        this._route.params.subscribe((params: Params) => {
             let query = params['q'];
 
 

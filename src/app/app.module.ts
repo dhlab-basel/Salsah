@@ -24,6 +24,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {LoginService} from "./model/api/login.service";
 import {ProjectsService} from "./model/api/projects.service";
 import {ResourceService} from "./model/api/resource.service";
+import {ResourceTypesService} from "./model/api/resource-types.service";
 import {SearchService} from "./model/api/search.service";
 import {SessionService} from "./model/api/session.service";
 
@@ -106,6 +107,7 @@ import {NewUserComponent} from './view/modules/create/new-user/new-user.componen
         LoginService,
         ProjectsService,
         ResourceService,
+        ResourceTypesService,
         SearchService,
         SessionService
     ],

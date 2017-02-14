@@ -18,12 +18,12 @@ export class ObjectComponent implements OnInit {
     resource: Resource = new Resource();
 
 
-    constructor(private _activatedRoute: ActivatedRoute,
+    constructor(private _route: ActivatedRoute,
                 private _resourceService: ResourceService) {
     }
 
     ngOnInit() {
-        this._activatedRoute.params.forEach((params: Params) => {
+        this._route.params.subscribe((params: Params) => {
             let resIri = ( params['res'] !== undefined ? params['res'] : this.iri );
 
 

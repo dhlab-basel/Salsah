@@ -25,8 +25,24 @@ import { BasicResponse } from './basic-response';
 @JsonObject
 export class ProjectsList extends BasicResponse {
 
-    @JsonProperty('projects', [Project])
-    public projects: Project[] = undefined;
+    @JsonProperty('projects', [ProjectItem])
+    public projects: ProjectItem[] = undefined;
+
+}
+
+/**
+ * Represents the knora project information
+ *
+ * HTTP GET to http://host/v1/projects/iri/[iri]
+ * HTTP GET to http://host/v1/projects/shortname/[shortname]
+ *
+ */
+
+@JsonObject
+export class Project extends BasicResponse {
+
+    @JsonProperty('project_info', ProjectItem)
+    public project_info: ProjectItem = undefined;
 
 }
 
@@ -35,7 +51,7 @@ export class ProjectsList extends BasicResponse {
  */
 
 @JsonObject
-export class Project {
+export class ProjectItem {
 
     @JsonProperty('basepath', String)
     public basepath: string = undefined;

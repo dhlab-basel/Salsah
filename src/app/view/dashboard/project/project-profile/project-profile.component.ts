@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ProjectItem} from "../../../../model/classes/projects";
 
 @Component({
   selector: 'salsah-project-profile',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectProfileComponent implements OnInit {
 
+    project: ProjectItem = new ProjectItem;
+
+
   constructor() { }
 
   ngOnInit() {
+      this.project = JSON.parse(localStorage.getItem('project'));
   }
 
 }

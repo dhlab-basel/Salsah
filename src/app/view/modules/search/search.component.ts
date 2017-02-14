@@ -60,7 +60,7 @@ export class SearchComponent implements OnInit {
     filterIcon: string = 'filter_list';
 
 
-    constructor(private _activatedRoute: ActivatedRoute,
+    constructor(private _route: ActivatedRoute,
                 private _router: Router,
                 private _eleRef: ElementRef) {
     }
@@ -68,7 +68,7 @@ export class SearchComponent implements OnInit {
     ngOnInit() {
 
         /*
-        this._activatedRoute.params.forEach((params: Params) => {
+        this._route.params.subscribe((params: Params) => {
             this.searchQuery = params['q'];
             console.log(params);
 
@@ -84,7 +84,7 @@ export class SearchComponent implements OnInit {
     }
 
     simpleSearch(searchQuery: string) {
-        this._router.navigate(['/search/' + this.searchQuery], {relativeTo: this._activatedRoute});
+        this._router.navigate(['/search/' + this.searchQuery], {relativeTo: this._route});
     }
 
     onKey(event: any) {

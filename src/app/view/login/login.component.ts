@@ -65,8 +65,7 @@ export class LoginComponent implements OnInit {
     //
 
     constructor(
-        private _router: Router,
-        private _activatedRoute: ActivatedRoute,
+        private _route: ActivatedRoute,
         private _loginService: LoginService) {
     }
 
@@ -93,7 +92,7 @@ export class LoginComponent implements OnInit {
                 // for this case, we stored the previous url parameters in the current login url as query params
                 //
                 let goToUrl: string;
-                this._activatedRoute.queryParams.subscribe(
+                this._route.queryParams.subscribe(
                     data => goToUrl = data['hb']
                 );
                 if( goToUrl === undefined ) goToUrl = '/';

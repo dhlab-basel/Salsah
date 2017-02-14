@@ -15,6 +15,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, Params} from "@angular/router";
 import {ProjectsService} from "../../../model/api/projects.service";
+import {Project, ProjectItem} from "../../../model/classes/projects";
 
 @Component({
     selector: 'salsah-project',
@@ -24,6 +25,13 @@ import {ProjectsService} from "../../../model/api/projects.service";
 export class ProjectComponent implements OnInit {
 
     isLoading: boolean = true;
+
+    errorMessage: string = undefined;
+    project: Project = new Project();
+
+    projectRoute: string = '/project/';
+
+    firstTabClass: string = 'active';
 
     public menu: any = [
         {
@@ -43,8 +51,8 @@ export class ProjectComponent implements OnInit {
     public cur_project: string = undefined;
 
     constructor(
-        private _activatedRoute: ActivatedRoute,
         private _router: Router,
+        private _route: ActivatedRoute,
         private _projectsService: ProjectsService
     ) {
     }
@@ -53,28 +61,42 @@ export class ProjectComponent implements OnInit {
 
         this.isLoading = false;
 
-        this._activatedRoute.params.forEach((params: Params) => {
+        this._route.params.subscribe((params: Params) => {
             this.cur_project = params['pid'];
-            this.menu[0].path = '/project/' + this.cur_project;
+            this.projectRoute += this.cur_project;
+
+            this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
+
+
             // get the project information
-            /*
-            this._projects.getProject()
+            this._projectsService.getProject(this.cur_project)
                 .subscribe(
-                    (data: Projects) => {
-                        this.projects = data;
+                    (data: Project) => {
+                        this.project = data;
                         this.isLoading = false;
+                        localStorage.setItem('project', JSON.stringify(
+                            this.project.project_info
+                        ))
                     },
                     error => {
-                        this._errorMessage = <any>error;
+                        this.errorMessage = <any>error;
                     }
                 );
-            */
+
         });
 
         if(this.cur_project === 'new') {
             alert("Create a new project!?");
         }
 
+    }
+
+    disableFirstTab() {
+        this.firstTabClass = undefined;
+    }
+
+    enableFirstTab() {
+        this.firstTabClass = 'active';
     }
 
 }

@@ -12,15 +12,17 @@
         <nav class="salsah-tab-group">
             <button md-button
                     class="salsah-tab-item"
-                    routerLink="/project/{{cur_project}}"
-                    >
+                    [routerLink]="projectRoute"
+                    [ngClass]="firstTabClass"
+                    (click)="enableFirstTab()">
                 <strong>{{cur_project}}</strong>
             </button>
-            <button md-button
+            <button *ngFor="let item of menu; let i = index; let first=first"
+                    md-button
                     class="salsah-tab-item"
-                    *ngFor="let item of menu; let i = index; let first=first"
                     [routerLink]="item.route"
-                    routerLinkActive="active">
+                    routerLinkActive="active"
+                    (click)="disableFirstTab()">
                 {{item.name}}
             </button>
         </nav>
@@ -36,7 +38,10 @@
     </div>
 </div>
 
+<div class="salsah-module-content">
+    <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+    <router-outlet (tabRequest)="activateTab($event)"></router-outlet>
+</div>
 
 
-<router-outlet (tabRequest)="activateTab($event)"></router-outlet>
 
