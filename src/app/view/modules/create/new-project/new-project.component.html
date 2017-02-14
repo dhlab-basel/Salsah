@@ -1,3 +1,88 @@
-<p>
-  new-project works!
-</p>
+<div class="salsah-component-content">
+    <md-card class="salsah-project-creator fix-width no-shadow">
+        <!--
+                <ckeditor
+                    [(ngModel)]="ckeditorContent"
+                    [config]="{uiColor: '#000000'}"
+                    (change)="onChange($event)"
+                    (ready)="onReady($event)"
+                    (focus)="onFocus($event)"
+                    (blur)="onBlur($event)"
+                    debounce="500">
+                </ckeditor>
+        -->
+        <!-- This is the project form (pf) -->
+        <form class="new-project-form" #pf="ngForm" (ngSubmit)="onSubmit(pf.value)">
+            <md-card-header>
+                <md-card-title>
+                    {{form.project.title}}
+                </md-card-title>
+            </md-card-header>
+            <md-card-content class="project">
+
+                <md-input-container class="full-width">
+                    <input md-input [placeholder]="form.project.name" autofocus required name="projectName"
+                           ngControl="projectName" ngModel>
+                </md-input-container>
+
+
+                <md-input-container class="full-width">
+                    <input md-input [placeholder]="form.project.shortname" required name="projectShortName" ngModel>
+                </md-input-container>
+
+
+                <md-input-container class="full-width">
+                    <textarea md-input [placeholder]="form.project.description" rows="8" name="projectDescription"
+                              ngModel></textarea>
+                </md-input-container>
+
+                <div class="full-width file-upload-wrapper">
+                    <p class="md-input-placeholder">{{form.project.logo}}</p>
+                    <!-- app.component.html -->
+                    <!--
+                    <input type="file"
+                           ngFileSelect
+                           [options]="options"
+                           (onUpload)="handleUpload($event)"
+                           (beforeUpload)="beforeUpload($event)"
+                           #inputFileElement>
+                    -->
+                    <!-- drag & drop file example-->
+                    <!--
+                    <div ngFileDrop
+                         [options]="options"
+                         (onUpload)="handleUpload($event)"
+                         [ngClass]="{'file-over': hasBaseDropZoneOver}"
+                         (onFileOver)="fileOverBase($event)"
+                         (beforeUpload)="beforeUpload($event)"
+                         class="file-upload-zone">
+                      <div>
+                        <p class="file-dragndrop">Drag &amp; Drop</p>
+                        <span class="file-browse" md-button (click)="inputFileElement.click()">Browse</span>
+                      </div>
+
+                    </div>
+                    -->
+                    <div>
+                        Response: {{ uploadFile | json }}
+                    </div>
+                </div>
+
+
+            </md-card-content>
+            <md-card-actions>
+                <span class="left">
+                    <button md-button type="reset" class="save-buttton">reset</button>
+                </span>
+                <span class="right">
+                    <button md-raised-button type="submit" [disabled]="!pf.valid" class="save-buttton md-primary">Save
+                    </button>
+                </span>
+            </md-card-actions>
+        </form>
+    </md-card>
+
+</div>
+
+
+

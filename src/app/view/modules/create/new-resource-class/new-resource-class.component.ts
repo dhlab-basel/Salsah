@@ -13,18 +13,22 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
+import {MdDialog} from "@angular/material";
 
 @Component({
-    selector: 'salsah-new-user',
-    templateUrl: './new-user.component.html',
-    styleUrls: ['./new-user.component.css']
+    selector: 'salsah-new-resource-class',
+    templateUrl: './new-resource-class.component.html',
+    styleUrls: ['./new-resource-class.component.css']
 })
-export class NewUserComponent implements OnInit {
+export class NewResourceClassComponent implements OnInit {
 
-    constructor() {
+    constructor(
+        public dialog: MdDialog
+    ) {
     }
 
     ngOnInit() {
+        
     }
 
 }

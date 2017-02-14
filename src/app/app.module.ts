@@ -61,6 +61,7 @@ import {ResourceGridListComponent} from './view/modules/listing/resource-grid-li
 import {ObjectComponent} from './view/modules/object/object.component';
 import {NewProjectComponent} from './view/modules/create/new-project/new-project.component';
 import {NewUserComponent} from './view/modules/create/new-user/new-user.component';
+import {NewResourceClassComponent} from './view/modules/create/new-resource-class/new-resource-class.component';
 
 
 @NgModule({
@@ -94,7 +95,8 @@ import {NewUserComponent} from './view/modules/create/new-user/new-user.componen
         ProjectTeamComponent,
         ProjectResourcesComponent,
         NewProjectComponent,
-        NewUserComponent
+        NewUserComponent,
+        NewResourceClassComponent
     ],
     imports: [
         BrowserModule,
@@ -102,6 +104,9 @@ import {NewUserComponent} from './view/modules/create/new-user/new-user.componen
         HttpModule,
         MaterialModule.forRoot(),
         AppRoutingModule
+    ],
+    entryComponents: [
+        NewResourceClassComponent
     ],
     providers: [
         LoginService,

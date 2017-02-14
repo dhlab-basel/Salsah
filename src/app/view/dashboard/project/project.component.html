@@ -9,7 +9,7 @@
         <span class="fill-remaining-space"></span>
 
         <!-- Tab menu -->
-        <nav class="salsah-tab-group">
+        <nav class="salsah-tab-group" *ngIf="!errorMessage">
             <button md-button
                     class="salsah-tab-item"
                     [routerLink]="projectRoute"
@@ -40,7 +40,7 @@
 
 <div class="salsah-module-content">
     <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
-    <router-outlet (tabRequest)="activateTab($event)"></router-outlet>
+    <router-outlet *ngIf="!errorMessage" (tabRequest)="activateTab($event)"></router-outlet>
 </div>
 
 

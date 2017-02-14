@@ -80,6 +80,7 @@ export class ProjectComponent implements OnInit {
                     },
                     error => {
                         this.errorMessage = <any>error;
+                        localStorage.removeItem('project');
                     }
                 );
 
