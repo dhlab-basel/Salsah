@@ -1,11 +1,3 @@
-<div class="simple-search-panel" [ngClass]="panelSize">
-    <button class="prefix" (click)="doSearch(search)">
-        <md-icon>search</md-icon>
-    </button>
-    <input #search type="search" placeholder="{{ searchSetting.placeholder }}" (keyup)="onKey($event)"
-           value={{_searchQuery}} (focus)="onFocus()"/>
-    <!-- [(ngModel)]="_searchQuery" -->
-    <button class="suffix" *ngIf="activeElement" (click)="clearSearch(search)">
-        <md-icon class="md-24">close</md-icon>
-    </button>
-</div>
+<p>
+    simple search works!
+</p>

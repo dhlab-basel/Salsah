@@ -27,20 +27,16 @@ export class ProjectComponent implements OnInit {
 
     public menu: any = [
         {
-            name: 'Project',
-            path: ''
-        },
-        {
             name: 'Team',
-            path: 'team'
+            route: 'team'
         },
         {
             name: 'Resources',
-            path: 'resources'
+            route: 'resources'
         },
         {
             name: 'Advanced',
-            path: 'advanced'
+            route: 'advanced'
         }
     ];
 
@@ -54,6 +50,8 @@ export class ProjectComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.isLoading = false;
 
         this._activatedRoute.params.forEach((params: Params) => {
             this.cur_project = params['pid'];

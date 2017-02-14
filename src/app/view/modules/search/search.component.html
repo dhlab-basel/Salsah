@@ -1,21 +1,27 @@
 <!-- the next element -- div.extended-search-panel -- is a hidden dropdown filter menu -->
-<div class="extended-search-panel" [@dropdown]="_searchFocus">
-  <p>Show me on focus of the simple search</p>
+<div class="simple-search" [@dropdown4simple]="focusOnSimple">
+    <salsah-simple-search></salsah-simple-search>
 </div>
 
-<div class="simple-search-panel" [ngClass]="_panelSize">
-  <!--
-  <button class="prefix">
-      <md-icon>filter_list</md-icon>
-  </button>
-  -->
-  <button class="prefix"  (click)="doSearch(search)">
-    <md-icon>search</md-icon>
-  </button>
-  <input #search type="search" [placeholder]="_searchLabel" (keyup)="onKey($event)" value={{_searchQuery}} (focus)="onFocus()" (click)="onFocus()"/>
-  <!-- [(ngModel)]="_searchQuery" -->
-  <button class="suffix" *ngIf="_searchFocus" (click)="clearSearch(search)">
-    <md-icon class="md-24">close</md-icon>
-  </button>
+<div class="extended-search" [@dropdown4extended]="focusOnExtended">
+    <salsah-extended-search></salsah-extended-search>
+</div>
+
+<div class="search-panel">
+    <button class="prefix" (click)="doSearch(search)">
+        <md-icon>search</md-icon>
+    </button>
+    <input #search type="search" [placeholder]="searchLabel" (keyup)="onKey($event)" value={{searchQuery}}
+           (focus)="onFocus()" (click)="onFocus()" [disabled]="focusOnExtended"/>
+    <!-- switch button:
+            - default button is the filter button;
+            - but on some focus we need a close button for the simple or extended panel
+    -->
+    <button class="suffix" *ngIf="focusOnSimple" (click)="clearSearch(search)">
+        <md-icon class="md-24">close</md-icon>
+    </button>
+    <button class="suffix" *ngIf="!focusOnSimple" (click)="extendedSearch()">
+        <md-icon>{{filterIcon}}</md-icon>
+    </button>
 </div>
 

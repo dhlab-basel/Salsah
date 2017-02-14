@@ -26,6 +26,9 @@ import {PageNotFoundComponent} from "./view/modules/error/page-not-found/page-no
 import {ProjectProfileComponent} from "./view/dashboard/project/project-profile/project-profile.component";
 import {AccessDeniedComponent} from "./view/modules/error/access-denied/access-denied.component";
 import {ResultsComponent} from "./view/modules/listing/results/results.component";
+import {ProjectTeamComponent} from "./view/dashboard/project/project-team/project-team.component";
+import {ProjectResourcesComponent} from "./view/dashboard/project/project-resources/project-resources.component";
+import {NewProjectComponent} from "./view/modules/create/new-project/new-project.component";
 
 
 
@@ -65,8 +68,22 @@ const appRoutes: Routes = [
             {
                 path: '', component: ProjectProfileComponent
             },
+            {
+                path: 'settings', component: ProjectSettingsComponent
+            },
+            {
+                path: 'team', component: ProjectTeamComponent
+            },
+            {
+                path: 'resources', component: ProjectResourcesComponent
+            },
+
             { path: '**', component: PageNotFoundComponent }
         ]
+    },
+    {
+        // create new project
+        path: 'new', component: NewProjectComponent
     },
     {
         path: 'denied',
