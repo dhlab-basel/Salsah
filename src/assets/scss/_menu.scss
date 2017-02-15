@@ -1,0 +1,81 @@
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * This file is part of SALSAH.
+ * SALSAH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * SALSAH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You should have received a copy of the GNU Affero General Public
+ * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+ * */
+
+.salsah-menu-button {
+
+}
+
+.salsah-menu {
+    @include md-box-shadow();
+    background-color: white;
+    position: absolute;
+    border-radius: $border-radius;
+    z-index: 1;
+    display: none;
+
+    .salsah-menu-header {
+        height: 48px;
+        width: 100%;
+        background-color: $bright;
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+        display: inline-block;
+
+        .salsah-menu-title {
+            float: left;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 12px;
+            margin-top: 4px;
+
+        }
+
+        .salsah-menu-action {
+            float: right;
+            margin: 4px;
+        }
+    }
+
+    &.add-menu {
+        right: 60px;
+    }
+
+    &.user-menu {
+        right: 12px;
+    }
+
+    &.user-menu, &.add-menu {
+        width: 280px;
+        top: 6px;
+
+        md-grid-tile button {
+            width: 84px;
+            height: 84px;
+            padding: 0;
+            font-size: 12px;
+            border-radius: $border-radius;
+        }
+    }
+
+    &.simple-search, &.extended-search {
+        padding-top: 60px;
+        width: $search-width;
+        min-height: $search-height;
+        top: 6px;
+        z-index: -1;
+    }
+
+
+
+}

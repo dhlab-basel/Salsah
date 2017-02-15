@@ -1,18 +1,12 @@
 <!-- the next element -- div.extended-search-panel -- is a hidden dropdown filter menu -->
-<div class="simple-search" [@dropdown4simple]="focusOnSimple">
-    <salsah-simple-search></salsah-simple-search>
-</div>
 
-<div class="extended-search" [@dropdown4extended]="focusOnExtended">
-    <salsah-extended-search></salsah-extended-search>
-</div>
 
-<div class="search-panel">
-    <button class="prefix" (click)="doSearch(search)">
+<div class="search-panel" [class.active]="focusOnSimple" >
+    <button class="prefix" (click)="doSearch(search)" [disabled]="focusOnExtended">
         <md-icon>search</md-icon>
     </button>
-    <input #search type="search" [placeholder]="searchLabel" (keyup)="onKey($event)" value={{searchQuery}}
-           (focus)="onFocus()" (click)="onFocus()" [disabled]="focusOnExtended"/>
+    <input #search type="search" [placeholder]="searchLabel" value={{searchQuery}}
+           (focus)="toggleMenu('simpleSearch')" (keyup)="onKey($event)" [disabled]="focusOnExtended"/>
     <!-- switch button:
             - default button is the filter button;
             - but on some focus we need a close button for the simple or extended panel
@@ -25,3 +19,11 @@
     </button>
 </div>
 
+<!-- the search panel has two "dropdown" menus: one for simple search and another one for the extended search -->
+<div class="salsah-menu simple-search" [@simpleSearchMenu]="focusOnSimple">
+    <salsah-simple-search></salsah-simple-search>
+</div>
+
+<div class="salsah-menu extended-search" [@extendedSearchMenu]="focusOnExtended">
+    <salsah-extended-search></salsah-extended-search>
+</div>

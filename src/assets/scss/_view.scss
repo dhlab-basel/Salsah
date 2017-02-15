@@ -85,7 +85,8 @@
 
     .salsah-preview-list, .salsah-main-module {
         width: calc(100vw - 240px);
-        height: calc(100vh - 128px - 24px);
+        height: auto;
+        min-height: calc(100vh - 128px - 24px);
         padding-left: 120px;
         padding-right: 120px;
 

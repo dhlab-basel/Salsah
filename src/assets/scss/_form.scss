@@ -92,6 +92,10 @@ div.file-upload-zone {
         //        width: 600px;
     }
 
+    &.active {
+        border-bottom: 2px solid $bright;
+    }
+
     input {
         width: $search-width - (2 * 40px);
         height: 38px;
@@ -127,14 +131,3 @@ div.file-upload-zone {
     }
 }
 
-.simple-search, .extended-search {
-    width: $search-width;
-    min-height: $search-height;
-    background-color: white;
-    @include box-shadow();
-    position: absolute;
-    padding-top: 60px;
-//    z-index: -1;
-    border-radius: $border-radius;
-    display: none;
-}
