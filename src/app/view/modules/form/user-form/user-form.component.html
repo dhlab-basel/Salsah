@@ -1,0 +1,68 @@
+<!--
+<form class="salsah-form new-user-form golden-ratio-large-width center" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value)">
+
+  <h2 md-dialog-title>{{form.user.title}}</h2>
+
+  <md-dialog-content>
+    <br>
+    <br>
+    <md-input-container class="full-width" dividerColor="{{ uf.controls['givenName']?.invalid && uf.controls['givenName']?.touched ? 'warn' : 'primary' }}">
+      <input md-input autofocus
+             [placeholder]="form.user.givenName"
+             [formControl]="uf.controls['givenName']">
+    </md-input-container>
+    <br>
+    <br>
+    <md-input-container class="full-width" dividerColor="{{ uf.controls['familyName']?.invalid && uf.controls['familyName']?.touched ? 'warn' : 'primary' }}">
+      <input md-input
+             [placeholder]="form.user.familyName"
+             [formControl]="uf.controls['familyName']">
+    </md-input-container>
+    <br>
+    <br>
+    <md-input-container class="full-width" dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
+      <input md-input type="email"
+             [placeholder]="form.user.email"
+             [formControl]="uf.controls['email']">
+      <md-hint class="salsah-hint">
+        <span>{{form.user.emailHint}}</span>
+        <span [hidden]="uf.controls['email'].valid" class="salsah-error">{{form.user.emailValidation}}</span>
+      </md-hint>
+    </md-input-container>
+
+    <br>
+    <br>
+
+    <md-input-container class="full-width" dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
+      <input md-input type="password"
+             [placeholder]="form.user.password"
+             [formControl]="uf.controls['password']">
+      <md-hint [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}" class="salsah-hint">
+        <span [hidden]="(uf.controls['password'].valid && uf.controls['password'].touched)">{{form.user.passwordHint}}</span>
+      </md-hint>
+
+    </md-input-container>
+
+  </md-dialog-content>
+
+  <md-dialog-actions>
+        <span class="left">
+            <button md-button
+                    class="cancel-button"
+                    (click)="closeForm($event)">
+                Cancel
+            </button>
+        </span>
+    <span class="right">
+            <button type="submit"
+                    [disabled]="!uf.valid || uf.errors"
+                    md-raised-button
+                    class="save-button md-primary">
+                Save
+            </button>
+        </span>
+  </md-dialog-actions>
+
+
+</form>
+-->

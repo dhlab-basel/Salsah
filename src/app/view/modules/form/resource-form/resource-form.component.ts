@@ -15,16 +15,17 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-    selector: 'salsah-new-user',
-    templateUrl: './new-user.component.html',
-    styleUrls: ['./new-user.component.css']
+    selector: 'salsah-resource-form',
+    templateUrl: './resource-form.component.html',
+    styleUrls: ['./resource-form.component.css']
 })
-export class NewUserComponent implements OnInit {
+export class ResourceFormComponent implements OnInit {
 
     constructor() {
     }
 
     ngOnInit() {
     }
+
 
 }

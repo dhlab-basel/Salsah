@@ -16,19 +16,43 @@ import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
 
 @Component({
-    selector: 'salsah-new-resource-class',
-    templateUrl: './new-resource-class.component.html',
-    styleUrls: ['./new-resource-class.component.css']
+    selector: 'salsah-resource-class-form',
+    templateUrl: './resource-class-form.component.html',
+    styleUrls: ['./resource-class-form.component.css']
 })
-export class NewResourceClassComponent implements OnInit {
+export class ResourceClassFormComponent implements OnInit {
 
-    constructor(
-        public dialog: MdDialog
-    ) {
+
+    private counter: number = 0;
+    public newResource: any;
+    public props: any;
+
+    constructor(public dialog: MdDialog) {
     }
 
     ngOnInit() {
-        
+
     }
+
+
+    //form functions
+    onSubmit(uf: any): void {
+        console.log('you submitted value:', uf);
+        this.dialog.closeAll();
+    }
+
+
+    nextFormSection(cntr: number, e) {
+        e.preventDefault();
+        // show the next section
+        this.counter = cntr + 1;
+    }
+
+    prevFormSection(cntr: number, e) {
+        e.preventDefault();
+        // show the previous section
+        this.counter = cntr - 1;
+    }
+
 
 }

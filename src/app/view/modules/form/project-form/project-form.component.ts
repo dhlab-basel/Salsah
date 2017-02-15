@@ -15,14 +15,14 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-    selector: 'salsah-new-project',
-    templateUrl: './new-project.component.html',
-    styleUrls: ['./new-project.component.css']
+    selector: 'salsah-project-form',
+    templateUrl: './project-form.component.html',
+    styleUrls: ['./project-form.component.css']
 })
-export class NewProjectComponent implements OnInit {
+export class ProjectFormComponent implements OnInit {
 
 
-    public form: any = {        // TODO: create a language json file or db file for multilingual use
+    public form: any = {        // TODO: modify a language json file or db file for multilingual use
         project: {
             title: 'Create a new project',
             name: 'Project name',
@@ -48,7 +48,7 @@ export class NewProjectComponent implements OnInit {
      * saveProject()
      * check validity of the data in the form
      * if everything's fine, send the data to the api
-     * and change the view from create project to the project admin view
+     * and change the view from modify project to the project admin view
      */
 
         //

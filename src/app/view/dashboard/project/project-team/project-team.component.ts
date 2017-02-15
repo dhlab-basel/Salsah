@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MdDialog} from "@angular/material";
+import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
 
 @Component({
   selector: 'salsah-project-team',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectTeamComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+      public dialog: MdDialog
+  ) { }
 
   ngOnInit() {
+  }
+
+  addNewUser() {
+    let dialogRef = this.dialog.open(UserFormComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+
   }
 
 }

@@ -22,7 +22,7 @@ describe('ResourceGridListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should modify', () => {
     expect(component).toBeTruthy();
   });
 });

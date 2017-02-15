@@ -3,26 +3,26 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { LoginComponent } from './login.component';
+import { ResourceFormComponent } from './resource-form.component';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('ResourceFormComponent', () => {
+  let component: ResourceFormComponent;
+  let fixture: ComponentFixture<ResourceFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
+      declarations: [ ResourceFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(ResourceFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should modify', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

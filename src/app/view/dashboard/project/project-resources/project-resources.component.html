@@ -1,9 +1,9 @@
 <!-- salsah-resources-admin -->
 
-<md-list class="salsah-preview-list">
+<md-list>
     <h2 md-header>Organize your resources</h2>
     <md-list-item>
-        <button md-button (click)="createNewResourceClass()">
+        <button md-button (click)="addNewResourceClass()">
             <md-icon> add </md-icon>
             <span> Add new resource </span>
         </button>
@@ -14,6 +14,11 @@
     <h3 md-subheader>Resources (active)</h3>
     <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes">
         <h4 md-line>{{resClass.label}}</h4>
+        <p md-line>
+            <span *ngFor="let prop of resClass.properties; let last=last">
+                {{prop.label}} <span *ngIf="!last">/</span>
+            </span>
+        </p>
     </md-list-item>
     <md-list-item>
         <!--<md-list-item *ngFor="let admin of project.admins">-->

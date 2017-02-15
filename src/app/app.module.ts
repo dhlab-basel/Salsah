@@ -59,9 +59,10 @@ import {ResultsComponent} from './view/modules/listing/results/results.component
 import {ResourceListComponent} from './view/modules/listing/resource-list/resource-list.component';
 import {ResourceGridListComponent} from './view/modules/listing/resource-grid-list/resource-grid-list.component';
 import {ObjectComponent} from './view/modules/object/object.component';
-import {NewProjectComponent} from './view/modules/create/new-project/new-project.component';
-import {NewUserComponent} from './view/modules/create/new-user/new-user.component';
-import {NewResourceClassComponent} from './view/modules/create/new-resource-class/new-resource-class.component';
+import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
+import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
+import {ResourceClassFormComponent} from './view/modules/form/resource-class-form/resource-class-form.component';
+import {ResourceFormComponent} from './view/modules/form/resource-form/resource-form.component';
 
 
 @NgModule({
@@ -94,9 +95,10 @@ import {NewResourceClassComponent} from './view/modules/create/new-resource-clas
         ObjectComponent,
         ProjectTeamComponent,
         ProjectResourcesComponent,
-        NewProjectComponent,
-        NewUserComponent,
-        NewResourceClassComponent
+        ProjectFormComponent,
+        UserFormComponent,
+        ResourceClassFormComponent,
+        ResourceFormComponent
     ],
     imports: [
         BrowserModule,
@@ -105,8 +107,10 @@ import {NewResourceClassComponent} from './view/modules/create/new-resource-clas
         MaterialModule.forRoot(),
         AppRoutingModule
     ],
+    // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [
-        NewResourceClassComponent
+        ResourceClassFormComponent,
+        UserFormComponent
     ],
     providers: [
         LoginService,

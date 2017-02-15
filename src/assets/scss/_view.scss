@@ -83,19 +83,21 @@
         top: 64px;
     }
 
-    .salsah-preview-list {
+    .salsah-preview-list, .salsah-main-module {
         width: calc(100vw - 240px);
         height: calc(100vh - 128px - 24px);
         padding-left: 120px;
         padding-right: 120px;
 
-        border-right: 1px solid #c1c1c1;
+
 
         &.small.left {
             width: 400px;
             padding: 0;
+            border-right: 1px solid #c1c1c1;
         }
         &.small.top {
+            border-bottom: 1px solid #c1c1c1;
             // TODO: give the user the possibility to change the view as preview/resource-view from left/right to top/bottom
         }
 

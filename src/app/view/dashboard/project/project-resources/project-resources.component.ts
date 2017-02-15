@@ -3,7 +3,7 @@ import {MdDialog} from "@angular/material";
 import {ResourceTypesService} from "../../../../model/api/resource-types.service";
 import {ResourceTypes} from "../../../../model/classes/resource-types";
 import {ProjectItem} from "../../../../model/classes/projects";
-import {NewResourceClassComponent} from "../../../modules/create/new-resource-class/new-resource-class.component";
+import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
 
 @Component({
     selector: 'salsah-project-resources',
@@ -21,9 +21,9 @@ export class ProjectResourcesComponent implements OnInit {
 
     selectedOption: string;
 
-    constructor(
-        private _resourceTypesService: ResourceTypesService,
-        public dialog: MdDialog) { }
+    constructor(private _resourceTypesService: ResourceTypesService,
+                public dialog: MdDialog) {
+    }
 
     ngOnInit() {
         this.project = JSON.parse(localStorage.getItem('project'));
@@ -41,11 +41,8 @@ export class ProjectResourcesComponent implements OnInit {
     }
 
 
-    createNewResourceClass() {
-
-//        alert('open new dialog');
-
-        let dialogRef = this.dialog.open(NewResourceClassComponent);
+    addNewResourceClass() {
+        let dialogRef = this.dialog.open(ResourceClassFormComponent);
         dialogRef.afterClosed().subscribe(result => {
             this.selectedOption = result;
         });

@@ -28,7 +28,7 @@ import {AccessDeniedComponent} from "./view/modules/error/access-denied/access-d
 import {ResultsComponent} from "./view/modules/listing/results/results.component";
 import {ProjectTeamComponent} from "./view/dashboard/project/project-team/project-team.component";
 import {ProjectResourcesComponent} from "./view/dashboard/project/project-resources/project-resources.component";
-import {NewProjectComponent} from "./view/modules/create/new-project/new-project.component";
+import {ProjectFormComponent} from "./view/modules/form/project-form/project-form.component";
 
 
 
@@ -83,7 +83,7 @@ const appRoutes: Routes = [
     },
     {
         // create new project
-        path: 'new', component: NewProjectComponent
+        path: 'new', component: ProjectFormComponent
     },
     {
         path: 'denied',

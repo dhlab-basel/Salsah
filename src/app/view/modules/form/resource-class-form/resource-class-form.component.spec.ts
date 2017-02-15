@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { NewResourceClassComponent } from './new-resource-class.component';
+import { ResourceClassFormComponent } from './resource-class-form.component';
 
-describe('NewResourceClassComponent', () => {
-  let component: NewResourceClassComponent;
-  let fixture: ComponentFixture<NewResourceClassComponent>;
+describe('ResourceClassFormComponent', () => {
+  let component: ResourceClassFormComponent;
+  let fixture: ComponentFixture<ResourceClassFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewResourceClassComponent ]
+      declarations: [ ResourceClassFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewResourceClassComponent);
+    fixture = TestBed.createComponent(ResourceClassFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
