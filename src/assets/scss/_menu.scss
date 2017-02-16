@@ -69,11 +69,19 @@
     }
 
     &.simple-search, &.extended-search {
-        padding-top: 60px;
         width: $search-width;
         min-height: $search-height;
         top: 6px;
+
+    }
+
+    &.simple-search {
+        padding-top: 60px;
         z-index: -1;
+    }
+
+    &.extended-search {
+
     }
 
 

@@ -14,7 +14,7 @@
 
 import {
     Component, HostListener, OnInit, animate, state, style, transition, trigger,
-    ElementRef
+    ElementRef, AfterViewInit, AfterViewChecked
 } from '@angular/core';
 import {ActivatedRoute, Router, Params} from '@angular/router';
 
@@ -54,102 +54,56 @@ import {ActivatedRoute, Router, Params} from '@angular/router';
 export class SearchComponent implements OnInit {
 
     searchQuery: string;
+
     focusOnSimple: boolean = false;
     focusOnExtended: boolean = false;
 
     searchLabel: string = 'Search';
-    filterIcon: string = 'filter_list';
-
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
                 private _eleRef: ElementRef) {
+
     }
 
     ngOnInit() {
-
-        /*
-        this._route.params.subscribe((params: Params) => {
-            this.searchQuery = params['q'];
-            console.log(params);
-
-        });
-        */
     }
+
 
     @HostListener('document:click', ['$event'])
-    public onClick(event) {
+    onClick(event) {
         if (!this._eleRef.nativeElement.contains(event.target)) {
-            if(this.focusOnSimple) this.toggleMenu('simpleSearch');
-            if(this.focusOnExtended) this.toggleMenu('extendedSearch');
+            if (this.focusOnSimple) this.toggleMenu('simpleSearch');
+            if (this.focusOnExtended) this.toggleMenu('extendedSearch');
         }
     }
 
-    simpleSearch(searchQuery: string) {
-        this._router.navigate(['/search/' + searchQuery], {relativeTo: this._route});
+
+    onKey(search_ele: HTMLElement, event) {
+        this.focusOnSimple = true;
+        if (this.searchQuery && (event.key === 'Enter' || event.keyCode === 13 || event.which === 13)) {
+            this.doSearch(search_ele);
+        }
     }
 
-    onKey(event: any) {
-        this.searchQuery = event.target.value;
-
-        if (this.focusOnSimple && event.target.value) {
-//            this.focusOnSimple = true;
-            // the ENTER key is active when the text input is not empty
-            if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
-                this.simpleSearch(this.searchQuery);
-                this.focusOnSimple = false;
-            }
+    doSearch(search_ele: HTMLElement) {
+        if (this.searchQuery !== undefined && this.searchQuery !== null) {
+            this.toggleMenu('simpleSearch');
+            this._router.navigate(['/search/' + this.searchQuery], {relativeTo: this._route});
         }
         else {
-            this.focusOnSimple = false;
+            search_ele.focus();
         }
     }
 
-
-    public onFocus() {
-        this.toggleMenu('simpleSearch');
-    }
-
-    public noFocus() {
+    clearSearch(search_ele: HTMLElement) {
+        this.searchQuery = null;
+        search_ele.focus();
         this.focusOnSimple = false;
     }
 
-
-    public doSearch(search_ele: HTMLElement) {
-        if (this.searchQuery) {
-            this.simpleSearch(this.searchQuery);
-            this.toggleMenu('simpleSearch');
-        }
-        else {
-            search_ele.focus();
-            this.toggleMenu('simpleSearch');
-        }
-    }
-
-    public clearSearch(search_ele: HTMLElement) {
-        if (this.searchQuery) {
-            this.searchQuery = null;
-            search_ele.focus();
-            this.focusOnSimple = true;
-        }
-        else {
-            search_ele.focus();
-            this.focusOnSimple = false;
-        }
-    }
-
-    public extendedSearch() {
-        this.focusOnExtended = (this.focusOnExtended === false);
-        this.filterIcon = (this.focusOnExtended === false ? 'filter_list' : 'close');
-        this.searchLabel = (this.focusOnExtended === false ? 'Search' : 'Extended / advanced search');
-    }
-    public closeExtendedSearch() {
-        this.focusOnExtended = false;
-    }
-
-
     toggleMenu(name: string) {
-        switch(name) {
+        switch (name) {
             case 'simpleSearch':
                 this.focusOnSimple = (this.focusOnSimple === false);
                 break;
