@@ -1,21 +1,22 @@
 <!-- the next element -- div.extended-search-panel -- is a hidden dropdown filter menu -->
 
 
-<div class="search-panel" [class.active]="focusOnSimple" >
+<div class="search-panel" [class.active]="focusOnSimple">
     <button class="prefix" (click)="doSearch(search)">
         <md-icon>search</md-icon>
     </button>
     <input #search autocomplete="off"
            type="search" [placeholder]="searchLabel"
            [(ngModel)]="searchQuery" name="search"
-           (keyup.esc)="clearSearch(search)"
-           (keypress)="onKey(search, $event)"
+           (keyup.esc)="resetSearch(search)"
+           (keyup)="onKey(search, $event)"
+           (click)="setFocus()"
            (focus)="toggleMenu('simpleSearch')" [disabled]="focusOnExtended"/>
     <!-- switch button:
             - default button is the filter button;
             - but on some focus we need a close button for the simple or extended panel
     -->
-    <button class="suffix" *ngIf="focusOnSimple" (click)="clearSearch(search)">
+    <button class="suffix" *ngIf="focusOnSimple" (click)="resetSearch(search)">
         <md-icon class="md-24">close</md-icon>
     </button>
     <button class="suffix" *ngIf="!focusOnSimple" (click)="toggleMenu('extendedSearch')">
@@ -25,7 +26,13 @@
 
 <!-- the search panel has two "dropdown" menus: one for simple search and another one for the extended search -->
 <div class="salsah-menu simple-search" [@simpleSearchMenu]="focusOnSimple">
-    <salsah-simple-search></salsah-simple-search>
+    <button md-button class="right" (click)="resetPrevSearch()">Clear</button>
+    <md-list class="salsah-previous-search-list">
+        <md-list-item *ngFor="let item of prevSearch | reverse; let i=index">
+            <md-icon md-list-icon (click)="resetPrevSearch(item)">close</md-icon>
+            <h4 md-line *ngIf="i<10" (click)="doPrevSearch(item)">{{item}}</h4>
+        </md-list-item>
+    </md-list>
 </div>
 
 <div class="salsah-menu extended-search" [@extendedSearchMenu]="focusOnExtended">
@@ -33,7 +40,7 @@
         <span class="salsah-menu-title">
             Extended search
         </span>
-            <span class="salsah-menu-action">
+        <span class="salsah-menu-action">
             <button md-icon-button (click)="toggleMenu('extendedSearch')">
                 <md-icon>close</md-icon>
             </button>

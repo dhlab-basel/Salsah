@@ -78,6 +78,21 @@
     &.simple-search {
         padding-top: 60px;
         z-index: -1;
+        .salsah-previous-search-list {
+            md-list-item {
+                cursor: pointer;
+                &:hover {
+                    background-color: $bright;
+                    md-icon {
+                        display: block;
+                    }
+                }
+                md-icon {
+                    display: none;
+                }
+            }
+        }
+
     }
 
     &.extended-search {

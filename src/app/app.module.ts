@@ -63,6 +63,7 @@ import {ProjectFormComponent} from './view/modules/form/project-form/project-for
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {ResourceClassFormComponent} from './view/modules/form/resource-class-form/resource-class-form.component';
 import {ResourceFormComponent} from './view/modules/form/resource-form/resource-form.component';
+import { ReversePipe } from './view/modules/other/reverse.pipe';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import {ResourceFormComponent} from './view/modules/form/resource-form/resource-
         ProjectFormComponent,
         UserFormComponent,
         ResourceClassFormComponent,
-        ResourceFormComponent
+        ResourceFormComponent,
+        ReversePipe
     ],
     imports: [
         BrowserModule,

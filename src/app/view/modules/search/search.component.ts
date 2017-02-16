@@ -17,6 +17,7 @@ import {
     ElementRef, AfterViewInit, AfterViewChecked
 } from '@angular/core';
 import {ActivatedRoute, Router, Params} from '@angular/router';
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     selector: 'salsah-search',
@@ -55,6 +56,8 @@ export class SearchComponent implements OnInit {
 
     searchQuery: string;
 
+    prevSearch: string[] = JSON.parse(localStorage.getItem('prevSearch'));
+
     focusOnSimple: boolean = false;
     focusOnExtended: boolean = false;
 
@@ -68,8 +71,7 @@ export class SearchComponent implements OnInit {
 
     ngOnInit() {
     }
-
-
+/*
     @HostListener('document:click', ['$event'])
     onClick(event) {
         if (!this._eleRef.nativeElement.contains(event.target)) {
@@ -77,10 +79,11 @@ export class SearchComponent implements OnInit {
             if (this.focusOnExtended) this.toggleMenu('extendedSearch');
         }
     }
-
+    */
 
     onKey(search_ele: HTMLElement, event) {
         this.focusOnSimple = true;
+        this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
         if (this.searchQuery && (event.key === 'Enter' || event.keyCode === 13 || event.which === 13)) {
             this.doSearch(search_ele);
         }
@@ -90,21 +93,65 @@ export class SearchComponent implements OnInit {
         if (this.searchQuery !== undefined && this.searchQuery !== null) {
             this.toggleMenu('simpleSearch');
             this._router.navigate(['/search/' + this.searchQuery], {relativeTo: this._route});
+
+            // push the search query into the local storage prevSearch array (previous search)
+            // to have a list of recent search requests
+            let existingPrevSearch: string[] = JSON.parse(localStorage.getItem('prevSearch'));
+            if(existingPrevSearch === null) existingPrevSearch = [];
+            let i: number = 0;
+            for(let entry of existingPrevSearch) {
+                // remove entry, if exists already
+                if(this.searchQuery === entry) existingPrevSearch.splice(i, 1);
+                i++;
+            }
+
+            existingPrevSearch.push(this.searchQuery);
+            localStorage.setItem('prevSearch', JSON.stringify(existingPrevSearch));
+            // TODO: save the previous search queries somewhere in the users profile
+
         }
         else {
             search_ele.focus();
+            this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
         }
     }
 
-    clearSearch(search_ele: HTMLElement) {
+    resetSearch(search_ele: HTMLElement) {
         this.searchQuery = null;
         search_ele.focus();
         this.focusOnSimple = false;
     }
 
+    doPrevSearch(query: string) {
+        this.searchQuery = query;
+        this._router.navigate(['/search/' + query], {relativeTo: this._route});
+        this.toggleMenu('simpleSearch');
+    }
+
+    resetPrevSearch(name: string = null) {
+        if(name) {
+            // delete only this item with the name ...
+            let i: number = this.prevSearch.indexOf(name);
+            this.prevSearch.splice(i, 1);
+            localStorage.setItem('prevSearch', JSON.stringify(this.prevSearch));
+        }
+        else {
+            // delete the whole "previous search" array
+            localStorage.removeItem('prevSearch');
+        }
+        this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
+
+    }
+
+    setFocus() {
+        this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
+        this.focusOnSimple = true;
+    }
+
     toggleMenu(name: string) {
         switch (name) {
             case 'simpleSearch':
+                this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
                 this.focusOnSimple = (this.focusOnSimple === false);
                 break;
             case 'extendedSearch':
