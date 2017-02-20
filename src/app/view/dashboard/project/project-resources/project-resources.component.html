@@ -1,14 +1,13 @@
 <!-- salsah-resources-admin -->
 
-<div class="salsah-preview-list" [ngClass]="[position.preview, size]">
+<div class="salsah-main-list" [ngClass]="[position.preview, size]">
+    <h2 md-header>Organize your resources</h2>
+    <button md-button (click)="addNewResourceClass()">
+        <md-icon> add </md-icon>
+        <span> Add new resource </span>
+    </button>
+
     <md-list>
-        <h2 md-header>Organize your resources</h2>
-        <button md-button (click)="addNewResourceClass()">
-            <md-icon> add </md-icon>
-            <span> Add new resource </span>
-        </button>
-        <br>
-        <br>
         <md-divider></md-divider>
         <br>
         <h3 md-subheader>Resources (active)</h3>
@@ -43,12 +42,16 @@
     </md-list>
 </div>
 
-<div  *ngIf="properties" class="salsah-properties-view" [ngClass]="position.properties">
+<div *ngIf="properties" class="salsah-main-view" [ngClass]="position.properties">
+    <button md-icon-button (click)="closeResourceClass()" class="right">
+        <md-icon>close</md-icon>
+    </button>
+
+    <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
     <md-list>
         <md-list-item *ngFor="let prop of properties.properties">
             <h4 md-line>{{prop.label}}</h4>
             <p md-line>{{prop.description}}</p>
-
         </md-list-item>
     </md-list>
 </div>

@@ -1,28 +1,29 @@
 <!-- salsah-team-admin -->
-
-<md-list>
-  <h2 md-header>Organize your team</h2>
-  <button md-button (click)="addNewUser()">
-    <md-icon> add </md-icon>
-    <span> Add new person </span>
-  </button>
-  <br>
-  <br>
-  <md-divider></md-divider>
-  <br>
-  <h3 md-subheader>Project Admin</h3>
-  <md-list-item>
-    <!--<md-list-item *ngFor="let admin of project.admins">-->
-    <md-icon md-list-avatar>person</md-icon>
-    <h4 md-line>Lastname, PreName</h4>
-    <p md-line> function bla bla </p>
-  </md-list-item>
-  <md-divider></md-divider>
-  <h3 md-subheader>Project Member</h3>
-  <md-list-item>
-    <!--<md-list-item *ngFor="let member of project.members">-->
-    <md-icon md-list-avatar>person_outline</md-icon>
-    <h4 md-line>Lastname, PreName</h4>
-    <p md-line> function bla bla </p>
-  </md-list-item>
-</md-list>
+<div class="salsah-main-list" [ngClass]="[position.preview, size]">
+    <md-list>
+      <h2 md-header>Organize your team</h2>
+      <button md-button (click)="addNewUser()">
+        <md-icon> add </md-icon>
+        <span> Add new person </span>
+      </button>
+      <br>
+      <br>
+      <md-divider></md-divider>
+      <br>
+      <h3 md-subheader>Project Admin</h3>
+      <md-list-item>
+        <!--<md-list-item *ngFor="let admin of project.admins">-->
+        <md-icon md-list-avatar>person</md-icon>
+        <h4 md-line>Lastname, PreName</h4>
+        <p md-line> function bla bla </p>
+      </md-list-item>
+      <md-divider></md-divider>
+      <h3 md-subheader>Project Member</h3>
+      <md-list-item>
+        <!--<md-list-item *ngFor="let member of project.members">-->
+        <md-icon md-list-avatar>person_outline</md-icon>
+        <h4 md-line>Lastname, PreName</h4>
+        <p md-line> function bla bla </p>
+      </md-list-item>
+    </md-list>
+</div>

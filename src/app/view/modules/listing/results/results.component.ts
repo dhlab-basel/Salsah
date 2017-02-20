@@ -92,7 +92,6 @@ export class ResultsComponent implements OnInit {
     openResource(id: string) {
         if(this.size === 'large') this.size = 'small'; this.cols = 1;
         this.resource = id;
-        console.log(id);
 
     }
 

@@ -18,7 +18,7 @@
 
 <div class="salsah-module-content">
 
-    <div class="salsah-preview-list" [ngClass]="[position.preview, size]">
+    <div class="salsah-main-list" [ngClass]="[position.preview, size]">
         <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
 
         <!-- show the results in a simple list -->
@@ -38,7 +38,7 @@
     </div>
 
     <!-- resource view on the right hand side -->
-    <div  *ngIf="resource" class="salsah-resource-view" [ngClass]="position.resource">
+    <div  *ngIf="resource" class="salsah-main-view" [ngClass]="position.resource">
         <button md-icon-button (click)="closeResource()" class="right">
             <md-icon>close</md-icon>
         </button>

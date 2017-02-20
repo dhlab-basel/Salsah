@@ -51,6 +51,7 @@ export class ProjectsListComponent implements OnInit {
     }
 
     openProject(id) {
+        localStorage.removeItem('project');
         this._router.navigate(['/project/', id]);
     }
 

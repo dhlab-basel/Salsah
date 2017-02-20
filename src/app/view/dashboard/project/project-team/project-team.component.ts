@@ -9,6 +9,13 @@ import {UserFormComponent} from "../../../modules/form/user-form/user-form.compo
 })
 export class ProjectTeamComponent implements OnInit {
 
+    position = {
+        preview: 'left',        // top
+        properties: 'right'       // bottom
+    };
+
+    size: string = 'large';
+
   constructor(
       public dialog: MdDialog
   ) { }

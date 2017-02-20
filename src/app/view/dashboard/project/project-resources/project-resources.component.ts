@@ -61,6 +61,7 @@ export class ProjectResourcesComponent implements OnInit {
     }
 
     editResourceClass(id: string) {
+        if(this.size === 'large') this.size = 'small';
 
         this._propertiesService.getPropertiesByResType(id)
             .subscribe(
@@ -72,6 +73,11 @@ export class ProjectResourcesComponent implements OnInit {
                 }
 
             );
+    }
+
+    closeResourceClass() {
+        this.size = 'large';
+        this.properties = undefined;
     }
 
 }

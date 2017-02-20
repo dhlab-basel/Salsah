@@ -83,12 +83,12 @@
         top: 64px;
     }
 
-    .salsah-preview-list, .salsah-main-module {
+    .salsah-main-list {
         width: calc(100vw - 240px);
         height: auto;
         min-height: calc(100vh - 128px - 24px);
         padding-left: 120px;
-        padding-right: 120px;
+        padding-right: 108px; // plus 12px for the scroll bar
 
 
 
@@ -104,7 +104,7 @@
 
     }
 
-    .salsah-resource-view {
+    .salsah-main-view {
         position: fixed;
         padding: 24px;
         &.right {

@@ -8,16 +8,16 @@ import {ProjectItem} from "../../../../model/classes/projects";
 })
 export class ProjectProfileComponent implements OnInit {
 
-    project: ProjectItem = new ProjectItem;
-
+    project: ProjectItem;
 
     constructor() {
-    }
-
-    ngOnInit() {
         if( JSON.parse(localStorage.getItem('project')) !== null ) {
             this.project = JSON.parse(localStorage.getItem('project'));
         }
+    }
+
+    ngOnInit() {
+
 
     }
 
