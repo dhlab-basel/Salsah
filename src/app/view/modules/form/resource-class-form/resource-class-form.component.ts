@@ -14,6 +14,8 @@
 
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
+import {BaseOntologyService} from "../../../../model/base-ontology-test/base-ontology.service";
+import {BaseOntology} from "../../../../model/base-ontology-test/base-ontology";
 
 @Component({
     selector: 'salsah-resource-class-form',
@@ -22,15 +24,33 @@ import {MdDialog} from "@angular/material";
 })
 export class ResourceClassFormComponent implements OnInit {
 
+    errorMessage: any;
+
+    knoraBase: BaseOntology = new BaseOntology;
+
+    resourceTypes: any = undefined;
 
     private counter: number = 0;
     public newResource: any;
     public props: any;
 
-    constructor(public dialog: MdDialog) {
+
+    constructor(public dialog: MdDialog,
+                private _baseOntologyService: BaseOntologyService) {
     }
 
     ngOnInit() {
+        this._baseOntologyService.getData()
+            .subscribe(
+                data => {
+                    console.log(data);
+                    this.knoraBase = data;
+                    this.resourceTypes = data.resourcetypes;
+                },
+                error => {
+                    this.errorMessage = <any>error;
+                }
+            );
 
     }
 

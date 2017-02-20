@@ -90,12 +90,15 @@
         padding-left: 120px;
         padding-right: 108px; // plus 12px for the scroll bar
 
-
-
         &.small.left {
             width: 400px;
             padding: 0;
             border-right: 1px solid #c1c1c1;
+
+            h2 {
+                padding-left: 12px;
+            }
+
         }
         &.small.top {
             border-bottom: 1px solid #c1c1c1;
@@ -122,6 +125,9 @@
     md-list {
         .md-list-item {
             cursor: pointer;
+            &.highlight {
+                background-color: $bright;
+            }
             &:hover {
 //                @include box-shadow();
                 background-color: $bright;

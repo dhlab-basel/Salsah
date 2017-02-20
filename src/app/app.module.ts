@@ -27,6 +27,8 @@ import {ResourceService} from "./model/api/resource.service";
 import {ResourceTypesService} from "./model/api/resource-types.service";
 import {SearchService} from "./model/api/search.service";
 import {SessionService} from "./model/api/session.service";
+// just to get the basic ontology form the json file
+import {BaseOntologyService} from "./model/base-ontology-test/base-ontology.service";
 
 //
 // import all app components
@@ -124,7 +126,8 @@ import { DocumentationComponent } from './view/documentation/documentation.compo
         ResourceService,
         ResourceTypesService,
         SearchService,
-        SessionService
+        SessionService,
+        BaseOntologyService
     ],
     bootstrap: [AppComponent]
 })

@@ -20,7 +20,7 @@ export class ProjectResourcesComponent implements OnInit {
     project: ProjectItem = new ProjectItem;
 
     resourceTypes: ResourceTypes = new ResourceTypes;
-    properties: Properties = new Properties;
+    properties: Properties;
 
     selectedOption: string;
 
@@ -30,6 +30,8 @@ export class ProjectResourcesComponent implements OnInit {
     };
 
     size: string = 'large';
+
+    hightlightStatus: Array<boolean> = [];
 
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _propertiesService: PropertiesService,

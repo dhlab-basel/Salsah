@@ -11,7 +11,7 @@
         <md-divider></md-divider>
         <br>
         <h3 md-subheader>Resources (active)</h3>
-        <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes" (click)="editResourceClass(resClass.id)">
+        <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes; let i = index" (click)="editResourceClass(resClass.id); hightlightStatus[i]=!hightlightStatus[i]" [class.highlight]="hightlightStatus[i]" [attr.data-selected]="false">
             <md-icon md-list-avatar>{{resClass.icon}}</md-icon>
             <h4 md-line>{{resClass.label}}</h4>
             <p md-line>
