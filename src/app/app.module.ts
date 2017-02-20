@@ -65,6 +65,7 @@ import {ResourceClassFormComponent} from './view/modules/form/resource-class-for
 import {ResourceFormComponent} from './view/modules/form/resource-form/resource-form.component';
 import { ReversePipe } from './view/modules/other/reverse.pipe';
 import {PropertiesService} from "./model/api/properties.service";
+import { DocumentationComponent } from './view/documentation/documentation.component';
 
 
 @NgModule({
@@ -101,7 +102,8 @@ import {PropertiesService} from "./model/api/properties.service";
         UserFormComponent,
         ResourceClassFormComponent,
         ResourceFormComponent,
-        ReversePipe
+        ReversePipe,
+        DocumentationComponent
     ],
     imports: [
         BrowserModule,

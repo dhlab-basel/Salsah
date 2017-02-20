@@ -29,6 +29,7 @@ import {ResultsComponent} from "./view/modules/listing/results/results.component
 import {ProjectTeamComponent} from "./view/dashboard/project/project-team/project-team.component";
 import {ProjectResourcesComponent} from "./view/dashboard/project/project-resources/project-resources.component";
 import {ProjectFormComponent} from "./view/modules/form/project-form/project-form.component";
+import {DocumentationComponent} from "./view/documentation/documentation.component";
 
 
 
@@ -84,6 +85,9 @@ const appRoutes: Routes = [
     {
         // create new project
         path: 'new', component: ProjectFormComponent
+    },
+    {
+        path: 'documentation', component: DocumentationComponent
     },
     {
         path: 'denied',
