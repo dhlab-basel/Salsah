@@ -23,11 +23,11 @@
       "scripts": [
         "../node_modules/hammerjs/hammer.min.js"
       ],
-      "environments": {
-        "source": "environments/environment.ts",
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
-      }
+        "environmentSource": "environments/environment.ts",
+        "environments": {
+            "dev": "environments/environment.ts",
+            "prod": "environments/environment.prod.ts"
+        }
     }
   ],
   "e2e": {
