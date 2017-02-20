@@ -107,7 +107,7 @@ export class SearchComponent implements OnInit {
 
             existingPrevSearch.push(this.searchQuery);
             localStorage.setItem('prevSearch', JSON.stringify(existingPrevSearch));
-            // TODO: save the previous search queries somewhere in the users profile
+            // TODO: save the previous search queries somewhere in the user's profile
 
         }
         else {

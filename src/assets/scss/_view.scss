@@ -119,6 +119,16 @@
 
     }
 
+    md-list {
+        .md-list-item {
+            cursor: pointer;
+            &:hover {
+//                @include box-shadow();
+                background-color: $bright;
+            }
+        }
+    }
+
     .list-view {
         .md-list-item {
             min-height: 128px;
@@ -167,7 +177,7 @@
 }
 
 
-.salsah-dashboard {
+salsah-dashboard {
     max-width: 960px;
     margin-left: auto;
     margin-right: auto;
@@ -184,6 +194,19 @@
             width: 100%;
         }
     }
+
+    md-list {
+        width: 420px;
+        .md-list-item {
+            cursor: pointer;
+            &:hover {
+                @include box-shadow();
+                background-color: white;
+            }
+        }
+    }
+
+
 
     .salsah-module-header {
         position: relative;

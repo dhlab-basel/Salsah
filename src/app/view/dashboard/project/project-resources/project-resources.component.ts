@@ -4,6 +4,8 @@ import {ResourceTypesService} from "../../../../model/api/resource-types.service
 import {ResourceTypes} from "../../../../model/classes/resource-types";
 import {ProjectItem} from "../../../../model/classes/projects";
 import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
+import {PropertiesService} from "../../../../model/api/properties.service";
+import {Properties} from "../../../../model/classes/properties";
 
 @Component({
     selector: 'salsah-project-resources',
@@ -18,10 +20,19 @@ export class ProjectResourcesComponent implements OnInit {
     project: ProjectItem = new ProjectItem;
 
     resourceTypes: ResourceTypes = new ResourceTypes;
+    properties: Properties = new Properties;
 
     selectedOption: string;
 
+    position = {
+        preview: 'left',        // top
+        properties: 'right'       // bottom
+    };
+
+    size: string = 'large';
+
     constructor(private _resourceTypesService: ResourceTypesService,
+                private _propertiesService: PropertiesService,
                 public dialog: MdDialog) {
     }
 
@@ -47,6 +58,20 @@ export class ProjectResourcesComponent implements OnInit {
             this.selectedOption = result;
         });
 
+    }
+
+    editResourceClass(id: string) {
+
+        this._propertiesService.getPropertiesByResType(id)
+            .subscribe(
+                (data: Properties) => {
+                    this.properties = data;
+                },
+                error => {
+                    this.errorMessage = <any>error;
+                }
+
+            );
     }
 
 }

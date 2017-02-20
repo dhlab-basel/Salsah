@@ -15,33 +15,44 @@
 import { JsonObject, JsonProperty } from 'json2typescript';
 import { BasicResponse } from './basic-response';
 
-/**
- * existing resourcetypes / resourceclasses in a project (based on vocabulary/ontology)
- */
 @JsonObject
-export class ResourceTypes extends BasicResponse {
+export class Property {
 
-    @JsonProperty('resourcetypes', ResourcetypeItem)
-    public resourcetypes: ResourcetypeItem = undefined;
+    @JsonProperty('name', String)
+    public name: string = undefined;
 
-}
+    @JsonProperty('guiorder', Number)
+    public guiorder: number = undefined;
 
-@JsonObject
-export class ResTypeProp {
+    @JsonProperty('description', String)
+    public description: string = null;
 
-    @JsonProperty('id', String)
-    public id: string = undefined;
+    @JsonProperty('valuetype_id', String)
+    public valuetype_id: string = undefined;
 
     @JsonProperty('label', String)
     public label: string = undefined;
 
+    @JsonProperty('vocabulary', String)
+    public vocabulary: string = undefined;
+
+    @JsonProperty('attributes', String)
+    public attributes: string = undefined;
+
+    @JsonProperty('occurrence', String)
+    public occurrence: string = undefined;
+
+    @JsonProperty('id', String)
+    public id: string = undefined;
+
+    @JsonProperty('gui_name', String)
+    public gui_name: string = undefined;
+
 }
 
-@JsonObject
-export class ResourcetypeItem extends ResTypeProp {
+export class Properties extends BasicResponse {
 
-    @JsonProperty('properties', [ResTypeProp])
-    public properties: ResTypeProp[] = undefined;
+    @JsonProperty('properties', [Property])
+    public properties: Property[] = undefined;
 
 }
-

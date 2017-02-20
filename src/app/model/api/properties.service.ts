@@ -12,36 +12,20 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { JsonObject, JsonProperty } from 'json2typescript';
-import { BasicResponse } from './basic-response';
+import {Injectable} from '@angular/core';
+import {ApiService} from "./api.service";
+import {Observable} from "rxjs";
+import {Properties} from "../classes/properties";
 
-/**
- * existing resourcetypes / resourceclasses in a project (based on vocabulary/ontology)
- */
-@JsonObject
-export class ResourceTypes extends BasicResponse {
+@Injectable()
+export class PropertiesService extends ApiService {
 
-    @JsonProperty('resourcetypes', ResourcetypeItem)
-    public resourcetypes: ResourcetypeItem = undefined;
+    getPropertiesByResType(rid: string): Observable<Properties> {
+        return this.httpGet("/propertylists?restype=" + encodeURIComponent(rid));
+    }
 
-}
-
-@JsonObject
-export class ResTypeProp {
-
-    @JsonProperty('id', String)
-    public id: string = undefined;
-
-    @JsonProperty('label', String)
-    public label: string = undefined;
+    getPropertiesByVocabulary(vid: string): Observable<Properties> {
+        return this.httpGet("/propertylists?vocabulary=" + encodeURIComponent(vid));
+    }
 
 }
-
-@JsonObject
-export class ResourcetypeItem extends ResTypeProp {
-
-    @JsonProperty('properties', [ResTypeProp])
-    public properties: ResTypeProp[] = undefined;
-
-}
-

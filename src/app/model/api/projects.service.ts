@@ -22,8 +22,6 @@ import {ProjectsList, Project} from "../classes/projects";
 @Injectable()
 export class ProjectsService extends ApiService {
 
-    private _project: Project;
-
 
     getProject(pid: string): Observable<Project> {
         return this.httpGet("/projects/shortname/" + pid);
