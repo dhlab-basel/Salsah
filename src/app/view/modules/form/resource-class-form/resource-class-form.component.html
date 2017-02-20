@@ -1,23 +1,27 @@
 <form class="salsah-form resource-class" #uf="ngForm" (ngSubmit)="onSubmit(uf.value, uf.valid)">
 
     <md-dialog-content>
-
         <!-- Step 1: Select resource type from a list of resources taken directly from the Knora base ontology (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
         <section [ngClass]="{show: counter===0, hide: counter!==0}">
-            <h3>Select resource type</h3>
-            <div>
-                <md-radio-group class="resources-group" [(ngModel)]="newResource" name="resource">
-                    <md-radio-button class="resource-button" *ngFor="let item of knoraBase?.resourcetypes"
-                                     [value]="item.label">
-                        {{item.label}}
-                    </md-radio-button>
-                    <button md-button routerLink>
-                        <hr/>
-                        New Resource (Advanced)
-                    </button> <!--make this into a button that leads to the advanced page -->
+            <h3>What file type do you have?</h3>
+            <md-list>
+                <!-- TODO: perhaps we have to move from radio-group to dropdown selection -->
+                <md-radio-group [(ngModel)]="newResource" name="resource">
+                    <md-list-item  *ngFor="let item of knoraBase?.resourcetypes">
+                        <md-radio-button md-line [value]="item.label">
+                            {{item.label}}
+                        </md-radio-button>
+                    </md-list-item>
+                    <md-list-item>
+                        <!-- the last radio button is to create a new (missing) file type option-->
+                        <md-radio-button md-line value="newResType">
+                            New File Type (perhaps you have to ask the Knora team first)
+                        </md-radio-button>
+                    </md-list-item>
                 </md-radio-group>
-                <div class="resource-value">You selected: {{newResource}}</div>
-            </div>
+            </md-list>
+
+            <div class="resource-value">You selected: <strong>{{newResource}}</strong></div>
         </section>
 
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
