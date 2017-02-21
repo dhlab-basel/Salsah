@@ -3,25 +3,17 @@
     <md-dialog-content>
         <!-- Step 1: Select resource type from a list of resources taken directly from the Knora base ontology (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
         <section [ngClass]="{show: counter===0, hide: counter!==0}">
-            <h3>What file type do you have?</h3>
-            <md-list>
-                <!-- TODO: perhaps we have to move from radio-group to dropdown selection -->
-                <md-radio-group [(ngModel)]="newResource" name="resource">
-                    <md-list-item  *ngFor="let item of knoraBase?.resourcetypes">
-                        <md-radio-button md-line [value]="item.label">
-                            {{item.label}}
-                        </md-radio-button>
-                    </md-list-item>
-                    <md-list-item>
-                        <!-- the last radio button is to create a new (missing) file type option-->
-                        <md-radio-button md-line value="newResType">
-                            New File Type (perhaps you have to ask the Knora team first)
-                        </md-radio-button>
-                    </md-list-item>
-                </md-radio-group>
-            </md-list>
-
-            <div class="resource-value">You selected: <strong>{{newResource}}</strong></div>
+            <h3>What file type do you like to add?</h3><br>
+            <md-select placeholder="Resource class" [(ngModel)]="newResource" name="resource">
+                <md-option class="resource-group" *ngFor="let item of knoraBase?.resourcetypes" [value]="item.label">
+                    {{item.label}}
+                </md-option>
+                <!-- the last selection is to create a new (missing) file type option --does nothing for the moment -->
+                <md-option class="resource-button" value="newResType">
+                    <span><hr/>New File Type</span> <!-- (perhaps you have to ask the Knora team first) -->
+                </md-option>
+            </md-select>
+            <p class="resource-value">You selected: <strong>{{newResource}}</strong></p>
         </section>
 
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
@@ -30,7 +22,13 @@
             <div *ngFor="let res of knoraBase?.resourcetypes">
                 <div *ngIf="res.label==newResource">
                     <md-list *ngFor="let props of res.properties">
-                        <md-checkbox color="primary"
+                        <md-checkbox *ngIf="props.cardinality == '1' || props.cardinality == '1 - n'"
+                                     [(ngModel)]="props.cardinality"
+                                     [name]="props.label">
+                            {{props.label}}
+                        </md-checkbox>
+                        <md-checkbox *ngIf="props.cardinality == '0 - 1' || props.cardinality == '0 - n' || props.cardinality == false"
+                                     color="primary"
                                      [(ngModel)]="props.checked"
                                      [name]="props.label">
                             {{props.label}}
@@ -51,7 +49,7 @@
                     <br><br>
                     <i>Resource properties:</i>
                     <div *ngFor="let props of res.properties">
-                        <div *ngIf="props.checked==true">
+                        <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
                             <b> {{props.label}} </b>
                         </div>
                     </div>
@@ -65,7 +63,7 @@
             <div *ngFor="let res of knoraBase?.resourcetypes">
                 <div *ngIf="res.label==newResource">
                     <div *ngFor="let props of res.properties">
-                        <div *ngIf="props.checked==true">
+                        <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
                             <table class="perm-style">
                                 <tr>
                                     <td>

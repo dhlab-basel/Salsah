@@ -34,6 +34,15 @@ export class ResourceClassFormComponent implements OnInit {
     public newResource: any;
     public props: any;
 
+    //selector of permissions
+    perms = [
+        {id: 'perm-0', label: 'group 1'},
+        {id: 'perm-1', label: 'group 2'},
+        {id: 'perm-2', label: 'group 3'},
+        {id: 'perm-3', label: 'group 4'}
+    ];
+
+
 
     constructor(public dialog: MdDialog,
                 private _baseOntologyService: BaseOntologyService) {
