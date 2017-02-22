@@ -68,7 +68,7 @@
 */
 
 .salsah-module-content {
-
+    width: 100vw;
     top: 128px;
     position: fixed;
     overflow-y: auto;
@@ -114,10 +114,17 @@
             width: calc(100vw - 400px - 48px);
             left: 400px;
             top: 128px;
+            max-height: 100%;
+            overflow-x: auto;
         }
 
         &.bottom {
 
+        }
+
+        button.right {
+            position: fixed;
+            right: 24px;
         }
 
     }

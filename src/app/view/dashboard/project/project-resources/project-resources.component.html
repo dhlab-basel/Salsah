@@ -20,8 +20,8 @@
             </span>
             </p>
         </md-list-item>
+        <!--
         <md-list-item>
-            <!--<md-list-item *ngFor="let admin of project.admins">-->
             <md-icon md-list-avatar>image</md-icon>
             <h4 md-line>Image</h4>
             <p md-line> Description ... [edit the resource settings by click on it] </p>
@@ -31,6 +31,7 @@
             <h4 md-line>Book</h4>
             <p md-line> Description ... [edit the resource settings by click on it] </p>
         </md-list-item>
+        -->
         <md-divider></md-divider>
         <h3 md-subheader>Resource (Draft, Archived, etc. ??) FAKE list!!</h3>
         <md-list-item class="passive">
@@ -52,6 +53,8 @@
         <md-list-item *ngFor="let prop of properties.properties">
             <h4 md-line>{{prop.label}}</h4>
             <p md-line>{{prop.description}}</p>
+            <p md-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
+
         </md-list-item>
     </md-list>
 </div>
