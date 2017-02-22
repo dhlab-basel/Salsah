@@ -24,10 +24,7 @@ md-dialog-content {
 }
 
 .perm-style {
-    /*float: right;*/
-    vertical-align: top;
-    /*text-align: left;*/
-    margin: 0 10px;
+
 }
 
 .ng-valid[required], .ng-valid.required  {

@@ -42,7 +42,12 @@ export class ResourceClassFormComponent implements OnInit {
         {id: 'perm-3', label: 'group 4'}
     ];
 
-
+    cardinality = [
+        {id: 'card-0', label: '1'},
+        {id: 'card-1', label: '1 - n'},
+        {id: 'card-2', label: '0 - 1'},
+        {id: 'card-3', label: '0 - n'}
+    ];
 
     constructor(public dialog: MdDialog,
                 private _baseOntologyService: BaseOntologyService) {
