@@ -38,7 +38,7 @@
     </div>
 </div>
 
-<div class="salsah-module-content">
+<div class="salsah-module-content router-outlet">
     <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
     <router-outlet *ngIf="!errorMessage" (tabRequest)="activateTab($event)"></router-outlet>
 </div>

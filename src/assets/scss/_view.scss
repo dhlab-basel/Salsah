@@ -68,12 +68,15 @@
 */
 
 .salsah-module-content {
-    width: 100vw;
     top: 128px;
     position: fixed;
     overflow-y: auto;
     z-index: 0;
     height: calc(100vh - 128px - 24px);
+
+    &.router-outlet {
+        width: 100vw;
+    }
 
     &.without-header {
         width: calc(100vw - 240px);
@@ -84,7 +87,7 @@
     }
 
     .salsah-main-list {
-        width: calc(100vw - 240px);
+        width: calc(100vw - 228px);
         height: auto;
         min-height: calc(100vh - 128px - 24px);
         padding-left: 120px;
