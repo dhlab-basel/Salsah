@@ -38,3 +38,8 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
+
+#Documentation Files
+docs/env
+docs/_build
+docs/_format_docu
