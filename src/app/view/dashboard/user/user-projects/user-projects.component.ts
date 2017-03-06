@@ -12,30 +12,22 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
 
-import {ApiService} from "./api.service";
-import {ProjectsList, Project} from "../classes/projects";
-import {UserData} from "../classes/user-data";
+@Component({
+    selector: 'salsah-user-projects',
+    templateUrl: './user-projects.component.html',
+    styleUrls: ['./user-projects.component.css']
+})
+export class UserProjectsComponent implements OnInit {
 
+    auth: any;
 
-@Injectable()
-export class ProjectsService extends ApiService {
-
-
-    getProject(pid: string): Observable<Project> {
-        return this.httpGet("/projects/shortname/" + pid);
+    constructor() {
     }
 
-
-    getAllProjects(): Observable<ProjectsList> {
-        return this.httpGet("/projects");
+    ngOnInit() {
+        this.auth = (JSON.parse(localStorage.getItem('auth')) ? JSON.parse(localStorage.getItem('auth')) : '');
     }
-
-    getUsersProjects(user: string): Observable<UserData> {
-        return this.httpGet("/users/" + user);
-    }
-
 
 }

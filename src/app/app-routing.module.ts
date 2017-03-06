@@ -30,6 +30,8 @@ import {ProjectTeamComponent} from "./view/dashboard/project/project-team/projec
 import {ProjectResourcesComponent} from "./view/dashboard/project/project-resources/project-resources.component";
 import {ProjectFormComponent} from "./view/modules/form/project-form/project-form.component";
 import {DocumentationComponent} from "./view/documentation/documentation.component";
+import {UserProjectsComponent} from "./view/dashboard/user/user-projects/user-projects.component";
+import {UserCollectionsComponent} from "./view/dashboard/user/user-collections/user-collections.component";
 
 
 
@@ -58,6 +60,14 @@ const appRoutes: Routes = [
     {
         // User settings
         path: 'settings', component: UserSettingsComponent
+    },
+    {
+        // User projects
+        path: 'projects', component: UserProjectsComponent
+    },
+    {
+        // User collections
+        path: 'collections', component: UserCollectionsComponent
     },
     {
         path: 'search/:q',

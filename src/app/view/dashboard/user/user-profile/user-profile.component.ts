@@ -36,7 +36,7 @@ export class UserProfileComponent implements OnInit {
     ngOnInit() {
         // get the user name from the url
         this.userName = decodeURIComponent(this._router.url.split('user/')[1]);
-        // checke the authentication and compare the userName with the auth.user
+        // check the authentication and compare the userName with the auth.user
         this.auth = this._session.checkAuth();
         if(this.auth.user !== this.userName) {
             // access denied
