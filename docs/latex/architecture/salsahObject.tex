@@ -1,0 +1,58 @@
+\newpage
+\subsection{salsahObject}
+
+Like in SALSAH 1 we have a few predefined default resource objects. Most of the objects depend on the different kind of media types: emptyObject (object without a file, metadata only), imageObject, documentObject, videoObject, audioObject, collectionObject, regionObject, sequenceObject. Every salsah resource object needs his own viewer environment (card) with specific predefined tools.
+
+\begin{itemize}
+	\item \textbf{close} and \textbf{resize} the resource card; fullscreen and back to card size; (minimize? add the resource to one field (of 6) in the split view.)
+	\item \textbf{change the view}: switch to the graph viewer or to the collection object, if the object is stored in a collection (link object).
+	\item \textbf{share/add}: share the resource with friends or use the URI somewhere else (depends on the resource rights) / add the resource to a collection package (sth. like a playlist in music apps) -- we're using the collection also for links between at least two resources.
+	\item \textbf{edit} (incl. delete) the resource (depends on the resource and property rights).
+\end{itemize}
+
+
+\subsubsection{emptyObject}
+The empty object is an object without a media file; it has only metadata and the default tools as described above.
+
+\subsubsection{imageObject}
+The image object has additional tools like:
+zoom, quality changer, rotate, mirror, transcriber, regions marker
+
+\subsubsection{documentObject}
+The document object is for pdf, latex or rtf, but also word etc. We're not able to display all the different document types -- in that case, we offer a download button.
+The additional tools depending on the document viewer. But we need (+/-) zoom, quality changer, rotate, mirror, transcriber, regions marker.
+
+\subsubsection{videoObject}
+The moving image  needs some more tools:
+timeline with preview, navigation (play, pause, stop, forward and rewind), scroll through, change quality, sequence marker (start/end), frame extraction, transcriber (incl. musical notation), transcription import (subtitle files e.g. srt)
+
+Inspired by existing tools: Transcribe, f4, ELAN, MaxQData
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{salsahObject_video.png}
+    \caption{video Object (top left) embedded in the sequenceTranscription tool}
+\end{figure}
+
+\subsubsection{audioObject}
+
+The audioObject could be similar to the videoObject. Perhaps we need an extra object for musical notes (musicNotationObject ?)
+
+
+\subsubsection{collectionObject (collection / link / book) / salsahCollection}
+
+\textbf{collectionObject/linkObject}
+
+A collection connects various salsahObjects (resources). We can reuse the salsahCollection component for links and resource annotations as well. Every user should be able to create a collection and he can share it with others (share with the whole project team or with single user).
+
+
+\textbf{bookObject}
+The book is a special collectionObject with a navigation tool (sth. like timeline) incl. page preview and flick through. The single page includes the tools from the imageObject.
+
+
+
+\subsubsection{regionObject (for images and documents)}
+
+
+\subsubsection{sequenceObject (for video and audio)}
+
