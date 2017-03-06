@@ -11,20 +11,7 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-****************
-old SALSAH pipes
-****************
+Header
+------
 
-.. toctree::
-    :maxdepth: 2
-
-
-If it's necessary we have to build our own pipes (angular filters). Before building a pipe, please check, if there's existing already one in angular
-
-
-
-LimitTo
--------
-Transforms a string to a predefined length of characters and adds three points to the end [...]. The default length value is 120.
-
-    {{ string | limitTo [: number]}}
+The header component is a module of the main salsah framework. It should almost always be visible and it includes important submodules like the search panel (incl. extended search), the user menu button and the "add" button to create new projects, collections or resource instances.

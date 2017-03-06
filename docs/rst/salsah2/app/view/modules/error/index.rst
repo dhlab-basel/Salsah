@@ -11,20 +11,15 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-****************
-old SALSAH pipes
-****************
+Error
+-----
 
-.. toctree::
-    :maxdepth: 2
+AccessDenied
+^^^^^^^^^^^^
 
+ApiError
+^^^^^^^^
 
-If it's necessary we have to build our own pipes (angular filters). Before building a pipe, please check, if there's existing already one in angular
+PageNotFound
+^^^^^^^^^^^^
 
-
-
-LimitTo
--------
-Transforms a string to a predefined length of characters and adds three points to the end [...]. The default length value is 120.
-
-    {{ string | limitTo [: number]}}

@@ -11,9 +11,9 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-*****************
-SALSAH components
-*****************
+*********************
+old SALSAH components
+*********************
 
 .. toctree::
     :maxdepth: 2

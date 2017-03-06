@@ -11,20 +11,15 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-.. _salsah2:
+User
+----
 
-########
-SALSAH 2
-########
+Profile / Settings
+^^^^^^^^^^^^^^^^^^
 
-SALSAH - System for Annotation and Linkage of Sources in Arts and Humanities
+Projects
+^^^^^^^^
 
-..  toctree::
-    :maxdepth: 2
+Collections
+^^^^^^^^^^^
 
-    introduction/index
-    installation/index
-    app/components/index
-    app/directives/index
-    app/services/index
-    app/pipes/index

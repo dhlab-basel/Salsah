@@ -11,9 +11,9 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-**********************
-Install the Salsah app
-**********************
+***********
+Get started
+***********
 
 .. toctree::
     :maxdepth: 2
@@ -36,9 +36,7 @@ Install Angular-cli_
 
 ::
 
-    npm install -g angular-cli@1.0.0-beta.24
-
-
+    npm install -g angular-cli@1.0.0-beta.30
 If there are some permission issues, try to fix the writing rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}``
 
 
@@ -49,13 +47,12 @@ After cloning the Salsah code, install the node packages from the Salsah root di
 ::
 
     npm install
-
 Start the Salsah app
 ====================
 With ``ng serve`` the Salsah app starts as a dev server. Navigate to `localhost:4200 <http://localhost:4200>`_. The app will automatically reload if you change any of the source files.
 
 It could happen, that ng can't resolve some specific packages. In that case install angular-cli direct in the salsah app:
-``npm install -g angular-cli@1.0.0-beta.24``
+``npm install -g angular-cli@1.0.0-beta.30``
 
 
 
@@ -69,7 +66,6 @@ Check ``npm config list -l`` for option ``legacy-bundling = false``
 ::
 
     npm config list -l | grep legacy-bundling
-
 If this option is set to ``true`` (what forces node-modules to be installed within nested directories), use the ``--legacy-bundling`` flag when installing angular-cli or globally set back your npm config to its default behaviour (``npm set legacy-bundling=false``). See this `Stackoverflow article concerning legacy-bundling <http://stackoverflow.com/a/35227212>`_.
 
 Installing package dependencies

@@ -11,20 +11,20 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-****************
-old SALSAH pipes
-****************
+***************
+Developer Guide
+***************
 
-.. toctree::
+This is a developer manual and guideline to enhance the new Salsah application.
+
+The app has two main directories: one for the view modules (components and directives) and one for the model (api services and classes (json object interfaces)).
+
+
+..  toctree::
     :maxdepth: 2
 
+    model/index
+    view/index
 
-If it's necessary we have to build our own pipes (angular filters). Before building a pipe, please check, if there's existing already one in angular
-
-
-
-LimitTo
--------
-Transforms a string to a predefined length of characters and adds three points to the end [...]. The default length value is 120.
-
-    {{ string | limitTo [: number]}}
+    components/index
+    pipes/index

@@ -11,20 +11,39 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-****************
-old SALSAH pipes
-****************
 
-.. toctree::
+========
+App VIEW
+========
+
+The Salsah app has only a few main views. They're following the routing settings in app-routing.module.ts (with some exceptions like /search).
+We organize the main view components in the folders called dashboard, documentation and login.
+The last folder in this structure is for every other module, which should be reusable in all the main components.
+
+
+Dashboard
+=========
+
+..  toctree::
     :maxdepth: 2
 
+    dashboard/project/index
+    dashboard/user/index
 
-If it's necessary we have to build our own pipes (angular filters). Before building a pipe, please check, if there's existing already one in angular
 
 
+Documentation
+=============
 
-LimitTo
--------
-Transforms a string to a predefined length of characters and adds three points to the end [...]. The default length value is 120.
+Login
+=====
 
-    {{ string | limitTo [: number]}}
+
+Modules
+=======
+..  toctree::
+    :maxdepth: 2
+
+    modules/header/index
+    modules/footer/index
+    modules/error/index
