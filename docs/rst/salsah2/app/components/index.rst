@@ -23,5 +23,3 @@ old SALSAH components
     salsahView
     salsahObject
     salsahProperty
-    salsahAdmin
-    salsahExchange

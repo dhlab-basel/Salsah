@@ -15,16 +15,21 @@
 Developer Guide
 ***************
 
+.. _components: http://nodejs.org/en/download/
+
 This is a developer manual and guideline to enhance the new Salsah application.
 
-The app has two main directories: one for the view modules (components and directives) and one for the model (api services and classes (json object interfaces)).
+.. NOTE::
+    All the showed figures are mockup drafts or screenshots from an early alpha version. The labels and text in the figures are not the final ones!
+
+
+The app has two main directories:
+one for the view modules (components and directives) and one for the model (api services and classes (json object interfaces)).
 
 
 ..  toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     model/index
     view/index
 
-    components/index
-    pipes/index

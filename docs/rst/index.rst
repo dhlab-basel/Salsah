@@ -18,7 +18,7 @@ SALSAH 2
 SALSAH - System for Annotation and Linkage of Sources in Arts and Humanities
 
 ..  toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     salsah2/about
     salsah2/getStarted

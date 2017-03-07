@@ -11,9 +11,35 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
+.. _search:
 
-salsahAdmin
-===========
+Search panel
+------------
+
+simpleSearch
+^^^^^^^^^^^^
+
+.. figure:: salsah-search-focus.png
+
+    salsahSearch: focus on simpleSearch input shows recent search queries and saved extended search templates.
+
+.. figure:: salsah-search-keyevent.png
+
+    salsahSearch: keyevent in simpleSearch shows a suggest-as-you-type list (incl. collection suggestions).
 
 
+extendedSearch
+^^^^^^^^^^^^^^
+
+.. figure:: salsah-search-extended.png
+
+    salsahSearch: extended search box.
+
+
+facetedSearch
+^^^^^^^^^^^^^
+
+.. figure:: salsah-search-faceted.png
+
+    salsahSearch: faceted search box on the left hand side.
 

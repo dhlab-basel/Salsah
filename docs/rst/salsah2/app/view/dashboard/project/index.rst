@@ -15,11 +15,27 @@
 Project
 -------
 
+The main project view has three submodules (and perhaps a fourth). The navigation is handled by a second header panel (at the bottom of the main header) in tabs.
+
 Profile / Settings
 ^^^^^^^^^^^^^^^^^^
-
-Resources
-^^^^^^^^^
+The first tab contains the project dashboard: an overview of recent activities, a description etc.
 
 Team
 ^^^^
+The second tab shows a list of the project team members. The first section lists all project administrators, the second section the "normal" users. If we need more sections -- depending on the group rights -- it shouldn't be a problem to extend the listing.
+
+An administrator of the project is able to add new persons or the edit existing users.
+
+.. figure:: salsah-project-team.png
+    :scale: 75 %
+    :align: center
+
+
+Resources / Ontology Editor
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The third tab contains the resource class and ontology editor.
+
+.. figure:: salsah-project-resources.png
+    :scale: 75 %
+    :align: center

@@ -12,8 +12,14 @@
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
 
-salsahExchange
-==============
+Gravatar directive
+------------------
 
 
+Overlay directive
+-----------------
+
+
+Reverse directive
+-----------------
 
