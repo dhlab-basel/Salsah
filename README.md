@@ -1,7 +1,9 @@
 # Salsah
 
 ```
-WARNING: we updated the angular-cli and other packages to the latest version. If you have already installed Salsah 2, please follow the update instructions here: https://github.com/angular/angular-cli#updating-angular-cli
+WARNING: we updated the angular-cli and other packages to the latest version.
+If you have already installed Salsah 2, please follow the update instructions here: 
+https://github.com/angular/angular-cli#updating-angular-cli
 ```
 
 This is the repository for the [Knora](https://github.com/dhlab-basel/Knora) team's 
