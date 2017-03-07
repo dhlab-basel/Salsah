@@ -133,7 +133,7 @@
     }
 
     md-list {
-        .md-list-item {
+        .mat-list-item {
             cursor: pointer;
             &.highlight {
                 background-color: $bright;
@@ -146,19 +146,21 @@
     }
 
     .list-view {
-        .md-list-item {
-            min-height: 128px;
-            cursor: pointer;
+        .mat-list-item {
+            min-height: 112px;
+            margin-top: 8px;
+            margin-bottom: 8px;
             &:hover {
                 @include box-shadow();
             }
             img {
                 border-radius: 0;
-                width: 128px;
-                height: 80%;
+                width: 96px;
+                height: 96px;
                 object-fit: cover;
+                margin-top: 36px;
             }
-            .md-list-text {
+            .mat-list-text {
                 [md-line] {
                     overflow: hidden;
                 }
@@ -213,7 +215,7 @@ salsah-dashboard {
 
     md-list {
         width: 420px;
-        .md-list-item {
+        .mat-list-item {
             cursor: pointer;
             &:hover {
                 @include box-shadow();

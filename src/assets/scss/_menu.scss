@@ -59,7 +59,7 @@
         width: 280px;
         top: 6px;
 
-        md-grid-tile button {
+        mat-grid-tile button {
             width: 84px;
             height: 84px;
             padding: 0;
@@ -79,7 +79,7 @@
         padding-top: 60px;
         z-index: -1;
         .salsah-previous-search-list {
-            md-list-item {
+            .mat-list-item {
                 cursor: pointer;
                 &:hover {
                     background-color: $bright;

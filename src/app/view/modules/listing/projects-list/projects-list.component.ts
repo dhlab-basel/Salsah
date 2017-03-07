@@ -57,10 +57,11 @@ export class ProjectsListComponent implements OnInit {
         else {
             // get only the projects of the current user....
             // this._projectsService.getUsersProjects()
+/*
             this._projectsService.getUsersProjects(encodeURIComponent(this.user))
                 .subscribe(
                     (data: UserData) => {
-//                        this.projects = data.projects;
+                        this.projects = data.projects;
                         this.isLoading = false;
                     },
                     error => {
@@ -69,6 +70,7 @@ export class ProjectsListComponent implements OnInit {
                     }
 
                 )
+                */
         }
 
     }

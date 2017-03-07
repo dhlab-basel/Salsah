@@ -1,9 +1,24 @@
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * This file is part of SALSAH.
+ * SALSAH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * SALSAH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You should have received a copy of the GNU Affero General Public
+ * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+ * */
+
 import {
     Component, OnInit, Input, trigger, state, transition, style, animate, HostListener,
     ElementRef
 } from '@angular/core';
 import {SessionService} from "../../../../model/api/session.service";
 import {Router} from "@angular/router";
+import {Authentication, Session} from "../../../../model/classes/session";
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -33,16 +48,39 @@ export class HeaderToolbarComponent implements OnInit {
         user: undefined,
         session: undefined
     };
+    session: boolean;
 
     focusOnUserMenu: boolean = false;
     focusOnAddMenu: boolean = false;
 
     constructor(private _eleRef: ElementRef,
-                private _session: SessionService) {
+                private _sessionService: SessionService) {
     }
 
     ngOnInit() {
-        this.auth = this._session.checkAuth();
+        // check authentication: the session (from the api) should be valid and the local storage item "auth" as well
+        let apiSession: Session = new Session;
+
+        this._sessionService.getSession()
+            .subscribe(
+                (data: Session) => {
+                    this.session = true;
+                },
+                error => {
+                    this.session = false;
+                }
+            );
+
+        // if a or b is not valid or if they have different session ids, then the authentication is false!
+        if(this.session === false) {
+            // something went wrong; log out every user
+            localStorage.removeItem('auth');
+            this.auth = null;
+        }
+        else {
+            this.auth = this._sessionService.checkAuth();
+        }
+
         if (this.auth !== null) this.userName = this.auth.user;
     }
 

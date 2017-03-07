@@ -49,8 +49,7 @@ export class LoginComponent implements OnInit {
         remember: "Remember me",
         forgot_pw: "Forgot password?",
         error: {
-            user: "Username's wrong",
-            pw: "Password's wrong",
+            failed: "Password or username is wrong",
             server: "There's an error with the server connection. Try it again later or inform the Knora Team"
         }
     };
