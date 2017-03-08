@@ -50,6 +50,15 @@
         
   <div class="section" id="app-model">
 <h1>App MODEL<a class="headerlink" href="#app-model" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="api-services">
+<h2>api (Services)<a class="headerlink" href="#api-services" title="Permalink to this headline">¶</a></h2>
+<p>The main &#8220;http get&#8221; and &#8220;http post&#8221; methods are defined in the api.service.ts file. All other services (get projects, get resources etc.) can reuse these generic methods.</p>
+</div>
+<div class="section" id="classes-interfaces">
+<h2>classes (Interfaces)<a class="headerlink" href="#classes-interfaces" title="Permalink to this headline">¶</a></h2>
+<p>For the Json object mapping and type checking, we&#8217;re using the <a href="#id1"><span class="problematic" id="id2">json2typescript_</span></a> package.</p>
+<p>json2typescript is a small package containing a helper class that maps JSON objects to an instance of a TypeScript class. After compiling to JavaScript, the result will still be an instance of this class.</p>
+</div>
 </div>
 
 
