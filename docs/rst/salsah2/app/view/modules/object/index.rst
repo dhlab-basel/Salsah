@@ -81,7 +81,7 @@ Inspired by existing tools: Transcribe, f4, ELAN, MaxQData
 .. figure:: salsah-object-video.png
     :scale: 50 %
 
-       video Object (top left) embedded in the sequence_ transcription tool
+video Object (top left) embedded in the sequence_ transcription tool
 
 .. _audio:
 

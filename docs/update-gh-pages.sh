@@ -43,7 +43,7 @@ mv $TMP_HTML/ ../documentation
 # Commit the changes to the gh-pages branch, and push to origin.
 
 git add ../documentation/guidelines
-git commit -m "Update gh-pages."
+git commit -m "Update documentation on gh-pages"
 git push origin gh-pages
 
 # Switch back to the develop branch, and remove the leftover documentation directory.
