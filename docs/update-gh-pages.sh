@@ -31,6 +31,11 @@ rm -rf $TMP_HTML
 mkdir $TMP_HTML
 cp -R _build/html $TMP_HTML/guidelines
 
+# Copy the search html file to an index
+
+cp _build/html/search.html $TMP_HTML/guidelines/index.html
+
+
 # Switch to the gh-pages branch and remove the existing HTML docs from it.
 
 git checkout gh-pages
