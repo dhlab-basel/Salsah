@@ -30,10 +30,10 @@ export class ResourceClassFormComponent implements OnInit {
 
     resourceTypes: any = undefined;
 
-    private counter: number = 0;
-    public newResource: any;
-    public props: any;
+    counter: number = 0;
+    newResource: string;
 
+    props: any;
 
     constructor(public dialog: MdDialog,
                 private _baseOntologyService: BaseOntologyService) {
@@ -48,6 +48,7 @@ export class ResourceClassFormComponent implements OnInit {
                     this.resourceTypes = data.resourcetypes;
                 },
                 error => {
+                    console.log(error);
                     this.errorMessage = <any>error;
                 }
             );

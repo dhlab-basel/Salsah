@@ -3,6 +3,26 @@
     <md-dialog-content>
         <!-- Step 1: Select resource type from a list of resources taken directly from the Knora base ontology (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
         <section [ngClass]="{show: counter===0, hide: counter!==0}">
+            <h3>What file type do you like to add?</h3><br>
+
+            <md-select placeholder="Resource class" [(ngModel)]="newResource" name="resource">
+                <md-option *ngFor="let item of knoraBase?.resourcetypes" [value]="item.label">
+                    {{ item.label }}
+                </md-option>
+                <!-- the last selection is to create a new (missing) file type option --does nothing for the moment -->
+                <!--
+                <md-option class="resource-button" value="newResType">
+                    <span><hr/>New File Type</span> <!-- (perhaps you have to ask the Knora team first) -->
+                <!--</md-option>
+                -->
+            </md-select>
+            <p class="resource-value">You selected: <strong>{{newResource}}</strong></p>
+        </section>
+
+
+
+
+        <section [ngClass]="{show: counter===10, hide: counter!==10}">
             <h3>What file type do you have?</h3>
             <md-list>
                 <!-- TODO: perhaps we have to move from radio-group to dropdown selection -->
@@ -98,7 +118,7 @@
         <section [ngClass]="{show: counter===4, hide: counter!==4}">
             <h3>Comments</h3>
             <md-input-container class="full-width">
-                    <textarea md-input placeholder="Comments" rows="8" name="userComments"
+                    <textarea mdInput placeholder="Comments" rows="8" name="userComments"
                               ngModel></textarea>
             </md-input-container>
         </section>

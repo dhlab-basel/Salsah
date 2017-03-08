@@ -12,7 +12,7 @@ export class BaseOntologyService {
     }
 
     getData(): Observable<BaseOntology> {
-        let ontologyData: string = './basicOnto.json';  // the file is in the src directory
+        let ontologyData: string = 'http://localhost/basicOnto.json';  // the file is in the localhost
 
 
         return this.http.get(ontologyData)
