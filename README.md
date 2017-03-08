@@ -1,7 +1,7 @@
 # Salsah
 
 ```
-WARNING: we updated the angular-cli and other packages to the latest version.
+WARNING (2017/03/07): we updated the angular-cli and other packages to the latest version.
 If you have already installed Salsah 2, please follow the update instructions here: 
 https://github.com/angular/angular-cli#updating-angular-cli
 ```
@@ -15,12 +15,16 @@ Salsah is [free software](http://www.gnu.org/philosophy/free-sw.en.html), releas
 
 The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-rc.1 (will be updated from time to time!)
 
-You will find more information about Salsah and the developers guideline on: 
+You will find more information about Salsah on: 
 
 **[https://dhlab-basel.github.io/Salsah/](https://dhlab-basel.github.io/Salsah/)**
 
 
 ## Developer Environment
+
+If you're a developer and you want to improve the app, please have a look at the developer guideline first:
+
+**[https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/index.html](https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/index.html)**
 
 ### Prerequisites
 
