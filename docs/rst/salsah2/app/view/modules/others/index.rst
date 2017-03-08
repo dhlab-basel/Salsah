@@ -11,15 +11,23 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
+.. _gravatar: http://gravatar.com
+
+.. _dialog: https://material.angular.io/components/component/dialog
+
+Other modules
+-------------
+
 
 Gravatar directive
-------------------
-
+^^^^^^^^^^^^^^^^^^
+A directive for the gravatar_ service integration.
 
 Overlay directive
------------------
+^^^^^^^^^^^^^^^^^
+An overlay to hide the whole background. It could be used for own modals, if it's not possible to take the dialog_ box from material.
 
 
 Reverse directive
------------------
-
+^^^^^^^^^^^^^^^^^
+Reverses an array order.

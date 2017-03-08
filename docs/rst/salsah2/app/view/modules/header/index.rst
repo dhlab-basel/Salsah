@@ -11,13 +11,21 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
+.. _header:
+
 Header
 ------
 
 The header component is a module of the main salsah framework. It should almost always be visible and it includes important submodules like the search panel (incl. extended search), the user menu button and the "add" button to create new projects, collections or resource instances.
 
-A first idea was also to have a project selection menu somewhere in the header panel. At the moment, the user gets a list of projects, where he's a member of, from the user menu:
+.. figure:: salsah-header.png
 
+A first idea was also to have a project selection menu somewhere in the header panel.
+
+.. figure:: salsah-menu-projects.png
+    :scale: 75 %
+
+At the moment, the user gets a list of projects, where he's a member of, from the user menu:
 
 User menu
 ^^^^^^^^^

@@ -11,34 +11,48 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
+.. _form:
 
-salsahSearch
-============
+Form
+----
 
-simpleSearch
-------------
+These modules define forms.
 
-.. figure:: figures/salsahSearch_focus.png
-
-    salsahSearch: focus on simpleSearch input shows recent search queries and saved extended search templates.
-
-.. figure:: figures/salsahSearch_keyevent.png
-
-    salsahSearch: keyevent in simpleSearch shows a suggest-as-you-type list (incl. collection suggestions).
+.. NOTE::
+    Create and edit depends always on the user's rights.
 
 
-extendedSearch
---------------
+.. _project-form:
 
-.. figure:: figures/salsahSearch_extended.png
+Project form
+^^^^^^^^^^^^
+Create new projects or edit existing projects
 
-    salsahSearch: extended search box.
+.. _resource-class-form:
+
+Resource class form
+^^^^^^^^^^^^^^^^^^^
+
+Create a new resource class; including ontology editor
+
+.. _resource-form:
+
+Resource form
+^^^^^^^^^^^^^
+
+Add new resource instance
+
+.. _user-form:
+
+User form
+^^^^^^^^^
+
+Create new user or edit existing users
 
 
-facetedSearch
--------------
+.. _collection-form:
 
-.. figure:: figures/salsahSearch_faceted.png
+Collection form
+^^^^^^^^^^^^^^^
 
-    salsahSearch: faceted search box on the left hand side.
 

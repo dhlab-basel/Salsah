@@ -11,14 +11,22 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
+.. _error:
+
 Error
 -----
+
+.. _access-denied:
 
 AccessDenied
 ^^^^^^^^^^^^
 
+.. _api-error:
+
 ApiError
 ^^^^^^^^
+
+.. _page-not-found:
 
 PageNotFound
 ^^^^^^^^^^^^

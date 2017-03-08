@@ -20,7 +20,7 @@ Developer Guide
 This is a developer manual and guideline to enhance the new Salsah application.
 
 .. NOTE::
-    All the showed figures are mockup drafts or screenshots from an early alpha version. The labels and text in the figures are not the final ones!
+    All used figures are mockup designs or screenshots from an early alpha version of the app. The labels and names in the figures are not the final product texts!
 
 
 The app has two main directories:

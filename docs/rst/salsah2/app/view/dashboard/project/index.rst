@@ -28,8 +28,6 @@ The second tab shows a list of the project team members. The first section lists
 An administrator of the project is able to add new persons or the edit existing users.
 
 .. figure:: salsah-project-team.png
-    :scale: 75 %
-    :align: center
 
 
 Resources / Ontology Editor
@@ -37,5 +35,4 @@ Resources / Ontology Editor
 The third tab contains the resource class and ontology editor.
 
 .. figure:: salsah-project-resources.png
-    :scale: 75 %
-    :align: center
+

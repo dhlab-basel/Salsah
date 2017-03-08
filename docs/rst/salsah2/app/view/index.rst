@@ -21,30 +21,30 @@ We organize the main view components in the folders called dashboard, documentat
 The last sub-folder in the view is for every other module, which should be reusable in all the main components.
 
 
-Dashboard
-=========
+Dashboard Components
+====================
 
 ..  toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     dashboard/project/index
     dashboard/user/index
 
 
 
-Documentation
-=============
+Documentation Component
+=======================
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     documentation/index
 
-Login
-=====
+Login Component
+===============
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     login/index
 
@@ -52,9 +52,14 @@ Login
 Modules
 =======
 ..  toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     modules/header/index
     modules/footer/index
     modules/error/index
     modules/search/index
+    modules/listing/index
+    modules/form/index
+    modules/object/index
+    modules/properties/index
+    modules/others/index
