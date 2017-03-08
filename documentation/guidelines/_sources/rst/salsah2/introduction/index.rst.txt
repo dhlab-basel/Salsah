@@ -11,9 +11,9 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-
+************
 Introduction
-============
+************
 
 The idea of SALSAH -- as a virtual research platform -- is to help researchers to handle their project, to organize a
 team and to work with digital sources. At the end it should be possible to present the data and the results on an own
@@ -34,14 +34,18 @@ team works with the data and the sources: Collecting, organizing and evaluating.
 publication of the data and results.
 
 .. figure:: figures/research-project-analog.png
+    :scale: 75 %
+    :align: center
 
     Research project workflow (from left to right) in an analogous way.
 
-SALSAH is based on a similar workflow concept. The version 1 (salsah.org (2016-10-18) has an administrator area
+SALSAH is based on a similar workflow concept. The version 1 (salsah.org - 2016-10-18) has an administrator area
 (salsah.org/admin) where the user can define his project and sources. The team works on the main URL salsah.org.
 The path /projectname is reserved for the project presentation/publication webpage.
 
 .. figure:: figures/research-project-salsah1.png
+    :scale: 75 %
+    :align: center
 
     SALSAH 1 with admin area (concept), work space (research) and project page (publication).
 
