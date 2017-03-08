@@ -11,7 +11,7 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-.. _typescript2json: https://github.com/dhlab-basel/json2typescript
+.. _json2typescript: https://github.com/dhlab-basel/json2typescript
 
 App MODEL
 =========
