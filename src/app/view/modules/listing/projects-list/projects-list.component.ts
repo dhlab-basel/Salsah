@@ -17,6 +17,8 @@ import {ProjectsList} from "../../../../model/classes/projects";
 import {ProjectsService} from "../../../../model/api/projects.service";
 import {Router} from "@angular/router";
 import {UserData} from "../../../../model/classes/user-data";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-projects-list',
@@ -44,11 +46,11 @@ export class ProjectsListComponent implements OnInit {
         if(this.user === undefined) {
             this._projectsService.getAllProjects()
                 .subscribe(
-                    (data: ProjectsList) => {
-                        this.projects = data;
+                    (result: ApiServiceResult) => {
+                        this.projects = result.getBody();
                         this.isLoading = false;
                     },
-                    error => {
+                    (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
                         this.isLoading = false;
                     }
@@ -75,7 +77,7 @@ export class ProjectsListComponent implements OnInit {
 
     }
 
-    openProject(id) {
+    openProject(id: string) {
         localStorage.removeItem('project');
         this._router.navigate(['/project/', id]);
     }

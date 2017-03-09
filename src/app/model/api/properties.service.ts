@@ -15,16 +15,15 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from "./api.service";
 import {Observable} from "rxjs";
-import {Properties} from "../classes/properties";
 
 @Injectable()
 export class PropertiesService extends ApiService {
 
-    getPropertiesByResType(rid: string): Observable<Properties> {
+    getPropertiesByResType(rid: string): Observable<any> {
         return this.httpGet("/propertylists?restype=" + encodeURIComponent(rid));
     }
 
-    getPropertiesByVocabulary(vid: string): Observable<Properties> {
+    getPropertiesByVocabulary(vid: string): Observable<any> {
         return this.httpGet("/propertylists?vocabulary=" + encodeURIComponent(vid));
     }
 

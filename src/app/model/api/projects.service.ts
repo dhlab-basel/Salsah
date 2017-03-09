@@ -14,26 +14,24 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-
 import {ApiService} from "./api.service";
-import {ProjectsList, Project} from "../classes/projects";
-import {UserData} from "../classes/user-data";
+
 
 
 @Injectable()
 export class ProjectsService extends ApiService {
 
 
-    getProject(pid: string): Observable<Project> {
+    getProject(pid: string): Observable<any> {
         return this.httpGet("/projects/shortname/" + pid);
     }
 
 
-    getAllProjects(): Observable<ProjectsList> {
+    getAllProjects(): Observable<any> {
         return this.httpGet("/projects");
     }
 
-    getUsersProjects(user: string): Observable<UserData> {
+    getUsersProjects(user: string): Observable<any> {
         return this.httpGet("/users/" + user);
     }
 
