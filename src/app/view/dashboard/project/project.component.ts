@@ -16,6 +16,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, Params} from "@angular/router";
 import {ProjectsService} from "../../../model/api/projects.service";
 import {Project, ProjectItem} from "../../../model/classes/projects";
+import {ApiServiceResult} from "../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-project',
@@ -71,14 +73,14 @@ export class ProjectComponent implements OnInit {
             // get the project information
             this._projectsService.getProject(this.cur_project)
                 .subscribe(
-                    (data: Project) => {
-                        this.project = data;
+                    (result: ApiServiceResult) => {
+                        this.project = result.getBody(Project);
                         this.isLoading = false;
                         localStorage.setItem('project', JSON.stringify(
                             this.project.project_info
                         ))
                     },
-                    error => {
+                    (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
                         localStorage.removeItem('project');
                     }

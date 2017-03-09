@@ -6,6 +6,8 @@ import {ProjectItem} from "../../../../model/classes/projects";
 import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
 import {PropertiesService} from "../../../../model/api/properties.service";
 import {Properties} from "../../../../model/classes/properties";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-project-resources',
@@ -42,11 +44,12 @@ export class ProjectResourcesComponent implements OnInit {
         this.project = JSON.parse(localStorage.getItem('project'));
         this._resourceTypesService.getResourceTypes(this.project.ontologyNamedGraph)
             .subscribe(
-                (data: ResourceTypes) => {
-                    this.resourceTypes = data;
+                (result: ApiServiceResult) => {
+                    this.resourceTypes = result.getBody(ResourceTypes);
+
                     this.isLoading = false;
                 },
-                error => {
+                (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                     this.isLoading = false;
                 }
@@ -67,10 +70,10 @@ export class ProjectResourcesComponent implements OnInit {
 
         this._propertiesService.getPropertiesByResType(id)
             .subscribe(
-                (data: Properties) => {
-                    this.properties = data;
+                (result: ApiServiceResult) => {
+                    this.properties = result.getBody(Properties);
                 },
-                error => {
+                (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
 

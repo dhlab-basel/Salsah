@@ -2,6 +2,8 @@ import {Component, OnInit, Input} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
 import {ResourceService} from "../../../model/api/resource.service";
 import {Resource} from "../../../model/classes/resource";
+import {ApiServiceResult} from "../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-object',
@@ -29,11 +31,11 @@ export class ObjectComponent implements OnInit {
 
             this._resourceService.getResource(resIri)
                 .subscribe(
-                    (data: Resource) => {
-                        this.resource = data;
+                    (result: ApiServiceResult) => {
+                        this.resource = result.getBody(Resource);
                         this.isLoading = false;
                     },
-                    error => {
+                    (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
                         this.isLoading = false;
                     }

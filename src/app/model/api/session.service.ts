@@ -21,7 +21,7 @@ import {Session, Authentication} from "../classes/session";
 @Injectable()
 export class SessionService extends ApiService {
 
-    getSession(): Observable<Session> {
+    getSession(): Observable<any> {
         return this.httpGet('/session');
     }
 

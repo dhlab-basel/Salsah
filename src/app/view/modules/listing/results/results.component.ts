@@ -16,6 +16,8 @@ import {Component, OnInit} from '@angular/core';
 import {SearchService} from "../../../../model/api/search.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Search} from "../../../../model/classes/search";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-results',
@@ -74,11 +76,11 @@ export class ResultsComponent implements OnInit {
 
             this._searchService.doSearch(query)
                 .subscribe(
-                    (data: Search) => {
-                        this.result = data;
+                    (result: ApiServiceResult) => {
+                        this.result = result.getBody(Search);
                         this.isLoading = false;
                     },
-                    error => {
+                    (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
                         this.isLoading = false;
                     }
