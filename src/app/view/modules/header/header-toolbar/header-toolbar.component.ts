@@ -48,7 +48,9 @@ export class HeaderToolbarComponent implements OnInit {
         user: undefined,
         session: undefined
     };
-    session: boolean;
+    session: Session = new Session;
+
+
 
     focusOnUserMenu: boolean = false;
     focusOnAddMenu: boolean = false;
@@ -57,28 +59,36 @@ export class HeaderToolbarComponent implements OnInit {
                 private _sessionService: SessionService) {
     }
 
+    // check authentication: the session (from the api) should be valid and the local storage item "auth" as well
+
+    // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
-        // check authentication: the session (from the api) should be valid and the local storage item "auth" as well
-        let apiSession: Session = new Session;
+        // check if the authentication is valid: there should be a local storage item called "auth"
+        this.auth = this._sessionService.checkAuth();
 
-        this._sessionService.getSession()
-            .subscribe(
-                (data: Session) => {
-                    this.session = true;
-                },
-                error => {
-                    this.session = false;
-                }
-            );
+        // if the local storage item is valid, check the validation of the api session as well
+        let session: Session = new Session;
+        if(this.auth !== null) {
+            this._sessionService.getSession()
+                .subscribe(
+                    (data: Session) => {
+                        console.log(data);
+                        session = data;
+                    },
+                    error => {
+                        console.log(error);
+                    }
+                );
+            /*
+            if(session.status !== 0) {
+                // the authentication is not valid!
 
-        // if a or b is not valid or if they have different session ids, then the authentication is false!
-        if(this.session === false) {
-            // something went wrong; log out every user
-            localStorage.removeItem('auth');
-            this.auth = null;
+            }
+            */
         }
+
         else {
-            this.auth = this._sessionService.checkAuth();
+
         }
 
         if (this.auth !== null) this.userName = this.auth.user;

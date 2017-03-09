@@ -34,7 +34,7 @@ export class ProjectsService extends ApiService {
     }
 
     getUsersProjects(user: string): Observable<UserData> {
-        return this.httpGet("/users/" + user);
+        return this.httpGet("/users/email/" + user);
     }
 
 
