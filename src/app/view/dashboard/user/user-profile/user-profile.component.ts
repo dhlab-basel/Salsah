@@ -37,7 +37,7 @@ export class UserProfileComponent implements OnInit {
         // get the user name from the url
         this.userName = decodeURIComponent(this._router.url.split('user/')[1]);
         // check the authentication and compare the userName with the auth.user
-        this.auth = this._session.checkAuth();
+        this.auth = SessionService.checkAuth();
         if(this.auth.user !== this.userName) {
             // access denied
             this._router.navigateByUrl('/denied');

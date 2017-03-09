@@ -27,7 +27,7 @@ export class UserSettingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-      this._session.checkAuth(true);
+      SessionService.checkAuth(true);
 
   }
 

@@ -24,16 +24,16 @@ import {UserData} from "../classes/user-data";
 export class ProjectsService extends ApiService {
 
 
-    getProject(pid: string): Observable<Project> {
+    getProject(pid: string): Observable<any> {
         return this.httpGet("/projects/shortname/" + pid);
     }
 
 
-    getAllProjects(): Observable<ProjectsList> {
+    getAllProjects(): Observable<any> {
         return this.httpGet("/projects");
     }
 
-    getUsersProjects(user: string): Observable<UserData> {
+    getUsersProjects(user: string): Observable<any> {
         return this.httpGet("/users/email/" + user);
     }
 

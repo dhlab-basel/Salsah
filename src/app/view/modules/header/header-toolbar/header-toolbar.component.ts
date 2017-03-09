@@ -19,6 +19,13 @@ import {
 import {SessionService} from "../../../../model/api/session.service";
 import {Router} from "@angular/router";
 import {Authentication, Session} from "../../../../model/classes/session";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {DashboardComponent} from "../../../dashboard/dashboard.component";
+
+function getDocument(): any {
+    return document;
+}
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -50,8 +57,6 @@ export class HeaderToolbarComponent implements OnInit {
     };
     session: Session = new Session;
 
-
-
     focusOnUserMenu: boolean = false;
     focusOnAddMenu: boolean = false;
 
@@ -64,31 +69,27 @@ export class HeaderToolbarComponent implements OnInit {
     // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
         // check if the authentication is valid: there should be a local storage item called "auth"
-        this.auth = this._sessionService.checkAuth();
+        this.auth = SessionService.checkAuth();
 
         // if the local storage item is valid, check the validation of the api session as well
-        let session: Session = new Session;
+//        let session: Session = new Session;
         if(this.auth !== null) {
             this._sessionService.getSession()
                 .subscribe(
-                    (data: Session) => {
-                        console.log(data);
-                        session = data;
+                    (result: ApiServiceResult) => {
+                        this.session = result.getBody();
                     },
-                    error => {
-                        console.log(error);
+                    (error: ApiServiceError) => {
+                        // the authentication (api session) is not valid!
+                        // log out the user:
+                        // a) remove all the session cookies
+                        getDocument().cookie = "sid=;expires=-1";
+                        getDocument().cookie = "KnoraAuthentication=;expires=-1";
+                        // b) remove the local storage authentication values
+                        localStorage.removeItem('auth');
+                        this.auth = SessionService.checkAuth();
                     }
                 );
-            /*
-            if(session.status !== 0) {
-                // the authentication is not valid!
-
-            }
-            */
-        }
-
-        else {
-
         }
 
         if (this.auth !== null) this.userName = this.auth.user;
