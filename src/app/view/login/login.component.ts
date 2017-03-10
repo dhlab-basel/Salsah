@@ -18,7 +18,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {ApiServiceResult} from "../../model/api/api-service-result";
 import {ApiServiceError} from "../../model/api/api-service-error";
 import {LoginService} from "../../model/api/login.service";
-import {Session} from "../../model/classes/session";
+import {Session, Authentication} from "../../model/classes/session";
 
 function getDocument(): any {
     return document;
@@ -76,15 +76,12 @@ export class LoginComponent implements OnInit {
 
         this._loginService.login(lf.email, lf.password).subscribe(
             (result: ApiServiceResult) => {
-                let session: Session = result.getBody(Session);
+                let authentication: Authentication = result.getBody(Authentication);
 
-                getDocument().cookie = "sid=" + session.sid;
-                getDocument().cookie = "KnoraAuthentication=" + session.sid;
+                getDocument().cookie = "sid=" + authentication.sid;
+                getDocument().cookie = "KnoraAuthentication=" + authentication.sid;
 
-                localStorage.setItem('auth', JSON.stringify({
-                    user: session.userdata.email,
-                    session: session.sid
-                }));
+                localStorage.setItem('auth', JSON.stringify(authentication));
 
                 //
                 // after successful login, we want to go back to the previous page e.g. search incl. query

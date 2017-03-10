@@ -30,7 +30,7 @@ export class SessionService extends ApiService {
      * @param deny (access to the page) if true: go to the login page
      * @returns {Authentication}
      */
-    static checkAuth(deny = false): Authentication {
+    checkAuth(deny = false): Authentication {
         let auth: Authentication = JSON.parse(localStorage.getItem('auth'));
 
         if (auth === null && deny === true) {

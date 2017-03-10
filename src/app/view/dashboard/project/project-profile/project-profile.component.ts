@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, SecurityContext} from '@angular/core';
 import {Params, ActivatedRoute, Router} from "@angular/router";
 import {ProjectItem, Project} from "../../../../model/classes/projects";
 import {ProjectsService} from "../../../../model/api/projects.service";
@@ -31,41 +31,39 @@ export class ProjectProfileComponent implements OnInit {
     projectItem: ProjectItem = new ProjectItem();
 
     project: Project = new Project();
+    description: any = undefined;
 
-    projectRoute: string = '/project/';
-
-    constructor(
-        private _router: Router,
-        private _route: ActivatedRoute,
-        private _projectsService: ProjectsService
+    constructor(private _route: ActivatedRoute,
+                private _projectsService: ProjectsService
     ) {
 
     }
 
     ngOnInit() {
 
-        this.projectItem = JSON.parse(localStorage.getItem('project'));
+        if (JSON.parse(localStorage.getItem('project')) === null) {
+            // the local storage is not ready yet; or something went wrong
+            // get the project from the api with the shortname from the route parameter "project"
+            this._route.params.subscribe((params: Params) => {
 
-        console.log(this.projectItem);
+                this._projectsService.getProject(params['pid'])
+                    .subscribe(
+                        (result: ApiServiceResult) => {
+                            this.project = result.getBody(Project);
+                            this.projectItem = this.project.project_info;
+                        },
+                        (error: ApiServiceError) => {
 
-        if(this.projectItem !== null) {
-            // get the project information
-            this._projectsService.getProject(this.projectItem.shortname)
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.project = result.getBody(Project);
-                        console.log(this.project);
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
-                        localStorage.removeItem('project');
-                    }
-                );
+                            this.errorMessage = <any>error;
+                            console.log(this.errorMessage);
+                            localStorage.removeItem('project');
+                        }
+                    );
+            });
         }
         else {
-            console.log('Error in local storage with the project item');
+            this.projectItem = JSON.parse(localStorage.getItem('project'));
         }
-
 
     }
 

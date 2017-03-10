@@ -51,11 +51,7 @@ function getDocument(): any {
 export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
-    auth: any = {
-        user: undefined,
-        session: undefined
-    };
-    session: Session = new Session;
+    auth: Authentication = new Authentication();
 
     focusOnUserMenu: boolean = false;
     focusOnAddMenu: boolean = false;
@@ -69,30 +65,9 @@ export class HeaderToolbarComponent implements OnInit {
     // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
         // check if the authentication is valid: there should be a local storage item called "auth"
-        this.auth = SessionService.checkAuth();
+        this.auth = this._sessionService.checkAuth();
 
-        // if the local storage item is valid, check the validation of the api session as well
-//        let session: Session = new Session;
-        if(this.auth !== null) {
-            this._sessionService.getSession()
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.session = result.getBody();
-                    },
-                    (error: ApiServiceError) => {
-                        // the authentication (api session) is not valid!
-                        // log out the user:
-                        // a) remove all the session cookies
-                        getDocument().cookie = "sid=;expires=-1";
-                        getDocument().cookie = "KnoraAuthentication=;expires=-1";
-                        // b) remove the local storage authentication values
-                        localStorage.removeItem('auth');
-                        this.auth = SessionService.checkAuth();
-                    }
-                );
-        }
-
-        if (this.auth !== null) this.userName = this.auth.user;
+        if (this.auth !== null) this.userName = this.auth.userdata.email;
     }
 
     userMenu: any = [
