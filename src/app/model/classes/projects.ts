@@ -91,6 +91,41 @@ export class ProjectItem {
 
 }
 
+@JsonObject
+export class ProjectMembers extends BasicResponse {
+    @JsonProperty('members', [Member])
+    public members: Member[] = undefined;
+}
 
+@JsonObject
+export class Member {
 
+    @JsonProperty('email', String)
+    public email: String = undefined;
+
+    @JsonProperty('firstname', String)
+    public firstname: String = undefined;
+
+    @JsonProperty('user_id', String)
+    public user_id: String = undefined;
+
+    @JsonProperty('lastname', String)
+    public lastname: String = undefined;
+
+    @JsonProperty('isActiveUser', Boolean)
+    public isActiveUser: boolean = undefined;
+
+    @JsonProperty('token', null)
+    public token: boolean = undefined;
+
+    @JsonProperty('projects', [String])
+    public projects: String[] = undefined;
+
+    @JsonProperty('lang', String)
+    public lang: String = undefined;
+
+    @JsonProperty('password', null)
+    public password: String = undefined;
+
+}
 

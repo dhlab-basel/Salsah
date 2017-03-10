@@ -8,16 +8,17 @@
 
     <md-list>
 
+
       <br>
       <br>
       <md-divider></md-divider>
       <br>
       <h3 md-subheader>Project Admin</h3>
-      <md-list-item>
+      <md-list-item *ngFor="let member of projectMembers.members">
         <!--<md-list-item *ngFor="let admin of project.admins">-->
         <md-icon md-list-avatar>person</md-icon>
-        <h4 md-line>Lastname, PreName</h4>
-        <p md-line> function bla bla </p>
+        <h4 md-line>{{member?.lastname}}, {{member?.firstname}}</h4>
+        <p md-line> {{member?.email}} </p>
       </md-list-item>
       <md-divider></md-divider>
       <h3 md-subheader>Project Member</h3>

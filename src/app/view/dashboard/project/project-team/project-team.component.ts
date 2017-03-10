@@ -15,6 +15,10 @@
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
+import {ProjectsService} from "../../../../model/api/projects.service";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ProjectMembers} from "../../../../model/classes/projects";
 
 @Component({
     selector: 'salsah-project-team',
@@ -23,6 +27,11 @@ import {UserFormComponent} from "../../../modules/form/user-form/user-form.compo
 })
 export class ProjectTeamComponent implements OnInit {
 
+    isLoading: boolean = true;
+    errorMessage: string = undefined;
+
+    projectMembers: ProjectMembers = new ProjectMembers();
+
     position = {
         preview: 'left',        // top
         properties: 'right'       // bottom
@@ -30,10 +39,27 @@ export class ProjectTeamComponent implements OnInit {
 
     size: string = 'large';
 
-    constructor(public dialog: MdDialog) {
+
+    constructor(
+        public dialog: MdDialog,
+        private _projectsService: ProjectsService
+    ) {
     }
 
     ngOnInit() {
+        let projectName: string = JSON.parse(localStorage.getItem('project')).shortname;
+        this._projectsService.getProjectMembers(projectName)
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    this.projectMembers = result.getBody(ProjectMembers);
+
+                    this.isLoading = false;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                    this.isLoading = false;
+                }
+            );
     }
 
     addNewUser() {

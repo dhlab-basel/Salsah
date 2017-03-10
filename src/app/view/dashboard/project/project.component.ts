@@ -67,8 +67,6 @@ export class ProjectComponent implements OnInit {
 
     ngOnInit() {
 
-        this.isLoading = false;
-
         this._route.params.subscribe((params: Params) => {
             this.cur_project = params['pid'];
             this.projectRoute += this.cur_project;

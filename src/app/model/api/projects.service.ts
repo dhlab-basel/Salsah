@@ -33,8 +33,8 @@ export class ProjectsService extends ApiService {
         return this.httpGet("/projects");
     }
 
-    getUsersProjects(user: string): Observable<any> {
-        return this.httpGet("/users/email/" + user);
+    getProjectMembers(pid: string): Observable<any> {
+        return this.httpGet("/project/members/shortname/" + pid);
     }
 
 
