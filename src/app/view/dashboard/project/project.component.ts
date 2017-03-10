@@ -93,7 +93,7 @@ export class ProjectComponent implements OnInit {
                 );
 
         });
-        this.auth = SessionService.checkAuth();
+//        this.auth = SessionService.checkAuth();
 
         if(this.cur_project === 'new') {
             alert("Create a new project!?");
