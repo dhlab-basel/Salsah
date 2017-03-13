@@ -1,14 +1,14 @@
 <!-- Template for Errors -->
 <md-card class="salsah-api-error">
-    <md-icon>error</md-icon>
     <md-card-subtitle>
-        ERROR {{error?.status}}
+        <md-icon>error</md-icon> ERROR {{error?.status}}
     </md-card-subtitle>
-    <md-card-title>
+    <md-card-title><br>
         {{error?.statusText}}
     </md-card-title>
     <md-card-content>
-        The request failed on: {{error?.request}}
+        The request failed on:
+        <a href="{{failedOn}}" target="_blank">{{error?.url}}</a>
     </md-card-content>
 </md-card>
 
