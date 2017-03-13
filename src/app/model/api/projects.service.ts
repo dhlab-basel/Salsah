@@ -16,8 +16,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {ApiService} from "./api.service";
-import {ProjectsList, Project} from "../classes/projects";
-import {UserData} from "../classes/user-data";
 
 
 @Injectable()

@@ -33,21 +33,22 @@ export class ProjectResourcesComponent implements OnInit {
     isLoading: boolean = true;
     errorMessage: string = undefined;
 
+    selectedRow: number;
+
     project: ProjectItem = new ProjectItem;
 
     resourceTypes: ResourceTypes = new ResourceTypes;
+
     properties: Properties;
 
     selectedOption: string;
 
     position = {
-        preview: 'left',        // top
-        properties: 'right'       // bottom
+        preview: 'left',            // top
+        properties: 'right'         // bottom
     };
 
     size: string = 'large';
-
-    hightlightStatus: Array<boolean> = [];
 
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _propertiesService: PropertiesService,
@@ -79,13 +80,14 @@ export class ProjectResourcesComponent implements OnInit {
 
     }
 
-    editResourceClass(id: string) {
+    editResourceClass(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
 
         this._propertiesService.getPropertiesByResType(id)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.properties = result.getBody(Properties);
+                    this.selectedRow = index;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;

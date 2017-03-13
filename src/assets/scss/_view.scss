@@ -89,12 +89,13 @@
     .salsah-main-list {
         width: calc(100vw - 228px);
         height: auto;
-        min-height: calc(100vh - 128px - 24px);
+
         padding-left: 120px;
         padding-right: 108px; // plus 12px for the scroll bar
 
         &.small.left {
             width: 400px;
+            min-height: calc(100vh - 128px - 24px);
             padding: 0;
             border-right: 1px solid #c1c1c1;
 
@@ -135,12 +136,12 @@
     md-list {
         .mat-list-item {
             cursor: pointer;
-            &.highlight {
-                background-color: $bright;
-            }
             &:hover {
 //                @include box-shadow();
                 background-color: $bright;
+            }
+            &.highlight {
+                background-color: darken($bright, 25%);
             }
         }
     }

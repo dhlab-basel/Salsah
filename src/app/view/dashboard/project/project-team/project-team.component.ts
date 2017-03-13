@@ -18,7 +18,9 @@ import {UserFormComponent} from "../../../modules/form/user-form/user-form.compo
 import {ProjectsService} from "../../../../model/api/projects.service";
 import {ApiServiceResult} from "../../../../model/api/api-service-result";
 import {ApiServiceError} from "../../../../model/api/api-service-error";
-import {ProjectMembers} from "../../../../model/classes/projects";
+import {ProjectMembers, ProjectItem} from "../../../../model/classes/projects";
+import {UserService} from "../../../../model/api/user.service";
+import {User} from "../../../../model/classes/user-data";
 
 @Component({
     selector: 'salsah-project-team',
@@ -30,11 +32,17 @@ export class ProjectTeamComponent implements OnInit {
     isLoading: boolean = true;
     errorMessage: string = undefined;
 
-    projectMembers: ProjectMembers = new ProjectMembers();
+    selectedRow: number;
+
+    project: ProjectItem = new ProjectItem;
+
+    members: ProjectMembers = new ProjectMembers();
+
+    user: User;
 
     position = {
-        preview: 'left',        // top
-        properties: 'right'       // bottom
+        preview: 'left',            // top
+        user: 'right'               // bottom
     };
 
     size: string = 'large';
@@ -42,17 +50,18 @@ export class ProjectTeamComponent implements OnInit {
 
     constructor(
         public dialog: MdDialog,
-        private _projectsService: ProjectsService
+        private _projectsService: ProjectsService,
+        private _userService: UserService
     ) {
     }
 
     ngOnInit() {
-        let projectName: string = JSON.parse(localStorage.getItem('project')).shortname;
-        this._projectsService.getProjectMembers(projectName)
+        this.project = JSON.parse(localStorage.getItem('project'));
+
+        this._projectsService.getProjectMembers(this.project.shortname)
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.projectMembers = result.getBody(ProjectMembers);
-
+                    this.members = result.getBody(ProjectMembers);
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
@@ -68,6 +77,26 @@ export class ProjectTeamComponent implements OnInit {
             console.log(result);
         });
 
+    }
+
+    editUser(id: string, index: number) {
+        if (this.size === 'large') this.size = 'small';
+
+        this._userService.getUser(id)
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    this.user = result.getBody(User);
+                    this.selectedRow = index;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                }
+            );
+    }
+
+    closeUser() {
+        this.size = 'large';
+        this.user = undefined;
     }
 
 }

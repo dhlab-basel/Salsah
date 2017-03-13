@@ -71,6 +71,9 @@ import {PropertiesService} from "./model/api/properties.service";
 import {DocumentationComponent} from './view/documentation/documentation.component';
 import {UserProjectsComponent} from './view/dashboard/user/user-projects/user-projects.component';
 import {UserCollectionsComponent} from './view/dashboard/user/user-collections/user-collections.component';
+import { ProjectAdvancedComponent } from './view/dashboard/project/project-advanced/project-advanced.component';
+import {UserService} from "./model/api/user.service";
+import {ApiService} from "./model/api/api.service";
 
 
 @NgModule({
@@ -110,7 +113,8 @@ import {UserCollectionsComponent} from './view/dashboard/user/user-collections/u
         ReversePipe,
         DocumentationComponent,
         UserProjectsComponent,
-        UserCollectionsComponent
+        UserCollectionsComponent,
+        ProjectAdvancedComponent
     ],
     imports: [
         BrowserModule,
@@ -125,6 +129,7 @@ import {UserCollectionsComponent} from './view/dashboard/user/user-collections/u
         UserFormComponent
     ],
     providers: [
+        ApiService,
         LoginService,
         ProjectsService,
         PropertiesService,
@@ -132,7 +137,8 @@ import {UserCollectionsComponent} from './view/dashboard/user/user-collections/u
         ResourceTypesService,
         SearchService,
         SessionService,
-        BaseOntologyService
+        BaseOntologyService,
+        UserService
     ],
     bootstrap: [AppComponent]
 })
