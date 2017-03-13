@@ -33,6 +33,9 @@ export class ResourceClassFormComponent implements OnInit {
     private counter: number = 0;
     public newResource: any;
     public props: any;
+    public perm: any;
+    public card: any;
+    public cardlabel: any;
 
     //selector of permissions
     perms = [
@@ -48,6 +51,8 @@ export class ResourceClassFormComponent implements OnInit {
         {id: 'card-2', label: '0 - 1'},
         {id: 'card-3', label: '0 - n'}
     ];
+
+
 
     constructor(public dialog: MdDialog,
                 private _baseOntologyService: BaseOntologyService) {
@@ -75,7 +80,6 @@ export class ResourceClassFormComponent implements OnInit {
         this.dialog.closeAll();
     }
 
-
     nextFormSection(cntr: number, e) {
         e.preventDefault();
         // show the next section
@@ -90,3 +94,4 @@ export class ResourceClassFormComponent implements OnInit {
 
 
 }
+

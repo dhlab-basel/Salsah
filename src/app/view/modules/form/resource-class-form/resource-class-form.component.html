@@ -5,8 +5,8 @@
         <section [ngClass]="{show: counter===0, hide: counter!==0}">
             <h3>What file type do you like to add?</h3><br>
             <md-select placeholder="Resource class" [(ngModel)]="newResource" name="resource">
-                <md-option class="resource-group" *ngFor="let item of knoraBase?.resourcetypes" [value]="item.label">
-                    {{item.label}}
+                <md-option class="resource-group" *ngFor="let res of knoraBase?.resourcetypes" [value]="res.label">
+                    {{res.label}}
                 </md-option>
                 <!-- the last selection is to create a new (missing) file type option --does nothing for the moment -->
                 <md-option class="resource-button" value="newResType">
@@ -22,15 +22,17 @@
             <div *ngFor="let res of knoraBase?.resourcetypes">
                 <div *ngIf="res.label==newResource">
                     <md-list *ngFor="let props of res.properties">
+                        <!-- the properties with cardinality 1 or 1 - n are selected by default-->
                         <md-checkbox *ngIf="props.cardinality == '1' || props.cardinality == '1 - n'"
+                                     [checked]="true"
                                      [(ngModel)]="props.cardinality"
-                                     [name]="props.label">
+                                     [ngModelOptions]="{standalone: true}">
                             {{props.label}}
                         </md-checkbox>
                         <md-checkbox *ngIf="props.cardinality == '0 - 1' || props.cardinality == '0 - n' || props.cardinality == false"
                                      color="primary"
                                      [(ngModel)]="props.checked"
-                                     [name]="props.label">
+                                     [ngModelOptions]="{standalone: true}">
                             {{props.label}}
                         </md-checkbox>
                     </md-list>
@@ -48,7 +50,7 @@
                     <b>{{res.label}}</b>
                     <br><br>
                     <i>Resource properties:</i>
-                    <div *ngFor="let props of res.properties">
+                    <div *ngFor="let props of res.properties" >
                         <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
                             <b> {{props.label}} </b>
                         </div>
@@ -68,23 +70,23 @@
                                 <tr>
                                     <td width="150px">
                                         <br><b> {{props.label}} </b> <br>
-                                        <small>(occurance: {{props.cardinality}})</small>
+                                        <small><small>(occurrence: {{props.cardinality}})</small></small>
                                     </td>
                                     <td width="150px">
                                         <md-select class="perm-style"
                                                    placeholder="Permissions"
                                                    required
-                                                   [(ngModel)]="props.id" [name]="props.label" #permis="ngModel">
-                                            <md-option *ngFor="let perm of perms; let first=first" [value]="perm.id" ng-selected="first">
+                                                   [(ngModel)]="props.perm" [name]="props.label" #permis="ngModel"  selected="group 1">
+                                            <md-option *ngFor="let perm of perms; let first of first" [value]="perm.label">
                                                 {{perm.label}}
                                             </md-option>
                                         </md-select>
+                                        <div [hidden]="permis.valid" class="alert alert-danger">
+                                            <small><small>Permissions are required</small></small>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
-                            <div [hidden]="permis.valid" class="alert alert-danger">
-                                <small>Permissions are required</small>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,7 +95,7 @@
 
         <!-- Step 5: Set cardinality for each property -->
         <section [ngClass]="{show: counter===4, hide: counter!==4}">
-            <h3>Choose the properties' occurance</h3>
+            <h3>Choose the properties' occurrence</h3>
             <div *ngFor="let res of knoraBase?.resourcetypes">
                 <div *ngIf="res.label==newResource">
                     <div *ngFor="let props of res.properties">
@@ -102,22 +104,23 @@
                                 <tr>
                                     <td width="150px">
                                         <br><b> {{props.label}} </b> <br>
+                                      <!--  <small><small>occurrence label: {{props.cardlabel}}</small></small><br> -->
                                     </td>
                                     <td width="150px">
                                         <md-select class="perm-style"
-                                                   placeholder="Occurance"
+                                                   placeholder="Occurrence"
                                                    required
-                                                   [(ngModel)]="props.label" [name]="props.id" #cardis="ngModel">
-                                            <md-option *ngFor="let card of cardinality; let first=first" [value]="card.id" ng-selected="first">
+                                                   [(ngModel)]="props.card" [name]="props.id" #cardis="ngModel">
+                                            <md-option *ngFor="let card of cardinality; let first=first" [value]="card.label" ng-selected="first">
                                                 {{card.label}}
                                             </md-option>
                                         </md-select>
+                                        <div [hidden]="cardis.valid" class="alert alert-danger">
+                                            <small><small>Occurrence is required</small></small>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
-                            <div [hidden]="cardis.valid" class="alert alert-danger">
-                                <small>Occurance is required</small>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -155,14 +158,15 @@
         <button md-button
                 *ngIf="counter<5"
                 class="next-button md-primary"
-                [disabled]="!uf.valid"
                 (click)="nextFormSection(counter, $event)">
+                        <!--[disabled]="!uf.valid"-->
             Next
         </button>
         <button type="submit"
                 md-raised-button
                 *ngIf="counter==5"
                 class="save-button md-primary">
+                <!--[disabled]="!uf.valid"-->
             Save
         </button>
     </span>
