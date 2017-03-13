@@ -13,6 +13,8 @@
  * */
 
 import { JsonObject, JsonProperty } from 'json2typescript';
+import { BasicResponse } from './basic-response';
+
 
 /**
  * Represents the current user's data
@@ -49,4 +51,67 @@ export class UserData {
     public user_id: string = undefined;
 
 }
+
+
+@JsonObject
+export class UserProfile {
+
+    @JsonProperty('userData', UserData)
+    public userData: UserData = undefined;
+
+    @JsonProperty('groups', [String])
+    public groups: string[] = undefined;
+
+    @JsonProperty('sessionId', null)
+    public sessionId: string = undefined;
+
+    @JsonProperty('projects', [String])
+    public projects: string[] = undefined;
+
+    @JsonProperty('isSystemUser', Boolean)
+    public isSystemUser: boolean = undefined;
+
+    @JsonProperty('permissionData', PermissionData)
+    public permissionData: PermissionData = undefined;
+
+}
+
+@JsonObject
+export class PermissionData {
+
+    @JsonProperty('groupsPerProject', Object)
+    public groupsPerProject: any = undefined;
+
+    @JsonProperty('administrativePermissionsPerProject', Object)
+    public administrativePermissionsPerProject: any = undefined;
+
+    @JsonProperty('anonymousUser', Boolean)
+    public anonymousUser: boolean = undefined;
+}
+
+
+
+@JsonObject
+export class User {
+
+    @JsonProperty('userProfile', UserProfile)
+    public userProfile: UserProfile = undefined;
+
+    /**
+     * Knora status code
+     * @param status: KnoraStatusCode
+     */
+    @JsonProperty('status', Number)
+    public status: Number = undefined;
+
+    /**
+     * The current user's data
+     * @param userdata: userdata
+     */
+    @JsonProperty('userData', UserData)
+    public userData: UserData = undefined;
+
+}
+
+
 
