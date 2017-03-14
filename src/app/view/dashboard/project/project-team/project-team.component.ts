@@ -42,7 +42,7 @@ export class ProjectTeamComponent implements OnInit {
 
     position = {
         preview: 'left',            // top
-        user: 'right'               // bottom
+        detail: 'right'             // bottom
     };
 
     size: string = 'large';
@@ -79,7 +79,7 @@ export class ProjectTeamComponent implements OnInit {
 
     }
 
-    editUser(id: string, index: number) {
+    openUser(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
 
         this._userService.getUser(id)
@@ -94,8 +94,9 @@ export class ProjectTeamComponent implements OnInit {
             );
     }
 
-    closeUser() {
+    closeDetailView() {
         this.size = 'large';
+        this.selectedRow = undefined;
         this.user = undefined;
     }
 

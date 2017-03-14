@@ -44,8 +44,8 @@ export class ProjectResourcesComponent implements OnInit {
     selectedOption: string;
 
     position = {
-        preview: 'left',            // top
-        properties: 'right'         // bottom
+        preview: 'left',        // top
+        detail: 'right'         // bottom
     };
 
     size: string = 'large';
@@ -80,7 +80,7 @@ export class ProjectResourcesComponent implements OnInit {
 
     }
 
-    editResourceClass(id: string, index: number) {
+    openResourceClass(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
 
         this._propertiesService.getPropertiesByResType(id)
@@ -95,8 +95,9 @@ export class ProjectResourcesComponent implements OnInit {
             );
     }
 
-    closeResourceClass() {
+    closeDetailView() {
         this.size = 'large';
+        this.selectedRow = undefined;
         this.properties = undefined;
     }
 

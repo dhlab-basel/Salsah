@@ -152,7 +152,7 @@
             margin-top: 8px;
             margin-bottom: 8px;
             &:hover {
-                @include box-shadow();
+//                @include box-shadow();
             }
             img {
                 border-radius: 0;
@@ -175,6 +175,12 @@
             width: 100%;
             height: 88%;
             max-width: 400px;
+            &:hover {
+                background-color: $bright;
+            }
+            &.highlight {
+                background-color: darken($bright, 25%);
+            }
             .salsah-preview-image {
                 height: 240px;
                 object-fit: cover;

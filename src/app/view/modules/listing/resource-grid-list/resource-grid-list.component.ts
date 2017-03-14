@@ -8,6 +8,8 @@ import {Search} from "../../../../model/classes/search";
 })
 export class ResourceGridListComponent implements OnInit {
 
+    selectedRow: number;
+
     @Input() result: Search = new Search();
     @Input() cols: number = 3;
     @Output() openResource = new EventEmitter<any>();
@@ -18,8 +20,9 @@ export class ResourceGridListComponent implements OnInit {
     ngOnInit() {
     }
 
-    open(id: string) {
-        this.openResource.emit(id);
+    open(id: string, index: number) {
+        this.selectedRow = index;
+        this.openResource.emit({id, index});
     }
 
 }

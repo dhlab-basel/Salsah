@@ -14,7 +14,7 @@
         <h3 md-subheader>Project Admin</h3>
         <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
         <md-list-item *ngFor="let member of members.members; let i = index"
-                      (click)="editUser(member.email, i);"
+                      (click)="openUser(member.email, i);"
                       [class.highlight]="i == selectedRow">
             <!--<md-list-item *ngFor="let admin of project.admins">-->
             <md-icon md-list-avatar>person</md-icon>
@@ -33,8 +33,8 @@
 </div>
 
 
-<div *ngIf="user" class="salsah-main-view" [ngClass]="position.user">
-    <button md-icon-button (click)="closeUser()" class="right">
+<div *ngIf="user" class="salsah-main-view" [ngClass]="position.detail">
+    <button md-icon-button (click)="closeDetailView()" class="right">
         <md-icon>close</md-icon>
     </button>
 

@@ -25,7 +25,7 @@
         <salsah-resource-list *ngIf="selectedView=='list' && result"
                               class="list-view"
                               [result]="result"
-                              (openResource)="openResource($event)">
+                              (openResource)="openResource($event, $event)">
         </salsah-resource-list>
 
         <!-- show the results in a grid list -->
@@ -38,8 +38,8 @@
     </div>
 
     <!-- resource view on the right hand side -->
-    <div  *ngIf="resource" class="salsah-main-view" [ngClass]="position.resource">
-        <button md-icon-button (click)="closeResource()" class="right">
+    <div  *ngIf="resource" class="salsah-main-view" [ngClass]="position.detail">
+        <button md-icon-button (click)="closeDetailView()" class="right">
             <md-icon>close</md-icon>
         </button>
 

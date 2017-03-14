@@ -56,7 +56,7 @@ export class ResultsComponent implements OnInit {
 
     position = {
         preview: 'left',        // top
-        resource: 'right'       // bottom
+        detail: 'right'         // bottom
     };
 
     size: string = 'large';
@@ -72,7 +72,6 @@ export class ResultsComponent implements OnInit {
 
         this._route.params.subscribe((params: Params) => {
             let query = params['q'];
-
 
             this._searchService.doSearch(query)
                 .subscribe(
@@ -91,13 +90,12 @@ export class ResultsComponent implements OnInit {
 
     }
 
-    openResource(id: string) {
+    openResource($event) {
         if(this.size === 'large') this.size = 'small'; this.cols = 1;
-        this.resource = id;
-
+        this.resource = $event.id;
     }
 
-    closeResource() {
+    closeDetailView() {
         this.size = 'large';
         this.cols = 3;
         this.resource = undefined;
