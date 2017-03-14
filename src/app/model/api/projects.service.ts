@@ -14,8 +14,8 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ApiService} from "./api.service";
 
+import {ApiService} from "./api.service";
 
 
 @Injectable()
@@ -31,8 +31,8 @@ export class ProjectsService extends ApiService {
         return this.httpGet("/projects");
     }
 
-    getUsersProjects(user: string): Observable<any> {
-        return this.httpGet("/users/" + user);
+    getProjectMembers(pid: string): Observable<any> {
+        return this.httpGet("/project/members/shortname/" + pid);
     }
 
 

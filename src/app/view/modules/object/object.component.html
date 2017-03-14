@@ -1,2 +1,10 @@
-<h3>{{iri}}</h3>
+<p>{{resource?.resdata?.restype_label}}</p>
+<img *ngIf="resource?.resinfo?.resclass_has_location" [src]="resource?.resinfo?.preview.path">
+
+<md-list>
+    <md-list-item *ngFor="let prop of resource?.props | key; let i = index">
+        <p md-line [mdTooltip]="prop.key" mdTooltipPosition="above">{{prop.value.label}}</p>
+        <p md-line *ngFor="let val of prop.value.values" [innerHTML]="val['utf8str']"></p>
+    </md-list-item>
+</md-list>
 

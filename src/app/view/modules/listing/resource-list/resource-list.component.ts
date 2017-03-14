@@ -22,17 +22,22 @@ import {Search} from "../../../../model/classes/search";
 })
 export class ResourceListComponent implements OnInit {
 
+    selectedRow: number;
+
     @Input() result: Search = new Search();
+//    @Input() size: String = undefined;
     @Output() openResource = new EventEmitter<any>();
 
     constructor() {
     }
 
     ngOnInit() {
+
     }
 
-    open(id: string) {
-        this.openResource.emit(id);
+    open(id: string, index: number) {
+        this.selectedRow = index;
+        this.openResource.emit({id, index});
     }
 
 }

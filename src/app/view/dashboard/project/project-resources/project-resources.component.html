@@ -11,7 +11,9 @@
         <md-divider></md-divider>
         <br>
         <h3 md-subheader>Resources (active)</h3>
-        <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes; let i = index" (click)="editResourceClass(resClass.id); hightlightStatus[i]=!hightlightStatus[i]" [class.highlight]="hightlightStatus[i]" [attr.data-selected]="false">
+        <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes; let i = index"
+                      (click)="openResourceClass(resClass.id, i);"
+                      [class.highlight]="i == selectedRow">
             <md-icon md-list-avatar>{{resClass.icon}}</md-icon>
             <h4 md-line>{{resClass.label}}</h4>
             <p md-line>
@@ -43,8 +45,8 @@
     </md-list>
 </div>
 
-<div *ngIf="properties" class="salsah-main-view" [ngClass]="position.properties">
-    <button md-icon-button (click)="closeResourceClass()" class="right">
+<div *ngIf="properties" class="salsah-main-view" [ngClass]="position.detail">
+    <button md-icon-button (click)="closeDetailView()" class="right">
         <md-icon>close</md-icon>
     </button>
 

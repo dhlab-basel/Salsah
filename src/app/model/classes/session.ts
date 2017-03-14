@@ -31,22 +31,29 @@ export class Session extends BasicResponse {
     @JsonProperty('message', String)
     public message: string = undefined;
 
+}
+
+@JsonObject
+export class Authentication extends BasicResponse {
+
+    /*
+    @JsonProperty('user', String)
+    public user: string = undefined;
+
+    @JsonProperty('session', String)
+    public session: string = undefined;
+    */
+
+    /**
+     * Message
+     */
+    @JsonProperty('message', String)
+    public message: string = undefined;
+
     /**
      * Session id
      */
     @JsonProperty('sid', String)
     public sid: string = undefined;
 }
-
-@JsonObject
-export class Authentication {
-    @JsonProperty('user', String)
-    public user: string = undefined;
-
-    @JsonProperty('session', String)
-    public session: string = undefined;
-}
-
-
-
 

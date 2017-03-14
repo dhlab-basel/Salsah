@@ -12,19 +12,19 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
 
-@Component({
-    selector: 'salsah-project-settings',
-    templateUrl: './project-settings.component.html',
-    styleUrls: ['./project-settings.component.css']
-})
-export class ProjectSettingsComponent implements OnInit {
+import {ApiService} from "./api.service";
 
-    constructor() {
+
+@Injectable()
+export class UserService extends ApiService {
+
+
+    getUser(email: string): Observable<any> {
+        return this.httpGet("/users/email/" + email);
     }
 
-    ngOnInit() {
-    }
 
 }

@@ -19,6 +19,13 @@ import {
 import {SessionService} from "../../../../model/api/session.service";
 import {Router} from "@angular/router";
 import {Authentication, Session} from "../../../../model/classes/session";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {DashboardComponent} from "../../../dashboard/dashboard.component";
+
+function getDocument(): any {
+    return document;
+}
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -44,11 +51,7 @@ import {Authentication, Session} from "../../../../model/classes/session";
 export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
-    auth: any = {
-        user: undefined,
-        session: undefined
-    };
-    session: boolean;
+    auth: Authentication = new Authentication();
 
     focusOnUserMenu: boolean = false;
     focusOnAddMenu: boolean = false;
@@ -57,31 +60,14 @@ export class HeaderToolbarComponent implements OnInit {
                 private _sessionService: SessionService) {
     }
 
+    // check authentication: the session (from the api) should be valid and the local storage item "auth" as well
+
+    // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
-        // check authentication: the session (from the api) should be valid and the local storage item "auth" as well
-        let apiSession: Session = new Session;
+        // check if the authentication is valid: there should be a local storage item called "auth"
+        this.auth = this._sessionService.checkAuth();
 
-        this._sessionService.getSession()
-            .subscribe(
-                (data: Session) => {
-                    this.session = true;
-                },
-                error => {
-                    this.session = false;
-                }
-            );
-
-        // if a or b is not valid or if they have different session ids, then the authentication is false!
-        if(this.session === false) {
-            // something went wrong; log out every user
-            localStorage.removeItem('auth');
-            this.auth = null;
-        }
-        else {
-            this.auth = this._sessionService.checkAuth();
-        }
-
-        if (this.auth !== null) this.userName = this.auth.user;
+        if (this.auth !== null) this.userName = this.auth.userdata.email;
     }
 
     userMenu: any = [

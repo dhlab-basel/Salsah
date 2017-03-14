@@ -34,7 +34,7 @@ export class SessionService extends ApiService {
         let auth: Authentication = JSON.parse(localStorage.getItem('auth'));
 
         if (auth === null && deny === true) {
-            this.goToLogin();
+            SessionService.goToLogin();
         }
         else {
             return auth;
@@ -42,7 +42,7 @@ export class SessionService extends ApiService {
     }
 
 
-    goToLogin(): any {
+    static goToLogin(): any {
         window.location.replace('/login');
     }
 

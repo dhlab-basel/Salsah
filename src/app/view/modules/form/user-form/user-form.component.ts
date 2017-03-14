@@ -45,8 +45,8 @@ export class UserFormComponent implements OnInit {
         }
     };
 
-    constructor(public dialog: MdDialog,
-                fb: FormBuilder) {
+    constructor(public dialog: MdDialog) {
+        /*
         this.uf = fb.group({
             'givenName': ['', Validators.required],
             'familyName': [null, Validators.required],
@@ -55,6 +55,7 @@ export class UserFormComponent implements OnInit {
             'systemAdmin': false,
             'lang': 'en'
         });
+        */
     }
 
     ngOnInit() {
@@ -65,6 +66,7 @@ export class UserFormComponent implements OnInit {
         console.log('you submitted value: ', value);
         this.dialog.closeAll();
     }
+
 
     closeForm(e) {
         e.preventDefault();

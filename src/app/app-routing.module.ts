@@ -32,6 +32,8 @@ import {ProjectFormComponent} from "./view/modules/form/project-form/project-for
 import {DocumentationComponent} from "./view/documentation/documentation.component";
 import {UserProjectsComponent} from "./view/dashboard/user/user-projects/user-projects.component";
 import {UserCollectionsComponent} from "./view/dashboard/user/user-collections/user-collections.component";
+import {ProjectAdvancedComponent} from "./view/dashboard/project/project-advanced/project-advanced.component";
+import {ObjectComponent} from "./view/modules/object/object.component";
 
 
 
@@ -74,6 +76,10 @@ const appRoutes: Routes = [
         component: ResultsComponent
     },
     {
+        path: 'object/:rid',
+        component: ObjectComponent
+    },
+    {
         path: 'project/:pid', component: ProjectComponent,
         children: [
             {
@@ -87,6 +93,9 @@ const appRoutes: Routes = [
             },
             {
                 path: 'resources', component: ProjectResourcesComponent
+            },
+            {
+                path: 'advanced', component: ProjectAdvancedComponent
             },
 
             { path: '**', component: PageNotFoundComponent }

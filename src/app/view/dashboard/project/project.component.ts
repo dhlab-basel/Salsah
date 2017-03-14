@@ -15,9 +15,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, Params} from "@angular/router";
 import {ProjectsService} from "../../../model/api/projects.service";
-import {Project, ProjectItem} from "../../../model/classes/projects";
+import {Project} from "../../../model/classes/projects";
 import {ApiServiceResult} from "../../../model/api/api-service-result";
 import {ApiServiceError} from "../../../model/api/api-service-error";
+import {SessionService} from "../../../model/api/session.service";
 
 @Component({
     selector: 'salsah-project',
@@ -52,6 +53,11 @@ export class ProjectComponent implements OnInit {
 
     public cur_project: string = undefined;
 
+    auth: any = {
+        user: undefined,
+        session: undefined
+    };
+
     constructor(
         private _router: Router,
         private _route: ActivatedRoute,
@@ -60,8 +66,6 @@ export class ProjectComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        this.isLoading = false;
 
         this._route.params.subscribe((params: Params) => {
             this.cur_project = params['pid'];
@@ -87,6 +91,7 @@ export class ProjectComponent implements OnInit {
                 );
 
         });
+//        this.auth = SessionService.checkAuth();
 
         if(this.cur_project === 'new') {
             alert("Create a new project!?");
