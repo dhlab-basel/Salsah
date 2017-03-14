@@ -33,6 +33,7 @@ import {DocumentationComponent} from "./view/documentation/documentation.compone
 import {UserProjectsComponent} from "./view/dashboard/user/user-projects/user-projects.component";
 import {UserCollectionsComponent} from "./view/dashboard/user/user-collections/user-collections.component";
 import {ProjectAdvancedComponent} from "./view/dashboard/project/project-advanced/project-advanced.component";
+import {ObjectComponent} from "./view/modules/object/object.component";
 
 
 
@@ -73,6 +74,10 @@ const appRoutes: Routes = [
     {
         path: 'search/:q',
         component: ResultsComponent
+    },
+    {
+        path: 'object/:rid',
+        component: ObjectComponent
     },
     {
         path: 'project/:pid', component: ProjectComponent,
