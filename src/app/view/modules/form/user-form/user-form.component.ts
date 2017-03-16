@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 
@@ -34,28 +34,29 @@ export class UserFormComponent implements OnInit {
     public form: any = {        // TODO: modify a language json file or db file for multilingual use
         user: {
             title: 'Create a new user account',
-            givenName: 'First Name',
-            familyName: 'Last Name',
+            firstName: 'First Name',
+            lastName: 'Last Name',
             email: 'Email address',
             emailHint: 'This will be your login name',
             emailValidation: 'This doesn\'t appear to be a valid email address.',
             password: 'Password',
-            passwordHint: 'Use at least one lowercase letter, one numeral, and eight characters.',
+            passwordHint: 'Use at least 8 characters with one uppercase letter and one number.',
             avatar: 'Upload a profile pic'
         }
     };
 
-    constructor(public dialog: MdDialog) {
-        /*
+    constructor(public dialog: MdDialog,
+                @Inject(FormBuilder) fb: FormBuilder) {
+
         this.uf = fb.group({
-            'givenName': ['', Validators.required],
-            'familyName': [null, Validators.required],
+            'firstName': ['', Validators.required],
+            'lastName': [null, Validators.required],
             'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
             'systemAdmin': false,
             'lang': 'en'
         });
-        */
+
     }
 
     ngOnInit() {

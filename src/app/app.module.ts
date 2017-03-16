@@ -18,6 +18,7 @@ import 'hammerjs';
 //
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from "./app-routing.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 //
 // import all needed services
@@ -123,7 +124,8 @@ import {KeyPipe} from './view/modules/other/key.pipe';
         FormsModule,
         HttpModule,
         MaterialModule,
-        AppRoutingModule
+        AppRoutingModule,
+        ReactiveFormsModule
     ],
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [

@@ -1,59 +1,51 @@
-<form class="salsah-form new-user" #uf="ngForm" (ngSubmit)="onSubmit(uf.value, uf.valid)">
+<form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
+
+    <h2 md-dialog-title>{{form.user.title}}</h2>
 
     <md-dialog-content>
 
-        Hello new user
+        <md-input-container class="full-width"
+                            dividerColor="{{ uf.controls['firstName']?.invalid && uf.controls['firstName']?.touched ? 'warn' : 'primary' }}">
+            <input mdInput autofocus
+                   [placeholder]="form.user.firstName + ' *'"
+                   [formControl]="uf.controls['firstName']">
+        </md-input-container>
 
+        <md-input-container class="full-width"
+                            dividerColor="{{ uf.controls['lastName']?.invalid && uf.controls['lastName']?.touched ? 'warn' : 'primary' }}">
+            <input mdInput
+                   [placeholder]="form.user.lastName + ' *'"
+                   [formControl]="uf.controls['lastName']">
+        </md-input-container>
+
+        <md-input-container class="full-width"
+                            dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
+            <input mdInput type="email"
+                   [placeholder]="form.user.email + ' *'"
+                   [formControl]="uf.controls['email']">
+            <md-hint class="salsah-hint">
+                <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
+                <span [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || !uf.controls['email'].touched"
+                      class="salsah-error">{{form.user.emailValidation}}
+                </span>
+            </md-hint>
+        </md-input-container>
+
+        <md-input-container class="full-width"
+                            dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
+            <input mdInput type="password"
+                   [placeholder]="form.user.password + ' *'"
+                   [formControl]="uf.controls['password']">
+            <md-hint class="salsah-hint"><!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
+                <span [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || !uf.controls['password'].touched"
+                      class="salsah-error">
+                    {{form.user.passwordHint}}
+                </span>
+            </md-hint>
+        </md-input-container>
     </md-dialog-content>
-</form>
-<!--
-<form class="salsah-form new-user-form golden-ratio-large-width center" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value)">
 
-  <h2 md-dialog-title>{{form.user.title}}</h2>
-
-  <md-dialog-content>
-    <br>
-    <br>
-    <md-input-container class="full-width" dividerColor="{{ uf.controls['givenName']?.invalid && uf.controls['givenName']?.touched ? 'warn' : 'primary' }}">
-      <input md-input autofocus
-             [placeholder]="form.user.givenName"
-             [formControl]="uf.controls['givenName']">
-    </md-input-container>
-    <br>
-    <br>
-    <md-input-container class="full-width" dividerColor="{{ uf.controls['familyName']?.invalid && uf.controls['familyName']?.touched ? 'warn' : 'primary' }}">
-      <input md-input
-             [placeholder]="form.user.familyName"
-             [formControl]="uf.controls['familyName']">
-    </md-input-container>
-    <br>
-    <br>
-    <md-input-container class="full-width" dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
-      <input md-input type="email"
-             [placeholder]="form.user.email"
-             [formControl]="uf.controls['email']">
-      <md-hint class="salsah-hint">
-        <span>{{form.user.emailHint}}</span>
-        <span [hidden]="uf.controls['email'].valid" class="salsah-error">{{form.user.emailValidation}}</span>
-      </md-hint>
-    </md-input-container>
-
-    <br>
-    <br>
-
-    <md-input-container class="full-width" dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
-      <input md-input type="password"
-             [placeholder]="form.user.password"
-             [formControl]="uf.controls['password']">
-      <md-hint [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}" class="salsah-hint">
-        <span [hidden]="(uf.controls['password'].valid && uf.controls['password'].touched)">{{form.user.passwordHint}}</span>
-      </md-hint>
-
-    </md-input-container>
-
-  </md-dialog-content>
-
-  <md-dialog-actions>
+    <md-dialog-actions>
         <span class="left">
             <button md-button
                     class="cancel-button"
@@ -61,16 +53,14 @@
                 Cancel
             </button>
         </span>
-    <span class="right">
+            <span class="right">
             <button type="submit"
                     [disabled]="!uf.valid || uf.errors"
                     md-raised-button
-                    class="save-button md-primary">
+                    class="save-button mat-primary">
                 Save
             </button>
         </span>
-  </md-dialog-actions>
-
+    </md-dialog-actions>
 
 </form>
--->
