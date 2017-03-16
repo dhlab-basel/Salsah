@@ -28,7 +28,7 @@ export class UserProfileComponent implements OnInit {
     auth: Authentication = undefined;
 
     constructor(
-        private _session: SessionService,
+        private _sessionService: SessionService,
         private _router: Router
     ) {
     }
@@ -36,9 +36,9 @@ export class UserProfileComponent implements OnInit {
     ngOnInit() {
         // get the user name from the url
         this.userName = decodeURIComponent(this._router.url.split('user/')[1]);
-        // checke the authentication and compare the userName with the auth.user
-        this.auth = this._session.checkAuth();
-        if(this.auth.user !== this.userName) {
+        // check the authentication and compare the userName with the auth.user
+        this.auth = this._sessionService.checkAuth();
+        if(this.auth.userdata.email !== this.userName) {
             // access denied
             this._router.navigateByUrl('/denied');
         }

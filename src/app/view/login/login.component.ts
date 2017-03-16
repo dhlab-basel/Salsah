@@ -18,7 +18,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {ApiServiceResult} from "../../model/api/api-service-result";
 import {ApiServiceError} from "../../model/api/api-service-error";
 import {LoginService} from "../../model/api/login.service";
-import {Session} from "../../model/classes/session";
+import {Session, Authentication} from "../../model/classes/session";
 
 function getDocument(): any {
     return document;
@@ -49,8 +49,7 @@ export class LoginComponent implements OnInit {
         remember: "Remember me",
         forgot_pw: "Forgot password?",
         error: {
-            user: "Username's wrong",
-            pw: "Password's wrong",
+            failed: "Password or username is wrong",
             server: "There's an error with the server connection. Try it again later or inform the Knora Team"
         }
     };
@@ -77,15 +76,12 @@ export class LoginComponent implements OnInit {
 
         this._loginService.login(lf.email, lf.password).subscribe(
             (result: ApiServiceResult) => {
-                let session: Session = result.getBody(Session);
+                let authentication: Authentication = result.getBody(Authentication);
 
-                getDocument().cookie = "sid=" + session.sid;
-                getDocument().cookie = "KnoraAuthentication=" + session.sid;
+                getDocument().cookie = "sid=" + authentication.sid;
+                getDocument().cookie = "KnoraAuthentication=" + authentication.sid;
 
-                localStorage.setItem('auth', JSON.stringify({
-                    user: session.userdata.email,
-                    session: session.sid
-                }));
+                localStorage.setItem('auth', JSON.stringify(authentication));
 
                 //
                 // after successful login, we want to go back to the previous page e.g. search incl. query

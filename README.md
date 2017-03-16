@@ -1,7 +1,9 @@
 # Salsah
 
 ```
-The alpha of SALSAH version 2 has begun!
+WARNING (2017/03/07): we updated the angular-cli and other packages to the latest version.
+If you have already installed Salsah 2, please follow the update instructions here: 
+https://github.com/angular/angular-cli#updating-angular-cli
 ```
 
 This is the repository for the [Knora](https://github.com/dhlab-basel/Knora) team's 
@@ -11,14 +13,18 @@ It is developed by the [Digital Humanities Lab](http://www.dhlab.unibas.ch/) at 
 
 Salsah is [free software](http://www.gnu.org/philosophy/free-sw.en.html), released under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.en.html).
 
-The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.30 (will be updated from time to time!)
+The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-rc.1 (will be updated from time to time!)
 
-You will find more information about Salsah and the developers guideline on: 
+You will find more information about Salsah on: 
 
 **[https://dhlab-basel.github.io/Salsah/](https://dhlab-basel.github.io/Salsah/)**
 
 
 ## Developer Environment
+
+If you're a developer and you want to improve the app, please have a look at the developer guideline first:
+
+**[https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/index.html](https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/index.html)**
 
 ### Prerequisites
 
@@ -26,7 +32,7 @@ We're developing the Salsah app with Angular-cli, which requires [Node](https://
 
 **Install [angular-cli](https://github.com/angular/angular-cli) globally**
 
-`npm install -g @angular/cli@1.0.0-beta.30`
+`npm install -g @angular/cli@1.0.0-rc.1`
 
 If there are some permission issues, try to fix the writing rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`
 
@@ -39,14 +45,14 @@ After cloning the Salsah code, install the node packages from the Salsah root di
 With `ng serve` the Salsah app starts on [localhost:4200](http://localhost:4200)
 
 It could happen, that ng can't resolve some specific packages. In that case install angular-cli direct in the salsah app: 
-`npm install --save-dev @angular/cli@1.0.0-beta.30`
+`npm install --save-dev @angular/cli@1.0.0-rc.1`
 
 
 If the installation or the start interrupts, please check our additional installation solution [here](https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/salsah2/installation/index.html#issues-with-angular-cli).
 
 
 #### Updating Salsah packages
-From time to time we grab the latest npm packages for Salsah. Especially because Angular-cli is still in a beta state.
+From time to time we grab the latest npm packages for Salsah. 
 We recommend to reinstall the packages with the following commands.
 
 ```
@@ -56,8 +62,6 @@ npm install
 ```
 
 In any case of trouble, please also check the Angular-cli update process [here](https://github.com/angular/angular-cli#updating-angular-cli).
- But be careful with the `ng init` at the end!!!
-
 
 ### Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

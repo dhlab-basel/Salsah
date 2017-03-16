@@ -68,12 +68,15 @@
 */
 
 .salsah-module-content {
-
     top: 128px;
     position: fixed;
     overflow-y: auto;
     z-index: 0;
     height: calc(100vh - 128px - 24px);
+
+    &.router-outlet {
+        width: 100vw;
+    }
 
     &.without-header {
         width: calc(100vw - 240px);
@@ -84,14 +87,15 @@
     }
 
     .salsah-main-list {
-        width: calc(100vw - 240px);
+        width: calc(100vw - 228px);
         height: auto;
-        min-height: calc(100vh - 128px - 24px);
+
         padding-left: 120px;
         padding-right: 108px; // plus 12px for the scroll bar
 
         &.small.left {
             width: 400px;
+            min-height: calc(100vh - 128px - 24px);
             padding: 0;
             border-right: 1px solid #c1c1c1;
 
@@ -114,41 +118,50 @@
             width: calc(100vw - 400px - 48px);
             left: 400px;
             top: 128px;
+            max-height: 100%;
+            overflow-x: auto;
         }
 
         &.bottom {
 
         }
 
+        button.right {
+            position: fixed;
+            right: 24px;
+        }
+
     }
 
     md-list {
-        .md-list-item {
+        .mat-list-item {
             cursor: pointer;
-            &.highlight {
-                background-color: $bright;
-            }
             &:hover {
 //                @include box-shadow();
                 background-color: $bright;
+            }
+            &.highlight {
+                background-color: darken($bright, 25%);
             }
         }
     }
 
     .list-view {
-        .md-list-item {
-            min-height: 128px;
-            cursor: pointer;
+        .mat-list-item {
+            min-height: 112px;
+            margin-top: 8px;
+            margin-bottom: 8px;
             &:hover {
-                @include box-shadow();
+//                @include box-shadow();
             }
             img {
                 border-radius: 0;
-                width: 128px;
-                height: 80%;
+                width: 96px;
+                height: 96px;
                 object-fit: cover;
+                margin-top: 36px;
             }
-            .md-list-text {
+            .mat-list-text {
                 [md-line] {
                     overflow: hidden;
                 }
@@ -162,6 +175,12 @@
             width: 100%;
             height: 88%;
             max-width: 400px;
+            &:hover {
+                background-color: $bright;
+            }
+            &.highlight {
+                background-color: darken($bright, 25%);
+            }
             .salsah-preview-image {
                 height: 240px;
                 object-fit: cover;
@@ -203,7 +222,7 @@ salsah-dashboard {
 
     md-list {
         width: 420px;
-        .md-list-item {
+        .mat-list-item {
             cursor: pointer;
             &:hover {
                 @include box-shadow();

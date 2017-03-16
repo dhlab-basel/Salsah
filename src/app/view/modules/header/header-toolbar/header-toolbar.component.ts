@@ -1,9 +1,31 @@
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * This file is part of SALSAH.
+ * SALSAH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * SALSAH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You should have received a copy of the GNU Affero General Public
+ * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+ * */
+
 import {
     Component, OnInit, Input, trigger, state, transition, style, animate, HostListener,
     ElementRef
 } from '@angular/core';
 import {SessionService} from "../../../../model/api/session.service";
 import {Router} from "@angular/router";
+import {Authentication, Session} from "../../../../model/classes/session";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {DashboardComponent} from "../../../dashboard/dashboard.component";
+
+function getDocument(): any {
+    return document;
+}
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -29,21 +51,23 @@ import {Router} from "@angular/router";
 export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
-    auth: any = {
-        user: undefined,
-        session: undefined
-    };
+    auth: Authentication = new Authentication();
 
     focusOnUserMenu: boolean = false;
     focusOnAddMenu: boolean = false;
 
     constructor(private _eleRef: ElementRef,
-                private _session: SessionService) {
+                private _sessionService: SessionService) {
     }
 
+    // check authentication: the session (from the api) should be valid and the local storage item "auth" as well
+
+    // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
-        this.auth = this._session.checkAuth();
-        if (this.auth !== null) this.userName = this.auth.user;
+        // check if the authentication is valid: there should be a local storage item called "auth"
+        this.auth = this._sessionService.checkAuth();
+
+        if (this.auth !== null) this.userName = this.auth.userdata.email;
     }
 
     userMenu: any = [

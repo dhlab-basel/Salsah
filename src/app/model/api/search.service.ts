@@ -21,7 +21,7 @@ import {Search} from "../classes/search";
 @Injectable()
 export class SearchService extends ApiService {
 
-    doSearch(query, type = 'fulltext'): Observable<Search> {
+    doSearch(query, type = 'fulltext'): Observable<any> {
         return this.httpGet("/search/" + query + "?searchtype=" + type);
     }
 

@@ -40,7 +40,11 @@ input[type="file"] {
     }
 }
 
-
+.mat-input-infix {
+    input, span {
+        margin-left: 12px;
+    }
+}
 
 input, textarea {
     max-width: 640px;

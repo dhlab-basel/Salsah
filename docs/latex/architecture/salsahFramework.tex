@@ -1,0 +1,62 @@
+\newpage
+\section{SALSAH architecture}
+\subsection{salsahFramework}
+The main SALSAH app component is the framework module which builds the default layout template with
+
+\begin{itemize}
+	\item salsahHeader (Fig. \ref{fig:header}) with
+	\begin{itemize}
+		\item project selection and settings menu
+		\item search bar panel incl. simple and extended search
+		\item import menu (add resources and create collections)
+		\item documentation menu (link to the documentation and/or cheat sheet)
+		\item user menu (profile setting, log out etc.)
+	\end{itemize}
+	\item salsahFacetedSearch on the left hand side
+	\item salsahView as a main container for salsahSearchResults, the graph and resource viewer, dashboard etc. The salsahView would be the frame for the ng2 router-outlet.
+	\item salsahFooter (?)
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{salsahFramework.png}
+    \caption{salsahFramework}
+    \label{fig:framework}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{salsahHeader.png}
+    \caption{salsahHeader}
+    \label{fig:header}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{salsahHeader_projectMenu-userMenu.png}
+    \caption{salsahHeader}
+    \label{fig:header}
+\end{figure}
+
+% 
+% \begin{lstlisting}[caption=app.component template]
+% \end{lstlisting}
+
+%
+%The salsahHeader is a mdToolbar with three sections:
+
+%\textbf{left}
+%	\begin{itemize}
+%		\item md-icon-button (\textbf{menu}) to toggle the salsahNavigation menu
+%		\item logo of the current/active project
+%	\end{itemize}
+%\textbf{center}
+%	\begin{itemize}
+%		\item salsahSearch with simpleSearch input field and
+%		\item md-icon-button (\textbf{filter}) for extendedSearch
+%	\end{itemize}
+%\textbf{right}
+%	\begin{itemize}
+%		\item md-icon-button (\textbf{add}) opens the salsahImport/salsahAdd modal box
+%		\item md-icon-button (\textbf{exit}) to log out
+%	\end{itemize}

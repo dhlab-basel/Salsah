@@ -33,20 +33,25 @@ export class ApiService {
     }
 
     /**
-     * Performs a HTTP GET request to the Knora API.
+     * Performs a HTTP GET url to the Knora API.
      * @param url
      * @param options
      * @returns {Observable<any>}
      */
-    httpGet(url: string, options?: RequestOptionsArgs) {
+    httpGet(url: string, options?: RequestOptionsArgs): Observable<any> {
 
         if (!options) options = {withCredentials: true};
 
         return this._httpService.get(AppConfig.API_ENDPOINT + url, options ).map((response: Response) => {
             try {
-                return response.json();
+                let apiServiceResult: ApiServiceResult = new ApiServiceResult();
+                apiServiceResult.status = response.status;
+                apiServiceResult.statusText = response.statusText;
+                apiServiceResult.body = response.json();
+                apiServiceResult.url = url;
+                return apiServiceResult;
             } catch (e) {
-                return Observable.throw(ApiService.handleError(response, url));
+                return ApiService.handleError(response, url);
             }
         }).catch((error: any) => {
             return Observable.throw(ApiService.handleError(error, url));
@@ -54,7 +59,7 @@ export class ApiService {
     }
 
     /**
-     * Performs a HTTP POST request to the Knora API.
+     * Performs a HTTP POST url to the Knora API.
      * @param url
      * @param body
      * @param options
@@ -69,6 +74,7 @@ export class ApiService {
                 apiServiceResult.status = response.status;
                 apiServiceResult.statusText = response.statusText;
                 apiServiceResult.body = response.json();
+                apiServiceResult.url = url;
                 return apiServiceResult;
             } catch (e) {
                 return ApiService.handleError(response, url);
@@ -86,11 +92,11 @@ export class ApiService {
             response.status = error.status;
             response.statusText = error.statusText;
             if(!response.statusText) response.statusText = "Connection to API endpoint failed";
-            response.request = url;
+            response.url = url;
         } else {
             response.status = 0;
             response.statusText = "Connection to API endpoint failed";
-            response.request = url;
+            response.url = url;
         }
 
         // response.status === 401 --> Unauthorized; password is wrong

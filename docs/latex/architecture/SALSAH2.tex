@@ -1,0 +1,145 @@
+% Copyright © 2016 Lukas Rosenthaler, Benjamin Geer, Ivan Subotic,
+% Tobias Schweizer, André Kilchenmann, and André Fatton.
+%
+% This file is part of Knora.
+%
+% Knora is free software: you can redistribute it and/or modify
+% it under the terms of the GNU Affero General Public License as published
+% by the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+%
+% Knora is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Affero General Public License for more details.
+%
+% You should have received a copy of the GNU Affero General Public
+% License along with Knora.  If not, see <http://www.gnu.org/licenses/>.
+%-----------------------------------------------------------------------%
+
+% This file contents notes and wireframe samples for the web app interface of Knora: (called) SALSAH 2
+
+\documentclass[12pt]{article} % Default font size is 12pt, it can be changed here
+%-------------------------%
+%   file configuration    %
+%-------------------------%
+\input{header}
+%-------------------------%
+
+%------------------------------%
+%   header and footer style    %
+%------------------------------%
+
+
+
+%------------------------------%
+
+%--------------------%
+%    pdf metatags    %
+%--------------------%
+\usepackage{ifpdf}
+\ifpdf
+\pdfinfo{
+	/Author (André Kilchenmann, DHLab University of Basel)
+	/Title (SALSAH 2: System for Annotation and Linkage of Sources in Arts and Humanities)
+	/Subject (reDesign of the famous research platform)
+	/Keywords (knora, salsah, dhlab, unibas, research workflow, salsah architecture, gui mockups)
+	%/CreationDate (D:20120501205500)
+	%/ModDate (D:20120501205500)
+}
+\fi
+%--------------------%
+
+%----------------------------------%
+%    default figure integration    %
+%----------------------------------%
+%\begin{figure}[h]
+%    \centering
+%    \includegraphics[width=\textwidth]{image.png}
+%    \caption{caption}
+%\end{figure}
+%----------------------------------%
+
+\begin{document}
+
+% first page is different
+\thispagestyle{empty}
+
+%\thispagestyle{firstpage}
+\textit{\todayDDMMYYYY{}/ak.}
+\vspace{4cm}
+\section*{SALSAH 2\\reDesign of the research platform:\\UX/UI notes and wireframes about the workspace, the resource objects, the tools and functions}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+%----------------------------------%
+%----------------------------------%
+
+\section{SALSAH technical aspects}
+
+The idea of SALSAH -- as a virtual research platform -- is to help researchers to handle their project, to organize a team and to work with digital sources. At the end it should be possible to present the data and the results on an own web publication platform.
+
+SALSAH uses the restFul API of Knora (knora.org) --  a software framework for storing, sharing, and working with primary sources and data in the humanities. Images will be handled by the SIPI server; multimedia stuff like video and audio files we should use FFserver and FFmpeg.
+
+This document describes SALSAH as the generic front end (GUI) of the whole system. SALSAH will be build by the Angular2 framework (angular.io) and styled with google's material design (material.angular.io).
+
+\section{Simple workflow in a research project}
+
+A research project starts with an idea and the research question. It's the beginning of the conceptual phase where the researcher has to define his sources and methods and where he forms a team. The main work is the second part, where the team works with the data and the sources: Collecting, organizing and evaluating. At the end of the project stands the publication of the data and results.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{research-project-analog.png}
+    \caption{Research project workflow (from left to right) in an analogous way.}
+\end{figure}
+\newpage
+
+SALSAH is based on a similar workflow concept. The version 1 (salsah.org (\todayDDMMYYYY)) has an administrator area (salsah.org/admin) where the user can define his project and sources. The team works on the main URL salsah.org. The path /projectname is reserved for the project presentation/publication webpage.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{research-project-salsah1.png}
+    \caption{SALSAH 1 with admin area (concept), work space (research) and project page (publication).}
+\end{figure}
+
+For SALSAH version 2 we're planning a different structure: The admin and the workspace interface would be on the same app route. The access to the admin area (projectSettings) depends on the user's rights. The project publication page can reuse the existing modules from SALSAH. But at the moment it's not clear how the URL structure will look like. ... http://dasch.org/[project]/[uuid] or http://project.knora.org/[uuid] 
+
+
+The Data and Service Center for the Humanities (DaSCH) will use the SALSAH user interface. The DaSCH is implementing a distributed architecture with local or domain specific nodes which form a distributed peer-to-peer network. Resources can be made available to the other nodes at the discretion of each individual node. Authentication and user access is also organised in a distributed manner where each node has control whom it ``trusts''. In the near future, the Switch ``Swiss edu-ID'' will be used. For more information about Knora and the DaSCH: read the paper by Lukas Rosenthaler: Data and Service Center for the Humanities -- A National Service Architecture, July 2016.
+
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=\textwidth]{DaSCHArchitectureLayout.jpg}
+%	\caption{DaSCH's distributed architecture idea.  }
+%\end{figure}
+
+%\begin{itemize}
+%	\item \textbf{http://salsah.org}\\The landing page for SALSAH with short information about the system and its connection to KnORA\footnote{KnORA stands for Knowledge Organization, Representation, and Annotation and builds the SALSAH backend: a RESTful API.} and the DaSCH\footnote{The Data and Service Center for the Humanities will use KnORA and SALSAH.}. A dominant login button brings the user to the SALSAH app.
+%	\item \textbf{https://app.salsah.org}\\The app starts with a login screen and has the usual functions (reset password, registration?). After the login the user reaches the personal SALSAH workspace (\textbf{https://app.salsah.org/[username]}). With administration rights on a project, the user can define the project-specific resources, its properties and he can form the team right in this place. The admin area doesn't need an extra URL.
+%	\item \textbf{http://docu.salsah.org}\\The SALSAH (and KnORA) documentation page based on the KnORA RST (reStructuredText) documents. The user has a direct link to that page from salsah.org and from app.salsah.org.
+%	\item \textbf{https://page.salsah.org/[projectname]}\\ \textit{Here I'm not sure with the URL naming.}
+%\end{itemize}
+
+%We have also to think about the distributed network. Every university can have their own KnORA environment with the own SALSAH app. The notes above are just an example for the main installation in Basel.
+
+%% SALSAH Architecture section:
+
+\include{salsahFramework}
+
+\include{salsahSearch}
+
+\include{salsahView}
+
+\include{salsahObject}
+
+\include{salsahProperty}
+
+\include{salsahSettings}
+
+\include{salsahExchange}
+
+\end{document}

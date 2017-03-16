@@ -16,6 +16,8 @@ import {Component, OnInit} from '@angular/core';
 import {SearchService} from "../../../../model/api/search.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Search} from "../../../../model/classes/search";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-results',
@@ -54,7 +56,7 @@ export class ResultsComponent implements OnInit {
 
     position = {
         preview: 'left',        // top
-        resource: 'right'       // bottom
+        detail: 'right'         // bottom
     };
 
     size: string = 'large';
@@ -71,14 +73,13 @@ export class ResultsComponent implements OnInit {
         this._route.params.subscribe((params: Params) => {
             let query = params['q'];
 
-
             this._searchService.doSearch(query)
                 .subscribe(
-                    (data: Search) => {
-                        this.result = data;
+                    (result: ApiServiceResult) => {
+                        this.result = result.getBody(Search);
                         this.isLoading = false;
                     },
-                    error => {
+                    (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
                         this.isLoading = false;
                     }
@@ -89,13 +90,12 @@ export class ResultsComponent implements OnInit {
 
     }
 
-    openResource(id: string) {
+    openResource($event) {
         if(this.size === 'large') this.size = 'small'; this.cols = 1;
-        this.resource = id;
-
+        this.resource = $event.id;
     }
 
-    closeResource() {
+    closeDetailView() {
         this.size = 'large';
         this.cols = 3;
         this.resource = undefined;

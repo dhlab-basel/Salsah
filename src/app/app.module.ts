@@ -7,6 +7,7 @@ import {HttpModule} from '@angular/http';
 // import the material design modules
 //
 import {MaterialModule} from '@angular/material';
+import 'hammerjs';
 
 //
 // import other third party modules
@@ -65,9 +66,15 @@ import {ProjectFormComponent} from './view/modules/form/project-form/project-for
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {ResourceClassFormComponent} from './view/modules/form/resource-class-form/resource-class-form.component';
 import {ResourceFormComponent} from './view/modules/form/resource-form/resource-form.component';
-import { ReversePipe } from './view/modules/other/reverse.pipe';
+import {ReversePipe} from './view/modules/other/reverse.pipe';
 import {PropertiesService} from "./model/api/properties.service";
-import { DocumentationComponent } from './view/documentation/documentation.component';
+import {DocumentationComponent} from './view/documentation/documentation.component';
+import {UserProjectsComponent} from './view/dashboard/user/user-projects/user-projects.component';
+import {UserCollectionsComponent} from './view/dashboard/user/user-collections/user-collections.component';
+import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
+import {UserService} from "./model/api/user.service";
+import {ApiService} from "./model/api/api.service";
+import {KeyPipe} from './view/modules/other/key.pipe';
 
 
 @NgModule({
@@ -104,14 +111,18 @@ import { DocumentationComponent } from './view/documentation/documentation.compo
         UserFormComponent,
         ResourceClassFormComponent,
         ResourceFormComponent,
+        DocumentationComponent,
+        UserProjectsComponent,
+        UserCollectionsComponent,
+        ProjectAdvancedComponent,
         ReversePipe,
-        DocumentationComponent
+        KeyPipe
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         AppRoutingModule
     ],
     // we need the entryComponents for every component inside of a md-dialog module
@@ -120,6 +131,7 @@ import { DocumentationComponent } from './view/documentation/documentation.compo
         UserFormComponent
     ],
     providers: [
+        ApiService,
         LoginService,
         ProjectsService,
         PropertiesService,
@@ -127,7 +139,8 @@ import { DocumentationComponent } from './view/documentation/documentation.compo
         ResourceTypesService,
         SearchService,
         SessionService,
-        BaseOntologyService
+        BaseOntologyService,
+        UserService
     ],
     bootstrap: [AppComponent]
 })

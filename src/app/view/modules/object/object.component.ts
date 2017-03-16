@@ -1,14 +1,16 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
 import {ResourceService} from "../../../model/api/resource.service";
 import {Resource} from "../../../model/classes/resource";
+import {ApiServiceResult} from "../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-object',
     templateUrl: './object.component.html',
     styleUrls: ['./object.component.css']
 })
-export class ObjectComponent implements OnInit {
+export class ObjectComponent implements OnChanges, OnInit {
 
     @Input() iri: string;
 
@@ -22,23 +24,34 @@ export class ObjectComponent implements OnInit {
                 private _resourceService: ResourceService) {
     }
 
+    ngOnChanges() {
+        this._resourceService.getResource(this.iri)
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    this.resource = result.getBody(Resource);
+                    this.isLoading = false;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                    this.isLoading = false;
+                }
+            );
+    }
+
     ngOnInit() {
         this._route.params.subscribe((params: Params) => {
-            let resIri = ( params['res'] !== undefined ? params['res'] : this.iri );
-
-
+            let resIri = ( params['rid'] !== undefined ? params['rid'] : this.iri );
             this._resourceService.getResource(resIri)
                 .subscribe(
-                    (data: Resource) => {
-                        this.resource = data;
+                    (result: ApiServiceResult) => {
+                        this.resource = result.getBody(Resource);
                         this.isLoading = false;
                     },
-                    error => {
+                    (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
                         this.isLoading = false;
                     }
                 );
-
         });
     }
 

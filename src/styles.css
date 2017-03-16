@@ -5,7 +5,8 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 /* style from material design */
-@import 'assets/css/teal-amber.min.css';
+/* @import 'assets/css/teal-amber.min.css'; */
+@import 'assets/css/md-teal-amber.css';
 
 /* own style setting */
 @import 'assets/css/main.min.css';

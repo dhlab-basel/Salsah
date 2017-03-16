@@ -1,4 +1,4 @@
-<div class="salsah-module-header">
+<div class="salsah-module-header" *ngIf="auth">
     <!-- this component has his own toolbar header
         with tabs for navigation through the settings
     -->
@@ -38,7 +38,7 @@
     </div>
 </div>
 
-<div class="salsah-module-content">
+<div class="salsah-module-content router-outlet">
     <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
     <router-outlet *ngIf="!errorMessage" (tabRequest)="activateTab($event)"></router-outlet>
 </div>

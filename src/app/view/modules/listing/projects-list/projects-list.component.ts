@@ -12,10 +12,13 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {ProjectsList} from "../../../../model/classes/projects";
 import {ProjectsService} from "../../../../model/api/projects.service";
 import {Router} from "@angular/router";
+import {UserData} from "../../../../model/classes/user-data";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-projects-list',
@@ -30,6 +33,8 @@ export class ProjectsListComponent implements OnInit {
 
     projects: ProjectsList = new ProjectsList();
 
+    @Input('user') user: string;
+
     constructor(
         private _router: Router,
         private _projectsService: ProjectsService
@@ -37,20 +42,42 @@ export class ProjectsListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._projectsService.getAllProjects()
-            .subscribe(
-                (data: ProjectsList) => {
-                    this.projects = data;
-                    this.isLoading = false;
-                },
-                error => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
-                }
-            );
+
+        if(this.user === undefined) {
+            this._projectsService.getAllProjects()
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        this.projects = result.getBody();
+                        this.isLoading = false;
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+                        this.isLoading = false;
+                    }
+                );
+        }
+        else {
+            // get only the projects of the current user....
+            // this._projectsService.getUsersProjects()
+/*
+            this._projectsService.getUsersProjects(encodeURIComponent(this.user))
+                .subscribe(
+                    (data: UserData) => {
+                        this.projects = data.projects;
+                        this.isLoading = false;
+                    },
+                    error => {
+                        this.errorMessage =<any>error;
+                        this.isLoading = false;
+                    }
+
+                )
+                */
+        }
+
     }
 
-    openProject(id) {
+    openProject(id: string) {
         localStorage.removeItem('project');
         this._router.navigate(['/project/', id]);
     }

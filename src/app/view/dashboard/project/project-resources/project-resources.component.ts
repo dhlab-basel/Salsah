@@ -1,3 +1,17 @@
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * This file is part of SALSAH.
+ * SALSAH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * SALSAH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You should have received a copy of the GNU Affero General Public
+ * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+ * */
+
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {ResourceTypesService} from "../../../../model/api/resource-types.service";
@@ -6,6 +20,8 @@ import {ProjectItem} from "../../../../model/classes/projects";
 import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
 import {PropertiesService} from "../../../../model/api/properties.service";
 import {Properties} from "../../../../model/classes/properties";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-project-resources',
@@ -17,21 +33,22 @@ export class ProjectResourcesComponent implements OnInit {
     isLoading: boolean = true;
     errorMessage: string = undefined;
 
+    selectedRow: number;
+
     project: ProjectItem = new ProjectItem;
 
     resourceTypes: ResourceTypes = new ResourceTypes;
+
     properties: Properties;
 
     selectedOption: string;
 
     position = {
         preview: 'left',        // top
-        properties: 'right'       // bottom
+        detail: 'right'         // bottom
     };
 
     size: string = 'large';
-
-    hightlightStatus: Array<boolean> = [];
 
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _propertiesService: PropertiesService,
@@ -42,11 +59,12 @@ export class ProjectResourcesComponent implements OnInit {
         this.project = JSON.parse(localStorage.getItem('project'));
         this._resourceTypesService.getResourceTypes(this.project.ontologyNamedGraph)
             .subscribe(
-                (data: ResourceTypes) => {
-                    this.resourceTypes = data;
+                (result: ApiServiceResult) => {
+                    this.resourceTypes = result.getBody(ResourceTypes);
+
                     this.isLoading = false;
                 },
-                error => {
+                (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                     this.isLoading = false;
                 }
@@ -62,23 +80,24 @@ export class ProjectResourcesComponent implements OnInit {
 
     }
 
-    editResourceClass(id: string) {
-        if(this.size === 'large') this.size = 'small';
+    openResourceClass(id: string, index: number) {
+        if (this.size === 'large') this.size = 'small';
 
         this._propertiesService.getPropertiesByResType(id)
             .subscribe(
-                (data: Properties) => {
-                    this.properties = data;
+                (result: ApiServiceResult) => {
+                    this.properties = result.getBody(Properties);
+                    this.selectedRow = index;
                 },
-                error => {
+                (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
-
             );
     }
 
-    closeResourceClass() {
+    closeDetailView() {
         this.size = 'large';
+        this.selectedRow = undefined;
         this.properties = undefined;
     }
 
