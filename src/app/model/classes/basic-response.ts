@@ -13,7 +13,7 @@
  * */
 
 import { JsonObject, JsonProperty } from 'json2typescript';
-import { UserData } from './user-data';
+import { UserData } from './user-profile';
 
 /**
  * Basic members of the Knora API V1 response format.
@@ -32,7 +32,7 @@ export class BasicResponse {
      * The current user's data
      * @param userdata: userdata
      */
-    @JsonProperty('userdata', UserData)
+    @JsonProperty('userdata', UserData, true)
     public userdata: UserData = undefined;
 
 }

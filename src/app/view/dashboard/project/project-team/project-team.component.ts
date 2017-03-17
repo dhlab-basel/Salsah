@@ -20,7 +20,7 @@ import {ApiServiceResult} from "../../../../model/api/api-service-result";
 import {ApiServiceError} from "../../../../model/api/api-service-error";
 import {ProjectMembers, ProjectItem} from "../../../../model/classes/projects";
 import {UserService} from "../../../../model/api/user.service";
-import {User} from "../../../../model/classes/user-data";
+import {User} from "../../../../model/classes/user-profile";
 
 @Component({
     selector: 'salsah-project-team',

@@ -14,6 +14,7 @@
 
 import { JsonObject, JsonProperty } from 'json2typescript';
 import { BasicResponse } from './basic-response';
+import {UserProfile} from "./user-profile";
 
 /**
  * Represents the knora session
@@ -30,6 +31,9 @@ export class Session extends BasicResponse {
      */
     @JsonProperty('message', String)
     public message: string = undefined;
+
+    @JsonProperty('userProfile', UserProfile)
+    public userProfile: UserProfile = undefined;
 
 }
 
@@ -55,5 +59,9 @@ export class Authentication extends BasicResponse {
      */
     @JsonProperty('sid', String)
     public sid: string = undefined;
+
+    @JsonProperty('userProfile', UserProfile)
+    public userProfile: UserProfile = undefined;
+
 }
 

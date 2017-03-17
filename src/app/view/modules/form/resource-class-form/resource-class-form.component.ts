@@ -30,10 +30,29 @@ export class ResourceClassFormComponent implements OnInit {
 
     resourceTypes: any = undefined;
 
-    counter: number = 0;
-    newResource: string;
+    private counter: number = 0;
+    public newResource: any;
+    public props: any;
+    public perm: any;
+    public card: any;
+    public cardlabel: any;
 
-    props: any;
+    //selector of permissions
+    perms = [
+        {id: 'perm-0', label: 'group 1'},
+        {id: 'perm-1', label: 'group 2'},
+        {id: 'perm-2', label: 'group 3'},
+        {id: 'perm-3', label: 'group 4'}
+    ];
+
+    cardinality = [
+        {id: 'card-0', label: '1'},
+        {id: 'card-1', label: '1 - n'},
+        {id: 'card-2', label: '0 - 1'},
+        {id: 'card-3', label: '0 - n'}
+    ];
+
+
 
     constructor(public dialog: MdDialog,
                 private _baseOntologyService: BaseOntologyService) {
@@ -48,7 +67,6 @@ export class ResourceClassFormComponent implements OnInit {
                     this.resourceTypes = data.resourcetypes;
                 },
                 error => {
-                    console.log(error);
                     this.errorMessage = <any>error;
                 }
             );
@@ -61,7 +79,6 @@ export class ResourceClassFormComponent implements OnInit {
         console.log('you submitted value:', uf);
         this.dialog.closeAll();
     }
-
 
     nextFormSection(cntr: number, e) {
         e.preventDefault();
@@ -77,3 +94,4 @@ export class ResourceClassFormComponent implements OnInit {
 
 
 }
+

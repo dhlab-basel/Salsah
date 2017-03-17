@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Properties &#8212; Salsah 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+    <link rel="next" title="Other modules" href="../others/index.html" />
+    <link rel="prev" title="Object" href="../object/index.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../../../../index.html">
+          <span>Salsah 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Properties</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../object/index.html">Object</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../../../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../others/index.html">Other modules</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="properties">
+<h1>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h1>
+<p>The &#8220;properties&#8221; modules are predefined GUI elements for the resource metadata.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The GUI elements are important for editing. So, we&#8217;re using form elements. Perhaps we have to move the properties into the <a class="reference internal" href="../form/index.html#form"><span class="std std-ref">Form</span></a> directory!?</p>
+</div>
+<div class="section" id="string">
+<h2>String<a class="headerlink" href="#string" title="Permalink to this headline">¶</a></h2>
+<p>Just a text element. Single or multi line</p>
+</div>
+<div class="section" id="number">
+<h2>Number<a class="headerlink" href="#number" title="Permalink to this headline">¶</a></h2>
+<p>For integer or floating point number.
+A number element can also be a range &#8220;from ... to&#8221;</p>
+</div>
+<div class="section" id="richtext">
+<h2>Richtext<a class="headerlink" href="#richtext" title="Permalink to this headline">¶</a></h2>
+<p>Has a toolbar to format text.</p>
+<p>Element: textarea or an existing editor. <a class="reference external" href="http://ckeditor.com">ckeditor</a> ?</p>
+</div>
+<div class="section" id="date">
+<h2>Date<a class="headerlink" href="#date" title="Permalink to this headline">¶</a></h2>
+<p>Date selection;
+Can be a single date or a period.</p>
+<p>Format:</p>
+<ul class="simple">
+<li>dd.mm.yyyy</li>
+<li>mm.yyyy</li>
+<li>yyyy</li>
+</ul>
+<p>plus the calendar information (Julian, Gregorian etc.)</p>
+</div>
+<div class="section" id="time">
+<h2>Time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h2>
+<p>Time selection; Can be a single timestamp or a sequence. In the case of a sequence, we can calculate the duration.</p>
+<p>It&#8217;s possible to set a time in seconds or as a timecode.</p>
+<p>Format:
+* hh:mm:ss:ff (hours:minutes:seconds:frames)
+* ss.ms (seconds in floating point notation with miliseconds)
+* ss.ff (seconds in floating point notation with frame number)</p>
+</div>
+<div class="section" id="location">
+<h2>Location<a class="headerlink" href="#location" title="Permalink to this headline">¶</a></h2>
+<p>The location is connected to <a class="reference external" href="http://geonames.org">geonames</a>.org</p>
+<p>Element: autocomplete (or dropdown, if we still store the already used location in a hierarchical list again)</p>
+</div>
+<div class="section" id="resource-pointer">
+<h2>Resource pointer<a class="headerlink" href="#resource-pointer" title="Permalink to this headline">¶</a></h2>
+<p>Link element to another resource. The connected resource can be internal or external.</p>
+<p>Element: autocomplete or dropdown</p>
+</div>
+<div class="section" id="selection">
+<h2>Selection<a class="headerlink" href="#selection" title="Permalink to this headline">¶</a></h2>
+<p>Element: dropdown, checkbox or radio buttons</p>
+</div>
+<div class="section" id="hierarchical-list">
+<h2>Hierarchical list<a class="headerlink" href="#hierarchical-list" title="Permalink to this headline">¶</a></h2>
+<p>Element: dropdown or radio buttons</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../object/index.html">Object</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../../../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../others/index.html">Other modules</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann, Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

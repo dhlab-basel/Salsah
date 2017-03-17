@@ -90,7 +90,7 @@ body {
     }
 }
 
-.md-menu-panel.salsah-project-selection {
+.mat-menu-panel.salsah-project-selection {
     width: 420px;
     max-width: 420px;
     div {
@@ -164,12 +164,6 @@ footer.salsah-main-footer {
 }
 .salsah-warning {
     color: indianred;
-}
-.salsah-hint {
-    position: relative;
-    &.md-hint {
-        position: relative;
-    }
 }
 .salsah-note {
     background-color: lightgoldenrodyellow;

@@ -16,7 +16,7 @@ import {Component, OnInit, Input} from '@angular/core';
 import {ProjectsList} from "../../../../model/classes/projects";
 import {ProjectsService} from "../../../../model/api/projects.service";
 import {Router} from "@angular/router";
-import {UserData} from "../../../../model/classes/user-data";
+import {UserData} from "../../../../model/classes/user-profile";
 import {ApiServiceResult} from "../../../../model/api/api-service-result";
 import {ApiServiceError} from "../../../../model/api/api-service-error";
 

@@ -67,7 +67,7 @@ export class HeaderToolbarComponent implements OnInit {
         // check if the authentication is valid: there should be a local storage item called "auth"
         this.auth = this._sessionService.checkAuth();
 
-        if (this.auth !== null) this.userName = this.auth.userdata.email;
+        if (this.auth !== null) this.userName = this.auth.userProfile.userData.email;
     }
 
     userMenu: any = [
