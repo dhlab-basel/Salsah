@@ -16,6 +16,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {ApiService} from "./api.service";
+import {Headers} from "@angular/http";
 
 
 @Injectable()
@@ -24,6 +25,26 @@ export class UserService extends ApiService {
 
     getUser(email: string): Observable<any> {
         return this.httpGet("/users/email/" + email);
+    }
+
+    createUser(data: any): Observable<any> {
+
+        let headers: Headers = new Headers();
+        console.log(headers);
+//        headers.append("Authorization", "Basic " + btoa(email + ":" + password));
+
+        /*
+         email: String,
+         givenName: String,
+         familyName: String,
+         password: String,
+         status: Boolean = true,
+         lang: String = "en",
+         systemAdmin: Boolean = false
+         */
+
+
+        return this.httpPost("/users", {}, {})
     }
 
 

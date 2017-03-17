@@ -13,12 +13,42 @@
  * */
 
 import { JsonObject, JsonProperty } from 'json2typescript';
-import { BasicResponse } from './basic-response';
 
+@JsonObject
+export class User {
 
-/**
- * Represents the current user's data
- */
+    @JsonProperty('userProfile', UserProfile)
+    public userProfile: UserProfile = undefined;
+
+    @JsonProperty('status', Number)
+    public status: Number = undefined;
+
+}
+
+@JsonObject
+export class UserProfile {
+
+    @JsonProperty('userData', UserData)
+    public userData: UserData = undefined;
+
+    @JsonProperty('groups', [String])
+    public groups: string[] = undefined;
+
+    @JsonProperty('projects_info', Object)
+    public projects_info: any = undefined;
+
+    @JsonProperty('sessionId', null)
+    public sessionId: string = undefined;
+
+//    @JsonProperty('projects', [String], true)
+//    public projects: string[] = undefined;
+
+    @JsonProperty('isSystemUser', Boolean)
+    public isSystemUser: boolean = undefined;
+
+    @JsonProperty('permissionData', PermissionData)
+    public permissionData: PermissionData = undefined;
+}
 
 @JsonObject
 export class UserData {
@@ -46,34 +76,6 @@ export class UserData {
 
     @JsonProperty('user_id', null)
     public user_id: string = undefined;
-
-}
-
-
-@JsonObject
-export class UserProfile {
-
-    @JsonProperty('userData', UserData)
-    public userData: UserData = undefined;
-
-    @JsonProperty('groups', [String])
-    public groups: string[] = undefined;
-
-    @JsonProperty('projects_info', Object)
-    public projects_info: any = undefined;
-
-    @JsonProperty('sessionId', null)
-    public sessionId: string = undefined;
-
-    @JsonProperty('projects', [String], true)
-    public projects: string[] = undefined;
-
-    @JsonProperty('isSystemUser', Boolean)
-    public isSystemUser: boolean = undefined;
-
-    @JsonProperty('permissionData', PermissionData)
-    public permissionData: PermissionData = undefined;
-
 }
 
 @JsonObject
@@ -89,29 +91,6 @@ export class PermissionData {
     public anonymousUser: boolean = undefined;
 }
 
-
-
-@JsonObject
-export class User {
-
-    @JsonProperty('userProfile', UserProfile)
-    public userProfile: UserProfile = undefined;
-
-    /**
-     * Knora status code
-     * @param status: KnoraStatusCode
-     */
-    @JsonProperty('status', Number)
-    public status: Number = undefined;
-
-    /**
-     * The current user's data
-     * @param userdata: userdata
-     */
-    @JsonProperty('userData', UserData)
-    public userData: UserData = undefined;
-
-}
 
 
 

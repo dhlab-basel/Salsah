@@ -15,6 +15,9 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {UserService} from "../../../../model/api/user.service";
 
 @Component({
     selector: 'salsah-user-form',
@@ -46,7 +49,8 @@ export class UserFormComponent implements OnInit {
     };
 
     constructor(public dialog: MdDialog,
-                @Inject(FormBuilder) fb: FormBuilder) {
+                @Inject(FormBuilder) fb: FormBuilder,
+                public _userService: UserService) {
 
         this.uf = fb.group({
             'firstName': ['', Validators.required],
@@ -65,6 +69,17 @@ export class UserFormComponent implements OnInit {
 
     onSubmit(value: any): void {
         console.log('you submitted value: ', value);
+
+        this._userService.createUser(this.uf).subscribe(
+            (result: ApiServiceResult) => {
+                console.log(result);
+            },
+            (error: ApiServiceError) => {
+                console.log(error);
+            }
+        );
+
+
         this.dialog.closeAll();
     }
 

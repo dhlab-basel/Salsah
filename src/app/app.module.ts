@@ -76,6 +76,7 @@ import {ProjectAdvancedComponent} from './view/dashboard/project/project-advance
 import {UserService} from "./model/api/user.service";
 import {ApiService} from "./model/api/api.service";
 import {KeyPipe} from './view/modules/other/key.pipe';
+import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
 
 
 @NgModule({
@@ -117,7 +118,8 @@ import {KeyPipe} from './view/modules/other/key.pipe';
         UserCollectionsComponent,
         ProjectAdvancedComponent,
         ReversePipe,
-        KeyPipe
+        KeyPipe,
+        ProgressIndicatorComponent
     ],
     imports: [
         BrowserModule,

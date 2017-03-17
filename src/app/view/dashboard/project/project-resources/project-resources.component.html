@@ -1,6 +1,4 @@
-<!-- salsah-resources-admin -->
-
-<div class="salsah-main-list" [ngClass]="[position.preview, size]">
+<div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
     <h2 md-header>Organize your resources</h2>
     <button md-button (click)="addNewResourceClass()">
         <md-icon> add </md-icon>
@@ -13,6 +11,7 @@
         <h3 md-subheader>Resources (active)</h3>
         <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes; let i = index"
                       (click)="openResourceClass(resClass.id, i);"
+                      class="salsah-link"
                       [class.highlight]="i == selectedRow">
             <md-icon md-list-avatar>{{resClass.icon}}</md-icon>
             <h4 md-line>{{resClass.label}}</h4>
@@ -45,18 +44,24 @@
     </md-list>
 </div>
 
-<div *ngIf="properties" class="salsah-main-view" [ngClass]="position.detail">
-    <button md-icon-button (click)="closeDetailView()" class="right">
-        <md-icon>close</md-icon>
-    </button>
+<div *ngIf="properties" class="salsah-module-detail" [ngClass]="position.detail">
+    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
 
-    <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
-    <md-list>
-        <md-list-item *ngFor="let prop of properties.properties">
-            <h4 md-line>{{prop.label}}</h4>
-            <p md-line>{{prop.description}}</p>
-            <p md-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
+    <div class="salsah-module-detail-content">
+        <!-- close button -->
+        <button md-icon-button (click)="closeDetailView()" class="right">
+            <md-icon>close</md-icon>
+        </button>
 
-        </md-list-item>
-    </md-list>
+        <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+
+        <md-list>
+            <md-list-item *ngFor="let prop of properties.properties">
+                <h4 md-line>{{prop.label}}</h4>
+                <p md-line>{{prop.description}}</p>
+                <p md-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
+
+            </md-list-item>
+        </md-list>
+    </div>
 </div>
