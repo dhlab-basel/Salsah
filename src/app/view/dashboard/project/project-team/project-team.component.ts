@@ -80,6 +80,7 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     openUser(id: string, index: number) {
+        this.isLoading = true;
         if (this.size === 'large') this.size = 'small';
 
         this._userService.getUser(id)
@@ -87,9 +88,11 @@ export class ProjectTeamComponent implements OnInit {
                 (result: ApiServiceResult) => {
                     this.user = result.getBody(User);
                     this.selectedRow = index;
+                    this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
+                    this.isLoading = false;
                 }
             );
     }

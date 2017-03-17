@@ -1,7 +1,8 @@
-<md-list>
+<md-list class="salsah-list">
     <md-list-item *ngFor="let res of result.subjects; let i = index"
                   (click)="open(res.obj_id, i)"
                   [id]="res.obj_id"
+                  class="salsah-link"
                   [class.highlight]="i == selectedRow">
         <img md-list-avatar [src]="res.preview_path" />
         <p md-line *ngFor="let val of res.value">

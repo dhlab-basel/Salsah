@@ -3,13 +3,14 @@
 <md-list>
     <h3 md-subheader>Public projects in Knora</h3>
     <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
-    <md-progress-spinner *ngIf="isLoading" mode="indeterminate"></md-progress-spinner>
-    <md-list-item *ngFor="let item of projects?.projects" (click)="openProject(item.shortname)">
+
+    <!-- progress indicator, until the data is ready -->
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
+    <md-list-item *ngFor="let item of projects?.projects" (click)="openProject(item.shortname)" class="salsah-link">
         <md-icon md-list-avatar>chrome_reader_mode</md-icon>
         <h4 md-line>{{item.longname}}</h4>
         <p md-line>{{item.description}}</p>
-
-
     </md-list-item>
 </md-list>
 

@@ -1,31 +1,31 @@
-/* general loader setting/styling */
+/* progress indicator
+ * two lines with three bouncing squares each
+ *
+ */
 
-.loading {
+.progress-indicator {
 
-}
+    width: 96px;
+    height: 56px;
+    padding: 24px 36px 24px 36px;
 
-/* this is the loader on the start page */
-$width: 15px;
-$height: 15px;
-
-$bounce_height: 30px;
-
-.wrap {
-    position: absolute;
-    top: 39%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    &.page-center {
+        position: absolute;
+        top: 39%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
     p, h1, h2, h3 {
         text-align: center;
         color: #555555;
     }
-    .spinner {
+    .line {
         margin: 0 auto 0;
         width: 70px;
         text-align: center;
     }
 
-    .spinner > div {
+    .line > div {
         width: 18px;
         height: 18px;
         background-color: #009688;
@@ -36,12 +36,12 @@ $bounce_height: 30px;
         animation: sk-bouncedelay 1.4s infinite ease-in-out both;
     }
 
-    .spinner .bounce1 {
+    .line .bounce1 {
         -webkit-animation-delay: -0.32s;
         animation-delay: -0.32s;
     }
 
-    .spinner .bounce2 {
+    .line .bounce2 {
         -webkit-animation-delay: -0.16s;
         animation-delay: -0.16s;
     }
