@@ -29,20 +29,17 @@ export class UserData {
     @JsonProperty('firstname', null)
     public firstname: string = undefined;
 
+    @JsonProperty('lastname', null)
+    public lastname: string = undefined;
+
     @JsonProperty('isActiveUser', Boolean)
     public isActiveUser: boolean = undefined;
 
     @JsonProperty('lang', String)
     public lang: string = undefined;
 
-    @JsonProperty('lastname', null)
-    public lastname: string = undefined;
-
     @JsonProperty('password', null)
     public password: string = undefined;
-
-    @JsonProperty('projects', [String])
-    public projects: string[] = undefined;
 
     @JsonProperty('token', null)
     public token: string = undefined;
@@ -62,10 +59,13 @@ export class UserProfile {
     @JsonProperty('groups', [String])
     public groups: string[] = undefined;
 
+    @JsonProperty('projects_info', Object)
+    public projects_info: any = undefined;
+
     @JsonProperty('sessionId', null)
     public sessionId: string = undefined;
 
-    @JsonProperty('projects', [String])
+    @JsonProperty('projects', [String], true)
     public projects: string[] = undefined;
 
     @JsonProperty('isSystemUser', Boolean)
