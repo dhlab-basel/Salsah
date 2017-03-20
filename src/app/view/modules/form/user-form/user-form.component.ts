@@ -61,6 +61,19 @@ export class UserFormComponent implements OnInit {
             'lang': 'en'
         });
 
+        /* the api needs the following props:
+         {
+         "username": "",
+         "givenName": "",
+         "familyName": "",
+         "email": "",
+         "password": "",
+         "status": true,
+         "lang": "de",
+         "systemAdmin": false
+         }
+         */
+
     }
 
     ngOnInit() {
