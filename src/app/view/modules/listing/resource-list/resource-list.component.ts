@@ -35,9 +35,8 @@ export class ResourceListComponent implements OnInit {
 
     }
 
-    open(id: string, index: number) {
-        this.selectedRow = index;
-        this.openResource.emit({id, index});
+    open(id: string) {
+        this.openResource.emit({id});
     }
 
 }

@@ -4,7 +4,7 @@
 <md-list>
     <md-list-item *ngFor="let prop of resource?.props | key; let i = index">
         <p md-line [mdTooltip]="prop.key" mdTooltipPosition="above">{{prop.value.label}}</p>
-        <p md-line *ngFor="let val of prop.value.values" [innerHTML]="val['utf8str']"></p>
+        <p md-line *ngFor="let val of prop.value.values; let j = index" [innerHTML]="openValue(val, prop.value, j)"></p>
     </md-list-item>
 </md-list>
 
