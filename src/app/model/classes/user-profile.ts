@@ -13,6 +13,7 @@
  * */
 
 import { JsonObject, JsonProperty } from 'json2typescript';
+import {ProjectItem} from "./projects";
 
 @JsonObject
 export class User {
@@ -34,8 +35,8 @@ export class UserProfile {
     @JsonProperty('groups', [String])
     public groups: string[] = undefined;
 
-    @JsonProperty('projects_info', Object)
-    public projects_info: any = undefined;
+    @JsonProperty('projects_info', [ProjectItem])
+    public projects_info: ProjectItem[] = undefined;
 
     @JsonProperty('sessionId', null)
     public sessionId: string = undefined;

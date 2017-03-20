@@ -50,10 +50,10 @@
         <md-list>
             <md-divider></md-divider>
             <h3 md-header>Projects</h3>
-            <md-list-item *ngFor="let project of user.userProfile?.projects">
-                <h4 md-line>{{project}}</h4>
-                <p md-line *ngFor="let group of user.userProfile?.permissionData.groupsPerProject[project]">
-                    - {{group}}
+            <md-list-item *ngFor="let project of user.userProfile?.projects_info | key; let i = index">
+                <h4 md-line>{{project.value.longname}}</h4>
+                <p md-line>
+                    {{project.value.description}}
                 </p>
             </md-list-item>
         </md-list>
