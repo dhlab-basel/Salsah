@@ -88,7 +88,7 @@ export class ProjectItem {
     public ontologyNamedGraph: string = undefined;
 
     @JsonProperty('hasSelfJoinEnabled', Boolean)
-    public hasSelfJoinEnabled: boolean = undefined;
+    public hasSelfJoinEnabled: boolean = false;
 
 }
 
