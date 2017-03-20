@@ -10,7 +10,7 @@ import {ApiServiceError} from "../../../model/api/api-service-error";
     templateUrl: './object.component.html',
     styleUrls: ['./object.component.css']
 })
-export class ObjectComponent implements OnChanges, OnInit {
+export class ObjectComponent implements OnChanges {
 
     @Input() iri: string;
 
@@ -38,6 +38,7 @@ export class ObjectComponent implements OnChanges, OnInit {
             );
     }
 
+    /*
     ngOnInit() {
         this._route.params.subscribe((params: Params) => {
             let resIri = ( params['rid'] !== undefined ? params['rid'] : this.iri );
@@ -54,5 +55,6 @@ export class ObjectComponent implements OnChanges, OnInit {
                 );
         });
     }
+    */
 
 }
