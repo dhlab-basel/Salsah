@@ -13,6 +13,11 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router, Params} from "@angular/router";
+import {UserService} from "../../../model/api/user.service";
+import {User} from "../../../model/classes/user-profile";
+import {ApiServiceResult} from "../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-user',
@@ -22,6 +27,12 @@ import {Component, OnInit} from '@angular/core';
 export class UserComponent implements OnInit {
 
     isLoading: boolean = true;
+
+    errorMessage: string = undefined;
+    user: User = new User();
+
+    userRoute: string = '/project/';
+    cur_user: string = undefined;
 
     menu: any = [
         {
@@ -39,11 +50,41 @@ export class UserComponent implements OnInit {
 
     ];
 
-    constructor() {
+    constructor(
+        private _router: Router,
+        private _route: ActivatedRoute,
+        private _userService: UserService
+    ) {
     }
 
     ngOnInit() {
-        this.isLoading  = false;
+
+        this._route.params.subscribe((params: Params) => {
+            this.cur_user = params['uid'];
+            this.userRoute += this.cur_user;
+
+//            this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
+
+
+            // get the project information
+            this._userService.getUser(this.cur_user)
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        this.user = result.getBody(User);
+//                        this.isLoading = false;
+                        localStorage.setItem('user', JSON.stringify(
+                            this.user.userProfile.userData
+                        ))
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+                        localStorage.removeItem('user');
+                    }
+                );
+
+        });
+
+
     }
 
 }

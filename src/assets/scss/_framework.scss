@@ -78,6 +78,7 @@ main.salsah-main {
         position: fixed;
         z-index: 0;
         height: calc(100vh - 64px - 24px);
+        width: 100%;
 
         &.with-header {
             top: 128px;
@@ -118,10 +119,6 @@ main.salsah-main {
                             background-color: rgba(teal, 0.08);
                         }
                     }
-                }
-
-                &.transparent {
-                    background: none;
                 }
             }
             @media (max-width: 960px) and (orientation: landscape) {

@@ -16,6 +16,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Authentication} from "../../../../model/classes/session";
 import {SessionService} from "../../../../model/api/session.service";
+import {UserData} from "../../../../model/classes/user-profile";
 
 @Component({
     selector: 'salsah-user-profile',
@@ -27,6 +28,8 @@ export class UserProfileComponent implements OnInit {
     userName: string = undefined;
     auth: Authentication = undefined;
 
+    user: UserData = new UserData;
+
     constructor(
         private _sessionService: SessionService,
         private _router: Router
@@ -34,6 +37,11 @@ export class UserProfileComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.user = JSON.parse(localStorage.getItem('user'));
+
+
+/*
         // get the user name from the url
         this.userName = decodeURIComponent(this._router.url.split('user/')[1]);
         // check the authentication and compare the userName with the auth.user
@@ -45,7 +53,7 @@ export class UserProfileComponent implements OnInit {
         else {
             // show user's profile page incl. settings button
         }
-
+*/
         //
 
         // get the user's profile data incl. collections, history etc.
