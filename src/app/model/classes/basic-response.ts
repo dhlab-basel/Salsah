@@ -32,7 +32,7 @@ export class BasicResponse {
      * The current user's data
      * @param userdata: userdata
      */
-    @JsonProperty('userdata', UserData, true)
-    public userdata: UserData = undefined;
+//    @JsonProperty('userdata', UserData, true)
+//    public userdata: UserData = undefined;
 
 }

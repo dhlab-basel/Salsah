@@ -12,6 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+
 import { JsonObject, JsonProperty } from 'json2typescript';
 import { BasicResponse } from './basic-response';
 
@@ -87,7 +88,7 @@ export class ProjectItem {
     public ontologyNamedGraph: string = undefined;
 
     @JsonProperty('hasSelfJoinEnabled', Boolean)
-    public hasSelfJoinEnabled: boolean = false;
+    public hasSelfJoinEnabled: boolean = undefined;
 
 }
 
