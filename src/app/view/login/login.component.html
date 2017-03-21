@@ -15,7 +15,7 @@
 
       <md-card-content class="login">
         <!-- This is the login form (lf) -->
-        <form class="login-form" #lf="ngForm" (ngSubmit)="onSubmit(lf.value)">
+        <form class="login-form" #lf="ngForm" (ngSubmit)="onSubmit(lf.value)" *ngIf="!isLoading">
           <!-- Username -->
           <md-input-container class="full-width">
             <md-icon mdPrefix>person</md-icon>
@@ -48,6 +48,7 @@
 
           </div>
         </form>
+        <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
       </md-card-content>
 
 
