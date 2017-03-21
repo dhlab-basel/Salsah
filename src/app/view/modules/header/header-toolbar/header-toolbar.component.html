@@ -15,7 +15,7 @@
         <span class="salsah-menu-title">
             {{addMenuTitle}}
         </span>
-            <span class="salsah-menu-action">
+        <span class="salsah-menu-action">
             <button md-icon-button (click)="toggleMenu('addMenu')">
                 <md-icon>close</md-icon>
             </button>
@@ -68,7 +68,7 @@
 
 <!-- else: show show the login button only -->
 <div *ngIf="userName === undefined">
-    <button md-raised-button routerLink="/login" mdTooltip="Login"
+    <button md-raised-button (click)="goToLoginPage()" mdTooltip="Login"
             mdTooltipPosition="below" class="mat-primary">
         Log In
     </button>

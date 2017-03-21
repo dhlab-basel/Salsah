@@ -87,11 +87,11 @@ export class LoginComponent implements OnInit {
                 // after successful login, we want to go back to the previous page e.g. search incl. query
                 // for this case, we stored the previous url parameters in the current login url as query params
                 //
-                let goToUrl: string;
+                let goToUrl: string = '/';
                 this._route.queryParams.subscribe(
-                    data => goToUrl = data['hb']
+                    data => goToUrl = (data['h'] === undefined ? '/' : data['h'])
                 );
-                if( goToUrl === undefined ) goToUrl = '/';
+
                 window.location.replace(goToUrl);
 
             },

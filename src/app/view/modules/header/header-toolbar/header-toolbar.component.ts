@@ -17,7 +17,7 @@ import {
     ElementRef
 } from '@angular/core';
 import {SessionService} from "../../../../model/api/session.service";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import {Authentication, Session} from "../../../../model/classes/session";
 import {ApiServiceResult} from "../../../../model/api/api-service-result";
 import {ApiServiceError} from "../../../../model/api/api-service-error";
@@ -57,6 +57,8 @@ export class HeaderToolbarComponent implements OnInit {
     focusOnAddMenu: boolean = false;
 
     constructor(private _eleRef: ElementRef,
+                private _route: ActivatedRoute,
+                private _router: Router,
                 private _sessionService: SessionService) {
     }
 
@@ -142,6 +144,14 @@ export class HeaderToolbarComponent implements OnInit {
                 this.focusOnAddMenu = (this.focusOnAddMenu === false);
                 break;
         }
+    }
+
+    goToLoginPage() {
+        let goToUrl: string = '/login';
+
+        if(this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
+
+        window.location.replace(goToUrl);
     }
 
 }
