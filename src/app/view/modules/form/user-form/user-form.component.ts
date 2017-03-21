@@ -68,10 +68,7 @@ export class UserFormComponent implements OnInit {
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
             'systemAdmin': false,
             'lang': 'en',
-            'status': true,
-            'projects_info': {
-
-            }
+            'status': true
         });
 
         /* the api needs the following props:
@@ -98,7 +95,14 @@ export class UserFormComponent implements OnInit {
 
         this._userService.createUser(value).subscribe(
             (result: ApiServiceResult) => {
-                console.log(result);
+                console.log(result.body.userProfile.userData.user_id);
+                console.log(this.project.id);
+
+                // result.body.userProfile.userData.user_id
+                // this.project.id
+                // this._userService.addUserToProject()
+
+                this.dialog.closeAll();
             },
             (error: ApiServiceError) => {
                 console.log(error);
@@ -106,7 +110,7 @@ export class UserFormComponent implements OnInit {
         );
 
 
-        this.dialog.closeAll();
+
     }
 
 
