@@ -43,6 +43,31 @@
                 </span>
             </md-hint>
         </md-input-container>
+
+        <table class="full-width form-table">
+            <tr>
+                <td class="left">
+                    <md-select [formControl]="uf.controls['lang']" [placeholder]="form.user.language" [(ngModel)]="uf.controls['lang'].value">
+                        <md-option value="en">english</md-option>
+                        <md-option value="de">deutsch</md-option>
+                        <md-option value="fr">français</md-option>
+                        <md-option value="it">italiano</md-option>
+                    </md-select>
+                </td>
+
+                <td class="right">
+                    <md-checkbox align="end">
+                        {{form.user.admin}}
+                    </md-checkbox>
+                </td>
+            </tr>
+        </table>
+
+
+
+
+
+
     </md-dialog-content>
 
     <md-dialog-actions>

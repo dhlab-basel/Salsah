@@ -40,14 +40,16 @@ export class UserFormComponent implements OnInit {
     public form: any = {        // TODO: modify a language json file or db file for multilingual use
         user: {
             title: 'Create a new user account',
-            firstName: 'First Name',
-            lastName: 'Last Name',
+            firstName: 'First name',
+            lastName: 'Last name',
             email: 'Email address',
             emailHint: 'This will be your login name',
             emailValidation: 'This doesn\'t appear to be a valid email address.',
             password: 'Password',
             passwordHint: 'Use at least 8 characters with one uppercase letter and one number.',
-            avatar: 'Upload a profile pic'
+            avatar: 'Upload a profile pic',
+            language: 'Default language',
+            admin: 'Project admin?'
         }
     };
 
@@ -57,9 +59,7 @@ export class UserFormComponent implements OnInit {
 
         this.project = JSON.parse(localStorage.getItem('project'));
 
-        console.log(this.project.id);
-        console.log(encodeURIComponent("http://rdfh.ch/users/NmqI97IkSr2PNUGVjApLUg"));
-        console.log(decodeURI("http://rdfh.ch/users/NmqI97IkSr2PNUGVjApLUg"));
+//        console.log(encodeURIComponent("http://rdfh.ch/users/NmqI97IkSr2PNUGVjApLUg"));
 
         this.uf = fb.group({
             'givenName': ['', Validators.required],

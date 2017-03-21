@@ -15,8 +15,7 @@ input[type="search"] {
 input[type="file"] {
     display: none;
 }
-//
-//
+
 md-dialog-container.mat-dialog-container {
     min-height: 480px;
     width: 420px;
@@ -29,6 +28,20 @@ md-dialog-container.mat-dialog-container {
         md-input-container {
             margin-top: 12px;
             margin-bottom: 12px;
+        }
+    }
+    
+    .form-table {
+        margin-top: 24px;
+        margin-bottom: 24px;
+        tr td {
+            text-align: center;
+            &.left {
+                text-align: left;
+            }
+            &.right {
+                text-align: right;
+            }
         }
     }
 }
