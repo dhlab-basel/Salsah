@@ -18,6 +18,8 @@ import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {ApiServiceError} from "../../../../model/api/api-service-error";
 import {ApiServiceResult} from "../../../../model/api/api-service-result";
 import {UserService} from "../../../../model/api/user.service";
+import {ProjectItem} from "../../../../model/classes/projects";
+import {assetUrl} from "@angular/compiler/src/identifiers";
 
 @Component({
     selector: 'salsah-user-form',
@@ -26,6 +28,7 @@ import {UserService} from "../../../../model/api/user.service";
 })
 export class UserFormComponent implements OnInit {
 
+    project: ProjectItem = new ProjectItem();
 
     uf: FormGroup;
 
@@ -52,13 +55,23 @@ export class UserFormComponent implements OnInit {
                 @Inject(FormBuilder) fb: FormBuilder,
                 public _userService: UserService) {
 
+        this.project = JSON.parse(localStorage.getItem('project'));
+
+        console.log(this.project.id);
+        console.log(encodeURIComponent("http://rdfh.ch/users/NmqI97IkSr2PNUGVjApLUg"));
+        console.log(decodeURI("http://rdfh.ch/users/NmqI97IkSr2PNUGVjApLUg"));
+
         this.uf = fb.group({
-            'firstName': ['', Validators.required],
-            'lastName': [null, Validators.required],
+            'givenName': ['', Validators.required],
+            'familyName': [null, Validators.required],
             'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
             'systemAdmin': false,
-            'lang': 'en'
+            'lang': 'en',
+            'status': true,
+            'projects_info': {
+
+            }
         });
 
         /* the api needs the following props:
@@ -83,7 +96,7 @@ export class UserFormComponent implements OnInit {
     onSubmit(value: any): void {
         console.log('you submitted value: ', value);
 
-        this._userService.createUser(this.uf).subscribe(
+        this._userService.createUser(value).subscribe(
             (result: ApiServiceResult) => {
                 console.log(result);
             },

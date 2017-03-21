@@ -31,6 +31,7 @@ export class UserService extends ApiService {
 
         let headers: Headers = new Headers();
         console.log(headers);
+        console.log(data);
 //        headers.append("Authorization", "Basic " + btoa(email + ":" + password));
 
         /*
@@ -44,7 +45,7 @@ export class UserService extends ApiService {
          */
 
 
-        return this.httpPost("/users", {}, {})
+        return this.httpPost("/users", data, {});
     }
 
 

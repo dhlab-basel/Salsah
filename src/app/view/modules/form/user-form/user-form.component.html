@@ -8,14 +8,14 @@
                             dividerColor="{{ uf.controls['firstName']?.invalid && uf.controls['firstName']?.touched ? 'warn' : 'primary' }}">
             <input mdInput autofocus
                    [placeholder]="form.user.firstName + ' *'"
-                   [formControl]="uf.controls['firstName']">
+                   [formControl]="uf.controls['givenName']">
         </md-input-container>
 
         <md-input-container class="full-width"
                             dividerColor="{{ uf.controls['lastName']?.invalid && uf.controls['lastName']?.touched ? 'warn' : 'primary' }}">
             <input mdInput
                    [placeholder]="form.user.lastName + ' *'"
-                   [formControl]="uf.controls['lastName']">
+                   [formControl]="uf.controls['familyName']">
         </md-input-container>
 
         <md-input-container class="full-width"
