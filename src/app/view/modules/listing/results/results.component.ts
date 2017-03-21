@@ -27,6 +27,7 @@ import {ApiServiceError} from "../../../../model/api/api-service-error";
 export class ResultsComponent implements OnInit {
 
     isLoading: boolean = true;
+    isLoadingSubModule: boolean = true;
     errorMessage: any;
 
     selectedView: string = 'list';
@@ -92,7 +93,9 @@ export class ResultsComponent implements OnInit {
 
     openResource($event) {
         if(this.size === 'large') this.size = 'small'; this.cols = 1;
+        this.isLoadingSubModule = true;
         this.resource = $event.id;
+        this.isLoadingSubModule = false;
     }
 
     closeDetailView() {
