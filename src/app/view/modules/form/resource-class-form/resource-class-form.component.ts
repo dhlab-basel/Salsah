@@ -35,7 +35,6 @@ export class ResourceClassFormComponent implements OnInit {
     public props: any;
     public perm: any;
     public card: any;
-    public cardlabel: any;
 
     //selector of permissions
     perms = [
@@ -45,6 +44,7 @@ export class ResourceClassFormComponent implements OnInit {
         {id: 'perm-3', label: 'group 4'}
     ];
 
+    //selector of cardinality (referred to as occurrence in the GUI)
     cardinality = [
         {id: 'card-0', label: '1'},
         {id: 'card-1', label: '1 - n'},
@@ -91,7 +91,5 @@ export class ResourceClassFormComponent implements OnInit {
         // show the previous section
         this.counter = cntr - 1;
     }
-
-
 }
 
