@@ -61,28 +61,44 @@
 
         <!-- Step 4: Set permissions for each property -->
         <section [ngClass]="{show: counter===3, hide: counter!==3}">
-            <h3>Choose the properties' permissions</h3>
+            <h3>Set property permissions and occurrence</h3>
             <div *ngFor="let res of knoraBase?.resourcetypes">
                 <div *ngIf="res.label==newResource">
                     <div *ngFor="let props of res.properties">
                         <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
                             <table class="perm-style">
                                 <tr>
+                                    <!-- Property label -->
                                     <td width="150px">
-                                        <br><b> {{props.label}} </b> <br>
-                                        <small><small>(occurrence: {{props.cardinality}})</small></small>
+                                        <div><b> {{props.label}} </b> <br></div>
+                                        <!--<small><small>(occurrence: {{props.cardinality}})</small></small>-->
                                     </td>
+                                    <!-- Permissions setting -->
                                     <td width="150px">
                                         <md-select class="perm-style"
                                                    placeholder="Permissions"
                                                    required
-                                                   [(ngModel)]="props.perm" [name]="props.label" #permis="ngModel"  selected="group 1">
+                                                   [(ngModel)]="perms[0].label" [name]="props.label" #permis="ngModel"  selected="group 1">
                                             <md-option *ngFor="let perm of perms; let first of first" [value]="perm.label">
                                                 {{perm.label}}
                                             </md-option>
                                         </md-select>
                                         <div [hidden]="permis.valid" class="alert alert-danger">
                                             <small><small>Permissions are required</small></small>
+                                        </div>
+                                    </td>
+                                    <!-- Occurrence setting -->
+                                    <td width="150px">
+                                        <md-select class="perm-style"
+                                                   placeholder="{{props.cardinality}}"
+                                                   required
+                                                   [(ngModel)]="props.card" [name]="props.id" #cardis="ngModel">
+                                            <md-option *ngFor="let card of cardinality; let first=first" [value]="card.label" selected="card.label === '1 - n' ? true : (card.label === '1' ? true : false)">
+                                                {{card.label}}
+                                            </md-option>
+                                        </md-select>
+                                        <div [hidden]="cardis.valid" class="alert alert-danger">
+                                            <small><small>Occurrence is required</small></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -93,7 +109,7 @@
             </div>
         </section>
 
-        <!-- Step 5: Set cardinality for each property -->
+        <!-- Step 5: Set cardinality for each property
         <section [ngClass]="{show: counter===4, hide: counter!==4}">
             <h3>Choose the properties' occurrence</h3>
             <div *ngFor="let res of knoraBase?.resourcetypes">
@@ -104,7 +120,7 @@
                                 <tr>
                                     <td width="150px">
                                         <br><b> {{props.label}} </b> <br>
-                                      <!--  <small><small>occurrence label: {{props.cardlabel}}</small></small><br> -->
+                                        <small><small>occurrence label: {{props.cardlabel}}</small></small><br>
                                     </td>
                                     <td width="150px">
                                         <md-select class="perm-style"
@@ -125,10 +141,10 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
-        <!-- Step 6: Make a comment and save -->
-        <section [ngClass]="{show: counter===5, hide: counter!==5}">
+        <!-- Step 5: Make a comment and save -->
+        <section [ngClass]="{show: counter===4, hide: counter!==4}">
             <h3>Comments</h3>
             <md-input-container class="full-width">
                     <textarea mdInput placeholder="Comments" rows="8" name="userComments"
@@ -142,13 +158,13 @@
 
         <button md-button
                 md-dialog-close
-                *ngIf="counter<6"
+                *ngIf="counter<5"
                 class="cancel-button">
             Cancel
         </button>
         <span class="back">
         <button md-button
-                *ngIf="counter<6 && counter >0"
+                *ngIf="counter<5 && counter >0"
                 class="back-button"
                 (click)="prevFormSection(counter, $event)">
             Back
@@ -156,7 +172,7 @@
     </span>
         <span class="next">
         <button md-button
-                *ngIf="counter<5"
+                *ngIf="counter<4"
                 class="next-button md-primary"
                 (click)="nextFormSection(counter, $event)">
                         <!--[disabled]="!uf.valid"-->
@@ -164,9 +180,9 @@
         </button>
         <button type="submit"
                 md-raised-button
-                *ngIf="counter==5"
-                class="save-button md-primary">
-                <!--[disabled]="!uf.valid"-->
+                *ngIf="counter==4"
+                class="save-button md-primary"
+                [disabled]="!uf.valid">
             Save
         </button>
     </span>
