@@ -30,6 +30,7 @@ import {User} from "../../../../model/classes/user-profile";
 export class ProjectTeamComponent implements OnInit {
 
     isLoading: boolean = true;
+    isLoadingSubModule: boolean = true;
     errorMessage: string = undefined;
 
     selectedRow: number;
@@ -80,15 +81,15 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     openUser(id: string, index: number) {
-        this.isLoading = true;
         if (this.size === 'large') this.size = 'small';
+        this.isLoadingSubModule = true;
 
         this._userService.getUser(id)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.user = result.getBody(User);
                     this.selectedRow = index;
-                    this.isLoading = false;
+                    this.isLoadingSubModule = false;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;

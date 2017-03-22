@@ -34,6 +34,8 @@ function getDocument(): any {
 
 export class LoginComponent implements OnInit {
 
+    isLoading: boolean = false;
+
     loginErrorUser: boolean = false;
     loginErrorPw: boolean = false;
     loginErrorServer: boolean = false;
@@ -76,6 +78,9 @@ export class LoginComponent implements OnInit {
 
         this._loginService.login(lf.email, lf.password).subscribe(
             (result: ApiServiceResult) => {
+
+                this.isLoading = true;
+
                 let authentication: Authentication = result.getBody(Authentication);
 
                 getDocument().cookie = "sid=" + authentication.sid;

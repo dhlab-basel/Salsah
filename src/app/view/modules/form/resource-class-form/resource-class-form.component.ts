@@ -37,7 +37,6 @@ export class ResourceClassFormComponent implements OnInit {
     public props: any;
     public perm: any;
     public card: any;
-    public cardlabel: any;
 
     //selector of permissions
     perms = [
@@ -47,6 +46,7 @@ export class ResourceClassFormComponent implements OnInit {
         {id: 'perm-3', label: 'group 4'}
     ];
 
+    //selector of cardinality (referred to as occurrence in the GUI)
     cardinality = [
         {id: 'card-0', label: '1'},
         {id: 'card-1', label: '1 - n'},
@@ -54,6 +54,13 @@ export class ResourceClassFormComponent implements OnInit {
         {id: 'card-3', label: '0 - n'}
     ];
 
+    form: any = {
+        resourceClass: {
+            selection: 'Resource class'
+        }
+    };
+
+    resClass: string = 'empty';
 
 
     constructor(public dialog: MdDialog,
@@ -86,7 +93,11 @@ export class ResourceClassFormComponent implements OnInit {
         this.dialog.closeAll();
     }
 
-    nextFormSection(cntr: number, e) {
+    nextFormSection(cntr: number, e, resClass: string = null) {
+        if(resClass && cntr === 0) {
+            //get the properties for this resClass
+            console.log(resClass);
+        }
         e.preventDefault();
         // show the next section
         this.counter = cntr + 1;
@@ -97,7 +108,5 @@ export class ResourceClassFormComponent implements OnInit {
         // show the previous section
         this.counter = cntr - 1;
     }
-
-
 }
 

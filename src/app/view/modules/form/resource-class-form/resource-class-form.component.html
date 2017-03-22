@@ -2,9 +2,9 @@
 
     <md-dialog-content>
         <!-- Step 1: Select resource type from a list of resources taken directly from the Knora base ontology (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
-        <section [ngClass]="{show: counter===0, hide: counter!==0}">
+        <section [hidden]="counter!==0">
             <h3>What file type do you like to add?</h3><br>
-            <md-select placeholder="Resource class" [(ngModel)]="newResource" name="resource">
+            <md-select [placeholder]="form.resourceClass.selection" [(ngModel)]="newResource" name="resource">
                 <md-option class="resource-group" *ngFor="let res of knoraBase?.resourcetypes" [value]="res.label">
                     {{res.label}}
                 </md-option>
@@ -17,12 +17,32 @@
         </section>
 
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
-        <section [ngClass]="{show: counter===1, hide: counter!==1}">
+        <section [hidden]="counter!==1">
             <h3>Select properties for {{newResource}}</h3>
+            <md-list *ngIf="newResource !== undefined" >
+                <md-list-item *ngFor="let prop of knoraBase?.resourcetypes[newResource]?.properties">
+                    {{prop.cardinality}}
+                    <!--
+                    <md-checkbox *ngIf="prop.cardinality == '1' || prop.cardinality == '1 - n'"
+                                 [checked]="true"
+                                 [(ngModel)]="prop.cardinality"
+                                 [ngModelOptions]="{standalone: true}">
+                        {{prop.label}}
+                    </md-checkbox>
+                    <md-checkbox *ngIf="prop.cardinality == '0 - 1' || prop.cardinality == '0 - n' || prop.cardinality == false"
+                                 color="primary"
+                                 [(ngModel)]="prop.checked"
+                                 [ngModelOptions]="{standalone: true}">
+                        {{props.label}}
+                    </md-checkbox>
+                    -->
+                </md-list-item>
+            </md-list>
+<!--
             <div *ngFor="let res of knoraBase?.resourcetypes">
                 <div *ngIf="res.label==newResource">
                     <md-list *ngFor="let props of res.properties">
-                        <!-- the properties with cardinality 1 or 1 - n are selected by default-->
+                        <!-- the properties with cardinality 1 or 1 - n are selected by default--
                         <md-checkbox *ngIf="props.cardinality == '1' || props.cardinality == '1 - n'"
                                      [checked]="true"
                                      [(ngModel)]="props.cardinality"
@@ -38,10 +58,11 @@
                     </md-list>
                 </div>
             </div>
+            -->
         </section>
 
         <!-- Step 3: Confirm your selection -->
-        <section [ngClass]="{show: counter===2, hide: counter!==2}">
+        <section [hidden]="counter!==2">
             <h3>You selected:</h3>
             <div *ngFor="let res of knoraBase?.resourcetypes">
                 <div *ngIf="res.label==newResource">
@@ -60,29 +81,45 @@
         </section>
 
         <!-- Step 4: Set permissions for each property -->
-        <section [ngClass]="{show: counter===3, hide: counter!==3}">
-            <h3>Choose the properties' permissions</h3>
+        <section [hidden]="counter!==3">
+            <h3>Set property permissions and occurrence</h3>
             <div *ngFor="let res of knoraBase?.resourcetypes">
                 <div *ngIf="res.label==newResource">
                     <div *ngFor="let props of res.properties">
                         <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
                             <table class="perm-style">
                                 <tr>
+                                    <!-- Property label -->
                                     <td width="150px">
-                                        <br><b> {{props.label}} </b> <br>
-                                        <small><small>(occurrence: {{props.cardinality}})</small></small>
+                                        <div><b> {{props.label}} </b> <br></div>
+                                        <!--<small><small>(occurrence: {{props.cardinality}})</small></small>-->
                                     </td>
+                                    <!-- Permissions setting -->
                                     <td width="150px">
                                         <md-select class="perm-style"
                                                    placeholder="Permissions"
                                                    required
-                                                   [(ngModel)]="props.perm" [name]="props.label" #permis="ngModel"  selected="group 1">
+                                                   [(ngModel)]="perms[0].label" [name]="props.label" #permis="ngModel"  selected="group 1">
                                             <md-option *ngFor="let perm of perms; let first of first" [value]="perm.label">
                                                 {{perm.label}}
                                             </md-option>
                                         </md-select>
                                         <div [hidden]="permis.valid" class="alert alert-danger">
                                             <small><small>Permissions are required</small></small>
+                                        </div>
+                                    </td>
+                                    <!-- Occurrence setting -->
+                                    <td width="150px">
+                                        <md-select class="perm-style"
+                                                   placeholder="{{props.cardinality}}"
+                                                   required
+                                                   [(ngModel)]="props.card" [name]="props.id" #cardis="ngModel">
+                                            <md-option *ngFor="let card of cardinality; let first=first" [value]="card.label" selected="card.label === '1 - n' ? true : (card.label === '1' ? true : false)">
+                                                {{card.label}}
+                                            </md-option>
+                                        </md-select>
+                                        <div [hidden]="cardis.valid" class="alert alert-danger">
+                                            <small><small>Occurrence is required</small></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -93,7 +130,7 @@
             </div>
         </section>
 
-        <!-- Step 5: Set cardinality for each property -->
+        <!-- Step 5: Set cardinality for each property
         <section [ngClass]="{show: counter===4, hide: counter!==4}">
             <h3>Choose the properties' occurrence</h3>
             <div *ngFor="let res of knoraBase?.resourcetypes">
@@ -104,7 +141,7 @@
                                 <tr>
                                     <td width="150px">
                                         <br><b> {{props.label}} </b> <br>
-                                      <!--  <small><small>occurrence label: {{props.cardlabel}}</small></small><br> -->
+                                        <small><small>occurrence label: {{props.cardlabel}}</small></small><br>
                                     </td>
                                     <td width="150px">
                                         <md-select class="perm-style"
@@ -125,10 +162,10 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
-        <!-- Step 6: Make a comment and save -->
-        <section [ngClass]="{show: counter===5, hide: counter!==5}">
+        <!-- Step 5: Make a comment and save -->
+        <section [hidden]="counter!==4">
             <h3>Comments</h3>
             <md-input-container class="full-width">
                     <textarea mdInput placeholder="Comments" rows="8" name="userComments"
@@ -142,13 +179,13 @@
 
         <button md-button
                 md-dialog-close
-                *ngIf="counter<6"
+                *ngIf="counter<5"
                 class="cancel-button">
             Cancel
         </button>
         <span class="back">
         <button md-button
-                *ngIf="counter<6 && counter >0"
+                *ngIf="counter<5 && counter >0"
                 class="back-button"
                 (click)="prevFormSection(counter, $event)">
             Back
@@ -156,17 +193,17 @@
     </span>
         <span class="next">
         <button md-button
-                *ngIf="counter<5"
+                *ngIf="counter<4"
                 class="next-button md-primary"
-                (click)="nextFormSection(counter, $event)">
+                (click)="nextFormSection(counter, $event, newResource)">
                         <!--[disabled]="!uf.valid"-->
             Next
         </button>
         <button type="submit"
                 md-raised-button
-                *ngIf="counter==5"
-                class="save-button md-primary">
-                <!--[disabled]="!uf.valid"-->
+                *ngIf="counter==4"
+                class="save-button md-primary"
+                [disabled]="!uf.valid">
             Save
         </button>
     </span>

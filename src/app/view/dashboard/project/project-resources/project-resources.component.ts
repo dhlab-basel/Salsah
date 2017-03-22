@@ -31,6 +31,7 @@ import {ApiServiceError} from "../../../../model/api/api-service-error";
 export class ProjectResourcesComponent implements OnInit {
 
     isLoading: boolean = true;
+    isLoadingSubModule: boolean = true;
     errorMessage: string = undefined;
 
     selectedRow: number;
@@ -61,7 +62,6 @@ export class ProjectResourcesComponent implements OnInit {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.resourceTypes = result.getBody(ResourceTypes);
-
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
@@ -82,12 +82,14 @@ export class ProjectResourcesComponent implements OnInit {
 
     openResourceClass(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
+        this.isLoadingSubModule = true;
 
         this._propertiesService.getPropertiesByResType(id)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.properties = result.getBody(Properties);
                     this.selectedRow = index;
+                    this.isLoadingSubModule = false;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
