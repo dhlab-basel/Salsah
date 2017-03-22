@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
-import {BaseOntology} from "./base-ontology";
+import {BaseClasses, BaseOntology} from "./base-ontology";
 
 import {JsonConvert} from 'json2typescript';
 
@@ -12,7 +12,8 @@ export class BaseOntologyService {
     }
 
     getData(): Observable<BaseOntology> {
-        let ontologyData: string = 'http://localhost/basicOnto.json';  // the file is in the localhost
+//        let ontologyData: string = 'http://localhost/basicOnto.json';  // the file is in the localhost
+        let ontologyData: string = 'http://localhost/resClasses.json';  // the file is in the localhost
 
 
         return this.http.get(ontologyData)
@@ -22,7 +23,7 @@ export class BaseOntologyService {
 
     private extractData(res: Response) {
         try {
-            return JsonConvert.deserializeObject(res.json(), BaseOntology);
+            return JsonConvert.deserializeObject(res.json(), BaseClasses);
         } catch (e) {
             // console.log(e);
             return Observable.throw('Data error in salsah\'s ontology service.');

@@ -20,7 +20,7 @@ export class ApiErrorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.failedOn = this.api + this.error.url;
+//        this.failedOn = this.api + this.error.url;
 
     }
 

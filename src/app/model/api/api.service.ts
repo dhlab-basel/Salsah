@@ -42,7 +42,9 @@ export class ApiService {
 
         if (!options) options = {withCredentials: true};
 
-        return this._httpService.get(AppConfig.API_ENDPOINT + url, options ).map((response: Response) => {
+        url = (url.slice(0,4) === 'http' ? url : AppConfig.API_ENDPOINT + url);
+
+        return this._httpService.get(url, options ).map((response: Response) => {
             try {
                 let apiServiceResult: ApiServiceResult = new ApiServiceResult();
                 apiServiceResult.status = response.status;

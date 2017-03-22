@@ -14,8 +14,10 @@
 
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
-import {BaseOntologyService} from "../../../../model/base-ontology-test/base-ontology.service";
-import {BaseOntology} from "../../../../model/base-ontology-test/base-ontology";
+import {BaseOntologyService} from "../../../../model/api/base-ontology.service";
+import {BaseOntology} from "../../../../model/classes/base-ontology";
+import {ApiServiceResult} from "../../../../model/api/api-service-result";
+import {ApiServiceError} from "../../../../model/api/api-service-error";
 
 @Component({
     selector: 'salsah-resource-class-form',
@@ -26,7 +28,7 @@ export class ResourceClassFormComponent implements OnInit {
 
     errorMessage: any;
 
-    knoraBase: BaseOntology = new BaseOntology;
+    knoraBase: BaseOntology = new BaseOntology();
 
     resourceTypes: any = undefined;
 
@@ -59,17 +61,21 @@ export class ResourceClassFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._baseOntologyService.getData()
+
+        this._baseOntologyService.getBaseOntology()
             .subscribe(
-                data => {
-                    console.log(data);
-                    this.knoraBase = data;
-                    this.resourceTypes = data.resourcetypes;
+                (result: ApiServiceResult) => {
+                    this.knoraBase = result.getBody();
+                    console.log(this.knoraBase);
                 },
-                error => {
+                (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
             );
+
+
+
+
 
     }
 
