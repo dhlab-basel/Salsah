@@ -52,6 +52,13 @@ export class ResourceClassFormComponent implements OnInit {
         {id: 'card-3', label: '0 - n'}
     ];
 
+    form: any = {
+        resourceClass: {
+            selection: 'Resource class'
+        }
+    };
+
+    resClass: string = 'empty';
 
 
     constructor(public dialog: MdDialog,
@@ -80,7 +87,11 @@ export class ResourceClassFormComponent implements OnInit {
         this.dialog.closeAll();
     }
 
-    nextFormSection(cntr: number, e) {
+    nextFormSection(cntr: number, e, resClass: string = null) {
+        if(resClass && cntr === 0) {
+            //get the properties for this resClass
+            console.log(resClass);
+        }
         e.preventDefault();
         // show the next section
         this.counter = cntr + 1;
