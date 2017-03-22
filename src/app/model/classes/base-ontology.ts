@@ -33,13 +33,13 @@ export class ResourceClass {
     @JsonProperty('icon', String)
     public icon: string = undefined;
 
-    @JsonProperty('properties', [Prop])
-    public properties: Prop[] = undefined;
+    @JsonProperty('properties', [Property])
+    public properties: Property[] = undefined;
 
 }
 
 @JsonObject
-export class Prop {
+export class Property {
 
     @JsonProperty('id', String)
     public id: string = undefined;

@@ -15,7 +15,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {BaseOntologyService} from "../../../../model/api/base-ontology.service";
-import {BaseOntology} from "../../../../model/classes/base-ontology";
+import {BaseOntology, Property} from "../../../../model/classes/base-ontology";
 import {ApiServiceResult} from "../../../../model/api/api-service-result";
 import {ApiServiceError} from "../../../../model/api/api-service-error";
 
@@ -30,10 +30,16 @@ export class ResourceClassFormComponent implements OnInit {
 
     knoraBase: BaseOntology = new BaseOntology();
 
-    resourceTypes: any = undefined;
+    newResource: string = undefined;
 
+    checked: boolean = true;
+
+    properties: Property[];
+
+    unchecked: boolean = false;
+
+    resourceTypes: any = undefined;
     private counter: number = 0;
-    public newResource: any;
     public props: any;
     public perm: any;
     public card: any;
@@ -60,8 +66,6 @@ export class ResourceClassFormComponent implements OnInit {
         }
     };
 
-    resClass: string = 'empty';
-
 
     constructor(public dialog: MdDialog,
                 private _baseOntologyService: BaseOntologyService) {
@@ -73,16 +77,11 @@ export class ResourceClassFormComponent implements OnInit {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.knoraBase = result.getBody();
-                    console.log(this.knoraBase);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
             );
-
-
-
-
 
     }
 
@@ -96,9 +95,10 @@ export class ResourceClassFormComponent implements OnInit {
     nextFormSection(cntr: number, e, resClass: string = null) {
         if(resClass && cntr === 0) {
             //get the properties for this resClass
-            console.log(resClass);
+            this.newResource = resClass;
         }
         e.preventDefault();
+
         // show the next section
         this.counter = cntr + 1;
     }
@@ -107,6 +107,10 @@ export class ResourceClassFormComponent implements OnInit {
         e.preventDefault();
         // show the previous section
         this.counter = cntr - 1;
+    }
+
+    show(e) {
+        console.log(e);
     }
 }
 
