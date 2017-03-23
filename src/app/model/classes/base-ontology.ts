@@ -70,7 +70,7 @@ export class Property {
 /**
  * has four default categories and four groups
  * @Category
- * view:    permission to see the property/value
+ * read:    permission to see the property/value
  * comment: permission to comment/annotate a value
  * edit:    permission to create and edit a value
  * delete:  permission to delete a value
@@ -84,8 +84,8 @@ export class Property {
 @JsonObject
 export class Permissions {
 
-    @JsonProperty('view', String)
-    public view: string = undefined;
+    @JsonProperty('read', String)
+    public read: string = undefined;
 
     @JsonProperty('comment', String)
     public comment: string = undefined;
@@ -93,8 +93,8 @@ export class Permissions {
     @JsonProperty('edit', String)
     public edit: string = undefined;
 
-    @JsonProperty('delete', String)
-    public delete: string = undefined;
+    @JsonProperty('admin', String)
+    public admin: string = undefined;
 }
 
 @JsonObject
