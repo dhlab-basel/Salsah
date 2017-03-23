@@ -15,9 +15,10 @@
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {BaseOntologyService} from "../../../../model/api/base-ontology.service";
-import {BaseOntology, Property} from "../../../../model/classes/base-ontology";
+import {BaseOntology, Property, ResourceClass} from "../../../../model/classes/base-ontology";
 import {ApiServiceResult} from "../../../../model/api/api-service-result";
 import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {addToArray} from "@angular/core/src/linker/view_utils";
 
 @Component({
     selector: 'salsah-resource-class-form',
@@ -28,13 +29,15 @@ export class ResourceClassFormComponent implements OnInit {
 
     errorMessage: any;
 
+    // data from the server
     knoraBase: BaseOntology = new BaseOntology();
 
-    newResource: string = undefined;
+    // result to send to the server
+    newResource: ResourceClass = new ResourceClass();
 
     checked: boolean = true;
 
-    properties: Property[];
+    properties: any = [];
 
     unchecked: boolean = false;
 
@@ -87,20 +90,22 @@ export class ResourceClassFormComponent implements OnInit {
 
 
     //form functions
-    onSubmit(uf: any): void {
-        console.log('you submitted value:', uf);
+    onSubmit(data: any): void {
+        console.log('you submitted value:', data);
         this.dialog.closeAll();
     }
 
-    nextFormSection(cntr: number, e, resClass: string = null) {
-        if(resClass && cntr === 0) {
+    nextFormSection(cntr: number, e, data, resClassId: string = null) {
+        if(resClassId && cntr === 0) {
             //get the properties for this resClass
-            this.newResource = resClass;
+            this.newResource.id = resClassId;
+            // get the default properties for this res class
+//            this.properties =
         }
         e.preventDefault();
-
         // show the next section
         this.counter = cntr + 1;
+        console.log(data);
     }
 
     prevFormSection(cntr: number, e) {
@@ -111,6 +116,24 @@ export class ResourceClassFormComponent implements OnInit {
 
     show(e) {
         console.log(e);
+    }
+
+    setProp(id: string, e = null) {
+
+        if(e.checked) {
+            // add the property
+            this.properties.push(id);
+        }
+        else {
+            // remove the property
+            let i: number = 0;
+            for(let prop of this.properties) {
+                // remove entry, if exists already
+                if(id === prop) this.properties.splice(i, 1);
+                i++;
+            }
+        }
+        console.log(this.properties)
     }
 }
 

@@ -16,19 +16,31 @@ input[type="file"] {
     display: none;
 }
 
-md-dialog-container.mat-dialog-container {
+.mat-dialog-container {
     min-height: 480px;
-    width: 420px;
+    max-height: 80vh;
+    section {
+
+    }
+    .mat-dialog-content {
+
+    }
+    .mat-dialog-actions {
+
+    }
 }
 .salsah-form {
-    .mat-dialog-container, .mat-dialog-container section {
-        min-height: 480px;
-    }
+
     &.new-user {
         md-input-container {
             margin-top: 12px;
             margin-bottom: 12px;
         }
+    }
+
+    &.new-resource-class {
+
+
     }
 
     .form-table {

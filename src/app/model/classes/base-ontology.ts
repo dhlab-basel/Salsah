@@ -24,6 +24,10 @@ export class BaseOntology {
 
 @JsonObject
 export class ResourceClass {
+
+    @JsonProperty('id', String, true)
+    public id: string = undefined;
+
     @JsonProperty('label', String)
     public label: string = undefined;
 
