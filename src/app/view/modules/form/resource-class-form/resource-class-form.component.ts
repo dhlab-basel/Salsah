@@ -35,6 +35,9 @@ export class ResourceClassFormComponent implements OnInit {
     // result to send to the server
     newResource: ResourceClass = new ResourceClass();
 
+    // how many steps has the form?
+    steps: number = 4;
+
     checked: boolean = true;
 
     properties: any = [];
@@ -95,17 +98,18 @@ export class ResourceClassFormComponent implements OnInit {
         this.dialog.closeAll();
     }
 
-    nextFormSection(cntr: number, e, data, resClassId: string = null) {
-        if(resClassId && cntr === 0) {
+    nextFormSection(cntr: number, e, data: any = null, resClassId: string = null) {
+        if(resClassId && cntr === 1) {
             //get the properties for this resClass
             this.newResource.id = resClassId;
+            console.log(this.newResource.id);
             // get the default properties for this res class
 //            this.properties =
         }
         e.preventDefault();
         // show the next section
         this.counter = cntr + 1;
-        console.log(data);
+        console.log(this.counter);
     }
 
     prevFormSection(cntr: number, e) {
