@@ -18,7 +18,15 @@ input[type="file"] {
 md-dialog-container.mat-dialog-container {
     min-width: 560px;
     .mat-toolbar.mat-dialog-title {
+        @include box-shadow-bottom();
+//        background-color: darken($bright, 39%);
+        margin: -24px -24px 0 -24px;
+        padding: 18px;
+        min-width: 560px;
 
+        salsah-progress-stepper {
+            padding: 12px;
+        }
     }
 }
 
@@ -27,6 +35,13 @@ md-dialog-container.mat-dialog-container {
 
     }
     .mat-dialog-content {
+        overflow-x: hidden;
+        overflow-y: auto;
+        @include box-shadow-bottom();
+        padding-top: 6px;
+        padding-bottom: 6px;
+        background: $bright;
+        margin-top: 2px;
 
     }
     .mat-dialog-actions {

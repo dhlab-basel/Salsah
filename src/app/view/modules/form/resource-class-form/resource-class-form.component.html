@@ -2,7 +2,7 @@
     it will be displayed in dialog card box -->
 
 <!-- the dialog title is always the same; It stays fixed to the top of the dialog -->
-<md-toolbar md-dialog-title class="transparent">
+<md-toolbar md-dialog-title>
 
     <salsah-progress-stepper *ngIf="steps" [max_steps]="steps" [counter]="counter"></salsah-progress-stepper>
 
@@ -16,7 +16,7 @@
         <h3>Select your media file type</h3>
             <md-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
                 <md-grid-tile *ngFor="let item of knoraBase?.resourceClasses | key; let i = index;">
-                    <button md-button (click)="nextFormSection(counter, $event, item.key)">
+                    <button md-button (click)="nextFormSection(counter, $event, rcf.value, item.key)">
                         <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>
                         {{item.value.label}}
                     </button>
@@ -24,7 +24,7 @@
             </md-grid-list>
         </section>
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
-        <section *ngIf="newResource?.id" [hidden]="counter!==1">
+        <section *ngIf="newResource.id" [hidden]="counter!==1">
             <h3>Select properties for {{knoraBase?.resourceClasses[newResource.id]?.label}}</h3>
             <md-list>
                 <md-list-item *ngFor="let prop of knoraBase?.resourceClasses[newResource.id]?.properties | key; let i = index">

@@ -79,6 +79,8 @@ export class ResourceClassFormComponent implements OnInit {
 
     ngOnInit() {
 
+        this.newResource.id = undefined;
+
         this._baseOntologyService.getBaseOntology()
             .subscribe(
                 (result: ApiServiceResult) => {
@@ -98,8 +100,8 @@ export class ResourceClassFormComponent implements OnInit {
         this.dialog.closeAll();
     }
 
-    nextFormSection(cntr: number, e, data: any = null, resClassId: string = null) {
-        if(resClassId && cntr === 1) {
+    nextFormSection(cntr: number, e, formValues: any, resClassId?: string) {
+        if(resClassId && cntr === 0) {
             //get the properties for this resClass
             this.newResource.id = resClassId;
             console.log(this.newResource.id);
@@ -109,7 +111,7 @@ export class ResourceClassFormComponent implements OnInit {
         e.preventDefault();
         // show the next section
         this.counter = cntr + 1;
-        console.log(this.counter);
+        console.log(formValues);
     }
 
     prevFormSection(cntr: number, e) {
