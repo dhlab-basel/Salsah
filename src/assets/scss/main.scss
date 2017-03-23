@@ -107,8 +107,8 @@ body {
 .show {
     display: block;
 }
-.mute {
-    color: $bright;
+.mute, .inactive {
+    color: darken($bright, 50%);
 }
 .hide {
     display: none;

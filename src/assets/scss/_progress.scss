@@ -3,7 +3,7 @@
  *
  */
 
-.progress-indicator {
+salsah-progress-indicator {
 
     width: 96px;
     height: 56px;
@@ -60,4 +60,39 @@
               transform: scale(1.0);
           }
     }
+}
+
+salsah-progress-stepper {
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+
+    span {
+        &:nth-child(odd) {
+            border: 1px solid rgba(0, 0, 0, 0.87);
+            padding:4px;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            &.active {
+                background-color: lighten($accent, 18%);
+            }
+            &.inactive {
+                color: darken($bright, 50%);
+                border: 1px solid darken($bright, 50%);
+            }
+            &.done {
+                background-color: lighten($primary, 9%);
+                color: $bright;
+            }
+        }
+        &:nth-child(even) {
+            flex: 1 1 auto;
+        }
+    }
+
 }

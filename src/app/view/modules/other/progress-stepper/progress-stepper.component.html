@@ -1,0 +1,18 @@
+
+<span *ngFor="let step of steps; let last = last; let odd=odd; let even=even; let i = index"
+      [class.inactive]="counter!==(step - (i / 2)) && even"
+      [class.active]="counter===(step - (i / 2)) && even"
+      [class.done]="counter > (step - (i / 2)) && even" >
+
+    <!-- show a label until the step is done -->
+    <label *ngIf="counter < (step + 1 - (i / 2)) && even">{{step + 1 - (i / 2)}}</label>
+    <!-- if the step is done; replace the label with an icon and show a line to the next step number -->
+    <md-icon *ngIf="counter > (step - (i / 2)) && even">check</md-icon>
+    <!-- the checked step is followed by a horizontal rule -->
+    <hr *ngIf="counter > (step - (i / 2)) && odd">
+
+</span>
+
+
+
+
