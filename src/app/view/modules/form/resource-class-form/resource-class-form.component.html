@@ -1,34 +1,100 @@
+<!-- this form has a multi-step form interface
+    it will be displayed in dialog card box -->
+
+<!-- the dialog title is always the same; It stays fixed to the top of the dialog -->
+<md-toolbar md-dialog-title style="background: red">
+    <span class="salsah-form-step" [class.mute]="counter!==1">Step 1</span>
+    <span class="fill-remaining-space"></span>
+    <span class="salsah-form-step" [class.mute]="counter!==2">Step 2</span>
+    <span class="fill-remaining-space"></span>
+    <span class="salsah-form-step" [class.mute]="counter!==3">Step 3</span>
+    <span class="fill-remaining-space"></span>
+    <span class="salsah-form-step" [class.mute]="counter!==4">Step 4</span>
+</md-toolbar>
+
+<!-- the sub forms of the main form are in th dialog content area; the content will change, step by step -->
+<div md-dialog-content>
+    <!-- Step 1: Select resource type from a list of resources taken directly from the Knora base ontology (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
+    <section [hidden]="counter!==0">
+        <h3>What file type do you like to add?</h3><br>
+        <md-grid-list cols="3" gutterSize="12px">
+            <md-grid-tile *ngFor="let item of knoraBase?.resourceClasses | key; let i = index;">
+                <button md-button (click)="nextFormSection(counter, $event, rcf, item.key)" style="width: 100%; height: 100%;">
+                    <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>
+                    {{item.value.label}}
+                </button>
+            </md-grid-tile>
+        </md-grid-list>
+    </section>
+
+</div>
+
+
+
+<!-- the dialog actions bar is always the same; It stays fixed to the bottom of the dialog -->
+<md-toolbar md-dialog-actions style="background: green">
+    <button md-button
+            md-dialog-close
+            *ngIf="counter<5"
+            class="cancel-button">
+        Cancel
+    </button>
+    <span class="fill-remaining-space"></span>
+
+    <span class="back">
+        <button md-button
+                *ngIf="counter<5 && counter >0"
+                class="back-button"
+                (click)="prevFormSection(counter, $event)">
+            Back
+        </button>
+    </span>
+
+    <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
+    <span class="next">
+        <button md-button
+                *ngIf="counter < 4 && counter > 0"
+                class="next-button md-primary"
+                (click)="nextFormSection(counter, $event, rcf.value)">
+            Next
+        </button>
+        <button type="submit"
+                md-raised-button
+                *ngIf="counter==4"
+                class="save-button md-primary"
+                [disabled]="!rcf.valid">
+            Save
+        </button>
+    </span>
+
+</md-toolbar>
+
+
+
+
 <form class="salsah-form new-resource-class" #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value, rcf.valid)">
 
     <md-dialog-content>
         <!-- Step 1: Select resource type from a list of resources taken directly from the Knora base ontology (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
-        <section [hidden]="counter!==0">
-            <h3>What file type do you like to add?</h3><br>
-            <md-grid-list cols="3" gutterSize="2px">
-                <md-grid-tile *ngFor="let item of knoraBase?.resourceClasses | key; let i = index;">
-                    <button md-button (click)="nextFormSection(counter, $event, rcf, item.key)">
-                        <md-icon>{{item.value.icon}}</md-icon><br>
-                        {{item.value.label}}
-                    </button>
-                </md-grid-tile>
-            </md-grid-list>
-        </section>
+
 
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
         <section *ngIf="newResource.id" [hidden]="counter!==1">
             <h3>Select properties for {{knoraBase?.resourceClasses[newResource.id]?.label}}</h3>
             <md-list>
-                <md-list-item *ngFor="let prop of knoraBase?.resourceClasses[newResource.id]?.properties; let i = index">
-                    <md-checkbox *ngIf="prop.cardinality === '1' || prop.cardinality === '1 - n'"
-                                 [ngModel]="prop.id"
+                <md-list-item *ngFor="let prop of knoraBase?.resourceClasses[newResource.id]?.properties | key; let i = index">
+                    <md-checkbox *ngIf="prop.value.cardinality === '1' || prop.value.cardinality === '1-n'"
+                                 [ngModel]="prop.key"
+                                 [checked]="true"
                                  [name]="'prop_' + i">
-                        {{prop.label}}
+                        {{prop.value.label}}
                     </md-checkbox>
-                    <md-checkbox *ngIf="prop.cardinality === '0 - 1' || prop.cardinality === '0 - n' || prop.cardinality == false"
+                    <md-checkbox *ngIf="prop.value.cardinality === '0-1' || prop.value.cardinality === '0-n' || prop.value.cardinality === false"
                                  color="primary"
-                                 [ngModel]="prop.id"
+                                 [ngModel]="prop.key"
+                                 [checked]="false"
                                  [name]="'prop_' + i">
-                        {{prop.label}}
+                        {{prop.value.label}}
                     </md-checkbox>
                 </md-list-item>
             </md-list>
@@ -174,37 +240,5 @@
 
     </md-dialog-content>
 
-    <md-dialog-actions>
-
-        <button md-button
-                md-dialog-close
-                *ngIf="counter<5"
-                class="cancel-button">
-            Cancel
-        </button>
-        <span class="back">
-        <button md-button
-                *ngIf="counter<5 && counter >0"
-                class="back-button"
-                (click)="prevFormSection(counter, $event)">
-            Back
-        </button>
-    </span>
-        <span class="next">
-        <button md-button
-                *ngIf="counter < 4 && counter > 0"
-                class="next-button md-primary"
-                (click)="nextFormSection(counter, $event, rcf)">
-            Next
-        </button>
-        <button type="submit"
-                md-raised-button
-                *ngIf="counter==4"
-                class="save-button md-primary"
-                [disabled]="!rc.valid">
-            Save
-        </button>
-    </span>
-    </md-dialog-actions>
 
 </form>

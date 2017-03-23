@@ -14,6 +14,10 @@
 
 import {JsonObject, JsonProperty} from 'json2typescript';
 
+/**
+ * is an array of resource classes. The id of the resource class is the key in the array
+ */
+
 @JsonObject
 export class BaseOntology {
 
@@ -21,6 +25,10 @@ export class BaseOntology {
     public resourceClasses: ResourceClass[] = undefined;
 
 }
+
+/**
+ * the class includes the default properties as an array. The property id is the key in the array
+ */
 
 @JsonObject
 export class ResourceClass {
@@ -45,16 +53,60 @@ export class ResourceClass {
 @JsonObject
 export class Property {
 
-    @JsonProperty('id', String)
-    public id: string = undefined;
-
     @JsonProperty('label', String)
     public label: string = undefined;
 
     @JsonProperty('cardinality', String)
     public cardinality: string = undefined;
 
-    @JsonProperty('GUI', String)
-    public gui: string = undefined;
+    @JsonProperty('permissions', Permissions)
+    public permissions: Permissions = undefined;
+
+    @JsonProperty('gui', Gui)
+    public gui: Gui = undefined;
+
+}
+
+/**
+ * has four default categories and four groups
+ * @Category
+ * view:    permission to see the property/value
+ * comment: permission to comment/annotate a value
+ * edit:    permission to create and edit a value
+ * delete:  permission to delete a value
+ *
+ * @Group
+ * world:   every visitor
+ * guest:   logged in knora user
+ * user:    logged in project user
+ * admin:   logged in project (or system) admin user
+ */
+@JsonObject
+export class Permissions {
+
+    @JsonProperty('view', String)
+    public view: string = undefined;
+
+    @JsonProperty('comment', String)
+    public comment: string = undefined;
+
+    @JsonProperty('edit', String)
+    public edit: string = undefined;
+
+    @JsonProperty('delete', String)
+    public delete: string = undefined;
+}
+
+@JsonObject
+export class Gui {
+
+    @JsonProperty('element', String)
+    public element: string = undefined;
+
+    @JsonProperty('type', String)
+    public type: string = undefined;
+
+    @JsonProperty('list_id', String, true)
+    public list_id: string = undefined;
 
 }
