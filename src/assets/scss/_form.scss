@@ -15,11 +15,16 @@ input[type="search"] {
 input[type="file"] {
     display: none;
 }
+
+input, textarea {
+    max-width: 640px;
+    width: 100%;
+}
+
 md-dialog-container.mat-dialog-container {
     min-width: 560px;
     .mat-toolbar.mat-dialog-title {
         @include box-shadow-bottom();
-//        background-color: darken($bright, 39%);
         margin: -24px -24px 0 -24px;
         padding: 18px;
         min-width: 560px;
@@ -40,7 +45,7 @@ md-dialog-container.mat-dialog-container {
         @include box-shadow-bottom();
         padding-top: 6px;
         padding-bottom: 6px;
-        background: $bright;
+        background: opacity($bright);
         margin-top: 2px;
 
     }
@@ -58,6 +63,10 @@ md-dialog-container.mat-dialog-container {
     }
 
     &.new-resource-class {
+
+    }
+
+    label {
 
     }
 
@@ -89,11 +98,6 @@ md-dialog-container.mat-dialog-container {
     }
 }
 
-input, textarea {
-    max-width: 640px;
-    width: 100%;
-}
-
 div.file-upload-zone {
     width: 100%;
     height: 128px;
@@ -116,6 +120,77 @@ div.file-upload-zone {
 
 }
 
+// own checkbox element
+div.salsah-checkbox {
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    margin-left: -24px;
+
+    input[type="checkbox"] {
+        visibility: hidden;
+        width: 24px;
+        height: 24px;
+    }
+
+    label {
+        cursor: pointer;
+        height: 48px;
+        span {
+            display: inline-flex;
+            &.checkbox-label {
+                margin-top: 12px;
+                color: darken($bright, 50%);
+            }
+            &.checkbox-fake {
+                position: relative;
+                width: 21px;
+                height: 21px;
+                top: -12px;
+                left: -12px;
+                background: none;
+                border: 2px solid darken($bright, 50%);
+                border-radius: 2px;
+                &:after {
+                    opacity: 0.2;
+                    content: '';
+                    position: relative;
+                    width: 12px;
+                    height: 5px;
+                    background: transparent;
+                    top: 5px;
+                    left: 4px;
+                    border: 2px solid $bright;
+                    border-top: none;
+                    border-right: none;
+
+                    transform: rotate(-45deg);
+                }
+                :hover::after {
+                    opacity: 0.5;
+                }
+            }
+        }
+
+    &.checked {
+        span.checkbox-fake {
+            background-color: $primary;
+            border-color: $primary;
+            &:after {
+                opacity: 1;
+            }
+        }
+        span.checkbox-label {
+            color: currentColor;
+        }
+    }
+
+    }
+
+
+
+
+}
 
 
 .file-upload-wrapper {

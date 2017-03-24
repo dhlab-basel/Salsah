@@ -96,6 +96,10 @@ body {
     }
 }
 
+.highlight:hover {
+    background-color: darken($bright, 25%);
+}
+
 .salsah-avatar-image {
     border-radius: 50%;
 }

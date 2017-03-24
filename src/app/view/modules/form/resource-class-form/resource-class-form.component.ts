@@ -40,20 +40,20 @@ export class ResourceClassFormComponent implements OnInit {
     // or define an array of steps
     steps: string[] = [
         "Resource type",
-        "Properties / Occurency",
+        "Properties",
         "Permissions",
         "Save"
     ];
 
     checked: boolean = true;
 
-    properties: any = [];
+    props: any = [];
 
     unchecked: boolean = false;
 
     resourceTypes: any = undefined;
     private counter: number = 0;
-    public props: any;
+
     public perm: any;
     public card: any;
 
@@ -66,9 +66,16 @@ export class ResourceClassFormComponent implements OnInit {
     ];
 
     //selector of cardinality (referred to as occurrence in the GUI)
+    cardinalityList: string[] = [
+        "1",
+        "1-n",
+        "0-1",
+        "0-n"
+    ];
+
     cardinality = [
         {id: 'card-0', label: '1'},
-        {id: 'card-1', label: '1 - n'},
+        {id: 'card-1', label: '1-n'},
         {id: 'card-2', label: '0 - 1'},
         {id: 'card-3', label: '0 - n'}
     ];
@@ -110,15 +117,17 @@ export class ResourceClassFormComponent implements OnInit {
     nextFormSection(cntr: number, e, formValues: any, resClassId?: string) {
         if(resClassId && cntr === 0) {
             //get the properties for this resClass
+
+            this.newResource = this.knoraBase.resourceClasses[resClassId];
             this.newResource.id = resClassId;
-            console.log(this.newResource.id);
-            // get the default properties for this res class
-//            this.properties =
+
+            this.props = this.knoraBase.resourceClasses[resClassId].properties;
+
         }
+
         e.preventDefault();
         // show the next section
         this.counter = cntr + 1;
-        console.log(formValues);
     }
 
     prevFormSection(cntr: number, e) {
@@ -128,29 +137,24 @@ export class ResourceClassFormComponent implements OnInit {
     }
 
 
+    setProp(id: string, property: Property, event) {
 
-
-
-    show(e) {
-        console.log(e);
-    }
-
-    setProp(id: string, e = null) {
-
-        if(e.checked) {
-            // add the property
-            this.properties.push(id);
+        if(event.target.checked === true) {
+            this.props[id] = property;
         }
         else {
-            // remove the property
+
             let i: number = 0;
-            for(let prop of this.properties) {
-                // remove entry, if exists already
-                if(id === prop) this.properties.splice(i, 1);
+            for (let prop in this.props) {
+
+                if(prop === id) {
+                    this.props[id] = undefined;
+
+                }
                 i++;
             }
-        }
-        console.log(this.properties)
-    }
-}
 
+        }
+    }
+
+}

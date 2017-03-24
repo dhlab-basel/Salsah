@@ -27,13 +27,28 @@
         <section *ngIf="newResource.id" [hidden]="counter!==1">
             <h3>Select properties for {{knoraBase?.resourceClasses[newResource.id]?.label}}</h3>
             <md-list>
-                <md-list-item *ngFor="let prop of knoraBase?.resourceClasses[newResource.id]?.properties | key; let i = index">
+                <md-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
+                    <div class="salsah-checkbox">
+                        <input type="checkbox"
+                               [id]="prop.key"
+                               [value]="prop.key"
+                               [checked]="prop.value"
+                               (change)="setProp(prop.key, prop.value, $event)">
+                        <label [for]="prop.key" class="fill-remaining-space" [class.checked]="props[prop.key]">
+                            <span class="checkbox-fake"></span>
+                            <span class="checkbox-label">{{prop.value.label}}</span>
+                        </label>
+                    </div>
+
+                    <!--
                     <md-checkbox *ngIf="prop.value.cardinality === '1' || prop.value.cardinality === '1-n'"
+                                 [id]="prop.key"
                                  [ngModel]="prop.key"
                                  [checked]="true"
                                  [name]="'prop_' + i">
-                        {{prop.value.label}}
+                        <label [for]="prop.key" class="full-width">{{prop.value.label}}<span ></span></label>
                     </md-checkbox>
+
                     <md-checkbox *ngIf="prop.value.cardinality === '0-1' || prop.value.cardinality === '0-n' || prop.value.cardinality === false"
                                  color="primary"
                                  [ngModel]="prop.key"
@@ -41,17 +56,26 @@
                                  [name]="'prop_' + i">
                         {{prop.value.label}}
                     </md-checkbox>
+                    -->
+                    <!-- the properties on the left side are followed by their cardinality settings on the right side -->
+
+                    <md-select *ngIf="props[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="'card_' + i">
+                        <md-option *ngFor="let item of cardinalityList;" [value]="item">
+                            {{item}}
+                        </md-option>
+                    </md-select>
+
                 </md-list-item>
             </md-list>
         </section>
         <!-- Step 3: Confirm your selection -->
-        <section *ngIf="properties" [hidden]="counter!==2">
-            <h3>You selected:</h3>
-            <!--
-                        <p *ngFor="let prop of rcf.value">
-                            {{prop}}
-                        </p>
-            -->
+        <section [hidden]="counter!==2">
+            <h3>Set the permissions for these properties</h3>
+            <p *ngFor="let prop of props | key">
+                <span *ngIf="props[prop.key] !== undefined">
+                    ({{prop.value.cardinality}}) <strong>{{prop.value.label}}</strong>
+                </span>
+            </p>
             <div *ngFor="let res of knoraBase?.resourcetypes">
                 <div *ngIf="res.label==newResource">
                     <i>Resource type:</i>
@@ -161,6 +185,7 @@
                 md-raised-button
                 *ngIf="counter === (max_steps - 1)"
                 class="save-button mat-primary"
+                (click)="onSubmit(rcf.value)"
                 [disabled]="!rcf.valid">
             Save
         </button>
