@@ -4,7 +4,7 @@
 <!-- the dialog title is always the same; It stays fixed to the top of the dialog -->
 <md-toolbar md-dialog-title>
 
-    <salsah-progress-stepper *ngIf="steps" [max_steps]="steps" [counter]="counter"></salsah-progress-stepper>
+    <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
 
 </md-toolbar>
 
@@ -141,7 +141,7 @@
 
     <span class="back">
         <button md-button
-                *ngIf="counter < steps && counter > 0"
+                *ngIf="counter < max_steps && counter > 0"
                 class="back-button"
                 (click)="prevFormSection(counter, $event)">
             <md-icon>keyboard_arrow_left</md-icon> Back
@@ -151,7 +151,7 @@
     <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
     <span class="next">
         <button md-button
-                *ngIf="counter < (steps - 1) && counter > 0"
+                *ngIf="counter < (max_steps - 1) && counter > 0"
                 class="next-button md-primary"
                 (click)="nextFormSection(counter, $event, rcf.value)">
             Next <md-icon>keyboard_arrow_right</md-icon>
@@ -159,7 +159,7 @@
         <!-- or -->
         <button type="submit"
                 md-raised-button
-                *ngIf="counter === (steps - 1)"
+                *ngIf="counter === (max_steps - 1)"
                 class="save-button mat-primary"
                 [disabled]="!rcf.valid">
             Save

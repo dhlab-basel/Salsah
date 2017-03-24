@@ -71,10 +71,10 @@ body {
 //
 // general elements
 .salsah-error {
-    color: orangered;
+    color: $error;
 }
 .salsah-warning {
-    color: indianred;
+    color: $warning;
 }
 .salsah-note {
     background-color: lightgoldenrodyellow;

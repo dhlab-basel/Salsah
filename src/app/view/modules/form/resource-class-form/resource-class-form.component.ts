@@ -36,7 +36,14 @@ export class ResourceClassFormComponent implements OnInit {
     newResource: ResourceClass = new ResourceClass();
 
     // how many steps has the form?
-    steps: number = 4;
+    max_steps: number = 4;
+    // or define an array of steps
+    steps: string[] = [
+        "Resource type",
+        "Properties / Occurency",
+        "Permissions",
+        "Save"
+    ];
 
     checked: boolean = true;
 
@@ -119,6 +126,10 @@ export class ResourceClassFormComponent implements OnInit {
         // show the previous section
         this.counter = cntr - 1;
     }
+
+
+
+
 
     show(e) {
         console.log(e);
