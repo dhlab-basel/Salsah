@@ -111,6 +111,7 @@ export class ResourceClassFormComponent implements OnInit {
     //form functions
     onSubmit(data: any): void {
         console.log('you submitted value:', data);
+        console.log('your props are:', this.props);
         this.dialog.closeAll();
     }
 

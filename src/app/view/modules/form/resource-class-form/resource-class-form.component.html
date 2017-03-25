@@ -59,7 +59,7 @@
                     -->
                     <!-- the properties on the left side are followed by their cardinality settings on the right side -->
 
-                    <md-select *ngIf="props[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="'card_' + i">
+                    <md-select *ngIf="props[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="prop.key">
                         <md-option *ngFor="let item of cardinalityList;" [value]="item">
                             {{item}}
                         </md-option>
