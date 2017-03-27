@@ -23,36 +23,32 @@ input, textarea {
 
 md-dialog-container.mat-dialog-container {
     min-width: 560px;
-    .mat-toolbar.mat-dialog-title {
-        @include box-shadow-bottom();
+
+    .mat-dialog-title {
         margin: -24px -24px 0 -24px;
-        padding: 18px;
-        min-width: 560px;
-
-        salsah-progress-stepper {
-            padding: 12px;
-        }
+        padding: 0 24px;
+        @include box-shadow-bottom();
+        background-color: whitesmoke;
     }
-}
 
-.mat-dialog-container {
-    section {
-
-    }
     .mat-dialog-content {
+        background-color: lighten(whitesmoke, 2%);
         overflow-x: hidden;
         overflow-y: auto;
         @include box-shadow-bottom();
         padding-top: 6px;
         padding-bottom: 6px;
-        background: opacity($bright);
         margin-top: 2px;
 
     }
+
     .mat-dialog-actions {
 
     }
+
 }
+
+
 .salsah-form {
 
     &.new-user {
@@ -80,13 +76,18 @@ md-dialog-container.mat-dialog-container {
     .form-table {
         margin-top: 24px;
         margin-bottom: 24px;
-        tr td {
+        border-spacing: 0;
+        td, th {
+            padding: 12px;
             text-align: center;
             &.left {
                 text-align: left;
             }
             &.right {
                 text-align: right;
+            }
+            &.center {
+                text-align: center;
             }
         }
     }

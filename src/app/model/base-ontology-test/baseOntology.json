@@ -1,194 +1,111 @@
 {
-    "resourceClasses": {
-        "http://www.knora.org/ontology/knora-base#ResourceWithoutFile": {
+    "defaultProperties": {
+        "http://www.knora.org/ontology/basic#Name": {
+            "label": "Name",
+            "cardinality": "0-n",
+            "gui": {
+                "element": "text",
+                "type": "simple"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Title": {
+            "label": "Title",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "text",
+                "type": "simple"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Comment": {
+            "label": "Comment",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "text",
+                "type": "extended"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Description": {
+            "label": "Description",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "text",
+                "type": "simple"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Keywords": {
+            "label": "Keywords",
+            "cardinality": "0-n",
+            "gui": {
+                "element": "tags",
+                "type": ""
+            }
+        },
+        "http://www.knora.org/ontology/basic#Date": {
+            "label": "Date",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "date",
+                "type": "period"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Time": {
+            "label": "Time",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "time",
+                "type": "stamp"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Location": {
+            "label": "Location",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "geonames",
+                "type": "autocomplete"
+            }
+        },
+        "http://www.knora.org/ontology/basic#isLinkedTo": {
+            "label": "is linked to",
+            "cardinality": "0-n",
+            "gui": {
+                "element": "link",
+                "type": "autocomplete"
+            }
+        },
+        "http://www.knora.org/ontology/basic#isPartOf": {
+            "label": "is part of",
+            "cardinality": "0-n",
+            "gui": {
+                "element": "link",
+                "type": "autocomplete"
+            }
+        }
+    },
+
+    "defaultResources": {
+        "http://www.knora.org/ontology/knora-base#Basic": {
             "label": "Metadata Object only",
             "description": "A representation without files.",
-            "icon": "not_interested",
-            "properties": {
-                "http://www.knora.org/ontology/basic#Name": {
-                    "label": "Name",
-                    "cardinality": "1",
-                    "permissions": {
-                        "read": "world (=everyone)",
-                        "comment": "guest (=logged in knora user)",
-                        "edit": "user (=logged in knora project user)",
-                        "admin": "admin (=logged in knora project or system admin)"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Title": {
-                    "label": "Title",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Comment": {
-                    "label": "Comment",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "extended"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Description": {
-                    "label": "Description",
-                    "cardinality": "1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Keywords": {
-                    "label": "Keywords",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "tags",
-                        "type": ""
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Date": {
-                    "label": "Date",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "date",
-                        "type": "period"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Time": {
-                    "label": "Time",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "time",
-                        "type": "stamp"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Location": {
-                    "label": "Location",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "geonames",
-                        "type": "autocomplete"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#isLinkedTo": {
-                    "label": "is linked to",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "link",
-                        "type": "autocomplete"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#isPartOf": {
-                    "label": "is part of",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "link",
-                        "type": "autocomplete"
-                    }
-                }
-            }
+            "icon": "not_interested"
         },
         "http://www.knora.org/ontology/knora-base#StillImageRepresentation": {
             "label": "Image",
             "description": "A representation containing still image files.",
             "icon": "photo_camera",
-            "properties": {
-                "http://www.knora.org/ontology/basic#Name": {
-                    "label": "Name",
-                    "cardinality": "1",
-                    "permissions": {
-                        "read": "world (=everyone)",
-                        "comment": "guest (=logged in knora user)",
-                        "edit": "user (=logged in knora project user)",
-                        "admin": "admin (=logged in knora project or system admin)"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Title": {
-                    "label": "Title",
+            "file": {
+                "http://www.knora.org/ontology/basic#File": {
+                    "label": "File uploader",
                     "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
                     "gui": {
-                        "element": "text",
-                        "type": "simple"
+                        "element": "file uploader",
+                        "type": "image"
                     }
-                },
+                }
+            },
+            "properties": {
                 "http://www.knora.org/ontology/basic#Format": {
                     "label": "Format",
                     "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
                     "gui": {
                         "element": "selection",
                         "type": "dropdown",
@@ -198,110 +115,14 @@
                 "http://www.knora.org/ontology/basic#Creator": {
                     "label": "Creator",
                     "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
                     "gui": {
                         "element": "text",
                         "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Comment": {
-                    "label": "Comment",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "extended"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Description": {
-                    "label": "Description",
-                    "cardinality": "1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Keywords": {
-                    "label": "Keywords",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "tags",
-                        "type": ""
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Date": {
-                    "label": "Date",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "date",
-                        "type": "period"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Time": {
-                    "label": "Time",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "time",
-                        "type": "stamp"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Location": {
-                    "label": "Location",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "geonames",
-                        "type": "autocomplete"
                     }
                 },
                 "http://www.knora.org/ontology/basic#Dimension": {
                     "label": "Dimension",
                     "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
                     "gui": {
                         "element": "text",
                         "type": "simple"
@@ -310,43 +131,9 @@
                 "http://www.knora.org/ontology/basic#Colour": {
                     "label": "Colour",
                     "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
                     "gui": {
                         "element": "color",
                         "type": "selection"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#isLinkedTo": {
-                    "label": "is linked to",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "link",
-                        "type": "autocomplete"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#isPartOf": {
-                    "label": "is part of",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "link",
-                        "type": "autocomplete"
                     }
                 }
             }
@@ -356,215 +143,65 @@
             "description": "A representation containing video files.",
             "icon": "videocam",
             "properties": {
-                "http://www.knora.org/ontology/basic#Name": {
-                    "label": "Name",
-                    "cardinality": "1",
-                    "permissions": {
-                        "read": "world (=everyone)",
-                        "comment": "guest (=logged in knora user)",
-                        "edit": "user (=logged in knora project user)",
-                        "admin": "admin (=logged in knora project or system admin)"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
+                "required": {
+                    "http://www.knora.org/ontology/basic#File": {
+                        "label": "File uploader",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "file uploader",
+                            "type": "video"
+                        }
                     }
                 },
-                "http://www.knora.org/ontology/basic#Title": {
-                    "label": "Title",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                "optional": {
+                    "http://www.knora.org/ontology/basic#Format": {
+                        "label": "Format",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "selection",
+                            "type": "dropdown",
+                            "list_id": ""
+                        }
                     },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Format": {
-                    "label": "Format",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#Videographer": {
+                        "label": "Videographer",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "selection",
-                        "type": "dropdown",
-                        "list_id": ""
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Videographer": {
-                    "label": "Videographer",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#Editor": {
+                        "label": "Editor",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Editor": {
-                    "label": "Editor",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#Duration": {
+                        "label": "Duration",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "time",
+                            "type": "sequence"
+                        }
                     },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Comment": {
-                    "label": "Comment",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#Framerate": {
+                        "label": "Framerate (fps)",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "integer",
+                            "type": "floating point number"
+                        }
                     },
-                    "gui": {
-                        "element": "text",
-                        "type": "extended"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Description": {
-                    "label": "Description",
-                    "cardinality": "1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Keywords": {
-                    "label": "Keywords",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "tags",
-                        "type": ""
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Date": {
-                    "label": "Date",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "date",
-                        "type": "period"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Duration": {
-                    "label": "Duration",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "time",
-                        "type": "sequence"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Framerate": {
-                    "label": "Framerate (fps)",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "integer",
-                        "type": "floating point number"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Location": {
-                    "label": "Location",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "geonames",
-                        "type": "autocomplete"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#AudioInfo": {
-                    "label": "Audio information",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#isLinkedTo": {
-                    "label": "is linked to",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "link",
-                        "type": "autocomplete"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#isPartOf": {
-                    "label": "is part of",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "link",
-                        "type": "autocomplete"
+                    "http://www.knora.org/ontology/basic#AudioInfo": {
+                        "label": "Audio information",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
                     }
                 }
             }
@@ -574,201 +211,49 @@
             "description": "A representation containing audio files.",
             "icon": "mic",
             "properties": {
-                "http://www.knora.org/ontology/basic#Name": {
-                    "label": "Name",
-                    "cardinality": "1",
-                    "permissions": {
-                        "read": "world (=everyone)",
-                        "comment": "guest (=logged in knora user)",
-                        "edit": "user (=logged in knora project user)",
-                        "admin": "admin (=logged in knora project or system admin)"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
+                "required": {
+                    "http://www.knora.org/ontology/basic#File": {
+                        "label": "File uploader",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "file uploader",
+                            "type": "audio"
+                        }
                     }
                 },
-                "http://www.knora.org/ontology/basic#Title": {
-                    "label": "Title",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                "optional": {
+                    "http://www.knora.org/ontology/basic#Format": {
+                        "label": "Format",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "selection",
+                            "type": "dropdown",
+                            "list_id": ""
+                        }
                     },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Format": {
-                    "label": "Format",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#Composer": {
+                        "label": "Composer",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "selection",
-                        "type": "dropdown",
-                        "list_id": ""
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Composer": {
-                    "label": "Composer",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#Editor": {
+                        "label": "Editor",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Editor": {
-                    "label": "Editor",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Comment": {
-                    "label": "Comment",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "extended"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Description": {
-                    "label": "Description",
-                    "cardinality": "1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Keywords": {
-                    "label": "Keywords",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "tags",
-                        "type": ""
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Date": {
-                    "label": "Date",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "date",
-                        "type": "period"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Duration": {
-                    "label": "Duration",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "time",
-                        "type": "sequence"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Location": {
-                    "label": "Location",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "geonames",
-                        "type": "autocomplete"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#AudioInfo": {
-                    "label": "Audio information",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#isLinkedTo": {
-                    "label": "is linked to",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "link",
-                        "type": "autocomplete"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#isPartOf": {
-                    "label": "is part of",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
-                    },
-                    "gui": {
-                        "element": "link",
-                        "type": "autocomplete"
+                    "http://www.knora.org/ontology/basic#Duration": {
+                        "label": "Duration",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "time",
+                            "type": "sequence"
+                        }
                     }
                 }
             }
@@ -778,173 +263,171 @@
             "description": "A representation containing 3D images.",
             "icon": "3d_rotation",
             "properties": {
-                "http://www.knora.org/ontology/basic#Name": {
-                    "label": "Name",
-                    "cardinality": "1",
-                    "permissions": {
-                        "read": "world (=everyone)",
-                        "comment": "guest (=logged in knora user)",
-                        "edit": "user (=logged in knora project user)",
-                        "admin": "admin (=logged in knora project or system admin)"
-                    },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
+                "required": {
+                    "http://www.knora.org/ontology/basic#File": {
+                        "label": "File uploader",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "file uploader",
+                            "type": "image"
+                        }
                     }
                 },
-                "http://www.knora.org/ontology/basic#Title": {
-                    "label": "Title",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                "optional": {
+                    "http://www.knora.org/ontology/basic#Type": {
+                        "label": "Type",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "selection",
+                            "type": "dropdown",
+                            "list_id": ""
+                        }
                     },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Format": {
-                    "label": "Format",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#Creator": {
+                        "label": "Creator",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "selection",
-                        "type": "dropdown",
-                        "list_id": ""
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Creator": {
-                    "label": "Creator",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#Shape": {
+                        "label": "Shape",
+                        "cardinality": "0-1",
+                        "gui": {
+                            "element": "selection",
+                            "type": "dropdown",
+                            "list_id": ""
+                        }
                     },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Comment": {
-                    "label": "Comment",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#Exif": {
+                        "label": "Exif data of capture",
+                        "cardinality": "0-n",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "text",
-                        "type": "extended"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Description": {
-                    "label": "Description",
-                    "cardinality": "1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#ContentSzW": {
+                        "label": "Content size, width",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "integer",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "text",
-                        "type": "simple"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Keywords": {
-                    "label": "Keywords",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#ContentSzH": {
+                        "label": "Content size, height",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "integer",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "tags",
-                        "type": ""
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Date": {
-                    "label": "Date",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#MaxResW": {
+                        "label": "Maximum resolution, width",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "integer",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "date",
-                        "type": "period"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Shape": {
-                    "label": "Shape",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#MaxResH": {
+                        "label": "Maximum resolution, height",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "integer",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "selection",
-                        "type": "dropdown"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#Location": {
-                    "label": "Location",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#TileSzW": {
+                        "label": "Tile size, width",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "integer",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "geonames",
-                        "type": "autocomplete"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#isLinkedTo": {
-                    "label": "is linked to",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#TileSzH": {
+                        "label": "Tile size, height",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "integer",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "link",
-                        "type": "autocomplete"
-                    }
-                },
-                "http://www.knora.org/ontology/basic#isPartOf": {
-                    "label": "is part of",
-                    "cardinality": "0-1",
-                    "permissions": {
-                        "read": "world",
-                        "comment": "guest",
-                        "edit": "user",
-                        "admin": "admin"
+                    "http://www.knora.org/ontology/basic#Multires": {
+                        "label": "Multiresolution strategy",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
                     },
-                    "gui": {
-                        "element": "link",
-                        "type": "autocomplete"
+                    "http://www.knora.org/ontology/basic#Scale": {
+                        "label": "Scale",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
+                    },
+                    "http://www.knora.org/ontology/basic#Bias": {
+                        "label": "Bias",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
+                    },
+                    "http://www.knora.org/ontology/basic#Orientation": {
+                        "label": "Orientation",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "integer",
+                            "type": "simple"
+                        }
+                    },
+                    "http://www.knora.org/ontology/basic#ImageFormat": {
+                        "label": "Image format",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "selection",
+                            "type": "dropdown",
+                            "list_id": ""
+                        }
+                    },
+                    "http://www.knora.org/ontology/basic#Geometry": {
+                        "label": "Geometry",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
+                    },
+                    "http://www.knora.org/ontology/basic#fShader": {
+                        "label": "fShader URL",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
+                    },
+                    "http://www.knora.org/ontology/basic#vShader": {
+                        "label": "vShader URL",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
+                    },
+                    "http://www.knora.org/ontology/basic#utilsShader": {
+                        "label": "utilsShader URL",
+                        "cardinality": "1",
+                        "gui": {
+                            "element": "text",
+                            "type": "simple"
+                        }
                     }
                 }
             }
@@ -958,10 +441,10 @@
                     "label": "Name",
                     "cardinality": "1",
                     "permissions": {
-                        "read": "world (=everyone)",
-                        "comment": "guest (=logged in knora user)",
-                        "edit": "user (=logged in knora project user)",
-                        "admin": "admin (=logged in knora project or system admin)"
+                        "read": "world",
+                        "comment": "guest",
+                        "edit": "member",
+                        "admin": "admin"
                     },
                     "gui": {
                         "element": "text",
@@ -974,7 +457,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -988,7 +471,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1003,7 +486,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1017,7 +500,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1031,7 +514,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1045,7 +528,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1059,7 +542,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1073,7 +556,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1087,7 +570,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1101,7 +584,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1115,7 +598,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1129,7 +612,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1143,7 +626,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1162,10 +645,10 @@
                     "label": "Name",
                     "cardinality": "1",
                     "permissions": {
-                        "read": "world (=everyone)",
-                        "comment": "guest (=logged in knora user)",
-                        "edit": "user (=logged in knora project user)",
-                        "admin": "admin (=logged in knora project or system admin)"
+                        "read": "world",
+                        "comment": "guest",
+                        "edit": "member",
+                        "admin": "admin"
                     },
                     "gui": {
                         "element": "text",
@@ -1178,7 +661,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1192,7 +675,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1207,7 +690,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1221,7 +704,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1235,7 +718,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1249,7 +732,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1263,7 +746,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1277,7 +760,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1291,7 +774,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1305,7 +788,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1319,7 +802,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1333,7 +816,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {
@@ -1347,7 +830,7 @@
                     "permissions": {
                         "read": "world",
                         "comment": "guest",
-                        "edit": "user",
+                        "edit": "member",
                         "admin": "admin"
                     },
                     "gui": {

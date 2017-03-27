@@ -47,7 +47,7 @@ export class ResourceClassFormComponent implements OnInit {
 
     checked: boolean = true;
 
-    props: PropObject[] = [];
+    props: Property[] = [];
 
     unchecked: boolean = false;
 
@@ -65,11 +65,26 @@ export class ResourceClassFormComponent implements OnInit {
         {id: 'perm-3', label: 'group 4'}
     ];
 
-    permissions: string[] = [
-        "World",
-        "Guest",
-        "User",
-        "Admin"
+
+
+    permissions: any[] = [
+        {
+            group: "world",
+            label: "Everyone"
+        },
+        {
+            group: "guest",
+            label: "User (not project member)"
+        },
+        {
+            group: "member",
+            label: "Member of the project"
+        },
+        {
+            group: "admin",
+            label: "Admin of the project"
+        }
+
     ];
 
     //selector of cardinality (referred to as occurrence in the GUI)

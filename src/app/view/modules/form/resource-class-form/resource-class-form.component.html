@@ -2,11 +2,11 @@
     it will be displayed in dialog card box -->
 
 <!-- the dialog title is always the same; It stays fixed to the top of the dialog -->
-<md-toolbar md-dialog-title>
+<div md-dialog-title>
 
     <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
+</div>
 
-</md-toolbar>
 
 <!-- the sub forms of the main form are in th dialog content area; the content will change, step by step -->
 <div md-dialog-content>
@@ -60,7 +60,7 @@
                     -->
                     <!-- the properties on the left side are followed by their cardinality settings on the right side -->
 
-                    <md-select *ngIf="props[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="prop.key">
+                    <md-select *ngIf="props[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="props[prop.key].cardinality">
                         <md-option *ngFor="let item of cardinalityList;" [value]="item">
                             {{item}}
                         </md-option>
@@ -73,35 +73,34 @@
         <section [hidden]="counter!==2">
             <p md-subheader>Set the permissions for the selected properties</p>
 
-            <md-list>
-                <md-list-item *ngFor="let prop of props | key; let i = index" class="link highlight">
-                    <p md-line *ngIf="props[prop.key] !== undefined">
-                        ({{prop.value.cardinality}}) <strong>{{prop.value.label}}</strong>
-                        <md-select [placeholder]="prop.value.permissions.read">
-                            <md-option *ngFor="let perm of permissions" [value]="perm" [selected]="perm === prop.value.permissions.read">
-                                {{perm}}
-                            </md-option>
-                        </md-select>
-                        <span>{{prop.value.permissions.comment}}</span>
-                        <span>{{prop.value.permissions.edit}}</span>
-                        <span>{{prop.value.permissions.admin}}</span>
-                        <!--
-                        <md-select *ngFor="let perm for prop.value.permissions" [(ngModel)]="perm">
-                            <md-option *ngFor="let val of perm;" [value]="val">
-                                {{val}}
-                            </md-option>
-                        </md-select>
-                        -->
-                    </p>
-                </md-list-item>
-
-            </md-list>
-
-
+            <table class="full-width form-table">
+                <thead><tr>
+                    <th width="36px" class="center">n</th>
+                    <th>Property</th>
+                    <th>Read</th>
+                    <th>Comment</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr></thead>
+                <tbody *ngFor="let prop of props | key; let i = index">
+                    <tr  class="link highlight" *ngIf="props[prop.key] !== undefined" style="height: 48px">
+                        <td width="36px" class="center">({{prop.value.cardinality}})</td>
+                        <td><strong>{{prop.value.label}}</strong></td>
+                        <td *ngFor="let p of prop.value.permissions | key">
+                            <md-select [(ngModel)]="p.value" [name]="p.key">
+                                <md-option *ngFor="let perm of permissions" [value]="perm.group">
+                                    {{perm.label}}
+                                </md-option>
+                            </md-select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
-        <!-- Step 4: Set permissions for each property -->
+        <!-- Step 4: Show a preview of the new resource -->
         <section [hidden]="counter!==3">
+            <p md-subheader>Set the permissions for the selected properties</p>
             <h3>Set property permissions and occurrence</h3>
             <div *ngFor="let res of knoraBase?.resourcetypes">
                 <div *ngIf="res.label==newResource">
@@ -163,7 +162,7 @@
 
 
 <!-- the dialog actions bar is always the same; It stays fixed to the bottom of the dialog -->
-<md-toolbar md-dialog-actions class="transparent">
+<div md-dialog-actions>
     <button md-button
             md-dialog-close
             class="cancel-button">
@@ -182,9 +181,10 @@
 
     <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
     <span class="next">
-        <button md-button
+        <button md-raised-button
                 *ngIf="counter < (max_steps - 1) && counter > 0 && props"
-                class="next-button md-primary"
+                class="next-button"
+                color="primary"
                 (click)="nextFormSection(counter, $event, rcf.value)">
             Next <md-icon>keyboard_arrow_right</md-icon>
         </button>
@@ -192,13 +192,14 @@
         <button type="submit"
                 md-raised-button
                 *ngIf="counter === (max_steps - 1)"
-                class="save-button mat-primary"
+                class="save-button"
+                color="primary"
                 (click)="onSubmit(rcf.value)"
                 [disabled]="!rcf.valid">
             Save
         </button>
     </span>
 
-</md-toolbar>
+</div>
 
 
