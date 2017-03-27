@@ -51,6 +51,15 @@ export class ResourceClass {
 }
 
 @JsonObject
+export class PropObject {
+    @JsonProperty('key', String)
+    public key: string = undefined;
+
+    @JsonProperty('value', Property)
+    public value: Property = undefined;
+}
+
+@JsonObject
 export class Property {
 
     @JsonProperty('label', String)

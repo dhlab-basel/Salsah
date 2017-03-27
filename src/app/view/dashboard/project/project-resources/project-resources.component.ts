@@ -95,6 +95,7 @@ export class ProjectResourcesComponent implements OnInit {
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
+                    this.isLoadingSubModule = false;
                 }
             );
     }

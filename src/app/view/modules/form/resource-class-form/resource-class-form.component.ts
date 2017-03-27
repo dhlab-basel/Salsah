@@ -15,7 +15,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {BaseOntologyService} from "../../../../model/api/base-ontology.service";
-import {BaseOntology, Property, ResourceClass} from "../../../../model/classes/base-ontology";
+import {BaseOntology, Property, PropObject, ResourceClass} from "../../../../model/classes/base-ontology";
 import {ApiServiceResult} from "../../../../model/api/api-service-result";
 import {ApiServiceError} from "../../../../model/api/api-service-error";
 import {addToArray} from "@angular/core/src/linker/view_utils";
@@ -47,7 +47,7 @@ export class ResourceClassFormComponent implements OnInit {
 
     checked: boolean = true;
 
-    props: any = [];
+    props: PropObject[] = [];
 
     unchecked: boolean = false;
 
@@ -63,6 +63,13 @@ export class ResourceClassFormComponent implements OnInit {
         {id: 'perm-1', label: 'group 2'},
         {id: 'perm-2', label: 'group 3'},
         {id: 'perm-3', label: 'group 4'}
+    ];
+
+    permissions: string[] = [
+        "World",
+        "Guest",
+        "User",
+        "Admin"
     ];
 
     //selector of cardinality (referred to as occurrence in the GUI)
@@ -138,19 +145,18 @@ export class ResourceClassFormComponent implements OnInit {
     }
 
 
-    setProp(id: string, property: Property, event) {
+    setProp(property: PropObject, event) {
 
         if(event.target.checked === true) {
-            this.props[id] = property;
+            this.props[property.key] = property.value;
         }
         else {
 
             let i: number = 0;
             for (let prop in this.props) {
-
-                if(prop === id) {
-                    this.props[id] = undefined;
-
+                if(prop === property.key) {
+//                this.props.splice(i, 1); <-- this solution is not working ;(
+                    this.props[property.key] = undefined;
                 }
                 i++;
             }

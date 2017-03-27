@@ -13,10 +13,11 @@
     <form #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value, rcf.valid)" class="salsah-form">
         <!-- Step 1: Select resource type from a list of resources taken directly from the Knora base ontology (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
         <section [hidden]="counter!==0">
-        <h3>Select your media file type</h3>
+            <p md-subheader>Select your media file type</p>
             <md-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
                 <md-grid-tile *ngFor="let item of knoraBase?.resourceClasses | key; let i = index;">
-                    <button md-button (click)="nextFormSection(counter, $event, rcf.value, item.key)">
+                    <button md-button [mdTooltip]="item.value.description" mdTooltipPosition="above"
+                            (click)="nextFormSection(counter, $event, rcf.value, item.key)">
                         <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>
                         {{item.value.label}}
                     </button>
@@ -25,7 +26,7 @@
         </section>
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
         <section *ngIf="newResource.id" [hidden]="counter!==1">
-            <h3>Select properties for {{knoraBase?.resourceClasses[newResource.id]?.label}}</h3>
+            <p md-subheader>Select properties for <strong>{{knoraBase?.resourceClasses[newResource.id]?.label}}</strong></p>
             <md-list>
                 <md-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
                     <div class="salsah-checkbox">
@@ -33,7 +34,7 @@
                                [id]="prop.key"
                                [value]="prop.key"
                                [checked]="prop.value"
-                               (change)="setProp(prop.key, prop.value, $event)">
+                               (change)="setProp(prop, $event)">
                         <label [for]="prop.key" class="fill-remaining-space" [class.checked]="props[prop.key]">
                             <span class="checkbox-fake"></span>
                             <span class="checkbox-label">{{prop.value.label}}</span>
@@ -68,28 +69,35 @@
                 </md-list-item>
             </md-list>
         </section>
-        <!-- Step 3: Confirm your selection -->
+        <!-- Step 3: Set permissions for each property -->
         <section [hidden]="counter!==2">
-            <h3>Set the permissions for these properties</h3>
-            <p *ngFor="let prop of props | key">
-                <span *ngIf="props[prop.key] !== undefined">
-                    ({{prop.value.cardinality}}) <strong>{{prop.value.label}}</strong>
-                </span>
-            </p>
-            <div *ngFor="let res of knoraBase?.resourcetypes">
-                <div *ngIf="res.label==newResource">
-                    <i>Resource type:</i>
-                    <br>
-                    <b>{{res.label}}</b>
-                    <br><br>
-                    <i>Resource properties:</i>
-                    <div *ngFor="let props of res.properties" >
-                        <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
-                            <b> {{props.label}} </b>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <p md-subheader>Set the permissions for the selected properties</p>
+
+            <md-list>
+                <md-list-item *ngFor="let prop of props | key; let i = index" class="link highlight">
+                    <p md-line *ngIf="props[prop.key] !== undefined">
+                        ({{prop.value.cardinality}}) <strong>{{prop.value.label}}</strong>
+                        <md-select [placeholder]="prop.value.permissions.read">
+                            <md-option *ngFor="let perm of permissions" [value]="perm" [selected]="perm === prop.value.permissions.read">
+                                {{perm}}
+                            </md-option>
+                        </md-select>
+                        <span>{{prop.value.permissions.comment}}</span>
+                        <span>{{prop.value.permissions.edit}}</span>
+                        <span>{{prop.value.permissions.admin}}</span>
+                        <!--
+                        <md-select *ngFor="let perm for prop.value.permissions" [(ngModel)]="perm">
+                            <md-option *ngFor="let val of perm;" [value]="val">
+                                {{val}}
+                            </md-option>
+                        </md-select>
+                        -->
+                    </p>
+                </md-list-item>
+
+            </md-list>
+
+
         </section>
 
         <!-- Step 4: Set permissions for each property -->
@@ -175,7 +183,7 @@
     <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
     <span class="next">
         <button md-button
-                *ngIf="counter < (max_steps - 1) && counter > 0"
+                *ngIf="counter < (max_steps - 1) && counter > 0 && props"
                 class="next-button md-primary"
                 (click)="nextFormSection(counter, $event, rcf.value)">
             Next <md-icon>keyboard_arrow_right</md-icon>
