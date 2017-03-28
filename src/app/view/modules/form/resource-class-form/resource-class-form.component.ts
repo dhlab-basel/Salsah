@@ -67,25 +67,54 @@ export class ResourceClassFormComponent implements OnInit {
 
 
 
-    permissions: any[] = [
-        {
-            group: "world",
-            label: "Everyone"
-        },
-        {
-            group: "guest",
-            label: "User (not project member)"
-        },
-        {
-            group: "member",
-            label: "Member of the project"
-        },
-        {
-            group: "admin",
-            label: "Admin of the project"
-        }
+    permissions: any = {
+        "categories": [
+            {
+                id: "read",
+                label: "Read only",
+                description: ""
+            },
+            {
+                id: "comment",
+                label: "Comment / Annotate",
+                description: ""
+            },
+            {
+                id: "edit",
+                label: "Create and edit",
+                description: ""
+            },
+            {
+                id: "delete",
+                label: "Create, edit, delete",
+                description: ""
+            }
 
-    ];
+        ],
+        "groups": [
+            {
+                id: "world",
+                label: "Everyone",
+                description: ""
+            },
+            {
+                id: "guest",
+                label: "User (not project member)",
+                description: ""
+            },
+            {
+                id: "member",
+                label: "Member of the project",
+                description: ""
+            },
+            {
+                id: "admin",
+                label: "Admin of the project",
+                description: ""
+            }
+        ]
+    };
+
 
     //selector of cardinality (referred to as occurrence in the GUI)
     cardinalityList: string[] = [
@@ -121,6 +150,11 @@ export class ResourceClassFormComponent implements OnInit {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.knoraBase = result.getBody();
+
+//                    this.props = this.knoraBase.defaultProperties;
+//                    this.props = this.knoraBase.defaultProperties;
+//                    console.log(this.props);
+//                    console.log(this.knoraBase.defaultProperties);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -133,18 +167,23 @@ export class ResourceClassFormComponent implements OnInit {
     //form functions
     onSubmit(data: any): void {
         console.log('you submitted value:', data);
-        console.log('your props are:', this.props);
+        console.log('your new resource is:', this.newResource);
         this.dialog.closeAll();
     }
 
-    nextFormSection(cntr: number, e, formValues: any, resClassId?: string) {
+    nextFormSection(cntr: number, e, resClassId?: string) {
+
         if(resClassId && cntr === 0) {
             //get the properties for this resClass
 
             this.newResource = this.knoraBase.resourceClasses[resClassId];
+
             this.newResource.id = resClassId;
 
-            this.props = this.knoraBase.resourceClasses[resClassId].properties;
+            // add all default properties to the new resource properties
+            for(let prop in this.knoraBase.defaultProperties) {
+                this.newResource.properties[prop] = this.knoraBase.defaultProperties[prop];
+            }
 
         }
 
@@ -163,15 +202,15 @@ export class ResourceClassFormComponent implements OnInit {
     setProp(property: PropObject, event) {
 
         if(event.target.checked === true) {
-            this.props[property.key] = property.value;
+            this.newResource.properties[property.key] = property.value;
         }
         else {
 
             let i: number = 0;
-            for (let prop in this.props) {
+            for (let prop in this.newResource.properties) {
                 if(prop === property.key) {
-//                this.props.splice(i, 1); <-- this solution is not working ;(
-                    this.props[property.key] = undefined;
+//                    this.newResource.properties.splice(i, 1); // <-- this solution is not working ;(
+                    this.newResource.properties[property.key] = undefined;
                 }
                 i++;
             }

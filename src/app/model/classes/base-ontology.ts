@@ -21,6 +21,14 @@ import {JsonObject, JsonProperty} from 'json2typescript';
 @JsonObject
 export class BaseOntology {
 
+    // defaultPermissions
+
+    // defaultProperties
+    @JsonProperty('defaultProperties', [Property])
+    public defaultProperties: Property[] = undefined;
+
+    // defaultResources
+
     @JsonProperty('resourceClasses', [ResourceClass])
     public resourceClasses: ResourceClass[] = undefined;
 
@@ -45,7 +53,10 @@ export class ResourceClass {
     @JsonProperty('icon', String)
     public icon: string = undefined;
 
-    @JsonProperty('properties', [Property])
+    @JsonProperty('file', String, true)
+    public file: string = undefined;
+
+    @JsonProperty('properties', [Property], true)
     public properties: Property[] = undefined;
 
 }
@@ -68,11 +79,11 @@ export class Property {
     @JsonProperty('cardinality', String)
     public cardinality: string = undefined;
 
-    @JsonProperty('permissions', Permissions)
-    public permissions: Permissions = undefined;
-
     @JsonProperty('gui', Gui)
     public gui: Gui = undefined;
+
+    @JsonProperty('permissions', Permissions, true)
+    public permissions: Permissions = undefined;
 
 }
 

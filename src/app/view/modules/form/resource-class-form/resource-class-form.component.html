@@ -17,7 +17,7 @@
             <md-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
                 <md-grid-tile *ngFor="let item of knoraBase?.resourceClasses | key; let i = index;">
                     <button md-button [mdTooltip]="item.value.description" mdTooltipPosition="above"
-                            (click)="nextFormSection(counter, $event, rcf.value, item.key)">
+                            (click)="nextFormSection(counter, $event, item.key)">
                         <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>
                         {{item.value.label}}
                     </button>
@@ -27,7 +27,10 @@
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
         <section *ngIf="newResource.id" [hidden]="counter!==1">
             <p md-subheader>Select properties for <strong>{{knoraBase?.resourceClasses[newResource.id]?.label}}</strong></p>
+
             <md-list>
+
+                <!-- 2b) additional resource class specific properties -->
                 <md-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
                     <div class="salsah-checkbox">
                         <input type="checkbox"
@@ -35,7 +38,7 @@
                                [value]="prop.key"
                                [checked]="prop.value"
                                (change)="setProp(prop, $event)">
-                        <label [for]="prop.key" class="fill-remaining-space" [class.checked]="props[prop.key]">
+                        <label [for]="prop.key" class="fill-remaining-space" [class.checked]="prop.value">
                             <span class="checkbox-fake"></span>
                             <span class="checkbox-label">{{prop.value.label}}</span>
                         </label>
@@ -60,7 +63,7 @@
                     -->
                     <!-- the properties on the left side are followed by their cardinality settings on the right side -->
 
-                    <md-select *ngIf="props[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="props[prop.key].cardinality">
+                    <md-select *ngIf="newResource.properties[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="newResource.properties[prop.key].cardinality">
                         <md-option *ngFor="let item of cardinalityList;" [value]="item">
                             {{item}}
                         </md-option>
@@ -82,11 +85,11 @@
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr></thead>
-                <tbody *ngFor="let prop of props | key; let i = index">
-                    <tr  class="link highlight" *ngIf="props[prop.key] !== undefined" style="height: 48px">
+                <tbody *ngFor="let prop of newResource.properties | key; let i = index">
+                    <tr  class="link highlight" *ngIf="newResource.properties[prop.key] !== undefined" style="height: 48px">
                         <td width="36px" class="center">({{prop.value.cardinality}})</td>
                         <td><strong>{{prop.value.label}}</strong></td>
-                        <td *ngFor="let p of prop.value.permissions | key">
+                        <td *ngFor="let p of permissions | key">
                             <md-select [(ngModel)]="p.value" [name]="p.key">
                                 <md-option *ngFor="let perm of permissions" [value]="perm.group">
                                     {{perm.label}}
@@ -185,7 +188,7 @@
                 *ngIf="counter < (max_steps - 1) && counter > 0 && props"
                 class="next-button"
                 color="primary"
-                (click)="nextFormSection(counter, $event, rcf.value)">
+                (click)="nextFormSection(counter, $event)">
             Next <md-icon>keyboard_arrow_right</md-icon>
         </button>
         <!-- or -->
