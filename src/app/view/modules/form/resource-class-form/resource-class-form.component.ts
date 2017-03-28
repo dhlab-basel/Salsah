@@ -18,57 +18,43 @@ import {BaseOntologyService} from "../../../../model/api/base-ontology.service";
 import {BaseOntology, Property, PropObject, ResourceClass} from "../../../../model/classes/base-ontology";
 import {ApiServiceResult} from "../../../../model/api/api-service-result";
 import {ApiServiceError} from "../../../../model/api/api-service-error";
-import {addToArray} from "@angular/core/src/linker/view_utils";
 
 @Component({
     selector: 'salsah-resource-class-form',
     templateUrl: './resource-class-form.component.html',
     styleUrls: ['./resource-class-form.component.css']
 })
+
 export class ResourceClassFormComponent implements OnInit {
 
     errorMessage: any;
 
     // data from the server
-    knoraBase: BaseOntology = new BaseOntology();
+    baseOntology: BaseOntology = new BaseOntology();
 
     // result to send to the server
     newResource: ResourceClass = new ResourceClass();
 
     // how many steps has the form?
-    max_steps: number = 4;
+    max_steps: number = 5;
     // or define an array of steps
     steps: string[] = [
         "Resource type",
+        "Resource",
         "Properties",
         "Permissions",
         "Save"
     ];
 
-    checked: boolean = true;
-
-    props: Property[] = [];
-
-    unchecked: boolean = false;
-
-    resourceTypes: any = undefined;
-    private counter: number = 0;
-
-    public perm: any;
-    public card: any;
-
-    //selector of permissions
-    perms = [
-        {id: 'perm-0', label: 'group 1'},
-        {id: 'perm-1', label: 'group 2'},
-        {id: 'perm-2', label: 'group 3'},
-        {id: 'perm-3', label: 'group 4'}
-    ];
-
-
+    counter: number = 0;
 
     permissions: any = {
         "categories": [
+            {
+                id: "none",
+                label: "no permission",
+                description: ""
+            },
             {
                 id: "read",
                 label: "Read only",
@@ -76,17 +62,17 @@ export class ResourceClassFormComponent implements OnInit {
             },
             {
                 id: "comment",
-                label: "Comment / Annotate",
+                label: "Comment",
                 description: ""
             },
             {
                 id: "edit",
-                label: "Create and edit",
+                label: "Edit incl. create",
                 description: ""
             },
             {
                 id: "delete",
-                label: "Create, edit, delete",
+                label: "Delete incl. create, edit",
                 description: ""
             }
 
@@ -95,22 +81,22 @@ export class ResourceClassFormComponent implements OnInit {
             {
                 id: "world",
                 label: "Everyone",
-                description: ""
+                description: "Every visitor (without login)"
             },
             {
                 id: "guest",
-                label: "User (not project member)",
-                description: ""
+                label: "User",
+                description: "Logged in user and not a member of the project"
             },
             {
                 id: "member",
-                label: "Member of the project",
-                description: ""
+                label: "Member",
+                description: "Logged in user and member of the project"
             },
             {
                 id: "admin",
-                label: "Admin of the project",
-                description: ""
+                label: "Admin",
+                description: "Logged in user and admin of the project"
             }
         ]
     };
@@ -137,7 +123,6 @@ export class ResourceClassFormComponent implements OnInit {
         }
     };
 
-
     constructor(public dialog: MdDialog,
                 private _baseOntologyService: BaseOntologyService) {
     }
@@ -149,7 +134,7 @@ export class ResourceClassFormComponent implements OnInit {
         this._baseOntologyService.getBaseOntology()
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.knoraBase = result.getBody();
+                    this.baseOntology = result.getBody();
 
 //                    this.props = this.knoraBase.defaultProperties;
 //                    this.props = this.knoraBase.defaultProperties;
@@ -176,13 +161,13 @@ export class ResourceClassFormComponent implements OnInit {
         if(resClassId && cntr === 0) {
             //get the properties for this resClass
 
-            this.newResource = this.knoraBase.resourceClasses[resClassId];
+            this.newResource = this.baseOntology.resourceClasses[resClassId];
 
             this.newResource.id = resClassId;
 
             // add all default properties to the new resource properties
-            for(let prop in this.knoraBase.defaultProperties) {
-                this.newResource.properties[prop] = this.knoraBase.defaultProperties[prop];
+            for(let prop in this.baseOntology.defaultProperties) {
+                this.newResource.properties[prop] = this.baseOntology.defaultProperties[prop];
             }
 
         }

@@ -62,7 +62,7 @@ export class UserFormComponent implements OnInit {
 //        console.log(encodeURIComponent("http://rdfh.ch/users/NmqI97IkSr2PNUGVjApLUg"));
 
         this.uf = fb.group({
-            'givenName': ['', Validators.required],
+            'givenName': [null, Validators.required],
             'familyName': [null, Validators.required],
             'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],

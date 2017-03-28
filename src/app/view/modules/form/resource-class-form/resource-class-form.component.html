@@ -10,12 +10,13 @@
 
 <!-- the sub forms of the main form are in th dialog content area; the content will change, step by step -->
 <div md-dialog-content>
-    <form #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value, rcf.valid)" class="salsah-form">
-        <!-- Step 1: Select resource type from a list of resources taken directly from the Knora base ontology (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
+
+        <!-- Step 0: Select resource type from a list of resources taken directly from the Knora base ontology
+            (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
         <section [hidden]="counter!==0">
             <p md-subheader>Select your media file type</p>
             <md-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
-                <md-grid-tile *ngFor="let item of knoraBase?.resourceClasses | key; let i = index;">
+                <md-grid-tile *ngFor="let item of baseOntology?.resourceClasses | key; let i = index;">
                     <button md-button [mdTooltip]="item.value.description" mdTooltipPosition="above"
                             (click)="nextFormSection(counter, $event, item.key)">
                         <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>
@@ -24,10 +25,65 @@
                 </md-grid-tile>
             </md-grid-list>
         </section>
-        <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
-        <section *ngIf="newResource.id" [hidden]="counter!==1">
-            <p md-subheader>Select properties for <strong>{{knoraBase?.resourceClasses[newResource.id]?.label}}</strong></p>
 
+        <!-- Step 1: Define your new resource: name it, describe it and set the permissions for the whole resource -->
+        <section *ngIf="newResource.id" [hidden]="counter!==1">
+            <!-- <p md-header>Define your new resource object <strong>{{newResource.label}}</strong></p> -->
+            <form #resource="ngForm" class="salsah-form">
+
+                <!-- resource label -->
+                <md-input-container class="full-width"
+                                    dividerColor="{{ !newResource.label ? 'warn' : 'primary' }}">
+                    <input mdInput
+                           placeholder="Resource name *"
+                           name="label"
+                           [(ngModel)]="newResource.label">
+                    <md-hint class="salsah-hint">
+                        <span [hidden]="newResource.label" class="salsah-error">This information is required!</span>
+                    </md-hint>
+                </md-input-container>
+
+                <!-- resource description -->
+                <md-input-container class="full-width">
+                    <textarea mdInput
+                           placeholder="Resource description"
+                           name="description"
+                           [(ngModel)]="newResource.description">
+                    </textarea>
+                </md-input-container>
+
+                <!-- resource icon; disabled at the moment -->
+                <md-input-container class="full-width"
+                                    dividerColor="{{ !newResource.icon ? 'warn' : 'primary' }}">
+                    <md-icon>{{newResource.icon}}</md-icon>
+                    <input mdInput
+                           placeholder="Resource icon *"
+                           disabled
+                           name="icon"
+                           [(ngModel)]="newResource.icon">
+                    <md-hint class="salsah-hint">
+                        <span [hidden]="newResource.icon" class="salsah-error">This information is required!</span>
+                    </md-hint>
+                </md-input-container>
+
+                <!-- resource permission -->
+                <table>
+                    <tr>
+                        <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above">
+                            {{group.label}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td *ngFor="let permission of permissions.groups">{{permission.label}}</td>
+                    </tr>
+                </table>
+
+            </form>
+        </section>
+
+        <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
+        <section *ngIf="newResource.id" [hidden]="counter!==2">
+            <p md-subheader>Select properties for </p>
             <md-list>
 
                 <!-- 2b) additional resource class specific properties -->
@@ -64,48 +120,48 @@
                     <!-- the properties on the left side are followed by their cardinality settings on the right side -->
 
                     <md-select *ngIf="newResource.properties[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="newResource.properties[prop.key].cardinality">
-                        <md-option *ngFor="let item of cardinalityList;" [value]="item">
-                            {{item}}
+                        <md-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
+                            {{cardinality}}
                         </md-option>
                     </md-select>
 
                 </md-list-item>
             </md-list>
         </section>
+
         <!-- Step 3: Set permissions for each property -->
-        <section [hidden]="counter!==2">
+        <section [hidden]="counter!==3">
             <p md-subheader>Set the permissions for the selected properties</p>
 
             <table class="full-width form-table">
                 <thead><tr>
                     <th width="36px" class="center">n</th>
                     <th>Property</th>
-                    <th>Read</th>
-                    <th>Comment</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th *ngFor="let permCat of permissions.categories">{{permCat.label}}</th>
                 </tr></thead>
                 <tbody *ngFor="let prop of newResource.properties | key; let i = index">
                     <tr  class="link highlight" *ngIf="newResource.properties[prop.key] !== undefined" style="height: 48px">
                         <td width="36px" class="center">({{prop.value.cardinality}})</td>
                         <td><strong>{{prop.value.label}}</strong></td>
-                        <td *ngFor="let p of permissions | key">
-                            <md-select [(ngModel)]="p.value" [name]="p.key">
-                                <md-option *ngFor="let perm of permissions" [value]="perm.group">
-                                    {{perm.label}}
+                        <!--
+                        <td *ngFor="let permCat of permissions.categories; let i = index">
+                            <md-select [(ngModel)]="permissions.groups[i].id" [name]="permCat.id">
+                                <md-option *ngFor="let permGrp of permissions.groups" [value]="permGrp.id">
+                                    {{permGrp.label}}
                                 </md-option>
                             </md-select>
                         </td>
+                        -->
                     </tr>
                 </tbody>
             </table>
         </section>
 
         <!-- Step 4: Show a preview of the new resource -->
-        <section [hidden]="counter!==3">
+        <section [hidden]="counter!==4">
             <p md-subheader>Set the permissions for the selected properties</p>
             <h3>Set property permissions and occurrence</h3>
-            <div *ngFor="let res of knoraBase?.resourcetypes">
+            <div *ngFor="let res of baseOntology?.resourcetypes">
                 <div *ngIf="res.label==newResource">
                     <div *ngFor="let props of res.properties">
                         <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
@@ -152,13 +208,14 @@
             </div>
         </section>
         <!-- Step 5: Make a comment and save -->
-        <section [hidden]="counter!==4">
+        <section [hidden]="counter!==5">
             <h3>Comments</h3>
             <md-input-container class="full-width">
                     <textarea mdInput placeholder="Comments" rows="8" name="userComments"
                               ngModel></textarea>
             </md-input-container>
         </section>
+    <form #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value, rcf.valid)" class="salsah-form">
     </form>
 </div>
 
@@ -185,9 +242,10 @@
     <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
     <span class="next">
         <button md-raised-button
-                *ngIf="counter < (max_steps - 1) && counter > 0 && props"
+                [disabled]="!newResource.label"
+                *ngIf="counter < (max_steps - 1) && counter > 0"
                 class="next-button"
-                color="primary"
+                [color]="'primary'"
                 (click)="nextFormSection(counter, $event)">
             Next <md-icon>keyboard_arrow_right</md-icon>
         </button>
