@@ -47,7 +47,7 @@ export class ProjectsListComponent implements OnInit {
             this._projectsService.getAllProjects()
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.projects = result.getBody();
+                        this.projects = result.getBody(ProjectsList);
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {

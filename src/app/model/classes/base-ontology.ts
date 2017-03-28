@@ -56,6 +56,13 @@ export class ResourceClass {
     @JsonProperty('file', String, true)
     public file: string = undefined;
 
+    /**
+     * Permission for the resource
+     * @type {Permissions}
+     */
+    @JsonProperty('permissions', Permissions, true)
+    public permissions: Permissions = undefined;
+
     @JsonProperty('properties', [Property], true)
     public properties: Property[] = undefined;
 
@@ -82,6 +89,10 @@ export class Property {
     @JsonProperty('gui', Gui)
     public gui: Gui = undefined;
 
+    /**
+     * Permission for the each property
+     * @type {Permissions}
+     */
     @JsonProperty('permissions', Permissions, true)
     public permissions: Permissions = undefined;
 
@@ -90,6 +101,7 @@ export class Property {
 /**
  * has four default categories and four groups
  * @Category
+ * none:    no permission (the resource or the property will be hidden for the specified group)
  * read:    permission to see the property/value
  * comment: permission to comment/annotate a value
  * edit:    permission to create and edit a value
@@ -104,14 +116,14 @@ export class Property {
 @JsonObject
 export class Permissions {
 
-    @JsonProperty('read', String)
-    public read: string = undefined;
+    @JsonProperty('everyone', String)
+    public everyone: string = undefined;
 
-    @JsonProperty('comment', String)
-    public comment: string = undefined;
+    @JsonProperty('guest', String)
+    public guest: string = undefined;
 
-    @JsonProperty('edit', String)
-    public edit: string = undefined;
+    @JsonProperty('member', String)
+    public member: string = undefined;
 
     @JsonProperty('admin', String)
     public admin: string = undefined;

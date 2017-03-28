@@ -16,20 +16,6 @@
 import { JsonObject, JsonProperty } from 'json2typescript';
 import { BasicResponse } from './basic-response';
 
-/**
- * Represents the knora projects list
- *
- * HTTP GET to http://host/v1/projects
- *
- */
-
-@JsonObject
-export class ProjectsList extends BasicResponse {
-
-    @JsonProperty('projects', [ProjectItem])
-    public projects: ProjectItem[] = undefined;
-
-}
 
 /**
  * Represents the knora project information
@@ -40,7 +26,7 @@ export class ProjectsList extends BasicResponse {
  */
 
 @JsonObject
-export class Project extends BasicResponse {
+export class Project {
 
     @JsonProperty('project_info', ProjectItem)
     public project_info: ProjectItem = undefined;
@@ -54,7 +40,7 @@ export class Project extends BasicResponse {
 @JsonObject
 export class ProjectItem {
 
-    @JsonProperty('basepath', String)
+    @JsonProperty('basepath', String, true)
     public basepath: string = undefined;
 
     @JsonProperty('shortname', String)
@@ -82,13 +68,28 @@ export class ProjectItem {
     public keywords: string = undefined;
 
     @JsonProperty('longname', String)
-    public longname: string = undefined;
+    public name: string = undefined;
 
     @JsonProperty('ontologyNamedGraph', String)
     public ontologyNamedGraph: string = undefined;
 
     @JsonProperty('hasSelfJoinEnabled', Boolean)
     public hasSelfJoinEnabled: boolean = undefined;
+
+}
+
+/**
+ * Represents the knora projects list
+ *
+ * HTTP GET to http://host/v1/projects
+ *
+ */
+
+@JsonObject
+export class ProjectsList {
+
+    @JsonProperty('projects', [ProjectItem])
+    public projects: ProjectItem[] = undefined;
 
 }
 
