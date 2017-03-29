@@ -27,18 +27,21 @@ md-dialog-container.mat-dialog-container {
     .mat-dialog-title {
         margin: -24px -24px 0 -24px;
         padding: 0 24px;
-        @include box-shadow-bottom();
+        border-bottom: 2px solid rgba(0,0,0,0.1);
         background-color: whitesmoke;
     }
 
     .mat-dialog-content {
-        background-color: lighten(whitesmoke, 2%);
+//        background-color: lighten(whitesmoke, 2%);
         overflow-x: hidden;
         overflow-y: auto;
-        @include box-shadow-bottom();
+        border-bottom: 2px solid rgba(0,0,0,0.1);
         padding-top: 6px;
         padding-bottom: 6px;
-        margin-top: 2px;
+
+        section {
+            padding: 24px;
+        }
 
     }
 
@@ -50,6 +53,10 @@ md-dialog-container.mat-dialog-container {
 
 
 .salsah-form {
+
+    .mat-input-container {
+        margin-bottom: 24px;
+    }
 
     &.new-user {
         md-input-container {
@@ -73,22 +80,25 @@ md-dialog-container.mat-dialog-container {
         }
     }
 
-    .form-table {
-        margin-top: 24px;
-        margin-bottom: 24px;
-        border-spacing: 0;
-        td, th {
-            padding: 12px;
+
+}
+
+
+.form-table {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    border-spacing: 0;
+    td, th {
+        padding: 12px;
+        text-align: center;
+        &.left {
+            text-align: left;
+        }
+        &.right {
+            text-align: right;
+        }
+        &.center {
             text-align: center;
-            &.left {
-                text-align: left;
-            }
-            &.right {
-                text-align: right;
-            }
-            &.center {
-                text-align: center;
-            }
         }
     }
 }
@@ -129,7 +139,7 @@ div.salsah-checkbox {
     margin-left: -24px;
 
     input[type="checkbox"] {
-//        visibility: hidden;
+        visibility: hidden;
         width: 24px;
         height: 24px;
     }

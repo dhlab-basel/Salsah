@@ -95,12 +95,13 @@ salsah-progress-stepper{
                     text-align: center;
 
                     &.active {
-                        background-color: lighten($accent, 18%);
-                        @include md-box-shadow();
+                        background-color: $accent;
+//                        @include md-box-shadow();
+                        border: 1px solid darken($bright, 50%);
                     }
 
                     &.done {
-                        background-color: lighten($primary, 9%);
+                        background-color: $primary;
                         color: $bright;
                     }
                 }

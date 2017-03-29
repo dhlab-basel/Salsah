@@ -82,6 +82,13 @@
         }
     },
 
+    "defaultPermissions": {
+        "everyone": "read",
+        "guest": "comment",
+        "member": "edit",
+        "admin": "delete"
+    },
+
     "resourceClasses": {
         "http://www.knora.org/ontology/knora-base#Basic": {
             "label": "Metadata Object only",

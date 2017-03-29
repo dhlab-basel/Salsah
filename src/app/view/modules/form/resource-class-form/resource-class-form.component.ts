@@ -67,19 +67,19 @@ export class ResourceClassFormComponent implements OnInit {
             },
             {
                 id: "edit",
-                label: "Edit incl. create",
+                label: "Edit",
                 description: ""
             },
             {
                 id: "delete",
-                label: "Delete incl. create, edit",
+                label: "Delete",
                 description: ""
             }
 
         ],
         "groups": [
             {
-                id: "world",
+                id: "everyone",
                 label: "Everyone",
                 description: "Every visitor (without login)"
             },
@@ -110,19 +110,6 @@ export class ResourceClassFormComponent implements OnInit {
         "0-n"
     ];
 
-    cardinality = [
-        {id: 'card-0', label: '1'},
-        {id: 'card-1', label: '1-n'},
-        {id: 'card-2', label: '0 - 1'},
-        {id: 'card-3', label: '0 - n'}
-    ];
-
-    form: any = {
-        resourceClass: {
-            selection: 'Resource class'
-        }
-    };
-
     constructor(public dialog: MdDialog,
                 private _baseOntologyService: BaseOntologyService) {
     }
@@ -134,20 +121,13 @@ export class ResourceClassFormComponent implements OnInit {
         this._baseOntologyService.getBaseOntology()
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.baseOntology = result.getBody();
-
-//                    this.props = this.knoraBase.defaultProperties;
-//                    this.props = this.knoraBase.defaultProperties;
-//                    console.log(this.props);
-//                    console.log(this.knoraBase.defaultProperties);
+                    this.baseOntology = result.getBody(BaseOntology);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
             );
-
     }
-
 
     //form functions
     onSubmit(data: any): void {
@@ -158,6 +138,9 @@ export class ResourceClassFormComponent implements OnInit {
 
     nextFormSection(cntr: number, e, resClassId?: string) {
 
+//        console.log(this.baseOntology);
+//        console.log(this.newResource);
+
         if(resClassId && cntr === 0) {
             //get the properties for this resClass
 
@@ -165,10 +148,18 @@ export class ResourceClassFormComponent implements OnInit {
 
             this.newResource.id = resClassId;
 
+            for(let rcProp in this.baseOntology.resourceClasses[resClassId].properties) {
+                this.newResource.properties[rcProp].permissions = this.baseOntology.defaultPermissions;
+            }
+
             // add all default properties to the new resource properties
             for(let prop in this.baseOntology.defaultProperties) {
                 this.newResource.properties[prop] = this.baseOntology.defaultProperties[prop];
+                this.newResource.properties[prop].permissions = this.baseOntology.defaultPermissions;
             }
+            // set the resource default permissions:
+            this.newResource.permissions = this.baseOntology.defaultPermissions;
+            console.log(this.newResource);
 
         }
 

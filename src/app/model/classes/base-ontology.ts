@@ -27,6 +27,10 @@ export class BaseOntology {
     @JsonProperty('defaultProperties', [Property])
     public defaultProperties: Property[] = undefined;
 
+    // defaultPermissions
+    @JsonProperty('defaultPermissions', Permissions)
+    public defaultPermissions: Permissions = undefined;
+
     // defaultResources
 
     @JsonProperty('resourceClasses', [ResourceClass])
