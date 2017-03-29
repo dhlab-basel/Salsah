@@ -15,26 +15,54 @@
 import {JsonObject, JsonProperty} from 'json2typescript';
 
 /**
- * is an array of resource classes. The id of the resource class is the key in the array
+ * has four default categories and four groups
+ * @Category
+ * none:    no permission (the resource or the property will be hidden for the specified group)
+ * read:    permission to see the property/value
+ * comment: permission to comment/annotate a value
+ * edit:    permission to create and edit a value
+ * delete:  permission to delete a value
+ *
+ * @Group
+ * world:   every visitor
+ * guest:   logged in knora user
+ * user:    logged in project user
+ * admin:   logged in project (or system) admin user
  */
+@JsonObject
+export class Permissions {
+
+    @JsonProperty('everyone', String)
+    public everyone: string = undefined;
+
+    @JsonProperty('guest', String)
+    public guest: string = undefined;
+
+    @JsonProperty('member', String)
+    public member: string = undefined;
+
+    @JsonProperty('admin', String)
+    public admin: string = undefined;
+}
 
 @JsonObject
-export class BaseOntology {
+export class Property {
 
-    // defaultPermissions
+    @JsonProperty('label', String)
+    public label: string = undefined;
 
-    // defaultProperties
-    @JsonProperty('defaultProperties', [Property])
-    public defaultProperties: Property[] = undefined;
+    @JsonProperty('cardinality', String)
+    public cardinality: string = undefined;
 
-    // defaultPermissions
-    @JsonProperty('defaultPermissions', Permissions)
-    public defaultPermissions: Permissions = undefined;
+    @JsonProperty('gui', Gui)
+    public gui: Gui = undefined;
 
-    // defaultResources
-
-    @JsonProperty('resourceClasses', [ResourceClass])
-    public resourceClasses: ResourceClass[] = undefined;
+    /**
+     * Permission for the each property
+     * @type {Permissions}
+     */
+    @JsonProperty('permissions', Permissions, true)
+    public permissions: Permissions = undefined;
 
 }
 
@@ -72,65 +100,28 @@ export class ResourceClass {
 
 }
 
-@JsonObject
-export class PropObject {
-    @JsonProperty('key', String)
-    public key: string = undefined;
-
-    @JsonProperty('value', Property)
-    public value: Property = undefined;
-}
-
-@JsonObject
-export class Property {
-
-    @JsonProperty('label', String)
-    public label: string = undefined;
-
-    @JsonProperty('cardinality', String)
-    public cardinality: string = undefined;
-
-    @JsonProperty('gui', Gui)
-    public gui: Gui = undefined;
-
-    /**
-     * Permission for the each property
-     * @type {Permissions}
-     */
-    @JsonProperty('permissions', Permissions, true)
-    public permissions: Permissions = undefined;
-
-}
-
 /**
- * has four default categories and four groups
- * @Category
- * none:    no permission (the resource or the property will be hidden for the specified group)
- * read:    permission to see the property/value
- * comment: permission to comment/annotate a value
- * edit:    permission to create and edit a value
- * delete:  permission to delete a value
- *
- * @Group
- * world:   every visitor
- * guest:   logged in knora user
- * user:    logged in project user
- * admin:   logged in project (or system) admin user
+ * is an array of resource classes. The id of the resource class is the key in the array
  */
+
 @JsonObject
-export class Permissions {
+export class BaseOntology {
 
-    @JsonProperty('everyone', String)
-    public everyone: string = undefined;
+    // defaultPermissions
 
-    @JsonProperty('guest', String)
-    public guest: string = undefined;
+    // defaultProperties
+    @JsonProperty('defaultProperties', [Property])
+    public defaultProperties: Property[] = undefined;
 
-    @JsonProperty('member', String)
-    public member: string = undefined;
+    // defaultPermissions
+    @JsonProperty('defaultPermissions', Permissions)
+    public defaultPermissions: Permissions = undefined;
 
-    @JsonProperty('admin', String)
-    public admin: string = undefined;
+    // defaultResources
+
+    @JsonProperty('resourceClasses', [ResourceClass])
+    public resourceClasses: ResourceClass[] = undefined;
+
 }
 
 @JsonObject
@@ -145,4 +136,13 @@ export class Gui {
     @JsonProperty('list_id', String, true)
     public list_id: string = undefined;
 
+}
+
+@JsonObject
+export class PropertyObject {
+    @JsonProperty('key', String)
+    public key: string = undefined;
+
+    @JsonProperty('value', Property)
+    public value: Property = undefined;
 }

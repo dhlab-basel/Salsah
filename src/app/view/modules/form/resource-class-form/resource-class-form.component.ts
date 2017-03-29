@@ -15,7 +15,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {BaseOntologyService} from "../../../../model/api/base-ontology.service";
-import {BaseOntology, Property, PropObject, ResourceClass} from "../../../../model/classes/base-ontology";
+import {BaseOntology, PropertyObject, ResourceClass} from "../../../../model/classes/base-ontology";
 import {ApiServiceResult} from "../../../../model/api/api-service-result";
 import {ApiServiceError} from "../../../../model/api/api-service-error";
 
@@ -159,7 +159,7 @@ export class ResourceClassFormComponent implements OnInit {
             }
             // set the resource default permissions:
             this.newResource.permissions = this.baseOntology.defaultPermissions;
-            console.log(this.newResource);
+//            console.log(this.newResource);
 
         }
 
@@ -175,7 +175,7 @@ export class ResourceClassFormComponent implements OnInit {
     }
 
 
-    setProp(property: PropObject, event) {
+    setProp(property: PropertyObject, event) {
 
         if(event.target.checked === true) {
             this.newResource.properties[property.key] = property.value;

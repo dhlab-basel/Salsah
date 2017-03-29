@@ -150,15 +150,15 @@
                         {{group.label}}
                     </th>
                 </tr></thead>
-                <tbody *ngFor="let prop of newResource.properties | key; let i = index">
+                <tbody *ngFor="let prop of newResource.properties | key; let g = index">
                     <tr  class="link highlight" *ngIf="newResource.properties[prop.key] !== undefined" style="height: 48px">
 
                         <td width="36px" class="center">({{prop.value.cardinality}})</td>
 
                         <td><strong>{{prop.value.label}}</strong></td>
 
-                        <td *ngFor="let group of permissions.groups; let i = index">
-                            <md-select [(ngModel)]="newResource.properties[prop.key]?.permissions[group.id]" [name]="group.id">
+                        <td *ngFor="let grp of permissions.groups; let c = index">
+                            <md-select [(ngModel)]="newResource.properties[prop.key]?.permissions[grp.id]" [name]="'propPermission_' + g + c">
                                 <md-option *ngFor="let cat of permissions.categories" [value]="cat.id">
                                     {{cat.label}}
                                 </md-option>
