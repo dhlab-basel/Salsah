@@ -3,7 +3,6 @@
 
 <!-- the dialog title is always the same; It stays fixed to the top of the dialog -->
 <div md-dialog-title>
-
     <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
 </div>
 
@@ -72,7 +71,7 @@
                 <p md-subheader>Resource Permissions</p>
                 <table class="full-width">
                     <tr>
-                        <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above">
+                        <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
                             {{group.label}}
                         </th>
                     </tr>
@@ -145,17 +144,17 @@
             <table class="full-width form-table">
                 <thead><tr>
                     <th width="36px" class="center">n</th>
-                    <th>Property</th>
-                    <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above">
+                    <th style="text-align:left">Property</th>
+                    <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
                         {{group.label}}
                     </th>
                 </tr></thead>
                 <tbody *ngFor="let prop of newResource.properties | key; let g = index">
                     <tr  class="link highlight" *ngIf="newResource.properties[prop.key] !== undefined" style="height: 48px">
 
-                        <td width="36px" class="center">({{prop.value.cardinality}})</td>
+                        <td width="36px">({{prop.value.cardinality}})</td>
 
-                        <td><strong>{{prop.value.label}}</strong></td>
+                        <td style="text-align:left"><strong>{{prop.value.label}}</strong></td>
 
                         <td *ngFor="let grp of permissions.groups; let c = index">
                             <md-select [(ngModel)]="newResource.properties[prop.key]?.permissions[grp.id]" [name]="'propPermission_' + g + c">

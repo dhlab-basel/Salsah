@@ -70,6 +70,8 @@ export class ProjectTeamComponent implements OnInit {
                     this.isLoading = false;
                 }
             );
+        // Develop test: open the dialog box for new users directly on the start
+        this.addNewUser();
     }
 
     addNewUser() {

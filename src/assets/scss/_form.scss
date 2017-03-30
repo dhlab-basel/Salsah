@@ -25,19 +25,13 @@ md-dialog-container.mat-dialog-container {
     min-width: 560px;
 
     .mat-dialog-title {
-        margin: -24px -24px 0 -24px;
-        padding: 0 24px;
-        border-bottom: 2px solid rgba(0,0,0,0.1);
-        background-color: whitesmoke;
+
     }
 
     .mat-dialog-content {
-//        background-color: lighten(whitesmoke, 2%);
-        overflow-x: hidden;
-        overflow-y: auto;
+//        overflow-x: hidden;
+//        overflow-y: auto;
         border-bottom: 2px solid rgba(0,0,0,0.1);
-        padding-top: 6px;
-        padding-bottom: 6px;
 
         section {
             padding: 24px;
