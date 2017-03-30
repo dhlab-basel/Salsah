@@ -12,16 +12,17 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {
-    Component, OnInit, Input, trigger, state, transition, style, animate, HostListener,
-    ElementRef
-} from '@angular/core';
+import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
 import {SessionService} from "../../../../model/api/session.service";
 import {Router, ActivatedRoute} from "@angular/router";
-import {Authentication, Session} from "../../../../model/classes/session";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
-import {DashboardComponent} from "../../../dashboard/dashboard.component";
+import {Authentication} from "../../../../model/classes/session";
+import {
+    trigger,
+    state,
+    style,
+    animate,
+    transition
+} from '@angular/animations';
 
 function getDocument(): any {
     return document;
@@ -34,17 +35,17 @@ function getDocument(): any {
     animations: [
         trigger('addMenu',
             [
-                state('false', style({display: 'none'})),
-                state('true', style({display: 'block'})),
-                transition('false => true', animate('500ms ease-in')),
-                transition('true => false', animate('500ms ease-out'))
+                state('inactive', style({display: 'none'})),
+                state('active', style({display: 'block'})),
+                transition('inactive => true', animate('100ms ease-in')),
+                transition('true => inactive', animate('100ms ease-out'))
             ]),
         trigger('userMenu',
             [
-                state('false', style({display: 'none'})),
-                state('true', style({display: 'block'})),
-                transition('false => true', animate('500ms ease-in')),
-                transition('true => false', animate('500ms ease-out'))
+                state('inactive', style({display: 'none'})),
+                state('active', style({display: 'block'})),
+                transition('inactive => true', animate('100ms ease-in')),
+                transition('true => inactive', animate('100ms ease-out'))
             ])
     ]
 })
@@ -53,8 +54,8 @@ export class HeaderToolbarComponent implements OnInit {
     userName: string = undefined;
     auth: Authentication = new Authentication();
 
-    focusOnUserMenu: boolean = false;
-    focusOnAddMenu: boolean = false;
+    focusOnUserMenu: string = 'inactive';
+    focusOnAddMenu: string = 'inactive';
 
     constructor(private _eleRef: ElementRef,
                 private _route: ActivatedRoute,
@@ -129,19 +130,22 @@ export class HeaderToolbarComponent implements OnInit {
     @HostListener('document:click', ['$event'])
     public onClick(event) {
         if (!this._eleRef.nativeElement.contains(event.target)) {
-            if(this.focusOnUserMenu) this.toggleMenu('userMenu');
-            if(this.focusOnAddMenu) this.toggleMenu('addMenu');
+//            this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
+//            this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
+            if (this.focusOnUserMenu === 'active') this.focusOnUserMenu = 'inactive';
+            if (this.focusOnAddMenu === 'active') this.focusOnAddMenu = 'inactive';
         }
     }
 
     toggleMenu(name: string) {
-        switch(name) {
+        switch (name) {
             case 'userMenu':
-                this.focusOnUserMenu = (this.focusOnUserMenu === false);
-                this.focusOnAddMenu = false;
+                this.focusOnAddMenu = 'inactive';
+                this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
                 break;
             case 'addMenu':
-                this.focusOnAddMenu = (this.focusOnAddMenu === false);
+                this.focusOnUserMenu = 'inactive';
+                this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
                 break;
         }
     }
@@ -149,7 +153,7 @@ export class HeaderToolbarComponent implements OnInit {
     goToLoginPage() {
         let goToUrl: string = '/login';
 
-        if(this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
+        if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
 
         window.location.replace(goToUrl);
     }

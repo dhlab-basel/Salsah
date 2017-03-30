@@ -11,21 +11,21 @@
            (keyup.esc)="resetSearch(search)"
            (keyup)="onKey(search, $event)"
            (click)="setFocus()"
-           (focus)="toggleMenu('simpleSearch')" [disabled]="focusOnExtended"/>
+           (focus)="toggleMenu('simpleSearch')" [disabled]="focusOnExtended === 'active'"/>
     <!-- switch button:
             - default button is the filter button;
             - but on some focus we need a close button for the simple or extended panel
     -->
-    <button class="suffix" *ngIf="focusOnSimple" (click)="resetSearch(search)">
+    <button class="suffix" *ngIf="focusOnSimple === 'active'" (click)="resetSearch(search)">
         <md-icon class="md-24">close</md-icon>
     </button>
-    <button class="suffix" *ngIf="!focusOnSimple" (click)="toggleMenu('extendedSearch')">
+    <button class="suffix" *ngIf="focusOnSimple === 'inactive'" (click)="toggleMenu('extendedSearch')">
         <md-icon>filter_list</md-icon>
     </button>
 </div>
 
 <!-- the search panel has two "dropdown" menus: one for simple search and another one for the extended search -->
-<div class="salsah-menu simple-search" > <!--[@simpleSearchMenu]="focusOnSimple">-->
+<div class="salsah-menu simple-search" [@simpleSearchMenu]="focusOnSimple">
     <button md-button class="right" (click)="resetPrevSearch()" *ngIf="prevSearch">Clear</button>
     <md-list class="salsah-previous-search-list">
         <md-list-item *ngFor="let item of prevSearch | reverse; let i=index">
@@ -35,7 +35,7 @@
     </md-list>
 </div>
 
-<div class="salsah-menu extended-search" ><!--[@extendedSearchMenu]="focusOnExtended">-->
+<div class="salsah-menu extended-search" [@extendedSearchMenu]="focusOnExtended">
     <div class="salsah-menu-header">
         <span class="salsah-menu-title">
             Extended search

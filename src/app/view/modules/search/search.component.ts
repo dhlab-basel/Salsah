@@ -12,32 +12,46 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+import {Component, OnInit, ElementRef} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {
-    Component, HostListener, OnInit, animate, state, style, transition, trigger,
-    ElementRef, AfterViewInit, AfterViewChecked
-} from '@angular/core';
-import {ActivatedRoute, Router, Params} from '@angular/router';
-import {forEach} from "@angular/router/src/utils/collection";
+    trigger,
+    state,
+    style,
+    animate,
+    transition
+} from '@angular/animations';
 
 @Component({
     selector: 'salsah-search',
     templateUrl: './search.component.html',
-    styleUrls: ['./search.component.css']
-    /*
+    styleUrls: ['./search.component.css'],
     animations: [
         trigger('simpleSearchMenu',
             [
-                state('false', style({height: '0px', display: 'none'})),
-                state('true', style({height: '560px', display: 'block'})),
-                transition('false => true', animate('500ms ease-in')),
-                transition('true => false', animate('500ms ease-out'))
+                state('inactive', style({height: '0px', display: 'none'})),
+                state('active', style({height: '560px', display: 'block'})),
+                transition('inactive => active', [
+                    style({transform: 'translateY(100%)'}),
+                    animate('100ms ease-in')
+                ]),
+                transition('active => inactive', [
+                    style({transform: 'translateY(-100%)'}),
+                    animate('100ms ease-out')
+                ])
             ]),
         trigger('extendedSearchMenu',
             [
-                state('false', style({height: '0px', display: 'none'})),
-                state('true', style({'min-height': '560px', display: 'block'})),
-                transition('false => true', animate('500ms ease-in')),
-                transition('true => false', animate('500ms ease-out'))
+                state('inactive', style({height: '0px', display: 'none'})),
+                state('active', style({'min-height': '560px', display: 'block'})),
+                transition('inactive => active', [
+                    style({transform: 'translateY(100%)'}),
+                    animate('100ms ease-in')
+                ]),
+                transition('active => inactive', [
+                    style({transform: 'translateY(-100%)'}),
+                    animate('100ms ease-out')
+                ])
             ]),
         trigger('size',
             [
@@ -50,7 +64,6 @@ import {forEach} from "@angular/router/src/utils/collection";
                 )
             ])
     ]
-    */
 })
 
 
@@ -60,8 +73,8 @@ export class SearchComponent implements OnInit {
 
     prevSearch: string[] = JSON.parse(localStorage.getItem('prevSearch'));
 
-    focusOnSimple: boolean = false;
-    focusOnExtended: boolean = false;
+    focusOnSimple: string = 'inactive';
+    focusOnExtended: string = 'inactive';
 
     searchLabel: string = 'Search';
 
@@ -84,7 +97,7 @@ export class SearchComponent implements OnInit {
     */
 
     onKey(search_ele: HTMLElement, event) {
-        this.focusOnSimple = true;
+        this.focusOnSimple = 'active';
         this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
         if (this.searchQuery && (event.key === 'Enter' || event.keyCode === 13 || event.which === 13)) {
             this.doSearch(search_ele);
@@ -121,7 +134,7 @@ export class SearchComponent implements OnInit {
     resetSearch(search_ele: HTMLElement) {
         this.searchQuery = null;
         search_ele.focus();
-        this.focusOnSimple = false;
+        this.focusOnSimple = 'inactive';
     }
 
     doPrevSearch(query: string) {
@@ -147,17 +160,17 @@ export class SearchComponent implements OnInit {
 
     setFocus() {
         this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
-        this.focusOnSimple = true;
+        this.focusOnSimple = 'active';
     }
 
     toggleMenu(name: string) {
         switch (name) {
             case 'simpleSearch':
                 this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
-                this.focusOnSimple = (this.focusOnSimple === false);
+                this.focusOnSimple = (this.focusOnSimple === 'active' ? 'inactive' : 'active');
                 break;
             case 'extendedSearch':
-                this.focusOnExtended = (this.focusOnExtended === false);
+                this.focusOnExtended = (this.focusOnExtended === 'active' ? 'inactive' : 'active');
                 break;
         }
     }
