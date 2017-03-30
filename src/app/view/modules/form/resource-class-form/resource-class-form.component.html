@@ -91,91 +91,97 @@
 
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
         <section *ngIf="newResource.id" [hidden]="counter!==2">
-            <p md-subheader>Select properties for </p>
-            <md-list>
+            <form #properties="ngForm" class="salsah-form">
+                <p md-subheader>Select properties for </p>
+                <md-list>
 
-                <!-- 2b) additional resource class specific properties -->
-                <md-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
-                    <div class="salsah-checkbox">
-                        <input type="checkbox"
-                               [id]="prop.key"
-                               [value]="prop.key"
-                               [checked]="prop.value"
-                               (change)="setProp(prop, $event)">
-                        <label [for]="prop.key" class="fill-remaining-space" [class.checked]="newResource.properties[prop.key] !== undefined">
-                            <span class="checkbox-fake"></span>
-                            <span class="checkbox-label">{{prop.value.label}}</span>
-                        </label>
-                    </div>
+                    <!-- 2b) additional resource class specific properties -->
+                    <md-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
+                        <div class="salsah-checkbox">
+                            <input type="checkbox"
+                                   [id]="prop.key"
+                                   [value]="prop.key"
+                                   [checked]="prop.value"
+                                   (change)="setProp(prop, $event)">
+                            <label [for]="prop.key" class="fill-remaining-space" [class.checked]="newResource.properties[prop.key] !== undefined">
+                                <span class="checkbox-fake"></span>
+                                <span class="checkbox-label">{{prop.value.label}}</span>
+                            </label>
+                        </div>
 
-                    <!--
-                    <md-checkbox *ngIf="prop.value.cardinality === '1' || prop.value.cardinality === '1-n'"
-                                 [id]="prop.key"
-                                 [ngModel]="prop.key"
-                                 [checked]="true"
-                                 [name]="'prop_' + i">
-                        <label [for]="prop.key" class="full-width">{{prop.value.label}}<span ></span></label>
-                    </md-checkbox>
+                        <!--
+                        <md-checkbox *ngIf="prop.value.cardinality === '1' || prop.value.cardinality === '1-n'"
+                                     [id]="prop.key"
+                                     [ngModel]="prop.key"
+                                     [checked]="true"
+                                     [name]="'prop_' + i">
+                            <label [for]="prop.key" class="full-width">{{prop.value.label}}<span ></span></label>
+                        </md-checkbox>
 
-                    <md-checkbox *ngIf="prop.value.cardinality === '0-1' || prop.value.cardinality === '0-n' || prop.value.cardinality === false"
-                                 color="primary"
-                                 [ngModel]="prop.key"
-                                 [checked]="false"
-                                 [name]="'prop_' + i">
-                        {{prop.value.label}}
-                    </md-checkbox>
-                    -->
-                    <!-- the properties on the left side are followed by their cardinality settings on the right side -->
+                        <md-checkbox *ngIf="prop.value.cardinality === '0-1' || prop.value.cardinality === '0-n' || prop.value.cardinality === false"
+                                     color="primary"
+                                     [ngModel]="prop.key"
+                                     [checked]="false"
+                                     [name]="'prop_' + i">
+                            {{prop.value.label}}
+                        </md-checkbox>
+                        -->
+                        <!-- the properties on the left side are followed by their cardinality settings on the right side -->
 
-                    <md-select *ngIf="newResource.properties[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="newResource.properties[prop.key].cardinality">
-                        <md-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
-                            {{cardinality}}
-                        </md-option>
-                    </md-select>
+                        <md-select *ngIf="newResource.properties[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="newResource.properties[prop.key].cardinality">
+                            <md-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
+                                {{cardinality}}
+                            </md-option>
+                        </md-select>
 
-                </md-list-item>
-            </md-list>
+                    </md-list-item>
+                </md-list>
+            </form>
         </section>
 
         <!-- Step 3: Set permissions for each property -->
         <section [hidden]="counter!==3">
-            <p md-subheader>Set the permissions for the selected properties</p>
+            <form #permission="ngForm" class="salsah-form">
+                <p md-subheader>Set the permissions for the selected properties</p>
+                <table class="full-width form-table">
+                    <thead><tr>
+                        <th width="36px" class="center">n</th>
+                        <th style="text-align:left">Property</th>
+                        <th *ngFor="let group of permissions.groups">
+                            {{group.label}}
+                        </th>
+                    </tr></thead>
 
-            <table class="full-width form-table">
-                <thead><tr>
-                    <th width="36px" class="center">n</th>
-                    <th style="text-align:left">Property</th>
-                    <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
-                        {{group.label}}
-                    </th>
-                </tr></thead>
-                <tbody *ngFor="let prop of newResource.properties | key; let g = index">
-                    <tr  class="link highlight" *ngIf="newResource.properties[prop.key] !== undefined" style="height: 48px">
 
-                        <td width="36px">({{prop.value.cardinality}})</td>
 
-                        <td style="text-align:left"><strong>{{prop.value.label}}</strong></td>
+                    <tbody *ngFor="let prop of newResource.properties | key; let i = index">
+                        <tr  class="link highlight" *ngIf="newResource.properties[prop.key] !== undefined" style="height: 48px">
 
-                        <td *ngFor="let grp of permissions.groups; let c = index">
-                            <md-select [(ngModel)]="newResource.properties[prop.key]?.permissions[grp.id]" [name]="'propPermission_' + g + c">
-                                <md-option *ngFor="let cat of permissions.categories" [value]="cat.id">
-                                    {{cat.label}}
-                                </md-option>
-                            </md-select>
-                        </td>
+                            <td width="36px">({{prop.value.cardinality}})</td>
 
-                        <!--
-                        <td *ngFor="let permCat of permissions.categories; let i = index">
-                            <md-select [(ngModel)]="permissions.groups[i].id" [name]="permCat.id">
-                                <md-option *ngFor="let permGrp of permissions.groups" [value]="permGrp.id">
-                                    {{permGrp.label}}
-                                </md-option>
-                            </md-select>
-                        </td>
-                        -->
-                    </tr>
-                </tbody>
-            </table>
+                            <td style="text-align:left"><strong>{{prop.value.label}}</strong></td>
+
+                            <td *ngFor="let grp of permissions?.groups; let j = index">
+                                <md-select [(ngModel)]="newResource.properties[prop.key]?.permissions[grp.id]" [name]="newResource.properties[prop.key]?.permissions[grp.id]">
+                                    <md-option *ngFor="let cat of permissions.categories" [value]="cat.id">
+                                        {{cat.label}}
+                                    </md-option>
+                                </md-select>
+                            </td>
+
+                            <!--
+                            <td *ngFor="let permCat of permissions.categories; let i = index">
+                                <md-select [(ngModel)]="permissions.groups[i].id" [name]="permCat.id">
+                                    <md-option *ngFor="let permGrp of permissions.groups" [value]="permGrp.id">
+                                        {{permGrp.label}}
+                                    </md-option>
+                                </md-select>
+                            </td>
+                            -->
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
         </section>
 
         <!-- Step 4: Show a preview of the new resource -->

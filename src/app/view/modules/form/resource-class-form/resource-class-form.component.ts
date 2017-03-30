@@ -157,9 +157,11 @@ export class ResourceClassFormComponent implements OnInit {
                 this.newResource.properties[prop] = this.baseOntology.defaultProperties[prop];
                 this.newResource.properties[prop].permissions = this.baseOntology.defaultPermissions;
             }
+
+
             // set the resource default permissions:
             this.newResource.permissions = this.baseOntology.defaultPermissions;
-//            console.log(this.newResource);
+            //console.log(this.newResource);
 
         }
 
