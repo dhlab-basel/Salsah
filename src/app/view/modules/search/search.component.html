@@ -2,26 +2,34 @@
 
 
 <div class="search-panel" [class.active]="focusOnSimple">
-    <button class="prefix" (click)="doSearch(search)">
-        <md-icon>search</md-icon>
-    </button>
-    <input #search autocomplete="off"
-           type="search" [placeholder]="searchLabel"
-           [(ngModel)]="searchQuery" name="search"
-           (keyup.esc)="resetSearch(search)"
-           (keyup)="onKey(search, $event)"
-           (click)="setFocus()"
-           (focus)="toggleMenu('simpleSearch')" [disabled]="focusOnExtended === 'active'"/>
+    <div>
+        <button class="prefix" (click)="doSearch(search)">
+            <md-icon>search</md-icon>
+        </button>
+    </div>
+
+    <div class="input-field">
+        <input #search autocomplete="off"
+               type="search" [placeholder]="searchLabel"
+               [(ngModel)]="searchQuery" name="search"
+               (keyup.esc)="resetSearch(search)"
+               (keyup)="onKey(search, $event)"
+               (click)="setFocus()"
+               (focus)="toggleMenu('simpleSearch')" [disabled]="focusOnExtended === 'active'"/>
+    </div>
+
     <!-- switch button:
             - default button is the filter button;
             - but on some focus we need a close button for the simple or extended panel
     -->
-    <button class="suffix" *ngIf="focusOnSimple === 'active'" (click)="resetSearch(search)">
-        <md-icon class="md-24">close</md-icon>
-    </button>
-    <button class="suffix" *ngIf="focusOnSimple === 'inactive'" (click)="toggleMenu('extendedSearch')">
-        <md-icon>filter_list</md-icon>
-    </button>
+    <div>
+        <button class="suffix" *ngIf="focusOnSimple === 'active'" (click)="resetSearch(search)">
+            <md-icon class="md-24">close</md-icon>
+        </button>
+        <button class="suffix" *ngIf="focusOnSimple === 'inactive'" (click)="toggleMenu('extendedSearch')">
+            <md-icon>filter_list</md-icon>
+        </button>
+    </div>
 </div>
 
 <!-- the search panel has two "dropdown" menus: one for simple search and another one for the extended search -->

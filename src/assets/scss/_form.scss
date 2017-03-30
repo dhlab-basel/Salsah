@@ -208,10 +208,44 @@ div.salsah-checkbox {
 
 
 .search-panel {
+    display: inline-flex;
     width: $search-width;
     height: 40px;
     border-radius: 4px;
     background-color: white;
+    div {
+        display: inline-block;
+
+        &.input-field {
+            flex: 1;
+            input {
+                width: $search-width - (2 * 40px);
+                height: 38px;
+                position: absolute;
+                font-size: 14pt;
+                border: none;
+                &:active,
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+        button.prefix, button.suffix {
+            border: none;
+            outline: none;
+            border-radius: 3px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            background-color: transparent;
+            //        color: rgb(33,33,33);
+            color: rgba(0, 0, 0, 0.38);
+            position: relative;
+            &:active {
+                color: rgb(81,81,81);
+            }
+        }
+    }
     //    padding: 2px;
     &.small {
         //        width: 560px;
@@ -223,39 +257,6 @@ div.salsah-checkbox {
     &.active {
         border-bottom: 2px solid $bright;
     }
-
-    input {
-        width: $search-width - (2 * 40px);
-        height: 38px;
-        position: absolute;
-        font-size: 14pt;
-        border: none;
-        &:active,
-        &:focus {
-            outline: none;
-        }
-    }
-
-    button.prefix, button.suffix {
-        border: none;
-        outline: none;
-        border-radius: 3px;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        background-color: transparent;
-        //        color: rgb(33,33,33);
-        color: rgba(0, 0, 0, 0.38);
-        position: relative;
-        &:active {
-            color: rgb(81,81,81);
-        }
-    }
-    button.prefix {
-
-    }
-    button.suffix {
-        float: right;
-    }
+    
 }
 
