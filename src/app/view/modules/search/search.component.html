@@ -25,7 +25,7 @@
 </div>
 
 <!-- the search panel has two "dropdown" menus: one for simple search and another one for the extended search -->
-<div class="salsah-menu simple-search" [@simpleSearchMenu]="focusOnSimple">
+<div class="salsah-menu simple-search" > <!--[@simpleSearchMenu]="focusOnSimple">-->
     <button md-button class="right" (click)="resetPrevSearch()" *ngIf="prevSearch">Clear</button>
     <md-list class="salsah-previous-search-list">
         <md-list-item *ngFor="let item of prevSearch | reverse; let i=index">
@@ -35,7 +35,7 @@
     </md-list>
 </div>
 
-<div class="salsah-menu extended-search" [@extendedSearchMenu]="focusOnExtended">
+<div class="salsah-menu extended-search" ><!--[@extendedSearchMenu]="focusOnExtended">-->
     <div class="salsah-menu-header">
         <span class="salsah-menu-title">
             Extended search

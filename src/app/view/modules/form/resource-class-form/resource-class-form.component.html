@@ -79,7 +79,7 @@
                     <tr>
                         <td *ngFor="let group of permissions.groups; let i = index">
                             <md-select [(ngModel)]="newResource.permissions[group.id]" [name]="group.id">
-                                <md-option *ngFor="let cat of permissions.categories" [value]="cat.id">
+                                <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
                                     {{cat.label}}
                                 </md-option>
                             </md-select>

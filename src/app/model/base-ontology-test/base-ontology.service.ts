@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
-import {BaseClasses, BaseOntology} from "./base-ontology";
+import {BaseOntology} from "./base-ontology";
 
 import {JsonConvert} from 'json2typescript';
 
@@ -23,10 +23,10 @@ export class BaseOntologyService {
 
     private extractData(res: Response) {
         try {
-            return JsonConvert.deserializeObject(res.json(), BaseClasses);
+//            return JsonConvert.deserializeObject(res.json(), BaseClasses);
         } catch (e) {
             // console.log(e);
-            return Observable.throw('Data error in salsah\'s ontology service.');
+//            return Observable.throw('Data error in salsah\'s ontology service.');
         }
     }
 

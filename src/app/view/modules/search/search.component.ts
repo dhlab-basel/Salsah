@@ -22,7 +22,8 @@ import {forEach} from "@angular/router/src/utils/collection";
 @Component({
     selector: 'salsah-search',
     templateUrl: './search.component.html',
-    styleUrls: ['./search.component.css'],
+    styleUrls: ['./search.component.css']
+    /*
     animations: [
         trigger('simpleSearchMenu',
             [
@@ -49,6 +50,7 @@ import {forEach} from "@angular/router/src/utils/collection";
                 )
             ])
     ]
+    */
 })
 
 

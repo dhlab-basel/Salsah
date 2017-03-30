@@ -2,6 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 //
 // import the material design modules
@@ -129,6 +130,7 @@ import { ProgressStepperComponent } from './view/modules/other/progress-stepper/
         HttpModule,
         MaterialModule,
         AppRoutingModule,
+        BrowserAnimationsModule,
         ReactiveFormsModule
     ],
     // we need the entryComponents for every component inside of a md-dialog module
