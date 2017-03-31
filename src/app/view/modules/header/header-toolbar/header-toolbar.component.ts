@@ -90,36 +90,33 @@ export class HeaderToolbarComponent implements OnInit {
             route: '/settings'
         },
         {
-            title: 'Documentation',
+            title: 'Docs',
             icon: 'chrome_reader_mode',
             route: '/documentation'
-        },
-        {
-            title: 'Get Support',
-            icon: 'headset',
-            route: '/support'
-        },
-        {
-            title: 'Log out',
-            icon: 'power_settings_new',
-            route: '/logout'
         }
     ];
+    /*
+     {
+     title: 'Support',
+     icon: 'headset',
+     route: '/support'
+     },
+     */
 
     addMenuTitle: string = "Add some new stuff";
     addMenu: any = [
         {
-            title: 'New project',
+            title: 'Project',
             icon: 'create_new_folder',
             route: 'new'
         },
         {
-            title: 'New collection',
+            title: 'Collection',
             icon: 'library_add',
             route: 'collection/new'
         },
         {
-            title: 'New resource',
+            title: 'Resource',
             icon: 'note_add',
             route: 'add'
         }

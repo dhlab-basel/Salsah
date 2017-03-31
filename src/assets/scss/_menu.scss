@@ -32,6 +32,15 @@
             margin: 4px;
         }
     }
+    .salsah-menu-footer {
+        width: 100%;
+        border-top: 1px solid rgba(0,0,0,0.1);
+
+        .salsah-menu-action-logout {
+            width: 100%;
+            padding: 12px;
+        }
+    }
 
     &.add-menu {
         right: 60px;
@@ -45,12 +54,17 @@
         width: 280px;
         top: 6px;
 
-        mat-grid-tile button {
+        .mat-grid-tile button {
             width: 84px;
             height: 84px;
-            padding: 0;
-            font-size: 12px;
+            padding: 6px;
+            font-size: 11px;
             border-radius: $border-radius;
+            .mat-icon {
+                font-size: 36px;
+                width: 36px;
+                height: 36px;
+            }
         }
     }
 
