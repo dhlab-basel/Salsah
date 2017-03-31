@@ -79,6 +79,7 @@ import {ApiService} from "./model/api/api.service";
 import {KeyPipe} from './view/modules/other/key.pipe';
 import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
 import { ProgressStepperComponent } from './view/modules/other/progress-stepper/progress-stepper.component';
+import { AdvancedResourceClassComponent } from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
 
 
 @NgModule({
@@ -122,7 +123,8 @@ import { ProgressStepperComponent } from './view/modules/other/progress-stepper/
         ReversePipe,
         KeyPipe,
         ProgressIndicatorComponent,
-        ProgressStepperComponent
+        ProgressStepperComponent,
+        AdvancedResourceClassComponent
     ],
     imports: [
         BrowserModule,

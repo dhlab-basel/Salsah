@@ -176,6 +176,13 @@ export class ResourceClassFormComponent implements OnInit {
         this.counter = cntr - 1;
     }
 
+    setPerm(property: PropertyObject, group: any, pf: any, event) {
+        console.log(property);
+        console.log(group);
+        console.log(pf);
+        console.log(event);
+    }
+
 
     setProp(property: PropertyObject, event) {
 

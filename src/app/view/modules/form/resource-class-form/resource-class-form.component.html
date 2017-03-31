@@ -162,7 +162,10 @@
                             <td style="text-align:left"><strong>{{prop.value.label}}</strong></td>
 
                             <td *ngFor="let grp of permissions?.groups; let j = index">
-                                <md-select [(ngModel)]="newResource.properties[prop.key]?.permissions[grp.id]" [name]="newResource.properties[prop.key]?.permissions[grp.id]">
+                                <md-select [ngModel]="permissions?.categories[j + 1]?.id"
+                                           (ngModel)="newResource.properties[prop.key]?.permissions[grp.id]"
+                                           [name]="grp.id + '_' + i"
+                                           (change)="setPerm(prop, grp, permission, $event)">
                                     <md-option *ngFor="let cat of permissions.categories" [value]="cat.id">
                                         {{cat.label}}
                                     </md-option>

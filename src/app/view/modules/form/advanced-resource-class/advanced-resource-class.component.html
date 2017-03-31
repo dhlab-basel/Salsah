@@ -1,0 +1,66 @@
+<md-card class="example-card">
+        <md-card-header>
+            <div md-card-avatar class="example-header-image"></div>
+            <md-card-title> <b>Add New Resource</b> </md-card-title>
+            <md-card-subtitle>Create a new resource type for your project</md-card-subtitle>
+        </md-card-header>
+        <md-card-content>
+<p>
+    Before creating a new resource type, please make sure that the existing basic resource types found under
+    Resources: add new resource" are not sufficient for your project.
+</p>
+
+        <form class="example-form">
+            <md-input-container class="example-full-width">
+                <input mdInput placeholder="Name">
+            </md-input-container>
+
+            <table class="example-full-width" cellspacing="0"><tr>
+                <td><md-input-container class="example-full-width">
+                    <input mdInput placeholder="Label">
+                </md-input-container></td>
+                <td><md-input-container class="example-full-width">
+                    <input mdInput placeholder="Icon">
+                </md-input-container></td>
+            </tr></table>
+
+            <p>
+                <md-input-container class="example-full-width">
+                    <textarea mdInput placeholder="Description"></textarea>
+                </md-input-container>
+            </p>
+
+            <!-- resource permissions -->
+            <p md-subheader>Resource Permissions</p>
+            <table class="example-full-width" cellspacing="0"><tr>
+                <tr>
+                    <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
+                        {{group.label}}
+                    </th>
+                </tr>
+                <tr>
+                    <td *ngFor="let group of permissions.groups; let i = index">
+                        <md-select [(ngModel)]="permissions[group.id]" [name]="group.id">
+                            <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
+                                {{cat.label}}
+                            </md-option>
+                        </md-select>
+                    </td>
+                </tr>
+            </table>
+            <p>
+                <md-select placeholder="resource type" [(ngModel)]="resclass" name="resourceClass">
+                    <md-option *ngFor="let res of baseOntology?.resourceClasses | key" [value]="res.id">
+                        {{res.value.label}}
+                    </md-option>
+                </md-select>
+            </p>
+
+        </form>
+
+</md-card-content>
+<md-card-actions>
+    <button md-button>SAVE</button>
+</md-card-actions>
+</md-card>
+
