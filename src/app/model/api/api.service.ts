@@ -15,8 +15,8 @@
 import {Injectable} from '@angular/core';
 import {Http, RequestOptionsArgs, Response} from "@angular/http";
 import {Observable} from "rxjs";
+import {environment} from '../../../environments/environment';
 import {JsonConvert} from 'json2typescript';
-import {AppConfig} from "../../app.config";
 import {ApiServiceError} from "./api-service-error";
 import {ApiServiceResult} from "./api-service-result";
 
@@ -42,9 +42,9 @@ export class ApiService {
 
         if (!options) options = {withCredentials: true};
 
-        url = (url.slice(0,4) === 'http' ? url : AppConfig.API_ENDPOINT + url);
+        url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
-        return this._httpService.get(url, options ).map((response: Response) => {
+        return this._httpService.get(url, options).map((response: Response) => {
             try {
                 let apiServiceResult: ApiServiceResult = new ApiServiceResult();
                 apiServiceResult.status = response.status;
@@ -70,7 +70,7 @@ export class ApiService {
     httpPost(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
         if (!body) body = {};
         if (!options) options = {withCredentials: true};
-        return this._httpService.post(AppConfig.API_ENDPOINT + url, body, options).map((response: Response) => {
+        return this._httpService.post(environment.api + url, body, options).map((response: Response) => {
             try {
                 let apiServiceResult: ApiServiceResult = new ApiServiceResult();
                 apiServiceResult.status = response.status;
@@ -93,7 +93,7 @@ export class ApiService {
 //            console.log(error);
             response.status = error.status;
             response.statusText = error.statusText;
-            if(!response.statusText) response.statusText = "Connection to API endpoint failed";
+            if (!response.statusText) response.statusText = "Connection to API endpoint failed";
             response.url = url;
         } else {
             response.status = 0;
