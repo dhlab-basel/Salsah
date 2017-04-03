@@ -1,6 +1,6 @@
 .advanced-resource-card {
     width: 500px;
-    height: 550px;
+    height: 600px;
 }
 
 .header-image {
@@ -8,11 +8,19 @@
     background-size: cover;
 }
 
+.full-width {
+    width: 100%;
+}
+
+.half-width {
+    width: 60%;
+}
+
 .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
     font-style: normal;
-    font-size: 18px;  /* Preferred icon size */
+    font-size: 24px;  /* Preferred icon size */
     display: inline-block;
     line-height: 1;
     text-transform: none;
@@ -20,6 +28,7 @@
     word-wrap: normal;
     white-space: nowrap;
     direction: ltr;
+    text-align: flex-end;
 
     /* Support for all WebKit browsers. */
     -webkit-font-smoothing: antialiased;
@@ -31,4 +40,49 @@
 
     /* Support for IE. */
     font-feature-settings: 'liga';
+}
+
+.playlist-add-icon {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 18px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    align: end;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+
+
+ .row-width{
+     width: 95%
+ }
+
+ .playlistButton{
+     background-color: #ffffff; /* white */
+     border: none;
+     cursor: pointer;
+ }
+
+
+.example-tooltip-host {
+    display: inline-flex;
+    align-items: center;
+    margin: 50px;
 }

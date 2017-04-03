@@ -105,4 +105,13 @@ export class AdvancedResourceClassComponent implements OnInit {
           );
   }
 
+  public newListItem = false;
+
+  addListItem(e) {
+      e.preventDefault();
+      this.newListItem = true;
+      console.log(this.newListItem);
+      console.log(e);
+  }
+
 }

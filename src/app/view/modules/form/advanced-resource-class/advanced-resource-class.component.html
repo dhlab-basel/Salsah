@@ -34,7 +34,7 @@
             </p>
 
             <!-- resource permissions -->
-            <p md-subheader>Resource Permissions</p>
+            <p md-subheader>Set resource permissions</p>
             <table class="full-width" cellspacing="0"><tr>
                 <tr>
                     <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
@@ -51,7 +51,11 @@
                     </td>
                 </tr>
             </table>
-            <p>
+            <p><br>
+                Select resource type
+            </p>
+
+            <p><br>
                 <md-select placeholder="resource type" [(ngModel)]="resclass" name="resourceClass">
                     <md-option *ngFor="let res of baseOntology?.resourceClasses | key" [value]="res.id">
                         {{res.value.label}}
@@ -81,7 +85,6 @@
         <p>
             Here you can create new list types which you can use to customize your properties.
         </p>
-        <p>&nbsp;</p>
 
 
         <form class="advanced-resource-form">
@@ -96,32 +99,51 @@
                 <td><md-input-container class="full-width">
                     <input mdInput placeholder="Icon">
                 </md-input-container></td>
-            </tr></table>
-
-            <p>
-                <md-input-container class="full-width">
-                    <input mdInput placeholder="Number of elements">
-                </md-input-container>
-            </p>
+            </tr>
+            </table>
             <p>
                 <md-input-container class="full-width">
                     <textarea mdInput placeholder="Description"></textarea>
                 </md-input-container>
             </p>
-            <p>
-                <md-checkbox class="full-width"
-                             [(ngModel)]="primeList"
-                             [ngModelOptions]="{standalone: true}">
-                    This is a primary list   <i class="material-icons">info_outline</i>
-                </md-checkbox>
+            <p><br>
+              Add list items
             </p>
-            <p>
-                <md-checkbox class="full-width"
-                             [(ngModel)]="subList"
-                             [ngModelOptions]="{standalone: true}">
-                    This is a secondary list   <i class="material-icons">info</i>
-                </md-checkbox>
-            </p>
+            <table>
+                <tr><td class="row-width">
+                    <md-input-container class="full-width">
+                        <input mdInput placeholder="List item">
+                    </md-input-container>
+                </td><td>
+                    <button [mdTooltip]="'Click to add a secondary list from this list item (hierarchical list)'" mdTooltipPosition="above"
+                            class="playlistButton"><i class="playlist-add-icon">playlist_add</i></button>
+                </td></tr>
+                <tr><td>
+                    <md-input-container class="full-width">
+                        <input mdInput placeholder="List item">
+                    </md-input-container>
+                </td><td>
+                    <button [mdTooltip]="'Click to add a secondary list from this list item (hierarchical list)'" mdTooltipPosition="above"
+                            class="playlistButton"><i class="playlist-add-icon">playlist_add</i></button>
+                </td></tr>
+
+                <tr *ngIf="newListItem == true" id="listItemOnClick"><td class="row-width">
+                    <md-input-container class="full-width">
+                        <input mdInput placeholder="List item">
+                    </md-input-container>
+                </td><td>
+                    <button [mdTooltip]="'Click to add a secondary list from this list item (hierarchical list)'" mdTooltipPosition="above"
+                            class="playlistButton"><i class="playlist-add-icon">playlist_add</i></button>
+                </td></tr>
+
+                <tr>
+                    <button [mdTooltip]="'Click to add new list item'" mdTooltipPosition="above"
+                            md-mini-fab color="primary" (click)="addListItem($event)">
+                        <i class="material-icons">add</i>
+                    </button>
+                </tr>
+            </table>
+
         </form>
 
     </md-card-content>
