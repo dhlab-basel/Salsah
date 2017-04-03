@@ -1,38 +1,41 @@
-<md-card class="example-card">
+<!-- ***************** Card 1: Resource type **********************-->
+<table>
+    <tr><td>
+    <md-card class="advanced-resource-card">
         <md-card-header>
-            <div md-card-avatar class="example-header-image"></div>
-            <md-card-title> <b>Add New Resource</b> </md-card-title>
+            <div md-card-avatar class="header-image"></div>
+            <md-card-title> <b>Add new resource</b> </md-card-title>
             <md-card-subtitle>Create a new resource type for your project</md-card-subtitle>
         </md-card-header>
         <md-card-content>
-<p>
+    <p>
     Before creating a new resource type, please make sure that the existing basic resource types found under
     Resources: add new resource" are not sufficient for your project.
-</p>
+    </p>
 
-        <form class="example-form">
-            <md-input-container class="example-full-width">
+        <form class="advanced-resource-form">
+            <md-input-container class="full-width">
                 <input mdInput placeholder="Name">
             </md-input-container>
 
-            <table class="example-full-width" cellspacing="0"><tr>
-                <td><md-input-container class="example-full-width">
+            <table class="full-width" cellspacing="0"><tr>
+                <td><md-input-container class="full-width">
                     <input mdInput placeholder="Label">
                 </md-input-container></td>
-                <td><md-input-container class="example-full-width">
+                <td><md-input-container class="full-width">
                     <input mdInput placeholder="Icon">
                 </md-input-container></td>
             </tr></table>
 
             <p>
-                <md-input-container class="example-full-width">
+                <md-input-container class="full-width">
                     <textarea mdInput placeholder="Description"></textarea>
                 </md-input-container>
             </p>
 
             <!-- resource permissions -->
             <p md-subheader>Resource Permissions</p>
-            <table class="example-full-width" cellspacing="0"><tr>
+            <table class="full-width" cellspacing="0"><tr>
                 <tr>
                     <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
                         {{group.label}}
@@ -58,9 +61,73 @@
 
         </form>
 
-</md-card-content>
-<md-card-actions>
+    </md-card-content>
+    <md-card-actions>
     <button md-button>SAVE</button>
-</md-card-actions>
-</md-card>
+    </md-card-actions>
+    </md-card>
+</td>
 
+<td>
+
+<!-- ***************** Card 2: Lists **********************-->
+    <md-card class="advanced-resource-card">
+    <md-card-header>
+        <div md-card-avatar class="header-image"></div>
+        <md-card-title> <b>Create list element</b> </md-card-title>
+        <md-card-subtitle>Lists and hierarchical lists</md-card-subtitle>
+    </md-card-header>
+    <md-card-content>
+        <p>
+            Here you can create new list types which you can use to customize your properties.
+        </p>
+        <p>&nbsp;</p>
+
+
+        <form class="advanced-resource-form">
+            <md-input-container class="full-width">
+                <input mdInput placeholder="Name">
+            </md-input-container>
+
+            <table class="full-width" cellspacing="0"><tr>
+                <td><md-input-container class="full-width">
+                    <input mdInput placeholder="Label">
+                </md-input-container></td>
+                <td><md-input-container class="full-width">
+                    <input mdInput placeholder="Icon">
+                </md-input-container></td>
+            </tr></table>
+
+            <p>
+                <md-input-container class="full-width">
+                    <input mdInput placeholder="Number of elements">
+                </md-input-container>
+            </p>
+            <p>
+                <md-input-container class="full-width">
+                    <textarea mdInput placeholder="Description"></textarea>
+                </md-input-container>
+            </p>
+            <p>
+                <md-checkbox class="full-width"
+                             [(ngModel)]="primeList"
+                             [ngModelOptions]="{standalone: true}">
+                    This is a primary list   <i class="material-icons">info_outline</i>
+                </md-checkbox>
+            </p>
+            <p>
+                <md-checkbox class="full-width"
+                             [(ngModel)]="subList"
+                             [ngModelOptions]="{standalone: true}">
+                    This is a secondary list   <i class="material-icons">info</i>
+                </md-checkbox>
+            </p>
+        </form>
+
+    </md-card-content>
+    <md-card-actions>
+        <button md-button>SAVE</button>
+    </md-card-actions>
+    </md-card>
+    </td></tr>
+</table>
