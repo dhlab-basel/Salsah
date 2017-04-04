@@ -4,7 +4,6 @@
 }
 
 .header-image {
-/*    background-image: url('assets/img/examples/shiba1.jpg'); */
     background-size: cover;
 }
 
@@ -28,7 +27,6 @@
     word-wrap: normal;
     white-space: nowrap;
     direction: ltr;
-    text-align: flex-end;
 
     /* Support for all WebKit browsers. */
     -webkit-font-smoothing: antialiased;
@@ -54,7 +52,6 @@
     word-wrap: normal;
     white-space: nowrap;
     direction: ltr;
-    align: end;
 
     /* Support for all WebKit browsers. */
     -webkit-font-smoothing: antialiased;
@@ -68,21 +65,31 @@
     font-feature-settings: 'liga';
 }
 
+.addListItems{
+    height: 200px;
+    width: 100%;
+    overflow: scroll;
+}
 
-
- .row-width{
-     width: 95%
- }
+.filler{
+    flex-grow: 10;
+}
 
  .playlistButton{
      background-color: #ffffff; /* white */
      border: none;
      cursor: pointer;
+     flex: 1;
+     text-align: end;
  }
-
 
 .example-tooltip-host {
     display: inline-flex;
     align-items: center;
     margin: 50px;
+}
+
+.saveButton{
+    flex: 1;
+    vertical-align: bottom; /*does not work*/
 }

@@ -1,6 +1,6 @@
-<!-- ***************** Card 1: Resource type **********************-->
 <table>
-    <tr><td>
+<tr><td>
+<!-- ***************** Card 1: Resource type **********************-->
     <md-card class="advanced-resource-card">
         <md-card-header>
             <div md-card-avatar class="header-image"></div>
@@ -8,72 +8,74 @@
             <md-card-subtitle>Create a new resource type for your project</md-card-subtitle>
         </md-card-header>
         <md-card-content>
-    <p>
-    Before creating a new resource type, please make sure that the existing basic resource types found under
-    Resources: add new resource" are not sufficient for your project.
-    </p>
+        <p>
+        Before creating a new resource type, please make sure that the existing basic resource types found under
+        Resources: add new resource" are not sufficient for your project.
+        </p>
 
-        <form class="advanced-resource-form">
-            <md-input-container class="full-width">
-                <input mdInput placeholder="Name">
-            </md-input-container>
-
-            <table class="full-width" cellspacing="0"><tr>
-                <td><md-input-container class="full-width">
-                    <input mdInput placeholder="Label">
-                </md-input-container></td>
-                <td><md-input-container class="full-width">
-                    <input mdInput placeholder="Icon">
-                </md-input-container></td>
-            </tr></table>
-
-            <p>
+            <form class="advanced-resource-form">
                 <md-input-container class="full-width">
-                    <textarea mdInput placeholder="Description"></textarea>
+                    <input mdInput placeholder="Name">
                 </md-input-container>
-            </p>
 
-            <!-- resource permissions -->
-            <p md-subheader>Set resource permissions</p>
-            <table class="full-width" cellspacing="0"><tr>
-                <tr>
-                    <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
-                        {{group.label}}
-                    </th>
-                </tr>
-                <tr>
-                    <td *ngFor="let group of permissions.groups; let i = index">
-                        <md-select [(ngModel)]="permissions[group.id]" [name]="group.id">
-                            <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
-                                {{cat.label}}
-                            </md-option>
-                        </md-select>
-                    </td>
-                </tr>
-            </table>
-            <p><br>
-                Select resource type
-            </p>
+                <table class="full-width" cellspacing="0"><tr>
+                    <td><md-input-container class="full-width">
+                        <input mdInput placeholder="Label">
+                    </md-input-container></td>
+                    <td><md-input-container class="full-width">
+                        <input mdInput placeholder="Icon">
+                    </md-input-container></td>
+                </tr></table>
 
-            <p><br>
-                <md-select placeholder="resource type" [(ngModel)]="resclass" name="resourceClass">
-                    <md-option *ngFor="let res of baseOntology?.resourceClasses | key" [value]="res.id">
-                        {{res.value.label}}
-                    </md-option>
-                </md-select>
-            </p>
+                <p>
+                    <md-input-container class="full-width">
+                        <textarea mdInput placeholder="Description"></textarea>
+                    </md-input-container>
+                </p>
 
-        </form>
+                <!-- resource permissions -->
+                <p md-subheader>Set resource permissions</p>
+                <table class="full-width" cellspacing="0"><tr>
+                    <tr>
+                        <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
+                            {{group.label}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td *ngFor="let group of permissions.groups; let i = index">
+                            <md-select [(ngModel)]="permissions[group.id]" [name]="group.id">
+                                <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
+                                    {{cat.label}}
+                                </md-option>
+                            </md-select>
+                        </td>
+                    </tr>
+                </table>
+                <p><br>
+                    Select resource type
+                </p>
 
-    </md-card-content>
-    <md-card-actions>
-    <button md-button>SAVE</button>
-    </md-card-actions>
+                <p><br>
+                    <md-select placeholder="resource type" [(ngModel)]="resclass" name="resourceClass">
+                        <md-option *ngFor="let res of baseOntology?.resourceClasses | key" [value]="res.id">
+                            {{res.value.label}}
+                        </md-option>
+                    </md-select>
+                </p>
+
+            </form>
+
+        </md-card-content>
+        <md-card-actions>
+            <button md-button class="saveButton">SAVE</button>
+        </md-card-actions>
     </md-card>
 </td>
 
-<td>
 
+
+
+<td>
 <!-- ***************** Card 2: Lists **********************-->
     <md-card class="advanced-resource-card">
     <md-card-header>
@@ -82,12 +84,14 @@
         <md-card-subtitle>Lists and hierarchical lists</md-card-subtitle>
     </md-card-header>
     <md-card-content>
-        <p>
-            Here you can create new list types which you can use to customize your properties.
-        </p>
 
+    <p>
+        Here you can create new list types which you can use to customize your properties.
+    </p>
 
-        <form class="advanced-resource-form">
+    <form class="advanced-resource-form">
+
+        <section>
             <md-input-container class="full-width">
                 <input mdInput placeholder="Name">
             </md-input-container>
@@ -106,50 +110,61 @@
                     <textarea mdInput placeholder="Description"></textarea>
                 </md-input-container>
             </p>
+        </section>
+
             <p><br>
-              Add list items
+                <b>Add list items</b>
             </p>
-            <table>
-                <tr><td class="row-width">
-                    <md-input-container class="full-width">
-                        <input mdInput placeholder="List item">
-                    </md-input-container>
-                </td><td>
-                    <button [mdTooltip]="'Click to add a secondary list from this list item (hierarchical list)'" mdTooltipPosition="above"
-                            class="playlistButton"><i class="playlist-add-icon">playlist_add</i></button>
-                </td></tr>
-                <tr><td>
-                    <md-input-container class="full-width">
-                        <input mdInput placeholder="List item">
-                    </md-input-container>
-                </td><td>
-                    <button [mdTooltip]="'Click to add a secondary list from this list item (hierarchical list)'" mdTooltipPosition="above"
-                            class="playlistButton"><i class="playlist-add-icon">playlist_add</i></button>
-                </td></tr>
+        <section class="addListItems">
 
-                <tr *ngIf="newListItem == true" id="listItemOnClick"><td class="row-width">
-                    <md-input-container class="full-width">
-                        <input mdInput placeholder="List item">
-                    </md-input-container>
-                </td><td>
-                    <button [mdTooltip]="'Click to add a secondary list from this list item (hierarchical list)'" mdTooltipPosition="above"
-                            class="playlistButton"><i class="playlist-add-icon">playlist_add</i></button>
-                </td></tr>
-
-                <tr>
-                    <button [mdTooltip]="'Click to add new list item'" mdTooltipPosition="above"
-                            md-mini-fab color="primary" (click)="addListItem($event)">
-                        <i class="material-icons">add</i>
+            <md-list *ngIf="newListItem == true" class="showList">
+                <md-list-item *ngFor="let listItem of listItems">
+                    {{listItem.description}}
+                    <div class="filler"></div>
+                    <button [mdTooltip]="'Click to add a secondary list from this list item (hierarchical list)'"
+                            mdTooltipPosition="after"
+                            class="playlistButton">
+                        <i class="playlist-add-icon">playlist_add</i>
                     </button>
-                </tr>
-            </table>
+                </md-list-item>
+            </md-list>
 
-        </form>
+            <md-input-container class="full-width">
+                <input  mdInput
+                        placeholder="New item"
+                        #newItem
+                        (keyup.enter)="addListItem(newItem.value, $event)"
+                       (blur)="addListItem(newItem.value, $event); newItem.value='' ">
+            </md-input-container>
+            <p>
+                <button [mdTooltip]="'Click to add new list item'" mdTooltipPosition="above"
+                        md-mini-fab color="primary" (click)="addListItem(newItem.value, $event)">
+                    <i class="material-icons">add</i>
+                </button>
+            </p>
+
+        </section>
+
+    </form>
 
     </md-card-content>
     <md-card-actions>
-        <button md-button>SAVE</button>
+        <button md-button class="saveButton">SAVE</button>
     </md-card-actions>
     </md-card>
-    </td></tr>
+
+</td>
+
+
+<td>
+<!-- ***************** Card 3: Properties **********************-->
+
+
+
+
+
+
+
+
+</td></tr>
 </table>
