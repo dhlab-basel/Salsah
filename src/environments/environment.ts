@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   media: 'http://localhost:1024/knora',
-  api: 'http://localhost:3333/v1'
+  api: 'http://localhost:3333/v1',
+  apiPath: 'knora/v1'
 };
