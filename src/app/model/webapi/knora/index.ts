@@ -1,5 +1,5 @@
-/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+/* Copyright © 2017 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -12,21 +12,16 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {SessionService} from "../../../../model/services/session.service";
+/**
+ * Interfaces for authentication and the session
+ */
+export * from './v1/authenticate/authenticate';
+export * from './v1/authenticate/session';
 
-@Component({
-    selector: 'salsah-user-settings',
-    templateUrl: './user-settings.component.html',
-    styleUrls: ['./user-settings.component.css']
-})
-export class UserSettingsComponent implements OnInit {
 
-    constructor(private _sessionService: SessionService) {
-    }
+/**
+ * Interfaces for permissions
+ */
 
-    ngOnInit() {
-        this._sessionService.checkAuth(true);
-    }
 
-}
+

@@ -15,25 +15,37 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {ApiService} from "./api.service";
+import {ApiService} from './api.service';
 
+import {Authenticate} from '../webapi/knora';
 
 @Injectable()
-export class ProjectsService extends ApiService {
+export class SessionService extends ApiService {
 
+    getSession(): Observable<any> {
+        return this.httpGet('/session');
+    }
 
-    getProject(pid: string): Observable<any> {
-        return this.httpGet("/projects/shortname/" + pid);
+    /**
+     *
+     * @param deny (access to the page) if true: go to the login page
+     * @returns {Authentication}
+     */
+    checkAuth(deny = false): Authenticate {
+        let auth: Authenticate = JSON.parse(localStorage.getItem('auth'));
+
+        if (auth === null && deny === true) {
+            this.goToLogin();
+        }
+        else {
+            return auth;
+        }
     }
 
 
-    getAllProjects(): Observable<any> {
-        return this.httpGet("/projects");
+    goToLogin(): any {
+        console.log(window.location);
+        window.location.replace('/login');
     }
-
-    getProjectMembers(pid: string): Observable<any> {
-        return this.httpGet("/project/members/shortname/" + pid);
-    }
-
 
 }

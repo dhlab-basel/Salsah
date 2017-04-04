@@ -15,7 +15,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Authentication} from "../../../../model/classes/session";
-import {SessionService} from "../../../../model/api/session.service";
+import {SessionService} from "../../../../model/services/session.service";
 import {UserData} from "../../../../model/classes/user-profile";
 
 @Component({

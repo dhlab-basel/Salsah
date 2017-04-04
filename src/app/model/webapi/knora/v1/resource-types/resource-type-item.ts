@@ -1,5 +1,5 @@
-/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+/* Copyright © 2017 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -12,21 +12,13 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {SessionService} from "../../../../model/services/session.service";
+import {JsonObject, JsonProperty} from "json2typescript";
+import {ResourceTypeProperty} from "./resource-type-property";
 
-@Component({
-    selector: 'salsah-user-settings',
-    templateUrl: './user-settings.component.html',
-    styleUrls: ['./user-settings.component.css']
-})
-export class UserSettingsComponent implements OnInit {
+@JsonObject
+export class ResourceTypeItem {
 
-    constructor(private _sessionService: SessionService) {
-    }
-
-    ngOnInit() {
-        this._sessionService.checkAuth(true);
-    }
+    @JsonProperty('properties', [ResourceTypeProperty])
+    public properties: ResourceTypeProperty[] = undefined;
 
 }

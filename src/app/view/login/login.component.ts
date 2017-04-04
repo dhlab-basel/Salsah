@@ -15,9 +15,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from "@angular/router";
 
-import {ApiServiceResult} from "../../model/api/api-service-result";
-import {ApiServiceError} from "../../model/api/api-service-error";
-import {LoginService} from "../../model/api/login.service";
+import {ApiServiceResult} from "../../model/services/api-service-result";
+import {ApiServiceError} from "../../model/services/api-service-error";
+import {LoginService} from "../../model/services/login.service";
 import {Session, Authentication} from "../../model/classes/session";
 
 function getDocument(): any {

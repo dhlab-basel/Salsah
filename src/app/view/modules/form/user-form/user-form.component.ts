@@ -15,9 +15,9 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {UserService} from "../../../../model/api/user.service";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {UserService} from "../../../../model/services/user.service";
 import {ProjectItem} from "../../../../model/classes/projects";
 import {assetUrl} from "@angular/compiler/src/identifiers";
 
@@ -71,7 +71,7 @@ export class UserFormComponent implements OnInit {
             'status': true
         });
 
-        /* the api needs the following props:
+        /* the services needs the following props:
          {
          "username": "",
          "givenName": "",

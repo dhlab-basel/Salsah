@@ -13,11 +13,11 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {SearchService} from "../../../../model/api/search.service";
+import {SearchService} from "../../../../model/services/search.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Search} from "../../../../model/classes/search";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
 
 @Component({
     selector: 'salsah-results',

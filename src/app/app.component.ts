@@ -14,9 +14,9 @@
 
 import {Component, OnInit} from '@angular/core';
 import {Session, Authentication} from "./model/classes/session";
-import {SessionService} from "./model/api/session.service";
-import {ApiServiceResult} from "./model/api/api-service-result";
-import {ApiServiceError} from "./model/api/api-service-error";
+import {SessionService} from "./model/services/session.service";
+import {ApiServiceResult} from "./model/services/api-service-result";
+import {ApiServiceError} from "./model/services/api-service-error";
 
 function getDocument(): any {
     return document;
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
                     this.session = result.getBody(Session);
                 },
                 (error: ApiServiceError) => {
-                    // the authentication (api session) is not valid!
+                    // the authentication (services session) is not valid!
                     // log out the user:
                     // a) remove all the session cookies
                     getDocument().cookie = "sid=;expires=-1";

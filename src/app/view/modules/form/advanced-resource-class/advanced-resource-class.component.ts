@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {BaseOntologyService} from "../../../../model/api/base-ontology.service";
+import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
 import {BaseOntology, PropertyObject, ResourceClass} from "../../../../model/classes/base-ontology";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
 
 @Component({
   selector: 'salsah-advanced-resource-class',

@@ -1,6 +1,6 @@
 export const environment = {
-  production: true,
-  media: 'https://url/to/the/MEDIA/server/eg/Sipi',
-  api: 'https://url/to/the/API/server/eg/Knora',
-  apiPath: 'path/to/the/api/interfaces/in/app/model/webapi'
+    production: true,
+    media: 'https://url/to/the/MEDIA/server/eg/Sipi',
+    api: 'https://url/to/the/API/server/eg/Knora',
+    apiVersion: 'v1'
 };

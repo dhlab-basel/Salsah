@@ -4,8 +4,8 @@
 // The list of which env maps to which file can be found in `..angular-cli.json`.
 
 export const environment = {
-  production: false,
-  media: 'http://localhost:1024/knora',
-  api: 'http://localhost:3333/v1',
-  apiPath: 'knora/v1'
+    production: false,
+    media: 'http://localhost:1024/knora',
+    api: 'http://localhost:3333/v1',
+    apiVersion: 'v1'
 };

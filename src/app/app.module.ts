@@ -24,14 +24,14 @@ import {ReactiveFormsModule} from "@angular/forms";
 //
 // import all needed services
 //
-import {LoginService} from "./model/api/login.service";
-import {ProjectsService} from "./model/api/projects.service";
-import {ResourceService} from "./model/api/resource.service";
-import {ResourceTypesService} from "./model/api/resource-types.service";
-import {SearchService} from "./model/api/search.service";
-import {SessionService} from "./model/api/session.service";
+import {LoginService} from "./model/services/login.service";
+import {ProjectsService} from "./model/services/projects.service";
+import {ResourceService} from "./model/services/resource.service";
+import {ResourceTypesService} from "./model/services/resource-types.service";
+import {SearchService} from "./model/services/search.service";
+import {SessionService} from "./model/services/session.service";
 // just to get the basic ontology form the json file
-import {BaseOntologyService} from "./model/api/base-ontology.service";
+import {BaseOntologyService} from "./model/services/base-ontology.service";
 
 //
 // import all app components
@@ -69,13 +69,13 @@ import {UserFormComponent} from './view/modules/form/user-form/user-form.compone
 import {ResourceClassFormComponent} from './view/modules/form/resource-class-form/resource-class-form.component';
 import {ResourceFormComponent} from './view/modules/form/resource-form/resource-form.component';
 import {ReversePipe} from './view/modules/other/reverse.pipe';
-import {PropertiesService} from "./model/api/properties.service";
+import {PropertiesService} from "./model/services/properties.service";
 import {DocumentationComponent} from './view/documentation/documentation.component';
 import {UserProjectsComponent} from './view/dashboard/user/user-projects/user-projects.component';
 import {UserCollectionsComponent} from './view/dashboard/user/user-collections/user-collections.component';
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {UserService} from "./model/api/user.service";
-import {ApiService} from "./model/api/api.service";
+import {UserService} from "./model/services/user.service";
+import {ApiService} from "./model/services/api.service";
 import {KeyPipe} from './view/modules/other/key.pipe';
 import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
 import { ProgressStepperComponent } from './view/modules/other/progress-stepper/progress-stepper.component';

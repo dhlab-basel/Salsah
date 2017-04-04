@@ -14,10 +14,10 @@
 
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, Params} from "@angular/router";
-import {UserService} from "../../../model/api/user.service";
+import {UserService} from "../../../model/services/user.service";
 import {User} from "../../../model/classes/user-profile";
-import {ApiServiceResult} from "../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../model/api/api-service-error";
+import {ApiServiceResult} from "../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../model/services/api-service-error";
 
 @Component({
     selector: 'salsah-user',

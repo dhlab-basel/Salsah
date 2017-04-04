@@ -15,35 +15,23 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {ApiService} from './api.service';
-import {Session, Authentication} from "../classes/session";
+import {ApiService} from "./api.service";
+
 
 @Injectable()
-export class SessionService extends ApiService {
+export class ProjectsService extends ApiService {
 
-    getSession(): Observable<any> {
-        return this.httpGet('/session');
+    getProject(pid: string): Observable<any> {
+        return this.httpGet("/projects/shortname/" + pid);
     }
 
-    /**
-     *
-     * @param deny (access to the page) if true: go to the login page
-     * @returns {Authentication}
-     */
-    checkAuth(deny = false): Authentication {
-        let auth: Authentication = JSON.parse(localStorage.getItem('auth'));
-
-        if (auth === null && deny === true) {
-            SessionService.goToLogin();
-        }
-        else {
-            return auth;
-        }
+    getAllProjects(): Observable<any> {
+        return this.httpGet("/projects");
     }
 
-
-    static goToLogin(): any {
-        window.location.replace('/login');
+    getProjectMembers(pid: string): Observable<any> {
+        return this.httpGet("/project/members/shortname/" + pid);
     }
+
 
 }

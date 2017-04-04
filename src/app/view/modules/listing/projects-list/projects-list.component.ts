@@ -14,11 +14,11 @@
 
 import {Component, OnInit, Input} from '@angular/core';
 import {ProjectsList} from "../../../../model/classes/projects";
-import {ProjectsService} from "../../../../model/api/projects.service";
+import {ProjectsService} from "../../../../model/services/projects.service";
 import {Router} from "@angular/router";
 import {UserData} from "../../../../model/classes/user-profile";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
 
 @Component({
     selector: 'salsah-projects-list',

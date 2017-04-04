@@ -15,9 +15,9 @@
 import {Component, OnInit, SecurityContext} from '@angular/core';
 import {Params, ActivatedRoute, Router} from "@angular/router";
 import {ProjectItem, Project} from "../../../../model/classes/projects";
-import {ProjectsService} from "../../../../model/api/projects.service";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ProjectsService} from "../../../../model/services/projects.service";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
 
 @Component({
     selector: 'salsah-project-profile',
@@ -43,7 +43,7 @@ export class ProjectProfileComponent implements OnInit {
 
         if (JSON.parse(localStorage.getItem('project')) === null) {
             // the local storage is not ready yet; or something went wrong
-            // get the project from the api with the shortname from the route parameter "project"
+            // get the project from the services with the shortname from the route parameter "project"
             this._route.params.subscribe((params: Params) => {
 
                 this._projectsService.getProject(params['pid'])

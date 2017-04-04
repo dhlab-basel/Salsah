@@ -13,7 +13,7 @@
  * */
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
-import {SessionService} from "../../../../model/api/session.service";
+import {SessionService} from "../../../../model/services/session.service";
 import {Router, ActivatedRoute} from "@angular/router";
 import {Authentication} from "../../../../model/classes/session";
 import {
@@ -63,7 +63,7 @@ export class HeaderToolbarComponent implements OnInit {
                 private _sessionService: SessionService) {
     }
 
-    // check authentication: the session (from the api) should be valid and the local storage item "auth" as well
+    // check authentication: the session (from the services) should be valid and the local storage item "auth" as well
 
     // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
