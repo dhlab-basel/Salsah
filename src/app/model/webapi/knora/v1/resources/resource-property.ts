@@ -13,18 +13,19 @@
  * */
 
 import {JsonObject, JsonProperty} from "json2typescript";
+import {Location} from './location'
 
 @JsonObject
-export class PropertyItem {
+export class ResourceProperty {
 
-    @JsonProperty('name', String)
-    public name: string = undefined;
+    @JsonProperty('regular_property', Number)
+    public regular_property: number = undefined;
 
     @JsonProperty('guiorder', Number)
     public guiorder: number = undefined;
 
-    @JsonProperty('description', String)
-    public description: string = undefined;
+    @JsonProperty('is_annotation', String)
+    public is_annotation: string = undefined;
 
     @JsonProperty('valuetype_id', String)
     public valuetype_id: string = undefined;
@@ -32,8 +33,8 @@ export class PropertyItem {
     @JsonProperty('label', String)
     public label: string = undefined;
 
-    @JsonProperty('vocabulary', String)
-    public vocabulary: string = undefined;
+    @JsonProperty('guielement', String)
+    public guielement: string = undefined;
 
     @JsonProperty('attributes', String)
     public attributes: string = undefined;
@@ -41,33 +42,8 @@ export class PropertyItem {
     @JsonProperty('occurrence', String)
     public occurrence: string = undefined;
 
-    @JsonProperty('id', String)
-    public id: string = undefined;
-
-    @JsonProperty('gui_name', String)
-    public gui_name: string = undefined;
-
-/*
-    @JsonProperty('comments', [String], true)
-    public comments: string[] = undefined;
-
-    @JsonProperty('is_annotation', String)
-    public is_annotation: string = undefined;
-
-    @JsonProperty('locations', [Location], true)
-    public locations: Location[] = undefined;
-
-    @JsonProperty('regular_property', Number)
-    public regular_property: number = undefined;
-
-    @JsonProperty('value_firstprops', [String], true)
-    public value_firstprops: string[] = undefined;
-
-    @JsonProperty('value_iconsrcs', [String], true)
-    public value_iconsrcs: string[] = undefined;
-
-    @JsonProperty('value_ids', [String], true)
-    public value_ids: string[] = undefined;
+    @JsonProperty('pid', String)
+    public pid: string = undefined;
 
     @JsonProperty('value_restype', [String], true)
     public value_restype: string[] = undefined;
@@ -75,8 +51,50 @@ export class PropertyItem {
     @JsonProperty('value_rights', [Number], true)
     public value_rights: Number[] = undefined;
 
+    @JsonProperty('value_ids', [String], true)
+    public value_ids: string[] = undefined;
+
     @JsonProperty('values', [Object], true)
     public values: any[] = undefined;
-*/
+
+    @JsonProperty('comments', [String], true)
+    public comments: string[] = undefined;
+
+    @JsonProperty('value_firstprops', [String], true)
+    public value_firstprops: string[] = undefined;
+
+    @JsonProperty('value_iconsrcs', [String], true)
+    public value_iconsrcs: string[] = undefined;
+
+    @JsonProperty('locations', [Location], true)
+    public locations: Location[] = undefined;
+
+
+    /*
+
+
+     @JsonProperty('name', String)
+     public name: string = undefined;
+
+    @JsonProperty('description', String)
+    public description: string = undefined;
+
+
+
+
+
+    @JsonProperty('vocabulary', String)
+    public vocabulary: string = undefined;
+
+
+
+
+
+    @JsonProperty('gui_name', String)
+    public gui_name: string = undefined;
+
+
+
+     */
 
 }

@@ -13,7 +13,7 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {Session, Authentication} from "./model/classes/session";
+import {Session, Authenticate} from "./model/webapi/knora";
 import {SessionService} from "./model/services/session.service";
 import {ApiServiceResult} from "./model/services/api-service-result";
 import {ApiServiceError} from "./model/services/api-service-error";
@@ -30,7 +30,7 @@ function getDocument(): any {
 export class AppComponent implements OnInit {
 
     session: Session = new Session();
-    auth: Authentication = new Authentication();
+    auth: Authenticate = new Authenticate();
 
     constructor(
         private _sessionService: SessionService

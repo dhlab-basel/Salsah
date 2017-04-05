@@ -16,7 +16,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {ApiService} from "./api.service";
-import {Search} from "../classes/search";
 
 @Injectable()
 export class SearchService extends ApiService {

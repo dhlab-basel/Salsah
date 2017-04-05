@@ -18,6 +18,12 @@ import {ResourceTypeProperty} from "./resource-type-property";
 @JsonObject
 export class ResourceTypeItem {
 
+    @JsonProperty('id', String)
+    public id: string = undefined;
+
+    @JsonProperty('label', String)
+    public label: string = undefined;
+
     @JsonProperty('properties', [ResourceTypeProperty])
     public properties: ResourceTypeProperty[] = undefined;
 

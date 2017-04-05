@@ -15,7 +15,7 @@
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
 import {SessionService} from "../../../../model/services/session.service";
 import {Router, ActivatedRoute} from "@angular/router";
-import {Authentication} from "../../../../model/classes/session";
+import {Authenticate} from "../../../../model/webapi/knora";
 import {
     trigger,
     state,
@@ -52,7 +52,7 @@ function getDocument(): any {
 export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
-    auth: Authentication = new Authentication();
+    auth: Authenticate = new Authenticate();
 
     focusOnUserMenu: string = 'inactive';
     focusOnAddMenu: string = 'inactive';

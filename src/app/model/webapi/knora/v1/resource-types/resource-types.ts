@@ -20,7 +20,7 @@ import {ResourceTypeItem} from "./resource-type-item";
 @JsonObject
 export class ResourceTypes {
 
-    @JsonProperty('resourcetypes', ResourceTypeItem)
-    public resourcetypes: ResourceTypeItem = undefined;
+    @JsonProperty('resourcetypes', [ResourceTypeItem])
+    public resourcetypes: ResourceTypeItem[] = undefined;
 
 }

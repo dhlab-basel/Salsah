@@ -14,9 +14,8 @@
 
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {Authentication} from "../../../../model/classes/session";
 import {SessionService} from "../../../../model/services/session.service";
-import {UserData} from "../../../../model/classes/user-profile";
+import {Authenticate, User} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-user-profile',
@@ -26,9 +25,9 @@ import {UserData} from "../../../../model/classes/user-profile";
 export class UserProfileComponent implements OnInit {
 
     userName: string = undefined;
-    auth: Authentication = undefined;
+    auth: Authenticate = undefined;
 
-    user: UserData = new UserData;
+    user: User = new User;
 
     constructor(
         private _sessionService: SessionService,

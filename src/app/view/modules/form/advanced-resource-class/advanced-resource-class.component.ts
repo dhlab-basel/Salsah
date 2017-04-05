@@ -16,7 +16,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
-import {BaseOntology, PropertyObject, ResourceClass} from "../../../../model/classes/base-ontology";
+import {BaseOntology, ResourceClass} from "../../../../model/test-data/base-ontology";
 
 @Component({
   selector: 'salsah-advanced-resource-class',

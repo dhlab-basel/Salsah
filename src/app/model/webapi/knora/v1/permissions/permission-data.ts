@@ -17,9 +17,6 @@ import {JsonObject, JsonProperty} from "json2typescript";
 @JsonObject
 export class PermissionData {
 
-    @JsonProperty('status', Number)
-    public status: Number = undefined;
-
     @JsonProperty('groupsPerProject', Object)
     public groupsPerProject: any = undefined;
 

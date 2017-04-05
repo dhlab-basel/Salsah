@@ -30,7 +30,7 @@ export class Search {
     @JsonProperty('nhits', String)
     public nhits: string = undefined;
 
-    @JsonProperty('paging', Paging)
-    public paging: Paging = undefined;
+    @JsonProperty('paging', [Paging])
+    public paging: Paging[] = undefined;
 
 }

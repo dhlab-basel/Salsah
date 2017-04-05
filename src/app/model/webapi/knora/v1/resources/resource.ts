@@ -17,6 +17,7 @@ import {ResourceInfo} from "./resource-info";
 import {ResourceData} from "./resource-data";
 import {IncomingResource} from "./incoming-resource";
 import {PropertyItem} from "../properties/property-item";
+import {ResourceProperty} from "./resource-property";
 
 @JsonObject
 export class Resource {
@@ -30,12 +31,10 @@ export class Resource {
     @JsonProperty('incoming', [IncomingResource])
     public incoming: IncomingResource[] = undefined;
 
-    @JsonProperty('props', [PropertyItem])
-    public props: PropertyItem[] = undefined;
+    @JsonProperty('props', [ResourceProperty])
+    public props: ResourceProperty[] = undefined;
 
     @JsonProperty('access', String)
     public access: string = undefined;
 
-
 }
- 

@@ -31,7 +31,7 @@ export class Authenticate {
     @JsonProperty('userProfile', UserProfile)
     public userProfile: UserProfile = undefined;
 
-    @JsonProperty('userDate', UserData)
+    @JsonProperty('userData', UserData, true)
     public userData: UserData = undefined;
 
 }
