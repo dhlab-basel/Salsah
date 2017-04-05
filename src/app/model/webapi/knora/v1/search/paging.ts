@@ -1,5 +1,5 @@
-/* Copyright © 2017 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -12,14 +12,17 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { JsonObject, JsonProperty } from 'json2typescript';
-import {ProjectItem} from "./project-item";
-
+import {JsonObject, JsonProperty} from "json2typescript";
 
 @JsonObject
-export class Project {
+export class Paging {
 
-    @JsonProperty('project_info', ProjectItem)
-    public project_info: ProjectItem = undefined;
+    @JsonProperty('current', Boolean)
+    public current: boolean = undefined;
 
+    @JsonProperty('start_at', Number)
+    public start_at: number = undefined;
+
+    @JsonProperty('show_nrows', Number)
+    public show_nrows: number = undefined;
 }

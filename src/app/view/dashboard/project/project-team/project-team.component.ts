@@ -14,13 +14,12 @@
 
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
-import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
-import {ProjectsService} from "../../../../model/services/projects.service";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ProjectMembers, ProjectItem} from "../../../../model/classes/projects";
+import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
+import {ProjectsService} from "../../../../model/services/projects.service";
 import {UserService} from "../../../../model/services/user.service";
-import {User} from "../../../../model/classes/user-profile";
+import {ProjectMembers, ProjectItem, User} from "../../../../model/webapi/knora";
 
 @Component({
     selector: 'salsah-project-team',

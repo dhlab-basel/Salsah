@@ -1,5 +1,5 @@
-/* Copyright © 2017 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -13,12 +13,24 @@
  * */
 
 import {JsonObject, JsonProperty} from "json2typescript";
-import {ProjectItem} from "./project-item";
+import {ThumbMax} from "./thumbMax";
+import {Paging} from "./paging";
+import {Subject} from "./subject";
+
 
 @JsonObject
-export class ProjectsList {
+export class Search {
 
-    @JsonProperty('projects', [ProjectItem])
-    public projects: ProjectItem[] = undefined;
+    @JsonProperty('subjects', [Subject])
+    public subjects: Subject[] = undefined;
+
+    @JsonProperty('thumb_max', ThumbMax)
+    public thumb_max: ThumbMax = undefined;
+
+    @JsonProperty('nhits', String)
+    public nhits: string = undefined;
+
+    @JsonProperty('paging', Paging)
+    public paging: Paging = undefined;
 
 }

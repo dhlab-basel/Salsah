@@ -13,12 +13,11 @@
  * */
 
 import {Component, OnInit, Input} from '@angular/core';
-import {ProjectsList} from "../../../../model/classes/projects";
-import {ProjectsService} from "../../../../model/services/projects.service";
 import {Router} from "@angular/router";
-import {UserData} from "../../../../model/classes/user-profile";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {ProjectsService} from "../../../../model/services/projects.service";
+import {ProjectsList} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-projects-list',

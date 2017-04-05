@@ -14,10 +14,11 @@
 
 import {Component, OnInit, SecurityContext} from '@angular/core';
 import {Params, ActivatedRoute, Router} from "@angular/router";
-import {ProjectItem, Project} from "../../../../model/classes/projects";
-import {ProjectsService} from "../../../../model/services/projects.service";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {ProjectsService} from "../../../../model/services/projects.service";
+import {Project, ProjectItem} from "../../../../model/webapi/knora";
+
 
 @Component({
     selector: 'salsah-project-profile',

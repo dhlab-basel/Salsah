@@ -20,8 +20,35 @@ export * from './v1/authenticate/session';
 
 
 /**
- * Interfaces for permissions
+ * Interfaces for projects
  */
+export * from './v1/projects/project';
+export * from './v1/projects/project-item';
+export * from './v1/projects/project-members';
+export * from './v1/projects/projects-list';
 
+/**
+ * Interfaces for resource types
+ */
+export * from './v1/resource-types/resource-types';
 
+/**
+ * Interfaces for resource objects: instances
+ */
+export * from './v1/resources/resource';
+
+/**
+ * Interfaces for properties
+ */
+export * from './v1/properties/properties';
+
+/**
+ * Interfaces for search results
+ */
+export * from './v1/search/search';
+
+/**
+ * Interfaces for users
+ */
+export * from './v1/users/user';
 

@@ -50,6 +50,7 @@ export class Property {
 
 }
 
+@JsonObject
 export class Properties extends BasicResponse {
 
     @JsonProperty('properties', [Property])

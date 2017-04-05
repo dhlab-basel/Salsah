@@ -15,9 +15,6 @@
 import { JsonObject, JsonProperty } from 'json2typescript';
 import { BasicResponse } from './basic-response';
 
-
-
-
 @JsonObject
 export class Location {
 

@@ -18,8 +18,7 @@ import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {UserService} from "../../../../model/services/user.service";
-import {ProjectItem} from "../../../../model/classes/projects";
-import {assetUrl} from "@angular/compiler/src/identifiers";
+import {ProjectItem} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-user-form',

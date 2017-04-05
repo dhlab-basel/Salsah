@@ -14,14 +14,13 @@
 
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
-import {ResourceTypesService} from "../../../../model/services/resource-types.service";
-import {ResourceTypes} from "../../../../model/classes/resource-types";
-import {ProjectItem} from "../../../../model/classes/projects";
-import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
-import {PropertiesService} from "../../../../model/services/properties.service";
-import {Properties} from "../../../../model/classes/properties";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
+import {ResourceTypesService} from "../../../../model/services/resource-types.service";
+import {PropertiesService} from "../../../../model/services/properties.service";
+import {ProjectItem, ResourceTypes, Properties} from "../../../../model/webapi/knora";
+
 
 @Component({
     selector: 'salsah-project-resources',

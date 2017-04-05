@@ -13,12 +13,11 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from "@angular/router";
-
+import {ActivatedRoute} from "@angular/router";
 import {ApiServiceResult} from "../../model/services/api-service-result";
 import {ApiServiceError} from "../../model/services/api-service-error";
 import {LoginService} from "../../model/services/login.service";
-import {Session, Authentication} from "../../model/classes/session";
+import {Authenticate} from "../../model/webapi/knora/";
 
 function getDocument(): any {
     return document;
@@ -81,7 +80,7 @@ export class LoginComponent implements OnInit {
 
                 this.isLoading = true;
 
-                let authentication: Authentication = result.getBody(Authentication);
+                let authentication: Authenticate = result.getBody(Authenticate);
 
                 getDocument().cookie = "sid=" + authentication.sid;
                 getDocument().cookie = "KnoraAuthentication=" + authentication.sid;

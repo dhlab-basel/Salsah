@@ -1,9 +1,9 @@
 import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
 import {ResourceService} from "../../../model/services/resource.service";
-import {Resource} from "../../../model/classes/resource";
 import {ApiServiceResult} from "../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../model/services/api-service-error";
+import {Resource} from "../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-object',
