@@ -1,21 +1,42 @@
 
-<div class="salsah-module without-header">
-    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
-
-    <md-toolbar class="salsah-module-header transparent no-shadow">
-
+<div class="salsah-module with-header" *ngIf="auth">
+    <md-toolbar class="salsah-module-header">
+        <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
-
-        <button md-button routerLink="/settings">Settings</button>
-
+        <!-- Tab menu -->
+        <nav class="salsah-tab-group" *ngIf="!errorMessage">
+            <button md-button
+                    class="salsah-tab-item"
+                    routerLink="/settings"
+                    [ngClass]="firstTabClass"
+                    (click)="enableFirstTab()">
+                <strong>{{cur_user}}</strong>
+            </button>
+            <button *ngFor="let item of menu; let i = index; let first=first"
+                    md-button
+                    class="salsah-tab-item"
+                    [routerLink]="'/' + item.route"
+                    routerLinkActive="active"
+                    (click)="disableFirstTab()">
+                {{item.name}}
+            </button>
+        </nav>
+        <!-- This fills the remaining space of the current row -->
+        <span class="fill-remaining-space"></span>
     </md-toolbar>
-
 
     <div class="salsah-sub-module">
 
+        <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+
         <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
 
-        <router-outlet *ngIf="!errorMessage" ></router-outlet>
+        <!-- switch view; not with a second router-outlet, because of the direct (parent) routes like
+            "/settings", "/projects" and "/collections
+        -->
+
+
+
     </div>
 
 </div>

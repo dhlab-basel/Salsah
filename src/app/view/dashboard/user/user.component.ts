@@ -18,6 +18,7 @@ import {ApiServiceResult} from "../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../model/services/api-service-error";
 import {UserService} from "../../../model/services/user.service";
 import {User} from "../../../model/webapi/knora/";
+import {Authenticate} from "../../../model/webapi/knora/v1/authenticate/authenticate";
 
 
 @Component({
@@ -32,24 +33,31 @@ export class UserComponent implements OnInit {
     errorMessage: string = undefined;
     user: User = new User();
 
-    userRoute: string = '/project/';
+    userRoute: string = '/users/';
     cur_user: string = undefined;
+
+    firstTabClass: string = 'active';
 
     menu: any = [
         {
-            name: 'Profile',
-            path: 'profile'
+            name: 'Settings',
+            route: 'settings'
         },
         {
             name: 'Projects',
-            path: 'projects'
+            route: 'projects'
         },
         {
             name: 'Collections',
-            path: 'collections'
+            route: 'collections'
         }
 
     ];
+
+    auth: any = {
+        user: undefined,
+        session: undefined
+    };
 
     constructor(
         private _router: Router,
@@ -63,6 +71,11 @@ export class UserComponent implements OnInit {
         this._route.params.subscribe((params: Params) => {
             this.cur_user = params['uid'];
             this.userRoute += this.cur_user;
+
+            if (this.cur_user === undefined) {
+                let auth: Authenticate = JSON.parse(localStorage.getItem('auth'));
+                this.cur_user = auth.userProfile.userData.email;
+            }
 
 //            this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
 
@@ -86,6 +99,14 @@ export class UserComponent implements OnInit {
         });
 
 
+    }
+
+    disableFirstTab() {
+        this.firstTabClass = undefined;
+    }
+
+    enableFirstTab() {
+        this.firstTabClass = 'active';
     }
 
 }

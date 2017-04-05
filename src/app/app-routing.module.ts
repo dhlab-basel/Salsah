@@ -61,15 +61,15 @@ const appRoutes: Routes = [
     },
     {
         // User settings
-        path: 'settings', component: UserSettingsComponent
+        path: 'settings', component: UserComponent
     },
     {
         // User projects
-        path: 'projects', component: UserProjectsComponent
+        path: 'projects', component: UserComponent
     },
     {
         // User collections
-        path: 'collections', component: UserCollectionsComponent
+        path: 'collections', component: UserComponent
     },
     {
         path: 'search/:q',
