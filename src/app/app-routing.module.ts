@@ -60,6 +60,9 @@ const appRoutes: Routes = [
         ]
     },
     {
+        path: 'profile', component: UserComponent
+    },
+    {
         // User settings
         path: 'settings', component: UserComponent
     },

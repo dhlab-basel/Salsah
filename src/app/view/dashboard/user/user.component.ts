@@ -17,8 +17,7 @@ import {ActivatedRoute, Router, Params} from "@angular/router";
 import {ApiServiceResult} from "../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../model/services/api-service-error";
 import {UserService} from "../../../model/services/user.service";
-import {User} from "../../../model/webapi/knora/";
-import {Authenticate} from "../../../model/webapi/knora/v1/authenticate/authenticate";
+import {User, UserProfile, Authenticate} from "../../../model/webapi/knora/";
 
 
 @Component({
@@ -31,25 +30,29 @@ export class UserComponent implements OnInit {
     isLoading: boolean = true;
 
     errorMessage: string = undefined;
-    user: User = new User();
+//    user: User = new User();
 
     userRoute: string = '/users/';
-    cur_user: string = undefined;
+    user: User = new User();
+
+    ownProfile: boolean = false;
 
     firstTabClass: string = 'active';
 
+    cur_user: string = undefined;
+
     menu: any = [
         {
-            name: 'Settings',
-            route: 'settings'
-        },
-        {
             name: 'Projects',
-            route: 'projects'
+            route: '/projects'
         },
         {
             name: 'Collections',
-            route: 'collections'
+            route: '/collections'
+        },
+        {
+            name: 'Settings',
+            route: '/settings'
         }
 
     ];
@@ -67,34 +70,47 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this._router.url);
 
         this._route.params.subscribe((params: Params) => {
-            this.cur_user = params['uid'];
-            this.userRoute += this.cur_user;
-
-            if (this.cur_user === undefined) {
-                let auth: Authenticate = JSON.parse(localStorage.getItem('auth'));
-                this.cur_user = auth.userProfile.userData.email;
+            if(params['uid']) {
+                this.cur_user = params['uid'];
             }
+            else {
+                this.cur_user = JSON.parse(localStorage.getItem('auth')).userProfile.userData.email;
+                this.ownProfile = true;
+            }
+
+            if(this.cur_user) {
+                // the current user email is defined; so get the user profile ...
+                this._userService.getUser(this.cur_user)
+                    .subscribe(
+                        (result: ApiServiceResult) => {
+                            this.user = result.getBody(User);
+                            this.isLoading = false;
+                            localStorage.setItem('user', JSON.stringify(
+                                this.user
+                            ))
+                        },
+                        (error: ApiServiceError) => {
+                            this.errorMessage = <any>error;
+                            localStorage.removeItem('user');
+                        }
+                    );
+            }
+            else {
+                // error handling or go to the login page
+            }
+
+
 
 //            this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
 
 
-            // get the project information
-            this._userService.getUser(this.cur_user)
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.user = result.getBody(User);
-//                        this.isLoading = false;
-                        localStorage.setItem('user', JSON.stringify(
-                            this.user.userProfile.userData
-                        ))
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
-                        localStorage.removeItem('user');
-                    }
-                );
+
+
+
+
 
         });
 

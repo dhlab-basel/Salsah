@@ -12,10 +12,10 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {SessionService} from "../../../../model/services/session.service";
-import {Authenticate, User} from "../../../../model/webapi/knora/";
+import {User} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-user-profile',
@@ -24,10 +24,8 @@ import {Authenticate, User} from "../../../../model/webapi/knora/";
 })
 export class UserProfileComponent implements OnInit {
 
-    userName: string = undefined;
-    auth: Authenticate = undefined;
+    user: User = new User();
 
-    user: User = new User;
 
     constructor(
         private _sessionService: SessionService,
@@ -37,7 +35,9 @@ export class UserProfileComponent implements OnInit {
 
     ngOnInit() {
 
-        this.user = JSON.parse(localStorage.getItem('user'));
+        console.log(JSON.parse(localStorage.getItem('user')));
+
+//        this.user = JSON.parse(localStorage.getItem('user'));
 
 
 /*

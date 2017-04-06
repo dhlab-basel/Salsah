@@ -87,12 +87,12 @@ export class HeaderToolbarComponent implements OnInit {
         {
             title: 'Edit Profile',
             icon: 'fingerprint',
-            route: '/settings'
+            route: '/profile'
         },
         {
-            title: 'Docs',
-            icon: 'chrome_reader_mode',
-            route: '/documentation'
+            title: 'Settings',
+            icon: 'settings',
+            route: '/settings'
         }
     ];
     /*

@@ -1,5 +1,5 @@
 
-<div class="salsah-module with-header" *ngIf="auth">
+<div class="salsah-module with-header" *ngIf="auth && ownProfile">
     <md-toolbar class="salsah-module-header">
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
@@ -7,7 +7,7 @@
         <nav class="salsah-tab-group" *ngIf="!errorMessage">
             <button md-button
                     class="salsah-tab-item"
-                    routerLink="/settings"
+                    routerLink="/profile"
                     [ngClass]="firstTabClass"
                     (click)="enableFirstTab()">
                 <strong>{{cur_user}}</strong>
@@ -15,7 +15,7 @@
             <button *ngFor="let item of menu; let i = index; let first=first"
                     md-button
                     class="salsah-tab-item"
-                    [routerLink]="'/' + item.route"
+                    [routerLink]="item.route"
                     routerLinkActive="active"
                     (click)="disableFirstTab()">
                 {{item.name}}
@@ -35,8 +35,14 @@
             "/settings", "/projects" and "/collections
         -->
 
-
+        <salsah-user-projects *ngIf="module === 'projects'"></salsah-user-projects>
+        <salsah-user-collections *ngIf="module === 'collections'"></salsah-user-collections>
+        <salsah-user-settings *ngIf="module === 'settings'"></salsah-user-settings>
+        <salsah-user-profile></salsah-user-profile>
 
     </div>
 
+</div>
+<div class="salsah-module without-header" *ngIf="!ownProfile">
+    <router-outlet></router-outlet>
 </div>
