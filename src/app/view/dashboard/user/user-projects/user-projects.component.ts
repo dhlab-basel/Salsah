@@ -12,7 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+
+import {UserProfile} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-user-projects',
@@ -21,13 +23,17 @@ import {Component, OnInit} from '@angular/core';
 })
 export class UserProjectsComponent implements OnInit {
 
-    auth: any;
+    @Input('user') user: UserProfile;
+
+    ownProfile: UserProfile;
 
     constructor() {
     }
 
     ngOnInit() {
-        this.auth = (JSON.parse(localStorage.getItem('auth')) ? JSON.parse(localStorage.getItem('auth')) : '');
+        console.log('Hallo Welt');
+        console.log(JSON.parse(localStorage.getItem('ownProfile')));
+        this.ownProfile = (JSON.parse(localStorage.getItem('ownProfile')) ? JSON.parse(localStorage.getItem('ownProfile')) : '');
     }
 
 }

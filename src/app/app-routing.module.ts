@@ -51,15 +51,17 @@ const appRoutes: Routes = [
         component: DashboardComponent
     },
     {
-        path: 'user/:uid', component: UserComponent,
+        // Public user profile
+        path: 'user/:uid', component: UserComponent
+        /*
         children: [
-            {
-                path: '', component: UserProfileComponent
-            },
+            { path: '', component: UserProfileComponent },
             { path: '**', component: PageNotFoundComponent }
         ]
+        */
     },
     {
+        // User profile = Dashboard for logged in users
         path: 'profile', component: UserComponent
     },
     {

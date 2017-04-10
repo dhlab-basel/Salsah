@@ -18,6 +18,8 @@ import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ProjectsService} from "../../../../model/services/projects.service";
 import {ProjectsList} from "../../../../model/webapi/knora/";
+import {UserProfile} from "../../../../model/webapi/knora/";
+
 
 @Component({
     selector: 'salsah-projects-list',
@@ -32,7 +34,7 @@ export class ProjectsListComponent implements OnInit {
 
     projects: ProjectsList = new ProjectsList();
 
-    @Input('user') user: string;
+    @Input('user') user: UserProfile;
 
     constructor(
         private _router: Router,
@@ -77,7 +79,7 @@ export class ProjectsListComponent implements OnInit {
     }
 
     openProject(id: string) {
-        localStorage.removeItem('project');
+        localStorage.removeItem('currentProject');
         this._router.navigate(['/project/', id]);
     }
 

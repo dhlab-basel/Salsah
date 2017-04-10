@@ -56,7 +56,7 @@ export class ProjectResourcesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.project = JSON.parse(localStorage.getItem('project'));
+        this.project = JSON.parse(localStorage.getItem('currentProject'));
         this._resourceTypesService.getResourceTypes(this.project.ontologyNamedGraph)
             .subscribe(
                 (result: ApiServiceResult) => {

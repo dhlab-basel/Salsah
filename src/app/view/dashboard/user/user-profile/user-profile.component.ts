@@ -12,10 +12,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {SessionService} from "../../../../model/services/session.service";
-import {User} from "../../../../model/webapi/knora/";
+import {Component, OnInit, Input} from '@angular/core';
+import {Params, ActivatedRoute} from "@angular/router";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {User, UserProfile} from "../../../../model/webapi/knora/";
+import {UserService} from "../../../../model/services/user.service";
 
 @Component({
     selector: 'salsah-user-profile',
@@ -24,21 +26,20 @@ import {User} from "../../../../model/webapi/knora/";
 })
 export class UserProfileComponent implements OnInit {
 
-    user: User = new User();
+    errorMessage: string = undefined;
+//    user: UserProfile = new UserProfile();
 
+    @Input('user') user: UserProfile;
 
-    constructor(
-        private _sessionService: SessionService,
-        private _router: Router
+    constructor(private _route: ActivatedRoute,
+                private _userService: UserService
     ) {
+
     }
 
     ngOnInit() {
 
-        console.log(JSON.parse(localStorage.getItem('user')));
-
-//        this.user = JSON.parse(localStorage.getItem('user'));
-
+        console.log(this.user);
 
 /*
         // get the user name from the url

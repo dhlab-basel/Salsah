@@ -12,7 +12,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {UserProfile} from "../../../../model/webapi/knora/";
 
 @Component({
   selector: 'salsah-user-collections',
@@ -20,6 +21,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-collections.component.css']
 })
 export class UserCollectionsComponent implements OnInit {
+
+  @Input('user') user: UserProfile;
 
   constructor() { }
 

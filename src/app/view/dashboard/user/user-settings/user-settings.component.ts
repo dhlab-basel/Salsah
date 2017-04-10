@@ -12,8 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {SessionService} from "../../../../model/services/session.service";
+import {UserProfile} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-user-settings',
@@ -22,11 +23,13 @@ import {SessionService} from "../../../../model/services/session.service";
 })
 export class UserSettingsComponent implements OnInit {
 
+    @Input('user') user: UserProfile;
+
     constructor(private _sessionService: SessionService) {
     }
 
     ngOnInit() {
-        this._sessionService.checkAuth(true);
+
     }
 
 }

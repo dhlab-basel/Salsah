@@ -56,7 +56,7 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.project = JSON.parse(localStorage.getItem('project'));
+        this.project = JSON.parse(localStorage.getItem('currentProject'));
 
         this._projectsService.getProjectMembers(this.project.shortname)
             .subscribe(

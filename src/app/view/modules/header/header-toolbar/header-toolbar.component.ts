@@ -13,9 +13,12 @@
  * */
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
-import {SessionService} from "../../../../model/services/session.service";
 import {Router, ActivatedRoute} from "@angular/router";
-import {Authenticate} from "../../../../model/webapi/knora";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {Session} from "../../../../model/webapi/knora";
+import {SessionService} from "../../../../model/services/session.service";
+
 import {
     trigger,
     state,
@@ -23,10 +26,6 @@ import {
     animate,
     transition
 } from '@angular/animations';
-
-function getDocument(): any {
-    return document;
-}
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -52,7 +51,10 @@ function getDocument(): any {
 export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
-    auth: Authenticate = new Authenticate();
+//    auth: Authenticate = new Authenticate();
+
+    session: Session = new Session();
+    activeSession: boolean;
 
     focusOnUserMenu: string = 'inactive';
     focusOnAddMenu: string = 'inactive';
@@ -61,16 +63,28 @@ export class HeaderToolbarComponent implements OnInit {
                 private _route: ActivatedRoute,
                 private _router: Router,
                 private _sessionService: SessionService) {
+
     }
 
     // check authentication: the session (from the services) should be valid and the local storage item "auth" as well
 
     // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
-        // check if the authentication is valid: there should be a local storage item called "auth"
-        this.auth = this._sessionService.checkAuth();
+        // check if the authentication is valid:
+        // there should be a local storage item called "ownProfile", which should have the same values as the knora session response
+        this._sessionService.getSession().subscribe(
+            (result: ApiServiceResult) => {
+                this.session = result.getBody(Session);
+                this.activeSession = this._sessionService.checkSession(this.session);
+//                console.log(this.session);
+                if (this.session) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
+            },
+            (error: ApiServiceError) => {
+                console.log(error);
+            }
+        );
 
-        if (this.auth !== null) this.userName = this.auth.userProfile.userData.email;
+
     }
 
     userMenu: any = [
@@ -85,7 +99,7 @@ export class HeaderToolbarComponent implements OnInit {
             route: '/collections'
         },
         {
-            title: 'Edit Profile',
+            title: 'Profile',
             icon: 'fingerprint',
             route: '/profile'
         },

@@ -79,13 +79,13 @@ export class ProjectComponent implements OnInit {
                     (result: ApiServiceResult) => {
                         this.project = result.getBody(Project);
                         this.isLoading = false;
-                        localStorage.setItem('project', JSON.stringify(
+                        localStorage.setItem('currentProject', JSON.stringify(
                             this.project.project_info
                         ))
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
-                        localStorage.removeItem('project');
+                        localStorage.removeItem('currentProject');
                     }
                 );
 

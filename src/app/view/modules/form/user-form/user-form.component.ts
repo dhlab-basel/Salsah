@@ -56,7 +56,7 @@ export class UserFormComponent implements OnInit {
                 @Inject(FormBuilder) fb: FormBuilder,
                 public _userService: UserService) {
 
-        this.project = JSON.parse(localStorage.getItem('project'));
+        this.project = JSON.parse(localStorage.getItem('currentProject'));
 
 //        console.log(encodeURIComponent("http://rdfh.ch/users/NmqI97IkSr2PNUGVjApLUg"));
 

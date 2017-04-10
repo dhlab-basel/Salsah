@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     /*
      TODO: language packages: login
      */
-    public login = {
+    login = {
         title: "Already have an account?",
         name: "Username",
         pw: "Password",
@@ -55,8 +55,7 @@ export class LoginComponent implements OnInit {
         }
     };
 
-
-    public signup = {
+    signup = {
         title: "New to Salsah?",
         subtitle: "Sign up to avail all of our services",
         button: "Contact us on how"
@@ -85,7 +84,7 @@ export class LoginComponent implements OnInit {
                 getDocument().cookie = "sid=" + authentication.sid;
                 getDocument().cookie = "KnoraAuthentication=" + authentication.sid;
 
-                localStorage.setItem('auth', JSON.stringify(authentication));
+                localStorage.setItem('ownProfile', JSON.stringify(authentication.userProfile));
 
                 //
                 // after successful login, we want to go back to the previous page e.g. search incl. query

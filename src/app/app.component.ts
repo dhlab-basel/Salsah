@@ -13,14 +13,12 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {Session, Authenticate} from "./model/webapi/knora";
 import {SessionService} from "./model/services/session.service";
 import {ApiServiceResult} from "./model/services/api-service-result";
 import {ApiServiceError} from "./model/services/api-service-error";
+import {Session} from "./model/webapi/knora/";
 
-function getDocument(): any {
-    return document;
-}
+
 
 @Component({
     selector: 'app-root',
@@ -30,28 +28,29 @@ function getDocument(): any {
 export class AppComponent implements OnInit {
 
     session: Session = new Session();
-    auth: Authenticate = new Authenticate();
+    activeSession: boolean;
 
     constructor(
         private _sessionService: SessionService
     ){}
 
     ngOnInit() {
-        this._sessionService.getSession()
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.session = result.getBody(Session);
-                },
-                (error: ApiServiceError) => {
-                    // the authentication (services session) is not valid!
-                    // log out the user:
-                    // a) remove all the session cookies
-                    getDocument().cookie = "sid=;expires=-1";
-                    getDocument().cookie = "KnoraAuthentication=;expires=-1";
-                    // b) remove the local storage authentication values
-                    localStorage.removeItem('auth');
-                    this.auth = this._sessionService.checkAuth();
-                }
-            );
+        this._sessionService.getSession().subscribe(
+            (result: ApiServiceResult) => {
+                this.session = result.getBody(Session);
+                this.activeSession = this._sessionService.checkSession(this.session);
+//                console.log(this.session);
+            },
+            (error: ApiServiceError) => {
+                console.log(error);
+            }
+        );
+
+
+
+
+
+
+
     }
 }

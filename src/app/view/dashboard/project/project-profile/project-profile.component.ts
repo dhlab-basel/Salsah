@@ -12,8 +12,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, SecurityContext} from '@angular/core';
-import {Params, ActivatedRoute, Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {Params, ActivatedRoute} from "@angular/router";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ProjectsService} from "../../../../model/services/projects.service";
@@ -42,7 +42,7 @@ export class ProjectProfileComponent implements OnInit {
 
     ngOnInit() {
 
-        if (JSON.parse(localStorage.getItem('project')) === null) {
+        if (JSON.parse(localStorage.getItem('currentProject')) === null) {
             // the local storage is not ready yet; or something went wrong
             // get the project from the services with the shortname from the route parameter "project"
             this._route.params.subscribe((params: Params) => {
@@ -57,13 +57,13 @@ export class ProjectProfileComponent implements OnInit {
 
                             this.errorMessage = <any>error;
                             console.log(this.errorMessage);
-                            localStorage.removeItem('project');
+                            localStorage.removeItem('currentProject');
                         }
                     );
             });
         }
         else {
-            this.projectItem = JSON.parse(localStorage.getItem('project'));
+            this.projectItem = JSON.parse(localStorage.getItem('currentProject'));
         }
 
     }
