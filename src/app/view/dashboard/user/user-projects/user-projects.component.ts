@@ -25,13 +25,14 @@ export class UserProjectsComponent implements OnInit {
 
     @Input('user') user: UserProfile;
 
-    ownProfile: UserProfile;
+    ownProfile: UserProfile = JSON.parse(localStorage.getItem('ownProfile'));
 
     constructor() {
     }
 
     ngOnInit() {
-        this.ownProfile = JSON.parse(localStorage.getItem('ownProfile'));
+//        this.ownProfile = JSON.parse(localStorage.getItem('ownProfile'));
+        console.log(this.ownProfile);
     }
 
 }

@@ -24,6 +24,9 @@ export class Session {
     @JsonProperty('message', String)
     public message: string = undefined;
 
+    @JsonProperty('sid', String, true)
+    public sid: string = undefined;
+
     @JsonProperty('userProfile', UserProfile)
     public userProfile: UserProfile = undefined;
 

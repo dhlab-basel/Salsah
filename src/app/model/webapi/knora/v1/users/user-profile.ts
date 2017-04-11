@@ -29,7 +29,7 @@ export class UserProfile {
     @JsonProperty('projects_info', [ProjectItem])
     public projects_info: ProjectItem[] = undefined;
 
-    @JsonProperty('sessionId', null)
+    @JsonProperty('sessionId', String, true)
     public sessionId: string = undefined;
 
 //    @JsonProperty('projects', [String], true)

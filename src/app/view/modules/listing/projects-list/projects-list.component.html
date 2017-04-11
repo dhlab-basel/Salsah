@@ -22,6 +22,7 @@
     <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
     <md-list-item *ngFor="let item of user?.projects_info | key" (click)="openProject(item.value.shortname)" class="salsah-link">
+        {{item.key}}
         <md-icon md-list-avatar>chrome_reader_mode</md-icon>
         <h4 md-line>{{item.value.name}}</h4>
         <div md-line [innerHtml]="item.value.description | slice:0:128"></div>

@@ -17,7 +17,8 @@ import {ActivatedRoute} from "@angular/router";
 import {ApiServiceResult} from "../../model/services/api-service-result";
 import {ApiServiceError} from "../../model/services/api-service-error";
 import {LoginService} from "../../model/services/login.service";
-import {Authenticate} from "../../model/webapi/knora/";
+import {Authenticate, Session, UserProfile} from "../../model/webapi/knora/";
+
 
 function getDocument(): any {
     return document;
@@ -33,11 +34,16 @@ function getDocument(): any {
 
 export class LoginComponent implements OnInit {
 
+    errorMessage: any;
     isLoading: boolean = false;
 
     loginErrorUser: boolean = false;
     loginErrorPw: boolean = false;
     loginErrorServer: boolean = false;
+
+//    session: Session = new Session();
+    userProfile: UserProfile = new UserProfile();
+    sessionId: string = undefined;
 
     /*
      TODO: language packages: login
@@ -74,6 +80,58 @@ export class LoginComponent implements OnInit {
 
     onSubmit(lf: any): void {
 
+
+        this._loginService.login(lf.email, lf.password)
+            .subscribe(
+                (result: ApiServiceResult) => {
+
+                    let session: Session = result.getBody(Session);
+                    this.userProfile = session.userProfile;
+                    this.sessionId = session.sid;
+
+                    getDocument().cookie = "sid=" + this.sessionId;
+                    getDocument().cookie = "KnoraAuthentication=" + this.sessionId;
+
+                    localStorage.setItem('ownProfile', JSON.stringify(this.userProfile));
+
+                    for (let entry of this.userProfile.projects_info) {
+                        console.log(entry); // 1, "string", false
+                    }
+
+                    localStorage.setItem('ownProjects', JSON.stringify(this.userProfile.projects_info));
+
+                    //
+                    // after successful login, we want to go back to the previous page e.g. search incl. query
+                    // for this case, we stored the previous url parameters in the current login url as query params
+                    //
+                    let goToUrl: string = '/';
+                    this._route.queryParams.subscribe(
+                        data => goToUrl = (data['h'] === undefined ? '/' : data['h'])
+                    );
+
+                    window.location.replace(goToUrl);
+
+                },
+                (error: ApiServiceError) => {
+                    if(error.status === 0) {
+                        this.loginErrorUser = false;
+                        this.loginErrorPw = false;
+                        this.loginErrorServer = true;
+                    }
+                    if(error.status === 401) {
+                        this.loginErrorUser = false;
+                        this.loginErrorPw = true;
+                        this.loginErrorServer = false;
+                    }
+                    if(error.status === 404) {
+                        this.loginErrorUser = true;
+                        this.loginErrorPw = false;
+                        this.loginErrorServer = false;
+                    }
+                    this.errorMessage = <any>error;
+                }
+            );
+/*
         this._loginService.login(lf.email, lf.password).subscribe(
             (result: ApiServiceResult) => {
 
@@ -81,10 +139,14 @@ export class LoginComponent implements OnInit {
 
                 let authentication: Authenticate = result.getBody(Authenticate);
 
+                let session: Session = result.getBody(Session);
+
+                console.log(session.userProfile);
+
                 getDocument().cookie = "sid=" + authentication.sid;
                 getDocument().cookie = "KnoraAuthentication=" + authentication.sid;
 
-                localStorage.setItem('ownProfile', JSON.stringify(authentication.userProfile));
+                localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
 
                 //
                 // after successful login, we want to go back to the previous page e.g. search incl. query
@@ -117,6 +179,7 @@ export class LoginComponent implements OnInit {
 
             }
         );
+        */
 
     }
 
