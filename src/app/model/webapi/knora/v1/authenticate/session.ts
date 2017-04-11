@@ -19,7 +19,7 @@ import {UserProfile} from "../users/user-profile";
 export class Session {
 
     @JsonProperty('status', Number)
-    public status: Number = undefined;
+    public status: number = undefined;
 
     @JsonProperty('message', String)
     public message: string = undefined;

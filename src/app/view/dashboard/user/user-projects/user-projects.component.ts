@@ -31,9 +31,7 @@ export class UserProjectsComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('Hallo Welt');
-        console.log(JSON.parse(localStorage.getItem('ownProfile')));
-        this.ownProfile = (JSON.parse(localStorage.getItem('ownProfile')) ? JSON.parse(localStorage.getItem('ownProfile')) : '');
+        this.ownProfile = JSON.parse(localStorage.getItem('ownProfile'));
     }
 
 }

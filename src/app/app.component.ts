@@ -14,11 +14,6 @@
 
 import {Component, OnInit} from '@angular/core';
 import {SessionService} from "./model/services/session.service";
-import {ApiServiceResult} from "./model/services/api-service-result";
-import {ApiServiceError} from "./model/services/api-service-error";
-import {Session} from "./model/webapi/knora/";
-
-
 
 @Component({
     selector: 'app-root',
@@ -27,7 +22,6 @@ import {Session} from "./model/webapi/knora/";
 })
 export class AppComponent implements OnInit {
 
-    session: Session = new Session();
     activeSession: boolean;
 
     constructor(
@@ -35,22 +29,7 @@ export class AppComponent implements OnInit {
     ){}
 
     ngOnInit() {
-        this._sessionService.getSession().subscribe(
-            (result: ApiServiceResult) => {
-                this.session = result.getBody(Session);
-                this.activeSession = this._sessionService.checkSession(this.session);
-//                console.log(this.session);
-            },
-            (error: ApiServiceError) => {
-                console.log(error);
-            }
-        );
-
-
-
-
-
-
+//        this.activeSession = this._sessionService.checkSession();
 
     }
 }

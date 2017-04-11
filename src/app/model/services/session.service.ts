@@ -18,6 +18,8 @@ import {Observable} from 'rxjs';
 import {ApiService} from './api.service';
 
 import {Session, UserProfile} from '../webapi/knora';
+import {ApiServiceResult} from "app/model/services/api-service-result";
+import {ApiServiceError} from "./api-service-error";
 
 
 function getDocument(): any {
@@ -39,39 +41,64 @@ export class SessionService extends ApiService {
      * @param deny
      * @returns {boolean}
      */
-    checkSession(session: Session, deny = false): any {
+    checkSession(deny = false): any {
 
-        let activeSession: boolean;
-        if (session.status === 0) { //} && session.userProfile.userData.isActiveUser) {
-            // the session is valid and a user is authenticated by the api server
-            // get the local stored profile of the user and compare it with the session values
-            let userProfile: UserProfile = JSON.parse(localStorage.getItem('ownProfile'));
+        let status: number = 2;
 
-            if (userProfile === null) {
-                // the ownProfile (logged in user data) is not set locally or seems to be wrong
-                // we have to create it now; normally it will be set by the login process
-                localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
-            }
-            else {
-                if (userProfile.userData.user_id !== session.userProfile.userData.user_id) {
-                    localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
+        let activeSession: boolean = false;
+
+        let session: Session;
+
+        this.getSession().subscribe(
+            (result: ApiServiceResult) => {
+                session = result.getBody(Session);
+                status = session.status;
+                if (status === 0) { //} && session.userProfile.userData.isActiveUser) {
+                    // the session is valid and a user is authenticated by the api server
+                    // get the local stored profile of the user and compare it with the session values
+                    let userProfile: UserProfile = JSON.parse(localStorage.getItem('ownProfile'));
+
+                    if (userProfile === null) {
+                        // the ownProfile (logged in user data) is not set locally or seems to be wrong
+                        // we have to create it now; normally it will be set by the login process
+                        localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
+                    }
+                    else {
+                        if (userProfile.userData.user_id !== session.userProfile.userData.user_id) {
+                            localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
+                        }
+                    }
+                    // the session is valid and the user profile is stored in the local storage
+                    activeSession = true;
                 }
+                else {
+                    // the session is not valid!
+                    activeSession = false;
+                    // the session is not valid!
+                    // remove the local stored user profile and return false
+                    localStorage.removeItem('ownProfile');
+                    getDocument().cookie = "sid=;expires=-1";
+                    getDocument().cookie = "KnoraAuthentication=;expires=-1";
+
+                    if(deny === true) this.goToLogin();
+                }
+            },
+            (error: ApiServiceError) => {
+                console.log(error);
+                status = error.status;
+                // the session is not valid!
+                activeSession = false;
+                // the session is not valid!
+                // remove the local stored user profile and return false
+                localStorage.removeItem('ownProfile');
+                getDocument().cookie = "sid=;expires=-1";
+                getDocument().cookie = "KnoraAuthentication=;expires=-1";
+
+                if(deny === true) this.goToLogin();
             }
-            // the session is valid and the user profile is stored in the local storage
-            activeSession = true;
-//            console.log('session service; checkSession = ' + activeSession);
-        }
-        else {
-            // the session is not valid!
-            // remove the local stored user profile and return false
-            console.log('The session is not valid');
-            localStorage.removeItem('ownProfile');
-            getDocument().cookie = "sid=;expires=-1";
-            getDocument().cookie = "KnoraAuthentication=;expires=-1";
-            if(deny === true) this.goToLogin();
-            activeSession = false;
-//            console.log('session service; checkSession = ' + activeSession);
-        }
+
+        );
+
 
         return activeSession;
     }

@@ -44,7 +44,7 @@ export class ProjectsListComponent implements OnInit {
 
     ngOnInit() {
 
-        if(this.user === undefined) {
+        if(this.user === null || this.user === undefined) {
             this._projectsService.getAllProjects()
                 .subscribe(
                     (result: ApiServiceResult) => {
@@ -58,6 +58,9 @@ export class ProjectsListComponent implements OnInit {
                 );
         }
         else {
+//            this.user = JSON.parse(localStorage.getItem('ownProfile'));
+            console.log(this.user.projects_info);
+            this.isLoading = false;
             // get only the projects of the current user....
             // this._projectsService.getUsersProjects()
 /*

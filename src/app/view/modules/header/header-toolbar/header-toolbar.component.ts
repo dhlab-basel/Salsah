@@ -14,9 +14,6 @@
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
 import {Router, ActivatedRoute} from "@angular/router";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {Session} from "../../../../model/webapi/knora";
 import {SessionService} from "../../../../model/services/session.service";
 
 import {
@@ -51,10 +48,8 @@ import {
 export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
-//    auth: Authenticate = new Authenticate();
 
-    session: Session = new Session();
-    activeSession: boolean;
+    activeSession: boolean = false;
 
     focusOnUserMenu: string = 'inactive';
     focusOnAddMenu: string = 'inactive';
@@ -71,18 +66,10 @@ export class HeaderToolbarComponent implements OnInit {
     // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
         // check if the authentication is valid:
-        // there should be a local storage item called "ownProfile", which should have the same values as the knora session response
-        this._sessionService.getSession().subscribe(
-            (result: ApiServiceResult) => {
-                this.session = result.getBody(Session);
-                this.activeSession = this._sessionService.checkSession(this.session);
-//                console.log(this.session);
-                if (this.session) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
-            },
-            (error: ApiServiceError) => {
-                console.log(error);
-            }
-        );
+        // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
+        this.activeSession = this._sessionService.checkSession();
+
+        if (JSON.parse(localStorage.getItem('ownProfile'))) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
 
 
     }
