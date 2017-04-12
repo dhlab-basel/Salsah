@@ -12,10 +12,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {Authentication} from "../../../../model/classes/session";
-import {SessionService} from "../../../../model/api/session.service";
+import {Component, OnInit, Input} from '@angular/core';
+import {Params, ActivatedRoute} from "@angular/router";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {User, UserProfile} from "../../../../model/webapi/knora/";
+import {UserService} from "../../../../model/services/user.service";
 
 @Component({
     selector: 'salsah-user-profile',
@@ -24,16 +26,28 @@ import {SessionService} from "../../../../model/api/session.service";
 })
 export class UserProfileComponent implements OnInit {
 
-    userName: string = undefined;
-    auth: Authentication = undefined;
+    errorMessage: string = undefined;
+//    user: UserProfile = new UserProfile();
 
-    constructor(
-        private _sessionService: SessionService,
-        private _router: Router
+    @Input('user') user: UserProfile;
+
+    developerInfo: any = {
+        title: "User profile dashboard",
+        description: "What should be in the user's dashboard? List of last edited instances? Social network?",
+        path: "dashboard/user/user-profile/"
+    };
+
+    constructor(private _route: ActivatedRoute,
+                private _userService: UserService
     ) {
+
     }
 
     ngOnInit() {
+
+        console.log(this.user);
+
+/*
         // get the user name from the url
         this.userName = decodeURIComponent(this._router.url.split('user/')[1]);
         // check the authentication and compare the userName with the auth.user
@@ -45,7 +59,7 @@ export class UserProfileComponent implements OnInit {
         else {
             // show user's profile page incl. settings button
         }
-
+*/
         //
 
         // get the user's profile data incl. collections, history etc.

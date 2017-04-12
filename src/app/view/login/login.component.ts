@@ -13,12 +13,14 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
+import {ApiServiceResult} from "../../model/services/api-service-result";
+import {ApiServiceError} from "../../model/services/api-service-error";
+import {SessionService} from "../../model/services/session.service";
+import {Session, UserProfile} from "../../model/webapi/knora/";
+import {User} from "../../model/webapi/knora/v1/users/user";
+import {ProjectItem} from "../../model/webapi/knora/v1/projects/project-item";
 
-import {ApiServiceResult} from "../../model/api/api-service-result";
-import {ApiServiceError} from "../../model/api/api-service-error";
-import {LoginService} from "../../model/api/login.service";
-import {Session, Authentication} from "../../model/classes/session";
 
 function getDocument(): any {
     return document;
@@ -34,14 +36,21 @@ function getDocument(): any {
 
 export class LoginComponent implements OnInit {
 
+    errorMessage: any;
+    isLoading: boolean = false;
+
     loginErrorUser: boolean = false;
     loginErrorPw: boolean = false;
     loginErrorServer: boolean = false;
 
+//    session: Session = new Session();
+//    userProfile: UserProfile = new UserProfile();
+//    sessionId: string = undefined;
+
     /*
      TODO: language packages: login
      */
-    public login = {
+    login = {
         title: "Already have an account?",
         name: "Username",
         pw: "Password",
@@ -54,8 +63,7 @@ export class LoginComponent implements OnInit {
         }
     };
 
-
-    public signup = {
+    signup = {
         title: "New to Salsah?",
         subtitle: "Sign up to avail all of our services",
         button: "Contact us on how"
@@ -65,7 +73,7 @@ export class LoginComponent implements OnInit {
 
     constructor(
         private _route: ActivatedRoute,
-        private _loginService: LoginService) {
+        private _sessionService: SessionService) {
     }
 
     ngOnInit() {
@@ -74,24 +82,86 @@ export class LoginComponent implements OnInit {
 
     onSubmit(lf: any): void {
 
+        this._sessionService.login(lf.email, lf.password)
+            .subscribe(
+                (result: ApiServiceResult) => {
+
+                    let session: Session = result.getBody(Session);
+
+                    getDocument().cookie = "sid=" + session.sid;
+                    getDocument().cookie = "KnoraAuthentication=" + session.sid;
+
+                    // we had an issue to store the object array from projects_info; it was always empty
+                    // so let's create a "real" array of user's projects and add it again to the userProfile
+                    let usersProjects: ProjectItem[] = [];
+                    for (let k in session.userProfile.projects_info) {
+                        if (session.userProfile.projects_info.hasOwnProperty(k)) {
+                            console.log(session.userProfile.projects_info[k]);
+                            usersProjects.push(session.userProfile.projects_info[k]);
+                        }
+                    }
+                    session.userProfile.projects_info = usersProjects;
+
+                    // now we can store the userProfile as ownProfile locally
+                    localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
+
+                    // after successful login, we want to go back to the previous page e.g. search incl. query
+                    // for this case, we stored the previous url parameters in the current login url as query params
+                    //
+                    let goToUrl: string = '/';
+                    this._route.queryParams.subscribe(
+                        data => goToUrl = (data['h'] === undefined ? '/' : data['h'])
+                    );
+
+                    window.location.replace(goToUrl);
+
+                },
+                (error: ApiServiceError) => {
+                    if(error.status === 0) {
+                        this.loginErrorUser = false;
+                        this.loginErrorPw = false;
+                        this.loginErrorServer = true;
+                    }
+                    if(error.status === 401) {
+                        this.loginErrorUser = false;
+                        this.loginErrorPw = true;
+                        this.loginErrorServer = false;
+                    }
+                    if(error.status === 404) {
+                        this.loginErrorUser = true;
+                        this.loginErrorPw = false;
+                        this.loginErrorServer = false;
+                    }
+                    this.errorMessage = <any>error;
+                }
+            );
+
+/*
         this._loginService.login(lf.email, lf.password).subscribe(
             (result: ApiServiceResult) => {
-                let authentication: Authentication = result.getBody(Authentication);
+
+                this.isLoading = true;
+
+                let authentication: Authenticate = result.getBody(Authenticate);
+
+                let session: Session = result.getBody(Session);
+
+                console.log(session.userProfile);
 
                 getDocument().cookie = "sid=" + authentication.sid;
                 getDocument().cookie = "KnoraAuthentication=" + authentication.sid;
 
-                localStorage.setItem('auth', JSON.stringify(authentication));
+                localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
 
                 //
                 // after successful login, we want to go back to the previous page e.g. search incl. query
                 // for this case, we stored the previous url parameters in the current login url as query params
                 //
-                let goToUrl: string;
+                let goToUrl: string = '/';
                 this._route.queryParams.subscribe(
-                    data => goToUrl = data['hb']
+                    data => goToUrl = (data['h'] === undefined ? '/' : data['h'])
                 );
-                if( goToUrl === undefined ) goToUrl = '/';
+
                 window.location.replace(goToUrl);
 
             },
@@ -114,6 +184,7 @@ export class LoginComponent implements OnInit {
 
             }
         );
+        */
 
     }
 

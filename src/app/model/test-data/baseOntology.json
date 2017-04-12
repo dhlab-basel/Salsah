@@ -1,0 +1,473 @@
+{
+    "defaultProperties": {
+        "http://www.knora.org/ontology/basic#Name": {
+            "label": "Name",
+            "cardinality": "0-n",
+            "gui": {
+                "element": "text",
+                "type": "simple"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Title": {
+            "label": "Title",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "text",
+                "type": "simple"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Comment": {
+            "label": "Comment",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "text",
+                "type": "extended"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Description": {
+            "label": "Description",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "text",
+                "type": "simple"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Keywords": {
+            "label": "Keywords",
+            "cardinality": "0-n",
+            "gui": {
+                "element": "tags",
+                "type": ""
+            }
+        },
+        "http://www.knora.org/ontology/basic#Date": {
+            "label": "Date",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "date",
+                "type": "period"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Time": {
+            "label": "Time",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "time",
+                "type": "stamp"
+            }
+        },
+        "http://www.knora.org/ontology/basic#Location": {
+            "label": "Location",
+            "cardinality": "0-1",
+            "gui": {
+                "element": "geonames",
+                "type": "autocomplete"
+            }
+        },
+        "http://www.knora.org/ontology/basic#isLinkedTo": {
+            "label": "is linked to",
+            "cardinality": "0-n",
+            "gui": {
+                "element": "link",
+                "type": "autocomplete"
+            }
+        },
+        "http://www.knora.org/ontology/basic#isPartOf": {
+            "label": "is part of",
+            "cardinality": "0-n",
+            "gui": {
+                "element": "link",
+                "type": "autocomplete"
+            }
+        }
+    },
+
+    "defaultPermissions": {
+        "everyone": "read",
+        "guest": "comment",
+        "member": "edit",
+        "admin": "delete"
+    },
+
+    "resourceClasses": {
+        "http://www.knora.org/ontology/knora-base#Basic": {
+            "label": "Metadata Object only",
+            "description": "A representation without files.",
+            "icon": "not_interested",
+            "properties": {}
+        },
+        "http://www.knora.org/ontology/knora-base#StillImageRepresentation": {
+            "label": "Image",
+            "description": "A representation containing still image files.",
+            "icon": "photo_camera",
+            "file": "image",
+            "properties": {
+                "http://www.knora.org/ontology/basic#Format": {
+                    "label": "Format",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "selection",
+                        "type": "dropdown",
+                        "list_id": ""
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Creator": {
+                    "label": "Creator",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Dimension": {
+                    "label": "Dimension",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Colour": {
+                    "label": "Colour",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "color",
+                        "type": "selection"
+                    }
+                }
+            }
+        },
+        "http://www.knora.org/ontology/knora-base#MovingImageRepresentation": {
+            "label": "Moving Image",
+            "description": "A representation containing video files.",
+            "icon": "videocam",
+            "file": "video",
+            "properties": {
+                "http://www.knora.org/ontology/basic#Format": {
+                    "label": "Format",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "selection",
+                        "type": "dropdown",
+                        "list_id": ""
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Videographer": {
+                    "label": "Videographer",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Editor": {
+                    "label": "Editor",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Duration": {
+                    "label": "Duration",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "time",
+                        "type": "sequence"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Framerate": {
+                    "label": "Framerate (fps)",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "integer",
+                        "type": "floating point number"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#AudioInfo": {
+                    "label": "Audio information",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                }
+            }
+        },
+        "http://www.knora.org/ontology/knora-base#AudioRepresentation": {
+            "label": "Audio",
+            "description": "A representation containing audio files.",
+            "icon": "mic",
+            "file": "audio",
+            "properties": {
+                "http://www.knora.org/ontology/basic#Format": {
+                    "label": "Format",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "selection",
+                        "type": "dropdown",
+                        "list_id": ""
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Composer": {
+                    "label": "Composer",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Editor": {
+                    "label": "Editor",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Duration": {
+                    "label": "Duration",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "time",
+                        "type": "sequence"
+                    }
+                }
+            }
+        },
+        "http://www.knora.org/ontology/knora-base#DDDrepresentation": {
+            "label": "3D / RTI",
+            "description": "A representation containing 3D images.",
+            "icon": "3d_rotation",
+            "file": "rti",
+            "properties": {
+                "http://www.knora.org/ontology/basic#Type": {
+                    "label": "Type",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "selection",
+                        "type": "dropdown",
+                        "list_id": ""
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Creator": {
+                    "label": "Creator",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Shape": {
+                    "label": "Shape",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "selection",
+                        "type": "dropdown",
+                        "list_id": ""
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Exif": {
+                    "label": "Exif data of capture",
+                    "cardinality": "0-n",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#ContentSzW": {
+                    "label": "Content size, width",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "integer",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#ContentSzH": {
+                    "label": "Content size, height",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "integer",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#MaxResW": {
+                    "label": "Maximum resolution, width",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "integer",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#MaxResH": {
+                    "label": "Maximum resolution, height",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "integer",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#TileSzW": {
+                    "label": "Tile size, width",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "integer",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#TileSzH": {
+                    "label": "Tile size, height",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "integer",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Multires": {
+                    "label": "Multiresolution strategy",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Scale": {
+                    "label": "Scale",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Bias": {
+                    "label": "Bias",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Orientation": {
+                    "label": "Orientation",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "integer",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#ImageFormat": {
+                    "label": "Image format",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "selection",
+                        "type": "dropdown",
+                        "list_id": ""
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Geometry": {
+                    "label": "Geometry",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#fShader": {
+                    "label": "fShader URL",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#vShader": {
+                    "label": "vShader URL",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#utilsShader": {
+                    "label": "utilsShader URL",
+                    "cardinality": "1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                }
+            }
+        },
+        "http://www.knora.org/ontology/knora-base#MultipageRepresentation": {
+            "label": "Multi page",
+            "description": "A representation containing more than one page/image; e.g. Book or Letters",
+            "icon": "chrome_reader_mode",
+            "properties": {
+                "http://www.knora.org/ontology/basic#Author": {
+                    "label": "Author",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Editor": {
+                    "label": "Editor",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Publisher": {
+                    "label": "Publisher",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                }
+            }
+        },
+        "http://www.knora.org/ontology/knora-base#DocumentRepresentation": {
+            "label": "Document",
+            "description": "A representation containing documents (such as PDF files) that are not text files.",
+            "icon": "insert_drive_file",
+            "properties": {
+                "http://www.knora.org/ontology/basic#Format": {
+                    "label": "Format",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "selection",
+                        "type": "dropdown",
+                        "list_id": ""
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Author": {
+                    "label": "Author",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Editor": {
+                    "label": "Editor",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                },
+                "http://www.knora.org/ontology/basic#Publisher": {
+                    "label": "Publisher",
+                    "cardinality": "0-1",
+                    "gui": {
+                        "element": "text",
+                        "type": "simple"
+                    }
+                }
+            }
+        }
+    }
+}

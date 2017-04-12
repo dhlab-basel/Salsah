@@ -13,14 +13,7 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {Session, Authentication} from "./model/classes/session";
-import {SessionService} from "./model/api/session.service";
-import {ApiServiceResult} from "./model/api/api-service-result";
-import {ApiServiceError} from "./model/api/api-service-error";
-
-function getDocument(): any {
-    return document;
-}
+import {SessionService} from "./model/services/session.service";
 
 @Component({
     selector: 'app-root',
@@ -29,29 +22,14 @@ function getDocument(): any {
 })
 export class AppComponent implements OnInit {
 
-    session: Session = new Session();
-    auth: Authentication = new Authentication();
+    activeSession: boolean;
 
     constructor(
         private _sessionService: SessionService
     ){}
 
     ngOnInit() {
-        this._sessionService.getSession()
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.session = result.getBody(Session);
-                },
-                (error: ApiServiceError) => {
-                    // the authentication (api session) is not valid!
-                    // log out the user:
-                    // a) remove all the session cookies
-                    getDocument().cookie = "sid=;expires=-1";
-                    getDocument().cookie = "KnoraAuthentication=;expires=-1";
-                    // b) remove the local storage authentication values
-                    localStorage.removeItem('auth');
-                    this.auth = this._sessionService.checkAuth();
-                }
-            );
+//        this.activeSession = this._sessionService.checkSession();
+
     }
 }

@@ -13,11 +13,11 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {SearchService} from "../../../../model/api/search.service";
 import {ActivatedRoute, Params} from "@angular/router";
-import {Search} from "../../../../model/classes/search";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {SearchService} from "../../../../model/services/search.service";
+import {Search} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-results',
@@ -27,6 +27,7 @@ import {ApiServiceError} from "../../../../model/api/api-service-error";
 export class ResultsComponent implements OnInit {
 
     isLoading: boolean = true;
+    isLoadingSubModule: boolean = true;
     errorMessage: any;
 
     selectedView: string = 'list';
@@ -92,7 +93,9 @@ export class ResultsComponent implements OnInit {
 
     openResource($event) {
         if(this.size === 'large') this.size = 'small'; this.cols = 1;
+        this.isLoadingSubModule = true;
         this.resource = $event.id;
+        this.isLoadingSubModule = false;
     }
 
     closeDetailView() {

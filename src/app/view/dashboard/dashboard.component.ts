@@ -14,7 +14,7 @@
 
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {Session} from "../../model/classes/session";
+import {Session} from "../../model/webapi/knora/";
 
 function getDocument(): any {
     return document;
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
         getDocument().cookie = "sid=;expires=-1";
         getDocument().cookie = "KnoraAuthentication=;expires=-1";
         // remove the local storage authentication values
-        localStorage.removeItem('auth');
+        localStorage.removeItem('ownProfile');
         // go to the start page with a reload of the whole app
         window.location.replace('/');
     }

@@ -1,21 +1,50 @@
-<div class="salsah-module-header no-shadow">
-    <!-- this component has a loader element -->
-    <div class="loading" *ngIf="isLoading">
-        <md-progress-bar mode="indeterminate"></md-progress-bar>
-    </div>
-    <!-- this component has his own toolbar header
-        with tabs for navigation through the settings
-    -->
 
-    <md-toolbar class="salsah-user-header transparent">
-
+<!-- show the logged in user profile incl. projects list, collections and settings -->
+<div class="salsah-module with-header" *ngIf="showOwnProfile">
+    <md-toolbar class="salsah-module-header">
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
+        <!-- Tab menu -->
+        <nav class="salsah-tab-group" *ngIf="!errorMessage">
 
-        <button md-button routerLink="/settings">Settings</button>
-
+            <button *ngFor="let item of menu; let i = index; let first = first"
+                    md-button
+                    class="salsah-tab-item"
+                    [routerLink]="item.route"
+                    routerLinkActive="active">
+                <strong *ngIf="first">{{userProfile.userData.firstname + ' ' + userProfile.userData.lastname}}</strong>
+                {{item.name}}
+            </button>
+        </nav>
+        <!-- This fills the remaining space of the current row -->
+        <span class="fill-remaining-space"></span>
     </md-toolbar>
+
+    <div class="salsah-sub-module">
+
+        <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+
+        <!-- switch view; not with a second router-outlet, because of the direct (parent) routes like
+            "/settings", "/projects" and "/collections
+        -->
+
+        <salsah-user-projects *ngIf="route === '/projects'" [user]="userProfile"></salsah-user-projects>
+        <salsah-user-collections *ngIf="route === '/collections'" [user]="userProfile"></salsah-user-collections>
+        <salsah-user-settings *ngIf="route === '/settings'" [user]="userProfile"></salsah-user-settings>
+        <salsah-user-profile *ngIf="route === '/profile'" [user]="userProfile"></salsah-user-profile>
+
+    </div>
+
+</div>
+<!-- if ownProfile is not defined; show the users profile defined in the route /user/[username: email] -->
+
+<div class="salsah-module without-header" *ngIf="!showOwnProfile && !errorMessage">
+    <!--
+    <router-outlet></router-outlet>
+    -->
+    <salsah-user-profile [user]="userProfile"></salsah-user-profile>
 
 </div>
 
-<router-outlet (tabRequest)="activateTab($event)"></router-outlet>
+<salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+

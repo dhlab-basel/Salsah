@@ -1,8 +1,14 @@
+<!-- documentation menu first -->
 <!--
     toolbar menu on the top right corner;
     only visible if the session is valid
 -->
 <div *ngIf="userName">
+    <span class="salsah-menu-button help-menu">
+        <button md-icon-button routerLink="/documentation">
+            <md-icon>help_outline</md-icon>
+        </button>
+    </span>
     <!-- add menu -->
     <span class="salsah-menu-button add-menu">
         <button md-icon-button (click)="toggleMenu('addMenu')">
@@ -15,14 +21,14 @@
         <span class="salsah-menu-title">
             {{addMenuTitle}}
         </span>
-            <span class="salsah-menu-action">
+        <span class="salsah-menu-action">
             <button md-icon-button (click)="toggleMenu('addMenu')">
                 <md-icon>close</md-icon>
             </button>
         </span>
         </div>
         <!-- menu items -->
-        <md-grid-list cols="3" gutterSize="2px">
+        <md-grid-list cols="3" gutterSize="6px" >
             <md-grid-tile *ngFor="let item of addMenu">
                 <button md-button [routerLink]="item.route" (click)="toggleMenu('addMenu')">
                     <md-icon>{{item.icon}}</md-icon>
@@ -43,17 +49,17 @@
     <div class="salsah-menu user-menu" [@userMenu]="focusOnUserMenu">
         <!-- first line: user name and close button -->
         <div class="salsah-menu-header">
-        <span class="salsah-menu-title">
-            {{userName}}
-        </span>
+            <span class="salsah-menu-title">
+                {{userName}}
+            </span>
             <span class="salsah-menu-action">
-            <button md-icon-button (click)="toggleMenu('userMenu')">
-                <md-icon>close</md-icon>
-            </button>
-        </span>
+                <button md-icon-button (click)="toggleMenu('userMenu')">
+                    <md-icon>close</md-icon>
+                </button>
+            </span>
         </div>
         <!-- menu items -->
-        <md-grid-list cols="3" gutterSize="2px">
+        <md-grid-list cols="3" gutterSize="6px">
             <md-grid-tile *ngFor="let item of userMenu">
                 <button md-button [routerLink]="item.route" (click)="toggleMenu('userMenu')">
                     <md-icon>{{item.icon}}</md-icon>
@@ -62,13 +68,23 @@
                 </button>
             </md-grid-tile>
         </md-grid-list>
+        <div class="salsah-menu-footer">
+            <button md-button class="salsah-menu-action-logout" routerLink="/logout" (click)="toggleMenu('userMenu')">
+                <md-icon>power_settings_new</md-icon> Logout
+            </button>
+        </div>
     </div>
 </div>
 
 
 <!-- else: show show the login button only -->
 <div *ngIf="userName === undefined">
-    <button md-raised-button routerLink="/login" mdTooltip="Login"
+    <span class="salsah-menu-button help-menu">
+        <button md-icon-button routerLink="/documentation">
+            <md-icon>help_outline</md-icon>
+        </button>
+    </span>
+    <button md-raised-button (click)="goToLoginPage()" mdTooltip="Login"
             mdTooltipPosition="below" class="mat-primary">
         Log In
     </button>

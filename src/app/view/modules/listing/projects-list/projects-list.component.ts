@@ -13,12 +13,12 @@
  * */
 
 import {Component, OnInit, Input} from '@angular/core';
-import {ProjectsList} from "../../../../model/classes/projects";
-import {ProjectsService} from "../../../../model/api/projects.service";
 import {Router} from "@angular/router";
-import {UserData} from "../../../../model/classes/user-profile";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {ProjectsService} from "../../../../model/services/projects.service";
+import {ProjectsList, ProjectItem, UserProfile} from "../../../../model/webapi/knora/";
+
 
 @Component({
     selector: 'salsah-projects-list',
@@ -31,9 +31,10 @@ export class ProjectsListComponent implements OnInit {
 
     errorMessage: any = undefined;
 
-    projects: ProjectsList = new ProjectsList();
+    projects: ProjectItem[] = [];
 
-    @Input('user') user: string;
+
+    @Input('projects') inputProjects: ProjectItem[];
 
     constructor(
         private _router: Router,
@@ -42,12 +43,11 @@ export class ProjectsListComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        if(this.user === undefined) {
+        if(this.inputProjects === null || this.inputProjects === undefined) {
             this._projectsService.getAllProjects()
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.projects = result.getBody();
+                        this.projects = result.getBody(ProjectsList).projects;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -57,6 +57,9 @@ export class ProjectsListComponent implements OnInit {
                 );
         }
         else {
+//            this.user = JSON.parse(localStorage.getItem('ownProfile'));
+            this.projects = this.inputProjects;
+            this.isLoading = false;
             // get only the projects of the current user....
             // this._projectsService.getUsersProjects()
 /*
@@ -78,7 +81,7 @@ export class ProjectsListComponent implements OnInit {
     }
 
     openProject(id: string) {
-        localStorage.removeItem('project');
+        localStorage.removeItem('currentProject');
         this._router.navigate(['/project/', id]);
     }
 

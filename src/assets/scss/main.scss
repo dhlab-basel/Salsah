@@ -71,10 +71,10 @@ body {
 //
 // general elements
 .salsah-error {
-    color: orangered;
+    color: $error;
 }
 .salsah-warning {
-    color: indianred;
+    color: $warning;
 }
 .salsah-note {
     background-color: lightgoldenrodyellow;
@@ -96,6 +96,10 @@ body {
     }
 }
 
+.highlight:hover {
+    background-color: darken($bright, 25%);
+}
+
 .salsah-avatar-image {
     border-radius: 50%;
 }
@@ -107,8 +111,15 @@ body {
 .show {
     display: block;
 }
+.mute, .inactive {
+    color: darken($bright, 50%);
+}
 .hide {
     display: none;
+}
+
+.transparent {
+    background: none;
 }
 
 .half-width {

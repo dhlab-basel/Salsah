@@ -15,20 +15,84 @@ input[type="search"] {
 input[type="file"] {
     display: none;
 }
-//
-//
-md-dialog-container.mat-dialog-container {
-    min-height: 480px;
-    width: 420px;
+
+input, textarea {
+    max-width: 640px;
+    width: 100%;
 }
-.salsah-form {
-    .mat-dialog-container, .mat-dialog-container section {
-        min-height: 480px;
+
+md-dialog-container.mat-dialog-container {
+    min-width: 560px;
+
+    .mat-dialog-title {
+
     }
+
+    .mat-dialog-content {
+//        overflow-x: hidden;
+//        overflow-y: auto;
+        border-bottom: 2px solid rgba(0,0,0,0.1);
+
+        section {
+            padding: 24px;
+        }
+
+    }
+
+    .mat-dialog-actions {
+
+    }
+
+}
+
+
+.salsah-form {
+
+    .mat-input-container {
+        margin-bottom: 24px;
+    }
+
     &.new-user {
         md-input-container {
             margin-top: 12px;
             margin-bottom: 12px;
+        }
+    }
+
+    &.new-resource-class {
+
+    }
+
+    label {
+
+    }
+
+    .form-grid {
+        button {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+
+}
+
+
+.form-table {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    border-spacing: 0;
+    td, th {
+        padding: 12px;
+        text-align: center;
+        &.left {
+            text-align: left;
+        }
+        &.right {
+            text-align: right;
+        }
+        &.center {
+            text-align: center;
         }
     }
 }
@@ -37,11 +101,6 @@ md-dialog-container.mat-dialog-container {
     .mat-icon {
         margin-right: 12px;
     }
-}
-
-input, textarea {
-    max-width: 640px;
-    width: 100%;
 }
 
 div.file-upload-zone {
@@ -66,6 +125,77 @@ div.file-upload-zone {
 
 }
 
+// own checkbox element
+div.salsah-checkbox {
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    margin-left: -24px;
+
+    input[type="checkbox"] {
+        visibility: hidden;
+        width: 24px;
+        height: 24px;
+    }
+
+    label {
+        cursor: pointer;
+        height: 48px;
+        span {
+            display: inline-flex;
+            &.checkbox-label {
+                margin-top: 12px;
+                color: darken($bright, 50%);
+            }
+            &.checkbox-fake {
+                position: relative;
+                width: 21px;
+                height: 21px;
+                top: -12px;
+                left: -12px;
+                background: none;
+                border: 2px solid darken($bright, 50%);
+                border-radius: 2px;
+                &:after {
+                    opacity: 0.2;
+                    content: '';
+                    position: relative;
+                    width: 12px;
+                    height: 5px;
+                    background: transparent;
+                    top: 5px;
+                    left: 4px;
+                    border: 2px solid $bright;
+                    border-top: none;
+                    border-right: none;
+
+                    transform: rotate(-45deg);
+                }
+                :hover::after {
+                    opacity: 0.5;
+                }
+            }
+        }
+
+    &.checked {
+        span.checkbox-fake {
+            background-color: $primary;
+            border-color: $primary;
+            &:after {
+                opacity: 1;
+            }
+        }
+        span.checkbox-label {
+            color: currentColor;
+        }
+    }
+
+    }
+
+
+
+
+}
 
 
 .file-upload-wrapper {
@@ -78,10 +208,44 @@ div.file-upload-zone {
 
 
 .search-panel {
+    display: inline-flex;
     width: $search-width;
     height: 40px;
     border-radius: 4px;
     background-color: white;
+    div {
+        display: inline-block;
+
+        &.input-field {
+            flex: 1;
+            input {
+                width: $search-width - (2 * 40px);
+                height: 38px;
+                position: absolute;
+                font-size: 14pt;
+                border: none;
+                &:active,
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+        button.prefix, button.suffix {
+            border: none;
+            outline: none;
+            border-radius: 3px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            background-color: transparent;
+            //        color: rgb(33,33,33);
+            color: rgba(0, 0, 0, 0.38);
+            position: relative;
+            &:active {
+                color: rgb(81,81,81);
+            }
+        }
+    }
     //    padding: 2px;
     &.small {
         //        width: 560px;
@@ -94,38 +258,5 @@ div.file-upload-zone {
         border-bottom: 2px solid $bright;
     }
 
-    input {
-        width: $search-width - (2 * 40px);
-        height: 38px;
-        position: absolute;
-        font-size: 14pt;
-        border: none;
-        &:active,
-        &:focus {
-            outline: none;
-        }
-    }
-
-    button.prefix, button.suffix {
-        border: none;
-        outline: none;
-        border-radius: 3px;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        background-color: transparent;
-        //        color: rgb(33,33,33);
-        color: rgba(0, 0, 0, 0.38);
-        position: relative;
-        &:active {
-            color: rgb(81,81,81);
-        }
-    }
-    button.prefix {
-
-    }
-    button.suffix {
-        float: right;
-    }
 }
 

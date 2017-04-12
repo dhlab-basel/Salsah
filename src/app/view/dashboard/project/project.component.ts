@@ -14,11 +14,10 @@
 
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, Params} from "@angular/router";
-import {ProjectsService} from "../../../model/api/projects.service";
-import {Project} from "../../../model/classes/projects";
-import {ApiServiceResult} from "../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../model/api/api-service-error";
-import {SessionService} from "../../../model/api/session.service";
+import {ApiServiceResult} from "../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../model/services/api-service-error";
+import {ProjectsService} from "../../../model/services/projects.service";
+import {Project} from "../../../model/webapi/knora";
 
 @Component({
     selector: 'salsah-project',
@@ -80,13 +79,13 @@ export class ProjectComponent implements OnInit {
                     (result: ApiServiceResult) => {
                         this.project = result.getBody(Project);
                         this.isLoading = false;
-                        localStorage.setItem('project', JSON.stringify(
+                        localStorage.setItem('currentProject', JSON.stringify(
                             this.project.project_info
                         ))
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
-                        localStorage.removeItem('project');
+                        localStorage.removeItem('currentProject');
                     }
                 );
 

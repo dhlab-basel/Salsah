@@ -14,73 +14,158 @@
 
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
-import {BaseOntologyService} from "../../../../model/base-ontology-test/base-ontology.service";
-import {BaseOntology} from "../../../../model/base-ontology-test/base-ontology";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
+import {BaseOntology, PropertyObject, ResourceClass} from "../../../../model/test-data/base-ontology";
+
 
 @Component({
     selector: 'salsah-resource-class-form',
     templateUrl: './resource-class-form.component.html',
     styleUrls: ['./resource-class-form.component.css']
 })
+
 export class ResourceClassFormComponent implements OnInit {
 
     errorMessage: any;
 
-    knoraBase: BaseOntology = new BaseOntology;
+    // data from the server
+    baseOntology: BaseOntology = new BaseOntology();
 
-    resourceTypes: any = undefined;
+    // result to send to the server
+    newResource: ResourceClass = new ResourceClass();
 
-    private counter: number = 0;
-    public newResource: any;
-    public props: any;
-    public perm: any;
-    public card: any;
-    public cardlabel: any;
-
-    //selector of permissions
-    perms = [
-        {id: 'perm-0', label: 'group 1'},
-        {id: 'perm-1', label: 'group 2'},
-        {id: 'perm-2', label: 'group 3'},
-        {id: 'perm-3', label: 'group 4'}
+    // how many steps has the form?
+    max_steps: number = 5;
+    // or define an array of steps
+    steps: string[] = [
+        "Resource type",
+        "Resource",
+        "Properties",
+        "Permissions",
+        "Save"
     ];
 
-    cardinality = [
-        {id: 'card-0', label: '1'},
-        {id: 'card-1', label: '1 - n'},
-        {id: 'card-2', label: '0 - 1'},
-        {id: 'card-3', label: '0 - n'}
+    counter: number = 0;
+
+    permissions: any = {
+        "categories": [
+            {
+                id: "none",
+                label: "no permission",
+                description: ""
+            },
+            {
+                id: "read",
+                label: "Read only",
+                description: ""
+            },
+            {
+                id: "comment",
+                label: "Comment",
+                description: ""
+            },
+            {
+                id: "edit",
+                label: "Edit",
+                description: ""
+            },
+            {
+                id: "delete",
+                label: "Delete",
+                description: ""
+            }
+
+        ],
+        "groups": [
+            {
+                id: "everyone",
+                label: "Everyone",
+                description: "Every visitor (without login)"
+            },
+            {
+                id: "guest",
+                label: "User",
+                description: "Logged in user and not a member of the project"
+            },
+            {
+                id: "member",
+                label: "Member",
+                description: "Logged in user and member of the project"
+            },
+            {
+                id: "admin",
+                label: "Admin",
+                description: "Logged in user and admin of the project"
+            }
+        ]
+    };
+
+
+    //selector of cardinality (referred to as occurrence in the GUI)
+    cardinalityList: string[] = [
+        "1",
+        "1-n",
+        "0-1",
+        "0-n"
     ];
-
-
 
     constructor(public dialog: MdDialog,
                 private _baseOntologyService: BaseOntologyService) {
     }
 
     ngOnInit() {
-        this._baseOntologyService.getData()
+
+        this.newResource.id = undefined;
+
+        this._baseOntologyService.getBaseOntology()
             .subscribe(
-                data => {
-                    console.log(data);
-                    this.knoraBase = data;
-                    this.resourceTypes = data.resourcetypes;
+                (result: ApiServiceResult) => {
+                    this.baseOntology = result.getBody(BaseOntology);
                 },
-                error => {
+                (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
             );
-
     }
 
-
     //form functions
-    onSubmit(uf: any): void {
-        console.log('you submitted value:', uf);
+    onSubmit(data: any): void {
+        console.log('you submitted value:', data);
+        console.log('your new resource is:', this.newResource);
         this.dialog.closeAll();
     }
 
-    nextFormSection(cntr: number, e) {
+    nextFormSection(cntr: number, e, resClassId?: string) {
+
+//        console.log(this.baseOntology);
+//        console.log(this.newResource);
+
+        if(resClassId && cntr === 0) {
+            //get the properties for this resClass
+
+            this.newResource = this.baseOntology.resourceClasses[resClassId];
+
+            this.newResource.id = resClassId;
+
+            for(let rcProp in this.baseOntology.resourceClasses[resClassId].properties) {
+                this.newResource.properties[rcProp].permissions = this.baseOntology.defaultPermissions;
+            }
+
+            // add all default properties to the new resource properties
+            for(let prop in this.baseOntology.defaultProperties) {
+                this.newResource.properties[prop] = this.baseOntology.defaultProperties[prop];
+                this.newResource.properties[prop].permissions = this.baseOntology.defaultPermissions;
+            }
+
+
+            // set the resource default permissions:
+            this.newResource.permissions = this.baseOntology.defaultPermissions;
+            //console.log(this.newResource);
+
+        }
+
         e.preventDefault();
         // show the next section
         this.counter = cntr + 1;
@@ -92,6 +177,31 @@ export class ResourceClassFormComponent implements OnInit {
         this.counter = cntr - 1;
     }
 
+    setPerm(property: PropertyObject, group: any, pf: any, event) {
+        console.log(property);
+        console.log(group);
+        console.log(pf);
+        console.log(event);
+    }
+
+
+    setProp(property: PropertyObject, event) {
+
+        if(event.target.checked === true) {
+            this.newResource.properties[property.key] = property.value;
+        }
+        else {
+
+            let i: number = 0;
+            for (let prop in this.newResource.properties) {
+                if(prop === property.key) {
+//                    this.newResource.properties.splice(i, 1); // <-- this solution is not working ;(
+                    this.newResource.properties[property.key] = undefined;
+                }
+                i++;
+            }
+
+        }
+    }
 
 }
-

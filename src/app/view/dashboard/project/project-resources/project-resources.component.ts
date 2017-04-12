@@ -14,14 +14,13 @@
 
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
-import {ResourceTypesService} from "../../../../model/api/resource-types.service";
-import {ResourceTypes} from "../../../../model/classes/resource-types";
-import {ProjectItem} from "../../../../model/classes/projects";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
-import {PropertiesService} from "../../../../model/api/properties.service";
-import {Properties} from "../../../../model/classes/properties";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ResourceTypesService} from "../../../../model/services/resource-types.service";
+import {PropertiesService} from "../../../../model/services/properties.service";
+import {ProjectItem, ResourceTypes, Properties} from "../../../../model/webapi/knora";
+
 
 @Component({
     selector: 'salsah-project-resources',
@@ -31,6 +30,7 @@ import {ApiServiceError} from "../../../../model/api/api-service-error";
 export class ProjectResourcesComponent implements OnInit {
 
     isLoading: boolean = true;
+    isLoadingSubModule: boolean = true;
     errorMessage: string = undefined;
 
     selectedRow: number;
@@ -56,12 +56,11 @@ export class ProjectResourcesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.project = JSON.parse(localStorage.getItem('project'));
+        this.project = JSON.parse(localStorage.getItem('currentProject'));
         this._resourceTypesService.getResourceTypes(this.project.ontologyNamedGraph)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.resourceTypes = result.getBody(ResourceTypes);
-
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
@@ -69,6 +68,8 @@ export class ProjectResourcesComponent implements OnInit {
                     this.isLoading = false;
                 }
             );
+        // Develop test: open the dialog box for new resources directly on the start
+        this.addNewResourceClass();
     }
 
 
@@ -82,15 +83,18 @@ export class ProjectResourcesComponent implements OnInit {
 
     openResourceClass(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
+        this.isLoadingSubModule = true;
 
         this._propertiesService.getPropertiesByResType(id)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.properties = result.getBody(Properties);
                     this.selectedRow = index;
+                    this.isLoadingSubModule = false;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
+                    this.isLoadingSubModule = false;
                 }
             );
     }

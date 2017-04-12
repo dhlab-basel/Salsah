@@ -14,7 +14,7 @@
                     [routerLink]="projectRoute"
                     [ngClass]="firstTabClass"
                     (click)="enableFirstTab()">
-                <strong>{{cur_project}}</strong>
+                <strong>{{cur_project | uppercase}}</strong>
             </button>
             <button *ngFor="let item of menu; let i = index; let first=first"
                     md-button

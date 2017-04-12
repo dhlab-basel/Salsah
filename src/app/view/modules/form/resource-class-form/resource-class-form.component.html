@@ -1,82 +1,213 @@
-<form class="salsah-form resource-class" #uf="ngForm" (ngSubmit)="onSubmit(uf.value, uf.valid)">
+<!-- this form has a multi-step form interface
+    it will be displayed in dialog card box -->
 
-    <md-dialog-content>
-        <!-- Step 1: Select resource type from a list of resources taken directly from the Knora base ontology (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
-        <section [ngClass]="{show: counter===0, hide: counter!==0}">
-            <h3>What file type do you like to add?</h3><br>
-            <md-select placeholder="Resource class" [(ngModel)]="newResource" name="resource">
-                <md-option class="resource-group" *ngFor="let res of knoraBase?.resourcetypes" [value]="res.label">
-                    {{res.label}}
-                </md-option>
-                <!-- the last selection is to create a new (missing) file type option --does nothing for the moment -->
-                <md-option class="resource-button" value="newResType">
-                    <span><hr/>New File Type</span> <!-- (perhaps you have to ask the Knora team first) -->
-                </md-option>
-            </md-select>
-            <p class="resource-value">You selected: <strong>{{newResource}}</strong></p>
+<!-- the dialog title is always the same; It stays fixed to the top of the dialog -->
+<div md-dialog-title>
+    <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
+</div>
+
+
+<!-- the sub forms of the main form are in th dialog content area; the content will change, step by step -->
+<div md-dialog-content>
+
+        <!-- Step 0: Select resource type from a list of resources taken directly from the Knora base ontology
+            (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
+        <section [hidden]="counter!==0">
+            <p md-subheader>Select your media file type</p>
+            <md-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
+                <md-grid-tile *ngFor="let item of baseOntology?.resourceClasses | key; let i = index;">
+                    <button md-button [mdTooltip]="item.value.description" mdTooltipPosition="above"
+                            (click)="nextFormSection(counter, $event, item.key)">
+                        <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>
+                        {{item.value.label}}
+                    </button>
+                </md-grid-tile>
+            </md-grid-list>
+        </section>
+
+        <!-- Step 1: Define your new resource: name it, describe it and set the permissions for the whole resource -->
+        <section *ngIf="newResource.id" [hidden]="counter!==1">
+            <!-- <p md-header>Define your new resource object <strong>{{newResource.label}}</strong></p> -->
+            <form #resource="ngForm" class="salsah-form">
+
+                <!-- resource label -->
+                <md-input-container class="full-width"
+                                    dividerColor="{{ !newResource.label ? 'warn' : 'primary' }}">
+                    <input mdInput
+                           placeholder="Resource name *"
+                           name="label"
+                           [(ngModel)]="newResource.label">
+                    <md-hint class="salsah-hint">
+                        <span [hidden]="newResource.label" class="salsah-error">This information is required!</span>
+                    </md-hint>
+                </md-input-container>
+
+                <!-- resource description -->
+                <md-input-container class="full-width">
+                    <textarea mdInput
+                           placeholder="Resource description"
+                           name="description"
+                           [(ngModel)]="newResource.description"
+                           cols="30" rows="5">
+                    </textarea>
+                </md-input-container>
+
+                <!-- resource icon; disabled at the moment -->
+                <md-input-container class="full-width"
+                                    dividerColor="{{ !newResource.icon ? 'warn' : 'primary' }}">
+                    <span mdPrefix><md-icon>{{newResource.icon}}</md-icon></span>
+
+                    <input mdInput
+                           placeholder="Resource icon *"
+
+                           name="icon"
+                           [(ngModel)]="newResource.icon">
+                    <md-hint class="salsah-hint">
+                        <span [hidden]="newResource.icon" class="salsah-error">This information is required!</span>
+                    </md-hint>
+                </md-input-container>
+
+                <!-- resource permission -->
+                <p md-subheader>Resource Permissions</p>
+                <table class="full-width">
+                    <tr>
+                        <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
+                            {{group.label}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td *ngFor="let group of permissions.groups; let i = index">
+                            <md-select [(ngModel)]="newResource.permissions[group.id]" [name]="group.id">
+                                <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
+                                    {{cat.label}}
+                                </md-option>
+                            </md-select>
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
         </section>
 
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
-        <section [ngClass]="{show: counter===1, hide: counter!==1}">
-            <h3>Select properties for {{newResource}}</h3>
-            <div *ngFor="let res of knoraBase?.resourcetypes">
-                <div *ngIf="res.label==newResource">
-                    <md-list *ngFor="let props of res.properties">
-                        <!-- the properties with cardinality 1 or 1 - n are selected by default-->
-                        <md-checkbox *ngIf="props.cardinality == '1' || props.cardinality == '1 - n'"
-                                     [checked]="true"
-                                     [(ngModel)]="props.cardinality"
-                                     [ngModelOptions]="{standalone: true}">
-                            {{props.label}}
-                        </md-checkbox>
-                        <md-checkbox *ngIf="props.cardinality == '0 - 1' || props.cardinality == '0 - n' || props.cardinality == false"
-                                     color="primary"
-                                     [(ngModel)]="props.checked"
-                                     [ngModelOptions]="{standalone: true}">
-                            {{props.label}}
-                        </md-checkbox>
-                    </md-list>
-                </div>
-            </div>
-        </section>
+        <section *ngIf="newResource.id" [hidden]="counter!==2">
+            <form #properties="ngForm" class="salsah-form">
+                <p md-subheader>Select properties for </p>
+                <md-list>
 
-        <!-- Step 3: Confirm your selection -->
-        <section [ngClass]="{show: counter===2, hide: counter!==2}">
-            <h3>You selected:</h3>
-            <div *ngFor="let res of knoraBase?.resourcetypes">
-                <div *ngIf="res.label==newResource">
-                    <i>Resource type:</i>
-                    <br>
-                    <b>{{res.label}}</b>
-                    <br><br>
-                    <i>Resource properties:</i>
-                    <div *ngFor="let props of res.properties" >
-                        <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
-                            <b> {{props.label}} </b>
+                    <!-- 2b) additional resource class specific properties -->
+                    <md-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
+                        <div class="salsah-checkbox">
+                            <input type="checkbox"
+                                   [id]="prop.key"
+                                   [value]="prop.key"
+                                   [checked]="prop.value"
+                                   (change)="setProp(prop, $event)">
+                            <label [for]="prop.key" class="fill-remaining-space" [class.checked]="newResource.properties[prop.key] !== undefined">
+                                <span class="checkbox-fake"></span>
+                                <span class="checkbox-label">{{prop.value.label}}</span>
+                            </label>
                         </div>
-                    </div>
-                </div>
-            </div>
+
+                        <!--
+                        <md-checkbox *ngIf="prop.value.cardinality === '1' || prop.value.cardinality === '1-n'"
+                                     [id]="prop.key"
+                                     [ngModel]="prop.key"
+                                     [checked]="true"
+                                     [name]="'prop_' + i">
+                            <label [for]="prop.key" class="full-width">{{prop.value.label}}<span ></span></label>
+                        </md-checkbox>
+
+                        <md-checkbox *ngIf="prop.value.cardinality === '0-1' || prop.value.cardinality === '0-n' || prop.value.cardinality === false"
+                                     color="primary"
+                                     [ngModel]="prop.key"
+                                     [checked]="false"
+                                     [name]="'prop_' + i">
+                            {{prop.value.label}}
+                        </md-checkbox>
+                        -->
+                        <!-- the properties on the left side are followed by their cardinality settings on the right side -->
+
+                        <md-select *ngIf="newResource.properties[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="newResource.properties[prop.key].cardinality">
+                            <md-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
+                                {{cardinality}}
+                            </md-option>
+                        </md-select>
+
+                    </md-list-item>
+                </md-list>
+            </form>
         </section>
 
-        <!-- Step 4: Set permissions for each property -->
-        <section [ngClass]="{show: counter===3, hide: counter!==3}">
-            <h3>Choose the properties' permissions</h3>
-            <div *ngFor="let res of knoraBase?.resourcetypes">
+        <!-- Step 3: Set permissions for each property -->
+        <section [hidden]="counter!==3">
+            <form #permission="ngForm" class="salsah-form">
+                <p md-subheader>Set the permissions for the selected properties</p>
+                <table class="full-width form-table">
+                    <thead><tr>
+                        <th width="36px" class="center">n</th>
+                        <th style="text-align:left">Property</th>
+                        <th *ngFor="let group of permissions.groups">
+                            {{group.label}}
+                        </th>
+                    </tr></thead>
+
+
+
+                    <tbody *ngFor="let prop of newResource.properties | key; let i = index">
+                        <tr  class="link highlight" *ngIf="newResource.properties[prop.key] !== undefined" style="height: 48px">
+
+                            <td width="36px">({{prop.value.cardinality}})</td>
+
+                            <td style="text-align:left"><strong>{{prop.value.label}}</strong></td>
+
+                            <td *ngFor="let grp of permissions?.groups; let j = index">
+                                <md-select [ngModel]="permissions?.categories[j + 1]?.id"
+                                           (ngModel)="newResource.properties[prop.key]?.permissions[grp.id]"
+                                           [name]="grp.id + '_' + i"
+                                           (change)="setPerm(prop, grp, permission, $event)">
+                                    <md-option *ngFor="let cat of permissions.categories" [value]="cat.id">
+                                        {{cat.label}}
+                                    </md-option>
+                                </md-select>
+                            </td>
+
+                            <!--
+                            <td *ngFor="let permCat of permissions.categories; let i = index">
+                                <md-select [(ngModel)]="permissions.groups[i].id" [name]="permCat.id">
+                                    <md-option *ngFor="let permGrp of permissions.groups" [value]="permGrp.id">
+                                        {{permGrp.label}}
+                                    </md-option>
+                                </md-select>
+                            </td>
+                            -->
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </section>
+
+        <!-- Step 4: Show a preview of the new resource -->
+        <section [hidden]="counter!==4">
+            <p md-subheader>Set the permissions for the selected properties</p>
+            <h3>Set property permissions and occurrence</h3>
+            <div *ngFor="let res of baseOntology?.resourcetypes">
                 <div *ngIf="res.label==newResource">
                     <div *ngFor="let props of res.properties">
                         <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
                             <table class="perm-style">
                                 <tr>
+                                    <!-- Property label -->
                                     <td width="150px">
-                                        <br><b> {{props.label}} </b> <br>
-                                        <small><small>(occurrence: {{props.cardinality}})</small></small>
+                                        <div><b> {{props.label}} </b> <br></div>
+                                        <!--<small><small>(occurrence: {{props.cardinality}})</small></small>-->
                                     </td>
+                                    <!-- Permissions setting -->
                                     <td width="150px">
                                         <md-select class="perm-style"
                                                    placeholder="Permissions"
                                                    required
-                                                   [(ngModel)]="props.perm" [name]="props.label" #permis="ngModel"  selected="group 1">
+                                                   [(ngModel)]="perms[0].label" [name]="props.label" #permis="ngModel"  selected="group 1">
                                             <md-option *ngFor="let perm of perms; let first of first" [value]="perm.label">
                                                 {{perm.label}}
                                             </md-option>
@@ -85,33 +216,13 @@
                                             <small><small>Permissions are required</small></small>
                                         </div>
                                     </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Step 5: Set cardinality for each property -->
-        <section [ngClass]="{show: counter===4, hide: counter!==4}">
-            <h3>Choose the properties' occurrence</h3>
-            <div *ngFor="let res of knoraBase?.resourcetypes">
-                <div *ngIf="res.label==newResource">
-                    <div *ngFor="let props of res.properties">
-                        <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
-                            <table class="perm-style">
-                                <tr>
-                                    <td width="150px">
-                                        <br><b> {{props.label}} </b> <br>
-                                      <!--  <small><small>occurrence label: {{props.cardlabel}}</small></small><br> -->
-                                    </td>
+                                    <!-- Occurrence setting -->
                                     <td width="150px">
                                         <md-select class="perm-style"
-                                                   placeholder="Occurrence"
+                                                   placeholder="{{props.cardinality}}"
                                                    required
                                                    [(ngModel)]="props.card" [name]="props.id" #cardis="ngModel">
-                                            <md-option *ngFor="let card of cardinality; let first=first" [value]="card.label" ng-selected="first">
+                                            <md-option *ngFor="let card of cardinality; let first=first" [value]="card.label" selected="card.label === '1 - n' ? true : (card.label === '1' ? true : false)">
                                                 {{card.label}}
                                             </md-option>
                                         </md-select>
@@ -126,50 +237,60 @@
                 </div>
             </div>
         </section>
-
-        <!-- Step 6: Make a comment and save -->
-        <section [ngClass]="{show: counter===5, hide: counter!==5}">
+        <!-- Step 5: Make a comment and save -->
+        <section [hidden]="counter!==5">
             <h3>Comments</h3>
             <md-input-container class="full-width">
                     <textarea mdInput placeholder="Comments" rows="8" name="userComments"
                               ngModel></textarea>
             </md-input-container>
         </section>
+    <form #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value, rcf.valid)" class="salsah-form">
+    </form>
+</div>
 
-    </md-dialog-content>
 
-    <md-dialog-actions>
 
+<!-- the dialog actions bar is always the same; It stays fixed to the bottom of the dialog -->
+<div md-dialog-actions>
+    <button md-button
+            md-dialog-close
+            class="cancel-button">
+        Cancel
+    </button>
+    <span class="fill-remaining-space"></span>
+
+    <span class="back">
         <button md-button
-                md-dialog-close
-                *ngIf="counter<6"
-                class="cancel-button">
-            Cancel
-        </button>
-        <span class="back">
-        <button md-button
-                *ngIf="counter<6 && counter >0"
+                *ngIf="counter < max_steps && counter > 0"
                 class="back-button"
                 (click)="prevFormSection(counter, $event)">
-            Back
+            <md-icon>keyboard_arrow_left</md-icon> Back
         </button>
     </span>
-        <span class="next">
-        <button md-button
-                *ngIf="counter<5"
-                class="next-button md-primary"
+
+    <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
+    <span class="next">
+        <button md-raised-button
+                [disabled]="!newResource.label"
+                *ngIf="counter < (max_steps - 1) && counter > 0"
+                class="next-button"
+                [color]="'primary'"
                 (click)="nextFormSection(counter, $event)">
-                        <!--[disabled]="!uf.valid"-->
-            Next
+            Next <md-icon>keyboard_arrow_right</md-icon>
         </button>
+        <!-- or -->
         <button type="submit"
                 md-raised-button
-                *ngIf="counter==5"
-                class="save-button md-primary">
-                <!--[disabled]="!uf.valid"-->
+                *ngIf="counter === (max_steps - 1)"
+                class="save-button"
+                color="primary"
+                (click)="onSubmit(rcf.value)"
+                [disabled]="!rcf.valid">
             Save
         </button>
     </span>
-    </md-dialog-actions>
 
-</form>
+</div>
+
+

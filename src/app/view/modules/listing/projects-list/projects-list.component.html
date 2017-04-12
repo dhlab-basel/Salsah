@@ -1,19 +1,16 @@
 <!-- this component has a loader element -->
 
 <md-list>
-    <h3 md-subheader>Public projects in Knora</h3>
+    <h3 md-subheader *ngIf="!inputProjects">Public projects in Knora</h3>
     <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
 
     <!-- progress indicator, until the data is ready -->
     <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
-    <md-list-item *ngFor="let item of projects?.projects" (click)="openProject(item.shortname)" class="salsah-link">
+    <md-list-item *ngFor="let item of projects" (click)="openProject(item.shortname)" class="salsah-link">
         <md-icon md-list-avatar>chrome_reader_mode</md-icon>
-        <h4 md-line>{{item.longname}}</h4>
-        <p md-line>{{item.description}}</p>
+        <h4 md-line>{{item.name}}</h4>
+        <div md-line [innerHtml]="item.description | slice:0:128"></div>
     </md-list-item>
 </md-list>
 
-<div *ngIf="user">
-    Here we want to list the users projects
-</div>

@@ -13,9 +13,9 @@ It is developed by the [Digital Humanities Lab](http://www.dhlab.unibas.ch/) at 
 
 Salsah is [free software](http://www.gnu.org/philosophy/free-sw.en.html), released under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.en.html).
 
-The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-rc.1 (will be updated from time to time!)
+The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0 (will be updated from time to time!)
 
-You will find more information about Salsah on: 
+You find more information about Salsah on: 
 
 **[https://dhlab-basel.github.io/Salsah/](https://dhlab-basel.github.io/Salsah/)**
 
@@ -28,11 +28,11 @@ If you're a developer and you want to improve the app, please have a look at the
 
 ### Prerequisites
 
-We're developing the Salsah app with Angular-cli, which requires [Node](https://nodejs.org/en/download/) 4 or higher with [NPM](https://www.npmjs.com) 4 or higher. Update NPM to the latest version with `npm install -g npm@latest` 
+We develop the Salsah app with Angular (v4), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) 6 or higher and [NPM](https://www.npmjs.com) 4 or higher. Update NPM to the latest version with `npm install -g npm@latest`.
 
 **Install [angular-cli](https://github.com/angular/angular-cli) globally**
 
-`npm install -g @angular/cli@1.0.0-rc.1`
+`npm install -g @angular/cli@1.0.0`
 
 If there are some permission issues, try to fix the writing rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`
 
@@ -44,24 +44,24 @@ After cloning the Salsah code, install the node packages from the Salsah root di
 ### Start the Salsah app
 With `ng serve` the Salsah app starts on [localhost:4200](http://localhost:4200)
 
-It could happen, that ng can't resolve some specific packages. In that case install angular-cli direct in the salsah app: 
-`npm install --save-dev @angular/cli@1.0.0-rc.1`
+It could happen, that ng can't resolve some specific packages. In that case the install process did not install the developer packages; install them with  
+`npm install --only=dev`
 
 
 If the installation or the start interrupts, please check our additional installation solution [here](https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/salsah2/installation/index.html#issues-with-angular-cli).
 
 
-#### Updating Salsah packages
+#### Update Salsah packages
 From time to time we grab the latest npm packages for Salsah. 
 We recommend to reinstall the packages with the following commands.
 
 ```
 rm -rf node_modules dist tmp
+npm install --only=dev
 npm install
-
 ```
 
-In any case of trouble, please also check the Angular-cli update process [here](https://github.com/angular/angular-cli#updating-angular-cli).
+In any case of trouble, please also check the Angular-cli update process [here](https://github.com/angular/angular-cli#updating-angular-cli). Normally the global installed angular-cli package needs an update too. 
 
 ### Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

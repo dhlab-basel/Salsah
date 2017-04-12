@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {Search} from "../../../../model/classes/search";
+import {Search} from "../../../../model/webapi/knora";
 
 @Component({
   selector: 'salsah-resource-grid-list',

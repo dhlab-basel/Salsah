@@ -12,20 +12,17 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {
-    Component, OnInit, Input, trigger, state, transition, style, animate, HostListener,
-    ElementRef
-} from '@angular/core';
-import {SessionService} from "../../../../model/api/session.service";
-import {Router} from "@angular/router";
-import {Authentication, Session} from "../../../../model/classes/session";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
-import {DashboardComponent} from "../../../dashboard/dashboard.component";
+import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
+import {Router, ActivatedRoute} from "@angular/router";
+import {SessionService} from "../../../../model/services/session.service";
 
-function getDocument(): any {
-    return document;
-}
+import {
+    trigger,
+    state,
+    style,
+    animate,
+    transition
+} from '@angular/animations';
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -34,40 +31,47 @@ function getDocument(): any {
     animations: [
         trigger('addMenu',
             [
-                state('false', style({display: 'none'})),
-                state('true', style({display: 'block'})),
-                transition('false => true', animate('500ms ease-in')),
-                transition('true => false', animate('500ms ease-out'))
+                state('inactive', style({display: 'none'})),
+                state('active', style({display: 'block'})),
+                transition('inactive => true', animate('100ms ease-in')),
+                transition('true => inactive', animate('100ms ease-out'))
             ]),
         trigger('userMenu',
             [
-                state('false', style({display: 'none'})),
-                state('true', style({display: 'block'})),
-                transition('false => true', animate('500ms ease-in')),
-                transition('true => false', animate('500ms ease-out'))
+                state('inactive', style({display: 'none'})),
+                state('active', style({display: 'block'})),
+                transition('inactive => true', animate('100ms ease-in')),
+                transition('true => inactive', animate('100ms ease-out'))
             ])
     ]
 })
 export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
-    auth: Authentication = new Authentication();
 
-    focusOnUserMenu: boolean = false;
-    focusOnAddMenu: boolean = false;
+    activeSession: boolean = false;
+
+    focusOnUserMenu: string = 'inactive';
+    focusOnAddMenu: string = 'inactive';
 
     constructor(private _eleRef: ElementRef,
+                private _route: ActivatedRoute,
+                private _router: Router,
                 private _sessionService: SessionService) {
+
     }
 
-    // check authentication: the session (from the api) should be valid and the local storage item "auth" as well
+    // check authentication: the session (from the services) should be valid and the local storage item "auth" as well
 
     // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
-        // check if the authentication is valid: there should be a local storage item called "auth"
-        this.auth = this._sessionService.checkAuth();
+        // check if the authentication is valid:
+        // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
+        this.activeSession = this._sessionService.checkSession();
 
-        if (this.auth !== null) this.userName = this.auth.userProfile.userData.email;
+        if (JSON.parse(localStorage.getItem('ownProfile'))) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
+
+
     }
 
     userMenu: any = [
@@ -82,41 +86,38 @@ export class HeaderToolbarComponent implements OnInit {
             route: '/collections'
         },
         {
-            title: 'Edit Profile',
+            title: 'Profile',
             icon: 'fingerprint',
+            route: '/profile'
+        },
+        {
+            title: 'Settings',
+            icon: 'settings',
             route: '/settings'
-        },
-        {
-            title: 'Documentation',
-            icon: 'chrome_reader_mode',
-            route: '/documentation'
-        },
-        {
-            title: 'Get Support',
-            icon: 'headset',
-            route: '/support'
-        },
-        {
-            title: 'Log out',
-            icon: 'power_settings_new',
-            route: '/logout'
         }
     ];
+    /*
+     {
+     title: 'Support',
+     icon: 'headset',
+     route: '/support'
+     },
+     */
 
     addMenuTitle: string = "Add some new stuff";
     addMenu: any = [
         {
-            title: 'New project',
+            title: 'Project',
             icon: 'create_new_folder',
             route: 'new'
         },
         {
-            title: 'New collection',
+            title: 'Collection',
             icon: 'library_add',
             route: 'collection/new'
         },
         {
-            title: 'New resource',
+            title: 'Resource',
             icon: 'note_add',
             route: 'add'
         }
@@ -127,21 +128,32 @@ export class HeaderToolbarComponent implements OnInit {
     @HostListener('document:click', ['$event'])
     public onClick(event) {
         if (!this._eleRef.nativeElement.contains(event.target)) {
-            if(this.focusOnUserMenu) this.toggleMenu('userMenu');
-            if(this.focusOnAddMenu) this.toggleMenu('addMenu');
+//            this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
+//            this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
+            if (this.focusOnUserMenu === 'active') this.focusOnUserMenu = 'inactive';
+            if (this.focusOnAddMenu === 'active') this.focusOnAddMenu = 'inactive';
         }
     }
 
     toggleMenu(name: string) {
-        switch(name) {
+        switch (name) {
             case 'userMenu':
-                this.focusOnUserMenu = (this.focusOnUserMenu === false);
-                this.focusOnAddMenu = false;
+                this.focusOnAddMenu = 'inactive';
+                this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
                 break;
             case 'addMenu':
-                this.focusOnAddMenu = (this.focusOnAddMenu === false);
+                this.focusOnUserMenu = 'inactive';
+                this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
                 break;
         }
+    }
+
+    goToLoginPage() {
+        let goToUrl: string = '/login';
+
+        if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
+
+        window.location.replace(goToUrl);
     }
 
 }

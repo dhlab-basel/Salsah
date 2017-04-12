@@ -15,9 +15,10 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {UserService} from "../../../../model/api/user.service";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {UserService} from "../../../../model/services/user.service";
+import {ProjectItem} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-user-form',
@@ -26,6 +27,7 @@ import {UserService} from "../../../../model/api/user.service";
 })
 export class UserFormComponent implements OnInit {
 
+    project: ProjectItem = new ProjectItem();
 
     uf: FormGroup;
 
@@ -37,14 +39,16 @@ export class UserFormComponent implements OnInit {
     public form: any = {        // TODO: modify a language json file or db file for multilingual use
         user: {
             title: 'Create a new user account',
-            firstName: 'First Name',
-            lastName: 'Last Name',
+            firstName: 'First name',
+            lastName: 'Last name',
             email: 'Email address',
             emailHint: 'This will be your login name',
             emailValidation: 'This doesn\'t appear to be a valid email address.',
             password: 'Password',
             passwordHint: 'Use at least 8 characters with one uppercase letter and one number.',
-            avatar: 'Upload a profile pic'
+            avatar: 'Upload a profile pic',
+            language: 'Default language',
+            admin: 'Project admin?'
         }
     };
 
@@ -52,14 +56,32 @@ export class UserFormComponent implements OnInit {
                 @Inject(FormBuilder) fb: FormBuilder,
                 public _userService: UserService) {
 
+        this.project = JSON.parse(localStorage.getItem('currentProject'));
+
+//        console.log(encodeURIComponent("http://rdfh.ch/users/NmqI97IkSr2PNUGVjApLUg"));
+
         this.uf = fb.group({
-            'firstName': ['', Validators.required],
-            'lastName': [null, Validators.required],
+            'givenName': [null, Validators.required],
+            'familyName': [null, Validators.required],
             'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
             'systemAdmin': false,
-            'lang': 'en'
+            'lang': 'en',
+            'status': true
         });
+
+        /* the services needs the following props:
+         {
+         "username": "",
+         "givenName": "",
+         "familyName": "",
+         "email": "",
+         "password": "",
+         "status": true,
+         "lang": "de",
+         "systemAdmin": false
+         }
+         */
 
     }
 
@@ -70,9 +92,16 @@ export class UserFormComponent implements OnInit {
     onSubmit(value: any): void {
         console.log('you submitted value: ', value);
 
-        this._userService.createUser(this.uf).subscribe(
+        this._userService.createUser(value).subscribe(
             (result: ApiServiceResult) => {
-                console.log(result);
+                console.log(result.body.userProfile.userData.user_id);
+                console.log(this.project.id);
+
+                // result.body.userProfile.userData.user_id
+                // this.project.id
+                // this._userService.addUserToProject()
+
+                this.dialog.closeAll();
             },
             (error: ApiServiceError) => {
                 console.log(error);
@@ -80,7 +109,7 @@ export class UserFormComponent implements OnInit {
         );
 
 
-        this.dialog.closeAll();
+
     }
 
 

@@ -36,7 +36,7 @@
 
         <!-- resource detail view on the right hand side -->
         <div  *ngIf="resource" class="salsah-module-detail" [ngClass]="position.detail">
-            <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+            <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
 
             <div class="salsah-module-detail-content">
                 <button md-icon-button (click)="closeDetailView()" class="right">

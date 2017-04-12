@@ -14,13 +14,12 @@
 
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
-import {ProjectsService} from "../../../../model/api/projects.service";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
-import {ProjectMembers, ProjectItem} from "../../../../model/classes/projects";
-import {UserService} from "../../../../model/api/user.service";
-import {User} from "../../../../model/classes/user-profile";
+import {ProjectsService} from "../../../../model/services/projects.service";
+import {UserService} from "../../../../model/services/user.service";
+import {ProjectMembers, ProjectItem, User} from "../../../../model/webapi/knora";
 
 @Component({
     selector: 'salsah-project-team',
@@ -30,6 +29,7 @@ import {User} from "../../../../model/classes/user-profile";
 export class ProjectTeamComponent implements OnInit {
 
     isLoading: boolean = true;
+    isLoadingSubModule: boolean = true;
     errorMessage: string = undefined;
 
     selectedRow: number;
@@ -56,7 +56,7 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.project = JSON.parse(localStorage.getItem('project'));
+        this.project = JSON.parse(localStorage.getItem('currentProject'));
 
         this._projectsService.getProjectMembers(this.project.shortname)
             .subscribe(
@@ -80,15 +80,15 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     openUser(id: string, index: number) {
-        this.isLoading = true;
         if (this.size === 'large') this.size = 'small';
+        this.isLoadingSubModule = true;
 
         this._userService.getUser(id)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.user = result.getBody(User);
                     this.selectedRow = index;
-                    this.isLoading = false;
+                    this.isLoadingSubModule = false;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;

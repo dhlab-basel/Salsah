@@ -12,7 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+
+import {UserProfile} from "../../../../model/webapi/knora/";
+import {ProjectFormComponent} from "../../../modules/form/project-form/project-form.component";
+import {MdDialog} from "@angular/material";
 
 @Component({
     selector: 'salsah-user-projects',
@@ -21,13 +25,24 @@ import {Component, OnInit} from '@angular/core';
 })
 export class UserProjectsComponent implements OnInit {
 
-    auth: any;
+    @Input('user') user: UserProfile;
 
-    constructor() {
+    ownProfile: UserProfile = JSON.parse(localStorage.getItem('ownProfile'));
+
+    constructor(public dialog: MdDialog) {
     }
 
     ngOnInit() {
-        this.auth = (JSON.parse(localStorage.getItem('auth')) ? JSON.parse(localStorage.getItem('auth')) : '');
+//        this.ownProfile = JSON.parse(localStorage.getItem('ownProfile'));
+
+    }
+
+    addNewProject() {
+        let dialogRef = this.dialog.open(ProjectFormComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+        });
     }
 
 }
+
