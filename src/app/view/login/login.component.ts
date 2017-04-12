@@ -16,8 +16,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ApiServiceResult} from "../../model/services/api-service-result";
 import {ApiServiceError} from "../../model/services/api-service-error";
-import {LoginService} from "../../model/services/login.service";
-import {Authenticate, Session, UserProfile} from "../../model/webapi/knora/";
+import {SessionService} from "../../model/services/session.service";
+import {Session, UserProfile} from "../../model/webapi/knora/";
+import {User} from "../../model/webapi/knora/v1/users/user";
+import {ProjectItem} from "../../model/webapi/knora/v1/projects/project-item";
 
 
 function getDocument(): any {
@@ -42,8 +44,8 @@ export class LoginComponent implements OnInit {
     loginErrorServer: boolean = false;
 
 //    session: Session = new Session();
-    userProfile: UserProfile = new UserProfile();
-    sessionId: string = undefined;
+//    userProfile: UserProfile = new UserProfile();
+//    sessionId: string = undefined;
 
     /*
      TODO: language packages: login
@@ -71,7 +73,7 @@ export class LoginComponent implements OnInit {
 
     constructor(
         private _route: ActivatedRoute,
-        private _loginService: LoginService) {
+        private _sessionService: SessionService) {
     }
 
     ngOnInit() {
@@ -80,27 +82,29 @@ export class LoginComponent implements OnInit {
 
     onSubmit(lf: any): void {
 
-
-        this._loginService.login(lf.email, lf.password)
+        this._sessionService.login(lf.email, lf.password)
             .subscribe(
                 (result: ApiServiceResult) => {
 
                     let session: Session = result.getBody(Session);
-                    this.userProfile = session.userProfile;
-                    this.sessionId = session.sid;
 
-                    getDocument().cookie = "sid=" + this.sessionId;
-                    getDocument().cookie = "KnoraAuthentication=" + this.sessionId;
+                    getDocument().cookie = "sid=" + session.sid;
+                    getDocument().cookie = "KnoraAuthentication=" + session.sid;
 
-                    localStorage.setItem('ownProfile', JSON.stringify(this.userProfile));
-
-                    for (let entry of this.userProfile.projects_info) {
-                        console.log(entry); // 1, "string", false
+                    // we had an issue to store the object array from projects_info; it was always empty
+                    // so let's create a "real" array of user's projects and add it again to the userProfile
+                    let usersProjects: ProjectItem[] = [];
+                    for (let k in session.userProfile.projects_info) {
+                        if (session.userProfile.projects_info.hasOwnProperty(k)) {
+                            console.log(session.userProfile.projects_info[k]);
+                            usersProjects.push(session.userProfile.projects_info[k]);
+                        }
                     }
+                    session.userProfile.projects_info = usersProjects;
 
-                    localStorage.setItem('ownProjects', JSON.stringify(this.userProfile.projects_info));
+                    // now we can store the userProfile as ownProfile locally
+                    localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
 
-                    //
                     // after successful login, we want to go back to the previous page e.g. search incl. query
                     // for this case, we stored the previous url parameters in the current login url as query params
                     //
@@ -131,6 +135,7 @@ export class LoginComponent implements OnInit {
                     this.errorMessage = <any>error;
                 }
             );
+
 /*
         this._loginService.login(lf.email, lf.password).subscribe(
             (result: ApiServiceResult) => {

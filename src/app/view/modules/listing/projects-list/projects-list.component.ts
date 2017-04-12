@@ -17,8 +17,7 @@ import {Router} from "@angular/router";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectsList} from "../../../../model/webapi/knora/";
-import {UserProfile} from "../../../../model/webapi/knora/";
+import {ProjectsList, ProjectItem, UserProfile} from "../../../../model/webapi/knora/";
 
 
 @Component({
@@ -32,7 +31,8 @@ export class ProjectsListComponent implements OnInit {
 
     errorMessage: any = undefined;
 
-    projects: ProjectsList = new ProjectsList();
+    projects: ProjectItem[] = [];
+
 
     @Input('user') user: UserProfile;
 
@@ -43,12 +43,11 @@ export class ProjectsListComponent implements OnInit {
     }
 
     ngOnInit() {
-
         if(this.user === null || this.user === undefined) {
             this._projectsService.getAllProjects()
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.projects = result.getBody(ProjectsList);
+                        this.projects = result.getBody(ProjectsList).projects;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -59,7 +58,7 @@ export class ProjectsListComponent implements OnInit {
         }
         else {
 //            this.user = JSON.parse(localStorage.getItem('ownProfile'));
-            console.log(this.user.projects_info);
+            this.projects = this.user.projects_info;
             this.isLoading = false;
             // get only the projects of the current user....
             // this._projectsService.getUsersProjects()

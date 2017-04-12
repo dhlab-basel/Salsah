@@ -13,6 +13,7 @@
  * */
 
 import {Injectable} from '@angular/core';
+import {Headers} from "@angular/http";
 import {Observable} from 'rxjs';
 
 import {ApiService} from './api.service';
@@ -102,6 +103,25 @@ export class SessionService extends ApiService {
 
         return activeSession;
     }
+
+    /**
+     * Tries to log in a user by email and password.
+     * Implicitely sets a cookie.
+     * @param email
+     * @param password
+     * @returns {Observable<any>}
+     */
+    login(email: string, password: string): Observable<any> {
+
+        // Create header for Basic Auth
+        let headers: Headers = new Headers();
+        headers.append("Authorization", "Basic " + btoa(email + ":" + password));
+
+        return this.httpPost("/session", {}, {headers: headers});
+
+    }
+
+
 
     /**
      *
