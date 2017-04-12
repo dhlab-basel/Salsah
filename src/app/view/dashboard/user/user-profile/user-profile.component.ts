@@ -31,6 +31,12 @@ export class UserProfileComponent implements OnInit {
 
     @Input('user') user: UserProfile;
 
+    developerInfo: any = {
+        title: "User profile dashboard",
+        description: "What should be in the user's dashboard? List of last edited instances? Social network?",
+        path: "dashboard/user/user-profile/"
+    };
+
     constructor(private _route: ActivatedRoute,
                 private _userService: UserService
     ) {

@@ -59,7 +59,7 @@
             </span>
         </div>
         <!-- menu items -->
-        <md-grid-list cols="2" gutterSize="6px">
+        <md-grid-list cols="3" gutterSize="6px">
             <md-grid-tile *ngFor="let item of userMenu">
                 <button md-button [routerLink]="item.route" (click)="toggleMenu('userMenu')">
                     <md-icon>{{item.icon}}</md-icon>

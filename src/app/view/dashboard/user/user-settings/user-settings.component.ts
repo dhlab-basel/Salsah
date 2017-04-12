@@ -25,6 +25,12 @@ export class UserSettingsComponent implements OnInit {
 
     @Input('user') user: UserProfile;
 
+    developerInfo: any = {
+        title: "User configuration form",
+        description: "Here should be a form to change user specific settings",
+        path: "dashboard/user/user-settings/"
+    };
+
     constructor(private _sessionService: SessionService) {
     }
 

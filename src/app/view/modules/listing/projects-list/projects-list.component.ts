@@ -34,7 +34,7 @@ export class ProjectsListComponent implements OnInit {
     projects: ProjectItem[] = [];
 
 
-    @Input('user') user: UserProfile;
+    @Input('projects') inputProjects: ProjectItem[];
 
     constructor(
         private _router: Router,
@@ -43,7 +43,7 @@ export class ProjectsListComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(this.user === null || this.user === undefined) {
+        if(this.inputProjects === null || this.inputProjects === undefined) {
             this._projectsService.getAllProjects()
                 .subscribe(
                     (result: ApiServiceResult) => {
@@ -58,7 +58,7 @@ export class ProjectsListComponent implements OnInit {
         }
         else {
 //            this.user = JSON.parse(localStorage.getItem('ownProfile'));
-            this.projects = this.user.projects_info;
+            this.projects = this.inputProjects;
             this.isLoading = false;
             // get only the projects of the current user....
             // this._projectsService.getUsersProjects()

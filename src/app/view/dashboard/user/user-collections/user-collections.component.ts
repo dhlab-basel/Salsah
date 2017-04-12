@@ -16,17 +16,22 @@ import {Component, Input, OnInit} from '@angular/core';
 import {UserProfile} from "../../../../model/webapi/knora/";
 
 @Component({
-  selector: 'salsah-user-collections',
-  templateUrl: './user-collections.component.html',
-  styleUrls: ['./user-collections.component.css']
+    selector: 'salsah-user-collections',
+    templateUrl: './user-collections.component.html',
+    styleUrls: ['./user-collections.component.css']
 })
 export class UserCollectionsComponent implements OnInit {
 
-  @Input('user') user: UserProfile;
+    @Input('user') user: UserProfile;
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
+
+    addNewCollection() {
+
+    }
 }

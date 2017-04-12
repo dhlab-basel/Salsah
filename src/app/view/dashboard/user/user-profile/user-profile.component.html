@@ -1,6 +1,10 @@
-
 <div class="salsah-module-content">
-  This will be the user profile dashboard for: <strong>{{user?.userData?.firstname}} {{user?.userData?.lastname}}</strong>
-  <br>It's the personal (/profile) but also public (/user/[uid]) dashboard; the uid is the user's email
-  <br>
+  <h2 md-header>User profile: {{user?.userData?.firstname}} {{user?.userData?.lastname}}</h2>
+
+
+  <!-- a hint for developers -->
+  <salsah-developer-hint [message]="developerInfo"></salsah-developer-hint>
+  <!-- /end of developer hint -->
+
+
 </div>

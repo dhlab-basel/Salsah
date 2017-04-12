@@ -15,6 +15,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 import {UserProfile} from "../../../../model/webapi/knora/";
+import {ProjectFormComponent} from "../../../modules/form/project-form/project-form.component";
+import {MdDialog} from "@angular/material";
 
 @Component({
     selector: 'salsah-user-projects',
@@ -27,7 +29,7 @@ export class UserProjectsComponent implements OnInit {
 
     ownProfile: UserProfile = JSON.parse(localStorage.getItem('ownProfile'));
 
-    constructor() {
+    constructor(public dialog: MdDialog) {
     }
 
     ngOnInit() {
@@ -35,4 +37,12 @@ export class UserProjectsComponent implements OnInit {
 
     }
 
+    addNewProject() {
+        let dialogRef = this.dialog.open(ProjectFormComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+        });
+    }
+
 }
+
