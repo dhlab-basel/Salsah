@@ -1,6 +1,6 @@
 <md-list class="salsah-list">
     <md-list-item *ngFor="let res of result.subjects; let i = index"
-                  (click)="open(res.obj_id, i)"
+                  (click)="open(res.obj_id)"
                   [id]="res.obj_id"
                   class="salsah-link"
                   [class.highlight]="i == selectedRow">
