@@ -80,6 +80,7 @@ import {KeyPipe} from './view/modules/other/key.pipe';
 import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
 import { ProgressStepperComponent } from './view/modules/other/progress-stepper/progress-stepper.component';
 import { AdvancedResourceClassComponent } from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
+import { DeveloperHintComponent } from './view/modules/error/developer-hint/developer-hint.component';
 
 
 @NgModule({
@@ -124,7 +125,8 @@ import { AdvancedResourceClassComponent } from './view/modules/form/advanced-res
         KeyPipe,
         ProgressIndicatorComponent,
         ProgressStepperComponent,
-        AdvancedResourceClassComponent
+        AdvancedResourceClassComponent,
+        DeveloperHintComponent
     ],
     imports: [
         BrowserModule,
