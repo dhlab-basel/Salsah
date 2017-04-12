@@ -2,12 +2,13 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import {RouterModule} from "@angular/router";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 //
 // import the material design modules
 //
-import {MaterialModule} from '@angular/material';
+import {AppMaterialModule} from './app-material.module';
 import 'hammerjs';
 
 //
@@ -132,7 +133,8 @@ import { DeveloperHintComponent } from './view/modules/error/developer-hint/deve
         BrowserModule,
         FormsModule,
         HttpModule,
-        MaterialModule,
+        RouterModule,
+        AppMaterialModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule

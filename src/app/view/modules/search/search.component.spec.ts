@@ -4,6 +4,9 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { SearchComponent } from './search.component';
+import {FormsModule} from "@angular/forms";
+import {ExtendedSearchComponent} from "./extended-search/extended-search.component";
+import {SimpleSearchComponent} from "./simple-search/simple-search.component";
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -11,7 +14,12 @@ describe('SearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchComponent ]
+      declarations: [
+          SearchComponent,
+          SimpleSearchComponent,
+          ExtendedSearchComponent
+      ],
+        imports: [FormsModule]
     })
     .compileComponents();
   }));

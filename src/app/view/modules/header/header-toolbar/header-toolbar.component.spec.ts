@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { HeaderToolbarComponent } from './header-toolbar.component';
+import {GravatarDirective} from "../../other/gravatar.directive";
+import {SessionService} from "../../../../model/services/session.service";
 
 describe('HeaderToolbarComponent', () => {
   let component: HeaderToolbarComponent;
@@ -11,7 +13,13 @@ describe('HeaderToolbarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderToolbarComponent ]
+      declarations: [
+          HeaderToolbarComponent
+      ],
+        imports: [],
+        providers: [
+            SessionService
+        ],
     })
     .compileComponents();
   }));
