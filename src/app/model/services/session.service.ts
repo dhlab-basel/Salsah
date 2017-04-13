@@ -80,7 +80,6 @@ export class SessionService extends ApiService {
                     localStorage.removeItem('ownProfile');
                     getDocument().cookie = "sid=;expires=-1";
                     getDocument().cookie = "KnoraAuthentication=;expires=-1";
-
                     if(deny === true) this.goToLogin();
                 }
             },

@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { UserCollectionsComponent } from './user-collections.component';
+import {AppMaterialModule} from "../../../../app-material.module";
 
 describe('UserCollectionsComponent', () => {
   let component: UserCollectionsComponent;
@@ -11,7 +12,10 @@ describe('UserCollectionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserCollectionsComponent ]
+      declarations: [ UserCollectionsComponent ],
+      imports: [
+        AppMaterialModule
+      ]
     })
     .compileComponents();
   }));

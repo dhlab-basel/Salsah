@@ -1,4 +1,13 @@
+<!-- if an error occurred (from the api), show the error message -->
+<salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
 
+<!-- variant a) -->
+<!-- if ownProfile is not defined; show the users profile defined in the route /user/[username: email] -->
+<div class="salsah-module without-header" *ngIf="!showOwnProfile && !errorMessage">
+    <salsah-user-profile [user]="userProfile"></salsah-user-profile>
+</div>
+
+<!-- variant b) -->
 <!-- show the logged in user profile incl. projects list, collections and settings -->
 <div class="salsah-module with-header" *ngIf="showOwnProfile">
     <md-toolbar class="salsah-module-header">
@@ -21,30 +30,18 @@
     </md-toolbar>
 
     <div class="salsah-sub-module">
-
         <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
-
         <!-- switch view; not with a second router-outlet, because of the direct (parent) routes like
             "/settings", "/projects" and "/collections
         -->
-
         <salsah-user-projects *ngIf="route === '/projects'" [user]="userProfile"></salsah-user-projects>
         <salsah-user-collections *ngIf="route === '/collections'" [user]="userProfile"></salsah-user-collections>
         <salsah-user-settings *ngIf="route === '/settings'" [user]="userProfile"></salsah-user-settings>
         <salsah-user-profile *ngIf="route === '/profile'" [user]="userProfile"></salsah-user-profile>
-
     </div>
-
-</div>
-<!-- if ownProfile is not defined; show the users profile defined in the route /user/[username: email] -->
-
-<div class="salsah-module without-header" *ngIf="!showOwnProfile && !errorMessage">
-    <!--
-    <router-outlet></router-outlet>
-    -->
-    <salsah-user-profile [user]="userProfile"></salsah-user-profile>
-
 </div>
 
-<salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+<!-- variant c) -->
+<!-- access denied: show the possibilities for the user: go back, go to start or go to login page -->
+
 

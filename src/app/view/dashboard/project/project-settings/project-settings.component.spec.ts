@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ProjectSettingsComponent } from './project-settings.component';
+import {AppMaterialModule} from "../../../../app-material.module";
 
 describe('ProjectSettingsComponent', () => {
   let component: ProjectSettingsComponent;
@@ -11,7 +12,10 @@ describe('ProjectSettingsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProjectSettingsComponent ]
+      declarations: [ ProjectSettingsComponent ],
+      imports: [
+        AppMaterialModule
+      ]
     })
     .compileComponents();
   }));

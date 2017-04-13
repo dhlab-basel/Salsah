@@ -2,11 +2,14 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { ApiService } from './api.service';
+import {HttpModule} from "@angular/http";
 
 describe('ApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ApiService]
+      providers: [ApiService],
+      imports: [HttpModule]
+
     });
   });
 

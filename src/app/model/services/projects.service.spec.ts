@@ -2,11 +2,13 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { ProjectsService } from './projects.service';
+import {HttpModule} from "@angular/http";
 
 describe('ProjectsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProjectsService]
+      providers: [ProjectsService],
+      imports: [HttpModule]
     });
   });
 

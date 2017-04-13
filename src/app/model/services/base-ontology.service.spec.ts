@@ -1,11 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { BaseOntologyService } from './base-ontology.service';
+import {HttpModule} from "@angular/http";
 
 describe('BaseOntologyService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [BaseOntologyService]
+      providers: [BaseOntologyService],
+      imports: [HttpModule]
     });
   });
 
