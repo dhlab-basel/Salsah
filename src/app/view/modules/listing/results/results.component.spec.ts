@@ -12,6 +12,7 @@ import {ResourceListComponent} from "../resource-list/resource-list.component";
 import {ResourceGridListComponent} from "../resource-grid-list/resource-grid-list.component";
 import {KeyPipe} from "../../other/key.pipe";
 import {ActivatedRoute} from "@angular/router";
+import {SearchService} from "../../../../model/services/search.service";
 
 describe('ResultsComponent', () => {
     let component: ResultsComponent;
@@ -33,7 +34,8 @@ describe('ResultsComponent', () => {
                 ReactiveFormsModule
             ],
             providers: [
-                {provide: ActivatedRoute}
+                {provide: ActivatedRoute},
+                {provide: SearchService}
             ]
         })
             .compileComponents();
