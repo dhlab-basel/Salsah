@@ -46,6 +46,20 @@ export class Permissions {
 }
 
 @JsonObject
+export class Gui {
+
+    @JsonProperty('element', String)
+    public element: string = undefined;
+
+    @JsonProperty('type', String)
+    public type: string = undefined;
+
+    @JsonProperty('list_id', String, true)
+    public list_id: string = undefined;
+
+}
+
+@JsonObject
 export class Property {
 
     @JsonProperty('label', String)
@@ -119,20 +133,6 @@ export class BaseOntology {
 
     @JsonProperty('resourceClasses', [ResourceClass])
     public resourceClasses: ResourceClass[] = undefined;
-
-}
-
-@JsonObject
-export class Gui {
-
-    @JsonProperty('element', String)
-    public element: string = undefined;
-
-    @JsonProperty('type', String)
-    public type: string = undefined;
-
-    @JsonProperty('list_id', String, true)
-    public list_id: string = undefined;
 
 }
 

@@ -39,6 +39,14 @@ body {
     margin: 0 0 24px; /* bottom = footer height */
 }
 
+a {
+    text-decoration: none;
+    color: $primary;
+    &:hover {
+        color: darken($bright, 50%);
+    }
+}
+
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
@@ -70,17 +78,6 @@ body {
 
 //
 // general elements
-.salsah-error {
-    color: $error;
-}
-.salsah-warning {
-    color: $warning;
-}
-.salsah-note {
-    background-color: lightgoldenrodyellow;
-    max-width: 640px;
-    margin: 24px auto;
-}
 
 .salsah-text {
     line-height: 1.5;
