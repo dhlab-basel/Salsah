@@ -37,10 +37,10 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
 
-        if (this._router.url === '/logout') DashboardComponent.logout();
+        if (this._router.url === '/logout') this.logout();
     }
 
-    static logout() {
+    logout() {
         // remove all the session cookies
         getDocument().cookie = "sid=;expires=-1";
         getDocument().cookie = "KnoraAuthentication=;expires=-1";
