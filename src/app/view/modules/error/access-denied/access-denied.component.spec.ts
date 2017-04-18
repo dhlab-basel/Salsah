@@ -2,9 +2,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
-
-import {AccessDeniedComponent} from './access-denied.component';
 import {AppMaterialModule} from "../../../../app-material.module";
+import {AccessDeniedComponent} from './access-denied.component';
 
 describe('AccessDeniedComponent', () => {
     let component: AccessDeniedComponent;

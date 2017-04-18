@@ -1,8 +1,5 @@
 .salsah-error, .salsah-warning, .salsah-note {
     margin: 100px auto;
-    md-icon {
-        float: right;
-    }
     md-card-subtitle {
 
     }
@@ -14,10 +11,7 @@
         margin-bottom: 48px;
 
         md-list-item {
-            cursor: pointer;
-            &:hover {
-                color: dimgray;
-            }
+
         }
     }
     md-card-actions {
