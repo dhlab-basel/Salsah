@@ -7,6 +7,7 @@ import {UserFormComponent} from './user-form.component';
 import {AppMaterialModule} from "../../../../app-material.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserService} from "../../../../model/services/user.service";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('UserFormComponent', () => {
     let component: UserFormComponent;
@@ -18,7 +19,9 @@ describe('UserFormComponent', () => {
             imports: [
                 AppMaterialModule,
                 FormsModule,
-                ReactiveFormsModule
+                ReactiveFormsModule,
+                BrowserAnimationsModule,
+                NoopAnimationsModule
             ],
             providers: [
                 {provide: UserService}

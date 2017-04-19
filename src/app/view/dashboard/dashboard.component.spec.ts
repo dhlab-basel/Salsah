@@ -28,7 +28,6 @@ describe('DashboardComponent', () => {
           AppMaterialModule,
           RouterModule,
           RouterTestingModule
-
       ],
         providers: [
             {provide: Router},

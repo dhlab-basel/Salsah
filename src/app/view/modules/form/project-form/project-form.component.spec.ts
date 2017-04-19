@@ -1,5 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 
@@ -17,7 +18,9 @@ describe('ProjectFormComponent', () => {
             imports: [
                 AppMaterialModule,
                 FormsModule,
-                ReactiveFormsModule
+                ReactiveFormsModule,
+                BrowserAnimationsModule,
+                NoopAnimationsModule
             ]
         })
             .compileComponents();
