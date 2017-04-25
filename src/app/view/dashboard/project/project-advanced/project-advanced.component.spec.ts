@@ -1,12 +1,10 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectAdvancedComponent} from './project-advanced.component';
-import {AdvancedResourceClassComponent} from "../../../modules/form/advanced-resource-class/advanced-resource-class.component";
-import {AppMaterialModule} from "app/app-material.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {KeyPipe} from "../../../modules/other/key.pipe";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {BaseOntologyService} from '../../../../model/services/base-ontology.service';
 
 describe('ProjectAdvancedComponent', () => {
     let component: ProjectAdvancedComponent;
@@ -14,16 +12,10 @@ describe('ProjectAdvancedComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                ProjectAdvancedComponent,
-                AdvancedResourceClassComponent,
-                KeyPipe
-            ],
             imports: [
+                AppModule,
                 AppMaterialModule,
-                FormsModule,
-                ReactiveFormsModule
-
+                AppRoutingModule
             ],
             providers: [
                 {provide: ProjectsService},

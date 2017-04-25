@@ -30,9 +30,7 @@ export class DashboardComponent implements OnInit {
     errorMessage: string = undefined;
     session: Session = new Session();
 
-    constructor(
-        private _router: Router
-    ) {
+    constructor(private _router: Router) {
     }
 
     ngOnInit() {

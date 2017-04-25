@@ -1,17 +1,8 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {ResultsComponent} from './results.component';
-import {AppMaterialModule} from "../../../../app-material.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ApiErrorComponent} from "../../error/api-error/api-error.component";
-import {ObjectComponent} from "../../object/object.component";
-import {ResourceListComponent} from "../resource-list/resource-list.component";
-import {ResourceGridListComponent} from "../resource-grid-list/resource-grid-list.component";
-import {KeyPipe} from "../../other/key.pipe";
-import {ActivatedRoute} from "@angular/router";
 import {SearchService} from "../../../../model/services/search.service";
 
 describe('ResultsComponent', () => {
@@ -20,21 +11,12 @@ describe('ResultsComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                ResultsComponent,
-                ApiErrorComponent,
-                ObjectComponent,
-                ResourceListComponent,
-                ResourceGridListComponent,
-                KeyPipe
-            ],
             imports: [
+                AppModule,
                 AppMaterialModule,
-                FormsModule,
-                ReactiveFormsModule
+                AppRoutingModule
             ],
             providers: [
-                {provide: ActivatedRoute},
                 {provide: SearchService}
             ]
         })

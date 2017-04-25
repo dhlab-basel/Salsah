@@ -1,7 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {DeveloperHintComponent} from './developer-hint.component';
-import {AppMaterialModule} from "../../../../app-material.module";
 
 describe('DeveloperHintComponent', () => {
     let component: DeveloperHintComponent;
@@ -9,9 +10,10 @@ describe('DeveloperHintComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [DeveloperHintComponent],
             imports: [
-                AppMaterialModule
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
             ]
         })
             .compileComponents();

@@ -1,11 +1,8 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {UserSettingsComponent} from './user-settings.component';
-import {AppMaterialModule} from "../../../../app-material.module";
-import {DeveloperHintComponent} from "../../../modules/error/developer-hint/developer-hint.component";
 
 describe('UserSettingsComponent', () => {
     let component: UserSettingsComponent;
@@ -13,12 +10,10 @@ describe('UserSettingsComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                UserSettingsComponent,
-                DeveloperHintComponent
-            ],
             imports: [
-                AppMaterialModule
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
             ]
         })
             .compileComponents();

@@ -1,10 +1,8 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-
+import {AppModule} from '../../../app.module';
+import {AppMaterialModule} from '../../../app-material.module';
+import {AppRoutingModule} from '../../../app-routing.module';
 import {FooterComponent} from './footer.component';
-import {AppMaterialModule} from "../../../app-material.module";
 
 describe('FooterComponent', () => {
     let component: FooterComponent;
@@ -12,9 +10,10 @@ describe('FooterComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [FooterComponent],
             imports: [
-                AppMaterialModule
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
             ]
         })
             .compileComponents();

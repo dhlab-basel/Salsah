@@ -1,10 +1,9 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {AdvancedResourceClassComponent} from './advanced-resource-class.component';
-import {AppMaterialModule} from "../../../../app-material.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {KeyPipe} from "../../other/key.pipe";
-import {BaseOntologyService} from "app/model/services/base-ontology.service";
+import {BaseOntologyService} from 'app/model/services/base-ontology.service';
 
 describe('AdvancedResourceClassComponent', () => {
     let component: AdvancedResourceClassComponent;
@@ -12,14 +11,10 @@ describe('AdvancedResourceClassComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                AdvancedResourceClassComponent,
-                KeyPipe
-            ],
             imports: [
+                AppModule,
                 AppMaterialModule,
-                FormsModule,
-                ReactiveFormsModule
+                AppRoutingModule
             ],
             providers: [
                 {provide: BaseOntologyService}

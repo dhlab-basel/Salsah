@@ -1,12 +1,8 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectProfileComponent} from './project-profile.component';
-import {AppMaterialModule} from "../../../../app-material.module";
-import {ActivatedRoute, RouterModule, Routes} from "@angular/router";
-import {RouterTestingModule} from "@angular/router/testing";
 import {ProjectsService} from "../../../../model/services/projects.service";
 
 describe('ProjectProfileComponent', () => {
@@ -15,15 +11,12 @@ describe('ProjectProfileComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ProjectProfileComponent],
             imports: [
+                AppModule,
                 AppMaterialModule,
-                RouterModule,
-                RouterTestingModule
-
+                AppRoutingModule
             ],
             providers: [
-                {provide: ActivatedRoute},
                 {provide: ProjectsService}
             ]
         })

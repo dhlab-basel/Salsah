@@ -1,8 +1,7 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-import {AppMaterialModule} from "../../../../app-material.module";
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {AccessDeniedComponent} from './access-denied.component';
 
 describe('AccessDeniedComponent', () => {
@@ -11,9 +10,10 @@ describe('AccessDeniedComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [AccessDeniedComponent],
             imports: [
-                AppMaterialModule
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
             ]
         })
             .compileComponents();

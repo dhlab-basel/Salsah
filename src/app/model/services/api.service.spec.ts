@@ -1,14 +1,16 @@
-/* tslint:disable:no-unused-variable */
-
-import { TestBed, async, inject } from '@angular/core/testing';
-import { ApiService } from './api.service';
-import {HttpModule} from "@angular/http";
+import {TestBed, async, inject} from '@angular/core/testing';
+import {AppModule} from '../../app.module';
+import {ApiService} from './api.service';
 
 describe('ApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ApiService],
-      imports: [HttpModule]
+        imports: [
+            AppModule
+        ],
+        providers: [
+            ApiService
+        ]
 
     });
   });

@@ -1,14 +1,9 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {HeaderToolbarComponent} from './header-toolbar.component';
-import {GravatarDirective} from "../../other/gravatar.directive";
-import {SessionService} from "../../../../model/services/session.service";
-import {AppMaterialModule} from "app/app-material.module";
-import {RouterTestingModule} from "@angular/router/testing";
-import {RouterModule} from "@angular/router";
+import {SessionService} from '../../../../model/services/session.service';
 
 describe('HeaderToolbarComponent', () => {
     let component: HeaderToolbarComponent;
@@ -16,14 +11,10 @@ describe('HeaderToolbarComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                HeaderToolbarComponent,
-                GravatarDirective
-            ],
             imports: [
+                AppModule,
                 AppMaterialModule,
-                RouterModule,
-                RouterTestingModule
+                AppRoutingModule
             ],
             providers: [
                 {provide: SessionService}

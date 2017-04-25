@@ -1,14 +1,9 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-
+import {AppModule} from '../../../app.module';
+import {AppMaterialModule} from '../../../app-material.module';
+import {AppRoutingModule} from '../../../app-routing.module';
 import {ObjectComponent} from './object.component';
-import {AppMaterialModule} from "../../../app-material.module";
-import {KeyPipe} from "../other/key.pipe";
-import {RouterTestingModule} from "@angular/router/testing";
-import {RouterModule} from "@angular/router";
-import {ResourceService} from "../../../model/services/resource.service";
+import {ResourceService} from '../../../model/services/resource.service';
 
 describe('ObjectComponent', () => {
     let component: ObjectComponent;
@@ -16,14 +11,10 @@ describe('ObjectComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                ObjectComponent,
-                KeyPipe
-            ],
             imports: [
+                AppModule,
                 AppMaterialModule,
-                RouterModule,
-                RouterTestingModule
+                AppRoutingModule
             ],
             providers: [
                 {provide: ResourceService}

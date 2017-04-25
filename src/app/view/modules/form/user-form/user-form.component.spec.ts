@@ -1,13 +1,11 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
+import {UserFormComponent} from './user-form.component'
+import {UserService} from '../../../../model/services/user.service';
 
-import {UserFormComponent} from './user-form.component';
-import {AppMaterialModule} from "../../../../app-material.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {UserService} from "../../../../model/services/user.service";
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+//import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('UserFormComponent', () => {
     let component: UserFormComponent;
@@ -15,13 +13,10 @@ describe('UserFormComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [UserFormComponent],
             imports: [
+                AppModule,
                 AppMaterialModule,
-                FormsModule,
-                ReactiveFormsModule,
-                BrowserAnimationsModule,
-                NoopAnimationsModule
+                AppRoutingModule
             ],
             providers: [
                 {provide: UserService}

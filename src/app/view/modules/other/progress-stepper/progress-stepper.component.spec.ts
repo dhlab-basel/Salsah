@@ -1,7 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProgressStepperComponent} from './progress-stepper.component';
-import {AppMaterialModule} from "../../../../app-material.module";
 
 describe('ProgressStepperComponent', () => {
     let component: ProgressStepperComponent;
@@ -9,9 +10,10 @@ describe('ProgressStepperComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ProgressStepperComponent],
             imports: [
-                AppMaterialModule
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
             ]
         })
             .compileComponents();

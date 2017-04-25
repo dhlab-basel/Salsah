@@ -1,14 +1,9 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {UserProfileComponent} from './user-profile.component';
-import {AppMaterialModule} from "../../../../app-material.module";
-import {UserService} from "../../../../model/services/user.service";
-import {DeveloperHintComponent} from "../../../modules/error/developer-hint/developer-hint.component";
-import {RouterTestingModule} from "@angular/router/testing";
-import {RouterModule} from "@angular/router";
+import {UserService} from '../../../../model/services/user.service';
 
 describe('UserProfileComponent', () => {
     let component: UserProfileComponent;
@@ -16,14 +11,10 @@ describe('UserProfileComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                UserProfileComponent,
-                DeveloperHintComponent
-            ],
             imports: [
+                AppModule,
                 AppMaterialModule,
-                RouterModule,
-                RouterTestingModule
+                AppRoutingModule
             ],
             providers: [
                 {provide: UserService}

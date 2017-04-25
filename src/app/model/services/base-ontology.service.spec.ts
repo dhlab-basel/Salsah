@@ -1,54 +1,43 @@
-import {TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
+import {TestBed, async, inject, fakeAsync, tick} from '@angular/core/testing';
+import {AppModule} from '../../app.module';
 
-import {MockBackend} from '@angular/http/testing';
-import {Http, ConnectionBackend, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
+
+//import {Http, ConnectionBackend, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
 
 import {BaseOntologyService} from './base-ontology.service';
-import {BaseOntology} from "../test-data/base-ontology";
+import {BaseOntology} from '../test-data/base-ontology';
+import {MockBackend} from '@angular/http/testing';
+import {BaseRequestOptions, ConnectionBackend, Http, ResponseOptions} from '@angular/http';
 
 describe('BaseOntologyService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
+            imports: [
+                AppModule
+            ],
             providers: [
-                BaseRequestOptions,
-                MockBackend,
-                BaseOntologyService,
+                {provide: BaseOntologyService},
                 {
                     provide: Http,
-                    useFactory: (backend: ConnectionBackend,
-                                 defaultOptions: BaseRequestOptions) => {
+                    useFactory: (
+                        backend: ConnectionBackend,
+                        defaultOptions: BaseRequestOptions
+                    ) => {
                         return new Http(backend, defaultOptions);
-                    }, deps: [MockBackend, BaseRequestOptions]
+                    },
+                    deps: [
+                        MockBackend,
+                        BaseRequestOptions
+                    ]
                 }
             ]
         });
     });
-
-//    it('should ...', inject([BaseOntologyService], (service: BaseOntologyService) => {
-//        expect(service).toBeTruthy();
-//    }));
+/*
+    it('should ...', inject([BaseOntologyService], (service: BaseOntologyService) => {
+        expect(service).toBeTruthy();
+    }));
+*/
 });
 
-function expectURL(backend: MockBackend, url: string) {
-    backend.connections.subscribe(c => {
-        expect(c.request.url).toBe(url);
-        let response = new ResponseOptions({body: BaseOntology});
-        c.mockRespond(new Response(response));
-    })
-}
-
-describe('getBaseOntology', () => {
-    it('retrieves using the service',
-        inject([BaseOntologyService, MockBackend], fakeAsync((svc, backend) => {
-            let res;
-            expectURL(backend, 'http://localhost/baseOntology.json');
-            svc.getBaseOntology().subscribe((_res) => {
-                res = _res;
-            });
-            tick();
-            expect(res).toBe(BaseOntology);
-        }))
-    );
-
-});
 

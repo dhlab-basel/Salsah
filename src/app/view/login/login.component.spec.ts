@@ -1,16 +1,9 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-
+import {AppModule} from '../../app.module';
+import {AppMaterialModule} from '../../app-material.module';
+import {AppRoutingModule} from '../../app-routing.module';
 import {LoginComponent} from './login.component';
-import {SessionService} from "../../model/services/session.service";
-import {AppMaterialModule} from "app/app-material.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ProgressIndicatorComponent} from "../modules/other/progress-indicator/progress-indicator.component";
-import {RouterTestingModule} from "@angular/router/testing";
-import {ActivatedRoute, RouterModule} from "@angular/router";
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {SessionService} from '../../model/services/session.service';
 
 describe('LoginComponent', () => {
     let component: LoginComponent;
@@ -18,24 +11,14 @@ describe('LoginComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                LoginComponent,
-                ProgressIndicatorComponent
-
+            imports: [
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
             ],
             providers: [
-                {provide: SessionService},
-                {provide: ActivatedRoute}
+                {provide: SessionService}
 
-            ],
-            imports: [
-                AppMaterialModule,
-                FormsModule,
-                ReactiveFormsModule,
-                RouterModule,
-                RouterTestingModule,
-                BrowserAnimationsModule,
-                NoopAnimationsModule
             ]
         })
             .compileComponents();

@@ -1,13 +1,10 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectResourcesComponent} from './project-resources.component';
-import {AppMaterialModule} from "../../../../app-material.module";
-import {ApiErrorComponent} from "../../../modules/error/api-error/api-error.component";
-import {ResourceTypesService} from "../../../../model/services/resource-types.service";
-import {PropertiesService} from "../../../../model/services/properties.service";
+import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import {PropertiesService} from '../../../../model/services/properties.service';
 
 describe('ProjectResourcesComponent', () => {
     let component: ProjectResourcesComponent;
@@ -15,13 +12,10 @@ describe('ProjectResourcesComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                ProjectResourcesComponent,
-                ApiErrorComponent,
-
-            ],
             imports: [
-                AppMaterialModule
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
             ],
             providers: [
                 {provide: ResourceTypesService},

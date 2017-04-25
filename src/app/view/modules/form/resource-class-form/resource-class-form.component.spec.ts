@@ -1,15 +1,11 @@
-/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
-
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 import {ResourceClassFormComponent} from './resource-class-form.component';
-import {AppMaterialModule} from "../../../../app-material.module";
-import {ProgressStepperComponent} from "../../other/progress-stepper/progress-stepper.component";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {KeyPipe} from "../../other/key.pipe";
-import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
-import {MdDialogRef} from "@angular/material";
+import {BaseOntologyService} from '../../../../model/services/base-ontology.service';
+import {MdDialogRef} from '@angular/material';
+
 
 describe('ResourceClassFormComponent', () => {
     let component: ResourceClassFormComponent;
@@ -17,15 +13,10 @@ describe('ResourceClassFormComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                ResourceClassFormComponent,
-                ProgressStepperComponent,
-                KeyPipe
-            ],
             imports: [
+                AppModule,
                 AppMaterialModule,
-                FormsModule,
-                ReactiveFormsModule
+                AppRoutingModule
             ],
             providers: [
                 {provide: BaseOntologyService},
