@@ -68,8 +68,8 @@ export class ProjectResourcesComponent implements OnInit {
                     this.isLoading = false;
                 }
             );
-        // Develop test: open the dialog box for new resources directly on the start
-        this.addNewResourceClass();
+        // Develop test: open the dialog box for new resources on the start directly
+        // this.addNewResourceClass();
     }
 
 
