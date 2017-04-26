@@ -45,8 +45,6 @@ export class ApiService {
 
         url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
-        console.log(this._http);
-
         return this._http.get(url, options).map((response: Response) => {
             try {
                 let apiServiceResult: ApiServiceResult = new ApiServiceResult();

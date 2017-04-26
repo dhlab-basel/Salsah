@@ -84,7 +84,7 @@ export class SessionService extends ApiService {
                 }
             },
             (error: ApiServiceError) => {
-                console.log(error);
+
                 status = error.status;
                 // the session is not valid!
                 activeSession = false;
