@@ -1,18 +1,24 @@
-/* tslint:disable:no-unused-variable */
-
-import { TestBed, async, inject } from '@angular/core/testing';
-import { SessionService } from './session.service';
-import {HttpModule} from "@angular/http";
+import {TestBed, inject} from '@angular/core/testing';
+import {AppModule} from '../../app.module';
+import {AppRoutingModule} from '../../app-routing.module';
+import {ApiService} from './api.service';
+import {SessionService} from './session.service';
 
 describe('SessionService', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [SessionService],
-      imports: [HttpModule]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppRoutingModule
+            ],
+            providers: [
+                ApiService,
+                SessionService
+            ]
+        });
     });
-  });
 
-  it('should ...', inject([SessionService], (service: SessionService) => {
-    expect(service).toBeTruthy();
-  }));
+    it('should ...', inject([SessionService], (service: SessionService) => {
+        expect(service).toBeTruthy();
+    }));
 });

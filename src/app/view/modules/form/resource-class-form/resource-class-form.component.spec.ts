@@ -19,7 +19,7 @@ describe('ResourceClassFormComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: BaseOntologyService},
+                BaseOntologyService,
                 {provide: MdDialogRef}
             ]
         })

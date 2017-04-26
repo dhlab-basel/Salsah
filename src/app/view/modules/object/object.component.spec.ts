@@ -17,7 +17,7 @@ describe('ObjectComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: ResourceService}
+                ResourceService
             ]
         })
             .compileComponents();

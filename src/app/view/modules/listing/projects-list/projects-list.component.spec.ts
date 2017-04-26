@@ -17,7 +17,7 @@ describe('ProjectsListComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: ProjectsService}
+                ProjectsService
             ]
         })
             .compileComponents();

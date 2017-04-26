@@ -18,7 +18,7 @@ describe('HeaderComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: SessionService}
+                SessionService
             ]
         })
             .compileComponents();

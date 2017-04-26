@@ -17,7 +17,7 @@ describe('HeaderToolbarComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: SessionService}
+                SessionService
             ],
         })
             .compileComponents();

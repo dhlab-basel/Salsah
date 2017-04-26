@@ -17,7 +17,7 @@ describe('ResultsComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: SearchService}
+                SearchService
             ]
         })
             .compileComponents();

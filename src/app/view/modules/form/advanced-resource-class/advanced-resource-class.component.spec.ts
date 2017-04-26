@@ -17,7 +17,7 @@ describe('AdvancedResourceClassComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: BaseOntologyService}
+                BaseOntologyService
             ]
         })
             .compileComponents();

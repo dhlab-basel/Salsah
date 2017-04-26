@@ -1,18 +1,20 @@
-/* tslint:disable:no-unused-variable */
-
-import {TestBed, async, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
+import {AppModule} from '../../app.module';
+import {AppRoutingModule} from '../../app-routing.module';
+import {ApiService} from './api.service';
 import {PropertiesService} from './properties.service';
-import {Http} from "@angular/http";
-// import {HttpModule} from "@angular/http/src";
 
 describe('PropertiesService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [
-                PropertiesService,
-                {provide: Http}
+            imports: [
+                AppModule,
+                AppRoutingModule
             ],
-            imports: []
+            providers: [
+                ApiService,
+                PropertiesService
+            ]
         });
     });
 

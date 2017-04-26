@@ -17,7 +17,7 @@ describe('DashboardComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: ProjectsService}
+                ProjectsService
             ]
         })
             .compileComponents();

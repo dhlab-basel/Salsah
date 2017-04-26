@@ -18,7 +18,7 @@ describe('ProjectResourcesComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: ResourceTypesService},
+                ResourceTypesService,
                 {provide: PropertiesService}
             ]
         })

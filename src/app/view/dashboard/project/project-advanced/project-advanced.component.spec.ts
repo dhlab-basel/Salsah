@@ -19,7 +19,7 @@ describe('ProjectAdvancedComponent', () => {
             ],
             providers: [
                 {provide: ProjectsService},
-                {provide: BaseOntologyService}
+                BaseOntologyService
             ]
 
         })

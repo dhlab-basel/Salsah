@@ -16,7 +16,7 @@ describe('BaseOntologyService', () => {
                 AppModule
             ],
             providers: [
-                {provide: BaseOntologyService},
+                BaseOntologyService,
                 {
                     provide: Http,
                     useFactory: (

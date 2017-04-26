@@ -17,7 +17,7 @@ describe('ProjectProfileComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: ProjectsService}
+                ProjectsService
             ]
         })
             .compileComponents();

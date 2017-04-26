@@ -19,7 +19,7 @@ describe('ProjectComponent', () => {
             ],
             providers: [
 //                MockBackend,
-                {provide: ProjectsService}
+                ProjectsService
             ]
         })
             .compileComponents();
