@@ -80,12 +80,11 @@ export class SessionService extends ApiService {
                     localStorage.removeItem('ownProfile');
                     getDocument().cookie = "sid=;expires=-1";
                     getDocument().cookie = "KnoraAuthentication=;expires=-1";
-
                     if(deny === true) this.goToLogin();
                 }
             },
             (error: ApiServiceError) => {
-                console.log(error);
+
                 status = error.status;
                 // the session is not valid!
                 activeSession = false;

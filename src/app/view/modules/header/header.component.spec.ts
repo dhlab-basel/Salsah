@@ -1,28 +1,36 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {AppModule} from '../../../app.module';
+import {AppMaterialModule} from '../../../app-material.module';
+import {AppRoutingModule} from '../../../app-routing.module';
+import {HeaderComponent} from './header.component';
+import {SessionService} from '../../../model/services/session.service';
 
-import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+    let component: HeaderComponent;
+    let fixture: ComponentFixture<HeaderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
+            ],
+            providers: [
+                SessionService
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(HeaderComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should modify', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should modify', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -23,7 +23,8 @@ import {ApiServiceResult} from "./api-service-result";
 @Injectable()
 export class ApiService {
 
-    constructor(private _httpService: Http) {
+    constructor(private _http: Http) {
+
         //
         // Json convert error handling
         //
@@ -44,7 +45,7 @@ export class ApiService {
 
         url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
-        return this._httpService.get(url, options).map((response: Response) => {
+        return this._http.get(url, options).map((response: Response) => {
             try {
                 let apiServiceResult: ApiServiceResult = new ApiServiceResult();
                 apiServiceResult.status = response.status;
@@ -70,7 +71,7 @@ export class ApiService {
     httpPost(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
         if (!body) body = {};
         if (!options) options = {withCredentials: true};
-        return this._httpService.post(environment.api + url, body, options).map((response: Response) => {
+        return this._http.post(environment.api + url, body, options).map((response: Response) => {
             try {
                 let apiServiceResult: ApiServiceResult = new ApiServiceResult();
                 apiServiceResult.status = response.status;

@@ -1,14 +1,19 @@
-<!-- Template for Errors -->
-<md-card class="salsah-api-error">
+<!-- Template for api errors -->
+<md-card class="salsah-error api-error fix-width">
+    <md-icon class="right">error</md-icon>
     <md-card-subtitle>
-        <md-icon>error</md-icon> ERROR {{error?.status}}
+        ERROR {{error?.status}} | API issue
     </md-card-subtitle>
-    <md-card-title><br>
+    <md-card-title>
         {{error?.statusText}}
     </md-card-title>
     <md-card-content>
         The request failed on:
         <a href="{{error?.url}}" target="_blank">{{error?.url}}</a>
     </md-card-content>
+    <md-card-actions>
+        If you think it's a mistake, please <a href="https://github.com/dhlab-basel/salsah">inform the Salsah
+        developers</a>
+    </md-card-actions>
 </md-card>
 

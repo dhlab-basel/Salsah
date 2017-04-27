@@ -1,28 +1,37 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { ProjectResourcesComponent } from './project-resources.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
+import {ProjectResourcesComponent} from './project-resources.component';
+import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import {PropertiesService} from '../../../../model/services/properties.service';
 
 describe('ProjectResourcesComponent', () => {
-  let component: ProjectResourcesComponent;
-  let fixture: ComponentFixture<ProjectResourcesComponent>;
+    let component: ProjectResourcesComponent;
+    let fixture: ComponentFixture<ProjectResourcesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ProjectResourcesComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
+            ],
+            providers: [
+                ResourceTypesService,
+                {provide: PropertiesService}
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProjectResourcesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ProjectResourcesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should modify', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should modify', () => {
+        expect(component).toBeTruthy();
+    });
 });

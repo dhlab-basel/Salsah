@@ -1,28 +1,38 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
+import {ResourceClassFormComponent} from './resource-class-form.component';
+import {BaseOntologyService} from '../../../../model/services/base-ontology.service';
+import {MdDialogRef} from '@angular/material';
 
-import { ResourceClassFormComponent } from './resource-class-form.component';
 
 describe('ResourceClassFormComponent', () => {
-  let component: ResourceClassFormComponent;
-  let fixture: ComponentFixture<ResourceClassFormComponent>;
+    let component: ResourceClassFormComponent;
+    let fixture: ComponentFixture<ResourceClassFormComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ResourceClassFormComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
+            ],
+            providers: [
+                BaseOntologyService,
+                {provide: MdDialogRef}
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ResourceClassFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ResourceClassFormComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

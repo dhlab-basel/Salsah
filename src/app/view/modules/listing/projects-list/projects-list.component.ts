@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectsList, ProjectItem, UserProfile} from "../../../../model/webapi/knora/";
+import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
 
 
 @Component({

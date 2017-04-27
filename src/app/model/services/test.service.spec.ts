@@ -2,9 +2,9 @@ import {TestBed, inject} from '@angular/core/testing';
 import {AppModule} from '../../app.module';
 import {AppRoutingModule} from '../../app-routing.module';
 import {ApiService} from './api.service';
-import {PropertiesService} from './properties.service';
+import {TestService} from './test.service';
 
-describe('PropertiesService', () => {
+describe('TestService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -13,12 +13,12 @@ describe('PropertiesService', () => {
             ],
             providers: [
                 ApiService,
-                PropertiesService
+                TestService
             ]
         });
     });
 
-    it('should ...', inject([PropertiesService], (service: PropertiesService) => {
+    it('should ...', inject([TestService], (service: TestService) => {
         expect(service).toBeTruthy();
     }));
 });

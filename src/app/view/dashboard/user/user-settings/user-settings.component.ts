@@ -13,7 +13,6 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {SessionService} from "../../../../model/services/session.service";
 import {UserProfile} from "../../../../model/webapi/knora/";
 
 @Component({
@@ -31,7 +30,7 @@ export class UserSettingsComponent implements OnInit {
         path: "dashboard/user/user-settings/"
     };
 
-    constructor(private _sessionService: SessionService) {
+    constructor() {
     }
 
     ngOnInit() {

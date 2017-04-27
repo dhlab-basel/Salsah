@@ -1,28 +1,31 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { ProjectFormComponent } from './project-form.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
+import {ProjectFormComponent} from './project-form.component';
 
 describe('ProjectFormComponent', () => {
-  let component: ProjectFormComponent;
-  let fixture: ComponentFixture<ProjectFormComponent>;
+    let component: ProjectFormComponent;
+    let fixture: ComponentFixture<ProjectFormComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ProjectFormComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProjectFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ProjectFormComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

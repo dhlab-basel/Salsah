@@ -18,8 +18,7 @@ import {NgModule} from "@angular/core";
 import {LoginComponent} from "./view/login/login.component";
 import {DashboardComponent} from "./view/dashboard/dashboard.component";
 import {UserComponent} from "./view/dashboard/user/user.component";
-import {UserProfileComponent} from "./view/dashboard/user/user-profile/user-profile.component";
-import {UserSettingsComponent} from "./view/dashboard/user/user-settings/user-settings.component";
+
 import {ProjectComponent} from "./view/dashboard/project/project.component";
 import {ProjectSettingsComponent} from "./view/dashboard/project/project-settings/project-settings.component";
 import {PageNotFoundComponent} from "./view/modules/error/page-not-found/page-not-found.component";
@@ -30,8 +29,7 @@ import {ProjectTeamComponent} from "./view/dashboard/project/project-team/projec
 import {ProjectResourcesComponent} from "./view/dashboard/project/project-resources/project-resources.component";
 import {ProjectFormComponent} from "./view/modules/form/project-form/project-form.component";
 import {DocumentationComponent} from "./view/documentation/documentation.component";
-import {UserProjectsComponent} from "./view/dashboard/user/user-projects/user-projects.component";
-import {UserCollectionsComponent} from "./view/dashboard/user/user-collections/user-collections.component";
+
 import {ProjectAdvancedComponent} from "./view/dashboard/project/project-advanced/project-advanced.component";
 import {ObjectComponent} from "./view/modules/object/object.component";
 

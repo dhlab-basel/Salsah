@@ -1,28 +1,31 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { UserCollectionsComponent } from './user-collections.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
+import {UserCollectionsComponent} from './user-collections.component';
 
 describe('UserCollectionsComponent', () => {
-  let component: UserCollectionsComponent;
-  let fixture: ComponentFixture<UserCollectionsComponent>;
+    let component: UserCollectionsComponent;
+    let fixture: ComponentFixture<UserCollectionsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UserCollectionsComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UserCollectionsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(UserCollectionsComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

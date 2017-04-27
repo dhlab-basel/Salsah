@@ -1,9 +1,37 @@
-<md-card class="salsah-page-error no-shadow">
-    <img src='/assets/img/error.jpg'>
-    <md-card-subtitle>Error 404 | Page not found</md-card-subtitle>
-    <md-card-title>Something went totally wrong. This is not the page you are looking for.</md-card-title>
+<md-card class="salsah-error page-not-found fix-width">
+    <md-card-subtitle>
+        <md-icon class="right">error</md-icon>
+        Error 404 | Page not found
+    </md-card-subtitle>
+    <md-card-title>
+        The requested page does not exist
+    </md-card-title>
+    <md-card-content>
+        You have the following possibilities now:
+
+        <md-list>
+            <md-list-item>
+                <a routerLink="/">
+                    <md-icon class="left">keyboard_arrow_right</md-icon>
+                    <span class="right">go to the start page</span>
+                </a>
+            </md-list-item>
+            <md-list-item>
+                <a routerLink="/login">
+                    <md-icon class="left">keyboard_arrow_right</md-icon>
+                    <span class="right">try to login</span>
+                </a>
+            </md-list-item>
+            <md-list-item>
+                <a routerLink="">
+                    <md-icon class="left">keyboard_arrow_left</md-icon>
+                    <span class="right">go back</span>
+                </a>
+            </md-list-item>
+        </md-list>
+    </md-card-content>
     <md-card-actions>
-        <button md-button routerLink="/">&#8592; Go to the start page</button>
+        If you think it's a mistake, please <a href="https://github.com/dhlab-basel/salsah">inform the Salsah
+        developers</a>
     </md-card-actions>
 </md-card>
-

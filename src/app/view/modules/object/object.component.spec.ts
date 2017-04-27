@@ -1,28 +1,35 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { ObjectComponent } from './object.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {AppModule} from '../../../app.module';
+import {AppMaterialModule} from '../../../app-material.module';
+import {AppRoutingModule} from '../../../app-routing.module';
+import {ObjectComponent} from './object.component';
+import {ResourceService} from '../../../model/services/resource.service';
 
 describe('ObjectComponent', () => {
-  let component: ObjectComponent;
-  let fixture: ComponentFixture<ObjectComponent>;
+    let component: ObjectComponent;
+    let fixture: ComponentFixture<ObjectComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ObjectComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
+            ],
+            providers: [
+                ResourceService
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ObjectComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ObjectComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should modify', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should modify', () => {
+        expect(component).toBeTruthy();
+    });
 });

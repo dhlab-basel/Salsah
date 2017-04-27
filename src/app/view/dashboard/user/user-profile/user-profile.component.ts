@@ -13,10 +13,8 @@
  * */
 
 import {Component, OnInit, Input} from '@angular/core';
-import {Params, ActivatedRoute} from "@angular/router";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {User, UserProfile} from "../../../../model/webapi/knora/";
+import {ActivatedRoute} from "@angular/router";
+import {UserProfile} from "../../../../model/webapi/knora/";
 import {UserService} from "../../../../model/services/user.service";
 
 @Component({

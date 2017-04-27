@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccessDeniedComponent implements OnInit {
 
+  goto: any = {
+    root: '/',
+    login: '/login',
+    lastpage: ''
+  };
+
   constructor() { }
 
   ngOnInit() {

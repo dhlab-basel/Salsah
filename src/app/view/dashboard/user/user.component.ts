@@ -43,6 +43,9 @@ export class UserComponent implements OnInit {
     // which route is active?
     route: string;
 
+    // access denied?
+    accessDenied: boolean = true;
+
 
     //    user: User = new User();
 
@@ -84,8 +87,7 @@ export class UserComponent implements OnInit {
 
     constructor(private _router: Router,
                 private _route: ActivatedRoute,
-                private _userService: UserService,
-                private _location: Location) {
+                private _userService: UserService) {
     }
 
     ngOnInit() {
@@ -111,21 +113,16 @@ export class UserComponent implements OnInit {
                             .subscribe(
                                 (result: ApiServiceResult) => {
                                     this.userProfile = result.getBody(User).userProfile;
-//                                    localStorage.setItem('currentUser', JSON.stringify(this.userProfile));
                                     this.isLoading = false;
                                 },
                                 (error: ApiServiceError) => {
                                     this.errorMessage = <any>error;
-//                                    localStorage.removeItem('currentUser');
                                 }
                             );
                     }
                     else {
-//                        this._location.replaceState("/profile");
-//                        localStorage.removeItem('currentUser');
-                        this.firstTabClass = 'active';
-                        this.route = '/profile';
-                        this.isLoading = false;
+                        // showOwnProfile is true; navigate to the logged in user profile
+                        this._router.navigateByUrl('/profile');
                     }
                 }
 
@@ -137,10 +134,12 @@ export class UserComponent implements OnInit {
             if(this.userProfile.userData === undefined) {
                 // there's no logged-in user and the route doesn't match a user id (uid)
                 this.showOwnProfile = false;
+
                 // go to the login page and bring the user back to this page after successful login
                 let goToUrl: string = '/login';
                 if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
-                window.location.replace(goToUrl);
+                this._router.navigateByUrl(goToUrl);
+                //                window.location.replace(goToUrl);
             }
             else {
                 this.showOwnProfile = true;

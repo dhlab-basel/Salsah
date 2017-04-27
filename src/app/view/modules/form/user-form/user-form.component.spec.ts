@@ -1,28 +1,37 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material.module';
+import {AppRoutingModule} from '../../../../app-routing.module';
+import {UserFormComponent} from './user-form.component'
+import {UserService} from '../../../../model/services/user.service';
 
-import { UserFormComponent } from './user-form.component';
+//import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('UserFormComponent', () => {
-  let component: UserFormComponent;
-  let fixture: ComponentFixture<UserFormComponent>;
+    let component: UserFormComponent;
+    let fixture: ComponentFixture<UserFormComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UserFormComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
+            ],
+            providers: [
+                {provide: UserService}
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UserFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(UserFormComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
