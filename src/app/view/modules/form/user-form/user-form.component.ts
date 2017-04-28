@@ -13,7 +13,7 @@
  * */
 
 import {Component, OnInit, Inject} from '@angular/core';
-import {MdDialog} from "@angular/material";
+import {MdDialog, MdDialogRef} from "@angular/material";
 import {FormBuilder, Validators, FormGroup, FormControl} from "@angular/forms";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
@@ -84,10 +84,8 @@ export class UserFormComponent implements OnInit {
     counter: number = 0;
 
 
-
     // Do we need a project variable?
     project: ProjectItem = new ProjectItem();
-
 
 
     constructor(public dialog: MdDialog,
@@ -131,7 +129,7 @@ export class UserFormComponent implements OnInit {
                     this.users = result.getBody(UsersList);
                     let tempUsersList: string[] = [];
                     let i: number = 1;
-                    for(let u of this.users.users) {
+                    for (let u of this.users.users) {
                         this.usersList[i] = u.firstname + ' ' + u.lastname + ' (' + u.email + ')';
                         i++;
                     }
@@ -170,7 +168,6 @@ export class UserFormComponent implements OnInit {
         );
 
 
-
     }
 
 
@@ -196,4 +193,21 @@ export class UserFormComponent implements OnInit {
     filter(val: string): string[] {
         return this.usersList.filter(option => new RegExp(`^${val}`, 'gi').test(option));
     }
+
+
+    addNewUser() {
+        let dialogRef = this.dialog.open(DialogResultExampleDialog);
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+        });
+
+    }
+}
+
+@Component({
+    selector: 'dialog-result-example-dialog',
+    template: '<p>just a test text</p>',
+})
+export class DialogResultExampleDialog {
+    constructor() {}
 }

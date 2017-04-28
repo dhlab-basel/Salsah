@@ -1,9 +1,7 @@
 <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
     <h2 md-header>Organize your team</h2>
-    <button md-button (click)="addNewUser()">
-        <md-icon>add</md-icon>
-        <span> Add new person </span>
-    </button>
+
+    <salsah-user-form></salsah-user-form>
 
     <md-list>
         <br>
