@@ -36,10 +36,13 @@ export class UserFormComponent implements OnInit {
 
     // to add a user to a project, we need a list of all users first; here's the variable
     users: UsersList;
-    usersList: string[] = [];
+    usersList: string[] = ['+ Create new user'];
     // we can use the list of users in the md autocomplete input field; in that case, we need some controllers
     userCtrl: FormControl = new FormControl();
     filteredUsers: Observable<string[]>;
+
+    // if no user (incl. the "create user" item) is selected, the user form fields are disabled
+    inactive: boolean = true;
 
     // the user form (uf) to create a new user account
     uf: FormGroup;
@@ -52,6 +55,7 @@ export class UserFormComponent implements OnInit {
     // TODO: modify a language json file or db file for multilingual use; how we want to handle multi language?
     public form: any = {
         user: {
+            existingUser: 'Add an existing user',
             title: 'Create a new user account',
             firstName: 'First name',
             lastName: 'Last name',
@@ -96,7 +100,7 @@ export class UserFormComponent implements OnInit {
 //        console.log(encodeURIComponent("http://rdfh.ch/users/NmqI97IkSr2PNUGVjApLUg"));
 
         this.uf = fb.group({
-            'givenName': [null, Validators.required],
+            'givenName': ['gaga hornochs', Validators.required],
             'familyName': [null, Validators.required],
             'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
@@ -125,10 +129,14 @@ export class UserFormComponent implements OnInit {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.users = result.getBody(UsersList);
+                    let tempUsersList: string[] = [];
+                    let i: number = 1;
                     for(let u of this.users.users) {
-                        this.usersList.push(u.firstname + ' ' + u.lastname);
+                        this.usersList[i] = u.firstname + ' ' + u.lastname + ' (' + u.email + ')';
+                        i++;
                     }
-                    console.log(this.usersList);
+
+                    this.usersList.sort();
 
                 },
                 (error: ApiServiceError) => {
