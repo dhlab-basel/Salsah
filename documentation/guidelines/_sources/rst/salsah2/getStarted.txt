@@ -27,8 +27,13 @@ Prerequisites
 .. _Angular-cli: http://cli.angular.io
 .. _GitHub: https://github.com/dhlab-basel/salsah
 
-We develop the Salsah app with Angular-cli_, which requires Node_ 6.9.0 or higher, together with NPM_ 3 or higher.
-Update NPM to the latest version with ``npm install -g npm@latest`` and install Angular-cli globally:
+Node and NPM
+------------
+
+We develop the Salsah app with Angular (v4), especially with Angular-cli, which requires Node 6 or higher and NPM 4 or higher. Update NPM to the latest version with npm install -g npm@latest
+
+Install angular-cli globally
+----------------------------
 
 ::
 
@@ -36,11 +41,14 @@ Update NPM to the latest version with ``npm install -g npm@latest`` and install 
 
 If there are some permission issues, try to fix them by change the rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}``
 
+Install the Salsah node modules
+-------------------------------
+
 Clone the Salsah code from GitHub_ and install the Angular-cli locally and the node package dependencies. Go to the Salsah root and execute the following commands:
 
 ::
 
-    npm install --save-dev @angular/cli@1.0.0-rc.1
+    npm install --only=dev
 
     npm install
 

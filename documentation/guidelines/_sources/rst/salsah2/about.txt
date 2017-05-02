@@ -49,6 +49,10 @@ The path /projectname is reserved for the project presentation/publication webpa
 
     SALSAH 1 with admin area (concept), work space (research) and project page (publication).
 
+
+The new Salsah
+--------------
+
 For SALSAH version 2 we're planning a different structure: The admin and the workspace interface would be on the same
 app route. The access to the admin area (projectSettings) depends on the user's rights. The project publication page
 can reuse the existing modules from SALSAH. But at the moment it's not clear how the URL structure will look like.
