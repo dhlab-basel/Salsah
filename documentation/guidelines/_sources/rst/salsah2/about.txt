@@ -49,7 +49,6 @@ The path /projectname is reserved for the project presentation/publication webpa
 
     SALSAH 1 with admin area (concept), work space (research) and project page (publication).
 
-
 The new Salsah
 --------------
 

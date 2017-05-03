@@ -54,25 +54,17 @@
 </div>
 <div class="section" id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="node-and-npm">
-<h3>Node and NPM<a class="headerlink" href="#node-and-npm" title="Permalink to this headline">¶</a></h3>
-<p>We develop the Salsah app with Angular (v4), especially with Angular-cli, which requires Node 6 or higher and NPM 4 or higher. Update NPM to the latest version with npm install -g <a class="reference external" href="mailto:npm&#37;&#52;&#48;latest">npm<span>&#64;</span>latest</a></p>
-</div>
-<div class="section" id="install-angular-cli-globally">
-<h3>Install angular-cli globally<a class="headerlink" href="#install-angular-cli-globally" title="Permalink to this headline">¶</a></h3>
+<p>We develop the Salsah app with <a class="reference external" href="http://cli.angular.io">Angular-cli</a>, which requires <a class="reference external" href="http://nodejs.org/en/download/">Node</a> 6.9.0 or higher, together with <a class="reference external" href="https://www.npmjs.com">NPM</a> 3 or higher.
+Update NPM to the latest version with <code class="docutils literal"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">-g</span> <span class="pre">npm&#64;latest</span></code> and install Angular-cli globally:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="o">-</span><span class="n">g</span> <span class="nd">@angular</span><span class="o">/</span><span class="n">cli</span>
 </pre></div>
 </div>
 <p>If there are some permission issues, try to fix them by change the rights in node with <cite>sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`</cite></p>
-</div>
-<div class="section" id="install-the-salsah-node-modules">
-<h3>Install the Salsah node modules<a class="headerlink" href="#install-the-salsah-node-modules" title="Permalink to this headline">¶</a></h3>
 <p>Clone the Salsah code from <a class="reference external" href="https://github.com/dhlab-basel/salsah">GitHub</a> and install the Angular-cli locally and the node package dependencies. Go to the Salsah root and execute the following commands:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="o">--</span><span class="n">only</span><span class="o">=</span><span class="n">dev</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="o">--</span><span class="n">save</span><span class="o">-</span><span class="n">dev</span> <span class="nd">@angular</span><span class="o">/</span><span class="n">cli</span><span class="nd">@1</span><span class="o">.</span><span class="mf">0.0</span><span class="o">-</span><span class="n">rc</span><span class="o">.</span><span class="mi">1</span>
 
 <span class="n">npm</span> <span class="n">install</span>
 </pre></div>
-</div>
 </div>
 </div>
 <div class="section" id="run-the-salsah-app">

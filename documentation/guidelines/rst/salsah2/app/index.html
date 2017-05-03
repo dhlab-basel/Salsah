@@ -26,7 +26,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="top" title="Salsah 0.1 documentation" href="../../index.html" />
-    <link rel="next" title="Project" href="view/dashboard/project/index.html" />
+    <link rel="next" title="App MODEL" href="model/index.html" />
     <link rel="prev" title="Get started" href="../getStarted.html" /> 
   </head>
   <body role="document">
@@ -41,7 +41,7 @@
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="../../index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a href="view/dashboard/project/index.html">Project</a>&#160;&#160;»
+        <a href="model/index.html">App MODEL</a>&#160;&#160;»
         </p>
 
       </div>
@@ -55,141 +55,44 @@
 <p class="first admonition-title">Note</p>
 <p class="last">All used figures are mockup designs or screenshots from an early alpha version of the app. The labels and names in the figures are not the final product texts!</p>
 </div>
-<p><strong>The app has two main directories:
-one for the view modules (components and directives) and one for the model (api services and classes (json object interfaces)).</strong></p>
-<div class="section" id="app-model">
-<h2>App MODEL<a class="headerlink" href="#app-model" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="services">
-<h3>services<a class="headerlink" href="#services" title="Permalink to this headline">¶</a></h3>
-<p>The main &#8220;http get&#8221; and &#8220;http post&#8221; methods are defined in the api.service.ts file. All other services (get projects, get resources etc.) can reuse these generic methods.</p>
-</div>
-<div class="section" id="webapi">
-<h3>webapi<a class="headerlink" href="#webapi" title="Permalink to this headline">¶</a></h3>
-<p>For the Json object mapping and type checking, we&#8217;re implemented the <a href="#id1"><span class="problematic" id="id2">json2typescript_</span></a> package.</p>
-<p>json2typescript is a small package containing a helper class that maps JSON objects to an instance of a TypeScript class. After compiling to JavaScript, the result will still be an instance of this class.</p>
-<p>All interfaces are defined and stored in a folder below model/webapi/. The idea is to define different interfaces for the various APIs which will be used.</p>
-</div>
-</div>
-<div class="section" id="app-view">
-<h2>App VIEW<a class="headerlink" href="#app-view" title="Permalink to this headline">¶</a></h2>
-<p>The Salsah app has only a few main view components. They&#8217;re following the routing setup in app-routing.module.ts (with some exceptions e.g. /search).
-We organize the main view components in the folders called dashboard, documentation and login.
-The last sub-folder in the view is for every other module, which should be reusable in all the main components.</p>
-<div class="section" id="dashboard-components">
-<h3>Dashboard Components<a class="headerlink" href="#dashboard-components" title="Permalink to this headline">¶</a></h3>
-<p>The main dashboard component is in the root of view/dashboard and it&#8217;s the start page on Salsah. The start page includes the header and footer components, each with his submodules like search, header toolbar with user and add menus.</p>
-<p>The dashboard folder has two sub folders for user and project views, each with sub components which will showd in the router-outlet of the</p>
+<p>The app has two main directories:
+one for the view modules (components and directives) and one for the model (api services and classes (json object interfaces)).</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="view/dashboard/project/index.html">Project</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/dashboard/project/index.html#profile-settings">Profile / Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/dashboard/project/index.html#team">Team</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/dashboard/project/index.html#resources-ontology-editor">Resources / Ontology Editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model/index.html">App MODEL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="model/index.html#api-services">api (Services)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model/index.html#classes-interfaces">classes (Interfaces)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="view/dashboard/user/index.html">User</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/dashboard/user/index.html#profile-settings">Profile / Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/dashboard/user/index.html#projects">Projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/dashboard/user/index.html#collections">Collections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="view/index.html">App VIEW</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="view/index.html#dashboard-components">Dashboard Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="view/dashboard/project/index.html">Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/dashboard/user/index.html">User</a></li>
 </ul>
 </li>
-</ul>
-</div>
-</div>
-<div class="section" id="documentation-component">
-<h3>Documentation Component<a class="headerlink" href="#documentation-component" title="Permalink to this headline">¶</a></h3>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="view/documentation/index.html">Documentation</a></li>
-</ul>
-</div>
-</div>
-<div class="section" id="login-component">
-<h3>Login Component<a class="headerlink" href="#login-component" title="Permalink to this headline">¶</a></h3>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="view/login/index.html">Login</a></li>
-</ul>
-</div>
-</div>
-<div class="section" id="modules-sub-components">
-<h3>Modules (sub components)<a class="headerlink" href="#modules-sub-components" title="Permalink to this headline">¶</a></h3>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/header/index.html">Header</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/header/index.html#user-menu">User menu</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/header/index.html#the-add-menu">The &#8220;add&#8221; menu</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/header/index.html#search-panel">Search panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/index.html#documentation-component">Documentation Component</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="view/documentation/index.html">Documentation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/footer/index.html">Footer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/error/index.html">Error</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/error/index.html#accessdenied">AccessDenied</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/error/index.html#apierror">ApiError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/error/index.html#pagenotfound">PageNotFound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/index.html#login-component">Login Component</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="view/login/index.html">Login</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/search/index.html">Search panel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/search/index.html#simplesearch">simpleSearch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/search/index.html#extendedsearch">extendedSearch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/search/index.html#facetedsearch">facetedSearch</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/listing/index.html">Listing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/listing/index.html#project-list">Project list</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/listing/index.html#results">Results</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="view/modules/listing/index.html#resource-list">Resource List</a></li>
-<li class="toctree-l3"><a class="reference internal" href="view/modules/listing/index.html#resource-grid-list">Resource Grid list</a></li>
-<li class="toctree-l3"><a class="reference internal" href="view/modules/listing/index.html#resource-table-list">Resource Table list</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/listing/index.html#split-view">Split view</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/form/index.html">Form</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#project-form">Project form</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#resource-class-form">Resource class form</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#resource-form">Resource form</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#user-form">User form</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#collection-form">Collection form</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/object/index.html">Object</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/object/index.html#empty-object">Empty object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/object/index.html#image">Image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/object/index.html#document">Document</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/object/index.html#video">Video</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/object/index.html#audio">Audio</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/object/index.html#collection">Collection</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="view/modules/object/index.html#link">Link</a></li>
-<li class="toctree-l3"><a class="reference internal" href="view/modules/object/index.html#book">Book</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/object/index.html#region">Region</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/object/index.html#sequence">Sequence</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/properties/index.html">Properties</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#string">String</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#number">Number</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#richtext">Richtext</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#date">Date</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#time">Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#location">Location</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#resource-pointer">Resource pointer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#selection">Selection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#hierarchical-list">Hierarchical list</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/others/index.html">Other modules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/others/index.html#gravatar-directive">Gravatar directive</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/others/index.html#overlay-directive">Overlay directive</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/others/index.html#reverse-directive">Reverse directive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/index.html#modules">Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/header/index.html">Header</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/footer/index.html">Footer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/error/index.html">Error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/search/index.html">Search panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/listing/index.html">Listing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/form/index.html">Form</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/object/index.html">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/properties/index.html">Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/others/index.html">Other modules</a></li>
 </ul>
 </li>
 </ul>
-</div>
-</div>
+</li>
+</ul>
 </div>
 </div>
 
@@ -202,7 +105,7 @@ The last sub-folder in the view is for every other module, which should be reusa
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="../../index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a href="view/dashboard/project/index.html">Project</a>&#160;&#160;»
+        <a href="model/index.html">App MODEL</a>&#160;&#160;»
         </p>
 
       </div>

@@ -15,11 +15,6 @@
 SALSAH 2
 ########
 
-This is the developer's manual and guideline for Salsah v2.
-
-
-
-
 SALSAH - System for Annotation and Linkage of Sources in Arts and Humanities
 
 ..  toctree::
