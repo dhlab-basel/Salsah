@@ -71,6 +71,8 @@ export class SearchComponent implements OnInit {
 
     searchQuery: string;
 
+    searchPanelFocus: boolean = false;
+
     prevSearch: string[] = JSON.parse(localStorage.getItem('prevSearch'));
 
     focusOnSimple: string = 'inactive';
@@ -135,6 +137,7 @@ export class SearchComponent implements OnInit {
         this.searchQuery = null;
         search_ele.focus();
         this.focusOnSimple = 'inactive';
+        this.searchPanelFocus = !this.searchPanelFocus;
     }
 
     doPrevSearch(query: string) {
@@ -161,6 +164,7 @@ export class SearchComponent implements OnInit {
     setFocus() {
         this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
         this.focusOnSimple = 'active';
+        this.searchPanelFocus = !this.searchPanelFocus;
     }
 
     toggleMenu(name: string) {
