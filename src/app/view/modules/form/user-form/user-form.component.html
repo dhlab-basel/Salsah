@@ -21,16 +21,6 @@
         (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
     <section [hidden]="counter!==0">
 
-        <md-input-container class="full-width">
-            <input mdInput placeholder="User" [mdAutocomplete]="auto" [formControl]="userCtrl"
-                   [placeholder]="form.user.existingUser">
-        </md-input-container>
-
-        <md-autocomplete #auto="mdAutocomplete">
-            <md-option *ngFor="let user of filteredUsers | async" [value]="user">
-                {{ user }}
-            </md-option>
-        </md-autocomplete>
 
         <hr>
         <!-- form to create a new user or to edit an old one from selection above -->

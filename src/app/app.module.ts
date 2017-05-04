@@ -84,6 +84,7 @@ import {ProgressIndicatorComponent} from './view/modules/other/progress-indicato
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
 import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
 import {DeveloperHintComponent} from './view/modules/error/developer-hint/developer-hint.component';
+import { UserSelectComponent } from './view/modules/form/user-select/user-select.component';
 
 
 @NgModule({
@@ -129,7 +130,8 @@ import {DeveloperHintComponent} from './view/modules/error/developer-hint/develo
         ProgressIndicatorComponent,
         ProgressStepperComponent,
         AdvancedResourceClassComponent,
-        DeveloperHintComponent
+        DeveloperHintComponent,
+        UserSelectComponent
     ],
     imports: [
         BrowserModule,
