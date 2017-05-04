@@ -4,7 +4,7 @@
                   [id]="res.obj_id"
                   class="salsah-link"
                   [class.highlight]="i == selectedRow">
-        <img md-list-avatar [src]="res.preview_path" />
+        <img md-list-avatar [src]="res.preview_path" class="salsah-preview-image" />
         <p md-line *ngFor="let val of res.value">
             {{val}}
         </p>
