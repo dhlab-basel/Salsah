@@ -34,12 +34,6 @@ export class UserFormComponent implements OnInit {
     // a component with a service needs also a error message variable:
     errorMessage: any;
 
-    // to add a user to a project, we need a list of all users first; here's the variable
-    users: UsersList;
-    usersList: string[] = ['+ Create new user'];
-    // we can use the list of users in the md autocomplete input field; in that case, we need some controllers
-    userCtrl: FormControl = new FormControl();
-    filteredUsers: Observable<string[]>;
 
     // if no user (incl. the "create user" item) is selected, the user form fields are disabled
     inactive: boolean = true;
@@ -123,28 +117,7 @@ export class UserFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._userService.getAllUsers()
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.users = result.getBody(UsersList);
-                    let tempUsersList: string[] = [];
-                    let i: number = 1;
-                    for (let u of this.users.users) {
-                        this.usersList[i] = u.firstname + ' ' + u.lastname + ' (' + u.email + ')';
-                        i++;
-                    }
 
-                    this.usersList.sort();
-
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                }
-            );
-
-        this.filteredUsers = this.userCtrl.valueChanges
-            .startWith(null)
-            .map(val => val ? this.filter(val) : this.usersList.slice())
 
     }
 
@@ -190,24 +163,5 @@ export class UserFormComponent implements OnInit {
     }
 
 
-    filter(val: string): string[] {
-        return this.usersList.filter(option => new RegExp(`^${val}`, 'gi').test(option));
-    }
 
-
-    addNewUser() {
-        let dialogRef = this.dialog.open(DialogResultExampleDialog);
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
-        });
-
-    }
-}
-
-@Component({
-    selector: 'dialog-result-example-dialog',
-    template: '<p>just a test text</p>',
-})
-export class DialogResultExampleDialog {
-    constructor() {}
 }

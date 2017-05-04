@@ -19,22 +19,43 @@ import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ProjectsService} from "../../../../model/services/projects.service";
 import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
 
+/**
+ * This component has two optional attributes:
+ *      - projects: ProjectItem[]
+ *      - listTitle: string
+ *
+ *  The value for projects is an array of project objects:
+ *   - It will be used for a list of all projects, where the user is member of.
+ *   - When it's empty or not defined, it will display all public projects.
+ *
+ *  The listTitle is for a list title value
+ */
 
 @Component({
     selector: 'salsah-projects-list',
     templateUrl: './projects-list.component.html',
     styleUrls: ['./projects-list.component.css']
 })
+
+
 export class ProjectsListComponent implements OnInit {
 
+
+    @Input('projects') projectsList: ProjectItem[];
+    @Input('listTitle') title: string;
+
+
+    // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
 
+    // with the http get request, we need also a variable for error messages;
+    // just in the case if something's going wrong
     errorMessage: any = undefined;
 
-    projects: ProjectItem[] = [];
+    // the http get request will fill an array called projects
+//    projectsList: ProjectItem[] = [];
 
 
-    @Input('projects') inputProjects: ProjectItem[];
 
     constructor(
         private _router: Router,
@@ -43,11 +64,12 @@ export class ProjectsListComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(this.inputProjects === null || this.inputProjects === undefined) {
+        if(this.projectsList === undefined) {
+            // get all projects from the service
             this._projectsService.getAllProjects()
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.projects = result.getBody(ProjectsList).projects;
+                        this.projectsList = result.getBody(ProjectsList).projects;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -57,27 +79,9 @@ export class ProjectsListComponent implements OnInit {
                 );
         }
         else {
-//            this.user = JSON.parse(localStorage.getItem('ownProfile'));
-            this.projects = this.inputProjects;
+            // the user data contains a list of projects; so the data is already there
             this.isLoading = false;
-            // get only the projects of the current user....
-            // this._projectsService.getUsersProjects()
-/*
-            this._projectsService.getUsersProjects(encodeURIComponent(this.user))
-                .subscribe(
-                    (data: UserData) => {
-                        this.projects = data.projects;
-                        this.isLoading = false;
-                    },
-                    error => {
-                        this.errorMessage =<any>error;
-                        this.isLoading = false;
-                    }
-
-                )
-                */
         }
-
     }
 
     openProject(id: string) {

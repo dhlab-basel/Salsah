@@ -12,6 +12,7 @@ input[type="search"] {
     -webkit-appearance: none;
     -moz-appearance: none;
 }
+
 input[type="file"] {
     display: none;
 }
@@ -29,9 +30,9 @@ md-dialog-container.mat-dialog-container {
     }
 
     .mat-dialog-content {
-//        overflow-x: hidden;
-//        overflow-y: auto;
-        border-bottom: 2px solid rgba(0,0,0,0.1);
+        //        overflow-x: hidden;
+        //        overflow-y: auto;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 
         section {
             padding: 24px;
@@ -44,7 +45,6 @@ md-dialog-container.mat-dialog-container {
     }
 
 }
-
 
 .salsah-form {
 
@@ -74,9 +74,7 @@ md-dialog-container.mat-dialog-container {
         }
     }
 
-
 }
-
 
 .form-table {
     margin-top: 24px;
@@ -177,26 +175,22 @@ div.salsah-checkbox {
             }
         }
 
-    &.checked {
-        span.checkbox-fake {
-            background-color: $primary;
-            border-color: $primary;
-            &:after {
-                opacity: 1;
+        &.checked {
+            span.checkbox-fake {
+                background-color: $primary;
+                border-color: $primary;
+                &:after {
+                    opacity: 1;
+                }
+            }
+            span.checkbox-label {
+                color: currentColor;
             }
         }
-        span.checkbox-label {
-            color: currentColor;
-        }
-    }
 
     }
-
-
-
 
 }
-
 
 .file-upload-wrapper {
     height: 148px;
@@ -205,9 +199,7 @@ div.salsah-checkbox {
 
 }
 
-
-
-.search-panel {
+.search-panel, .user-panel {
     display: inline-flex;
     width: $search-width;
     height: 40px;
@@ -242,7 +234,7 @@ div.salsah-checkbox {
             color: rgba(0, 0, 0, 0.38);
             position: relative;
             &:active {
-                color: rgb(81,81,81);
+                color: rgb(81, 81, 81);
             }
         }
     }

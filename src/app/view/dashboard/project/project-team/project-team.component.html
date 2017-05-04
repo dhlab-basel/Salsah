@@ -1,7 +1,7 @@
 <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
     <h2 md-header>Organize your team</h2>
 
-    <salsah-user-form></salsah-user-form>
+    <salsah-user-select></salsah-user-select>
 
     <md-list>
         <br>
@@ -9,6 +9,7 @@
         <br>
         <h3 md-subheader>Project Admin</h3>
         <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+
         <md-list-item *ngFor="let member of members.members; let i = index"
                       (click)="openUser(member.email, i);"
                       class="salsah-link"

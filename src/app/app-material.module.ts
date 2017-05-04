@@ -21,7 +21,6 @@ import {
     MdTooltipModule
 } from '@angular/material';
 
-
 @NgModule({
     imports: [
         MdCoreModule,
