@@ -11,16 +11,22 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
+
 ########
 SALSAH 2
 ########
 
-SALSAH - System for Annotation and Linkage of Sources in Arts and Humanities
-
 ..  toctree::
-    :maxdepth: 3
+    :maxdepth: 2
 
-    salsah2/about
-    salsah2/getStarted
-    salsah2/app/index
+    introduction
+    get-started
+    app/index
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
 
