@@ -250,37 +250,13 @@ export class ReadDecimalValue implements ReadPropertyItem {
 
 export class ReadStillImageFileValue implements ReadPropertyItem {
 
-    constructor(id:string, imageFilename:string, imageServerIIIFBaseURL:string, imagePath: string, dimX:number, dimY:number, isPreview?: boolean) {
-
-        this.id = id;
-
-        this.imageFilename = imageFilename;
-
-        this.imageServerIIIFBaseURL = imageServerIIIFBaseURL;
-
-        this.imagePath = imagePath;
-
-        this.dimX = dimX;
-
-        this.dimY = dimY;
+    constructor(readonly id:string, readonly imageFilename:string, readonly imageServerIIIFBaseURL:string, readonly imagePath: string, readonly dimX:number, readonly dimY:number, isPreview?: boolean) {
 
         this.isPreview = isPreview === undefined ? false : isPreview;
 
     }
 
-    readonly id:string;
-
     readonly type = AppConfig.StillImageFileValue;
-
-    readonly imageFilename:string;
-
-    readonly imageServerIIIFBaseURL: string;
-
-    readonly imagePath: string;
-
-    readonly dimX:number;
-
-    readonly dimY:number;
 
     readonly isPreview: boolean;
 
