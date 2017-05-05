@@ -47,10 +47,6 @@ With `ng serve` the Salsah app starts on [localhost:4200](http://localhost:4200)
 It could happen, that ng can't resolve some specific packages. In that case the install process did not install the developer packages; install them with  
 `npm install --only=dev`
 
-
-If the installation or the start interrupts, please check our additional installation solution [here](https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/salsah2/installation/index.html#issues-with-angular-cli).
-
-
 #### Update Salsah packages
 From time to time we grab the latest npm packages for Salsah. 
 We recommend to reinstall the packages with the following commands.
