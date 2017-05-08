@@ -16,7 +16,7 @@ import {AppRoutingModule} from './app-routing.module';
 //
 // import the material design modules
 //
-import {AppMaterialModule} from './app-material.module';
+import {AppMaterialModule} from './app-material-module';
 import 'hammerjs';
 
 //
@@ -85,6 +85,7 @@ import {ProgressStepperComponent} from './view/modules/other/progress-stepper/pr
 import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
 import {DeveloperHintComponent} from './view/modules/error/developer-hint/developer-hint.component';
 import { UserSelectComponent } from './view/modules/form/user-select/user-select.component';
+import { DevelopmentComponent } from './view/test/development/development.component';
 
 
 @NgModule({
@@ -131,7 +132,8 @@ import { UserSelectComponent } from './view/modules/form/user-select/user-select
         ProgressStepperComponent,
         AdvancedResourceClassComponent,
         DeveloperHintComponent,
-        UserSelectComponent
+        UserSelectComponent,
+        DevelopmentComponent
     ],
     imports: [
         BrowserModule,
