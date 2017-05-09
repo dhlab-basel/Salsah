@@ -11,23 +11,22 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-.. _json2typescript: https://github.com/dhlab-basel/json2typescript
-
-App MODEL
-=========
-
-api (Services)
---------------
-
-The main "http get" and "http post" methods are defined in the api.service.ts file. All other services (get projects, get resources etc.) can reuse these generic methods.
 
 
-classes (Interfaces)
---------------------
-For the Json object mapping and type checking, we're using the json2typescript_ package.
+.. _developer guide:
 
-json2typescript is a small package containing a helper class that maps JSON objects to an instance of a TypeScript class. After compiling to JavaScript, the result will still be an instance of this class.
+###############
+Developer Guide
+###############
 
+..  toctree::
+    :maxdepth: 2
+
+    file-structure
+    app-routes
+
+    model
+    view
 
 
 

@@ -3,7 +3,7 @@
  *
  */
 
-salsah-progress-indicator {
+salsah-progress-indicator, .progress-indicator {
 
     width: 96px;
     height: 56px;
@@ -28,7 +28,7 @@ salsah-progress-indicator {
     .line > div {
         width: 18px;
         height: 18px;
-        background-color: #009688;
+        background-color: rgba(0, 105, 92, 1);
 
         border-radius: 6px;
         display: inline-block;

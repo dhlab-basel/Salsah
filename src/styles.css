@@ -6,7 +6,7 @@
 
 /* style from material design */
 /* @import 'assets/css/teal-amber.min.css'; */
-@import 'assets/css/md-teal-amber.css';
+@import './assets/css/md-teal-amber.min.css';
 
 /* own style setting */
-@import 'assets/css/main.min.css';
+@import './assets/css/main.min.css';

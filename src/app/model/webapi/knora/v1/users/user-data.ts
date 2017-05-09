@@ -17,27 +17,27 @@ import {JsonObject, JsonProperty} from 'json2typescript';
 @JsonObject
 export class UserData {
 
-    @JsonProperty('email', null)
+    @JsonProperty('email', String, true)
     public email: string = undefined;
 
-    @JsonProperty('firstname', null)
+    @JsonProperty('firstname', String, true)
     public firstname: string = undefined;
 
-    @JsonProperty('lastname', null)
+    @JsonProperty('lastname', String, true)
     public lastname: string = undefined;
 
     @JsonProperty('isActiveUser', Boolean)
     public isActiveUser: boolean = undefined;
 
-    @JsonProperty('lang', String)
+    @JsonProperty('lang', String, true)
     public lang: string = undefined;
 
-    @JsonProperty('password', null)
+    @JsonProperty('password', String, true)
     public password: string = undefined;
 
-    @JsonProperty('token', null)
+    @JsonProperty('token', String, true)
     public token: string = undefined;
 
-    @JsonProperty('user_id', null)
+    @JsonProperty('user_id', String, true)
     public user_id: string = undefined;
 }

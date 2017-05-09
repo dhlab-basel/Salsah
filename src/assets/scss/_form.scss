@@ -1,17 +1,7 @@
 //
 // disable browser's input type appearance
 //
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
-    display: none;
-}
 
-input[type="search"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
 input[type="file"] {
     display: none;
 }
@@ -29,9 +19,9 @@ md-dialog-container.mat-dialog-container {
     }
 
     .mat-dialog-content {
-//        overflow-x: hidden;
-//        overflow-y: auto;
-        border-bottom: 2px solid rgba(0,0,0,0.1);
+        //        overflow-x: hidden;
+        //        overflow-y: auto;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 
         section {
             padding: 24px;
@@ -44,7 +34,6 @@ md-dialog-container.mat-dialog-container {
     }
 
 }
-
 
 .salsah-form {
 
@@ -74,9 +63,7 @@ md-dialog-container.mat-dialog-container {
         }
     }
 
-
 }
-
 
 .form-table {
     margin-top: 24px;
@@ -177,26 +164,22 @@ div.salsah-checkbox {
             }
         }
 
-    &.checked {
-        span.checkbox-fake {
-            background-color: $primary;
-            border-color: $primary;
-            &:after {
-                opacity: 1;
+        &.checked {
+            span.checkbox-fake {
+                background-color: $primary;
+                border-color: $primary;
+                &:after {
+                    opacity: 1;
+                }
+            }
+            span.checkbox-label {
+                color: currentColor;
             }
         }
-        span.checkbox-label {
-            color: currentColor;
-        }
-    }
 
     }
-
-
-
 
 }
-
 
 .file-upload-wrapper {
     height: 148px;
@@ -205,58 +188,4 @@ div.salsah-checkbox {
 
 }
 
-
-
-.search-panel {
-    display: inline-flex;
-    width: $search-width;
-    height: 40px;
-    border-radius: 4px;
-    background-color: white;
-    div {
-        display: inline-block;
-
-        &.input-field {
-            flex: 1;
-            input {
-                width: $search-width - (2 * 40px);
-                height: 38px;
-                position: absolute;
-                font-size: 14pt;
-                border: none;
-                &:active,
-                &:focus {
-                    outline: none;
-                }
-            }
-        }
-        button.prefix, button.suffix {
-            border: none;
-            outline: none;
-            border-radius: 3px;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            background-color: transparent;
-            //        color: rgb(33,33,33);
-            color: rgba(0, 0, 0, 0.38);
-            position: relative;
-            &:active {
-                color: rgb(81,81,81);
-            }
-        }
-    }
-    //    padding: 2px;
-    &.small {
-        //        width: 560px;
-    }
-    &.large {
-        //        width: 600px;
-    }
-
-    &.active {
-        border-bottom: 2px solid $bright;
-    }
-
-}
 

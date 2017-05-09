@@ -1,72 +1,148 @@
+<!-- the user form starts with a button, which will open a dialog box with the user create form -->
+
+<button md-button (click)="addNewUser()">
+    <md-icon>add</md-icon>
+    <span> Add new person </span>
+</button>
+
+
+<!-- this form has a multi-step form interface
+    it will be displayed in dialog card box -->
+
+<!-- the dialog title is always the same; It stays fixed to the top of the dialog -->
+<div md-dialog-title>
+    <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
+</div>
+
+<!-- the new user form assistant starts with a user selection field (autocomplete) to look for an existing user first -->
+<div md-dialog-content>
+
+    <!-- Step 0: Select resource type from a list of resources taken directly from the Knora base ontology
+        (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
+    <section [hidden]="counter!==0">
+
+
+        <hr>
+        <!-- form to create a new user or to edit an old one from selection above -->
+        <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
+            <md-input-container class="half-width"
+                                dividerColor="{{ uf.controls['firstName']?.invalid && uf.controls['firstName']?.touched ? 'warn' : 'primary' }}">
+                <input mdInput
+                       disabled
+                       [placeholder]="form.user.firstName + ' *'"
+                       [formControl]="uf.controls['givenName']">
+            </md-input-container>
+
+            <md-input-container class="half-width"
+                                dividerColor="{{ uf.controls['lastName']?.invalid && uf.controls['lastName']?.touched ? 'warn' : 'primary' }}">
+                <input mdInput
+                       disabled="disabled"
+                       [placeholder]="form.user.lastName + ' *'"
+                       [formControl]="uf.controls['familyName']">
+            </md-input-container>
+
+            <md-input-container class="full-width"
+                                dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
+                <input mdInput type="email"
+                       [placeholder]="form.user.email + ' *'"
+                       [formControl]="uf.controls['email']">
+                <md-hint class="salsah-hint">
+                    <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
+                    <span
+                            [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || !uf.controls['email'].touched"
+                            class="salsah-error">{{form.user.emailValidation}}
+                </span>
+                </md-hint>
+            </md-input-container>
+
+            <md-input-container class="full-width"
+                                dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
+                <input mdInput type="password"
+                       [placeholder]="form.user.password + ' *'"
+                       [formControl]="uf.controls['password']">
+                <md-hint class="salsah-hint">
+                    <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
+                    <span
+                            [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || !uf.controls['password'].touched"
+                            class="salsah-error">
+                                        {{form.user.passwordHint}}
+                                    </span>
+                </md-hint>
+            </md-input-container>
+
+            <table class="full-width form-table">
+                <tr>
+                    <td class="left">
+                        <md-select [formControl]="uf.controls['lang']" [placeholder]="form.user.language"
+                                   [(ngModel)]="uf.controls['lang'].value">
+                            <md-option value="en">english</md-option>
+                            <md-option value="de">deutsch</md-option>
+                            <md-option value="fr">français</md-option>
+                            <md-option value="it">italiano</md-option>
+                        </md-select>
+                    </td>
+
+                    <td class="right">
+                        <md-checkbox align="end">
+                            {{form.user.admin}}
+                        </md-checkbox>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </section>
+</div>
+
+
+<div md-dialog-actions>
+    <button md-button
+            md-dialog-close
+            class="cancel-button">
+        Cancel
+    </button>
+    <span class="fill-remaining-space"></span>
+
+    <span class="back">
+        <button md-button
+                *ngIf="counter < max_steps && counter > 0"
+                class="back-button"
+                (click)="prevFormSection(counter, $event)">
+                <md-icon>keyboard_arrow_left</md-icon> Back
+        </button>
+    </span>
+
+    <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
+    <span class="next">
+        <button md-raised-button
+                [disabled]="!newResource.label"
+                *ngIf="counter < (max_steps - 1) && counter > 0"
+                class="next-button"
+                [color]="'primary'"
+                (click)="nextFormSection(counter, $event)">
+            Next <md-icon>keyboard_arrow_right</md-icon>
+        </button>
+        <!-- or -->
+        <button type="submit"
+                md-raised-button
+                *ngIf="counter === (max_steps - 1)"
+                class="save-button"
+                color="primary"
+                (click)="onSubmit(rcf.value)"
+                [disabled]="!rcf.valid">
+            Save
+        </button>
+    </span>
+
+</div>
+
+<!--
 <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)" md-card>
 
     <div md-dialog-title>
         {{form.user.title}}
     </div>
     <div md-dialog-content>
-        <md-input-container class="full-width"
-                            dividerColor="{{ uf.controls['firstName']?.invalid && uf.controls['firstName']?.touched ? 'warn' : 'primary' }}">
-            <input mdInput autofocus
-                   [placeholder]="form.user.firstName + ' *'"
-                   [formControl]="uf.controls['givenName']">
-        </md-input-container>
 
-        <md-input-container class="full-width"
-                            dividerColor="{{ uf.controls['lastName']?.invalid && uf.controls['lastName']?.touched ? 'warn' : 'primary' }}">
-            <input mdInput
-                   [placeholder]="form.user.lastName + ' *'"
-                   [formControl]="uf.controls['familyName']">
-        </md-input-container>
-
-        <md-input-container class="full-width"
-                            dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
-            <input mdInput type="email"
-                   [placeholder]="form.user.email + ' *'"
-                   [formControl]="uf.controls['email']">
-            <md-hint class="salsah-hint">
-                <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
-                <span
-                    [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || !uf.controls['email'].touched"
-                    class="salsah-error">{{form.user.emailValidation}}
-                </span>
-            </md-hint>
-        </md-input-container>
-
-        <md-input-container class="full-width"
-                            dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
-            <input mdInput type="password"
-                   [placeholder]="form.user.password + ' *'"
-                   [formControl]="uf.controls['password']">
-            <md-hint class="salsah-hint">
-                <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
-                <span
-                    [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || !uf.controls['password'].touched"
-                    class="salsah-error">
-                    {{form.user.passwordHint}}
-                </span>
-            </md-hint>
-        </md-input-container>
-
-        <table class="full-width form-table">
-            <tr>
-                <td class="left">
-                    <md-select [formControl]="uf.controls['lang']" [placeholder]="form.user.language"
-                               [(ngModel)]="uf.controls['lang'].value">
-                        <md-option value="en">english</md-option>
-                        <md-option value="de">deutsch</md-option>
-                        <md-option value="fr">français</md-option>
-                        <md-option value="it">italiano</md-option>
-                    </md-select>
-                </td>
-
-                <td class="right">
-                    <md-checkbox align="end">
-                        {{form.user.admin}}
-                    </md-checkbox>
-                </td>
-            </tr>
-        </table>
-    </div>
     <div md-dialog-actions>
         <span>
             <button md-button
@@ -87,3 +163,4 @@
     </div>
 
 </form>
+-->

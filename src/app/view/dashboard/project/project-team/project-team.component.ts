@@ -13,7 +13,6 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {MdDialog} from "@angular/material";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
@@ -49,7 +48,6 @@ export class ProjectTeamComponent implements OnInit {
 
 
     constructor(
-        public dialog: MdDialog,
         private _projectsService: ProjectsService,
         private _userService: UserService
     ) {
@@ -71,13 +69,6 @@ export class ProjectTeamComponent implements OnInit {
             );
     }
 
-    addNewUser() {
-        let dialogRef = this.dialog.open(UserFormComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
-        });
-
-    }
 
     openUser(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';

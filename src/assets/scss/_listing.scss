@@ -1,16 +1,18 @@
 md-list.salsah-list {
 
+    max-width: 720px;
+
     .mat-list-item {
-        min-height: 112px;
+//        min-height: 112px;
         margin-top: 8px;
         margin-bottom: 8px;
 
-        img.mat-list-avatar {
+        img.mat-list-avatar, img.salsah-preview-image {
             border-radius: 0;
             width: 96px;
             height: 96px;
             object-fit: cover;
-            margin-top: 36px;
+//            margin-top: 36px;
         }
         .mat-list-text {
             [md-line] {
@@ -20,7 +22,7 @@ md-list.salsah-list {
     }
 }
 
-.salsah-grid-list {
+md-grid-list.salsah-grid-list {
     md-card {
         margin: 6px;
         width: 100%;

@@ -13,12 +13,16 @@
  * */
 
 import {Component, OnInit, Inject} from '@angular/core';
-import {MdDialog} from "@angular/material";
-import {FormBuilder, Validators, FormGroup} from "@angular/forms";
+import {MdDialog, MdDialogRef} from "@angular/material";
+import {FormBuilder, Validators, FormGroup, FormControl} from "@angular/forms";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {UserService} from "../../../../model/services/user.service";
 import {ProjectItem} from "../../../../model/webapi/knora/";
+import {UsersList} from "../../../../model/webapi/knora/v1/users/users-list";
+
+import 'rxjs/add/operator/startWith';
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'salsah-user-form',
@@ -27,17 +31,25 @@ import {ProjectItem} from "../../../../model/webapi/knora/";
 })
 export class UserFormComponent implements OnInit {
 
-    project: ProjectItem = new ProjectItem();
+    // a component with a service needs also a error message variable:
+    errorMessage: any;
 
+
+    // if no user (incl. the "create user" item) is selected, the user form fields are disabled
+    inactive: boolean = true;
+
+    // the user form (uf) to create a new user account
     uf: FormGroup;
 
+    // email and password validator
     emailRegexp: any = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     passwordRegexp: any = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i;
 
-    private counter: number = 0;
-
-    public form: any = {        // TODO: modify a language json file or db file for multilingual use
+    // language package for all form fields...
+    // TODO: modify a language json file or db file for multilingual use; how we want to handle multi language?
+    public form: any = {
         user: {
+            existingUser: 'Add an existing user',
             title: 'Create a new user account',
             firstName: 'First name',
             lastName: 'Last name',
@@ -52,16 +64,35 @@ export class UserFormComponent implements OnInit {
         }
     };
 
+    // the user form is a multi step form:
+    // 1. card: select user or (if not exist) create a new one
+    // 2. add the user to the project(s) and give him some rights: admin or member
+    // how many steps has the form?
+    max_steps: number = 2;
+    // or define an array of steps
+    steps: string[] = [
+        "Add User",
+        "Permissions",
+        "Save"
+    ];
+    counter: number = 0;
+
+
+    // Do we need a project variable?
+    project: ProjectItem = new ProjectItem();
+
+
     constructor(public dialog: MdDialog,
                 @Inject(FormBuilder) fb: FormBuilder,
                 public _userService: UserService) {
+
 
         this.project = JSON.parse(localStorage.getItem('currentProject'));
 
 //        console.log(encodeURIComponent("http://rdfh.ch/users/NmqI97IkSr2PNUGVjApLUg"));
 
         this.uf = fb.group({
-            'givenName': [null, Validators.required],
+            'givenName': ['gaga hornochs', Validators.required],
             'familyName': [null, Validators.required],
             'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
@@ -87,6 +118,7 @@ export class UserFormComponent implements OnInit {
 
     ngOnInit() {
 
+
     }
 
     onSubmit(value: any): void {
@@ -109,7 +141,6 @@ export class UserFormComponent implements OnInit {
         );
 
 
-
     }
 
 
@@ -130,5 +161,7 @@ export class UserFormComponent implements OnInit {
         // show the previous section
         this.counter = cntr - 1;
     }
+
+
 
 }
