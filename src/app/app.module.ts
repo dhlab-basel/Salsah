@@ -18,6 +18,7 @@ import "hammerjs";
 //
 // import other third party modules
 //
+
 //
 // import all needed services
 //

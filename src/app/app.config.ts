@@ -63,5 +63,11 @@ export class AppConfig {
     public static stillImageFileValueHasDimY = "http://www.knora.org/ontology/knora-api#stillImageFileValueHasDimY";
     public static stillImageFileValueHasIIIFBaseUrl = "http://www.knora.org/ontology/knora-api#stillImageFileValueHasIIIFBaseUrl";
 
+    public static schemaName = "http://schema.org/name";
+    public static schemaNumberOfItems = "http://schema.org/numberOfItems";
+    public static schemaItemListElement = "http://schema.org/itemListElement";
+
+
+
 
 }

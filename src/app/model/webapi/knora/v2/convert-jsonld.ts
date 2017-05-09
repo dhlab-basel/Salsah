@@ -23,6 +23,7 @@ import {AppConfig} from "../../../../app.config";
 
 export module ConvertJSONLD {
 
+
     /**
      * Construct a [[ReadResource]] from JSON-LD.
      *
@@ -30,16 +31,124 @@ export module ConvertJSONLD {
      * @param properties    a [[ReadProperties]] describing the resource's properties. if any.
      * @returns a [[ReadResource]]
      */
-    function constructReadResource(resourceJSONLD: Object):ReadResource {
+    function constructReadResource(resourceJSONLD: Object): ReadResource {
 
         let properties: ReadProperties = constructReadProperties(resourceJSONLD);
 
         return {
             id: resourceJSONLD['@id'],
             type: resourceJSONLD['@type'],
-            label: resourceJSONLD['name'],
+            label: resourceJSONLD[AppConfig.schemaName],
             properties: properties
         };
+    }
+
+    /**
+     * Constructs a [[ReadPropertyItem]] from JSON-LD.
+     *
+     * @param propValue the value serialized as JSON-LD.
+     * @returns a [[ReadPropertyItem]] or `undefined` in case the value could not be processed correctly.
+     */
+    function createValueSpecificProp(propValue: Object): ReadPropertyItem | undefined {
+
+        // convert a JSON-LD property value to a `ReadPropertyItem`
+
+        let valueSpecificProp: ReadPropertyItem;
+
+        // check for the property's value type
+        switch (propValue['@type']) {
+            case AppConfig.TextValue:
+                // a text value might be given as plain string, html or xml.
+                let textValue: ReadPropertyItem;
+
+                if (propValue[AppConfig.valueAsString] !== undefined) {
+                    textValue = new ReadTextValueAsString(propValue['@id'], propValue[AppConfig.valueAsString]);
+                } else if (propValue[AppConfig.textValueAsHtml] !== undefined) {
+                    textValue = new ReadTextValueAsHtml(propValue['@id'], propValue[AppConfig.textValueAsHtml]);
+                } else if (propValue[AppConfig.textValueAsXml] !== undefined && propValue[AppConfig.textValueHasMapping] !== undefined) {
+                    textValue = new ReadTextValueAsXml(propValue['@id'], propValue[AppConfig.textValueAsXml], propValue[AppConfig.textValueHasMapping]);
+                } else {
+                    // expected text value members not defined
+                    console.log("ERROR: Invalid text value: " + JSON.stringify(propValue))
+
+                }
+
+                valueSpecificProp = textValue;
+                break;
+
+            case AppConfig.DateValue:
+                let dateValue = new ReadDateValue(propValue['@id'],
+                    propValue[AppConfig.dateValueHasCalendar],
+                    propValue[AppConfig.dateValueHasStartYear],
+                    propValue[AppConfig.dateValueHasEndYear],
+                    propValue[AppConfig.dateValueHasStartMonth],
+                    propValue[AppConfig.dateValueHasEndMonth],
+                    propValue[AppConfig.dateValueHasStartDay],
+                    propValue[AppConfig.dateValueHasEndDay]);
+
+                valueSpecificProp = dateValue;
+                break;
+
+            case AppConfig.LinkValue:
+
+                let linkValue: ReadLinkValue;
+
+                // check if the referred resource is given as an object or just as an IRI
+                if (propValue[AppConfig.linkValueHasTarget] !== undefined) {
+                    // linkValueHasTarget contains the object
+
+                    let referredResource: ReadResource = constructReadResource(propValue[AppConfig.linkValueHasTarget]);
+
+                    linkValue = new ReadLinkValue(propValue['@id'], referredResource.id, referredResource);
+                } else {
+                    // linkValueHasTargetIri contains the resource's Iri
+
+                    let referredResourceIri = propValue[AppConfig.linkValueHasTargetIri];
+
+                    linkValue = new ReadLinkValue(propValue['@id'], referredResourceIri);
+                }
+
+                valueSpecificProp = linkValue;
+                break;
+
+            case AppConfig.IntValue:
+
+                let intValue = new ReadIntegerValue(propValue['@id'], propValue[AppConfig.integerValueAsInteger]);
+                valueSpecificProp = intValue;
+
+                break;
+
+            case AppConfig.DecimalValue:
+
+                let decimalValue = new ReadDecimalValue(propValue['@id'], propValue[AppConfig.decimalValueAsDecimal]);
+                valueSpecificProp = decimalValue;
+
+                break;
+
+            case AppConfig.StillImageFileValue:
+
+                let stillImageFileValue: ReadStillImageFileValue = new ReadStillImageFileValue(
+                    propValue['@id'],
+                    propValue[AppConfig.fileValueHasFilename],
+                    propValue[AppConfig.stillImageFileValueHasIIIFBaseUrl],
+                    propValue[AppConfig.fileValueAsUrl],
+                    propValue[AppConfig.stillImageFileValueHasDimX],
+                    propValue[AppConfig.stillImageFileValueHasDimY],
+                    propValue[AppConfig.fileValueIsPreview] // optional (may be undefined)
+                );
+
+                valueSpecificProp = stillImageFileValue;
+
+                break;
+
+            default:
+                // unsupported value type
+                console.log("ERROR: value type not implemented yet: " + propValue['@type']);
+                break;
+        }
+
+        return valueSpecificProp;
+
     }
 
     /**
@@ -48,11 +157,11 @@ export module ConvertJSONLD {
      * @param resourceJSONLD an object describing the resource and its properties.
      * @returns a [[ReadProperties]].
      */
-    function constructReadProperties(resourceJSONLD: Object):ReadProperties {
+    function constructReadProperties(resourceJSONLD: Object): ReadProperties {
 
         let propNames = Object.keys(resourceJSONLD);
         // filter out everything that is not a Knora property name
-        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != 'name');
+        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConfig.schemaName);
 
         let properties: ReadProperties = {};
 
@@ -61,108 +170,30 @@ export module ConvertJSONLD {
 
             let propValues: Array<ReadPropertyItem> = [];
 
-            // for each property name, an array of property values is given, iterate over it
-            for (let propValue of resourceJSONLD[propName]) {
+            // either an array of values or just one value is given
+            if (Array.isArray(resourceJSONLD[propName])) {
+                // array of values
 
-                // convert a JSON-LD property value to a `ReadPropertyItem`
+                // for each property name, an array of property values is given, iterate over it
+                for (let propValue of resourceJSONLD[propName]) {
 
-                let valueSpecificProp: ReadPropertyItem;
+                    // convert a JSON-LD property value to a `ReadPropertyItem`
 
-                // check for the property's value type
-                switch (propValue['@type']) {
-                    case AppConfig.TextValue:
-                        // a text value might be given as plain string, html or xml.
-                        let textValue: ReadPropertyItem;
+                    let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(propValue);
 
-                        if (propValue[AppConfig.valueAsString] !== undefined) {
-                            textValue = new ReadTextValueAsString(propValue['@id'], propValue[AppConfig.valueAsString]);
-                        } else if (propValue[AppConfig.textValueAsHtml] !== undefined) {
-                            textValue = new ReadTextValueAsHtml(propValue['@id'], propValue[AppConfig.textValueAsHtml]);
-                        } else if (propValue[AppConfig.textValueAsXml] !== undefined && propValue[AppConfig.textValueHasMapping] !== undefined) {
-                            textValue = new ReadTextValueAsXml(propValue['@id'], propValue[AppConfig.textValueAsXml], propValue[AppConfig.textValueHasMapping]);
-                        } else {
-                            // expected text value members not defined
-                            console.log("ERROR: Invalid text value: " + JSON.stringify(propValue))
+                    // if it is undefined, the value could not be constructed correctly
+                    // add the property value to the array of property values
+                    if (valueSpecificProp !== undefined) propValues.push(valueSpecificProp);
 
-                        }
-
-                        valueSpecificProp = textValue;
-                        break;
-
-                    case AppConfig.DateValue:
-                        let dateValue = new ReadDateValue(propValue['@id'],
-                            propValue[AppConfig.dateValueHasCalendar],
-                            propValue[AppConfig.dateValueHasStartYear],
-                            propValue[AppConfig.dateValueHasEndYear],
-                            propValue[AppConfig.dateValueHasStartMonth],
-                            propValue[AppConfig.dateValueHasEndMonth],
-                            propValue[AppConfig.dateValueHasStartDay],
-                            propValue[AppConfig.dateValueHasEndDay]);
-
-                        valueSpecificProp = dateValue;
-                        break;
-
-                    case AppConfig.LinkValue:
-
-                        let linkValue: ReadLinkValue;
-
-                        // check if the referred resource is given as an object or just as an IRI
-                        if (propValue[AppConfig.linkValueHasTarget] !== undefined) {
-                            // linkValueHasTarget contains the object
-
-                            let referredResource: ReadResource = constructReadResource(propValue[AppConfig.linkValueHasTarget]);
-
-                            linkValue = new ReadLinkValue(propValue['@id'], referredResource.id, referredResource);
-                        } else {
-                            // linkValueHasTargetIri contains the resource's Iri
-
-                            let referredResourceIri = propValue[AppConfig.linkValueHasTargetIri];
-
-                            linkValue = new ReadLinkValue(propValue['@id'], referredResourceIri);
-                        }
-
-                        valueSpecificProp = linkValue;
-                        break;
-
-                    case AppConfig.IntValue:
-
-                        let intValue = new ReadIntegerValue(propValue['@id'], propValue[AppConfig.integerValueAsInteger]);
-                        valueSpecificProp = intValue;
-
-                        break;
-
-                    case AppConfig.DecimalValue:
-
-                        let decimalValue = new ReadDecimalValue(propValue['@id'], propValue[AppConfig.decimalValueAsDecimal]);
-                        valueSpecificProp = decimalValue;
-
-                        break;
-
-                    case AppConfig.StillImageFileValue:
-
-                        let stillImageFileValue: ReadStillImageFileValue = new ReadStillImageFileValue(
-                            propValue['@id'],
-                            propValue[AppConfig.fileValueHasFilename],
-                            propValue[AppConfig.stillImageFileValueHasIIIFBaseUrl],
-                            propValue[AppConfig.fileValueAsUrl],
-                            propValue[AppConfig.stillImageFileValueHasDimX],
-                            propValue[AppConfig.stillImageFileValueHasDimY],
-                            propValue[AppConfig.fileValueIsPreview] // optional (may be undefined)
-                        );
-
-                        valueSpecificProp = stillImageFileValue;
-
-                        break;
-
-                    default:
-                        // unsupported value type
-                        console.log("ERROR: value type not implemented yet: " + propValue['@type']);
-                        break;
                 }
+            } else {
+                // only one value
 
+                let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(resourceJSONLD[propName]);
+
+                // if it is undefined, the value could not be constructed correctly
                 // add the property value to the array of property values
                 if (valueSpecificProp !== undefined) propValues.push(valueSpecificProp);
-
             }
 
             // add the property to the properties object
@@ -182,14 +213,27 @@ export module ConvertJSONLD {
     export function createReadResourcesSequenceFromJsonLD(resourcesResponseJSONLD: Object): ReadResourcesSequence {
 
         let resources: Array<ReadResource> = [];
-        let numberOfResources: number = resourcesResponseJSONLD['numberOfItems'];
+        let numberOfResources: number = resourcesResponseJSONLD[AppConfig.schemaNumberOfItems];
 
-        for (let resourceJSONLD of resourcesResponseJSONLD['itemListElement']) {
+        // either an array of resources or just one resource is given
+        if (Array.isArray(resourcesResponseJSONLD[AppConfig.schemaItemListElement])) {
+            // an array of resources
 
-            let resource: ReadResource = constructReadResource(resourceJSONLD);
+            for (let resourceJSONLD of resourcesResponseJSONLD[AppConfig.schemaItemListElement]) {
+
+                let resource: ReadResource = constructReadResource(resourceJSONLD);
+
+                // add the resource to the resources array
+                resources.push(resource);
+            }
+        } else {
+            // only one resource
+
+            let resource: ReadResource = constructReadResource(resourcesResponseJSONLD[AppConfig.schemaItemListElement]);
 
             // add the resource to the resources array
             resources.push(resource);
+
         }
 
         return new ReadResourcesSequence(resources, numberOfResources);
