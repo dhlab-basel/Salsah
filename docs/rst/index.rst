@@ -17,7 +17,7 @@ SALSAH 2
 ########
 
 ..  toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     introduction
     get-started
