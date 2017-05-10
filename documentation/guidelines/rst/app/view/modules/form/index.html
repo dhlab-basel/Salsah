@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Form &#8212; Salsah 2.0-alpha documentation</title>
+    <title>Form components &#8212; Salsah 2.0-alpha documentation</title>
     
     <link rel="stylesheet" href="../../../../../_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
-    <link rel="next" title="Object" href="../object/index.html" />
-    <link rel="prev" title="Listing" href="../listing/index.html" /> 
+    <link rel="next" title="Listing" href="../listing/index.html" />
+    <link rel="prev" title="Footer" href="../footer/index.html" /> 
   </head>
   <body role="document">
     <div class="header-wrapper" role="banner">
@@ -35,9 +35,9 @@
         <div class="headertitle"><a
           href="../../../../index.html">Salsah 2.0-alpha documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="../listing/index.html" title="Listing"
+          <a href="../footer/index.html" title="Footer"
              accesskey="P">previous</a> |
-          <a href="../object/index.html" title="Object"
+          <a href="../listing/index.html" title="Listing"
              accesskey="N">next</a> |
           <a href="../../../../../genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -53,31 +53,35 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="form">
-<span id="id1"></span><h1>Form<a class="headerlink" href="#form" title="Permalink to this headline">¶</a></h1>
-<p>These modules define forms.</p>
+  <span class="target" id="index-0"></span><div class="section" id="form-components">
+<span id="form"></span><h1>Form components<a class="headerlink" href="#form-components" title="Permalink to this headline">¶</a></h1>
+<p>In all cases, where we need a form, we can reuse the defined forms here or we have to develop a new form component, which will be placed here.
+In the most cases we can use and reuse a form for create but also for editing stuff.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Create and edit depends always on the user&#8217;s rights.</p>
+<p class="last">Create and edit depends always on the user&#8217;s rights!</p>
 </div>
 <div class="section" id="project-form">
-<span id="id2"></span><h2>Project form<a class="headerlink" href="#project-form" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Project form<a class="headerlink" href="#project-form" title="Permalink to this headline">¶</a></h2>
 <p>Create new projects or edit existing projects</p>
 </div>
 <div class="section" id="resource-class-form">
-<span id="id3"></span><h2>Resource class form<a class="headerlink" href="#resource-class-form" title="Permalink to this headline">¶</a></h2>
-<p>Create a new resource class; including ontology editor</p>
+<span id="id2"></span><h2>Resource class form<a class="headerlink" href="#resource-class-form" title="Permalink to this headline">¶</a></h2>
+<p>This form is used to create a new resource class (ontology). At the moment we have a base ontology data structure stored in /src/app/model/test-data/baseOntology.json . It&#8217;s a base and default structure for just a few media types. In the most cases, a user will use this ontology creator. Btw the structure is always expandable, because we create (copy) the ontology for each project.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../../../../_images/resource-class-form-1.png"><img alt="../../../../../_images/resource-class-form-1.png" src="../../../../../_images/resource-class-form-1.png" style="width: 279.5px; height: 302.5px;" /></a>
 </div>
 <div class="section" id="resource-form">
-<span id="id4"></span><h2>Resource form<a class="headerlink" href="#resource-form" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h3>Resource form<a class="headerlink" href="#resource-form" title="Permalink to this headline">¶</a></h3>
 <p>Add new resource instance</p>
 </div>
 <div class="section" id="user-form">
-<span id="id5"></span><h2>User form<a class="headerlink" href="#user-form" title="Permalink to this headline">¶</a></h2>
+<span id="id4"></span><h3>User form<a class="headerlink" href="#user-form" title="Permalink to this headline">¶</a></h3>
 <p>Create new user or edit existing users</p>
 </div>
 <div class="section" id="collection-form">
-<span id="id6"></span><h2>Collection form<a class="headerlink" href="#collection-form" title="Permalink to this headline">¶</a></h2>
+<span id="id5"></span><h3>Collection form<a class="headerlink" href="#collection-form" title="Permalink to this headline">¶</a></h3>
+</div>
 </div>
 </div>
 
@@ -124,9 +128,9 @@
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="../listing/index.html" title="Listing"
+            <a href="../footer/index.html" title="Footer"
               >previous</a> |
-            <a href="../object/index.html" title="Object"
+            <a href="../listing/index.html" title="Listing"
               >next</a> |
             <a href="../../../../../genindex.html" title="General Index"
               >index</a>

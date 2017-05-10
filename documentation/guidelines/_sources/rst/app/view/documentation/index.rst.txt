@@ -15,4 +15,4 @@
 Documentation
 -------------
 
-The documentation route is at the moment just an iFrame solution with these documentation files. For the future we want to implement a wiki page or something similar.
+The documentation route is at the moment just an iFrame solution with this documentation. For the future we want to implement a wiki page or something similar.

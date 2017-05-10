@@ -16,5 +16,5 @@ Login
 -----
 
 .. figure:: salsah-login.png
-    :scale: 75 %
+    :scale: 50 %
     :align: center

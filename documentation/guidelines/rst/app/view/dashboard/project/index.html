@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Project &#8212; Salsah 2.0-alpha documentation</title>
+    <title>Project dashboard &#8212; Salsah 2.0-alpha documentation</title>
     
     <link rel="stylesheet" href="../../../../../_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
-    <link rel="next" title="User" href="../user/index.html" />
+    <link rel="next" title="User dashboard" href="../user/index.html" />
     <link rel="prev" title="App VIEW" href="../../../view.html" /> 
   </head>
   <body role="document">
@@ -37,7 +37,7 @@
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="../../../view.html" title="App VIEW"
              accesskey="P">previous</a> |
-          <a href="../user/index.html" title="User"
+          <a href="../user/index.html" title="User dashboard"
              accesskey="N">next</a> |
           <a href="../../../../../genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -53,26 +53,27 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="project">
-<h1>Project<a class="headerlink" href="#project" title="Permalink to this headline">¶</a></h1>
-<p>The main project view has three submodules (and perhaps a fourth). The navigation is handled by a second header panel (at the bottom of the main header) in tabs.</p>
+  <span class="target" id="index-0"></span><div class="section" id="project-dashboard">
+<span id="project"></span><h1>Project dashboard<a class="headerlink" href="#project-dashboard" title="Permalink to this headline">¶</a></h1>
+<p>The project dashboard component is to setup and edit a project. It&#8217;s similar to Salsah v1&#8217;s admin interface. But now specific for each project.</p>
+<p>The project has a header with a tab bar to navigate through the following sub components:</p>
 <div class="section" id="profile-settings">
 <h2>Profile / Settings<a class="headerlink" href="#profile-settings" title="Permalink to this headline">¶</a></h2>
 <p>The first tab contains the project dashboard: an overview of recent activities, a description etc.</p>
 </div>
 <div class="section" id="team">
 <h2>Team<a class="headerlink" href="#team" title="Permalink to this headline">¶</a></h2>
-<p>The second tab shows a list of the project team members. The first section lists all project administrators, the second section the &#8220;normal&#8221; users. If we need more sections &#8211; depending on the group rights &#8211; it shouldn&#8217;t be a problem to extend the listing.</p>
-<p>An administrator of the project is able to add new persons or the edit existing users.</p>
-<div class="figure">
-<img alt="../../../../../_images/salsah-project-team.png" src="../../../../../_images/salsah-project-team.png" />
+<p>This component shows a list of project members. A project admin can edit or add new members or groups to this project.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../../../../_images/salsah-project-team.png"><img alt="../../../../../_images/salsah-project-team.png" src="../../../../../_images/salsah-project-team.png" style="width: 714.0px; height: 561.0px;" /></a>
 </div>
 </div>
 <div class="section" id="resources-ontology-editor">
 <h2>Resources / Ontology Editor<a class="headerlink" href="#resources-ontology-editor" title="Permalink to this headline">¶</a></h2>
+<p>This component shows a list of resource classes (ontologies), which are used in the project. A project admin can edit or add new ontologies. Here, one of the form component (app/view/modules/form/ <a class="reference external" href="../../modules/form/index.html#resource-class-form">resource-class</a> ) will be used.</p>
 <p>The third tab contains the resource class and ontology editor.</p>
-<div class="figure">
-<img alt="../../../../../_images/salsah-project-resources.png" src="../../../../../_images/salsah-project-resources.png" />
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../../../../_images/salsah-project-resources.png"><img alt="../../../../../_images/salsah-project-resources.png" src="../../../../../_images/salsah-project-resources.png" style="width: 714.0px; height: 561.0px;" /></a>
 </div>
 </div>
 </div>
@@ -122,7 +123,7 @@
           <div role="navigation" aria-label="related navigaton">
             <a href="../../../view.html" title="App VIEW"
               >previous</a> |
-            <a href="../user/index.html" title="User"
+            <a href="../user/index.html" title="User dashboard"
               >next</a> |
             <a href="../../../../../genindex.html" title="General Index"
               >index</a>

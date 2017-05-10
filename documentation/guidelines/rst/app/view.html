@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Project" href="view/dashboard/project/index.html" />
+    <link rel="next" title="Project dashboard" href="view/dashboard/project/index.html" />
     <link rel="prev" title="App MODEL" href="model.html" /> 
   </head>
   <body role="document">
@@ -37,7 +37,7 @@
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="model.html" title="App MODEL"
              accesskey="P">previous</a> |
-          <a href="view/dashboard/project/index.html" title="Project"
+          <a href="view/dashboard/project/index.html" title="Project dashboard"
              accesskey="N">next</a> |
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -68,13 +68,13 @@ The last sub-folder in the view is for every other module, which should be reusa
 <p>The dashboard folder has two sub folders for user and project views, each with sub components which will using in the router-outlet of each main component:</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="view/dashboard/project/index.html">Project</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="view/dashboard/project/index.html">Project dashboard</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="view/dashboard/project/index.html#profile-settings">Profile / Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="view/dashboard/project/index.html#team">Team</a></li>
 <li class="toctree-l2"><a class="reference internal" href="view/dashboard/project/index.html#resources-ontology-editor">Resources / Ontology Editor</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="view/dashboard/user/index.html">User</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="view/dashboard/user/index.html">User dashboard</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="view/dashboard/user/index.html#profile-settings">Profile / Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="view/dashboard/user/index.html#projects">Projects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="view/dashboard/user/index.html#collections">Collections</a></li>
@@ -101,8 +101,16 @@ The last sub-folder in the view is for every other module, which should be reusa
 </div>
 <div class="section" id="modules-sub-components">
 <h2>Modules (sub components)<a class="headerlink" href="#modules-sub-components" title="Permalink to this headline">¶</a></h2>
+<p>(in alphabetical order)</p>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="view/modules/error/index.html">Error</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/error/index.html#accessdenied">AccessDenied</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/error/index.html#apierror">ApiError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/error/index.html#developerhint">DeveloperHint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/error/index.html#pagenotfound">PageNotFound</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="view/modules/header/index.html">Header</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="view/modules/header/index.html#user-menu">User menu</a></li>
 <li class="toctree-l2"><a class="reference internal" href="view/modules/header/index.html#the-add-menu">The &#8220;add&#8221; menu</a></li>
@@ -110,16 +118,14 @@ The last sub-folder in the view is for every other module, which should be reusa
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="view/modules/footer/index.html">Footer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/error/index.html">Error</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/error/index.html#accessdenied">AccessDenied</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/error/index.html#apierror">ApiError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/error/index.html#pagenotfound">PageNotFound</a></li>
+<li class="toctree-l1"><a class="reference internal" href="view/modules/form/index.html">Form components</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#project-form">Project form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#resource-class-form">Resource class form</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/form/index.html#resource-form">Resource form</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/form/index.html#user-form">User form</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view/modules/form/index.html#collection-form">Collection form</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/search/index.html">Search panel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/search/index.html#simplesearch">simpleSearch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/search/index.html#extendedsearch">extendedSearch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/search/index.html#facetedsearch">facetedSearch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="view/modules/listing/index.html">Listing</a><ul>
@@ -131,14 +137,6 @@ The last sub-folder in the view is for every other module, which should be reusa
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="view/modules/listing/index.html#split-view">Split view</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/form/index.html">Form</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#project-form">Project form</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#resource-class-form">Resource class form</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#resource-form">Resource form</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#user-form">User form</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/form/index.html#collection-form">Collection form</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="view/modules/object/index.html">Object</a><ul>
@@ -156,6 +154,12 @@ The last sub-folder in the view is for every other module, which should be reusa
 <li class="toctree-l2"><a class="reference internal" href="view/modules/object/index.html#sequence">Sequence</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="view/modules/others/index.html">Other modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/others/index.html#gravatar-directive">Gravatar directive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/others/index.html#overlay-directive">Overlay directive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/others/index.html#reverse-directive">Reverse directive</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="view/modules/properties/index.html">Properties</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#string">String</a></li>
 <li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#number">Number</a></li>
@@ -168,10 +172,10 @@ The last sub-folder in the view is for every other module, which should be reusa
 <li class="toctree-l2"><a class="reference internal" href="view/modules/properties/index.html#hierarchical-list">Hierarchical list</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="view/modules/others/index.html">Other modules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/others/index.html#gravatar-directive">Gravatar directive</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/others/index.html#overlay-directive">Overlay directive</a></li>
-<li class="toctree-l2"><a class="reference internal" href="view/modules/others/index.html#reverse-directive">Reverse directive</a></li>
+<li class="toctree-l1"><a class="reference internal" href="view/modules/search/index.html">Search panel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/search/index.html#simplesearch">simpleSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/search/index.html#extendedsearch">extendedSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view/modules/search/index.html#facetedsearch">facetedSearch</a></li>
 </ul>
 </li>
 </ul>
@@ -224,7 +228,7 @@ The last sub-folder in the view is for every other module, which should be reusa
           <div role="navigation" aria-label="related navigaton">
             <a href="model.html" title="App MODEL"
               >previous</a> |
-            <a href="view/dashboard/project/index.html" title="Project"
+            <a href="view/dashboard/project/index.html" title="Project dashboard"
               >next</a> |
             <a href="../../genindex.html" title="General Index"
               >index</a>
