@@ -11,15 +11,22 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
-User
-----
+.. _user:
+
+User dashboard
+==============
 
 Profile / Settings
-^^^^^^^^^^^^^^^^^^
+------------------
+
 
 Projects
-^^^^^^^^
+--------
+
+.. figure:: salsah-user-projects.png
+    :scale: 50 %
+    :align: center
 
 Collections
-^^^^^^^^^^^
+-----------
 

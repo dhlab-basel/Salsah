@@ -11,28 +11,47 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
+.. Index for genindex.html
+.. index::
+    project
+    admin
+    ontology editor
 
-Project
--------
+.. Links
+.. _resource-class: ../../modules/form/index.html#resource-class-form
 
-The main project view has three submodules (and perhaps a fourth). The navigation is handled by a second header panel (at the bottom of the main header) in tabs.
+
+
+.. _project:
+
+Project dashboard
+=================
+The project dashboard component is to setup and edit a project. It's similar to Salsah v1's admin interface. But now specific for each project.
+
+The project has a header with a tab bar to navigate through the following sub components:
 
 Profile / Settings
-^^^^^^^^^^^^^^^^^^
+------------------
 The first tab contains the project dashboard: an overview of recent activities, a description etc.
 
 Team
-^^^^
-The second tab shows a list of the project team members. The first section lists all project administrators, the second section the "normal" users. If we need more sections -- depending on the group rights -- it shouldn't be a problem to extend the listing.
-
-An administrator of the project is able to add new persons or the edit existing users.
+----
+This component shows a list of project members. A project admin can edit or add new members or groups to this project.
 
 .. figure:: salsah-project-team.png
+    :scale: 50 %
+    :align: center
 
 
 Resources / Ontology Editor
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
+This component shows a list of resource classes (ontologies), which are used in the project. A project admin can edit or add new ontologies. Here, one of the form component (app/view/modules/form/ resource-class_ ) will be used.
+
+
+
 The third tab contains the resource class and ontology editor.
 
 .. figure:: salsah-project-resources.png
+    :scale: 50 %
+    :align: center
 
