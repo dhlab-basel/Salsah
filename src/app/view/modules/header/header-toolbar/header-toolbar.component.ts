@@ -27,7 +27,7 @@ import {
 @Component({
     selector: 'salsah-header-toolbar',
     templateUrl: './header-toolbar.component.html',
-    styleUrls: ['./header-toolbar.component.css'],
+    styleUrls: ['./header-toolbar.component.scss'],
     animations: [
         trigger('addMenu',
             [

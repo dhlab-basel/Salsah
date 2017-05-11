@@ -25,7 +25,7 @@ import {
 @Component({
     selector: 'salsah-search',
     templateUrl: './search.component.html',
-    styleUrls: ['./search.component.css'],
+    styleUrls: ['./search.component.scss'],
     animations: [
         trigger('simpleSearchMenu',
             [

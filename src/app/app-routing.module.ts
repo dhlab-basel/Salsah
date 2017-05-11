@@ -37,7 +37,6 @@ import {DevelopmentComponent} from "./view/test/development/development.componen
 import {ProgressStepperComponent} from "./view/modules/other/progress-stepper/progress-stepper.component";
 
 
-
 const appRoutes: Routes = [
     {
         path: '',
@@ -55,11 +54,11 @@ const appRoutes: Routes = [
         // Public user profile
         path: 'user/:uid', component: UserComponent
         /*
-        children: [
-            { path: '', component: UserProfileComponent },
-            { path: '**', component: PageNotFoundComponent }
-        ]
-        */
+         children: [
+         { path: '', component: UserProfileComponent },
+         { path: '**', component: PageNotFoundComponent }
+         ]
+         */
     },
     {
         // User profile = Dashboard for logged in users
@@ -104,7 +103,7 @@ const appRoutes: Routes = [
                 path: 'advanced', component: ProjectAdvancedComponent
             },
 
-            { path: '**', component: PageNotFoundComponent }
+            {path: '**', component: PageNotFoundComponent}
         ]
     },
     {
@@ -121,12 +120,12 @@ const appRoutes: Routes = [
     {
         path: 'dev', component: DevelopmentComponent,
         children: [
-            { path: 'progress-indicator', component: ProgressIndicatorComponent },
-            { path: 'progress-stepper', component: ProgressStepperComponent }
+            {path: 'progress-indicator', component: ProgressIndicatorComponent},
+            {path: 'progress-stepper', component: ProgressStepperComponent}
         ]
 
     },
-    { path: '**', component: PageNotFoundComponent }
+    {path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({
@@ -134,4 +133,5 @@ const appRoutes: Routes = [
     exports: [RouterModule]
 })
 
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

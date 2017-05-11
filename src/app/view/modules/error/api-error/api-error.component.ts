@@ -3,7 +3,7 @@ import {Component, OnInit, Input} from '@angular/core';
 @Component({
     selector: 'salsah-api-error',
     templateUrl: './api-error.component.html',
-    styleUrls: ['./api-error.component.css']
+    styleUrls: ['./api-error.component.scss']
 })
 export class ApiErrorComponent implements OnInit {
 

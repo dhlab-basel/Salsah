@@ -23,7 +23,7 @@ import {ProjectMembers, ProjectItem, User} from "../../../../model/webapi/knora"
 @Component({
     selector: 'salsah-project-team',
     templateUrl: './project-team.component.html',
-    styleUrls: ['./project-team.component.css']
+    styleUrls: ['./project-team.component.scss']
 })
 export class ProjectTeamComponent implements OnInit {
 

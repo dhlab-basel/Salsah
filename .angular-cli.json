@@ -1,7 +1,7 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "project": {
-        "version": "1.0.0-beta.30",
+        "version": "1.0.0-beta.17.5",
         "name": "salsah"
     },
     "apps": [
@@ -20,7 +20,9 @@
             "testTsconfig": "tsconfig.spec.json",
             "prefix": "salsah",
             "styles": [
-                "styles.css"
+                "index.style.css",
+                "assets/style/md-teal-amber.scss",
+                "assets/style/main.scss"
             ],
             "scripts": [],
             "environmentSource": "environments/environment.ts",
@@ -54,7 +56,7 @@
         }
     },
     "defaults": {
-        "styleExt": "css",
+        "styleExt": "scss",
         "component": {}
     }
 }
