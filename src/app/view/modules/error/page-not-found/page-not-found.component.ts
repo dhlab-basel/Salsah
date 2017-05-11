@@ -13,6 +13,7 @@
  * */
 
 import { Component, OnInit } from '@angular/core';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'salsah-page-not-found',
@@ -25,9 +26,18 @@ import { Component, OnInit } from '@angular/core';
  */
 export class PageNotFoundComponent implements OnInit {
 
-  constructor() { }
+    goToLocation: any = {
+        root: '/',
+        login: '/login',
+        back: ''
+    };
 
-  ngOnInit() {
-  }
+    constructor(
+        private _location: Location
+    ) { }
+
+    ngOnInit() {
+        this.goToLocation.back = this._location.back();
+    }
 
 }

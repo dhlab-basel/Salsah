@@ -12,19 +12,19 @@
 
         <md-list>
             <md-list-item>
-                <a routerLink="/">
+                <a [routerLink]="goToLocation.root">
                     <md-icon class="left">keyboard_arrow_right</md-icon>
                     <span class="right">go to the start page</span>
                 </a>
             </md-list-item>
             <md-list-item>
-                <a routerLink="/login">
+                <a [routerLink]="goToLocation.login">
                     <md-icon class="left">keyboard_arrow_right</md-icon>
                     <span class="right">try to login</span>
                 </a>
             </md-list-item>
             <md-list-item>
-                <a routerLink="">
+                <a [routerLink]="goToLocation.back">
                     <md-icon class="left">keyboard_arrow_left</md-icon>
                     <span class="right">go back</span>
                 </a>

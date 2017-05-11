@@ -13,6 +13,7 @@
  * */
 
 import { Component, OnInit } from '@angular/core';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'salsah-access-denied',
@@ -25,15 +26,18 @@ import { Component, OnInit } from '@angular/core';
  */
 export class AccessDeniedComponent implements OnInit {
 
-  goto: any = {
+  goToLocation: any = {
     root: '/',
     login: '/login',
-    lastpage: ''
+    back: ''
   };
 
-  constructor() { }
+  constructor(
+      private _location: Location
+  ) { }
 
   ngOnInit() {
+    this.goToLocation.back = this._location.back();
   }
 
 }

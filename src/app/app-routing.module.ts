@@ -35,6 +35,7 @@ import {ObjectComponent} from "./view/modules/object/object.component";
 import {ProgressIndicatorComponent} from "./view/modules/other/progress-indicator/progress-indicator.component";
 import {DevelopmentComponent} from "./view/test/development/development.component";
 import {ProgressStepperComponent} from "./view/modules/other/progress-stepper/progress-stepper.component";
+import {PageErrorComponent} from "./view/modules/error/page-error/page-error.component";
 
 
 const appRoutes: Routes = [
@@ -115,17 +116,33 @@ const appRoutes: Routes = [
     },
     {
         path: 'denied',
-        component: AccessDeniedComponent
+        component: PageErrorComponent,
+        data: {
+            statusCode: '403'
+        }
     },
     {
         path: 'dev', component: DevelopmentComponent,
         children: [
             {path: 'progress-indicator', component: ProgressIndicatorComponent},
-            {path: 'progress-stepper', component: ProgressStepperComponent}
+            {path: 'progress-stepper', component: ProgressStepperComponent},
+            {
+                path: 'page-error',
+                component: PageErrorComponent,
+                data: {
+                    statusCode: '403'
+                }
+            }
         ]
 
     },
-    {path: '**', component: PageNotFoundComponent}
+    {
+        path: '**',
+        component: PageErrorComponent,
+        data: {
+            statusCode: '404'
+        }
+    }
 ];
 
 @NgModule({

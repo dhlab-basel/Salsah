@@ -1,10 +1,10 @@
-<md-card class="salsah-error page-not-found fix-width">
+<md-card class="fix-width" [ngClass]="'salsah-' + message.type">
     <md-card-subtitle>
-        <md-icon class="right">error</md-icon>
-        Error 404 | Page not found
+        <md-icon class="right">{{message.type}}</md-icon>
+        {{message.type | uppercase }} {{message.status}} | {{message.info}}
     </md-card-subtitle>
     <md-card-title>
-        The requested page does not exist
+        {{message.title}}
     </md-card-title>
     <md-card-content>
         You have the following possibilities now:

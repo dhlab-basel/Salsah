@@ -86,6 +86,8 @@ import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resou
 import {DeveloperHintComponent} from './view/modules/error/developer-hint/developer-hint.component';
 import { UserSelectComponent } from './view/modules/form/user-select/user-select.component';
 import { DevelopmentComponent } from './view/test/development/development.component';
+import { PageErrorComponent } from './view/modules/error/page-error/page-error.component';
+import { MessageComponent } from './view/modules/message/message.component';
 
 
 @NgModule({
@@ -133,7 +135,9 @@ import { DevelopmentComponent } from './view/test/development/development.compon
         AdvancedResourceClassComponent,
         DeveloperHintComponent,
         UserSelectComponent,
-        DevelopmentComponent
+        DevelopmentComponent,
+        PageErrorComponent,
+        MessageComponent
     ],
     imports: [
         BrowserModule,
