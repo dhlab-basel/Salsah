@@ -39,7 +39,8 @@
   }
 }
 
-.salsah-login {
+.salsah-login-card {
+  font-size: 18px;
   height: 320px;
   margin-left: auto;
   margin-right: auto;
@@ -47,13 +48,22 @@
   width: 280px;
   z-index: 150;
 
-  .salsah-login-header {
+  .login-header {
     margin-bottom: 24px;
   }
 
-  .salsah-login-field {
-    margin-bottom: 12px;
-    margin-top: 24px;
+  .login-content {
+//    font-size: 16px;
+  }
+
+  .login-field {
+    font-size: 18px;
+
+    .mat-icon {
+      font-size: 20px;
+    }
+//    margin-bottom: 12px;
+//    margin-top: 24px;
   }
 }
 

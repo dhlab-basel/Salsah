@@ -6,18 +6,18 @@
         <p>Sign in to SALSAH</p>
     </div>
 
-    <md-card class="salsah-login">
-        <md-card-header class="salsah-login-header">
+    <md-card class="salsah-login-card">
+        <md-card-header class="login-header">
             <md-card-title>
                 {{login.title | uppercase }}
             </md-card-title>
         </md-card-header>
 
-        <md-card-content class="login">
+        <md-card-content class="login-content">
             <!-- This is the login form (lf) -->
             <form class="login-form" #lf="ngForm" (ngSubmit)="onSubmit(lf.value)" *ngIf="!isLoading">
                 <!-- Username -->
-                <md-input-container class="full-width salsah-login-field">
+                <md-input-container class="full-width login-field">
                     <md-icon mdPrefix>person</md-icon>
                     <input mdInput
                            [placeholder]="login.name"
@@ -30,7 +30,7 @@
                 <br><br><br>
                 <!-- Password -->
 
-                <md-input-container class="full-width salsah-login-field">
+                <md-input-container class="full-width login-field">
                     <md-icon mdPrefix>lock</md-icon>
                     <input mdInput
                            type="password"
