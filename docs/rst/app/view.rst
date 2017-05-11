@@ -69,16 +69,17 @@ Login Component
 
 Modules (sub components)
 ========================
+(in alphabetical order)
 
 ..  toctree::
     :maxdepth: 3
 
+    view/modules/error/index
     view/modules/header/index
     view/modules/footer/index
-    view/modules/error/index
-    view/modules/search/index
-    view/modules/listing/index
     view/modules/form/index
+    view/modules/listing/index
     view/modules/object/index
-    view/modules/properties/index
     view/modules/others/index
+    view/modules/properties/index
+    view/modules/search/index

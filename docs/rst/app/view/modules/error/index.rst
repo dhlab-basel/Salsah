@@ -11,23 +11,63 @@
     You should have received a copy of the GNU Affero General Public
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
+
+.. Index for genindex.html
+.. index::
+    error
+
+.. _403: https://en.wikipedia.org/wiki/HTTP_403
+.. _404: https://en.wikipedia.org/wiki/HTTP_404
+
+
 .. _error:
 
 Error
------
+=====
+Here we define error module components. At the moment there are just a few:
+
+
 
 .. _access-denied:
 
 AccessDenied
-^^^^^^^^^^^^
+------------
+A simple 403_ access denied message.
+
+    ``<salsah-access-denied></salsah-access-denied>``
+
 
 .. _api-error:
 
 ApiError
-^^^^^^^^
+--------
+A component to show an error message from app/model/services/ap-service-error.ts, if there's an issue with the API.
+
+    ``<salsah-api-error [error]="error"></salsah-api-error>``
+
+    @Input
+        error: any
+
+
+.. _developer-hint:
+
+DeveloperHint
+-------------
+A component to setup a developer hint in a quick way.
+
+    ``<salsah-developer-hint [message]="message"></salsah-developer-hint>``
+
+    @Input
+        message: any
+
 
 .. _page-not-found:
 
 PageNotFound
-^^^^^^^^^^^^
+------------
+A simple 404_ error message.
+
+    ``<salsah-page-not-found></salsah-page-not-found>``
+
+
 
