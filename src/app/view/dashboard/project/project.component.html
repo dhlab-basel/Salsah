@@ -35,7 +35,7 @@
 
         <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
 
-        <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+        <salsah-message *ngIf="errorMessage" [apiError]="errorMessage"></salsah-message>
 
         <router-outlet *ngIf="!errorMessage" (tabRequest)="activateTab($event)"></router-outlet>
 

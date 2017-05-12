@@ -27,7 +27,7 @@ import {ApiServiceError} from "../../../../model/services/api-service-error";
 export class PageErrorComponent implements OnInit {
 
     @Input('statusCode') statusCode: string;
-    @Input('error') apiError: ApiServiceError;     // error status message from api-service-error
+    @Input('apiError') apiError: ApiServiceError;     // error status message from api-service-error
 
 //    defaultLinks: boolean = false;
 
@@ -53,21 +53,42 @@ export class PageErrorComponent implements OnInit {
         }
     ];
 
+    // default footnote text
+    knoraError: string = 'If you think it\'s a mistake, please <a href="https://github.com/dhlab-basel/knora" target="_blank"> inform the Knora team </a>';
+    salsahError: string = 'If you think it\'s a mistake, please <a href="https://github.com/dhlab-basel/salsah" target="_blank"> inform the Salsah developers </a>';
+
     /**
      *
-     * @type {{status: string; type: string; info: string; icon: string; title: string; url: string}}
+     * @type:
+     * type: string;       --> error || warning || note
+     * icon: string;       --> in the most cases we can use the type's name: error || warning || note
+     * status: {           --> similar to api service error
+     *   code: string;       --> (http) status code
+     *   text: string;       --> just a text
+     *   url: string;        --> url where the error occured
+     * };
+     * title: string;      --> title of the error, warning or note
+     * content: {          --> content: text and a list of links
+     *   text: string;
+     *   links: Array        --> object with label, route and icon
+     * };
+     * footnote: string;   --> (action) text in the footnote
+     *
      */
     message: any = {
-        status: '',     // status code
-        type: '',       // type: error, warning, note
-        info: '',       // type information
-        icon: '',       // icon: in the most cases it's similar to type
-        title: '',      // message title
-        url: '',        // the url where an error occurred
+        type: '',
+        icon: '',
+        status: {
+            code: '',
+            text: '',
+            url: ''
+        },
+        title: '',
         content: {
             text: '',
             links: []
-        }
+        },
+        footnote: ''
     };
 
 
@@ -85,59 +106,78 @@ export class PageErrorComponent implements OnInit {
         //
 
         if(!this.statusCode) {
+            // if the statusCode is undefined,
             this._activatedRoute.data.subscribe(
                 v => this.statusCode = v.statusCode
             );
         }
 
         if(this.apiError) {
-            this.message = {
-                status: this.apiError.status,
-                type: 'error',
-                info: 'API issue',
-                title: this.apiError.statusText,
-                url: this.apiError.url
-            };
-            this.defaultLinks = undefined;
+            this.statusCode = '503';
         }
 
-        this.message.status = this.statusCode;
+        if(this.statusCode.substr(0,1) == '4' || this.statusCode.substr(0,1) == '5' ) {
 
-        if(this.statusCode === '5**') {
-            this.message.type = 'gaga';
+            this.message.type = 'error';
+
+            this.message.status.code = this.statusCode;
+
+            switch(this.statusCode) {
+
+                case '400':
+                    this.message.status.text = 'Bad Request';
+                    break;
+
+                case '401':
+                case '403':
+                    // access denied
+                    this.message.status.text = 'Unauthorized';
+                    this.message.title = 'You are not allowed to see the requested page';
+                    this.message.content.text = 'You have the following possibilities now';
+                    this.message.content.links = this.defaultLinks;
+                    this.message.footnote = this.salsahError;
+                    break;
+
+                case '404':
+                    // page not found
+                    this.message.status.text = 'Not found';
+                    this.message.title = 'The requested page does not exist';
+                    this.message.content.text = 'You have the following possibilities now';
+                    this.message.content.links = this.defaultLinks;
+                    this.message.footnote = this.salsahError;
+                    break;
+
+                case '418':
+                    // easter egg
+                    this.message.status.text = 'I\'m a teapot';
+                    this.message.title = 'I\'m not able to brew coffee';
+                    this.message.content.text = 'Get you\'re coffee somewhere else';
+                    break;
+
+                case '500':
+                    // general server error
+
+                    break;
+
+                case '503':
+                    // api service error
+                    this.message.status.text = 'Service unavailable';
+                    this.message.status.url = this.apiError.url;
+                    this.message.title = this.apiError.statusText;
+                    this.message.content.text = 'The request failed on:';
+                    this.message.footnote = this.knoraError;
+                    break;
+
+                default:
+                    this.message.status.text = 'I\'m a teapot';
+                    this.message.title = 'I\'m not able to brew coffee';
+                    this.message.content.text = 'You have the following possibilities now';
+                    this.message.content.links = this.defaultLinks;
+            }
+            console.log(this.message);
         }
 
-        switch(this.statusCode) {
 
-            case '403':
-                this.message.info = 'Access denied';
-
-                break;
-
-            case '404':
-                this.message.type = 'error';
-                this.message.info = 'Page not found';
-                this.message.title = 'The requested page does not exist';
-                this.message.content.text = 'You have the following possibilities now';
-                this.message.content.links = this.defaultLinks;
-                break;
-
-            case '418':
-                this.message.info = 'I\'m a teapot';
-                break;
-
-            case '500':
-                this.message.type = 'error';
-                break;
-
-            case '503':
-                this.message.type = 'error';
-                break;
-
-            default:
-                this.statusCode = '404';
-                this.message.info = 'Page not found';
-        }
 
     }
 

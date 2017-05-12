@@ -1,96 +1,50 @@
+$color-error: #f08080;
+$color-warning: #ffffe0;
+$color-note: #90ee90;
+
+.salsah-error {
+  background-color: $color-error;
+}
+
+.salsah-warning {
+  background-color: $color-warning;
+}
+
+.salsah-note,
+.salsah-hint {
+  background-color: $color-note;
+}
+
 .salsah-error,
 .salsah-warning,
-.salsah-note {
+.salsah-note,
+.salsah-hint {
   margin: 100px auto;
+  max-width: 640px;
 
-  md-card-subtitle {
+  .message-subtitle {
+    padding-bottom: 12px;
 
-  }
+    .left {
+      float: left;
+    }
 
-  md-card-title {
-
-  }
-
-  md-card-content {
-    margin-bottom: 48px;
-    margin-top: 48px;
-
-    md-list-item {
-
+    .right {
+      float: right;
     }
   }
 
-  md-card-actions {
-    text-align: center;
-  }
-}
+  .message-title {
+    padding-top: 12px;
 
-.salsah-error {
-  background-color: lightcoral;
-}
-
-.salsah-warning {
-  background-color: lightyellow;
-}
-
-.salsah-note {
-  background-color: lightgoldenrodyellow;
-}
-
-md-card.salsah-api-error {
-
-  //  box-shadow: none;
-
-}
-
-md-card.salsah-api-warning {
-
-  //  box-shadow: none;
-  max-width: 640px;
-  margin-top: 100px;
-  margin-bottom: 100px;
-  margin-left: auto;
-  margin-right: auto;
-  md-icon {
-    float: right;
-  }
-}
-
-md-card.salsah-page-error {
-  box-shadow: none;
-  max-width: 640px;
-  margin-top: 60px;
-  margin-bottom: 60px;
-  margin-left: auto;
-  margin-right: auto;
-
-}
-
-.salsah-warning {
-  width: 100%;
-}
-
-md-card.salsah-hint {
-
-  max-width: 640px;
-  margin-top: 60px;
-  margin-bottom: 60px;
-  margin-left: auto;
-  margin-right: auto;
-  md-icon {
-    float: right;
   }
 
-}
+  .message-content {
+    margin-bottom: 48px;
+    margin-top: 48px;
+  }
 
-md-card.salsah-developer-hint {
-  background-color: lightgoldenrodyellow;
-  max-width: 640px;
-  margin-top: 60px;
-  margin-bottom: 60px;
-  margin-left: auto;
-  margin-right: auto;
-  md-icon {
-    float: right;
+  .message-footnote {
+    padding: 24px;
   }
 }
