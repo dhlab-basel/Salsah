@@ -15,6 +15,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute} from "@angular/router";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
 
 @Component({
     selector: 'salsah-page-error',
@@ -26,28 +27,49 @@ import {ActivatedRoute} from "@angular/router";
 export class PageErrorComponent implements OnInit {
 
     @Input('statusCode') statusCode: string;
-    @Input('error') error: any;
+    @Input('error') apiError: ApiServiceError;     // error status message from api-service-error
 
-    statusText: string;
-    statusTitle: string;
+//    defaultLinks: boolean = false;
 
+    /**
+     *
+     * @type {[{label: string; route: string; icon: string},{label: string; route: string; icon: string},{label: string; route: string; icon: string}]}
+     */
+    defaultLinks: any = [
+        {
+            label: 'go to the start page',
+            route: '/',
+            icon: 'keyboard_arrow_right'
+        },
+        {
+            label: 'try to login',
+            route: '/login',
+            icon: 'keyboard_arrow_right'
+        },
+        {
+            label: 'go back',
+            route: '<--',
+            icon: 'keyboard_arrow_left'
+        }
+    ];
+
+    /**
+     *
+     * @type {{status: string; type: string; info: string; icon: string; title: string; url: string}}
+     */
     message: any = {
-        status: '',
-        type: '',
-        info: '',
-        title: '',
+        status: '',     // status code
+        type: '',       // type: error, warning, note
+        info: '',       // type information
+        icon: '',       // icon: in the most cases it's similar to type
+        title: '',      // message title
+        url: '',        // the url where an error occurred
         content: {
-            status: 0,
-            statusText: '',
-            url: ''
+            text: '',
+            links: []
         }
     };
 
-    goToLocation: any = {
-        root: '/',
-        login: '/login',
-        back: ''
-    };
 
     constructor(
         private _location: Location,
@@ -57,9 +79,10 @@ export class PageErrorComponent implements OnInit {
 
     ngOnInit() {
 
-        /* if the status code is undefined, the status code could be defined in the routes;
-            in that case we get the status code from activated route
-         */
+        //
+        // if the status code is undefined, the status code could be defined in the routes;
+        // in that case we get the status code from activated route
+        //
 
         if(!this.statusCode) {
             this._activatedRoute.data.subscribe(
@@ -67,27 +90,64 @@ export class PageErrorComponent implements OnInit {
             );
         }
 
+        if(this.apiError) {
+            this.message = {
+                status: this.apiError.status,
+                type: 'error',
+                info: 'API issue',
+                title: this.apiError.statusText,
+                url: this.apiError.url
+            };
+            this.defaultLinks = undefined;
+        }
+
         this.message.status = this.statusCode;
 
+        if(this.statusCode === '5**') {
+            this.message.type = 'gaga';
+        }
+
         switch(this.statusCode) {
+
             case '403':
-                this.statusText = 'Access denied';
+                this.message.info = 'Access denied';
+
                 break;
+
             case '404':
                 this.message.type = 'error';
                 this.message.info = 'Page not found';
                 this.message.title = 'The requested page does not exist';
-
+                this.message.content.text = 'You have the following possibilities now';
+                this.message.content.links = this.defaultLinks;
                 break;
+
             case '418':
-                this.statusText = 'I\'m a teapot';
+                this.message.info = 'I\'m a teapot';
+                break;
+
+            case '500':
+                this.message.type = 'error';
+                break;
+
+            case '503':
+                this.message.type = 'error';
                 break;
 
             default:
                 this.statusCode = '404';
-                this.statusText = 'Page not found';
+                this.message.info = 'Page not found';
         }
-//        this.goToLocation.back = this._location.back();
+
+    }
+
+    goToLocation(route) {
+        if(route === '<--') {
+            this._location.back();
+        }
+        else {
+            window.location.replace(route);
+        }
     }
 
 }

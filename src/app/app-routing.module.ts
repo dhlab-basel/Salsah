@@ -36,6 +36,7 @@ import {ProgressIndicatorComponent} from "./view/modules/other/progress-indicato
 import {DevelopmentComponent} from "./view/test/development/development.component";
 import {ProgressStepperComponent} from "./view/modules/other/progress-stepper/progress-stepper.component";
 import {PageErrorComponent} from "./view/modules/error/page-error/page-error.component";
+import {DeveloperHintComponent} from "./view/modules/error/developer-hint/developer-hint.component";
 
 
 const appRoutes: Routes = [
@@ -116,7 +117,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'denied',
-        component: PageErrorComponent,
+        component: AccessDeniedComponent,
         data: {
             statusCode: '403'
         }
@@ -126,6 +127,7 @@ const appRoutes: Routes = [
         children: [
             {path: 'progress-indicator', component: ProgressIndicatorComponent},
             {path: 'progress-stepper', component: ProgressStepperComponent},
+            {path: 'note', component: DeveloperHintComponent},
             {
                 path: 'page-error',
                 component: PageErrorComponent,

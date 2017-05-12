@@ -6,32 +6,25 @@
     <md-card-title>
         {{message.title}}
     </md-card-title>
-    <md-card-content>
-        You have the following possibilities now:
-
-        <md-list>
-            <md-list-item>
-                <a [routerLink]="goToLocation.root">
-                    <md-icon class="left">keyboard_arrow_right</md-icon>
-                    <span class="right">go to the start page</span>
-                </a>
-            </md-list-item>
-            <md-list-item>
-                <a [routerLink]="goToLocation.login">
-                    <md-icon class="left">keyboard_arrow_right</md-icon>
-                    <span class="right">try to login</span>
-                </a>
-            </md-list-item>
-            <md-list-item>
-                <a [routerLink]="goToLocation.back">
-                    <md-icon class="left">keyboard_arrow_left</md-icon>
-                    <span class="right">go back</span>
-                </a>
+    <md-card-content *ngIf="defaultLinks">
+        {{message.content.text}}
+        <md-list *ngIf="message.content.links">
+            <md-list-item *ngFor="let link of message.content.links" (click)="goToLocation(link.route)">
+                <md-icon class="left">{{link.icon}}</md-icon>
+                <span class="right">{{link.label}}</span>
             </md-list-item>
         </md-list>
     </md-card-content>
+
+    <md-card-content *ngIf="!defaultLinks">
+        The request failed on:
+        <a href="{{message?.url}}" target="_blank">{{message?.url}}</a>
+    </md-card-content>
+
     <md-card-actions>
-        If you think it's a mistake, please <a href="https://github.com/dhlab-basel/salsah">inform the Salsah
-        developers</a>
+        If you think it's a mistake, please
+        <a href="https://github.com/dhlab-basel/salsah">
+            inform the Salsah developers
+        </a>
     </md-card-actions>
 </md-card>

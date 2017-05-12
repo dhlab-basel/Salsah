@@ -11,4 +11,4 @@
 </md-list>
 
 <!-- if there's an error with the projects list: show the error message -->
-<salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+<salsah-page-error *ngIf="errorMessage" [error]="errorMessage" statusCode="503"></salsah-page-error>

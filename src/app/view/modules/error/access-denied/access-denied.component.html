@@ -24,7 +24,7 @@
                 </a>
             </md-list-item>
             <md-list-item>
-                <a [routerLink]="goToLocation.back">
+                <a (click)="_location.back()">
                     <md-icon class="left">keyboard_arrow_left</md-icon>
                     <span class="right">go back</span>
                 </a>
@@ -35,5 +35,8 @@
         If you think it's a mistake, please <a href="https://github.com/dhlab-basel/salsah">inform the Salsah
         developers</a>
     </md-card-actions>
+    <md-card-footer>
+        Was ist der Unterschied von footer zu actions?
+    </md-card-footer>
 </md-card>
 
