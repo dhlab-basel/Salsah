@@ -23,6 +23,10 @@ class ListInfo{
     constructor(public description: string){}
 }
 
+class PropInfo{
+    constructor(public description: string){}
+}
+
 @Component({
   selector: 'salsah-advanced-resource-class',
   templateUrl: './advanced-resource-class.component.html',
@@ -93,7 +97,6 @@ export class AdvancedResourceClassComponent implements OnInit {
         ]
     };
 
-    listItems = [];
 
     constructor(private _baseOntologyService: BaseOntologyService) { }
 
@@ -113,6 +116,7 @@ export class AdvancedResourceClassComponent implements OnInit {
     }
 
 
+    listItems = [];
 
     public newListItem = false;
 
@@ -123,6 +127,20 @@ export class AdvancedResourceClassComponent implements OnInit {
             this.listItems.push(new ListInfo(newItem));
         }
 //        console.log(this.newItem);
+        console.log(e);
+    }
+
+
+    customProps = [];
+
+    public newcustomProp = false;
+
+    addCustomProperty(newPropItem: string, e) {
+        e.preventDefault();
+        this.newcustomProp = true;
+        if (newPropItem){
+            this.customProps.push(new PropInfo(newPropItem));
+        }
         console.log(e);
     }
 
