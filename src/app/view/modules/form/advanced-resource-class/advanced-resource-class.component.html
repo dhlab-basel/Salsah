@@ -5,64 +5,68 @@
         <md-card-header>
             <div md-card-avatar class="header-image"></div>
             <md-card-title> <b>Add new resource</b> </md-card-title>
-            <md-card-subtitle>Create a new resource type for your project</md-card-subtitle>
+            <md-card-subtitle>Here you can reate a custom resource type for your project.
+                Before creating a new resource type, please make sure that the existing basic resource types found under
+                Resources: add new resource" are not sufficient for your project.
+            </md-card-subtitle>
         </md-card-header>
+
         <md-card-content>
-        <p>
-        Before creating a new resource type, please make sure that the existing basic resource types found under
-        Resources: add new resource" are not sufficient for your project.
-        </p>
 
             <form class="advanced-resource-form">
-                <md-input-container class="full-width">
-                    <input mdInput placeholder="Name">
-                </md-input-container>
-
-                <table class="full-width" cellspacing="0"><tr>
-                    <td><md-input-container class="full-width">
-                        <input mdInput placeholder="Label">
-                    </md-input-container></td>
-                    <td><md-input-container class="full-width">
-                        <input mdInput placeholder="Icon">
-                    </md-input-container></td>
-                </tr></table>
-
-                <p>
-                    <md-input-container class="full-width">
-                        <textarea mdInput placeholder="Description"></textarea>
+                <section>
+                    <md-input-container class="full-width-down">
+                        <input mdInput placeholder="Name">
                     </md-input-container>
-                </p>
 
-                <!-- resource permissions -->
-                <p md-subheader>Set resource permissions</p>
-                <table class="full-width" cellspacing="0"><tr>
-                    <tr>
-                        <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
-                            {{group.label}}
-                        </th>
-                    </tr>
-                    <tr>
-                        <td *ngFor="let group of permissions.groups; let i = index">
-                            <md-select [(ngModel)]="permissions[group.id]" [name]="group.id">
-                                <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
-                                    {{cat.label}}
-                                </md-option>
-                            </md-select>
-                        </td>
-                    </tr>
-                </table>
-                <p><br>
-                    Select resource type
-                </p>
+                    <table class="full-width" cellspacing="0"><tr>
+                        <td><md-input-container class="full-width">
+                            <input mdInput placeholder="Label">
+                        </md-input-container></td>
+                        <td><md-input-container class="full-width">
+                            <input mdInput placeholder="Icon">
+                        </md-input-container></td>
+                    </tr></table>
 
-                <p><br>
-                    <md-select placeholder="resource type" [(ngModel)]="resclass" name="resourceClass">
-                        <md-option *ngFor="let res of baseOntology?.resourceClasses | key" [value]="res.id">
-                            {{res.value.label}}
-                        </md-option>
-                    </md-select>
-                </p>
+                    <p>
+                        <md-input-container class="full-width">
+                            <textarea mdInput placeholder="Description"></textarea>
+                        </md-input-container>
+                    </p>
+                </section>
+                <section>
+                    <!-- resource permissions -->
+                    <p md-subheader>Set resource permissions</p>
+                    <table class="full-width" cellspacing="0"><tr>
+                        <tr>
+                            <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
+                                {{group.label}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td *ngFor="let group of permissions.groups; let i = index">
+                                <md-select [(ngModel)]="permissions[group.id]" [name]="group.id">
+                                    <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
+                                        {{cat.label}}
+                                    </md-option>
+                                </md-select>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+                <section>
+                    <p><br>
+                        Select resource type
+                    </p>
 
+                    <p><br>
+                        <md-select placeholder="resource type" [(ngModel)]="resclass" name="resourceClass">
+                            <md-option *ngFor="let res of baseOntology?.resourceClasses | key" [value]="res.id">
+                                {{res.value.label}}
+                            </md-option>
+                        </md-select>
+                    </p>
+                </section>
             </form>
 
         </md-card-content>
@@ -81,18 +85,16 @@
     <md-card-header>
         <div md-card-avatar class="header-image"></div>
         <md-card-title> <b>Create list element</b> </md-card-title>
-        <md-card-subtitle>Lists and hierarchical lists</md-card-subtitle>
+        <md-card-subtitle>        Here you can create new lists and hierarchical lists which you can use to customize your properties.
+        </md-card-subtitle>
     </md-card-header>
-    <md-card-content>
 
-    <p>
-        Here you can create new list types which you can use to customize your properties.
-    </p>
+    <md-card-content>
 
     <form class="advanced-resource-form">
 
         <section>
-            <md-input-container class="full-width">
+            <md-input-container class="full-width-down">
                 <input mdInput placeholder="Name">
             </md-input-container>
 
@@ -141,6 +143,7 @@
                         md-mini-fab color="primary" (click)="addListItem(newItem.value, $event)">
                     <i class="material-icons">add</i>
                 </button>
+                <!-- need to add the option to delete list item-->
             </p>
 
         </section>
@@ -159,7 +162,90 @@
 <td>
 <!-- ***************** Card 3: Properties **********************-->
 
+    <md-card class="advanced-resource-card">
+        <md-card-header>
+            <div md-card-avatar class="header-image"></div>
+            <md-card-title> <b>Add new properties</b> </md-card-title>
+            <md-card-subtitle> Here you can create and add properties to your resource.
+                Each property will be assigned cardinality and permission values.
+                You can create new properties, or choose from the pre-existing properties in a list.
+            </md-card-subtitle>
+        </md-card-header>
+        <md-card-content>
+            <form class="advanced-resource-form">
 
+                <section>
+                    <md-input-container class="full-width-down">
+                        <input mdInput placeholder="Name">
+                    </md-input-container>
+
+                    <table class="full-width" cellspacing="0"><tr>
+                        <td><md-input-container class="full-width">
+                            <input mdInput placeholder="Label">
+                        </md-input-container></td>
+                        <td><md-input-container class="full-width">
+                            <input mdInput placeholder="Icon">
+                        </md-input-container></td>
+                    </tr>
+                    </table>
+                    <p>
+                        <md-input-container class="full-width">
+                            <textarea mdInput placeholder="Description"></textarea>
+                        </md-input-container>
+                    </p>
+                </section>
+
+                <p><br>
+                    <b>Select existing property</b>
+                    <small>(list all the base ontologies' properties)</small>
+                </p>
+                <p><br>
+                   <md-select placeholder="resource type" [(ngModel)]="resClass" name="resourceClass">
+                        <md-option *ngFor="let res of baseOntology?.resourceClasses | key" [value]="res.id">
+                            {{res.value.label}}
+                        </md-option>
+                   </md-select>
+                   <md-select placeholder="resource property" [(ngModel)]="resProp" name="resourceProperty">
+                       <md-option *ngFor="let prop of newResource.properties | key" [value]="prop.id">
+                           {{prop.value.label}}
+                       </md-option>
+                   </md-select>
+                </p>
+                <p><br>
+                    <b>Add custom properties</b>
+                </p>
+                <section class="addListItems">
+                    <md-list *ngIf="newcustomProp == true" class="showList">
+                        <md-list-item *ngFor="let customProp of customProps">
+                            {{customProp.description}}
+                            <div class="filler"></div>
+                        </md-list-item>
+                    </md-list>
+
+                    <md-input-container class="full-width">
+                        <input  mdInput
+                                placeholder="New property"
+                                #newProperty
+                                (keyup.enter)="addCustomProperty(newProperty.value, $event)"
+                                (blur)="addCustomProperty(newProperty.value, $event); newProperty.value='' ">
+                    </md-input-container>
+                    <p>
+                        <button [mdTooltip]="'Click to add new custom property'" mdTooltipPosition="above"
+                                md-mini-fab color="primary" (click)="addCustomProperty(newProperty.value, $event)">
+                            <i class="material-icons">add</i>
+                        </button>
+                        <!-- need to add the option to delete custom property-->
+                    </p>
+
+                </section>
+
+            </form>
+
+        </md-card-content>
+        <md-card-actions>
+            <button md-button class="saveButton">SAVE</button>
+        </md-card-actions>
+    </md-card>
 
 
 

@@ -1,10 +1,16 @@
 .advanced-resource-card {
     width: 500px;
-    height: 600px;
+    height: 800px;
 }
 
-.header-image {
-    background-size: cover;
+.top{
+    background-color:yellow;
+}
+
+.full-width-down {
+    width: 100%;
+    vertical-align: -50px;
+
 }
 
 .full-width {
@@ -90,6 +96,6 @@
 }
 
 .saveButton{
-    flex: 1;
+    flex: 50;
     vertical-align: bottom; /*does not work*/
 }
