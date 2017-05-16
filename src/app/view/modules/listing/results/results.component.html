@@ -15,7 +15,7 @@
 
         <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
 
-        <salsah-message *ngIf="errorMessage" [apiError]="errorMessage"></salsah-message>
+        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
         <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
             <!-- show the results in a simple list -->

@@ -1,18 +1,18 @@
-$color-error: #ff9e80;
-$color-warning: #ffff8d;
-$color-note: #ccff90;
+$color-error: #ff3a13;
+$color-warning: #FFC400;
+$color-note: #00695c;
 
 .salsah-error {
-  background-color: $color-error;
+  background-color: rgba($color-error, .4);
 }
 
 .salsah-warning {
-  background-color: $color-warning;
+  background-color: rgba($color-warning, .4);
 }
 
 .salsah-note,
 .salsah-hint {
-  background-color: $color-note;
+  background-color: rgba($color-note, .4);
 }
 
 .salsah-error,

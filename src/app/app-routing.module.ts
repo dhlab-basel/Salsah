@@ -99,7 +99,7 @@ const appRoutes: Routes = [
                 path: '**',
                 component: MessageComponent,
                 data: {
-                    statusCode: '404'
+                    code: '404'
                 }
             }
         ]
@@ -115,7 +115,7 @@ const appRoutes: Routes = [
         path: 'denied',
         component: MessageComponent,
         data: {
-            statusCode: '401'
+            code: '401'
         }
     },
     {
@@ -125,10 +125,7 @@ const appRoutes: Routes = [
             {path: 'progress-stepper', component: ProgressStepperComponent},
             {
                 path: 'message',
-                component: MessageComponent,
-                data: {
-                    statusCode: ''
-                }
+                component: MessageComponent
             }
         ]
 
@@ -137,7 +134,7 @@ const appRoutes: Routes = [
         path: '**',
         component: MessageComponent,
         data: {
-            statusCode: '404'
+            code: '404'
         }
     }
 ];

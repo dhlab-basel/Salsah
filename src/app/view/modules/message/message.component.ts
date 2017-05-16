@@ -14,7 +14,7 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ApiServiceError} from "../../../model/services/api-service-error";
 
 @Component({
@@ -24,14 +24,16 @@ import {ApiServiceError} from "../../../model/services/api-service-error";
 })
 export class MessageComponent implements OnInit {
 
-    @Input('statusCode') statusCode: string;
-    @Input('apiError') apiError: ApiServiceError;     // error status message from api-service-error
+    @Input('type') type: string;                // message type: error, warning, note OR a status code like 404, 500
+    @Input('note') note: any;                   // note / message content
+    @Input('error') error: ApiServiceError;     // error message from api-service-error
+    @Input('statusCode') statusCode: string;          // status code (400, 404, 500, etc.) in the case of not existing ApiServiceError
 
     /**
      *
-     * default link list, which will be used in message content to give a user some possibilities about what he can do now
+     * default link list, which will be used in message content to give a user some possibilities
+     * what he can do in the case of an error
      *
-     * @type {[{label: string; route: string; icon: string},{label: string; route: string; icon: string},{label: string; route: string; icon: string}]}
      */
     defaultLinks: any = [
         {
@@ -52,8 +54,10 @@ export class MessageComponent implements OnInit {
     ];
 
     // default footnote text
-    knoraError: string = 'If you think it\'s a mistake, please <a href="https://github.com/dhlab-basel/knora" target="_blank"> inform the Knora team </a>';
-    salsahError: string = 'If you think it\'s a mistake, please <a href="https://github.com/dhlab-basel/salsah" target="_blank"> inform the Salsah developers </a>';
+    knoraError: string = "If you think it\'s a mistake, please " +
+        "<a href='https://github.com/dhlab-basel/knora' target='_blank'> inform the Knora team </a>";
+    salsahError: string = "If you think it\'s a mistake, please " +
+        "<a href='https://github.com/dhlab-basel/salsah' target='_blank'> inform the Salsah developers </a>";
 
     /**
      *
@@ -92,25 +96,28 @@ export class MessageComponent implements OnInit {
     };
 
 
-    constructor(private _location: Location,
+    constructor(private _router: Router,
+                private _location: Location,
                 private _activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
         if (!this.statusCode) {
-            // the status code is undefined; perhaps there's one coming from the activated route (s. app-routing.module.ts)
-            this._activatedRoute.data.subscribe(
-                v => this.statusCode = v.statusCode
+            // the status code is undefined; perhaps we get one from the activated route (s. app-routing.module.ts)
+            this._activatedRoute
+                .data
+                .subscribe(
+                    v => this.statusCode = v.code
             );
         }
 
-        if (this.apiError) {
+        if (this.error) {
             // the attribute apiError is set; in that case we have a problem with the (knora) API server; = 503
             this.statusCode = '503';
         }
 
         // if a status code exists and it starts with 4 or 5 (e.g. 404 or 500), then we have to show the error message
-        if (this.statusCode.substr(0, 1) == '4' || this.statusCode.substr(0, 1) == '5') {
+        if (this.statusCode && (this.statusCode.substr(0, 1) == '4' || this.statusCode.substr(0, 1) == '5')) {
 
             this.message.type = 'error';
 
@@ -159,8 +166,8 @@ export class MessageComponent implements OnInit {
                 case '503':
                     // api service error
                     this.message.status.text = 'Service unavailable';
-                    this.message.status.url = this.apiError.url;
-                    this.message.title = this.apiError.statusText;
+                    this.message.status.url = this.error.url;
+                    this.message.title = this.error.statusText;
                     this.message.content.text = 'The request failed on:';
                     this.message.footnote = this.knoraError;
                     break;
@@ -171,12 +178,20 @@ export class MessageComponent implements OnInit {
                     this.message.content.text = 'You have the following possibilities now';
                     this.message.content.links = this.defaultLinks;
             }
-            console.log(this.message);
+//            console.log(this.message);
         }
         else {
             // no status code or it doesn't starts with 4 or 5
-            console.log(this.statusCode);
             this.message.type = 'note';
+            if (!this.note) {
+                this.message.status.text = 'empty note';
+                this.message.title = 'This is a note without any content';
+            }
+            else {
+                this.message.content.text = this.note.text;
+                this.message.title = this.note.title;
+                this.message.footnote = 'Path: ' + this.note.path;
+            }
         }
 
 
@@ -187,7 +202,7 @@ export class MessageComponent implements OnInit {
             this._location.back();
         }
         else {
-            window.location.replace(route);
+            this._router.navigate([route]);
         }
     }
 

@@ -56,9 +56,7 @@ import {ProjectResourcesComponent} from './view/dashboard/project/project-resour
 import {SearchComponent} from './view/modules/search/search.component';
 import {SimpleSearchComponent} from './view/modules/search/simple-search/simple-search.component';
 import {ExtendedSearchComponent} from './view/modules/search/extended-search/extended-search.component';
-import {PageNotFoundComponent} from './view/modules/error/page-not-found/page-not-found.component';
-import {ApiErrorComponent} from './view/modules/error/api-error/api-error.component';
-import {AccessDeniedComponent} from './view/modules/error/access-denied/access-denied.component';
+
 import {ProjectsListComponent} from './view/modules/listing/projects-list/projects-list.component';
 
 import {GravatarDirective} from './view/modules/other/gravatar.directive';
@@ -83,10 +81,10 @@ import {KeyPipe} from './view/modules/other/key.pipe';
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
 import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
-import {DeveloperHintComponent} from './view/modules/error/developer-hint/developer-hint.component';
+
 import { UserSelectComponent } from './view/modules/form/user-select/user-select.component';
 import { DevelopmentComponent } from './view/test/development/development.component';
-import { PageErrorComponent } from './view/modules/error/page-error/page-error.component';
+
 import { MessageComponent } from './view/modules/message/message.component';
 
 
@@ -101,8 +99,6 @@ import { MessageComponent } from './view/modules/message/message.component';
         SearchComponent,
         SimpleSearchComponent,
         ExtendedSearchComponent,
-        PageNotFoundComponent,
-        ApiErrorComponent,
         HeaderToolbarComponent,
         HeaderProjectsComponent,
         DashboardComponent,
@@ -113,7 +109,6 @@ import { MessageComponent } from './view/modules/message/message.component';
         ProjectProfileComponent,
         ProjectsListComponent,
         OverlayDirective,
-        AccessDeniedComponent,
         ResultsComponent,
         ResourceListComponent,
         ResourceGridListComponent,
@@ -133,10 +128,8 @@ import { MessageComponent } from './view/modules/message/message.component';
         ProgressIndicatorComponent,
         ProgressStepperComponent,
         AdvancedResourceClassComponent,
-        DeveloperHintComponent,
         UserSelectComponent,
         DevelopmentComponent,
-        PageErrorComponent,
         MessageComponent
     ],
     imports: [
