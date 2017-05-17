@@ -27,7 +27,7 @@ import {Observable} from "rxjs";
 @Component({
     selector: 'salsah-user-form',
     templateUrl: './user-form.component.html',
-    styleUrls: ['./user-form.component.css']
+    styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
 

@@ -11,7 +11,7 @@ import {MdDialog} from "@angular/material";
 @Component({
     selector: 'salsah-user-select',
     templateUrl: './user-select.component.html',
-    styleUrls: ['./user-select.component.css']
+    styleUrls: ['./user-select.component.scss']
 })
 export class UserSelectComponent implements OnInit {
 

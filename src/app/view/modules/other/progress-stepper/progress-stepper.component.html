@@ -1,5 +1,6 @@
-<div class="salsah-progress-stepper" *ngIf="!errorMessage">
-    <p class="step-number">
+<div class="progress-wrapper">
+    <div class="progress-stepper" *ngIf="!errorMessage">
+        <p class="step-number">
         <span *ngFor="let step of progress; let last = last; let odd=odd; let even=even; let i = index"
               [class.inactive]="counter!==(step - (i / 2)) && even"
               [class.active]="counter===(step - (i / 2)) && even"
@@ -12,16 +13,18 @@
             <!-- the checked step is followed by a horizontal rule -->
             <hr *ngIf="counter > (step - (i / 2)) && odd">
         </span>
-    </p><br>
-    <p class="step-description" *ngIf="steps">
+        </p><br>
+        <p class="step-description" *ngIf="steps">
         <span *ngFor="let step of progress; let last = last; let odd=odd; let even=even; let i = index"
               [class.inactive]="counter!==(step - (i / 2)) && even"
               [class.active]="counter===(step - (i / 2)) && even">
             <label *ngIf="even">{{steps[(step - (i / 2))]}}</label>
         </span>
-    </p>
+        </p>
+    </div>
+    <div class="progress-stepper error" *ngIf="errorMessage" [innerHtml]="errorMessage"></div>
 </div>
-<div class="salsah-progress-stepper error" *ngIf="errorMessage" [innerHtml]="errorMessage"></div>
+
 
 
 

@@ -1,12 +1,2 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* including fonts and the material icons */
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-
-/* style from material design */
-/* @import 'assets/css/teal-amber.min.css'; */
-@import './assets/css/md-teal-amber.min.css';
-
-/* own style setting */
-@import './assets/css/main.min.css';

@@ -1,0 +1,18 @@
+// including fonts and the material icons
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+// general border radius
+$border-radius: 4px;
+
+// sizes for search element
+$search-width: 720px;
+$search-height: $search-width;
+
+// color definitions
+$bright: rgba(249, 249, 249, 1);
+$dark: rgba(41, 41, 41, .4);
+
+$accent: rgba(255, 196, 0, 1);
+$primary: rgba(0, 105, 92, 1);
+

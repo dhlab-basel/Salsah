@@ -20,7 +20,7 @@ import {UserService} from "../../../../model/services/user.service";
 @Component({
     selector: 'salsah-user-profile',
     templateUrl: './user-profile.component.html',
-    styleUrls: ['./user-profile.component.css']
+    styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
 
@@ -31,7 +31,7 @@ export class UserProfileComponent implements OnInit {
 
     developerInfo: any = {
         title: "User profile dashboard",
-        description: "What should be in the user's dashboard? List of last edited instances? Social network?",
+        text: "What should be in the user's dashboard? List of last edited instances? Social network?",
         path: "dashboard/user/user-profile/"
     };
 

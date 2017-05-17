@@ -53,7 +53,7 @@
             <md-icon>close</md-icon>
         </button>
 
-        <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
         <md-list>
             <md-list-item *ngFor="let prop of properties.properties">

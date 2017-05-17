@@ -1,0 +1,41 @@
+$black: rgb(11, 11, 11);
+$black-12-opacity: rgba($black, .12);
+$black-14-opacity: rgba($black, .14);
+$black-20-opacity: rgba($black, .2);
+$black-60-opacity: rgba($black, .6);
+
+$white: rgb(244, 244, 244);
+
+$border-color: #ebebeb;
+
+@mixin background-cover($attachment: scroll) {
+  background-size: cover;
+  background: linear-gradient($black-20-opacity, $black-20-opacity) $attachment center center;
+}
+
+@mixin font-smoothing() {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Text Shadow
+@mixin text-shadow() {
+  text-shadow: 0 0 4px $black, -1px -1px $black-60-opacity, 1px 1px $black-60-opacity;
+}
+
+// Box Shadow
+@mixin box-shadow($x: 0, $y: 1px, $blur: 3px, $alpha: .5) {
+  box-shadow: $x $y $blur rgba(0, 0, 0, $alpha);
+}
+
+@mixin box-shadow-bottom($x: 0, $y: 5px, $blur: 6px, $side: -6px, $alpha: .5) {
+  box-shadow: $x $y $blur $side rgba(0, 0, 0, $alpha);
+}
+
+@mixin md-box-shadow() {
+  box-shadow: 0 5px 5px -3px $black-20-opacity, 0 8px 10px 1px $black-14-opacity, 0 3px 14px 2px $black-12-opacity;
+}
+
+@mixin border-bottom() {
+  border-bottom: 1px solid $border-color;
+}

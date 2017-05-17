@@ -1,0 +1,34 @@
+<md-card class="fix-width" [ngClass]="'salsah-' + message?.type">
+
+    <md-card-subtitle class="message-subtitle">
+        <span class="left">{{message.type | uppercase }} {{message.status?.code}} | {{message.status?.text}}</span>
+        <md-icon class="right" *ngIf="message.icon">{{message.icon}}</md-icon>
+        <md-icon class="right" *ngIf="!message.icon">{{message.type}}</md-icon>
+    </md-card-subtitle>
+
+    <md-card-title class="message-title">
+        {{message.title}}
+    </md-card-title>
+
+    <md-card-content class="message-content">
+        {{message.content.text}}
+        <md-list *ngIf="message.content?.links">
+            <md-list-item *ngFor="let link of message.content?.links" class="link" (click)="goToLocation(link.route)">
+                <md-icon md-list-icon>{{link.icon}}</md-icon>
+                <p md-line>{{link.label}}</p>
+            </md-list-item>
+        </md-list>
+
+        <md-list *ngIf="message.status?.url">
+            <md-list-item>
+                <a [href]="message.status.url" target="_blank">
+                    &rarr; {{message.status.url}}
+                </a>
+            </md-list-item>
+        </md-list>
+
+    </md-card-content>
+
+    <md-card-footer class="message-footnote" [innerHtml]="message.footnote"></md-card-footer>
+
+</md-card>

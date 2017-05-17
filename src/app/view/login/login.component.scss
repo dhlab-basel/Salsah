@@ -1,0 +1,75 @@
+.salsah-overlay-header {
+  height: 200px;
+  padding-top: 50px;
+  position: relative;
+  text-align: center;
+  width: 100vw;
+  z-index: 150;
+
+  .logo {
+    cursor: pointer;
+    height: 72px;
+  }
+
+  p {
+    text-transform: uppercase;
+  }
+
+}
+
+.salsah-overlay-footer {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 72px;
+  position: relative;
+  width: 280px;
+  z-index: 150;
+
+  h4 {
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  h5 {
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 14px;
+    font-weight: normal;
+    margin-top: -8px;
+  }
+}
+
+.salsah-login-card {
+  font-size: 14px;
+  height: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  width: 280px;
+  z-index: 150;
+
+  .login-header {
+    margin-bottom: 24px;
+  }
+
+  .login-content {
+//    font-size: 16px;
+  }
+
+  .login-field {
+    font-size: 14px;
+
+    .mat-icon {
+      font-size: 20px;
+    }
+//    margin-bottom: 12px;
+//    margin-top: 24px;
+  }
+}
+
+// md-card-content
+
+.sign-up {
+  margin-top: 24px;
+}
+

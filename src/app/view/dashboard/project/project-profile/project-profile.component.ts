@@ -23,7 +23,7 @@ import {Project, ProjectItem} from "../../../../model/webapi/knora";
 @Component({
     selector: 'salsah-project-profile',
     templateUrl: './project-profile.component.html',
-    styleUrls: ['./project-profile.component.css']
+    styleUrls: ['./project-profile.component.scss']
 })
 export class ProjectProfileComponent implements OnInit {
 

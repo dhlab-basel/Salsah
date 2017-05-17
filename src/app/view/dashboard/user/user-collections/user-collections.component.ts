@@ -18,7 +18,7 @@ import {UserProfile} from "../../../../model/webapi/knora/";
 @Component({
     selector: 'salsah-user-collections',
     templateUrl: './user-collections.component.html',
-    styleUrls: ['./user-collections.component.css']
+    styleUrls: ['./user-collections.component.scss']
 })
 export class UserCollectionsComponent implements OnInit {
 

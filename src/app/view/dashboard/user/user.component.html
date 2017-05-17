@@ -1,5 +1,5 @@
 <!-- if an error occurred (from the api), show the error message -->
-<salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+<salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
 <!-- variant a) -->
 <!-- if ownProfile is not defined; show the users profile defined in the route /user/[username: email] -->

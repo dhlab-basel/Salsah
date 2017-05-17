@@ -1,0 +1,54 @@
+$color-error: #ff3a13;
+$color-warning: #FFC400;
+$color-note: #00695c;
+
+.salsah-error {
+  background-color: rgba($color-error, .4);
+}
+
+.salsah-warning {
+  background-color: rgba($color-warning, .4);
+}
+
+.salsah-note,
+.salsah-hint {
+  background-color: rgba($color-note, .4);
+}
+
+.salsah-error,
+.salsah-warning,
+.salsah-note,
+.salsah-hint {
+  margin: 100px auto;
+  max-width: 640px;
+
+  .message-subtitle {
+    padding-bottom: 12px;
+
+    .left {
+      float: left;
+    }
+
+    .right {
+      float: right;
+    }
+  }
+
+  .message-title {
+    padding-top: 12px;
+
+  }
+
+  .message-content {
+    margin-bottom: 48px;
+    margin-top: 48px;
+
+    .link {
+      cursor: pointer;
+    }
+  }
+
+  .message-footnote {
+    padding: 24px;
+  }
+}

@@ -7,6 +7,7 @@
 
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
+
         <!-- Tab menu -->
         <nav class="salsah-tab-group" *ngIf="!errorMessage">
             <button md-button
@@ -34,7 +35,7 @@
 
         <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
 
-        <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
         <router-outlet *ngIf="!errorMessage" (tabRequest)="activateTab($event)"></router-outlet>
 

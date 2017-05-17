@@ -8,7 +8,7 @@
         <md-divider></md-divider>
         <br>
         <h3 md-subheader>Project Admin</h3>
-        <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
         <md-list-item *ngFor="let member of members.members; let i = index"
                       (click)="openUser(member.email, i);"
@@ -41,7 +41,7 @@
             <md-icon>close</md-icon>
         </button>
 
-        <salsah-api-error *ngIf="errorMessage" [error]="errorMessage"></salsah-api-error>
+        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
         <h3 md-subheader>{{user.userProfile?.userData.lastname}}, {{user.userProfile?.userData.firstname}}</h3>
         <p>{{user.userProfile?.userData.email}}</p>
