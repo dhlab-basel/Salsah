@@ -8,7 +8,6 @@ $white: rgb(244, 244, 244);
 
 $border-color: #ebebeb;
 
-
 @mixin background-cover($attachment: scroll) {
   background-size: cover;
   background: linear-gradient($black-20-opacity, $black-20-opacity) $attachment center center;
