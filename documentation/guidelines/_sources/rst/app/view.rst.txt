@@ -74,12 +74,12 @@ Modules (sub components)
 ..  toctree::
     :maxdepth: 3
 
-    view/modules/error/index
-    view/modules/header/index
     view/modules/footer/index
     view/modules/form/index
+    view/modules/header/index
     view/modules/listing/index
+    view/modules/message/index
     view/modules/object/index
-    view/modules/others/index
+    view/modules/other/index
     view/modules/properties/index
     view/modules/search/index
