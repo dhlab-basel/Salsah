@@ -86,6 +86,7 @@ import { UserSelectComponent } from './view/modules/form/user-select/user-select
 import { DevelopmentComponent } from './view/test/development/development.component';
 
 import { MessageComponent } from './view/modules/message/message.component';
+import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
 
 
 @NgModule({
@@ -130,7 +131,8 @@ import { MessageComponent } from './view/modules/message/message.component';
         AdvancedResourceClassComponent,
         UserSelectComponent,
         DevelopmentComponent,
-        MessageComponent
+        MessageComponent,
+        OsdViewerComponent
     ],
     imports: [
         BrowserModule,
