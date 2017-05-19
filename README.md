@@ -1,11 +1,5 @@
 # Salsah
 
-```
-WARNING (2017/03/07): we updated the angular-cli and other packages to the latest version.
-If you have already installed Salsah 2, please follow the update instructions here: 
-https://github.com/angular/angular-cli#updating-angular-cli
-```
-
 This is the repository for the [Knora](https://github.com/dhlab-basel/Knora) team's 
 graphical user interface called SALSAH (System for Annotation and Linkage of Sources in Arts and Humanities).
 
@@ -21,6 +15,12 @@ You find more information about Salsah on:
 
 
 ## Developer Environment
+
+```
+WARNING (2017/03/07): we updated the angular-cli and other packages to the latest version.
+If you have already installed Salsah 2, please follow the update instructions here: 
+https://github.com/angular/angular-cli#updating-angular-cli
+```
 
 If you're a developer and you want to improve the app, please have a look at the developer guideline first:
 
@@ -92,13 +92,7 @@ Before running the tests make sure you are serving the app via `ng serve`.
 To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## Style
-We're working with precompiled [sass scss](http://sass-lang.com/).
- 
-If you're changing something in the salsah scss files, you have to compile the main file with the following command:
-
-```
-sass --watch src/assets/scss/main.scss:src/assets/css/main.min.css --style compressed
-```
+We're working with precompiled [sass scss](http://sass-lang.com/) in the components directly. 
 
 
 ## Commit Message Schema
