@@ -99,7 +99,7 @@ export class AdvancedResourceClassComponent implements OnInit {
     };
 
 
-    constructor(private _baseOntologyService: BaseOntologyService) { }
+    constructor(private _baseOntologyService: BaseOntologyService) {}
 
     ngOnInit() {
 
@@ -108,6 +108,8 @@ export class AdvancedResourceClassComponent implements OnInit {
               (result: ApiServiceResult) => {
                   this.baseOntology = result.getBody(BaseOntology);
                   console.log(this.baseOntology);
+                  this.newAdvResource.permissions = this.baseOntology.defaultPermissions;
+                  console.log(this.newAdvResource);
               },
               (error: ApiServiceError) => {
                   this.errorMessage = <any>error;
@@ -118,11 +120,12 @@ export class AdvancedResourceClassComponent implements OnInit {
 
 
         // set the resource default permissions:
-        this.newAdvResource.permissions = this.baseOntology.defaultPermissions;
+
+//        this.newAdvResource.permissions = this.baseOntology.defaultPermissions;
         //console.log(this.newAdvResource);
 
 
-        console.log(this.newAdvResource);
+
     }
 
 
