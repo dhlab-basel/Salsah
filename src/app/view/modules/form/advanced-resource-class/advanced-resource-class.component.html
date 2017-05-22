@@ -1,51 +1,73 @@
 <table>
 <tr><td>
 <!-- ***************** Card 1: Resource type **********************-->
+
     <md-card class="advanced-resource-card">
         <md-card-header>
             <div md-card-avatar class="header-image"></div>
             <md-card-title> <b>Add new resource</b> </md-card-title>
             <md-card-subtitle>Here you can reate a custom resource type for your project.
-                Before creating a new resource type, please make sure that the existing basic resource types found under
-                Resources: add new resource" are not sufficient for your project.
+                Before creating a new resource type, please check the existing basic resource types found under
+                "Resources: add new resource".
             </md-card-subtitle>
         </md-card-header>
 
         <md-card-content>
 
-            <form class="advanced-resource-form">
+            <form #advResource="ngForm" class="advanced-resource-form">
                 <section>
-                    <md-input-container class="full-width-down">
-                        <input mdInput placeholder="Name">
-                    </md-input-container>
 
-                    <table class="full-width" cellspacing="0"><tr>
-                        <td><md-input-container class="full-width">
-                            <input mdInput placeholder="Label">
-                        </md-input-container></td>
-                        <td><md-input-container class="full-width">
-                            <input mdInput placeholder="Icon">
-                        </md-input-container></td>
-                    </tr></table>
+
+                    <table class="full-width" cellspacing="0">
+                        <tr>
+                            <td>
+                                <md-input-container class="full-width-down">
+                                    <input mdInput
+                                           placeholder="Name *"
+                                           name="label"
+                                           [(ngModel)]="newAdvResource.label">
+                                    <md-hint class="salsah-hint">
+                                        <span [hidden]="newAdvResource.label" class="salsah-error">This information is required!</span>
+                                    </md-hint>
+                                </md-input-container>
+                            </td>
+                            <td>
+                                <button md-raised-button
+                                        class="full-width-button"
+                                            [mdTooltip]="'Browse files'"
+                                            mdTooltipPosition="above"
+                                            (click)="uploadIcon($event)">
+                                         Upload Icon
+                                        <i class="material-icons">add</i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
 
                     <p>
                         <md-input-container class="full-width">
-                            <textarea mdInput placeholder="Description"></textarea>
+                            <textarea mdInput
+                                      placeholder="Description"
+                                      name="description"
+                                      [(ngModel)]="newAdvResource.description"
+                                      cols="30" rows="5">
+                            </textarea>
                         </md-input-container>
                     </p>
-                </section>
-                <section>
+
                     <!-- resource permissions -->
                     <p md-subheader>Set resource permissions</p>
-                    <table class="full-width" cellspacing="0"><tr>
+                    <table class="full-width" cellspacing="0">
                         <tr>
-                            <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
+                        <tr>
+                            <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description"
+                                mdTooltipPosition="above" style="text-align:left">
                                 {{group.label}}
                             </th>
                         </tr>
                         <tr>
                             <td *ngFor="let group of permissions.groups; let i = index">
-                                <md-select [(ngModel)]="permissions[group.id]" [name]="group.id">
+                                <md-select (ngModel)="newAdvResource.permissions[group.id]" [name]="group.id">
                                     <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
                                         {{cat.label}}
                                     </md-option>
@@ -60,8 +82,8 @@
                     </p>
 
                     <p><br>
-                        <md-select placeholder="resource type" [(ngModel)]="resclass" name="resourceClass">
-                            <md-option *ngFor="let res of baseOntology?.resourceClasses | key" [value]="res.id">
+                        <md-select placeholder="resource type" [(ngModel)]="newAdvResource.id" name="resourceClass">
+                            <md-option *ngFor="let res of baseOntology?.resourceClasses | key" [value]="res.key">
                                 {{res.value.label}}
                             </md-option>
                         </md-select>
@@ -71,7 +93,14 @@
 
         </md-card-content>
         <md-card-actions>
-            <button md-button class="saveButton">SAVE</button>
+            <button type="submit"
+                    md-button
+                    class="save-button"
+                    color="primary"
+                    (click)="onSubmit(advResource.value)"
+                    [disabled]="!advResource.valid">
+                SAVE
+            </button>
         </md-card-actions>
     </md-card>
 </td>
@@ -91,7 +120,7 @@
 
     <md-card-content>
 
-    <form class="advanced-resource-form">
+    <form #advList="ngForm" class="advanced-resource-form">
 
         <section>
             <md-input-container class="full-width-down">
@@ -172,7 +201,7 @@
             </md-card-subtitle>
         </md-card-header>
         <md-card-content>
-            <form class="advanced-resource-form">
+            <form #advProperties="ngForm" class="advanced-resource-form">
 
                 <section>
                     <md-input-container class="full-width-down">
@@ -206,7 +235,7 @@
                         </md-option>
                    </md-select>
                    <md-select placeholder="resource property" [(ngModel)]="resProp" name="resourceProperty">
-                       <md-option *ngFor="let prop of newResource.properties | key" [value]="prop.id">
+                       <md-option *ngFor="let prop of newAdvResource.properties | key" [value]="prop.id">
                            {{prop.value.label}}
                        </md-option>
                    </md-select>
@@ -250,7 +279,19 @@
 
 
 
-
+    <form #arcf="ngForm" (ngSubmit)="onSubmit(arcf.value, arcf.valid)" class="salsah-form">
+    </form>
 
 </td></tr>
 </table>
+
+<div md-card-actions>
+    <button type="submit"
+            md-raised-button
+            class="save-button"
+            color="primary"
+            (click)="onSubmit(arcf.value)"
+            [disabled]="!arcf.valid">
+        Save all
+    </button>
+</div>

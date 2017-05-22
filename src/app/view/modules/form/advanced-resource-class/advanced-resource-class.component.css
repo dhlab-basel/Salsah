@@ -1,6 +1,6 @@
 .advanced-resource-card {
     width: 500px;
-    height: 800px;
+    height: 700px;
 }
 
 .top{
@@ -12,7 +12,14 @@
     vertical-align: -50px;
 
 }
+.full-width-button {
+    width: 100%;
+    vertical-align: -37px;
+    text-align: left;
+    color: #a9a9a9;
 
+
+}
 .full-width {
     width: 100%;
 }

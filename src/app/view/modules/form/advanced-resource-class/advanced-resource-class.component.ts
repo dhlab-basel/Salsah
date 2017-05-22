@@ -27,7 +27,8 @@ export class AdvancedResourceClassComponent implements OnInit {
     baseOntology: BaseOntology = new BaseOntology();
 
     // result to send to the server
-    newResource: ResourceClass = new ResourceClass();
+    newAdvResource: ResourceClass = new ResourceClass();
+    resClassId: string;
 
 
     permissions: any = {
@@ -87,7 +88,6 @@ export class AdvancedResourceClassComponent implements OnInit {
     constructor(private _baseOntologyService: BaseOntologyService) { }
 
     ngOnInit() {
-        this.newResource.id = undefined;
 
         this._baseOntologyService.getBaseOntology()
           .subscribe(
@@ -99,12 +99,28 @@ export class AdvancedResourceClassComponent implements OnInit {
                   this.errorMessage = <any>error;
               }
           );
+//        this.newAdvResource = this.baseOntology.resourceClasses[];
+        this.newAdvResource.id = this.resClassId;
+
+
+        // set the resource default permissions:
+        this.newAdvResource.permissions = this.baseOntology.defaultPermissions;
+        //console.log(this.newAdvResource);
+
+
+        console.log(this.newAdvResource);
     }
 
 
     listItems = [];
 
     public newListItem = false;
+
+    uploadIcon(e) {
+        e.preventDefault();
+        console.log("Upload resource icon");
+        console.log(e);
+    }
 
     addListItem(newItem: string, e) {
         e.preventDefault();
@@ -129,5 +145,14 @@ export class AdvancedResourceClassComponent implements OnInit {
         }
         console.log(e);
     }
+
+
+    //form functions
+    onSubmit(data: any): void {
+        console.log('you submitted value:', data);
+        console.log('your new resource is:', this.newAdvResource);
+    }
+
+
 
 }
