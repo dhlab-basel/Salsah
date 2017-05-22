@@ -14,15 +14,16 @@
 
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
-import {BaseOntologyService} from "../../../../model/api/base-ontology.service";
-import {BaseOntology, PropertyObject, ResourceClass} from "../../../../model/classes/base-ontology";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
+import {BaseOntology, PropertyObject, ResourceClass} from "../../../../model/test-data/base-ontology";
+
 
 @Component({
     selector: 'salsah-resource-class-form',
     templateUrl: './resource-class-form.component.html',
-    styleUrls: ['./resource-class-form.component.css']
+    styleUrls: ['./resource-class-form.component.scss']
 })
 
 export class ResourceClassFormComponent implements OnInit {

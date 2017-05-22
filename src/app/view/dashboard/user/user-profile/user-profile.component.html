@@ -1,3 +1,10 @@
 <div class="salsah-module-content">
-  This will be the personal dashboard for the user: <strong>{{user?.firstname}} {{user?.lastname}}</strong>
+  <h2 md-header>User profile: {{user?.userData?.firstname}} {{user?.userData?.lastname}}</h2>
+
+
+  <!-- a hint for developers -->
+  <salsah-message [note]="developerInfo"></salsah-message>
+  <!-- /end of developer hint -->
+
+
 </div>

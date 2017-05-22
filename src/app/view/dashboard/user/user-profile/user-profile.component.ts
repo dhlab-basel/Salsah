@@ -12,34 +12,38 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {Authentication} from "../../../../model/classes/session";
-import {SessionService} from "../../../../model/api/session.service";
-import {UserData} from "../../../../model/classes/user-profile";
+import {Component, OnInit, Input} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {UserProfile} from "../../../../model/webapi/knora/";
+import {UserService} from "../../../../model/services/user.service";
 
 @Component({
     selector: 'salsah-user-profile',
     templateUrl: './user-profile.component.html',
-    styleUrls: ['./user-profile.component.css']
+    styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
 
-    userName: string = undefined;
-    auth: Authentication = undefined;
+    errorMessage: string = undefined;
+//    user: UserProfile = new UserProfile();
 
-    user: UserData = new UserData;
+    @Input('user') user: UserProfile;
 
-    constructor(
-        private _sessionService: SessionService,
-        private _router: Router
+    developerInfo: any = {
+        title: "User profile dashboard",
+        text: "What should be in the user's dashboard? List of last edited instances? Social network?",
+        path: "dashboard/user/user-profile/"
+    };
+
+    constructor(private _route: ActivatedRoute,
+                private _userService: UserService
     ) {
+
     }
 
     ngOnInit() {
 
-        this.user = JSON.parse(localStorage.getItem('user'));
-
+        console.log(this.user);
 
 /*
         // get the user name from the url

@@ -1,0 +1,32 @@
+
+.salsah-menu {
+  @include md-box-shadow();
+  background-color: $bright;
+  border-radius: $border-radius;
+  display: none;
+  position: absolute;
+  z-index: 1;
+
+  .salsah-menu-header {
+    background-color: $bright;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    display: inline-block;
+    height: 48px;
+    width: 100%;
+
+    .salsah-menu-title {
+      float: left;
+      font-size: 14px;
+      font-weight: 400;
+      margin-top: 4px;
+      padding: 12px;
+
+    }
+
+    .salsah-menu-action {
+      float: right;
+      margin: 4px;
+    }
+  }
+}

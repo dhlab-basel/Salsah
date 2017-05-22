@@ -1,0 +1,93 @@
+.salsah-error, .salsah-warning, .salsah-note {
+    margin: 100px auto;
+    md-card-subtitle {
+
+    }
+    md-card-title {
+
+    }
+    md-card-content {
+        margin-top: 48px;
+        margin-bottom: 48px;
+
+        md-list-item {
+
+        }
+    }
+    md-card-actions {
+        text-align: center;
+    }
+}
+
+.salsah-error {
+    background-color: lightcoral;
+
+}
+
+.salsah-warning {
+    background-color: lightyellow;
+}
+
+.salsah-note {
+    background-color: lightgoldenrodyellow;
+}
+
+
+
+md-card.salsah-api-error {
+
+    //  box-shadow: none;
+
+}
+
+md-card.salsah-api-warning {
+
+    //  box-shadow: none;
+    max-width: 640px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    md-icon {
+        float: right;
+    }
+}
+
+md-card.salsah-page-error {
+    box-shadow: none;
+    max-width: 640px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.salsah-warning {
+    width: 100%;
+}
+
+md-card.salsah-hint {
+
+    max-width: 640px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    md-icon {
+        float: right;
+    }
+
+}
+
+md-card.salsah-developer-hint {
+    background-color: lightgoldenrodyellow;
+    max-width: 640px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    md-icon {
+        float: right;
+    }
+}

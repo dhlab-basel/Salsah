@@ -13,12 +13,12 @@
  * */
 
 import {Component, EventEmitter, OnInit, Input, Output} from '@angular/core';
-import {Search} from "../../../../model/classes/search";
+import {Search} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-resource-list',
     templateUrl: './resource-list.component.html',
-    styleUrls: ['./resource-list.component.css']
+    styleUrls: ['./resource-list.component.scss']
 })
 export class ResourceListComponent implements OnInit {
 

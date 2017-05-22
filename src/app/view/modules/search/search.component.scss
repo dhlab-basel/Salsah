@@ -1,0 +1,121 @@
+@import '../../../../assets/style/mixins';
+@import '../../../../assets/style/config';
+
+//
+// disable browser's input type appearance
+//
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+
+input[type="search"] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+$search-width: 720px;
+
+.search-panel {
+  background-color: $bright;
+  border-radius: 4px;
+  display: inline-flex;
+  height: 40px;
+  width: $search-width;
+
+  &:hover {
+    @include box-shadow();
+  }
+
+  div {
+    display: inline-block;
+
+    &.input-field {
+      flex: 1;
+
+      input {
+        border-style: none;
+        font-size: 14pt;
+        height: 38px;
+        position: absolute;
+        width: $search-width - (2 * 40px);
+
+        &:active,
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    .prefix,
+    .suffix {
+      background-color: transparent;
+      border-radius: 3px;
+      border-style: none;
+      color: rgba($dark, .38);
+      cursor: pointer;
+      height: 40px;
+      outline: none;
+      //        color: rgb(33,33,33);
+      position: relative;
+      width: 40px;
+
+      &:active {
+        color: rgb(81, 81, 81);
+      }
+    }
+  }
+  //    padding: 2px;
+  &.small {
+    //        width: 560px;
+  }
+
+  &.large {
+    //        width: 600px;
+  }
+
+  &.active {
+    @include box-shadow();
+    //        border-bottom: 2px solid $bright;
+  }
+
+}
+
+.salsah-menu {
+
+
+  &.simple-search,
+  &.extended-search {
+    min-height: $search-height;
+    top: 12px;
+    width: $search-width;
+  }
+
+  &.simple-search {
+    padding-top: 60px;
+    z-index: -1;
+    .salsah-previous-search-list {
+      .mat-list-item {
+        cursor: pointer;
+        &:hover {
+          background-color: $bright;
+          md-icon {
+            display: block;
+          }
+        }
+        md-icon {
+          display: none;
+        }
+      }
+    }
+
+  }
+
+  &.extended-search {
+    // extended search menu styling
+  }
+
+}

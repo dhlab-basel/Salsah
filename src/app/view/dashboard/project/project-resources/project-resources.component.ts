@@ -14,19 +14,18 @@
 
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
-import {ResourceTypesService} from "../../../../model/api/resource-types.service";
-import {ResourceTypes} from "../../../../model/classes/resource-types";
-import {ProjectItem} from "../../../../model/classes/projects";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
-import {PropertiesService} from "../../../../model/api/properties.service";
-import {Properties} from "../../../../model/classes/properties";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ResourceTypesService} from "../../../../model/services/resource-types.service";
+import {PropertiesService} from "../../../../model/services/properties.service";
+import {ProjectItem, ResourceTypes, Properties} from "../../../../model/webapi/knora";
+
 
 @Component({
     selector: 'salsah-project-resources',
     templateUrl: './project-resources.component.html',
-    styleUrls: ['./project-resources.component.css']
+    styleUrls: ['./project-resources.component.scss']
 })
 export class ProjectResourcesComponent implements OnInit {
 
@@ -57,7 +56,7 @@ export class ProjectResourcesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.project = JSON.parse(localStorage.getItem('project'));
+        this.project = JSON.parse(localStorage.getItem('currentProject'));
         this._resourceTypesService.getResourceTypes(this.project.ontologyNamedGraph)
             .subscribe(
                 (result: ApiServiceResult) => {
@@ -69,8 +68,8 @@ export class ProjectResourcesComponent implements OnInit {
                     this.isLoading = false;
                 }
             );
-        // Develop test: open the dialog box for new resources directly on the start
-        this.addNewResourceClass();
+        // Develop test: open the dialog box for new resources on the start directly
+        // this.addNewResourceClass();
     }
 
 

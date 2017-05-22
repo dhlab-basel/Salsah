@@ -1,10 +1,10 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {Search} from "../../../../model/classes/search";
+import {Search} from "../../../../model/webapi/knora";
 
 @Component({
   selector: 'salsah-resource-grid-list',
   templateUrl: './resource-grid-list.component.html',
-  styleUrls: ['./resource-grid-list.component.css']
+  styleUrls: ['./resource-grid-list.component.scss']
 })
 export class ResourceGridListComponent implements OnInit {
 

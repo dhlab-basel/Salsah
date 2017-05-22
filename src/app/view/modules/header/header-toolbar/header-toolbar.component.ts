@@ -13,9 +13,9 @@
  * */
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
-import {SessionService} from "../../../../model/api/session.service";
 import {Router, ActivatedRoute} from "@angular/router";
-import {Authentication} from "../../../../model/classes/session";
+import {SessionService} from "../../../../model/services/session.service";
+
 import {
     trigger,
     state,
@@ -24,14 +24,10 @@ import {
     transition
 } from '@angular/animations';
 
-function getDocument(): any {
-    return document;
-}
-
 @Component({
     selector: 'salsah-header-toolbar',
     templateUrl: './header-toolbar.component.html',
-    styleUrls: ['./header-toolbar.component.css'],
+    styleUrls: ['./header-toolbar.component.scss'],
     animations: [
         trigger('addMenu',
             [
@@ -52,7 +48,8 @@ function getDocument(): any {
 export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
-    auth: Authentication = new Authentication();
+
+    activeSession: boolean = false;
 
     focusOnUserMenu: string = 'inactive';
     focusOnAddMenu: string = 'inactive';
@@ -61,16 +58,20 @@ export class HeaderToolbarComponent implements OnInit {
                 private _route: ActivatedRoute,
                 private _router: Router,
                 private _sessionService: SessionService) {
+
     }
 
-    // check authentication: the session (from the api) should be valid and the local storage item "auth" as well
+    // check authentication: the session (from the services) should be valid and the local storage item "auth" as well
 
     // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
-        // check if the authentication is valid: there should be a local storage item called "auth"
-        this.auth = this._sessionService.checkAuth();
+        // check if the authentication is valid:
+        // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
+        this.activeSession = this._sessionService.checkSession();
 
-        if (this.auth !== null) this.userName = this.auth.userProfile.userData.email;
+        if (JSON.parse(localStorage.getItem('ownProfile'))) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
+
+
     }
 
     userMenu: any = [
@@ -85,14 +86,14 @@ export class HeaderToolbarComponent implements OnInit {
             route: '/collections'
         },
         {
-            title: 'Edit Profile',
+            title: 'Profile',
             icon: 'fingerprint',
-            route: '/settings'
+            route: '/profile'
         },
         {
-            title: 'Docs',
-            icon: 'chrome_reader_mode',
-            route: '/documentation'
+            title: 'Settings',
+            icon: 'settings',
+            route: '/settings'
         }
     ];
     /*

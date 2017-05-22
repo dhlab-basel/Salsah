@@ -18,24 +18,22 @@ import {NgModule} from "@angular/core";
 import {LoginComponent} from "./view/login/login.component";
 import {DashboardComponent} from "./view/dashboard/dashboard.component";
 import {UserComponent} from "./view/dashboard/user/user.component";
-import {UserProfileComponent} from "./view/dashboard/user/user-profile/user-profile.component";
-import {UserSettingsComponent} from "./view/dashboard/user/user-settings/user-settings.component";
+
 import {ProjectComponent} from "./view/dashboard/project/project.component";
 import {ProjectSettingsComponent} from "./view/dashboard/project/project-settings/project-settings.component";
-import {PageNotFoundComponent} from "./view/modules/error/page-not-found/page-not-found.component";
 import {ProjectProfileComponent} from "./view/dashboard/project/project-profile/project-profile.component";
-import {AccessDeniedComponent} from "./view/modules/error/access-denied/access-denied.component";
 import {ResultsComponent} from "./view/modules/listing/results/results.component";
 import {ProjectTeamComponent} from "./view/dashboard/project/project-team/project-team.component";
 import {ProjectResourcesComponent} from "./view/dashboard/project/project-resources/project-resources.component";
 import {ProjectFormComponent} from "./view/modules/form/project-form/project-form.component";
 import {DocumentationComponent} from "./view/documentation/documentation.component";
-import {UserProjectsComponent} from "./view/dashboard/user/user-projects/user-projects.component";
-import {UserCollectionsComponent} from "./view/dashboard/user/user-collections/user-collections.component";
+
 import {ProjectAdvancedComponent} from "./view/dashboard/project/project-advanced/project-advanced.component";
 import {ObjectComponent} from "./view/modules/object/object.component";
-
-
+import {ProgressIndicatorComponent} from "./view/modules/other/progress-indicator/progress-indicator.component";
+import {DevelopmentComponent} from "./view/test/development/development.component";
+import {ProgressStepperComponent} from "./view/modules/other/progress-stepper/progress-stepper.component";
+import {MessageComponent} from "./view/modules/message/message.component";
 
 const appRoutes: Routes = [
     {
@@ -51,25 +49,24 @@ const appRoutes: Routes = [
         component: DashboardComponent
     },
     {
-        path: 'user/:uid', component: UserComponent,
-        children: [
-            {
-                path: '', component: UserProfileComponent
-            },
-            { path: '**', component: PageNotFoundComponent }
-        ]
+        // Public user profile
+        path: 'user/:uid', component: UserComponent
+    },
+    {
+        // User profile = Dashboard for logged in users
+        path: 'profile', component: UserComponent
     },
     {
         // User settings
-        path: 'settings', component: UserSettingsComponent
+        path: 'settings', component: UserComponent
     },
     {
         // User projects
-        path: 'projects', component: UserProjectsComponent
+        path: 'projects', component: UserComponent
     },
     {
         // User collections
-        path: 'collections', component: UserCollectionsComponent
+        path: 'collections', component: UserComponent
     },
     {
         path: 'search/:q',
@@ -98,7 +95,13 @@ const appRoutes: Routes = [
                 path: 'advanced', component: ProjectAdvancedComponent
             },
 
-            { path: '**', component: PageNotFoundComponent }
+            {
+                path: '**',
+                component: MessageComponent,
+                data: {
+                    code: '404'
+                }
+            }
         ]
     },
     {
@@ -110,9 +113,30 @@ const appRoutes: Routes = [
     },
     {
         path: 'denied',
-        component: AccessDeniedComponent
+        component: MessageComponent,
+        data: {
+            code: '401'
+        }
     },
-    { path: '**', component: PageNotFoundComponent }
+    {
+        path: 'dev', component: DevelopmentComponent,
+        children: [
+            {path: 'progress-indicator', component: ProgressIndicatorComponent},
+            {path: 'progress-stepper', component: ProgressStepperComponent},
+            {
+                path: 'message',
+                component: MessageComponent
+            }
+        ]
+
+    },
+    {
+        path: '**',
+        component: MessageComponent,
+        data: {
+            code: '404'
+        }
+    }
 ];
 
 @NgModule({
@@ -120,4 +144,5 @@ const appRoutes: Routes = [
     exports: [RouterModule]
 })
 
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

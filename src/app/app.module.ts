@@ -1,37 +1,40 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {APP_BASE_HREF} from '@angular/common';
+
+//
+// import the main app components
+//
+import {AppComponent} from './app.component';
+import {AppRoutingModule} from './app-routing.module';
 
 //
 // import the material design modules
 //
-import {MaterialModule} from '@angular/material';
+import {AppMaterialModule} from './app-material-module';
 import 'hammerjs';
 
 //
 // import other third party modules
 //
 
-//
-// import the main app components
-//
-import {AppComponent} from './app.component';
-import {AppRoutingModule} from "./app-routing.module";
-import {ReactiveFormsModule} from "@angular/forms";
 
 //
 // import all needed services
 //
-import {LoginService} from "./model/api/login.service";
-import {ProjectsService} from "./model/api/projects.service";
-import {ResourceService} from "./model/api/resource.service";
-import {ResourceTypesService} from "./model/api/resource-types.service";
-import {SearchService} from "./model/api/search.service";
-import {SessionService} from "./model/api/session.service";
+import {LoginService} from './model/services/login.service';
+import {ProjectsService} from './model/services/projects.service';
+import {ResourceService} from './model/services/resource.service';
+import {ResourceTypesService} from './model/services/resource-types.service';
+import {SearchService} from './model/services/search.service';
+import {SessionService} from './model/services/session.service';
 // just to get the basic ontology form the json file
-import {BaseOntologyService} from "./model/api/base-ontology.service";
+import {BaseOntologyService} from './model/services/base-ontology.service';
 
 //
 // import all app components
@@ -53,9 +56,7 @@ import {ProjectResourcesComponent} from './view/dashboard/project/project-resour
 import {SearchComponent} from './view/modules/search/search.component';
 import {SimpleSearchComponent} from './view/modules/search/simple-search/simple-search.component';
 import {ExtendedSearchComponent} from './view/modules/search/extended-search/extended-search.component';
-import {PageNotFoundComponent} from './view/modules/error/page-not-found/page-not-found.component';
-import {ApiErrorComponent} from './view/modules/error/api-error/api-error.component';
-import {AccessDeniedComponent} from './view/modules/error/access-denied/access-denied.component';
+
 import {ProjectsListComponent} from './view/modules/listing/projects-list/projects-list.component';
 
 import {GravatarDirective} from './view/modules/other/gravatar.directive';
@@ -69,17 +70,22 @@ import {UserFormComponent} from './view/modules/form/user-form/user-form.compone
 import {ResourceClassFormComponent} from './view/modules/form/resource-class-form/resource-class-form.component';
 import {ResourceFormComponent} from './view/modules/form/resource-form/resource-form.component';
 import {ReversePipe} from './view/modules/other/reverse.pipe';
-import {PropertiesService} from "./model/api/properties.service";
+import {PropertiesService} from './model/services/properties.service';
 import {DocumentationComponent} from './view/documentation/documentation.component';
 import {UserProjectsComponent} from './view/dashboard/user/user-projects/user-projects.component';
 import {UserCollectionsComponent} from './view/dashboard/user/user-collections/user-collections.component';
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {UserService} from "./model/api/user.service";
-import {ApiService} from "./model/api/api.service";
+import {UserService} from './model/services/user.service';
+import {ApiService} from './model/services/api.service';
 import {KeyPipe} from './view/modules/other/key.pipe';
-import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
-import { ProgressStepperComponent } from './view/modules/other/progress-stepper/progress-stepper.component';
-import { AdvancedResourceClassComponent } from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
+import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
+import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
+import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
+
+import { UserSelectComponent } from './view/modules/form/user-select/user-select.component';
+import { DevelopmentComponent } from './view/test/development/development.component';
+
+import { MessageComponent } from './view/modules/message/message.component';
 
 
 @NgModule({
@@ -93,8 +99,6 @@ import { AdvancedResourceClassComponent } from './view/modules/form/advanced-res
         SearchComponent,
         SimpleSearchComponent,
         ExtendedSearchComponent,
-        PageNotFoundComponent,
-        ApiErrorComponent,
         HeaderToolbarComponent,
         HeaderProjectsComponent,
         DashboardComponent,
@@ -105,7 +109,6 @@ import { AdvancedResourceClassComponent } from './view/modules/form/advanced-res
         ProjectProfileComponent,
         ProjectsListComponent,
         OverlayDirective,
-        AccessDeniedComponent,
         ResultsComponent,
         ResourceListComponent,
         ResourceGridListComponent,
@@ -124,13 +127,17 @@ import { AdvancedResourceClassComponent } from './view/modules/form/advanced-res
         KeyPipe,
         ProgressIndicatorComponent,
         ProgressStepperComponent,
-        AdvancedResourceClassComponent
+        AdvancedResourceClassComponent,
+        UserSelectComponent,
+        DevelopmentComponent,
+        MessageComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        MaterialModule,
+        RouterModule,
+        AppMaterialModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule
@@ -150,7 +157,8 @@ import { AdvancedResourceClassComponent } from './view/modules/form/advanced-res
         SearchService,
         SessionService,
         BaseOntologyService,
-        UserService
+        UserService,
+        {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
 })

@@ -13,16 +13,16 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {SearchService} from "../../../../model/api/search.service";
 import {ActivatedRoute, Params} from "@angular/router";
-import {Search} from "../../../../model/classes/search";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {SearchService} from "../../../../model/services/search.service";
+import {Search} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-results',
     templateUrl: './results.component.html',
-    styleUrls: ['./results.component.css']
+    styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent implements OnInit {
 

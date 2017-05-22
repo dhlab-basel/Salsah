@@ -1,0 +1,36 @@
+<!-- select an existing user to add it to a project
+      - if the user doesn't exist yet, create a new one by importing the user form component -->
+
+
+
+<div class="user-panel">
+    <div>
+        <button md-icon-button class="prefix">
+            <md-icon>add</md-icon>
+        </button>
+    </div>
+
+    <md-input-container class="full-width">
+
+        <input mdInput placeholder="User" [mdAutocomplete]="auto" [formControl]="userCtrl"
+               [placeholder]="form.user.existingUser">
+
+        <md-autocomplete #auto="mdAutocomplete">
+            <md-option *ngFor="let user of filteredUsers | async" [value]="user">
+                {{ user }}
+            </md-option>
+        </md-autocomplete>
+    </md-input-container>
+
+    <!-- switch button:
+            - default button is the filter button;
+            - but on some focus we need a close button for the simple or extended panel
+    -->
+    <div>
+        <button md-button class="suffix" >
+            {{addUser}}
+        </button>
+    </div>
+</div>
+
+

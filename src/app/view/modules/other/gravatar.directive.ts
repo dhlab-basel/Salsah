@@ -20,9 +20,9 @@ import {Md5} from 'ts-md5/dist/md5';
 })
 export class GravatarDirective {
 
-    @Input('email') email: string;
-    @Input('size') size: number = 40;
-    @Input('fallback') fallback: string = 'mm';
+    @Input() email: string;
+    @Input() size: number = 40;
+    @Input() fallback: string = 'mm';
 
     md5eMail: any;
 

@@ -13,19 +13,17 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {MdDialog} from "@angular/material";
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
-import {ProjectsService} from "../../../../model/api/projects.service";
-import {ApiServiceResult} from "../../../../model/api/api-service-result";
-import {ApiServiceError} from "../../../../model/api/api-service-error";
-import {ProjectMembers, ProjectItem} from "../../../../model/classes/projects";
-import {UserService} from "../../../../model/api/user.service";
-import {User} from "../../../../model/classes/user-profile";
+import {ProjectsService} from "../../../../model/services/projects.service";
+import {UserService} from "../../../../model/services/user.service";
+import {ProjectMembers, ProjectItem, User} from "../../../../model/webapi/knora";
 
 @Component({
     selector: 'salsah-project-team',
     templateUrl: './project-team.component.html',
-    styleUrls: ['./project-team.component.css']
+    styleUrls: ['./project-team.component.scss']
 })
 export class ProjectTeamComponent implements OnInit {
 
@@ -50,14 +48,13 @@ export class ProjectTeamComponent implements OnInit {
 
 
     constructor(
-        public dialog: MdDialog,
         private _projectsService: ProjectsService,
         private _userService: UserService
     ) {
     }
 
     ngOnInit() {
-        this.project = JSON.parse(localStorage.getItem('project'));
+        this.project = JSON.parse(localStorage.getItem('currentProject'));
 
         this._projectsService.getProjectMembers(this.project.shortname)
             .subscribe(
@@ -72,13 +69,6 @@ export class ProjectTeamComponent implements OnInit {
             );
     }
 
-    addNewUser() {
-        let dialogRef = this.dialog.open(UserFormComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
-        });
-
-    }
 
     openUser(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';

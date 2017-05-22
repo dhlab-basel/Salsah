@@ -12,21 +12,29 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {SessionService} from "../../../../model/api/session.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {UserProfile} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-user-settings',
     templateUrl: './user-settings.component.html',
-    styleUrls: ['./user-settings.component.css']
+    styleUrls: ['./user-settings.component.scss']
 })
 export class UserSettingsComponent implements OnInit {
 
-    constructor(private _sessionService: SessionService) {
+    @Input('user') user: UserProfile;
+
+    developerInfo: any = {
+        title: "User configuration form",
+        description: "Here should be a form to change user specific settings",
+        path: "dashboard/user/user-settings/"
+    };
+
+    constructor() {
     }
 
     ngOnInit() {
-        this._sessionService.checkAuth(true);
+
     }
 
 }

@@ -17,7 +17,7 @@ import {Component, Input, OnInit} from '@angular/core';
 @Component({
     selector: 'salsah-progress-stepper',
     templateUrl: './progress-stepper.component.html',
-    styleUrls: ['./progress-stepper.component.css']
+    styleUrls: ['./progress-stepper.component.scss']
 })
 export class ProgressStepperComponent implements OnInit {
 
