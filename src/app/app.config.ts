@@ -14,54 +14,56 @@
 
 export class AppConfig {
 
-    public static TextValue: string = "http://www.knora.org/ontology/knora-api#TextValue";
-    public static IntValue: string = "http://www.knora.org/ontology/knora-api#IntValue";
-    public static BooleanValue: string = "http://www.knora.org/ontology/knora-api#BooleanValue";
-    public static UriValue: string = "http://www.knora.org/ontology/knora-api#UriValue";
-    public static DecimalValue: string = "http://www.knora.org/ontology/knora-api#DecimalValue";
-    public static DateValue: string = "http://www.knora.org/ontology/knora-api#DateValue";
-    public static ColorValue: string = "http://www.knora.org/ontology/knora-api#ColorValue";
-    public static GeomValue: string = "http://www.knora.org/ontology/knora-api#GeomValue";
-    public static ListValue: string = "http://www.knora.org/ontology/knora-api#ListValue";
-    public static IntervalValue: string = "http://www.knora.org/ontology/knora-api#IntervalValue";
-    public static LinkValue: string = "http://www.knora.org/ontology/knora-api#LinkValue";
-    public static GeonameValue: string = "http://www.knora.org/ontology/knora-api#GeonameValue";
-    public static FileValue: string = "http://www.knora.org/ontology/knora-api#FileValue";
-    public static AudioFileValue: string = "http://www.knora.org/ontology/knora-api#AudioFileValue";
-    public static DDDFileValue: string = "http://www.knora.org/ontology/knora-api#DDDFileValue";
-    public static DocumentFileValue: string = "http://www.knora.org/ontology/knora-api#DocumentFileValue";
-    public static StillImageFileValue: string = "http://www.knora.org/ontology/knora-api#StillImageFileValue";
-    public static MovingImageFileValue: string = "http://www.knora.org/ontology/knora-api#MovingImageFileValue";
-    public static TextFileValue: string = "http://www.knora.org/ontology/knora-api#TextFileValue";
+    public static KnoraApiV2WithValueObjectPath = "http://api.knora.org/ontology/knora-api/v2#";
 
-    public static valueAsString: string = "http://www.knora.org/ontology/knora-api#valueAsString";
+    public static TextValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "TextValue";
+    public static IntValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "IntValue";
+    public static BooleanValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "BooleanValue";
+    public static UriValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "UriValue";
+    public static DecimalValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "DecimalValue";
+    public static DateValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "DateValue";
+    public static ColorValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "ColorValue";
+    public static GeomValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "GeomValue";
+    public static ListValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "ListValue";
+    public static IntervalValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "IntervalValue";
+    public static LinkValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "LinkValue";
+    public static GeonameValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "GeonameValue";
+    public static FileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "FileValue";
+    public static AudioFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "AudioFileValue";
+    public static DDDFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "DDDFileValue";
+    public static DocumentFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "DocumentFileValue";
+    public static StillImageFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "StillImageFileValue";
+    public static MovingImageFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "MovingImageFileValue";
+    public static TextFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "TextFileValue";
 
-    public static textValueAsHtml: string = "http://www.knora.org/ontology/knora-api#textValueAsHtml";
-    public static textValueAsXml: string = "http://www.knora.org/ontology/knora-api#textValueAsXml";
-    public static textValueHasMapping: string = "http://www.knora.org/ontology/knora-api#textValueHasMapping";
+    public static valueAsString: string = AppConfig.KnoraApiV2WithValueObjectPath + "valueAsString";
 
-    public static dateValueHasStartYear: string = "http://www.knora.org/ontology/knora-api#dateValueHasStartYear";
-    public static dateValueHasEndYear: string = "http://www.knora.org/ontology/knora-api#dateValueHasEndYear";
-    public static dateValueHasStartMonth = "http://www.knora.org/ontology/knora-api#dateValueHasStartMonth";
-    public static dateValueHasEndMonth = "http://www.knora.org/ontology/knora-api#dateValueHasEndMonth";
-    public static dateValueHasStartDay = "http://www.knora.org/ontology/knora-api#dateValueHasStartDay";
-    public static dateValueHasEndDay = "http://www.knora.org/ontology/knora-api#dateValueHasEndDay";
-    public static dateValueHasCalendar = "http://www.knora.org/ontology/knora-api#dateValueHasCalendar";
+    public static textValueAsHtml: string = AppConfig.KnoraApiV2WithValueObjectPath + "textValueAsHtml";
+    public static textValueAsXml: string = AppConfig.KnoraApiV2WithValueObjectPath + "textValueAsXml";
+    public static textValueHasMapping: string = AppConfig.KnoraApiV2WithValueObjectPath + "textValueHasMapping";
 
-    public static linkValueHasTarget = "http://www.knora.org/ontology/knora-api#linkValueHasTarget";
-    public static linkValueHasTargetIri = "http://www.knora.org/ontology/knora-api#linkValueHasTargetIri";
+    public static dateValueHasStartYear: string = AppConfig.KnoraApiV2WithValueObjectPath + "dateValueHasStartYear";
+    public static dateValueHasEndYear: string = AppConfig.KnoraApiV2WithValueObjectPath + "dateValueHasEndYear";
+    public static dateValueHasStartMonth = AppConfig.KnoraApiV2WithValueObjectPath + "dateValueHasStartMonth";
+    public static dateValueHasEndMonth = AppConfig.KnoraApiV2WithValueObjectPath + "dateValueHasEndMonth";
+    public static dateValueHasStartDay = AppConfig.KnoraApiV2WithValueObjectPath + "dateValueHasStartDay";
+    public static dateValueHasEndDay = AppConfig.KnoraApiV2WithValueObjectPath + "dateValueHasEndDay";
+    public static dateValueHasCalendar = AppConfig.KnoraApiV2WithValueObjectPath + "dateValueHasCalendar";
 
-    public static integerValueAsInteger = "http://www.knora.org/ontology/knora-api#integerValueAsInteger";
+    public static linkValueHasTarget = AppConfig.KnoraApiV2WithValueObjectPath + "linkValueHasTarget";
+    public static linkValueHasTargetIri = AppConfig.KnoraApiV2WithValueObjectPath + "linkValueHasTargetIri";
 
-    public static decimalValueAsDecimal = "http://www.knora.org/ontology/knora-api#decimalValueAsDecimal";
+    public static integerValueAsInteger = AppConfig.KnoraApiV2WithValueObjectPath + "integerValueAsInteger";
 
-    public static fileValueAsUrl = "http://www.knora.org/ontology/knora-api#fileValueAsUrl";
-    public static fileValueIsPreview = "http://www.knora.org/ontology/knora-api#fileValueIsPreview";
-    public static fileValueHasFilename = "http://www.knora.org/ontology/knora-api#fileValueHasFilename";
+    public static decimalValueAsDecimal = AppConfig.KnoraApiV2WithValueObjectPath + "decimalValueAsDecimal";
 
-    public static stillImageFileValueHasDimX = "http://www.knora.org/ontology/knora-api#stillImageFileValueHasDimX";
-    public static stillImageFileValueHasDimY = "http://www.knora.org/ontology/knora-api#stillImageFileValueHasDimY";
-    public static stillImageFileValueHasIIIFBaseUrl = "http://www.knora.org/ontology/knora-api#stillImageFileValueHasIIIFBaseUrl";
+    public static fileValueAsUrl = AppConfig.KnoraApiV2WithValueObjectPath + "fileValueAsUrl";
+    public static fileValueIsPreview = AppConfig.KnoraApiV2WithValueObjectPath + "fileValueIsPreview";
+    public static fileValueHasFilename = AppConfig.KnoraApiV2WithValueObjectPath + "fileValueHasFilename";
+
+    public static stillImageFileValueHasDimX = AppConfig.KnoraApiV2WithValueObjectPath + "stillImageFileValueHasDimX";
+    public static stillImageFileValueHasDimY = AppConfig.KnoraApiV2WithValueObjectPath + "stillImageFileValueHasDimY";
+    public static stillImageFileValueHasIIIFBaseUrl = AppConfig.KnoraApiV2WithValueObjectPath + "stillImageFileValueHasIIIFBaseUrl";
 
     public static schemaName = "http://schema.org/name";
     public static schemaNumberOfItems = "http://schema.org/numberOfItems";
