@@ -21,16 +21,33 @@ import {ApiService} from "./api.service";
 @Injectable()
 export class ProjectsService extends ApiService {
 
-    getProject(pid: string): Observable<any> {
-        return this.httpGet("/projects/shortname/" + pid);
+    /**
+     * returns a project object
+     *
+     * @param iri (= project iri)
+     * @returns {Observable<any>}
+     */
+    getProject(iri: string): Observable<any> {
+        return this.httpGet("/projects/shortname/" + iri);
     }
 
+    /**
+     * returns a list of all projects
+     *
+     * @returns {Observable<any>}
+     */
     getAllProjects(): Observable<any> {
         return this.httpGet("/projects");
     }
 
-    getProjectMembers(pid: string): Observable<any> {
-        return this.httpGet("/project/members/shortname/" + pid);
+    /**
+     * returns all project members
+     *
+     * @param iri (= project iri)
+     * @returns {Observable<any>}
+     */
+    getProjectMembers(iri: string): Observable<any> {
+        return this.httpGet("/project/members/shortname/" + iri);
     }
 
 

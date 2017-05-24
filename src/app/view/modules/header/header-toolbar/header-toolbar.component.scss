@@ -1,0 +1,74 @@
+@import '../../../../../assets/style/mixins';
+@import '../../../../../assets/style/config';
+
+.salsah-menu {
+  @include md-box-shadow();
+  background-color: $bright;
+  border-radius: $border-radius;
+  display: none;
+  position: absolute;
+  z-index: 1;
+
+  .salsah-menu-header {
+    background-color: $bright;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    display: inline-block;
+    height: 48px;
+    width: 100%;
+
+    .salsah-menu-title {
+      float: left;
+      font-size: 14px;
+      font-weight: 400;
+      margin-top: 4px;
+      padding: 12px;
+
+    }
+
+    .salsah-menu-action {
+      float: right;
+      margin: 4px;
+    }
+  }
+
+  .salsah-menu-footer {
+    border-top: 1px solid rgba($dark, .1);
+    width: 100%;
+
+    .salsah-menu-action-logout {
+      padding: 12px;
+      width: 100%;
+    }
+  }
+
+  &.add-menu {
+    right: 60px;
+    //        width: 280px;
+  }
+
+  &.user-menu {
+    right: 12px;
+    //        width: 190px;
+  }
+
+  &.user-menu,
+  &.add-menu {
+    top: 6px;
+    width: 280px;
+
+    .mat-grid-tile button {
+      border-radius: $border-radius;
+      font-size: 11px;
+      height: 84px;
+      padding: 6px;
+      width: 84px;
+
+      .mat-icon {
+        font-size: 36px;
+        height: 36px;
+        width: 36px;
+      }
+    }
+  }
+}

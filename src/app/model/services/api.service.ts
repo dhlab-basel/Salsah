@@ -45,6 +45,13 @@ export class ApiService {
 
         url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
+        if (!environment.production && environment.type === 'mock-api') {
+            // in this case, we don't need the knora API; we're using mockup files from knora_mockups
+
+            url += '.json';
+            options = {withCredentials: false};
+        }
+
         return this._http.get(url, options).map((response: Response) => {
             try {
                 let apiServiceResult: ApiServiceResult = new ApiServiceResult();

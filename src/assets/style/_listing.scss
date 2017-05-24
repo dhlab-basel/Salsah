@@ -1,0 +1,103 @@
+md-list.salsah-list {
+
+    max-width: 720px;
+
+    .mat-list-item {
+//        min-height: 112px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+
+        img.mat-list-avatar, img.salsah-preview-image {
+            border-radius: 0;
+            width: 96px;
+            height: 96px;
+            object-fit: cover;
+//            margin-top: 36px;
+        }
+        .mat-list-text {
+            [md-line] {
+                overflow: hidden;
+            }
+        }
+    }
+}
+
+md-grid-list.salsah-grid-list {
+    md-card {
+        margin: 6px;
+        width: 100%;
+        height: 88%;
+        max-width: 400px;
+        .salsah-preview-image {
+            height: 240px;
+            object-fit: cover;
+        }
+        .salsah-preview-text {
+            &:after {
+                content: '...';
+            }
+        }
+        p.prop-val {
+
+            &.second {
+
+            }
+        }
+    }
+}
+
+
+    .list-view {
+
+    }
+    .grid-view {
+
+    }
+
+
+
+
+salsah-dashboard {
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+
+    md-card {
+        margin: 2px;
+    }
+
+    md-grid-tile {
+        ::content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+    }
+
+    md-list {
+//        width: 420px;
+        .mat-list-item {
+//            cursor: pointer;
+            &:hover {
+//                @include box-shadow();
+//                background-color: white;
+            }
+        }
+    }
+
+
+
+    .salsah-module-header {
+        position: relative;
+        top: 0;
+        width: auto;
+    }
+
+    img.salsah-main-logo {
+        width: 320px;
+        height: auto;
+    }
+}
+
+

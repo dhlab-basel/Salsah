@@ -21,7 +21,7 @@ import {BaseOntology, ResourceClass} from "../../../../model/test-data/base-onto
 @Component({
   selector: 'salsah-advanced-resource-class',
   templateUrl: './advanced-resource-class.component.html',
-  styleUrls: ['./advanced-resource-class.component.css']
+  styleUrls: ['./advanced-resource-class.component.scss']
 })
 export class AdvancedResourceClassComponent implements OnInit {
 

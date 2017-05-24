@@ -25,7 +25,7 @@ import {
 @Component({
     selector: 'salsah-search',
     templateUrl: './search.component.html',
-    styleUrls: ['./search.component.css'],
+    styleUrls: ['./search.component.scss'],
     animations: [
         trigger('simpleSearchMenu',
             [
@@ -71,6 +71,8 @@ export class SearchComponent implements OnInit {
 
     searchQuery: string;
 
+    searchPanelFocus: boolean = false;
+
     prevSearch: string[] = JSON.parse(localStorage.getItem('prevSearch'));
 
     focusOnSimple: string = 'inactive';
@@ -86,15 +88,16 @@ export class SearchComponent implements OnInit {
 
     ngOnInit() {
     }
-/*
-    @HostListener('document:click', ['$event'])
-    onClick(event) {
-        if (!this._eleRef.nativeElement.contains(event.target)) {
-            if (this.focusOnSimple) this.toggleMenu('simpleSearch');
-            if (this.focusOnExtended) this.toggleMenu('extendedSearch');
-        }
-    }
-    */
+
+    /*
+     @HostListener('document:click', ['$event'])
+     onClick(event) {
+     if (!this._eleRef.nativeElement.contains(event.target)) {
+     if (this.focusOnSimple) this.toggleMenu('simpleSearch');
+     if (this.focusOnExtended) this.toggleMenu('extendedSearch');
+     }
+     }
+     */
 
     onKey(search_ele: HTMLElement, event) {
         this.focusOnSimple = 'active';
@@ -112,11 +115,11 @@ export class SearchComponent implements OnInit {
             // push the search query into the local storage prevSearch array (previous search)
             // to have a list of recent search requests
             let existingPrevSearch: string[] = JSON.parse(localStorage.getItem('prevSearch'));
-            if(existingPrevSearch === null) existingPrevSearch = [];
+            if (existingPrevSearch === null) existingPrevSearch = [];
             let i: number = 0;
-            for(let entry of existingPrevSearch) {
+            for (let entry of existingPrevSearch) {
                 // remove entry, if exists already
-                if(this.searchQuery === entry) existingPrevSearch.splice(i, 1);
+                if (this.searchQuery === entry) existingPrevSearch.splice(i, 1);
                 i++;
             }
 
@@ -135,6 +138,7 @@ export class SearchComponent implements OnInit {
         this.searchQuery = null;
         search_ele.focus();
         this.focusOnSimple = 'inactive';
+        this.searchPanelFocus = !this.searchPanelFocus;
     }
 
     doPrevSearch(query: string) {
@@ -144,7 +148,7 @@ export class SearchComponent implements OnInit {
     }
 
     resetPrevSearch(name: string = null) {
-        if(name) {
+        if (name) {
             // delete only this item with the name ...
             let i: number = this.prevSearch.indexOf(name);
             this.prevSearch.splice(i, 1);
@@ -161,6 +165,7 @@ export class SearchComponent implements OnInit {
     setFocus() {
         this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
         this.focusOnSimple = 'active';
+        this.searchPanelFocus = !this.searchPanelFocus;
     }
 
     toggleMenu(name: string) {

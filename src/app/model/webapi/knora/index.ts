@@ -50,6 +50,7 @@ export * from './v1/search/search';
 /**
  * Interfaces for users
  */
+export * from './v1/users/users-list';
 export * from './v1/users/user';
 export * from './v1/users/user-profile';
 

@@ -14,7 +14,6 @@
 
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {Session} from "../../model/webapi/knora/";
 
 function getDocument(): any {
     return document;
@@ -23,19 +22,22 @@ function getDocument(): any {
 @Component({
     selector: 'salsah-dashboard',
     templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.css']
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
 
-    errorMessage: string = undefined;
-    session: Session = new Session();
+    // on this page is a list of all public projects;
+    // implemented with ProjectsListComponent which can have a list title
+    listTitle: string = 'Public projects in Knora';
 
-    constructor(private _router: Router) {
-    }
+    constructor(
+        private _router: Router
+    ) {}
 
     ngOnInit() {
 
         if (this._router.url === '/logout') this.logout();
+
     }
 
     logout() {

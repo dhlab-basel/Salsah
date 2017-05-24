@@ -27,6 +27,10 @@ export class UserService extends ApiService {
         return this.httpGet("/users/email/" + email);
     }
 
+    getAllUsers(): Observable<any> {
+        return this.httpGet("/users");
+    }
+
     createUser(data: any): Observable<any> {
 
         let headers: Headers = new Headers();

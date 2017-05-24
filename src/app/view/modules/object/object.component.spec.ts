@@ -1,8 +1,8 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-import {ObjectComponent} from "./object.component";
 import {AppModule} from "../../../app.module";
-import {AppMaterialModule} from "../../../app-material.module";
+import {AppMaterialModule} from "../../../app-material-module";
 import {AppRoutingModule} from "../../../app-routing.module";
+import {ObjectComponent} from "./object.component";
 import {ResourceService} from "../../../model/services/resource.service";
 
 describe('ObjectComponent', () => {

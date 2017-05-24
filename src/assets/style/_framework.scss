@@ -1,0 +1,245 @@
+/*
+ * whole framework styling
+ * header, main and footer
+ * the main container contains:
+ *  - router-outlet for the main components like project, search results, login and user profile page
+ *  - some of the components above contains submodules with their own view settings
+ */
+
+.mat-toolbar {
+  background: #fafafa;
+}
+
+.salsah-logo {
+  width: 120px;
+  img {
+    max-width: 100%;
+    height: 48px;
+  }
+}
+
+//
+//  -- Main Header on the top --
+header.salsah-main-header {
+  md-toolbar {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    height: 64px;
+
+    .salsah-project-buttons {
+      .salsah-project-select-button {
+        position: relative;
+        top: -12px;
+      }
+    }
+    img.logo {
+
+    }
+  }
+}
+
+/*
+    // the header could have a project selection
+    // TODO: do we still need it?
+    .mat-menu-panel.salsah-project-selection {
+        width: 420px;
+        max-width: 420px;
+        div {
+            min-height: 32px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            span.salsah-user-project {
+                max-width: 320px;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                -ms-hyphens: auto;
+                hyphens: auto;
+                white-space: pre-wrap;
+            }
+            span.salsah-admin-button {
+                right: 12px;
+                bottom: 12px;
+                left: 360px;
+                position: absolute;
+                z-index: 1000;
+                md-icon {
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            }
+        }
+    }
+*/
+
+//  -- /salsah-main-header --
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+//
+//  -- Main container --
+$width-sidebar: 400px;
+main.salsah-main {
+  position: absolute;
+  width: 100vw;
+
+  div.salsah-module {
+    top: 64px;
+    position: fixed;
+    z-index: 0;
+    height: calc(100vh - 64px - 24px);
+    width: 100%;
+
+    &.with-header {
+      top: 124px;
+
+      .salsah-sub-module {
+        // full height minus main header, footer and module header
+        // we need the height for the overflow-y scroll bar
+        height: calc(100vh - 124px - 24px);
+      }
+      md-toolbar.salsah-module-header {
+        position: fixed;
+        top: 60px;
+        width: 100vw;
+        z-index: 99;
+        @include border-bottom();
+        //                @include box-shadow-bottom();
+
+        .salsah-tab-group {
+          margin-bottom: -20px;
+
+          .salsah-tab-item {
+            line-height: 48px;
+            height: 48px;
+            padding: 0 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            box-sizing: border-box;
+            opacity: 0.6;
+            min-width: 160px;
+            text-align: center;
+            display: inline;
+            &.active {
+              border-bottom: 2px solid teal;
+            }
+
+            &:active {
+              border-bottom: 2px solid teal;
+              background-color: rgba(teal, 0.08);
+            }
+          }
+        }
+      }
+      @media (max-width: 960px) and (orientation: landscape) {
+        top: 112px;
+        .salsah-sub-module {
+          height: calc(100vh - 112px - 24px);
+        }
+        md-toolbar.salsah-module-header {
+          .salsah-tab-group {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+    .salsah-sub-module {
+
+    }
+
+    .salsah-module-content {
+      width: calc(100vw - 228px);
+      padding-left: 120px;
+      padding-right: 108px; // plus 12px for the scroll bar
+      overflow-y: auto;
+      height: 100%;
+
+      &.salsah-list, &.salsah-grid-list {
+        &.small.left {
+          left: 0;
+          position: absolute;
+          width: $width-sidebar;
+          padding: 0;
+          border-right: 1px solid #c1c1c1;
+          h2, button {
+            margin-left: 12px;
+          }
+        }
+        &.small.top {
+          border-bottom: 1px solid #c1c1c1;
+          // TODO: a user should be able to change view of list- and detail view from
+          // left/right to top/bottom
+        }
+
+      }
+    }
+
+    .salsah-module-detail {
+      position: fixed;
+
+      &.right {
+        width: calc(100vw - #{$width-sidebar});
+        left: $width-sidebar;
+        top: 128px;
+        height: calc(100% - 48px);
+        max-height: 100%;
+        overflow-y: auto;
+      }
+
+      &.bottom {
+
+      }
+
+      button.right {
+        position: fixed;
+        right: 24px;
+      }
+      md-progress-bar {
+        padding: 0;
+        width: calc(100vw - 400px);
+        margin-left: -24px;
+      }
+
+      .salsah-module-detail-content {
+        padding: 24px;
+      }
+    }
+
+  }
+
+}
+
+//  -- /salsah-main-container --
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+//
+//  -- Main Footer at the bottom --
+footer.salsah-main-footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 24px;
+  width: 100vw;
+  background-color: rgba(whitesmoke, 0.91);
+
+  p {
+    font-size: 10px;
+    font-weight: 300;
+    text-align: center;
+    color: dimgrey;
+    letter-spacing: 2px;
+    a {
+      text-decoration: none;
+      color: inherit;
+      font-weight: bolder;
+    }
+
+  }
+}
+
+//  -- /salsah-main-footer --
+

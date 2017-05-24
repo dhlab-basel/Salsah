@@ -25,7 +25,7 @@ import {ProjectItem, ResourceTypes, Properties} from "../../../../model/webapi/k
 @Component({
     selector: 'salsah-project-resources',
     templateUrl: './project-resources.component.html',
-    styleUrls: ['./project-resources.component.css']
+    styleUrls: ['./project-resources.component.scss']
 })
 export class ProjectResourcesComponent implements OnInit {
 
@@ -68,8 +68,8 @@ export class ProjectResourcesComponent implements OnInit {
                     this.isLoading = false;
                 }
             );
-        // Develop test: open the dialog box for new resources directly on the start
-        this.addNewResourceClass();
+        // Develop test: open the dialog box for new resources on the start directly
+        // this.addNewResourceClass();
     }
 
 

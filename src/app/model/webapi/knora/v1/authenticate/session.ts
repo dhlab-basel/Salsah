@@ -27,7 +27,7 @@ export class Session {
     @JsonProperty('sid', String, true)
     public sid: string = undefined;
 
-    @JsonProperty('userProfile', UserProfile)
+    @JsonProperty('userProfile', UserProfile, true)
     public userProfile: UserProfile = undefined;
 
 }

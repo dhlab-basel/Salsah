@@ -19,7 +19,7 @@ import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-reso
 @Component({
     selector: 'salsah-resource-list',
     templateUrl: './resource-list.component.html',
-    styleUrls: ['./resource-list.component.css']
+    styleUrls: ['./resource-list.component.scss']
 })
 export class ResourceListComponent implements OnInit {
 

@@ -1,0 +1,172 @@
+// Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+// Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
+// This file is part of SALSAH.
+// SALSAH is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published
+// by the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// SALSAH is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// You should have received a copy of the GNU Affero General Public
+// License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+//
+@import 'mixins';
+@import 'config';
+@import 'framework';
+@import 'listing';
+@import 'form';
+@import 'menu';
+
+
+//
+//  general html style
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  margin: 0 0 24px;
+  overflow-x: hidden;
+  padding: 0; // bottom = footer height
+}
+
+a {
+  color: $primary;
+  text-decoration: none;
+
+  &:hover {
+    color: darken($bright, 50%);
+  }
+}
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+//
+//  Overlay element:
+//  it hides the content of salsah in the case of
+//  modal pop-ups or dropdown animations
+
+.salsah-overlay {
+  background-color: $dark;
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100vw;
+  z-index: 100;
+
+  &.fullscreen {
+    background-color: $bright;
+    display: block;
+    z-index: 100;
+  }
+}
+
+//  -- /salsa-overlay --
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+//
+// general elements
+
+.salsah-text {
+  line-height: 1.5;
+}
+
+.salsah-link {
+  cursor: pointer;
+
+  &:hover {
+    background-color: $bright;
+  }
+
+  &.highlight,
+  &:active {
+    background-color: darken($bright, 25%);
+  }
+}
+
+.highlight:hover {
+  background-color: darken($bright, 25%);
+}
+
+.salsah-avatar-image {
+  border-radius: 50%;
+}
+
+.fill-remaining-space {
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.show {
+  display: block;
+}
+
+.mute,
+.inactive {
+  color: darken($bright, 50%);
+}
+
+.hide {
+  display: none;
+}
+
+.transparent {
+  background: none;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.golden-ratio-small-width {
+  width: 39%;
+}
+
+.golden-ratio-large-width {
+  width: 61%;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.previous,
+.back,
+.left {
+  float: left;
+}
+
+.forward,
+.next,
+.right {
+  float: right;
+}
+
+.no-shadow {
+  box-shadow: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fix-width {
+  max-width: 640px;
+  min-width: 480px;
+  width: 100%;
+}
+

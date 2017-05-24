@@ -23,7 +23,7 @@ import {BaseOntology, PropertyObject, ResourceClass} from "../../../../model/tes
 @Component({
     selector: 'salsah-resource-class-form',
     templateUrl: './resource-class-form.component.html',
-    styleUrls: ['./resource-class-form.component.css']
+    styleUrls: ['./resource-class-form.component.scss']
 })
 
 export class ResourceClassFormComponent implements OnInit {
