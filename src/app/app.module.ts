@@ -76,7 +76,7 @@ import {UserSelectComponent} from "./view/modules/form/user-select/user-select.c
 import {DevelopmentComponent} from "./view/test/development/development.component";
 
 import {MessageComponent} from "./view/modules/message/message.component";
-import {MathJaxDirective} from "./mathjax.directive";
+import {MathJaxDirective} from "./view/modules/other/mathjax.directive";
 //
 // import all app components
 //

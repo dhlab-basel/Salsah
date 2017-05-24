@@ -19,6 +19,6 @@ export class MathJaxDirective implements OnInit {
         //console.log("MathJaxJDirective");
         this.el.nativeElement.innerHTML = this.value;
         // http://docs.mathjax.org/en/latest/advanced/typeset.html#typeset-math
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub/*, this.el.nativeElement*/]);
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.el.nativeElement]);
     }
 }
