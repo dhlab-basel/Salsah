@@ -17,8 +17,8 @@ import {JsonObject, JsonProperty} from "json2typescript";
 @JsonObject
 export class ProjectItem {
 
-    @JsonProperty('basepath', String, true)
-    public basepath: string = undefined;
+//    @JsonProperty('basepath', String, true)
+//    public basepath: string = undefined;
 
     @JsonProperty('shortname', String)
     public shortname: string = undefined;
@@ -26,8 +26,8 @@ export class ProjectItem {
     @JsonProperty('description', String)
     public description: string = undefined;
 
-    @JsonProperty('belongsToInstitution', null)
-    public belongsToInstitution: any = undefined;
+    @JsonProperty('institution', String)
+    public institution: string = undefined;
 
     @JsonProperty('logo', String)
     public logo: string = undefined;
@@ -50,7 +50,7 @@ export class ProjectItem {
     @JsonProperty('ontologyNamedGraph', String)
     public ontologyNamedGraph: string = undefined;
 
-    @JsonProperty('hasSelfJoinEnabled', Boolean)
-    public hasSelfJoinEnabled: boolean = undefined;
+    @JsonProperty('selfjoin', Boolean)
+    public selfjoin: boolean = undefined;
 
 }
