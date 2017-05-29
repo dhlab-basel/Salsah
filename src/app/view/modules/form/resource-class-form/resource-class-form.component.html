@@ -92,9 +92,17 @@
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
         <section *ngIf="newResource.id" [hidden]="counter!==2">
             <form #properties="ngForm" class="salsah-form">
-                <p md-subheader>Select properties for </p>
-                <md-list>
+                <p md-subheader>Select properties for <i>{{newResource.label}}</i></p>
+                <input type="checkbox"
+                       id="toggleAll"
+                       (change)="toggleAll(newResource.properties, $event)">
+                <label for="toggleAll">
+                    <span class="checkbox-fake"></span>
+                    <span class="checkbox-label"></span>
+                </label>
 
+                Deselect all
+                <md-list>
                     <!-- 2b) additional resource class specific properties -->
                     <md-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
                         <div class="salsah-checkbox">

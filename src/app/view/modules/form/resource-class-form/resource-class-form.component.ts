@@ -211,4 +211,8 @@ export class ResourceClassFormComponent implements OnInit {
         }
     }
 
+    toggleAll(properties: any, event) {
+
+    }
+
 }
