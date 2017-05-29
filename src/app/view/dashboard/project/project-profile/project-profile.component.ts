@@ -47,7 +47,7 @@ export class ProjectProfileComponent implements OnInit {
             // get the project from the services with the shortname from the route parameter "project"
             this._route.params.subscribe((params: Params) => {
 
-                this._projectsService.getProject(params['pid'])
+                this._projectsService.getProjectByShortname(params['pid'])
                     .subscribe(
                         (result: ApiServiceResult) => {
                             this.project = result.getBody(Project);
