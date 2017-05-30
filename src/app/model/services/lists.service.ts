@@ -6,7 +6,7 @@ import {Observable} from "rxjs/Observable";
 export class ListsService extends ApiService {
 
     getLists(projectIri: String): Observable<any> {
-        return this.httpGet("/projects/shortname/" + iri);
+        return this.httpGet("/lists/" + projectIri);
     }
 
 }
