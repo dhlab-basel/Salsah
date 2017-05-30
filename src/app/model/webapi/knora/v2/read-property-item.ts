@@ -22,19 +22,16 @@ export interface ReadPropertyItem {
 
     readonly type:string;
 
+    readonly propIri:string;
+
     toHtml:() => string;
 }
 
 export class ReadTextValueAsString implements ReadPropertyItem {
 
-    constructor(id:string, str:string) {
+    constructor(readonly id:string, readonly propIri, readonly str:string) {
 
-        this.id = id;
-
-        this.str = str;
     }
-
-    readonly id:string;
 
     readonly type = AppConfig.TextValue;
 
@@ -43,21 +40,14 @@ export class ReadTextValueAsString implements ReadPropertyItem {
         return this.str;
     };
 
-    readonly str:string;
-
 }
 
 
 export class ReadTextValueAsHtml implements ReadPropertyItem {
 
-    constructor(id:string, html:string) {
+    constructor(readonly id:string, readonly propIri, readonly html:string) {
 
-        this.id = id;
-
-        this.html = html;
     }
-
-    readonly id:string;
 
     readonly type = AppConfig.TextValue;
 
@@ -65,57 +55,29 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
         return this.html;
     };
 
-    readonly html:string;
-
 }
 
 export class ReadTextValueAsXml implements ReadPropertyItem {
 
-    constructor(id:string, xml:string, mappingIri:string) {
+    constructor(readonly id:string, readonly propIri, readonly xml:string, readonly mappingIri:string) {
 
-        this.id = id;
-
-        this.xml = xml;
-
-        this.mappingIri = mappingIri;
     }
-
-    readonly id:string;
 
     readonly type = AppConfig.TextValue;
 
     public toHtml = function(): string {
-        return escape(this.html);
+
+        // return XML als plain text (escape markup)
+        return escape(this.xml);
     };
-
-    readonly xml:string;
-
-    readonly mappingIri:string;
 
 }
 
 export class ReadDateValue implements ReadPropertyItem {
 
-    constructor(id:string, calendar:string, startYear:number, endYear:number, startMonth?:number, endMonth?:number, startDay?:number, endDay?:number) {
+    constructor(readonly id:string, readonly propIri, readonly calendar:string, readonly startYear:number, readonly endYear:number, readonly startMonth?:number, readonly endMonth?:number, readonly startDay?:number, readonly endDay?:number) {
 
-        this.id = id;
-
-        this.calendar = calendar;
-
-        this.startYear = startYear;
-
-        this.endYear = endYear;
-
-        this.startMonth = startMonth;
-
-        this.endMonth = endMonth;
-
-        this.startDay = startDay;
-
-        this.endDay = endDay;
     }
-
-    readonly id:string;
 
     readonly type = AppConfig.DateValue;
 
@@ -156,40 +118,15 @@ export class ReadDateValue implements ReadPropertyItem {
             return this.calendar + ":" + startDate + this.separator + endDate;
         }
     };
-
-    readonly calendar:string;
-
-    readonly startYear:number;
-
-    readonly endYear:number;
-
-    readonly startMonth?:number;
-
-    readonly endMonth?:number;
-
-    readonly startDay?:number;
-
-    readonly endDay?:number;
 }
 
 export class ReadLinkValue implements ReadPropertyItem {
 
-    constructor(id:string, referredResourceIri: string, referredResource?: ReadResource) {
+    constructor(readonly id:string, readonly propIri, readonly referredResourceIri: string, readonly referredResource?: ReadResource) {
 
-        this.id = id;
-
-        this.referredResourceIri = referredResourceIri;
-
-        this.referredResource = referredResource;
     }
 
-    readonly id:string;
-
     readonly type = AppConfig.LinkValue;
-
-    readonly referredResourceIri: string;
-
-    readonly referredResource?: ReadResource;
 
     public toHtml = function():string {
         if (this.referredResource !== undefined) {
@@ -204,19 +141,11 @@ export class ReadLinkValue implements ReadPropertyItem {
 
 export class ReadIntegerValue implements ReadPropertyItem {
 
-    constructor(id:string, integer:number) {
-
-        this.id = id;
-
-        this.integer = integer;
+    constructor(readonly id:string, readonly propIri, readonly integer:number) {
 
     }
 
-    readonly id:string;
-
     readonly type = AppConfig.IntValue;
-
-    readonly integer: number;
 
     public toHtml = function():string {
         return this.integer;
@@ -227,19 +156,11 @@ export class ReadIntegerValue implements ReadPropertyItem {
 
 export class ReadDecimalValue implements ReadPropertyItem {
 
-    constructor(id:string, decimal:number) {
-
-        this.id = id;
-
-        this.decimal = decimal;
+    constructor(readonly id:string, readonly propIri, readonly decimal:number) {
 
     }
 
-    id:string;
-
     readonly type = AppConfig.DecimalValue;
-
-    readonly decimal: number;
 
     public toHtml = function():string {
         return this.decimal;
@@ -250,7 +171,7 @@ export class ReadDecimalValue implements ReadPropertyItem {
 
 export class ReadStillImageFileValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly imageFilename:string, readonly imageServerIIIFBaseURL:string, readonly imagePath: string, readonly dimX:number, readonly dimY:number, isPreview?: boolean) {
+    constructor(readonly id:string, readonly propIri, readonly imageFilename:string, readonly imageServerIIIFBaseURL:string, readonly imagePath: string, readonly dimX:number, readonly dimY:number, isPreview?: boolean) {
 
         this.isPreview = isPreview === undefined ? false : isPreview;
 

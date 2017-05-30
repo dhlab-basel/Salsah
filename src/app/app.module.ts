@@ -25,6 +25,7 @@ import {LoginService} from "./model/services/login.service";
 import {ProjectsService} from "./model/services/projects.service";
 import {ResourceService} from "./model/services/resource.service";
 import {ResourceTypesService} from "./model/services/resource-types.service";
+import {OntologyService} from "./model/services/ontology.service";
 import {SearchService} from "./model/services/search.service";
 import {SessionService} from "./model/services/session.service";
 // just to get the basic ontology form the json file
@@ -153,6 +154,7 @@ import {MathJaxDirective} from "./view/modules/other/mathjax.directive";
         SessionService,
         BaseOntologyService,
         UserService,
+        OntologyService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

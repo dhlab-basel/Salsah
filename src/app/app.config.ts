@@ -14,7 +14,11 @@
 
 export class AppConfig {
 
-    public static KnoraApiV2WithValueObjectPath = "http://api.knora.org/ontology/knora-api/v2#";
+    public static KnoraApiV2WithValueObjectPath: string = "http://api.knora.org/ontology/knora-api/v2#";
+
+    public static HasResourceClasses: string = AppConfig.KnoraApiV2WithValueObjectPath + "hasResourceClasses";
+
+    public static HasProperties: string = AppConfig.KnoraApiV2WithValueObjectPath + "hasProperties";
 
     public static TextValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "TextValue";
     public static IntValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "IntValue";
@@ -69,7 +73,7 @@ export class AppConfig {
     public static schemaNumberOfItems = "http://schema.org/numberOfItems";
     public static schemaItemListElement = "http://schema.org/itemListElement";
 
-
+    public static rdfLabel = "http://www.w3.org/2000/01/rdf-schema#label";
 
 
 }

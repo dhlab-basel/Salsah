@@ -20,9 +20,13 @@ import {
     ReadTextValueAsString, ReadTextValueAsXml, ReadIntegerValue, ReadDecimalValue, ReadStillImageFileValue
 } from "./read-property-item";
 import {AppConfig} from "../../../../app.config";
+import {OntologyService} from "../../../services/ontology.service";
+import {ApiServiceResult} from "../../../services/api-service-result";
+import {ApiServiceError} from "../../../services/api-service-error";
+declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
+let jsonld = require('jsonld');
 
 export module ConvertJSONLD {
-
 
     /**
      * Construct a [[ReadResource]] from JSON-LD.
@@ -31,13 +35,22 @@ export module ConvertJSONLD {
      * @param properties    a [[ReadProperties]] describing the resource's properties. if any.
      * @returns a [[ReadResource]]
      */
-    function constructReadResource(resourceJSONLD: Object): ReadResource {
+    function constructReadResource(resourceJSONLD: Object, ontologyResponseJSONLD?: Object): ReadResource {
 
         let properties: ReadProperties = constructReadProperties(resourceJSONLD);
+
+        // check for resource class information
+        let resourceClassAsName: string;
+        if (ontologyResponseJSONLD !== undefined) {
+            resourceClassAsName = ontologyResponseJSONLD[AppConfig.HasResourceClasses][resourceJSONLD['@type']][AppConfig.rdfLabel];
+        } else {
+            resourceClassAsName = undefined;
+        }
 
         return {
             id: resourceJSONLD['@id'],
             type: resourceJSONLD['@type'],
+            typeAsName: resourceClassAsName,
             label: resourceJSONLD[AppConfig.schemaName],
             properties: properties
         };
@@ -49,7 +62,7 @@ export module ConvertJSONLD {
      * @param propValue the value serialized as JSON-LD.
      * @returns a [[ReadPropertyItem]] or `undefined` in case the value could not be processed correctly.
      */
-    function createValueSpecificProp(propValue: Object): ReadPropertyItem | undefined {
+    function createValueSpecificProp(propValue: Object, propIri: string): ReadPropertyItem | undefined {
 
         // convert a JSON-LD property value to a `ReadPropertyItem`
 
@@ -62,11 +75,11 @@ export module ConvertJSONLD {
                 let textValue: ReadPropertyItem;
 
                 if (propValue[AppConfig.valueAsString] !== undefined) {
-                    textValue = new ReadTextValueAsString(propValue['@id'], propValue[AppConfig.valueAsString]);
+                    textValue = new ReadTextValueAsString(propValue['@id'], propIri, propValue[AppConfig.valueAsString]);
                 } else if (propValue[AppConfig.textValueAsHtml] !== undefined) {
-                    textValue = new ReadTextValueAsHtml(propValue['@id'], propValue[AppConfig.textValueAsHtml]);
+                    textValue = new ReadTextValueAsHtml(propValue['@id'], propIri, propValue[AppConfig.textValueAsHtml]);
                 } else if (propValue[AppConfig.textValueAsXml] !== undefined && propValue[AppConfig.textValueHasMapping] !== undefined) {
-                    textValue = new ReadTextValueAsXml(propValue['@id'], propValue[AppConfig.textValueAsXml], propValue[AppConfig.textValueHasMapping]);
+                    textValue = new ReadTextValueAsXml(propValue['@id'], propIri, propValue[AppConfig.textValueAsXml], propValue[AppConfig.textValueHasMapping]);
                 } else {
                     // expected text value members not defined
                     console.log("ERROR: Invalid text value: " + JSON.stringify(propValue))
@@ -78,6 +91,7 @@ export module ConvertJSONLD {
 
             case AppConfig.DateValue:
                 let dateValue = new ReadDateValue(propValue['@id'],
+                    propIri,
                     propValue[AppConfig.dateValueHasCalendar],
                     propValue[AppConfig.dateValueHasStartYear],
                     propValue[AppConfig.dateValueHasEndYear],
@@ -99,13 +113,13 @@ export module ConvertJSONLD {
 
                     let referredResource: ReadResource = constructReadResource(propValue[AppConfig.linkValueHasTarget]);
 
-                    linkValue = new ReadLinkValue(propValue['@id'], referredResource.id, referredResource);
+                    linkValue = new ReadLinkValue(propValue['@id'], propIri, referredResource.id, referredResource);
                 } else {
                     // linkValueHasTargetIri contains the resource's Iri
 
                     let referredResourceIri = propValue[AppConfig.linkValueHasTargetIri];
 
-                    linkValue = new ReadLinkValue(propValue['@id'], referredResourceIri);
+                    linkValue = new ReadLinkValue(propValue['@id'], propIri, referredResourceIri);
                 }
 
                 valueSpecificProp = linkValue;
@@ -113,14 +127,14 @@ export module ConvertJSONLD {
 
             case AppConfig.IntValue:
 
-                let intValue = new ReadIntegerValue(propValue['@id'], propValue[AppConfig.integerValueAsInteger]);
+                let intValue = new ReadIntegerValue(propValue['@id'], propIri, propValue[AppConfig.integerValueAsInteger]);
                 valueSpecificProp = intValue;
 
                 break;
 
             case AppConfig.DecimalValue:
 
-                let decimalValue = new ReadDecimalValue(propValue['@id'], propValue[AppConfig.decimalValueAsDecimal]);
+                let decimalValue = new ReadDecimalValue(propValue['@id'], propIri, propValue[AppConfig.decimalValueAsDecimal]);
                 valueSpecificProp = decimalValue;
 
                 break;
@@ -129,6 +143,7 @@ export module ConvertJSONLD {
 
                 let stillImageFileValue: ReadStillImageFileValue = new ReadStillImageFileValue(
                     propValue['@id'],
+                    propIri,
                     propValue[AppConfig.fileValueHasFilename],
                     propValue[AppConfig.stillImageFileValueHasIIIFBaseUrl],
                     propValue[AppConfig.fileValueAsUrl],
@@ -179,7 +194,7 @@ export module ConvertJSONLD {
 
                     // convert a JSON-LD property value to a `ReadPropertyItem`
 
-                    let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(propValue);
+                    let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(propValue, propName);
 
                     // if it is undefined, the value could not be constructed correctly
                     // add the property value to the array of property values
@@ -189,7 +204,7 @@ export module ConvertJSONLD {
             } else {
                 // only one value
 
-                let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(resourceJSONLD[propName]);
+                let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(resourceJSONLD[propName], propName);
 
                 // if it is undefined, the value could not be constructed correctly
                 // add the property value to the array of property values
@@ -210,7 +225,7 @@ export module ConvertJSONLD {
      * @param resourcesResponseJSONLD   a sequence of resources, represented as a JSON-LD object.
      * @returns {ReadResourcesSequence} a [[ReadResourcesSequence]].
      */
-    export function createReadResourcesSequenceFromJsonLD(resourcesResponseJSONLD: Object): ReadResourcesSequence {
+    export function createReadResourcesSequenceFromJsonLD(resourcesResponseJSONLD: Object, ontologyResponseJSONLD?: Object): ReadResourcesSequence {
 
         let resources: Array<ReadResource> = [];
         let numberOfResources: number = resourcesResponseJSONLD[AppConfig.schemaNumberOfItems];
@@ -221,7 +236,7 @@ export module ConvertJSONLD {
 
             for (let resourceJSONLD of resourcesResponseJSONLD[AppConfig.schemaItemListElement]) {
 
-                let resource: ReadResource = constructReadResource(resourceJSONLD);
+                let resource: ReadResource = constructReadResource(resourceJSONLD, ontologyResponseJSONLD);
 
                 // add the resource to the resources array
                 resources.push(resource);
@@ -229,7 +244,7 @@ export module ConvertJSONLD {
         } else {
             // only one resource
 
-            let resource: ReadResource = constructReadResource(resourcesResponseJSONLD[AppConfig.schemaItemListElement]);
+            let resource: ReadResource = constructReadResource(resourcesResponseJSONLD[AppConfig.schemaItemListElement], ontologyResponseJSONLD);
 
             // add the resource to the resources array
             resources.push(resource);
@@ -238,6 +253,40 @@ export module ConvertJSONLD {
 
         return new ReadResourcesSequence(resources, numberOfResources);
 
+    }
+
+    /**
+     * Gets the resource classes (types) from a JSON-LD representing a sequence of resources.
+     *
+     * @param resourcesResponseJSONLD a sequence of resources, represented as a JSON-LD object.
+     * @returns {Array<String>} the resource class Iris (without duplicates).
+     */
+    export function getResourceClassesFromJsonLD(resourcesResponseJSONLD: Object): String[] {
+
+        if (Array.isArray(resourcesResponseJSONLD[AppConfig.schemaItemListElement])) {
+            // an array of resources
+
+            let resourceClasses: Array<String> = [];
+
+            // collect all resource classes
+            for (let res of resourcesResponseJSONLD[AppConfig.schemaItemListElement]) {
+                resourceClasses.push(res["@type"]);
+            }
+
+            // filter out duplicates
+            // https://stackoverflow.com/questions/16747798/delete-duplicate-elements-from-an-array
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter?v=example
+            return resourceClasses.filter(function (elem, index, self) {
+                // returns true if the element's index equals the index of the leftmost element
+                // for all other elements, false is returned
+                return index == self.indexOf(elem);
+            });
+
+        } else {
+
+            // only one resource
+            return [resourcesResponseJSONLD[AppConfig.schemaItemListElement]["@type"]];
+        }
     }
 
 }

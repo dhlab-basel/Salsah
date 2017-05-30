@@ -20,6 +20,8 @@ export interface ReadResource {
 
     type: string;
 
+    typeAsName?: string;
+
     label: string;
 
     properties?: ReadProperties
