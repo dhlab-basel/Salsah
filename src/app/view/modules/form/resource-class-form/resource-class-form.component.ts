@@ -36,15 +36,19 @@ export class ResourceClassFormComponent implements OnInit {
     // result to send to the server
     newResource: ResourceClass = new ResourceClass();
 
+    // var for all selected properties (for the checkboxes)
+    allProps: boolean = true;
+    selectPropsText: string = 'Deselect all properties';
+
     // how many steps has the form?
     max_steps: number = 5;
     // or define an array of steps
     steps: string[] = [
-        "Resource type",
+        "Media type",
         "Resource",
         "Properties",
         "Permissions",
-        "Save"
+        "Preview"
     ];
 
     counter: number = 0;
@@ -167,6 +171,10 @@ export class ResourceClassFormComponent implements OnInit {
 
         }
 
+        if(this.counter === 3) {
+            console.log(this.newResource);
+        }
+
         e.preventDefault();
         // show the next section
         this.counter = cntr + 1;
@@ -191,7 +199,6 @@ export class ResourceClassFormComponent implements OnInit {
 
     }
 
-
     setProp(property: PropertyObject, event) {
 
         if(event.target.checked === true) {
@@ -212,7 +219,16 @@ export class ResourceClassFormComponent implements OnInit {
     }
 
     toggleAll(properties: any, event) {
+        console.log(event);
+        if(event.target.checked === true) {
+            this.allProps = true;
+            this.selectPropsText = 'Deselect all properties';
+        }
+        else {
+            this.allProps = false;
+            this.selectPropsText = 'Select all properties';
 
+        }
     }
 
 }
