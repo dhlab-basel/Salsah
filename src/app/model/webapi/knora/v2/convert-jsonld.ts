@@ -42,7 +42,7 @@ export module ConvertJSONLD {
         // check for resource class information
         let resourceClassAsName: string;
         if (ontologyResponseJSONLD !== undefined) {
-            resourceClassAsName = ontologyResponseJSONLD[AppConfig.HasResourceClasses][resourceJSONLD['@type']][AppConfig.rdfLabel];
+            resourceClassAsName = ontologyResponseJSONLD[resourceJSONLD['@type']][AppConfig.rdfLabel];
         } else {
             resourceClassAsName = undefined;
         }
@@ -261,12 +261,12 @@ export module ConvertJSONLD {
      * @param resourcesResponseJSONLD a sequence of resources, represented as a JSON-LD object.
      * @returns {Array<String>} the resource class Iris (without duplicates).
      */
-    export function getResourceClassesFromJsonLD(resourcesResponseJSONLD: Object): String[] {
+    export function getResourceClassesFromJsonLD(resourcesResponseJSONLD: Object): string[] {
 
         if (Array.isArray(resourcesResponseJSONLD[AppConfig.schemaItemListElement])) {
             // an array of resources
 
-            let resourceClasses: Array<String> = [];
+            let resourceClasses: Array<string> = [];
 
             // collect all resource classes
             for (let res of resourcesResponseJSONLD[AppConfig.schemaItemListElement]) {
