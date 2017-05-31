@@ -87,6 +87,7 @@ import { DevelopmentComponent } from './view/test/development/development.compon
 
 import { MessageComponent } from './view/modules/message/message.component';
 import { NewResClassComponent } from './view/test/development/new-res-class/new-res-class.component';
+import { NewResourceClassComponent } from './view/modules/form/new-resource-class/new-resource-class.component';
 
 
 @NgModule({
@@ -132,7 +133,8 @@ import { NewResClassComponent } from './view/test/development/new-res-class/new-
         UserSelectComponent,
         DevelopmentComponent,
         MessageComponent,
-        NewResClassComponent
+        NewResClassComponent,
+        NewResourceClassComponent
     ],
     imports: [
         BrowserModule,

@@ -36,6 +36,7 @@ import {ProgressStepperComponent} from "./view/modules/other/progress-stepper/pr
 import {MessageComponent} from "./view/modules/message/message.component";
 import {ResourceClassFormComponent} from "./view/modules/form/resource-class-form/resource-class-form.component";
 import {NewResClassComponent} from "./view/test/development/new-res-class/new-res-class.component";
+import {NewResourceClassComponent} from "./view/modules/form/new-resource-class/new-resource-class.component";
 
 const appRoutes: Routes = [
     {
@@ -126,6 +127,7 @@ const appRoutes: Routes = [
             {path: 'progress-indicator', component: ProgressIndicatorComponent},
             {path: 'progress-stepper', component: ProgressStepperComponent},
             {path: 'res-class', component: NewResClassComponent},
+            {path: 'new-res-class', component: NewResourceClassComponent},
             {
                 path: 'message',
                 component: MessageComponent

@@ -99,9 +99,9 @@
                         <div class="salsah-checkbox">
                             <input type="checkbox"
                                    id="togglePermission"
-                                   [checked]="allProps"
-                                   (change)="toggleAll(newResource.properties, $event)">
-                            <label for="togglePermission" class="fill-remaining-space" [class.checked]="allProps">
+                                   [checked]="isAllChecked()"
+                                   (change)="checkAll($event)">
+                            <label for="togglePermission" class="fill-remaining-space" [class.checked]="isAllChecked()">
                                 <span class="checkbox-fake"></span>
                                 <span class="checkbox-label">{{selectPropsText}}</span>
                             </label>
@@ -112,6 +112,8 @@
                     <md-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
                         <div class="salsah-checkbox">
                             <input type="checkbox"
+                                   [(ngModel)]="prop.state"
+                                   [name]="prop.key"
                                    [id]="prop.key"
                                    [value]="prop.key"
                                    [checked]="prop.value"

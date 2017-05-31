@@ -218,6 +218,16 @@ export class ResourceClassFormComponent implements OnInit {
         }
     }
 
+    checkAll(ev) {
+//        this.newResource.properties.forEach(x => x.state = ev.target.checked)
+        this.newResource.properties.forEach(x => x.label = ev.target.checked);
+        console.log(ev.target);
+    }
+
+    isAllChecked() {
+//        return this.newResource.properties.every(_ => _.state);
+    }
+
     toggleAll(properties: any, event) {
         console.log(event);
         if(event.target.checked === true) {
