@@ -19,8 +19,7 @@ import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {SearchService} from "../../../../model/services/search.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
-import {OntologyService} from "../../../../model/services/ontology.service";
-import {AppConfig} from "../../../../app.config";
+import {CacheService} from "../../../../model/services/cache.service";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -70,10 +69,9 @@ export class ResultsComponent implements OnInit {
     cols: number = 3;
     resource: string = undefined;
 
-
     constructor(private _route: ActivatedRoute,
                 private _searchService: SearchService,
-                private _ontologyService: OntologyService) {
+                private _cacheService: CacheService) {
     }
 
     ngOnInit() {
@@ -94,45 +92,24 @@ export class ResultsComponent implements OnInit {
 
                         resPromise.then(function (resCompacted) {
 
-                            let resourceClassIris = ConvertJSONLD.getResourceClassesFromJsonLD(resCompacted);
+                            let resourceClassIris: String[] = ConvertJSONLD.getResourceClassesFromJsonLD(resCompacted);
 
-                            if (resourceClassIris.length > 0) {
-                                // get resource classes that occurred in search results
+                            comp._cacheService.getResourceClassDefinitionsFromKnoraAndCache(resourceClassIris).subscribe(
+                                (res) => {
 
-                                comp._ontologyService.getResourceClass(resourceClassIris).subscribe(
-                                    (ontResult: ApiServiceResult) => {
+                                    console.log(res);
+                                },
+                                (err) => {
 
-                                        let ontPromises = jsonld.promises;
-                                        // compact JSON-LD using an empty context: expands all Iris
-                                        let ontPromise = ontPromises.compact(ontResult.body, {});
+                                    console.log("cache request failed: " + err);
+                                }
+                            );
 
-                                        ontPromise.then(function (ontCompacted) {
+                            let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(resCompacted);
 
-                                            console.log(ontCompacted);
+                            // variable 'this' cannot be used in the context of a function
+                            comp.result = resources;
 
-                                            let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(resCompacted, ontCompacted);
-
-                                            // variable 'this' cannot be used in the context of a function
-                                            comp.result = resources;
-
-                                        }, function (err) {
-
-                                            console.log("JSONLD could not be expanded:" + err);
-                                        });
-                                    },
-                                    (error: ApiServiceError) => {
-                                        this.errorMessage = <any>error;
-                                        this.isLoading = false;
-                                    }
-                                );
-                            } else {
-                                // serach results are empty, no ontology information had to be requested
-
-                                let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(resCompacted);
-
-                                // variable 'this' cannot be used in the context of a function
-                                comp.result = resources;
-                            }
 
                         }, function (err) {
 
