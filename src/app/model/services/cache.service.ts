@@ -54,6 +54,7 @@ export class CacheService {
      * @returns {Object} an object representing the requested resource classes.
      */
     private getResourceClassDefinitionsFromCache(resClassIris: string[]): {} {
+        // collect the definitions for each resource class from the cache
         let resClassDefs = {};
 
         resClassIris.forEach(

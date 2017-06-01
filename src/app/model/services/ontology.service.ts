@@ -19,7 +19,12 @@ import {Observable} from "rxjs";
 @Injectable()
 export class OntologyService extends ApiService {
 
-    getResourceClass(resourceClassIris: Array<String>): Observable<any> {
+    getResourceClass(resourceClassIris: Array<string>): Observable<any> {
+
+        if (resourceClassIris.length == 0) {
+            // no resource class Iris are given to query for, return a failed Observer
+            return Observable.create(observer => observer.error("No resource class Iris given for call of OntologyService.getResourceClass"));
+        }
 
         let resClassUriEnc = "";
 
