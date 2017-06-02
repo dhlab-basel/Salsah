@@ -19,8 +19,12 @@ import {Observable} from "rxjs";
 @Injectable()
 export class ResourceTypesService extends ApiService {
 
-    getResourceTypes(iri: string): Observable<any> {
+    getResourceTypesByVoc(iri: string): Observable<any> {
         return this.httpGet("/resourcetypes?vocabulary=" + encodeURIComponent(iri));
+    }
+
+    getResourceTypes(iri: string): Observable<any> {
+        return this.httpGet("/resourcetypes/" + encodeURIComponent(iri));
     }
 
 }

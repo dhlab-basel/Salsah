@@ -17,7 +17,7 @@ import {MdDialog} from "@angular/material";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
-import {BaseOntology, PropertyObject, ResourceClass} from "../../../../model/test-data/base-ontology";
+import {DefaultResources, PropertyObject, ResourceClass} from "../../../../model/test-data/default-resources";
 
 
 @Component({
@@ -31,7 +31,7 @@ export class ResourceClassFormComponent implements OnInit {
     errorMessage: any;
 
     // data from the server
-    baseOntology: BaseOntology = new BaseOntology();
+    baseOntology: DefaultResources = new DefaultResources();
 
     // result to send to the server
     newResource: ResourceClass = new ResourceClass();
@@ -126,7 +126,7 @@ export class ResourceClassFormComponent implements OnInit {
         this._baseOntologyService.getBaseOntology()
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.baseOntology = result.getBody(BaseOntology);
+                    this.baseOntology = result.getBody(DefaultResources);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -154,13 +154,13 @@ export class ResourceClassFormComponent implements OnInit {
             this.newResource.id = resClassId;
 
             for(let rcProp in this.baseOntology.resourceClasses[resClassId].properties) {
-                this.newResource.properties[rcProp].permissions = this.baseOntology.defaultPermissions;
+//                this.newResource.properties[rcProp].permissions = this.baseOntology.defaultPermissions;
             }
 
             // add all default properties to the new resource properties
             for(let prop in this.baseOntology.defaultProperties) {
-                this.newResource.properties[prop] = this.baseOntology.defaultProperties[prop];
-                this.newResource.properties[prop].permissions = this.baseOntology.defaultPermissions;
+//                this.newResource.properties[prop] = this.baseOntology.defaultProperties[prop];
+//                this.newResource.properties[prop].permissions = this.baseOntology.defaultPermissions;
             }
 
             // set the resource default permissions:
@@ -189,7 +189,7 @@ export class ResourceClassFormComponent implements OnInit {
 //    setPerm(prop: PropertyObject, group: any, event: any) {
     setPerm(prop: PropertyObject, group: any, permission: any, event: any) {
         console.log(this.newResource);
-        console.log(this.newResource.properties[prop.key].permissions[group.id]);
+//        console.log(this.newResource.properties[prop.key].permissions[group.id]);
         console.log(prop);
         console.log(permission);
         console.log(group.id);
@@ -202,7 +202,7 @@ export class ResourceClassFormComponent implements OnInit {
     setProp(property: PropertyObject, event) {
 
         if(event.target.checked === true) {
-            this.newResource.properties[property.key] = property.value;
+//            this.newResource.properties[property.key] = property.value;
         }
         else {
 

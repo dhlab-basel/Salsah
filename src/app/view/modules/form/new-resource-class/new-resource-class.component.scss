@@ -1,3 +1,15 @@
-* {
-  color: black;
+@import '../../../../../assets/style/config';
+
+section {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 640px;
+}
+
+td {
+  text-align: center;
+
+  md-select {
+    width: 90%;
+  }
 }

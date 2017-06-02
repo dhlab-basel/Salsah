@@ -33,9 +33,15 @@ import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
 import {SearchService} from './model/services/search.service';
 import {SessionService} from './model/services/session.service';
+import {UserService} from './model/services/user.service';
+import {ApiService} from './model/services/api.service';
+
 // just to get the basic ontology form the json file
+import {DefaultResourcesService} from "./model/services/default-resources.service";
 import {BaseOntologyService} from './model/services/base-ontology.service';
 
+
+import {KeyPipe} from './view/modules/other/key.pipe';
 //
 // import all app components
 //
@@ -75,9 +81,7 @@ import {DocumentationComponent} from './view/documentation/documentation.compone
 import {UserProjectsComponent} from './view/dashboard/user/user-projects/user-projects.component';
 import {UserCollectionsComponent} from './view/dashboard/user/user-collections/user-collections.component';
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {UserService} from './model/services/user.service';
-import {ApiService} from './model/services/api.service';
-import {KeyPipe} from './view/modules/other/key.pipe';
+
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
 import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
@@ -162,6 +166,7 @@ import { NewResourceClassComponent } from './view/modules/form/new-resource-clas
         SessionService,
         BaseOntologyService,
         UserService,
+        DefaultResourcesService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

@@ -1,3 +1,127 @@
-<p>
-  new-resource-class works!
-</p>
+<div class="salsah-module-header">
+    <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
+</div>
+
+<div class="salsah-module-content">
+    <!-- step 0: does the new resource have a file representation? -->
+    <section [hidden]="counter!==0">
+        <p md-subheader>Does the new resource have a file representation? Or which media type do you have?</p>
+        <md-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
+            <md-grid-tile *ngFor="let item of defaultResources?.resourceClasses | key; let i = index;">
+                <button md-button [mdTooltip]="item.value.description" mdTooltipPosition="above"
+                        (click)="nextFormSection(counter, $event, item.key)">
+                    <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>
+                    {{item.value.label}}
+                </button>
+            </md-grid-tile>
+        </md-grid-list>
+    </section>
+
+    <!-- step 1: define the new resource class:
+        - title, description, and permissions for the whole resource
+        -->
+    <section [hidden]="counter!==1">
+        <form #resource="ngForm" class="salsah-form">
+            <!-- resource label -->
+            <md-input-container class="full-width"
+                                dividerColor="{{ !newResourceClass.label ? 'warn' : 'primary' }}">
+                <input mdInput
+                       placeholder="Resource name *"
+                       name="label"
+                       [(ngModel)]="newResourceClass.label">
+                <md-hint class="salsah-hint">
+                    <span [hidden]="newResourceClass.label" class="salsah-error">This information is required!</span>
+                </md-hint>
+            </md-input-container>
+
+            <!-- resource description -->
+            <md-input-container class="full-width">
+                        <textarea mdInput
+                                  placeholder="Resource description"
+                                  name="description"
+                                  [(ngModel)]="newResourceClass.description"
+                                  cols="30" rows="5">
+                        </textarea>
+            </md-input-container>
+
+            <!-- resource icon; disabled at the moment -->
+            <md-input-container class="full-width"
+                                dividerColor="{{ !newResourceClass.icon ? 'warn' : 'primary' }}">
+                <span mdPrefix><md-icon>{{newResourceClass.icon}}</md-icon></span>
+
+                <input mdInput
+                       placeholder="Resource icon *"
+
+                       name="icon"
+                       [(ngModel)]="newResourceClass.icon">
+                <md-hint class="salsah-hint">
+                    <span [hidden]="newResourceClass.icon" class="salsah-error">This information is required!</span>
+                </md-hint>
+            </md-input-container>
+
+            <!-- resource permission -->
+            <p md-subheader>Resource Permissions</p>
+            <table class="full-width">
+                <tr>
+                    <!-- groups: everyone, user, member, admin -->
+                    <th *ngFor="let group of permissions?.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
+                        {{group.label}}
+                    </th>
+                </tr>
+                <tr>
+                    <td *ngFor="let group of permissions?.groups; let i = index">
+                        <md-select [(ngModel)]="newResourceClass?.permissions[group.id]" [name]="group.id">
+                            <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
+                                {{cat.label}}
+                            </md-option>
+                        </md-select>
+
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+    </section>
+
+</div>
+
+<div class="salsah-module-footer">
+    <!--
+    <button md-button
+            class="cancel-button">
+        Cancel
+    </button>
+    -->
+    <span class="fill-remaining-space"></span>
+
+    <span class="back">
+        <button md-button
+                *ngIf="counter < max_steps && counter > 0"
+                class="back-button"
+                (click)="prevFormSection(counter, $event)">
+            <md-icon>keyboard_arrow_left</md-icon> Back
+        </button>
+    </span>
+
+    <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
+    <span class="next">
+        <button md-raised-button
+                [disabled]="!newResourceClass.label"
+                *ngIf="counter < (max_steps - 1) && counter > 0"
+                class="next-button"
+                [color]="'primary'"
+                (click)="nextFormSection(counter, $event)">
+            Next <md-icon>keyboard_arrow_right</md-icon>
+        </button>
+        <!-- or -->
+        <button type="submit"
+                md-raised-button
+                *ngIf="counter === (max_steps - 1)"
+                class="save-button"
+                color="primary"
+                (click)="onSubmit(rcf.value)"
+                [disabled]="!rcf.valid">
+            Save
+        </button>
+    </span>
+</div>

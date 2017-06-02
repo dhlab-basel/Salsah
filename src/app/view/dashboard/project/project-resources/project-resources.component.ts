@@ -57,7 +57,7 @@ export class ProjectResourcesComponent implements OnInit {
 
     ngOnInit() {
         this.project = JSON.parse(localStorage.getItem('currentProject'));
-        this._resourceTypesService.getResourceTypes(this.project.ontologyNamedGraph)
+        this._resourceTypesService.getResourceTypesByVoc(this.project.ontologyNamedGraph)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.resourceTypes = result.getBody(ResourceTypes);
@@ -74,11 +74,15 @@ export class ProjectResourcesComponent implements OnInit {
 
 
     addNewResourceClass() {
+        if (this.size === 'large') this.size = 'small';
+        this.isLoadingSubModule = true;
+
+/*
         let dialogRef = this.dialog.open(ResourceClassFormComponent);
         dialogRef.afterClosed().subscribe(result => {
             this.selectedOption = result;
         });
-
+*/
     }
 
     openResourceClass(id: string, index: number) {
