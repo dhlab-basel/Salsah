@@ -35,7 +35,7 @@ export class ResourceTypeInfo {
     public icon: string = undefined;
 
     // new item for the permissions; it's not an official property in knora
-    @JsonProperty('permissions', [Permissions], true)
+    @JsonProperty('permissions', Permissions, true)
     public permissions: Permissions = new Permissions();
 
 }

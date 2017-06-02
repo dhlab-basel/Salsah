@@ -1,16 +1,20 @@
 <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
     <h2 md-header>Organize your resources</h2>
-    <button md-button (click)="addNewResourceClass()">
-        <md-icon> add </md-icon>
-        <span> Add new resource </span>
-    </button>
+
 
     <md-list>
+        <md-list-item class="salsah-link"
+                      (click)="createResource()"
+                      [class.highlight]="addResource">
+            <md-icon md-list-avatar>add</md-icon>
+            <h4 md-line>Add new resource type</h4>
+            <p md-line>&nbsp;</p>
+        </md-list-item>
         <md-divider></md-divider>
         <br>
         <h3 md-subheader>Resources (active)</h3>
         <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes; let i = index"
-                      (click)="openResourceClass(resClass.id, i);"
+                      (click)="openResource(resClass.id, i);"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
             <md-icon md-list-avatar>{{resClass.icon}}</md-icon>
@@ -44,7 +48,8 @@
     </md-list>
 </div>
 
-<div *ngIf="properties" class="salsah-module-detail" [ngClass]="position.detail">
+<div *ngIf="editResource || addResource" class="salsah-module-detail" [ngClass]="position.detail">
+
     <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
 
     <div class="salsah-module-detail-content">
@@ -55,13 +60,24 @@
 
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
-        <md-list>
-            <md-list-item *ngFor="let prop of properties.properties">
-                <h4 md-line>{{prop.label}}</h4>
-                <p md-line>{{prop.description}}</p>
-                <p md-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
+        <div class="edit-resource" *ngIf="editResource && !errorMessage">
+            <!-- replace the following content with the edit-resource-class-form -->
+            <h3>{{resType.label}}</h3>
+            <p>{{resType.description}}</p>
+            <md-list>
+                <md-list-item *ngFor="let prop of resType.properties">
+                    <h4 md-line>{{prop.label}}</h4>
+                    <p md-line>{{prop.description}}</p>
+                    <p md-line>{{prop.occurence}} | {{prop.gui_name}}</p>
 
-            </md-list-item>
-        </md-list>
+                </md-list-item>
+            </md-list>
+        </div>
+
+        <div class="create-resource" *ngIf="addResource">
+            <salsah-new-resource-class></salsah-new-resource-class>
+        </div>
+
+
     </div>
 </div>

@@ -18,7 +18,7 @@ import {DefaultResourcesService} from "../../../../model/services/default-resour
 
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ResourceTypeInfo} from "../../../../model/webapi/knora/v1/resource-types/resource-type-info";
+import {ResourceTypeInfo, ResourceType} from "../../../../model/webapi/knora/";
 
 @Component({
     selector: 'salsah-new-resource-class',

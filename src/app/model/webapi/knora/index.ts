@@ -30,7 +30,9 @@ export * from './v1/projects/projects-list';
 /**
  * Interfaces for resource types
  */
+export * from './v1/resource-types/resource-type';
 export * from './v1/resource-types/resource-types';
+export * from './v1/resource-types/resource-type-info';
 
 /**
  * Interfaces for resource objects: instances

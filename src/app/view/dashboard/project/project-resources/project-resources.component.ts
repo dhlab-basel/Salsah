@@ -14,13 +14,15 @@
 
 import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
+// services
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
 import {ResourceTypesService} from "../../../../model/services/resource-types.service";
 import {PropertiesService} from "../../../../model/services/properties.service";
-import {ProjectItem, ResourceTypes, Properties} from "../../../../model/webapi/knora";
+// json classes
+import {ProjectItem, ResourceTypes, Properties, ResourceTypeInfo, ResourceType} from "../../../../model/webapi/knora";
 
+// import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
 
 @Component({
     selector: 'salsah-project-resources',
@@ -39,6 +41,11 @@ export class ProjectResourcesComponent implements OnInit {
 
     resourceTypes: ResourceTypes = new ResourceTypes;
 
+    resType: ResourceTypeInfo = new ResourceTypeInfo;
+
+    addResource: boolean = false;
+    editResource: boolean = false;
+
     properties: Properties;
 
     selectedOption: string;
@@ -56,6 +63,7 @@ export class ProjectResourcesComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.project = JSON.parse(localStorage.getItem('currentProject'));
         this._resourceTypesService.getResourceTypesByVoc(this.project.ontologyNamedGraph)
             .subscribe(
@@ -73,9 +81,15 @@ export class ProjectResourcesComponent implements OnInit {
     }
 
 
-    addNewResourceClass() {
+    createResource() {
         if (this.size === 'large') this.size = 'small';
         this.isLoadingSubModule = true;
+        this.selectedRow = undefined;
+
+        this.addResource = true;
+        this.editResource = false;
+        this.isLoadingSubModule = false;
+
 
 /*
         let dialogRef = this.dialog.open(ResourceClassFormComponent);
@@ -85,10 +99,31 @@ export class ProjectResourcesComponent implements OnInit {
 */
     }
 
-    openResourceClass(id: string, index: number) {
+    openResource(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
         this.isLoadingSubModule = true;
+        this.editResource = true;
+        this.addResource = false;
 
+        // get the resource class data by res class iri
+        this._resourceTypesService.getResourceType(id)
+            .subscribe(
+                (result: ApiServiceResult) => {
+
+                    this.resType = result.getBody(ResourceType).restype_info;
+//                    let tmpResTypeInfo: ResourceTypeInfo = result.getBody(ResourceTypeInfo);
+//                    console.log(tmpResTypeInfo.restype_info.label);
+//                    console.log(this.resType);
+                    this.selectedRow = index;
+                    this.isLoadingSubModule = false;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                    this.isLoadingSubModule = false;
+                }
+            );
+
+/*
         this._propertiesService.getPropertiesByResType(id)
             .subscribe(
                 (result: ApiServiceResult) => {
@@ -101,12 +136,14 @@ export class ProjectResourcesComponent implements OnInit {
                     this.isLoadingSubModule = false;
                 }
             );
+*/
     }
 
     closeDetailView() {
         this.size = 'large';
         this.selectedRow = undefined;
-        this.properties = undefined;
+        this.editResource = false;
+        this.addResource = false;
     }
 
 }
