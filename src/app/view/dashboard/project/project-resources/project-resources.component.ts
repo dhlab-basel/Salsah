@@ -47,6 +47,7 @@ export class ProjectResourcesComponent implements OnInit {
     selectedOption: string;
 
     resClassIri: string;
+    propsIndex: number;
 
     position = {
         preview: 'left',        // top
@@ -59,7 +60,7 @@ export class ProjectResourcesComponent implements OnInit {
                 private _propertiesService: PropertiesService,
                 public dialog: MdDialog,
                 public openElem: OpenElementService) {
-        openElem.show.subscribe((val:boolean) => this.isLoadingSubModule = val);
+ //       openElem.show.subscribe((val:boolean) => this.isLoadingSubModule = val);
     }
 
     ngOnInit() {
@@ -90,20 +91,22 @@ export class ProjectResourcesComponent implements OnInit {
 
     openResourceClass(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
-        this.openElem.show.next(true);
+        this.isLoadingSubModule = true;
+//        this.openElem.show.next(true);
 
         this.resClassIri = id;
+        this.propsIndex = index;
 
         this._propertiesService.getPropertiesByResType(id)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.properties = result.getBody(Properties);
                     this.selectedRow = index;
-                    this.openElem.show.next(false);
+                    this.isLoadingSubModule = false;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
-                    this.openElem.show.next(false);
+                    this.isLoadingSubModule = false;
                 }
             );
     }

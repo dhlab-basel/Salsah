@@ -13,6 +13,7 @@ import {OpenElementService} from "../../../../model/services/open-element.servic
 export class EditResourceClassComponent implements OnInit {
 
     @Input('iri') iri: string;
+    @Input('newIndex') newIndex: number;
 
     public isLoadingSubModule: boolean = false;
     properties: Properties;
@@ -24,7 +25,7 @@ export class EditResourceClassComponent implements OnInit {
 
     constructor(private _propertiesService: PropertiesService,
                 public openElem: OpenElementService) {
-        openElem.show.subscribe( (val:boolean) => this.isLoadingSubModule = val );
+//        openElem.show.subscribe( (val:boolean) => this.isLoadingSubModule = val );
     }
 
   ngOnInit() {
@@ -32,13 +33,16 @@ export class EditResourceClassComponent implements OnInit {
           .subscribe(
               (result: ApiServiceResult) => {
                   this.properties = result.getBody(Properties);
-                  this.openElem.show.next(false);
+                  this.selectedRow = this.newIndex;
+                  this.isLoadingSubModule = false;
                   console.log("my properties");
                   console.log(this.properties);
+                  console.log("my row");
+                  console.log(this.selectedRow);
               },
               (error: ApiServiceError) => {
                   this.errorMessage = <any>error;
-                  this.openElem.show.next(false);
+                  this.isLoadingSubModule = false;
               }
           );
 
