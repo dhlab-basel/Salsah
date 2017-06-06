@@ -19,6 +19,7 @@ import {DefaultResourcesService} from "../../../../model/services/default-resour
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ResourceTypeInfo, ResourceType} from "../../../../model/webapi/knora/";
+import {PropertyItem} from "../../../../model/webapi/knora/v1/properties/property-item";
 
 @Component({
     selector: 'salsah-new-resource-class',
@@ -35,6 +36,8 @@ export class NewResourceClassComponent implements OnInit {
 
     // at the end of the form should submit a new resource class object to the api
     newResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
+
+    //newResourceClass.properties = new [PropertyItem()];
 
     // to create a new resource class, the user/admin follows an form assistant
     // here we can use the progress stepper, which needs the number of steps
@@ -117,7 +120,6 @@ export class NewResourceClassComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this._defaultResourcesService.getDefaultResources()
             .subscribe(
                 (result: ApiServiceResult) => {
@@ -141,17 +143,19 @@ export class NewResourceClassComponent implements OnInit {
             this.newResourceClass.permissions = this.defaultResources.defaultPermissions;
             this.newResourceClass.icon = this.defaultResources.resourceClasses[resClassIri].icon;
 
+            // set all default properties
             for (let defProp in this.defaultResources.defaultProperties) {
-                console.log(defProp);
+                this.newResourceClass.properties[defProp] = this.defaultResources.defaultProperties[defProp];
             }
+            // set all additional properties for this specific resource class
             for (let rcProp in this.defaultResources.resourceClasses[resClassIri].properties) {
-                console.log(rcProp);
+                this.newResourceClass.properties.push(this.defaultResources.resourceClasses[resClassIri].properties[rcProp]);
             }
 
 //            this.newResourceClass.properties = this.defaultResources.defaultProperties;
 //            this.newResourceClass.properties.push(this.defaultResources.resourceClasses[resClassIri].properties[]);
 
-            console.log(this.newResourceClass);
+
 
 
 
@@ -177,10 +181,7 @@ export class NewResourceClassComponent implements OnInit {
             console.log(this.newResourceClass);
 */
         }
-
-        if (this.counter === 3) {
-            console.log(this.newResourceClass);
-        }
+        console.log(this.newResourceClass);
 
         e.preventDefault();
         // show the next section

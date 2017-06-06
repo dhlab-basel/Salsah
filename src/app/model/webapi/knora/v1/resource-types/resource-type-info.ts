@@ -29,7 +29,7 @@ export class ResourceTypeInfo {
     public label: string = undefined;
 
     @JsonProperty('properties', [PropertyItem])
-    public properties: PropertyItem[] = undefined;
+    public properties: PropertyItem[] = [new PropertyItem()];
 
     @JsonProperty('iconsrc', String)
     public icon: string = undefined;

@@ -131,7 +131,6 @@ export class DefaultResources {
     public defaultPermissions: Permissions = undefined;
 
     // defaultResources
-
     @JsonProperty('resourceClasses', [ResourceClass])
     public resourceClasses: ResourceClass[] = undefined;
 
