@@ -105,8 +105,27 @@
                 <hr>
                 -->
                 <!-- 2b) additional resource class specific properties -->
-                <md-list-item *ngFor="let prop of newResourceClass.properties; let i = index" class="link highlight">
-                    {{prop.label}}
+                <md-list-item *ngFor="let prop of newResourceClass?.properties; let i = index" class="link highlight">
+                    <div class="salsah-checkbox">
+                        <input type="checkbox"
+                               [id]="i"
+                               [checked]="prop"
+                               (change)="setProp(prop, $event)">
+                        <!--
+                        <input type="checkbox"
+                               [(ngModel)]="prop"
+                               [name]="prop?.name"
+                               [id]="prop?.name"
+                               [value]="prop?.name"
+                               (change)="setProp(prop, $event)">
+                               -->
+                        <label class="fill-remaining-space"
+                               [class.checked]="prop !== undefined"
+                               [for]="i">
+                            <span class="checkbox-fake"></span>
+                            <span class="checkbox-label">{{defaultResourceClass?.properties[i]?.label}}</span>
+                        </label>
+                    </div>
 <!--
                     <div class="salsah-checkbox">
                         <input type="checkbox"

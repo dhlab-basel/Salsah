@@ -34,6 +34,9 @@ export class NewResourceClassComponent implements OnInit {
     // default resource class data
     defaultResources: DefaultResources = new DefaultResources();
 
+    // the default resource class contains all information, which we need for the form
+    // to give the user a view of the new resource class (which will be send to the server at the end)
+    defaultResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
     // at the end of the form should submit a new resource class object to the api
     newResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
 
@@ -152,6 +155,7 @@ export class NewResourceClassComponent implements OnInit {
                 this.newResourceClass.properties.push(this.defaultResources.resourceClasses[resClassIri].properties[rcProp]);
             }
 
+            this.defaultResourceClass = this.newResourceClass;
 //            this.newResourceClass.properties = this.defaultResources.defaultProperties;
 //            this.newResourceClass.properties.push(this.defaultResources.resourceClasses[resClassIri].properties[]);
 
@@ -181,6 +185,7 @@ export class NewResourceClassComponent implements OnInit {
             console.log(this.newResourceClass);
 */
         }
+
         console.log(this.newResourceClass);
 
         e.preventDefault();
@@ -192,5 +197,23 @@ export class NewResourceClassComponent implements OnInit {
         e.preventDefault();
         // show the previous section
         this.counter = cntr - 1;
+    }
+
+    setProp(property: PropertyItem, event) {
+        console.log(this.defaultResourceClass);
+        console.log(this.newResourceClass);
+
+        let i: number = 0;
+        for (let prop in this.newResourceClass.properties) {
+            if(this.newResourceClass.properties[prop].name === property.name) {
+                if(event.target.checked === true) {
+                    this.newResourceClass.properties[prop] = property;
+                }
+                else {
+                    this.newResourceClass.properties[prop] = undefined;
+                }
+            }
+            i++;
+        }
     }
 }

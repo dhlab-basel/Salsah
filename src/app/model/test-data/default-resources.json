@@ -3,7 +3,7 @@
     {
       "name": "http://www.knora.org/ontology/basic#Name",
       "label": "Name",
-      "cardinality": "0-n",
+      "occurence": "0-n",
       "guiorder": 0,
       "description": "",
       "valuetype_id": "",
@@ -15,7 +15,7 @@
     {
       "name": "http://www.knora.org/ontology/basic#Title",
       "label": "Title",
-      "cardinality": "0-1",
+      "occurence": "0-1",
       "guiorder": 0,
       "description": "",
       "valuetype_id": "",
@@ -27,7 +27,7 @@
     {
       "name": "http://www.knora.org/ontology/basic#Comment",
       "label": "Comment",
-      "cardinality": "0-1",
+      "occurence": "0-1",
       "guiorder": 0,
       "description": "",
       "valuetype_id": "",
@@ -39,7 +39,7 @@
     {
       "name": "http://www.knora.org/ontology/basic#Description",
       "label": "Description",
-      "cardinality": "0-1",
+      "occurence": "0-1",
       "guiorder": 0,
       "description": "",
       "valuetype_id": "",
@@ -51,7 +51,7 @@
     {
       "name": "http://www.knora.org/ontology/basic#Keywords",
       "label": "Keywords",
-      "cardinality": "0-n",
+      "occurence": "0-n",
       "guiorder": 0,
       "description": "",
       "valuetype_id": "",
@@ -63,7 +63,7 @@
     {
       "name": "http://www.knora.org/ontology/basic#Date",
       "label": "Date",
-      "cardinality": "0-1",
+      "occurence": "0-1",
       "guiorder": 0,
       "description": "",
       "valuetype_id": "",
@@ -75,7 +75,7 @@
     {
       "name": "http://www.knora.org/ontology/basic#Time",
       "label": "Time",
-      "cardinality": "0-1",
+      "occurence": "0-1",
       "guiorder": 0,
       "description": "",
       "valuetype_id": "",
@@ -87,7 +87,7 @@
     {
       "name": "http://www.knora.org/ontology/basic#Location",
       "label": "Location",
-      "cardinality": "0-1",
+      "occurence": "0-1",
       "guiorder": 0,
       "description": "",
       "valuetype_id": "",
@@ -99,7 +99,7 @@
     {
       "name": "http://www.knora.org/ontology/basic#isLinkedTo",
       "label": "is linked to",
-      "cardinality": "0-n",
+      "occurence": "0-n",
       "guiorder": 0,
       "description": "",
       "valuetype_id": "",
@@ -111,7 +111,7 @@
     {
       "name": "http://www.knora.org/ontology/basic#isPartOf",
       "label": "is part of",
-      "cardinality": "0-n",
+      "occurence": "0-n",
       "guiorder": 0,
       "description": "",
       "valuetype_id": "",
@@ -143,7 +143,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Format",
           "label": "Format",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -155,7 +155,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Creator",
           "label": "Creator",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -167,7 +167,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Dimension",
           "label": "Dimension",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -179,7 +179,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Colour",
           "label": "Colour",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -199,7 +199,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Format",
           "label": "Format",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -211,7 +211,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Videographer",
           "label": "Videographer",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -223,7 +223,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Editor",
           "label": "Editor",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -235,7 +235,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Duration",
           "label": "Duration",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -247,7 +247,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Framerate",
           "label": "Framerate (fps)",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -259,7 +259,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#AudioInfo",
           "label": "Audio information",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -279,7 +279,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Format",
           "label": "Format",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -291,7 +291,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Composer",
           "label": "Composer",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -303,7 +303,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Editor",
           "label": "Editor",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -315,7 +315,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Duration",
           "label": "Duration",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -335,7 +335,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Type",
           "label": "Type",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -347,7 +347,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Creator",
           "label": "Creator",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -359,7 +359,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Shape",
           "label": "Shape",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -371,7 +371,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Exif",
           "label": "Exif data of capture",
-          "cardinality": "0-n",
+          "occurence": "0-n",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -383,7 +383,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#ContentSzW",
           "label": "Content size, width",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -395,7 +395,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#ContentSzH",
           "label": "Content size, height",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -407,7 +407,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#MaxResW",
           "label": "Maximum resolution, width",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -419,7 +419,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#MaxResH",
           "label": "Maximum resolution, height",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -431,7 +431,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#TileSzW",
           "label": "Tile size, width",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -443,7 +443,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#TileSzH",
           "label": "Tile size, height",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -455,7 +455,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Multires",
           "label": "Multiresolution strategy",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -467,7 +467,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Scale",
           "label": "Scale",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -479,7 +479,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Bias",
           "label": "Bias",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -491,7 +491,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Orientation",
           "label": "Orientation",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -503,7 +503,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#ImageFormat",
           "label": "Image format",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -515,7 +515,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Geometry",
           "label": "Geometry",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -527,7 +527,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#fShader",
           "label": "fShader URL",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -539,7 +539,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#vShader",
           "label": "vShader URL",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -551,7 +551,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#utilsShader",
           "label": "utilsShader URL",
-          "cardinality": "1",
+          "occurence": "1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -570,7 +570,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Author",
           "label": "Author",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -582,7 +582,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Editor",
           "label": "Editor",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -594,7 +594,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Publisher",
           "label": "Publisher",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -613,7 +613,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Format",
           "label": "Format",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -625,7 +625,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Author",
           "label": "Author",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -637,7 +637,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Editor",
           "label": "Editor",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
@@ -649,7 +649,7 @@
         {
           "name": "http://www.knora.org/ontology/basic#Publisher",
           "label": "Publisher",
-          "cardinality": "0-1",
+          "occurence": "0-1",
           "guiorder": 0,
           "description": "",
           "valuetype_id": "",
