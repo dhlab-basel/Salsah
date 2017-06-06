@@ -1,0 +1,20 @@
+<p>
+  edit-resource-class works!
+</p>
+
+
+<div [class.show]="isLoadingSubModule">This is a popup.</div>
+{{properties}}
+
+<md-list>
+
+    <md-list-item *ngFor="let prop of properties.properties">
+        {{prop}}
+        <h4 md-line>{{prop.label}}</h4>
+        <p md-line>{{prop.description}}</p>
+        <p md-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
+
+    </md-list-item>
+
+</md-list>
+

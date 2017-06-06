@@ -20,9 +20,12 @@ import {ResourceClassFormComponent} from "../../../modules/form/resource-class-f
 import {ResourceTypesService} from "../../../../model/services/resource-types.service";
 import {PropertiesService} from "../../../../model/services/properties.service";
 import {ProjectItem, ResourceTypes, Properties} from "../../../../model/webapi/knora";
+import {EditResourceClassComponent} from "../../../../view/modules/form/edit-resource-class/edit-resource-class.component"
+import {OpenElementService} from "../../../../model/services/open-element.service";
 
 
 @Component({
+    providers:[OpenElementService],
     selector: 'salsah-project-resources',
     templateUrl: './project-resources.component.html',
     styleUrls: ['./project-resources.component.scss']
@@ -43,6 +46,8 @@ export class ProjectResourcesComponent implements OnInit {
 
     selectedOption: string;
 
+    resClassIri: string;
+
     position = {
         preview: 'left',        // top
         detail: 'right'         // bottom
@@ -52,7 +57,9 @@ export class ProjectResourcesComponent implements OnInit {
 
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _propertiesService: PropertiesService,
-                public dialog: MdDialog) {
+                public dialog: MdDialog,
+                public openElem: OpenElementService) {
+        openElem.show.subscribe((val:boolean) => this.isLoadingSubModule = val);
     }
 
     ngOnInit() {
@@ -83,18 +90,20 @@ export class ProjectResourcesComponent implements OnInit {
 
     openResourceClass(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
-        this.isLoadingSubModule = true;
+        this.openElem.show.next(true);
+
+        this.resClassIri = id;
 
         this._propertiesService.getPropertiesByResType(id)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.properties = result.getBody(Properties);
                     this.selectedRow = index;
-                    this.isLoadingSubModule = false;
+                    this.openElem.show.next(false);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
-                    this.isLoadingSubModule = false;
+                    this.openElem.show.next(false);
                 }
             );
     }
