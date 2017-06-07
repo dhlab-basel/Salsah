@@ -3,7 +3,7 @@
 <md-list>
     <div md-line *ngFor="let prop of resource.resources[0]?.properties | key">
         <span>{{prop.key}}</span> <ul><li *ngFor="let val of prop.value | key" [mathJax]="val.value.toHtml()"
-                                          valueType="{{val.value.type}}"></li></ul>
+                                          valueType="{{val.value.type}}" propKey="{{prop.key}}"></li></ul>
     </div>
 </md-list>
 
