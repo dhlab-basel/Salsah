@@ -87,8 +87,6 @@ import { DevelopmentComponent } from './view/test/development/development.compon
 
 import { MessageComponent } from './view/modules/message/message.component';
 import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
-import {OpenElementService} from "./model/services/open-element.service";
-
 
 @NgModule({
     declarations: [
@@ -161,7 +159,6 @@ import {OpenElementService} from "./model/services/open-element.service";
         SessionService,
         BaseOntologyService,
         UserService,
-        OpenElementService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
