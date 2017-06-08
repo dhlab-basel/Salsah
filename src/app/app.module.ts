@@ -87,7 +87,7 @@ import { UserSelectComponent } from './view/modules/form/user-select/user-select
 import { DevelopmentComponent } from './view/test/development/development.component';
 
 import { MessageComponent } from './view/modules/message/message.component';
-
+import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
 
 @NgModule({
     declarations: [
@@ -131,7 +131,8 @@ import { MessageComponent } from './view/modules/message/message.component';
         AdvancedResourceClassComponent,
         UserSelectComponent,
         DevelopmentComponent,
-        MessageComponent
+        MessageComponent,
+        EditResourceClassComponent
     ],
     imports: [
         BrowserModule,

@@ -1,8 +1,108 @@
-.example-card {
+.advanced-resource-card {
     width: 500px;
+    height: 700px;
 }
 
-.example-header-image {
-/*    background-image: url('assets/img/examples/shiba1.jpg'); */
-    background-size: cover;
+.top{
+    background-color:yellow;
+}
+
+.full-width-down {
+    width: 100%;
+    vertical-align: -50px;
+
+}
+.full-width-button {
+    width: 100%;
+    vertical-align: -37px;
+    text-align: left;
+    color: #a9a9a9;
+
+
+}
+.full-width {
+    width: 100%;
+}
+
+.half-width {
+    width: 60%;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+.playlist-add-icon {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 18px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+.addListItems{
+    height: 200px;
+    width: 100%;
+    overflow: scroll;
+}
+
+.filler{
+    flex-grow: 10;
+}
+
+ .playlistButton{
+     background-color: #ffffff; /* white */
+     border: none;
+     cursor: pointer;
+     flex: 1;
+     text-align: end;
+ }
+
+.example-tooltip-host {
+    display: inline-flex;
+    align-items: center;
+    margin: 50px;
+}
+
+.saveButton{
+    flex: 50;
+    vertical-align: bottom; /*does not work*/
 }

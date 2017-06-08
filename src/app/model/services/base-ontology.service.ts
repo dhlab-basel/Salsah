@@ -22,7 +22,8 @@ import {ApiService} from "./api.service";
 export class BaseOntologyService extends ApiService {
 
     getBaseOntology(): Observable<any> {
-        return this.httpGet('http://localhost/salsah/v2/src/app/model/test-data/baseOntology', {withCredentials: false});
+
+        return this.httpGet('http://localhost/salsah/v2/src/app/model/test-data/baseOntology.json', {withCredentials: false});
 //        return this.httpGet('http://localhost/baseOntology.json', {withCredentials: false});
     }
 
