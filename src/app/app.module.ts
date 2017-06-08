@@ -33,6 +33,7 @@ import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
 import {SearchService} from './model/services/search.service';
 import {SessionService} from './model/services/session.service';
+import {ListsService} from "./model/services/lists.service";
 // just to get the basic ontology form the json file
 import {BaseOntologyService} from './model/services/base-ontology.service';
 
@@ -87,7 +88,7 @@ import { DevelopmentComponent } from './view/test/development/development.compon
 
 import { MessageComponent } from './view/modules/message/message.component';
 import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
-
+import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
 
 @NgModule({
     declarations: [
@@ -132,7 +133,8 @@ import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.
         UserSelectComponent,
         DevelopmentComponent,
         MessageComponent,
-        OsdViewerComponent
+        OsdViewerComponent,
+        EditResourceClassComponent
     ],
     imports: [
         BrowserModule,
@@ -160,6 +162,7 @@ import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.
         SessionService,
         BaseOntologyService,
         UserService,
+        ListsService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

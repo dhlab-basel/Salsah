@@ -22,6 +22,7 @@ import {PropertiesService} from "../../../../model/services/properties.service";
 import {ProjectItem, ResourceTypes, Properties} from "../../../../model/webapi/knora";
 
 
+
 @Component({
     selector: 'salsah-project-resources',
     templateUrl: './project-resources.component.html',
@@ -50,9 +51,16 @@ export class ProjectResourcesComponent implements OnInit {
 
     size: string = 'large';
 
+    id: string;
+    index: number;
+
+    resClassIri: string;
+    propsIndex: number;
+
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _propertiesService: PropertiesService,
                 public dialog: MdDialog) {
+ //       openElem.show.subscribe((val:boolean) => this.isLoadingSubModule = val);
     }
 
     ngOnInit() {
@@ -81,9 +89,13 @@ export class ProjectResourcesComponent implements OnInit {
 
     }
 
-    openResourceClass(id: string, index: number) {
+    openResourceClass(id, index) {
         if (this.size === 'large') this.size = 'small';
         this.isLoadingSubModule = true;
+//        this.openElem.show.next(true);
+
+        this.resClassIri = id;
+        this.propsIndex = index;
 
         this._propertiesService.getPropertiesByResType(id)
             .subscribe(

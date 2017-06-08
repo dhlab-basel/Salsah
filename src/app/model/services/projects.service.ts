@@ -27,8 +27,12 @@ export class ProjectsService extends ApiService {
      * @param iri (= project iri)
      * @returns {Observable<any>}
      */
-    getProject(iri: string): Observable<any> {
-        return this.httpGet("/projects/shortname/" + iri);
+    getProjectByIri(iri: string): Observable<any> {
+        return this.httpGet("/projects/" + encodeURIComponent(iri));
+    }
+
+    getProjectByShortname(shortname: string): Observable<any> {
+        return this.httpGet("/projects/" + shortname + "?identifier=shortname");
     }
 
     /**
