@@ -74,7 +74,7 @@ export class ProjectComponent implements OnInit {
 
 
             // get the project information
-            this._projectsService.getProject(this.cur_project)
+            this._projectsService.getProjectByShortname(this.cur_project)
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.project = result.getBody(Project);

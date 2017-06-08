@@ -4,6 +4,7 @@ import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {UserFormComponent} from './user-form.component'
 import {UserService} from '../../../../model/services/user.service';
+import {MdDialogRef} from '@angular/material';
 
 //import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -19,7 +20,8 @@ describe('UserFormComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: UserService}
+                UserService,
+                {provide: MdDialogRef}
             ]
         })
             .compileComponents();

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dhlab-basel/Salsah.svg?branch=master)](https://travis-ci.org/dhlab-basel/Salsah)
+
 # Salsah
 
 This is the repository for the [Knora](https://github.com/dhlab-basel/Knora) team's 

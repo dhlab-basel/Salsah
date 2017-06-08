@@ -143,7 +143,7 @@ export class ResourceClassFormComponent implements OnInit {
 //        console.log(this.newResource);
 
         if(resClassId && cntr === 0) {
-            //get the properties for this resClass
+            // get the properties for this resClass and create a default resource class
 
             this.newResource = this.baseOntology.resourceClasses[resClassId];
 
@@ -159,10 +159,11 @@ export class ResourceClassFormComponent implements OnInit {
                 this.newResource.properties[prop].permissions = this.baseOntology.defaultPermissions;
             }
 
-
             // set the resource default permissions:
             this.newResource.permissions = this.baseOntology.defaultPermissions;
             //console.log(this.newResource);
+
+            console.log(this.newResource);
 
         }
 
@@ -177,11 +178,17 @@ export class ResourceClassFormComponent implements OnInit {
         this.counter = cntr - 1;
     }
 
-    setPerm(property: PropertyObject, group: any, pf: any, event) {
-        console.log(property);
-        console.log(group);
-        console.log(pf);
-        console.log(event);
+//    setPerm(prop: PropertyObject, group: any, event: any) {
+    setPerm(prop: PropertyObject, group: any, permission: any, event: any) {
+        console.log(this.newResource);
+        console.log(this.newResource.properties[prop.key].permissions[group.id]);
+        console.log(prop);
+        console.log(permission);
+        console.log(group.id);
+        console.log(event.value);
+
+//        prop.value.permissions[group.id] = event.value;
+
     }
 
 
