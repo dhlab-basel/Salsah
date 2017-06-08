@@ -33,8 +33,8 @@ export class EditResourceClassComponent implements OnInit {
                   this.selectedRow = this.newIndex;
                   this.isLoadingSubModule = false;
                   console.log("iri:", this.iri);
-                  console.log("my properties", this.properties);
-                  console.log("my row", this.selectedRow);
+                  console.log("my properties:", this.properties);
+                  console.log("my row:", this.selectedRow);
               },
               (error: ApiServiceError) => {
                   this.errorMessage = <any>error;
