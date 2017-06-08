@@ -33,6 +33,7 @@ import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
 import {SearchService} from './model/services/search.service';
 import {SessionService} from './model/services/session.service';
+import {ListsService} from "./model/services/lists.service";
 // just to get the basic ontology form the json file
 import {BaseOntologyService} from './model/services/base-ontology.service';
 
@@ -159,6 +160,7 @@ import { EditResourceClassComponent } from './view/modules/form/edit-resource-cl
         SessionService,
         BaseOntologyService,
         UserService,
+        ListsService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
