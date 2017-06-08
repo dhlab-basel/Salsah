@@ -24,7 +24,9 @@
                 "assets/style/md-teal-amber.scss",
                 "assets/style/main.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "../node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+            ],
             "environmentSource": "environments/environment.ts",
             "environments": {
                 "dev": "environments/environment.ts",

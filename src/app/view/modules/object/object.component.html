@@ -1,5 +1,9 @@
 <p>{{resource?.resdata?.restype_label}}</p>
-<img *ngIf="resource?.resinfo?.resclass_has_location" [src]="resource?.resinfo?.preview.path">
+
+<salsah-osd-viewer
+    *ngIf="resource?.resinfo?.resclass_has_location;"
+    [resource]="resource">
+</salsah-osd-viewer>
 
 <md-list>
     <md-list-item *ngFor="let prop of resource?.props | key; let i = index">
@@ -7,4 +11,3 @@
         <p md-line *ngFor="let val of prop.value.values" [innerHTML]="val['utf8str']"></p>
     </md-list-item>
 </md-list>
-
