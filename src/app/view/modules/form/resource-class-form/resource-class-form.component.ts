@@ -173,6 +173,7 @@ export class ResourceClassFormComponent implements OnInit {
 
         if(this.counter === 3) {
             console.log(this.newResource);
+
         }
 
         e.preventDefault();
@@ -198,6 +199,7 @@ export class ResourceClassFormComponent implements OnInit {
 //        prop.value.permissions[group.id] = event.value;
 
     }
+
 
     setProp(property: PropertyObject, event) {
 

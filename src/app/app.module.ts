@@ -35,7 +35,7 @@ import {SearchService} from './model/services/search.service';
 import {SessionService} from './model/services/session.service';
 import {UserService} from './model/services/user.service';
 import {ApiService} from './model/services/api.service';
-
+import {ListsService} from "./model/services/lists.service";
 // just to get the basic ontology form the json file
 import {DefaultResourcesService} from "./model/services/default-resources.service";
 import {BaseOntologyService} from './model/services/base-ontology.service';
@@ -93,6 +93,8 @@ import { MessageComponent } from './view/modules/message/message.component';
 import { NewResClassComponent } from './view/test/development/new-res-class/new-res-class.component';
 import { NewResourceClassComponent } from './view/modules/form/new-resource-class/new-resource-class.component';
 
+import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
+import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
 
 @NgModule({
     declarations: [
@@ -138,7 +140,9 @@ import { NewResourceClassComponent } from './view/modules/form/new-resource-clas
         DevelopmentComponent,
         MessageComponent,
         NewResClassComponent,
-        NewResourceClassComponent
+        NewResourceClassComponent,
+        OsdViewerComponent,
+        EditResourceClassComponent
     ],
     imports: [
         BrowserModule,
@@ -167,6 +171,7 @@ import { NewResourceClassComponent } from './view/modules/form/new-resource-clas
         BaseOntologyService,
         UserService,
         DefaultResourcesService,
+        ListsService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

@@ -24,6 +24,7 @@ import {ProjectItem, ResourceTypes, Properties, ResourceTypeInfo, ResourceType} 
 
 // import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
 
+
 @Component({
     selector: 'salsah-project-resources',
     templateUrl: './project-resources.component.html',
@@ -57,9 +58,16 @@ export class ProjectResourcesComponent implements OnInit {
 
     size: string = 'large';
 
+    id: string;
+    index: number;
+
+    resClassIri: string;
+    propsIndex: number;
+
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _propertiesService: PropertiesService,
                 public dialog: MdDialog) {
+ //       openElem.show.subscribe((val:boolean) => this.isLoadingSubModule = val);
     }
 
     ngOnInit() {
@@ -99,29 +107,16 @@ export class ProjectResourcesComponent implements OnInit {
 */
     }
 
-    openResource(id: string, index: number) {
+    openResourceClass(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
         this.isLoadingSubModule = true;
         this.editResource = true;
         this.addResource = false;
 
-        // get the resource class data by res class iri
-        this._resourceTypesService.getResourceType(id)
-            .subscribe(
-                (result: ApiServiceResult) => {
+        this.resClassIri = id;
+        this.propsIndex = index;
 
-                    this.resType = result.getBody(ResourceType).restype_info;
-//                    let tmpResTypeInfo: ResourceTypeInfo = result.getBody(ResourceTypeInfo);
-//                    console.log(tmpResTypeInfo.restype_info.label);
-//                    console.log(this.resType);
-                    this.selectedRow = index;
-                    this.isLoadingSubModule = false;
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoadingSubModule = false;
-                }
-            );
+
 
 /*
         this._propertiesService.getPropertiesByResType(id)

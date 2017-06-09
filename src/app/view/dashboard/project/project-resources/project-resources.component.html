@@ -13,7 +13,11 @@
         <md-divider></md-divider>
         <br>
         <h3 md-subheader>Resources (active)</h3>
+        <!--  (click)="showPopup();"
+        click)="openResourceClass(resClass.id, i);" -->
+
         <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes; let i = index"
+
                       (click)="openResource(resClass.id, i);"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
@@ -49,6 +53,9 @@
 </div>
 
 <div *ngIf="editResource || addResource" class="salsah-module-detail" [ngClass]="position.detail">
+    <!-- old develop version
+    <div *ngIf="properties" class="salsah-module-detail" [ngClass]="position.detail">
+    -->
 
     <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
 
@@ -58,26 +65,22 @@
             <md-icon>close</md-icon>
         </button>
 
+        <!-- if an error occurs: show the error message -->
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
         <div class="edit-resource" *ngIf="editResource && !errorMessage">
-            <!-- replace the following content with the edit-resource-class-form -->
-            <h3>{{resType.label}}</h3>
-            <p>{{resType.description}}</p>
-            <md-list>
-                <md-list-item *ngFor="let prop of resType.properties">
-                    <h4 md-line>{{prop.label}}</h4>
-                    <p md-line>{{prop.description}}</p>
-                    <p md-line>{{prop.occurence}} | {{prop.gui_name}}</p>
-
-                </md-list-item>
-            </md-list>
+            <!-- edit the resource type -->
+            <salsah-edit-resource-class [iri]="resClassIri" [newIndex]="propsIndex"></salsah-edit-resource-class>
         </div>
 
         <div class="create-resource" *ngIf="addResource">
-            <salsah-new-resource-class></salsah-new-resource-class>
+            <!-- OR create a new resource class -->
+            <salsah-new-resource-class *ngIf="addResource && !errorMessage"></salsah-new-resource-class>
         </div>
 
 
     </div>
+
 </div>
+
+
