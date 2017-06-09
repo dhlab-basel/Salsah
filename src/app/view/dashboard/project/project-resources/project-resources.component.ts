@@ -107,7 +107,7 @@ export class ProjectResourcesComponent implements OnInit {
 */
     }
 
-    openResourceClass(id: string, index: number) {
+    openResource(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
         this.isLoadingSubModule = true;
         this.editResource = true;
@@ -115,6 +115,7 @@ export class ProjectResourcesComponent implements OnInit {
 
         this.resClassIri = id;
         this.propsIndex = index;
+        this.isLoadingSubModule = false;
 
 
 
@@ -139,6 +140,11 @@ export class ProjectResourcesComponent implements OnInit {
         this.selectedRow = undefined;
         this.editResource = false;
         this.addResource = false;
+    }
+
+    loadingSubmodule(loaded: boolean) {
+        console.log(loaded);
+        this.isLoadingSubModule = loaded;
     }
 
 }

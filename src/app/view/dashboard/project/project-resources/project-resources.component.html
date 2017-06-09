@@ -70,7 +70,8 @@
 
         <div class="edit-resource" *ngIf="editResource && !errorMessage">
             <!-- edit the resource type -->
-            <salsah-edit-resource-class [iri]="resClassIri" [newIndex]="propsIndex"></salsah-edit-resource-class>
+            <!-- in the next tag we could set the progress loader with (loadingSubmodule)="loadingSubmodule(true) -->
+            <salsah-edit-resource-class [iri]="resClassIri" [index]="propsIndex"></salsah-edit-resource-class>
         </div>
 
         <div class="create-resource" *ngIf="addResource">

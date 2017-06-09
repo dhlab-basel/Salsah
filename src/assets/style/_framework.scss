@@ -150,15 +150,16 @@ main.salsah-main {
     }
 
     .salsah-sub-module {
-
+      height: calc(100vh - 64px - 24px);
     }
 
     .salsah-module-content {
 //      width: calc(100vw - 228px);
 //      padding-left: 120px;
 //      padding-right: 108px; // plus 12px for the scroll bar
+//      height: 100%;
       overflow-y: auto;
-      height: 100%;
+//      width: 100%;
 
       &.salsah-list, &.salsah-grid-list {
         &.small.left {
@@ -186,7 +187,7 @@ main.salsah-main {
       &.right {
         width: calc(100vw - #{$width-sidebar});
         left: $width-sidebar;
-        top: 128px;
+//        top: 128px;
         height: calc(100% - 48px);
         max-height: 100%;
         overflow-y: auto;
@@ -202,8 +203,8 @@ main.salsah-main {
       }
       md-progress-bar {
         padding: 0;
-        width: calc(100vw - 400px);
-        margin-left: -24px;
+//        width: calc(100vw - 400px);
+//        margin-left: -24px;
       }
 
       .salsah-module-detail-content {

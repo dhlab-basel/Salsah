@@ -1,4 +1,4 @@
-import {Component, OnChanges, Input} from '@angular/core';
+import {Component, EventEmitter, OnChanges, Input, Output} from '@angular/core';
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {Properties} from "../../../../model/webapi/knora";
@@ -15,7 +15,9 @@ export class EditResourceClassComponent implements OnChanges {
     @Input('iri') iri: string;
     @Input('index') index: number;
 
-    public isLoadingSubModule: boolean = false;
+//    @Output() loadingSubmodule = new EventEmitter<any>();
+
+//    public isLoadingSubModule: boolean = false;
 
     resType: ResourceTypeInfo = new ResourceTypeInfo;
 
@@ -40,11 +42,13 @@ export class EditResourceClassComponent implements OnChanges {
 //                    console.log(tmpResTypeInfo.restype_info.label);
 //                    console.log(this.resType);
                     this.selectedRow = this.index;
-                    this.isLoadingSubModule = false;
+                    // disable the progress loader of the submodule
+//                    this.loadingSubmodule.emit(this.isLoadingSubModule);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
-                    this.isLoadingSubModule = false;
+                    // disable the progress loader of the submodule
+//                    this.loadingSubmodule.emit(false);
                 }
             );
 
