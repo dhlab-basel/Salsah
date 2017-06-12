@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {DefaultResources} from "../../../../model/test-data/default-resources";
 import {DefaultResourcesService} from "../../../../model/services/default-resources.service";
 
@@ -43,6 +43,10 @@ export class NewResourceClassComponent implements OnInit {
     // at the end of the form should submit a new resource class object to the api
     newResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
 
+    @Output() closeDetailView = new EventEmitter<any>();
+//    newResourcePermissions: PropertyPermissions[] = [new PropertyPermissions()];
+//    newPropertyPermissions: PropertyPermissions[] = [new PropertyPermissions()];
+
     //newResourceClass.properties = new [PropertyItem()];
 
     // to create a new resource class, the user/admin follows an form assistant
@@ -68,46 +72,51 @@ export class NewResourceClassComponent implements OnInit {
                 description: ""
             },
             {
-                id: "read",
-                label: "Read only",
+                id: "RV",
+                label: "Restricted view",
                 description: ""
             },
             {
-                id: "comment",
-                label: "Comment",
+                id: "V",
+                label: "View",
                 description: ""
             },
             {
-                id: "edit",
-                label: "Edit",
+                id: "M",
+                label: "Modified",
                 description: ""
             },
             {
-                id: "delete",
+                id: "D",
                 label: "Delete",
+                description: ""
+            },
+            {
+                id: "CR",
+                label: "Change rights",
                 description: ""
             }
 
         ],
         "groups": [
             {
-                id: "everyone",
+                id: "unknownUser",
                 label: "Everyone",
                 description: "Every visitor (without login)"
             },
             {
-                id: "guest",
+                id: "knownUser",
                 label: "User",
                 description: "Logged in user and not a member of the project"
             },
             {
-                id: "member",
-                label: "Member",
+                id: "creator",
+                label: "Creator",
                 description: "Logged in user and member of the project"
             },
             {
-                id: "admin",
-                label: "Admin",
+                id: "projectMember",
+                label: "Member",
                 description: "Logged in user and admin of the project"
             }
         ]
@@ -161,39 +170,7 @@ export class NewResourceClassComponent implements OnInit {
                 this.defaultProperties.push(this.baseResources.resourceClasses[resClassIri].properties[rcProp]);
             }
 
-            console.log(this.defaultProperties);
-
-//            this.newResourceClass.properties = this.baseResources.defaultProperties;
-//            this.newResourceClass.properties.push(this.baseResources.resourceClasses[resClassIri].properties[]);
-
-
-
-
-
-            // get the properties for this resClass and create a default resource class
-/*
-            this.newResourceClass = this.baseOntology.resourceClasses[resClassId];
-
-            this.newResourceClass.id = resClassId;
-
-            for (let rcProp in this.baseOntology.resourceClasses[resClassId].properties) {
-                this.newResourceClass.properties[rcProp].permissions = this.baseOntology.defaultPermissions;
-            }
-
-            // add all default properties to the new resource properties
-            for (let prop in this.baseOntology.defaultProperties) {
-                this.newResourceClass.properties[prop] = this.baseOntology.defaultProperties[prop];
-                this.newResourceClass.properties[prop].permissions = this.baseOntology.defaultPermissions;
-            }
-
-            // set the resource default permissions:
-            this.newResourceClass.permissions = this.baseOntology.defaultPermissions;
-
-            console.log(this.newResourceClass);
-*/
         }
-
-        console.log(this.newResourceClass);
 
         e.preventDefault();
         // show the next section
@@ -210,49 +187,36 @@ export class NewResourceClassComponent implements OnInit {
         console.log(property.occurence);
         console.log(property.name);
 
-        if(event.srcElement.checked === true) {
+        if (event.srcElement.checked === true) {
             // set the prop in the new resource class
             this.newResourceClass.properties[index] = property;
         }
         else {
             // remove the prop from the new resource class
-            if(this.newResourceClass.properties[index].name === property.name) {
+            if (this.newResourceClass.properties[index].name === property.name) {
                 this.newResourceClass.properties[index] = undefined;
             }
         }
 
-/*
-        let i: number = 0;
-        for (let prop in this.newResourceClass.properties) {
-            if(this.newResourceClass.properties[prop].name === property.name) {
-                if(event.target.checked === true) {
-                    this.newResourceClass.properties[prop] = property;
-                }
-                else {
-                    this.newResourceClass.properties[prop] = undefined;
-                }
-            }
-            i++;
-        }
-        */
     }
 
     setOcc(index: number, event) {
-        if(this.newResourceClass.properties[index] !== undefined) {
+        if (this.newResourceClass.properties[index] !== undefined) {
             this.newResourceClass.properties[index].occurence = event.value;
         }
     }
 
     setPerm(property: PropertyItem, group: string, event) {
         for (let prop in this.newResourceClass.properties) {
-            if(this.newResourceClass.properties[prop].name === property.name) {
+            if (this.newResourceClass.properties[prop].name === property.name) {
 //                this.newResourceClass.properties[prop]
             }
         }
-        console.log(property);
-        console.log(group);
-        console.log(event);
+    }
 
-
+    onSubmit(data: any): void {
+        console.log('you submitted value:', data);
+        this.closeDetailView.emit();
+        this.counter = 0;
     }
 }

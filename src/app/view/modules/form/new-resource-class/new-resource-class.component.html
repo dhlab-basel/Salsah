@@ -61,10 +61,14 @@
             </md-input-container>
 
             <!-- resource permission -->
+            <!-- TODO: move this selection into a separate component; set the permissions on a group level in the project advance board -->
             <p md-subheader>Resource Permissions</p>
+            <p>Change the default resource permission here...in the future</p>
+
+            <!--
             <table class="full-width">
                 <tr>
-                    <!-- groups: everyone, user, member, admin -->
+
                     <th *ngFor="let group of permissions?.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
                         {{group.label}}
                     </th>
@@ -80,7 +84,7 @@
                     </td>
                 </tr>
             </table>
-
+            -->
         </form>
     </section>
 
@@ -140,7 +144,10 @@
     <!-- step 3: Set the permissions for each selected properties -->
     <section [hidden]="counter!==3">
         <form #permission="ngForm" class="salsah-form">
+            <!-- TODO: move this selection into a separate component; set the permissions on a group level in the project advance board -->
             <p md-subheader>Set the permissions for the selected properties</p>
+            <p>No perhaps not here..as Ivan said</p>
+            <!--
             <table class="full-width form-table">
                 <thead><tr>
                     <th width="36px" class="center">n</th>
@@ -176,13 +183,21 @@
                             </md-option>
                         </md-select>
                     </td>
-                    -->
+                    --
                 </tr>
                 </tbody>
             </table>
+            -->
+        </form>
+    </section>
+
+    <!-- step 4: Preview of the resource and save it -->
+    <section [hidden]="counter!==4">
+        <form #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value, rcf.valid)" class="salsah-form">
         </form>
     </section>
 </div>
+
 
 <div class="salsah-module-footer">
     <!--
@@ -218,8 +233,8 @@
                 *ngIf="counter === (max_steps - 1)"
                 class="save-button"
                 color="primary"
-                (click)="onSubmit(rcf.value)"
-                [disabled]="!rcf.valid">
+                (click)="onSubmit(newResourceClass)"
+                [disabled]="!newResourceClass">
             Save
         </button>
     </span>

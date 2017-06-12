@@ -76,7 +76,9 @@
 
         <div class="create-resource" *ngIf="addResource">
             <!-- OR create a new resource class -->
-            <salsah-new-resource-class *ngIf="addResource && !errorMessage"></salsah-new-resource-class>
+            <salsah-new-resource-class *ngIf="addResource && !errorMessage"
+                                       (closeDetailView)="closeDetailView($event)">
+            </salsah-new-resource-class>
         </div>
 
 

@@ -1,13 +1,38 @@
+$header-height: 64px;
+$module-header-height: 64px;
+
+.salsah-module {
+  height: calc(100vh - 64px - 24px);
+  position: fixed;
+  top: $header-height;
+  width: 100%;
+  z-index: 0;
+
+  &.with-header {
+
+  }
+}
+
+
 .salsah-module-header {
+  @include border-bottom();
   padding: 0;
+  position: fixed;
+  top: $header-height;
+  width: 100vw;
+  //                @include box-shadow-bottom();
 }
 
 .salsah-module-content {
-  height: calc(100vh - 64px - 24px - 96px);
+  height: calc(100% - 24px);
   padding: 48px;
 
 }
 
 .salsah-module-footer {
   padding: 0 24px;
+}
+
+.salsah-sub-module {
+
 }
