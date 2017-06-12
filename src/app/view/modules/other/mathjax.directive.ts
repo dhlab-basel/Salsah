@@ -13,8 +13,6 @@ declare var MathJax: {
 @Directive({selector: '[mathJax]'})
 export class MathJaxDirective implements OnInit {
     @Input("mathJax") private html: string = ""; // the HTML to be inserted
-    @Input() valueType: string = ""; // the value type of the property
-    @Input() propKey: string = ""; // the property pointing to the value
     constructor(private el: ElementRef) {
     }
 
@@ -28,7 +26,7 @@ export class MathJaxDirective implements OnInit {
         //console.log("click");
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (this.valueType == AppConfig.TextValue && event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == "internal_link") {
+        if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == "internal_link") {
             console.log("click: internal link to: " + event.toElement.href);
 
             // preventDefault (propagation)
@@ -50,7 +48,7 @@ export class MathJaxDirective implements OnInit {
         //console.log("mouseover " + this.valueType);
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (this.valueType == AppConfig.TextValue && event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == "internal_link") {
+        if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == "internal_link") {
             // console.log("mouseenter: internal link to: " + event.toElement.href);
 
             // preventDefault (propagation)
@@ -63,17 +61,13 @@ export class MathJaxDirective implements OnInit {
     }
 
     ngOnInit() {
-        // console.log(this.valueType);
+        console.log("mathjax directive");
 
         this.el.nativeElement.innerHTML = this.html;
 
-        // check if it is a text value and run MathJax if so
-        if (this.valueType == AppConfig.TextValue) {
-            // console.log(this.valueType + " " + this.propKey);
+        // http://docs.mathjax.org/en/latest/advanced/typeset.html#typeset-math
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.el.nativeElement]);
 
-            // http://docs.mathjax.org/en/latest/advanced/typeset.html#typeset-math
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.el.nativeElement]);
-        }
     }
 
 }

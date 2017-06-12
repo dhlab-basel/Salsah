@@ -40,6 +40,15 @@ export class AppConfig {
     public static MovingImageFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "MovingImageFileValue";
     public static TextFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "TextFileValue";
 
+    public static ReadTextValueAsHtml: string = "ReadTextValueAsHtml";
+    public static ReadTextValueAsString: string = "ReadTextValueAsString";
+    public static ReadTextValueAsXml: string = "ReadTextValueAsXml";
+    public static ReadDateValue: string = "ReadDateValue";
+    public static ReadLinkValue: string = "ReadLinkValue";
+    public static ReadIntegerValue: string = "ReadIntegerValue";
+    public static ReadDecimalValue: string = "ReadDecimalValue";
+    public static ReadStillImageFileValue: string = "ReadStillImageFileValue";
+
     public static valueAsString: string = AppConfig.KnoraApiV2WithValueObjectPath + "valueAsString";
 
     public static textValueAsHtml: string = AppConfig.KnoraApiV2WithValueObjectPath + "textValueAsHtml";

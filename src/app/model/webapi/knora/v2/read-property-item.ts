@@ -24,7 +24,9 @@ export interface ReadPropertyItem {
 
     readonly propIri:string;
 
-    toHtml:() => string;
+    getContent:() => string;
+
+    getClassName:() => string;
 }
 
 export class ReadTextValueAsString implements ReadPropertyItem {
@@ -35,11 +37,13 @@ export class ReadTextValueAsString implements ReadPropertyItem {
 
     readonly type = AppConfig.TextValue;
 
-    public toHtml = function(): string {
-
+    getContent(): string {
         return this.str;
     };
 
+    getClassName(): string {
+        return this.constructor.name;
+    }
 }
 
 
@@ -51,9 +55,13 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
 
     readonly type = AppConfig.TextValue;
 
-    public toHtml = function(): string {
+    getContent(): string {
         return this.html;
     };
+
+    getClassName():string {
+        return this.constructor.name;
+    }
 
 }
 
@@ -65,11 +73,15 @@ export class ReadTextValueAsXml implements ReadPropertyItem {
 
     readonly type = AppConfig.TextValue;
 
-    public toHtml = function(): string {
+    getContent(): string {
 
         // return XML als plain text (escape markup)
         return escape(this.xml);
     };
+
+    getClassName(): string {
+        return this.constructor.name;
+    }
 
 }
 
@@ -83,14 +95,14 @@ export class ReadDateValue implements ReadPropertyItem {
 
     private separator = "-";
 
-    public toHtml = function(): string {
+    getContent(): string {
         // consider precision
 
         let startDate:string;
 
         if (this.startMonth === undefined) {
             // year precision
-            startDate = this.startYear;
+            startDate = this.startYear.toString();
         } else if (this.startDay === undefined) {
             // month precision
             startDate = this.startYear + this.separator + this.startMonth
@@ -103,7 +115,7 @@ export class ReadDateValue implements ReadPropertyItem {
 
         if (this.endMonth === undefined) {
             // year precision
-            endDate = this.endYear;
+            endDate = this.endYear.toString();
         } else if (this.endDay === undefined) {
             // month precision
             endDate = this.endYear + this.separator + this.endMonth
@@ -118,6 +130,10 @@ export class ReadDateValue implements ReadPropertyItem {
             return this.calendar + ":" + startDate + this.separator + endDate;
         }
     };
+
+    getClassName():string {
+        return this.constructor.name;
+    }
 }
 
 export class ReadLinkValue implements ReadPropertyItem {
@@ -128,15 +144,18 @@ export class ReadLinkValue implements ReadPropertyItem {
 
     readonly type = AppConfig.LinkValue;
 
-    public toHtml = function():string {
+    getContent():string {
         if (this.referredResource !== undefined) {
             return this.referredResource.label;
         } else {
             // TODO: try to find information about the resource identified by the given Iri
             return this.referredResourceIri;
         }
-    }
+    };
 
+    getClassName():string {
+        return this.constructor.name;
+    }
 }
 
 export class ReadIntegerValue implements ReadPropertyItem {
@@ -147,10 +166,13 @@ export class ReadIntegerValue implements ReadPropertyItem {
 
     readonly type = AppConfig.IntValue;
 
-    public toHtml = function():string {
-        return this.integer;
-    }
+    getContent():string {
+        return this.integer.toString();
+    };
 
+    getClassName():string {
+        return this.constructor.name;
+    }
 
 }
 
@@ -162,11 +184,13 @@ export class ReadDecimalValue implements ReadPropertyItem {
 
     readonly type = AppConfig.DecimalValue;
 
-    public toHtml = function():string {
-        return this.decimal;
+    getContent():string {
+        return this.decimal.toString();
+    };
+
+    getClassName():string {
+        return this.constructor.name;
     }
-
-
 }
 
 export class ReadStillImageFileValue implements ReadPropertyItem {
@@ -195,8 +219,11 @@ export class ReadStillImageFileValue implements ReadPropertyItem {
 
     };
 
-    public toHtml = function(): string {
-        return '<img src="' + this.makeIIIFUrl(4) + '"/>';
-    }
+    getContent(): string {
+        return this.makeIIIFUrl(4);
+    };
 
+    getClassName():string {
+        return this.constructor.name;
+    }
 }

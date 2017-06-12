@@ -2,8 +2,19 @@
 
 <md-list>
     <div md-line *ngFor="let prop of resource.resources[0]?.properties | key">
-        <span>{{prop.key}}</span> <ul><li *ngFor="let val of prop.value | key" [mathJax]="val.value.toHtml()"
-                                          valueType="{{val.value.type}}" propKey="{{prop.key}}"></li></ul>
+        <span>{{prop.key}}</span> <ul><li *ngFor="let val of prop.value | key">
+            <span [ngSwitch]="val.value.getClassName()">
+                <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value"></read-text-value-as-html>
+                <read-text-value-as-string *ngSwitchCase="AppConfig.ReadTextValueAsString" [valueObject]="val.value"></read-text-value-as-string>
+                <read-text-value-as-xml *ngSwitchCase="AppConfig.ReadTextValueAsXml" [valueObject]="val.value"></read-text-value-as-xml>
+                <read-date-value *ngSwitchCase="AppConfig.ReadDateValue" [valueObject]="val.value"></read-date-value>
+                <read-link-value *ngSwitchCase="AppConfig.ReadLinkValue" [valueObject]="val.value"></read-link-value>
+                <read-integer-value *ngSwitchCase="AppConfig.ReadIntegerValue" [valueObject]="val.value"></read-integer-value>
+                <read-decimal-value *ngSwitchCase="AppConfig.ReadDecimalValue" [valueObject]="val.value"></read-decimal-value>
+                <read-still-image-file-value *ngSwitchCase="AppConfig.ReadStillImageFileValue" [valueObject]="val.value"></read-still-image-file-value>
+                <span *ngSwitchDefault="">Not supported {{val.value.getClassName()}}</span>
+            </span>
+        </li></ul>
     </div>
 </md-list>
 

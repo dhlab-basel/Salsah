@@ -6,6 +6,7 @@ import {ApiServiceError} from "../../../model/services/api-service-error";
 import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resources-sequence";
 import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 import {OntologyService} from "../../../model/services/ontology.service";
+import {AppConfig} from "../../../app.config";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -23,6 +24,7 @@ export class ObjectComponent implements OnChanges, OnInit {
     errorMessage: any;
 
     resource: ReadResourcesSequence = new ReadResourcesSequence([], 0);
+    AppConfig = AppConfig;
 
     constructor(private _route: ActivatedRoute,
                 private _resourceService: ResourceService,
@@ -99,5 +101,6 @@ export class ObjectComponent implements OnChanges, OnInit {
                 );
         });
     }
+
 
 }

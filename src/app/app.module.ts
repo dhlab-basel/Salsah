@@ -79,6 +79,14 @@ import {DevelopmentComponent} from "./view/test/development/development.componen
 
 import {MessageComponent} from "./view/modules/message/message.component";
 import {MathJaxDirective} from "./view/modules/other/mathjax.directive";
+import { ReadTextValueAsHtmlComponent } from './view/properties/read-text-value-as-html/read-text-value-as-html.component';
+import { ReadDateValueComponent } from './view/properties/read-date-value/read-date-value.component';
+import { ReadLinkValueComponent } from './view/properties/read-link-value/read-link-value.component';
+import { ReadTextValueAsStringComponent } from './view/properties/read-text-value-as-string/read-text-value-as-string.component';
+import { ReadTextValueAsXmlComponent } from './view/properties/read-text-value-as-xml/read-text-value-as-xml.component';
+import { ReadIntegerValueComponent } from './view/properties/read-integer-value/read-integer-value.component';
+import { ReadDecimalValueComponent } from './view/properties/read-decimal-value/read-decimal-value.component';
+import { ReadStillImageFileValueComponent } from './view/properties/read-still-image-file-value/read-still-image-file-value.component';
 //
 // import all app components
 //
@@ -127,7 +135,15 @@ import {MathJaxDirective} from "./view/modules/other/mathjax.directive";
         MathJaxDirective,
         UserSelectComponent,
         DevelopmentComponent,
-        MessageComponent
+        MessageComponent,
+        ReadTextValueAsHtmlComponent,
+        ReadDateValueComponent,
+        ReadLinkValueComponent,
+        ReadTextValueAsStringComponent,
+        ReadTextValueAsXmlComponent,
+        ReadIntegerValueComponent,
+        ReadDecimalValueComponent,
+        ReadStillImageFileValueComponent
     ],
     imports: [
         BrowserModule,

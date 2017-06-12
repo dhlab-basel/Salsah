@@ -31,7 +31,7 @@
                                 {{res.label}} ({{res.typeAsName}})
                             </div>
                             <div md-line *ngFor="let prop of res.properties | key">
-                                <span>{{prop.key}}</span> <ul><li *ngFor="let val of prop.value | key">{{val.value.propIri}} -> {{val.value.toHtml()}}</li></ul>
+                                <span>{{prop.key}}</span> <ul><li *ngFor="let val of prop.value | key">{{val.value.getContent()}}</li></ul>
                             </div>
                         </div>
                     </div>
