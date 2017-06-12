@@ -89,6 +89,7 @@ import { DevelopmentComponent } from './view/test/development/development.compon
 import { MessageComponent } from './view/modules/message/message.component';
 import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
 import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
+import { ProjectListsComponent } from './view/dashboard/project/project-lists/project-lists.component';
 
 @NgModule({
     declarations: [
@@ -134,7 +135,8 @@ import { EditResourceClassComponent } from './view/modules/form/edit-resource-cl
         DevelopmentComponent,
         MessageComponent,
         OsdViewerComponent,
-        EditResourceClassComponent
+        EditResourceClassComponent,
+        ProjectListsComponent
     ],
     imports: [
         BrowserModule,

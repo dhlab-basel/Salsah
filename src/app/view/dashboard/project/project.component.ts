@@ -45,6 +45,10 @@ export class ProjectComponent implements OnInit {
             route: 'resources'
         },
         {
+            name: 'Lists',
+            route: 'lists'
+        },
+        {
             name: 'Advanced',
             route: 'advanced'
         }
