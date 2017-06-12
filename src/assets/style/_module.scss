@@ -1,31 +1,84 @@
-$header-height: 64px;
-$module-header-height: 64px;
-
+// a main salsah module can have a header and a footer (both are optional) plus a content
 .salsah-module {
-  height: calc(100vh - 64px - 24px);
+  bottom: 0;
+  box-sizing: border-box;
+  display: block;
+  overflow: hidden;
   position: fixed;
   top: $header-height;
+  transform: translate3d(0, 0, 0);
   width: 100%;
-  z-index: 0;
+
+  &.without-header {
+//    height: calc(100vh - #{$header-height});
+  }
 
   &.with-header {
+//    height: calc(100vh - (#{$header-height} + #{$module-header-height}));
+
+    .salsah-module-header {
+      @include border-bottom();
+      padding: 0;
+      top: $header-height;
+      width: 100vw;
+      z-index: 9;
+      //            @include box-shadow-bottom();
+    }
+
+    .salsah-module-content {
+      top: $header-height;
+    }
 
   }
-}
 
+  .salsah-module-content {
+    bottom: 0;
+    box-sizing: border-box;
+    display: block;
+    outline: 0;
+    overflow-y: auto;
+    padding-left: 48px;
+    padding-right: 48px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 3;
 
-.salsah-module-header {
-  @include border-bottom();
-  padding: 0;
-  position: fixed;
-  top: $header-height;
-  width: 100vw;
-  //                @include box-shadow-bottom();
-}
+    &.small {
+      border-right: 1px solid #c1c1c1;
+      left: 0;
+      padding: 0;
+      position: absolute;
+      width: $sidebar-width;
+    }
 
-.salsah-module-content {
-  height: calc(100% - 24px);
-  padding: 48px;
+  }
+
+  .salsah-module-detail {
+    bottom: 0;
+    box-sizing: border-box;
+    display: block;
+    left: $sidebar-width;
+    outline: 0;
+    overflow-y: auto;
+    padding-left: 48px;
+    padding-right: 48px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+//    width: calc(100vw - #{$sidebar-width});
+
+    .salsah-module-detail-content {
+      box-sizing: border-box;
+      display: block;
+      outline: 0;
+      overflow-y: auto;
+      padding-left: 48px;
+      padding-right: 48px;
+      position: absolute;
+    }
+  }
 
 }
 
@@ -33,6 +86,7 @@ $module-header-height: 64px;
   padding: 0 24px;
 }
 
+// a salsah module content can contain sub modules
 .salsah-sub-module {
 
 }
