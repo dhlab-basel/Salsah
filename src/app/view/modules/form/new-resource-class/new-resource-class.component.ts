@@ -32,11 +32,14 @@ export class NewResourceClassComponent implements OnInit {
     errorMessage: any;
 
     // default resource class data
-    defaultResources: DefaultResources = new DefaultResources();
+    baseResources: DefaultResources = new DefaultResources();
 
     // the default resource class contains all information, which we need for the form
     // to give the user a view of the new resource class (which will be send to the server at the end)
     defaultResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
+    defaultProperties: PropertyItem[] = [new PropertyItem()];
+
+
     // at the end of the form should submit a new resource class object to the api
     newResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
 
@@ -126,8 +129,8 @@ export class NewResourceClassComponent implements OnInit {
         this._defaultResourcesService.getDefaultResources()
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.defaultResources = result.getBody(DefaultResources);
-                    this.newResourceClass.permissions = this.defaultResources.defaultPermissions;
+                    this.baseResources = result.getBody(DefaultResources);
+                    this.newResourceClass.permissions = this.baseResources.defaultPermissions;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -141,23 +144,27 @@ export class NewResourceClassComponent implements OnInit {
             // the user selected a file type,
             // we can set the default values for the new resource class
 
-            this.newResourceClass.label = this.defaultResources.resourceClasses[resClassIri].label;
-            this.newResourceClass.description = this.defaultResources.resourceClasses[resClassIri].description;
-            this.newResourceClass.permissions = this.defaultResources.defaultPermissions;
-            this.newResourceClass.icon = this.defaultResources.resourceClasses[resClassIri].icon;
+            this.newResourceClass.label = this.baseResources.resourceClasses[resClassIri].label;
+            this.newResourceClass.description = this.baseResources.resourceClasses[resClassIri].description;
+            this.newResourceClass.permissions = this.baseResources.defaultPermissions;
+            this.newResourceClass.icon = this.baseResources.resourceClasses[resClassIri].icon;
 
             // set all default properties
-            for (let defProp in this.defaultResources.defaultProperties) {
-                this.newResourceClass.properties[defProp] = this.defaultResources.defaultProperties[defProp];
+            for (let defProp in this.baseResources.defaultProperties) {
+                this.newResourceClass.properties[defProp] = this.baseResources.defaultProperties[defProp];
+
+                this.defaultProperties[defProp] = this.baseResources.defaultProperties[defProp];
             }
             // set all additional properties for this specific resource class
-            for (let rcProp in this.defaultResources.resourceClasses[resClassIri].properties) {
-                this.newResourceClass.properties.push(this.defaultResources.resourceClasses[resClassIri].properties[rcProp]);
+            for (let rcProp in this.baseResources.resourceClasses[resClassIri].properties) {
+                this.newResourceClass.properties.push(this.baseResources.resourceClasses[resClassIri].properties[rcProp]);
+                this.defaultProperties.push(this.baseResources.resourceClasses[resClassIri].properties[rcProp]);
             }
 
-            this.defaultResourceClass = this.newResourceClass;
-//            this.newResourceClass.properties = this.defaultResources.defaultProperties;
-//            this.newResourceClass.properties.push(this.defaultResources.resourceClasses[resClassIri].properties[]);
+            console.log(this.defaultProperties);
+
+//            this.newResourceClass.properties = this.baseResources.defaultProperties;
+//            this.newResourceClass.properties.push(this.baseResources.resourceClasses[resClassIri].properties[]);
 
 
 
@@ -199,10 +206,22 @@ export class NewResourceClassComponent implements OnInit {
         this.counter = cntr - 1;
     }
 
-    setProp(property: PropertyItem, event) {
-        console.log(this.defaultResourceClass);
-        console.log(this.newResourceClass);
+    setProp(property: PropertyItem, index: number, event) {
+        console.log(property.occurence);
+        console.log(property.name);
 
+        if(event.srcElement.checked === true) {
+            // set the prop in the new resource class
+            this.newResourceClass.properties[index] = property;
+        }
+        else {
+            // remove the prop from the new resource class
+            if(this.newResourceClass.properties[index].name === property.name) {
+                this.newResourceClass.properties[index] = undefined;
+            }
+        }
+
+/*
         let i: number = 0;
         for (let prop in this.newResourceClass.properties) {
             if(this.newResourceClass.properties[prop].name === property.name) {
@@ -215,5 +234,25 @@ export class NewResourceClassComponent implements OnInit {
             }
             i++;
         }
+        */
+    }
+
+    setOcc(index: number, event) {
+        if(this.newResourceClass.properties[index] !== undefined) {
+            this.newResourceClass.properties[index].occurence = event.value;
+        }
+    }
+
+    setPerm(property: PropertyItem, group: string, event) {
+        for (let prop in this.newResourceClass.properties) {
+            if(this.newResourceClass.properties[prop].name === property.name) {
+//                this.newResourceClass.properties[prop]
+            }
+        }
+        console.log(property);
+        console.log(group);
+        console.log(event);
+
+
     }
 }

@@ -5,9 +5,9 @@
 <div class="salsah-module-content">
     <!-- step 0: does the new resource have a file representation? -->
     <section [hidden]="counter!==0">
-        <p md-subheader>Does the new resource have a file representation? Or which media type do you have?</p>
+        <p md-subheader>Does the new resource have a file representation? Which one?</p>
         <md-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
-            <md-grid-tile *ngFor="let item of defaultResources?.resourceClasses | key; let i = index;">
+            <md-grid-tile *ngFor="let item of baseResources?.resourceClasses | key; let i = index;">
                 <button md-button [mdTooltip]="item.value.description" mdTooltipPosition="above"
                         (click)="nextFormSection(counter, $event, item.key)">
                     <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>
@@ -22,6 +22,7 @@
         -->
     <section [hidden]="counter!==1">
         <form #resource="ngForm" class="salsah-form">
+            <p md-subheader>Define your new resource type</p>
             <!-- resource label -->
             <md-input-container class="full-width"
                                 dividerColor="{{ !newResourceClass.label ? 'warn' : 'primary' }}">
@@ -105,69 +106,80 @@
                 <hr>
                 -->
                 <!-- 2b) additional resource class specific properties -->
-                <md-list-item *ngFor="let prop of newResourceClass?.properties; let i = index" class="link highlight">
+                <md-list-item *ngFor="let prop of defaultProperties; let i = index" class="link highlight">
                     <div class="salsah-checkbox">
                         <input type="checkbox"
                                [id]="i"
+                               [(ngModel)]="prop.name"
+                               [name]="'prop_' + i"
                                [checked]="prop"
-                               (change)="setProp(prop, $event)">
-                        <!--
-                        <input type="checkbox"
-                               [(ngModel)]="prop"
-                               [name]="prop?.name"
-                               [id]="prop?.name"
-                               [value]="prop?.name"
-                               (change)="setProp(prop, $event)">
-                               -->
+                               (change)="setProp(prop, i, $event)">
                         <label class="fill-remaining-space"
-                               [class.checked]="prop !== undefined"
+                               [class.checked]="newResourceClass?.properties[i] !== undefined"
                                [for]="i">
                             <span class="checkbox-fake"></span>
-                            <span class="checkbox-label">{{defaultResourceClass?.properties[i]?.label}}</span>
+                            <span class="checkbox-label">{{prop?.label}}</span>
                         </label>
                     </div>
-<!--
-                    <div class="salsah-checkbox">
-                        <input type="checkbox"
-                               [(ngModel)]="prop"
-                               [name]="prop.name"
-                               [id]="prop.name"
-                               [value]="prop.label"
-                               [checked]="prop.label"
-                               (change)="setProp(prop, $event)">
-                        <label [for]="prop.name" class="fill-remaining-space" [class.checked]="newResourceClass.properties[prop.name] !== undefined">
-                            <span class="checkbox-fake"></span>
-                            <span class="checkbox-label">{{prop.label}}</span>
-                        </label>
-                    </div>
--->
-                    <!--
-                    <md-checkbox *ngIf="prop.value.cardinality === '1' || prop.value.cardinality === '1-n'"
-                                 [id]="prop.key"
-                                 [ngModel]="prop.key"
-                                 [checked]="true"
-                                 [name]="'prop_' + i">
-                        <label [for]="prop.key" class="full-width">{{prop.value.label}}<span ></span></label>
-                    </md-checkbox>
 
-                    <md-checkbox *ngIf="prop.value.cardinality === '0-1' || prop.value.cardinality === '0-n' || prop.value.cardinality === false"
-                                 color="primary"
-                                 [ngModel]="prop.key"
-                                 [checked]="false"
-                                 [name]="'prop_' + i">
-                        {{prop.value.label}}
-                    </md-checkbox>
-                    -->
                     <!-- the properties on the left side are followed by their cardinality settings on the right side -->
-<!--
-                    <md-select *ngIf="newResourceClass.properties[i] !== undefined" [(ngModel)]="prop.occurence" [name]="newResourceClass.properties[i].occurence">
+                    <md-select *ngIf="newResourceClass.properties[i] !== undefined"
+                               [(ngModel)]="prop.occurence"
+                               [name]="'occ_' + i"
+                               (change)="setOcc(i, $event)">
                         <md-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
                             {{cardinality}}
                         </md-option>
                     </md-select>
--->
                 </md-list-item>
+
             </md-list>
+        </form>
+    </section>
+
+    <!-- step 3: Set the permissions for each selected properties -->
+    <section [hidden]="counter!==3">
+        <form #permission="ngForm" class="salsah-form">
+            <p md-subheader>Set the permissions for the selected properties</p>
+            <table class="full-width form-table">
+                <thead><tr>
+                    <th width="36px" class="center">n</th>
+                    <th style="text-align:left">Property</th>
+                    <th *ngFor="let group of permissions.groups">
+                        {{group.label}}
+                    </th>
+                </tr></thead>
+
+                <tbody *ngFor="let prop of newResourceClass.properties; let i = index">
+                <tr  class="link highlight" *ngIf="newResourceClass.properties[i] !== undefined" style="height: 48px">
+
+                    <td width="36px">({{prop.occurence}})</td>
+
+                    <td style="text-align:left"><strong>{{prop.label}}</strong></td>
+
+                    <td *ngFor="let grp of permissions?.groups; let j = index">
+                        <md-select [ngModel]="permissions?.categories[j + 1]?.id"
+                                   (ngModel)="newResource.properties[prop.key]?.permissions[grp.id]"
+                                   [name]="grp.id + '_' + i"
+                                   (change)="setPerm(prop, grp.id, $event)">
+                            <md-option *ngFor="let cat of permissions.categories" [value]="cat.id">
+                                {{cat.label}}
+                            </md-option>
+                        </md-select>
+                    </td>
+
+                    <!--
+                    <td *ngFor="let permCat of permissions.categories; let i = index">
+                        <md-select [(ngModel)]="permissions.groups[i].id" [name]="permCat.id">
+                            <md-option *ngFor="let permGrp of permissions.groups" [value]="permGrp.id">
+                                {{permGrp.label}}
+                            </md-option>
+                        </md-select>
+                    </td>
+                    -->
+                </tr>
+                </tbody>
+            </table>
         </form>
     </section>
 </div>
