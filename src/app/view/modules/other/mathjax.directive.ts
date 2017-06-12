@@ -1,5 +1,7 @@
 import {Directive, ElementRef, HostListener, Input, OnInit} from "@angular/core";
 import {AppConfig} from "../../../app.config";
+import {MdDialog, MdDialogConfig} from "@angular/material";
+import {ObjectComponent} from "../object/object.component";
 
 declare var MathJax: {
     Hub: {
@@ -13,11 +15,11 @@ declare var MathJax: {
 @Directive({selector: '[mathJax]'})
 export class MathJaxDirective implements OnInit {
     @Input("mathJax") private html: string = ""; // the HTML to be inserted
-    constructor(private el: ElementRef) {
+    constructor(private el: ElementRef, private dialog: MdDialog) {
     }
 
     /**
-     * Bind a click event to the inserted inserted elements.
+     * Bind a click event to standoff links that shows the referred resource in a dialog box.
      *
      * @param event the event fired on an element inserted by this directive.
      * @returns {boolean} a Boolean indicating if event propagation should be stopped.
@@ -26,14 +28,25 @@ export class MathJaxDirective implements OnInit {
         //console.log("click");
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == "internal_link") {
-            console.log("click: internal link to: " + event.toElement.href);
+        if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == "salsah-link") {
+
+            let config =  new MdDialogConfig();
+            config.height = "60%";
+            config.width = "60%";
+
+            let dialogRef = this.dialog.open(ObjectComponent, config);
+            // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
+            dialogRef.componentInstance.iri = event.toElement.href;
 
             // preventDefault (propagation)
             return false;
+        } else if (event.toElement.nodeName.toLowerCase() == 'a') {
+            // open link in a new window
+            window.open(event.toElement.href, "_blank");
+            return false;
         } else {
-            // do not prevent propagation
-            return true;
+            // prevent propagation
+            return false;
         }
 
     }
@@ -61,7 +74,7 @@ export class MathJaxDirective implements OnInit {
     }
 
     ngOnInit() {
-        console.log("mathjax directive");
+        // console.log("mathjax directive");
 
         this.el.nativeElement.innerHTML = this.html;
 

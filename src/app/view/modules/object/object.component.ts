@@ -18,7 +18,7 @@ let jsonld = require('jsonld');
 })
 export class ObjectComponent implements OnChanges, OnInit {
 
-    @Input() iri: string;
+    @Input('iri') iri: string;
 
     isLoading: boolean = true;
     errorMessage: any;
