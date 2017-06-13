@@ -4,6 +4,7 @@ import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {HeaderToolbarComponent} from './header-toolbar.component';
 import {SessionService} from '../../../../model/services/session.service';
+import {UserProfile} from "../../../../model/webapi/knora/v1/users/user-profile";
 
 describe('HeaderToolbarComponent', () => {
     let component: HeaderToolbarComponent;
@@ -24,6 +25,10 @@ describe('HeaderToolbarComponent', () => {
     }));
 
     beforeEach(() => {
+        // TODO: move to a localStorageMock thingy
+        // create mock local storage
+        localStorage.setItem('ownProfile', JSON.stringify(new UserProfile()));
+
         fixture = TestBed.createComponent(HeaderToolbarComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
