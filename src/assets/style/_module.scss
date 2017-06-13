@@ -19,7 +19,7 @@
     .salsah-module-header {
       @include border-bottom();
       top: $header-height;
-      width: 100vw;
+//      width: 100vw;
       z-index: 9;
       //            @include box-shadow-bottom();
     }
@@ -60,6 +60,7 @@
 
   .salsah-module-detail {
     left: $sidebar-width;
+    overflow-y: hidden;
     width: calc(100vw - #{$sidebar-width});
 
     .salsah-module-detail-header {
@@ -84,7 +85,9 @@
 }
 
 .salsah-module-footer {
+  display: flex;
   padding: 0 24px;
+
 }
 
 // a salsah module content can contain sub modules
