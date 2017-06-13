@@ -18,7 +18,7 @@ describe('ProjectAdvancedComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: ProjectsService},
+                ProjectsService,
                 BaseOntologyService
             ]
 
