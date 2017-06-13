@@ -1,7 +1,7 @@
 import {Directive, ElementRef, HostListener, Input, OnInit} from "@angular/core";
-import {AppConfig} from "../../../app.config";
-import {MdDialog, MdDialogConfig} from "@angular/material";
+import {MdDialog, MdDialogConfig, MdSnackBar, MdSnackBarConfig} from "@angular/material";
 import {ObjectComponent} from "../object/object.component";
+import {ReadTextValueAsHtml} from "../../../model/webapi/knora/v2/read-property-item";
 
 declare var MathJax: {
     Hub: {
@@ -15,7 +15,8 @@ declare var MathJax: {
 @Directive({selector: '[mathJax]'})
 export class MathJaxDirective implements OnInit {
     @Input("mathJax") private html: string = ""; // the HTML to be inserted
-    constructor(private el: ElementRef, private dialog: MdDialog) {
+    @Input("valueObject") private valueObject: ReadTextValueAsHtml;
+    constructor(private el: ElementRef, private dialog: MdDialog, private snackBar: MdSnackBar) {
     }
 
     /**
@@ -61,8 +62,17 @@ export class MathJaxDirective implements OnInit {
         //console.log("mouseover " + this.valueType);
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == "internal_link") {
+        if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == "salsah-link") {
             // console.log("mouseenter: internal link to: " + event.toElement.href);
+
+            let referredResourceIri = event.toElement.href;
+
+            let resInfo = this.valueObject.getReferredResource(referredResourceIri);
+
+            let config  = new MdSnackBarConfig();
+            config.duration = 2500;
+
+            this.snackBar.open(resInfo, undefined, config);
 
             // preventDefault (propagation)
             return false;

@@ -46,10 +46,13 @@ export class ReadTextValueAsString implements ReadPropertyItem {
     }
 }
 
+export class ReferredResourcesByStandoffLink {
+    [index: string]: ReadResource;
+}
 
 export class ReadTextValueAsHtml implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly html:string) {
+    constructor(readonly id:string, readonly propIri, readonly html:string, readonly referredResources: ReferredResourcesByStandoffLink) {
 
     }
 
@@ -58,6 +61,14 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
     getContent(): string {
         return this.html;
     };
+
+    getReferredResource(resourceIri) {
+        if (this.referredResources !== undefined && this.referredResources[resourceIri] !== undefined) {
+            return this.referredResources[resourceIri].type + " " + this.referredResources[resourceIri].label;
+        } else {
+            return "no information found"
+        }
+    }
 
     getClassName():string {
         return this.constructor.name;
@@ -152,6 +163,14 @@ export class ReadLinkValue implements ReadPropertyItem {
             return this.referredResourceIri;
         }
     };
+
+    getReferredResourceInfo() {
+        if (this.referredResource !== undefined) {
+            return this.referredResource.type + " " + this.referredResource.label;
+        } else {
+            return this.referredResourceIri;
+        }
+    }
 
     getClassName():string {
         return this.constructor.name;

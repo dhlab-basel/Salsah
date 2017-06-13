@@ -55,6 +55,8 @@ export class AppConfig {
     public static textValueAsXml: string = AppConfig.KnoraApiV2WithValueObjectPath + "textValueAsXml";
     public static textValueHasMapping: string = AppConfig.KnoraApiV2WithValueObjectPath + "textValueHasMapping";
 
+    public static hasStandoffLinkToValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "hasStandoffLinkToValue";
+
     public static dateValueHasStartYear: string = AppConfig.KnoraApiV2WithValueObjectPath + "dateValueHasStartYear";
     public static dateValueHasEndYear: string = AppConfig.KnoraApiV2WithValueObjectPath + "dateValueHasEndYear";
     public static dateValueHasStartMonth = AppConfig.KnoraApiV2WithValueObjectPath + "dateValueHasStartMonth";
