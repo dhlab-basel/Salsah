@@ -31,6 +31,12 @@ export class ProjectsService extends ApiService {
         return this.httpGet("/projects/" + encodeURIComponent(iri));
     }
 
+    /**
+     * returns a project object
+     *
+     * @param shortname
+     * @returns {Observable<any>}
+     */
     getProjectByShortname(shortname: string): Observable<any> {
         return this.httpGet("/projects/" + shortname + "?identifier=shortname");
     }
@@ -50,8 +56,18 @@ export class ProjectsService extends ApiService {
      * @param iri (= project iri)
      * @returns {Observable<any>}
      */
-    getProjectMembers(iri: string): Observable<any> {
-        return this.httpGet("/project/members/shortname/" + iri);
+    getProjectMembersByIri(iri: string): Observable<any> {
+        return this.httpGet("/projects/members/" + encodeURIComponent(iri));
+    }
+
+    /**
+     * returns all project members
+     *
+     * @param shortname (= project shortname)
+     * @returns {Observable<any>}
+     */
+    getProjectMembersByShortname(shortname: string): Observable<any> {
+        return this.httpGet("/projects/members/" + shortname + "?identifier=shortname");
     }
 
 

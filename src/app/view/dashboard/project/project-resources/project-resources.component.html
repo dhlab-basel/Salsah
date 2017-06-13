@@ -1,11 +1,15 @@
 <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
     <h2 md-header>Organize your resources</h2>
-    <button md-button (click)="addNewResourceClass()">
-        <md-icon> add </md-icon>
-        <span> Add new resource </span>
-    </button>
+
 
     <md-list>
+        <md-list-item class="salsah-link"
+                      (click)="createResource()"
+                      [class.highlight]="addResource">
+            <md-icon md-list-avatar>add</md-icon>
+            <h4 md-line>Add new resource type</h4>
+            <p md-line>&nbsp;</p>
+        </md-list-item>
         <md-divider></md-divider>
         <br>
         <h3 md-subheader>Resources (active)</h3>
@@ -13,29 +17,30 @@
         click)="openResourceClass(resClass.id, i);" -->
 
         <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes; let i = index"
-                    (click)="openResourceClass(resClass.id, i);"
-                    class="salsah-link"
-                    [class.highlight]="i == selectedRow">
-  <md-icon md-list-avatar>{{resClass.icon}}</md-icon>
-  <h4 md-line>{{resClass.label}}</h4>
-  <p md-line>
-  <span *ngFor="let prop of resClass.properties; let last=last">
-      {{prop.label}} <span *ngIf="!last">/</span>
-  </span>
-  </p>
-</md-list-item>
-<!--
-<md-list-item>
-  <md-icon md-list-avatar>image</md-icon>
-  <h4 md-line>Image</h4>
-  <p md-line> Description ... [edit the resource settings by click on it] </p>
-</md-list-item>
-<md-list-item>
-  <md-icon md-list-avatar>book</md-icon>
-  <h4 md-line>Book</h4>
-  <p md-line> Description ... [edit the resource settings by click on it] </p>
-</md-list-item>
--->
+
+                      (click)="openResource(resClass.id, i);"
+                      class="salsah-link"
+                      [class.highlight]="i == selectedRow">
+            <md-icon md-list-avatar>{{resClass.icon}}</md-icon>
+            <h4 md-line>{{resClass.label}}</h4>
+            <p md-line>
+            <span *ngFor="let prop of resClass.properties; let last=last">
+                {{prop.label}} <span *ngIf="!last">/</span>
+            </span>
+            </p>
+        </md-list-item>
+        <!--
+        <md-list-item>
+            <md-icon md-list-avatar>image</md-icon>
+            <h4 md-line>Image</h4>
+            <p md-line> Description ... [edit the resource settings by click on it] </p>
+        </md-list-item>
+        <md-list-item>
+            <md-icon md-list-avatar>book</md-icon>
+            <h4 md-line>Book</h4>
+            <p md-line> Description ... [edit the resource settings by click on it] </p>
+        </md-list-item>
+        -->
         <md-divider></md-divider>
         <h3 md-subheader>Resource (Draft, Archived, etc. ??) FAKE list!!</h3>
         <md-list-item class="passive">
@@ -47,19 +52,32 @@
     </md-list>
 </div>
 
-<div *ngIf="properties" class="salsah-module-detail" [ngClass]="position.detail">
-
+<div *ngIf="editResource || addResource" class="salsah-module-detail" [ngClass]="position.detail">
     <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
 
-    <div class="salsah-module-detail-content">
+    <div class="salsah-module-detail-header">
         <!-- close button -->
-        <button md-icon-button (click)="closeDetailView()" class="right">
+        <button md-mini-fab (click)="closeDetailView()">
             <md-icon>close</md-icon>
         </button>
+    </div>
 
-        <salsah-edit-resource-class [iri]="resClassIri" [newIndex]="propsIndex"></salsah-edit-resource-class>
-
+    <div class="salsah-module-detail-content">
+        <!-- if an error occurs: show the error message -->
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+
+        <div class="edit-resource" *ngIf="editResource && !errorMessage">
+            <!-- edit the resource type -->
+            <!-- in the next tag we could set the progress loader with (loadingSubmodule)="loadingSubmodule(true) -->
+            <salsah-edit-resource-class [iri]="resClassIri" [index]="propsIndex"></salsah-edit-resource-class>
+        </div>
+
+        <div class="create-resource" *ngIf="addResource">
+            <!-- OR create a new resource class -->
+            <salsah-new-resource-class *ngIf="addResource && !errorMessage"
+                                       (closeDetailView)="closeDetailView($event)">
+            </salsah-new-resource-class>
+        </div>
 
 
     </div>

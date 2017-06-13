@@ -109,7 +109,7 @@ export class UserComponent implements OnInit {
                 if (params['uid']) {
                     if(this.userProfile.userData !== undefined) this.showOwnProfile = params['uid'] === this.userProfile.userData.email;
                     if(!this.showOwnProfile) {
-                        this._userService.getUser(params['uid'])
+                        this._userService.getUserByEmail(params['uid'])
                             .subscribe(
                                 (result: ApiServiceResult) => {
                                     this.userProfile = result.getBody(User).userProfile;

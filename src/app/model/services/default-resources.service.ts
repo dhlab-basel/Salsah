@@ -17,20 +17,19 @@ import {Observable} from 'rxjs';
 
 import {ApiService} from "./api.service";
 
-
 @Injectable()
-export class BaseOntologyService extends ApiService {
+export class DefaultResourcesService extends ApiService {
+
 
     /**
-     * returns our list of a base ontology
-     * (this method is the "old" way!)
-     * the new service is called DefaultResourcesService
+     * returns a list of default resources
+     * which will be used to create a new resource class
+     * (in a quick way)
      *
      * @returns {Observable<any>}
      */
-    getBaseOntology(): Observable<any> {
-        return this.httpGet('http://localhost/salsah/v2/src/app/model/test-data/baseOntology.json', {withCredentials: false});
-//        return this.httpGet('http://localhost/baseOntology.json', {withCredentials: false});
+    getDefaultResources(): Observable<any> {
+        return this.httpGet('http://localhost:4200/test-data/default-resources.json', {withCredentials: false});
     }
 
 }

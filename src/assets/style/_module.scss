@@ -1,0 +1,96 @@
+// a main salsah module can have a header and a footer (both are optional) plus a content
+.salsah-module {
+  bottom: 0;
+  box-sizing: border-box;
+  display: block;
+  overflow: hidden;
+  position: fixed;
+  top: $header-height;
+  transform: translate3d(0, 0, 0);
+  width: 100%;
+
+  &.without-header {
+//    height: calc(100vh - #{$header-height});
+  }
+
+  &.with-header {
+//    height: calc(100vh - (#{$header-height} + #{$module-header-height}));
+
+    .salsah-module-header {
+      @include border-bottom();
+      top: $header-height;
+//      width: 100vw;
+      z-index: 9;
+      //            @include box-shadow-bottom();
+    }
+
+    .salsah-module-content,
+    .salsah-module-detail {
+      top: $header-height;
+    }
+  }
+
+  .salsah-module-content,
+  .salsah-module-detail {
+    bottom: 0;
+    box-sizing: border-box;
+    display: block;
+    outline: 0;
+    overflow-y: auto;
+    padding: 48px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+
+    &.small {
+      border-right: 1px solid #c1c1c1;
+      left: 0;
+      padding: 0;
+      position: absolute;
+      width: $sidebar-width;
+    }
+
+    h2,
+    h3 {
+      padding-left: 12px;
+    }
+
+  }
+
+  .salsah-module-detail {
+    left: $sidebar-width;
+    overflow-y: hidden;
+    width: calc(100vw - #{$sidebar-width});
+
+    .salsah-module-detail-header {
+      display: inline-flex;
+      position: fixed;
+      right: 12px;
+      top: 48px;
+      width: auto;
+      z-index: 5;
+    }
+
+    .salsah-module-detail-content {
+      box-sizing: border-box;
+      display: block;
+      outline: 0;
+      overflow-y: auto;
+      position: absolute;
+      width: calc(100vw - #{$sidebar-width} - (2*48px));
+    }
+  }
+
+}
+
+.salsah-module-footer {
+  display: flex;
+  padding: 0 24px;
+
+}
+
+// a salsah module content can contain sub modules
+.salsah-sub-module {
+
+}

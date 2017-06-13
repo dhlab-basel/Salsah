@@ -33,10 +33,15 @@ import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
 import {SearchService} from './model/services/search.service';
 import {SessionService} from './model/services/session.service';
+import {UserService} from './model/services/user.service';
+import {ApiService} from './model/services/api.service';
 import {ListsService} from "./model/services/lists.service";
 // just to get the basic ontology form the json file
+import {DefaultResourcesService} from "./model/services/default-resources.service";
 import {BaseOntologyService} from './model/services/base-ontology.service';
 
+
+import {KeyPipe} from './view/modules/other/key.pipe';
 //
 // import all app components
 //
@@ -76,9 +81,7 @@ import {DocumentationComponent} from './view/documentation/documentation.compone
 import {UserProjectsComponent} from './view/dashboard/user/user-projects/user-projects.component';
 import {UserCollectionsComponent} from './view/dashboard/user/user-collections/user-collections.component';
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {UserService} from './model/services/user.service';
-import {ApiService} from './model/services/api.service';
-import {KeyPipe} from './view/modules/other/key.pipe';
+
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
 import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
@@ -87,6 +90,9 @@ import { UserSelectComponent } from './view/modules/form/user-select/user-select
 import { DevelopmentComponent } from './view/test/development/development.component';
 
 import { MessageComponent } from './view/modules/message/message.component';
+import { NewResClassComponent } from './view/test/development/new-res-class/new-res-class.component';
+import { NewResourceClassComponent } from './view/modules/form/new-resource-class/new-resource-class.component';
+
 import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
 import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
 
@@ -133,6 +139,8 @@ import { EditResourceClassComponent } from './view/modules/form/edit-resource-cl
         UserSelectComponent,
         DevelopmentComponent,
         MessageComponent,
+        NewResClassComponent,
+        NewResourceClassComponent,
         OsdViewerComponent,
         EditResourceClassComponent
     ],
@@ -162,6 +170,7 @@ import { EditResourceClassComponent } from './view/modules/form/edit-resource-cl
         SessionService,
         BaseOntologyService,
         UserService,
+        DefaultResourcesService,
         ListsService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],

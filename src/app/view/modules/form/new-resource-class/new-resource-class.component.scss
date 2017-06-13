@@ -1,0 +1,36 @@
+@import '../../../../../assets/style/config';
+
+md-card {
+//  height: 640px;
+  margin: 24px auto;
+  padding: 0;
+  width: 90%;
+
+  md-card-content {
+    min-height: 500px;
+    padding-bottom: 24px;
+    padding-top: 24px;
+  }
+
+  md-card-footer {
+    box-sizing: border-box;
+    display: block;
+    outline: 0;
+    padding: 48px 24px;
+    position: relative;
+  }
+}
+
+section {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 640px;
+}
+
+td {
+  text-align: center;
+
+  md-select {
+    width: 90%;
+  }
+}

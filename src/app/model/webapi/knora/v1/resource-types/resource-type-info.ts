@@ -13,44 +13,29 @@
  * */
 
 import {JsonObject, JsonProperty} from "json2typescript";
+import {PropertyItem} from "../properties/property-item";
+import {Permissions} from "../../../../test-data/default-resources";
 
 @JsonObject
-export class ProjectItem {
+export class ResourceTypeInfo {
 
-//    @JsonProperty('basepath', String, true)
-//    public basepath: string = undefined;
-
-    @JsonProperty('shortname', String)
-    public shortname: string = undefined;
+    @JsonProperty('name', String)
+    public name: string = undefined;
 
     @JsonProperty('description', String)
     public description: string = undefined;
 
-    @JsonProperty('institution', String)
-    public institution: string = undefined;
+    @JsonProperty('label', String)
+    public label: string = undefined;
 
-    @JsonProperty('logo', String)
-    public logo: string = undefined;
+    @JsonProperty('properties', [PropertyItem])
+    public properties: PropertyItem[] = [new PropertyItem()];
 
-    @JsonProperty('dataNamedGraph', String)
-    public dataNamedGraph: string = undefined;
+    @JsonProperty('iconsrc', String)
+    public icon: string = undefined;
 
-    @JsonProperty('id', String)
-    public id: string = undefined;
-
-    @JsonProperty('status', Boolean)
-    public status: boolean = undefined;
-
-    @JsonProperty('keywords', String)
-    public keywords: string = undefined;
-
-    @JsonProperty('longname', String)
-    public name: string = undefined;
-
-    @JsonProperty('ontologyNamedGraph', String)
-    public ontologyNamedGraph: string = undefined;
-
-    @JsonProperty('selfjoin', Boolean)
-    public selfjoin: boolean = undefined;
+    // new item for the permissions; it's not an official property in knora
+    @JsonProperty('permissions', Permissions, true)
+    public permissions: Permissions = new Permissions();
 
 }

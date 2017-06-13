@@ -52,12 +52,12 @@ $search-width: 720px;
 
     .prefix,
     .suffix {
-      background-color: transparent;
+      background-color: white;
       border-radius: 3px;
       border-style: none;
-      color: rgba($dark, .38);
+      color: rgba($dark, .4);
       cursor: pointer;
-      height: 40px;
+      height: 38px;
       outline: none;
       //        color: rgb(33,33,33);
       position: relative;
@@ -86,7 +86,6 @@ $search-width: 720px;
 
 .salsah-menu {
 
-
   &.simple-search,
   &.extended-search {
     min-height: $search-height;
@@ -97,15 +96,20 @@ $search-width: 720px;
   &.simple-search {
     padding-top: 60px;
     z-index: -1;
+
     .salsah-previous-search-list {
+
       .mat-list-item {
         cursor: pointer;
+
         &:hover {
           background-color: $bright;
+
           md-icon {
             display: block;
           }
         }
+
         md-icon {
           display: none;
         }
