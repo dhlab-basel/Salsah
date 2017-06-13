@@ -18,27 +18,26 @@
 
     .salsah-module-header {
       @include border-bottom();
-      padding: 0;
       top: $header-height;
       width: 100vw;
       z-index: 9;
       //            @include box-shadow-bottom();
     }
 
-    .salsah-module-content {
+    .salsah-module-content,
+    .salsah-module-detail {
       top: $header-height;
     }
-
   }
 
-  .salsah-module-content {
+  .salsah-module-content,
+  .salsah-module-detail {
     bottom: 0;
     box-sizing: border-box;
     display: block;
     outline: 0;
     overflow-y: auto;
-    padding-left: 48px;
-    padding-right: 48px;
+    padding: 48px;
     position: absolute;
     top: 0;
     width: 100%;
@@ -52,31 +51,33 @@
       width: $sidebar-width;
     }
 
+    h2,
+    h3 {
+      padding-left: 12px;
+    }
+
   }
 
   .salsah-module-detail {
-    bottom: 0;
-    box-sizing: border-box;
-    display: block;
     left: $sidebar-width;
-    outline: 0;
-    overflow-y: auto;
-    padding-left: 48px;
-    padding-right: 48px;
-    position: absolute;
-    top: 0;
-    width: 100%;
+    width: calc(100vw - #{$sidebar-width});
 
-//    width: calc(100vw - #{$sidebar-width});
+    .salsah-module-detail-header {
+      display: inline-flex;
+      position: fixed;
+      right: 12px;
+      top: 48px;
+      width: auto;
+      z-index: 5;
+    }
 
     .salsah-module-detail-content {
       box-sizing: border-box;
       display: block;
       outline: 0;
       overflow-y: auto;
-      padding-left: 48px;
-      padding-right: 48px;
       position: absolute;
+      width: calc(100vw - #{$sidebar-width} - (2*48px));
     }
   }
 

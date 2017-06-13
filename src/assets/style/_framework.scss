@@ -10,7 +10,7 @@ app-root {
 }
 
 .salsah-main-header {
-  @include md-box-shadow();
+  @include md-box-shadow-2();
   position: relative;
   z-index: 11;
 
@@ -28,7 +28,7 @@ app-root {
   //height: calc(100vh - #{header-height});
   box-sizing: border-box;
   height: 100%;
-  padding-top: $header-height;
+//  padding-top: $header-height;
 }
 
 .salsah-main-footer {

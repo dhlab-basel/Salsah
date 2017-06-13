@@ -53,18 +53,16 @@
 </div>
 
 <div *ngIf="editResource || addResource" class="salsah-module-detail" [ngClass]="position.detail">
-    <!-- old develop version
-    <div *ngIf="properties" class="salsah-module-detail" [ngClass]="position.detail">
-    -->
-
     <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
 
-    <div class="salsah-module-detail-content">
+    <div class="salsah-module-detail-header">
         <!-- close button -->
-        <button md-icon-button (click)="closeDetailView()" class="right">
+        <button md-mini-fab (click)="closeDetailView()">
             <md-icon>close</md-icon>
         </button>
+    </div>
 
+    <div class="salsah-module-detail-content">
         <!-- if an error occurs: show the error message -->
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
