@@ -5,7 +5,7 @@ import {AppModule} from '../../app.module';
 //import {Http, ConnectionBackend, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
 
 import {BaseOntologyService} from './base-ontology.service';
-import {BaseOntology} from '../test-data/default-resources';
+import {DefaultResources} from '../test-data/default-resources';
 import {MockBackend} from '@angular/http/testing';
 import {BaseRequestOptions, ConnectionBackend, Http, ResponseOptions} from '@angular/http';
 

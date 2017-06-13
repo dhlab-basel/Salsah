@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OsdViewerComponent } from './osd-viewer.component';
+import {AppModule} from "../../../../app.module";
+import {AppMaterialModule} from "../../../../app-material-module";
+import {AppRoutingModule} from "../../../../app-routing.module";
 
 describe('OsdViewerComponent', () => {
   let component: OsdViewerComponent;
@@ -8,7 +11,11 @@ describe('OsdViewerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OsdViewerComponent ]
+        imports: [
+            AppModule,
+            AppMaterialModule,
+            AppRoutingModule
+        ]
     })
     .compileComponents();
   }));

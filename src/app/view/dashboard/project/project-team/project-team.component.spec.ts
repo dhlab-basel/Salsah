@@ -18,8 +18,8 @@ describe('ProjectTeamComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: ProjectsService},
-                {provide: UserService}
+                ProjectsService,
+                UserService
             ]
         })
             .compileComponents();
