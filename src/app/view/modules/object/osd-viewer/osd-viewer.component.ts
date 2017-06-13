@@ -38,7 +38,7 @@ export class OsdViewerComponent implements OnInit {
     var viewerContainer = this.elementRef.nativeElement.firstChild;
     var osdOptions = {
       element: viewerContainer,
-      prefixUrl: "assets/openseadragonIcons/"
+      prefixUrl: "assets/icons/openseadragon/"
     }
     this.viewer = new OpenSeadragon.Viewer(osdOptions);
   }
