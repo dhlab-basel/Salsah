@@ -20,9 +20,16 @@ import {ApiService} from "./api.service";
 @Injectable()
 export class DefaultResourcesService extends ApiService {
 
-    getDefaultResources(): Observable<any> {
-        return this.httpGet('http://localhost/salsah/v2/src/app/model/test-data/default-resources.json', {withCredentials: false});
 
+    /**
+     * returns a list of default resources
+     * which will be used to create a new resource class
+     * (in a quick way)
+     *
+     * @returns {Observable<any>}
+     */
+    getDefaultResources(): Observable<any> {
+        return this.httpGet('http://localhost:4200/test-data/default-resources.json', {withCredentials: false});
     }
 
 }
