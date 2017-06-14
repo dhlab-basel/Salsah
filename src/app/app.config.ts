@@ -76,6 +76,8 @@ export class AppConfig {
     public static fileValueIsPreview = AppConfig.KnoraApiV2WithValueObjectPath + "fileValueIsPreview";
     public static fileValueHasFilename = AppConfig.KnoraApiV2WithValueObjectPath + "fileValueHasFilename";
 
+    public static hasStillImageFileValue = AppConfig.KnoraApiV2WithValueObjectPath + "hasStillImageFileValue";
+
     public static stillImageFileValueHasDimX = AppConfig.KnoraApiV2WithValueObjectPath + "stillImageFileValueHasDimX";
     public static stillImageFileValueHasDimY = AppConfig.KnoraApiV2WithValueObjectPath + "stillImageFileValueHasDimY";
     public static stillImageFileValueHasIIIFBaseUrl = AppConfig.KnoraApiV2WithValueObjectPath + "stillImageFileValueHasIIIFBaseUrl";
