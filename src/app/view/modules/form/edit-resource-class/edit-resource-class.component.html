@@ -1,12 +1,10 @@
-<div>
-    <md-list>
-        <md-list-item *ngFor="let prop of properties?.properties">
-            <h4 md-line>{{prop.label}}</h4>
-            <p md-line>{{prop.description}}</p>
-            <p md-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
-        </md-list-item>
-    </md-list>
-</div>
+<h3>{{resType.label}}</h3>
+<p>{{resType.description}}</p>
+<md-list>
+    <md-list-item *ngFor="let prop of resType.properties">
+        <h4 md-line>{{prop.label}}</h4>
+        <p md-line>{{prop.description}}</p>
+        <p md-line>{{prop.occurence}} | {{prop.gui_name}}</p>
 
-
-
+    </md-list-item>
+</md-list>

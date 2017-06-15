@@ -92,13 +92,28 @@
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
         <section *ngIf="newResource.id" [hidden]="counter!==2">
             <form #properties="ngForm" class="salsah-form">
-                <p md-subheader>Select properties for </p>
-                <md-list>
+                <p md-subheader>Select properties for <i>{{newResource.label}}</i></p>
 
+                <md-list>
+                    <md-list-item class="link highlight">
+                        <div class="salsah-checkbox">
+                            <input type="checkbox"
+                                   id="togglePermission"
+                                   [checked]="isAllChecked()"
+                                   (change)="checkAll($event)">
+                            <label for="togglePermission" class="fill-remaining-space" [class.checked]="isAllChecked()">
+                                <span class="checkbox-fake"></span>
+                                <span class="checkbox-label">{{selectPropsText}}</span>
+                            </label>
+                        </div>
+                    </md-list-item>
+                    <hr>
                     <!-- 2b) additional resource class specific properties -->
                     <md-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
                         <div class="salsah-checkbox">
                             <input type="checkbox"
+                                   [(ngModel)]="prop.state"
+                                   [name]="prop.key"
                                    [id]="prop.key"
                                    [value]="prop.key"
                                    [checked]="prop.value"
@@ -189,7 +204,21 @@
 
         <!-- Step 4: Show a preview of the new resource -->
         <section [hidden]="counter!==4">
-            <p md-subheader>Set the permissions for the selected properties</p>
+            <p md-subheader>You're ontology for the resource class <strong>{{newResource.label}}</strong> looks as follow:</p>
+
+            <p>{{newResource.description}}</p>
+
+            <ul>
+                <li *ngFor="let p of newResource.properties | key">{{p.value.label}}
+                    <br>
+                    admin: <span>{{p.value.permissions.admin}}</span>
+                    member: <span>{{p.value.permissions.member}}</span>
+                    guest: <span>{{p.value.permissions.guest}}</span>
+                    everyone: <span>{{p.value.permissions.everyone}}</span>
+                </li>
+            </ul>
+
+<!--
             <h3>Set property permissions and occurrence</h3>
             <div *ngFor="let res of baseOntology?.resourcetypes">
                 <div *ngIf="res.label==newResource">
@@ -197,12 +226,12 @@
                         <div *ngIf="props.checked==true || props.cardinality=='1' || props.cardinality=='1 - n'">
                             <table class="perm-style">
                                 <tr>
-                                    <!-- Property label -->
+                                    <!-- Property label --
                                     <td width="150px">
                                         <div><b> {{props.label}} </b> <br></div>
-                                        <!--<small><small>(occurrence: {{props.cardinality}})</small></small>-->
+                                        <!--<small><small>(occurrence: {{props.cardinality}})</small></small>--
                                     </td>
-                                    <!-- Permissions setting -->
+                                    <!-- Permissions setting --
                                     <td width="150px">
                                         <md-select class="perm-style"
                                                    placeholder="Permissions"
@@ -216,7 +245,7 @@
                                             <small><small>Permissions are required</small></small>
                                         </div>
                                     </td>
-                                    <!-- Occurrence setting -->
+                                    <!-- Occurrence setting --
                                     <td width="150px">
                                         <md-select class="perm-style"
                                                    placeholder="{{props.cardinality}}"
@@ -236,6 +265,7 @@
                     </div>
                 </div>
             </div>
+            -->
         </section>
         <!-- Step 5: Make a comment and save -->
         <section [hidden]="counter!==5">

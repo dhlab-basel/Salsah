@@ -36,7 +36,7 @@ export class ProjectItem {
     public dataNamedGraph: string = undefined;
 
     @JsonProperty('id', String)
-    public id: String = undefined;
+    public id: string = undefined;
 
     @JsonProperty('status', Boolean)
     public status: boolean = undefined;

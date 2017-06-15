@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditResourceClassComponent } from './edit-resource-class.component';
+import {AppModule} from "../../../../app.module";
+import {AppMaterialModule} from "../../../../app-material-module";
+import {AppRoutingModule} from "../../../../app-routing.module";
+import {ResourceTypesService} from "../../../../model/services/resource-types.service";
 
 describe('EditResourceClassComponent', () => {
   let component: EditResourceClassComponent;
@@ -8,7 +12,14 @@ describe('EditResourceClassComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditResourceClassComponent ]
+        imports: [
+            AppModule,
+            AppMaterialModule,
+            AppRoutingModule
+        ],
+        providers: [
+            ResourceTypesService
+        ]
     })
     .compileComponents();
   }));

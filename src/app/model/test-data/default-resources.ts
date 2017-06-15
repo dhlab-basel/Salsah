@@ -13,6 +13,7 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
+import {PropertyItem} from "../webapi/knora/v1/properties/property-item";
 
 /**
  * has four default categories and four groups
@@ -109,8 +110,8 @@ export class ResourceClass {
     @JsonProperty('permissions', Permissions, true)
     public permissions: Permissions = undefined;
 
-    @JsonProperty('properties', [Property], true)
-    public properties: Property[] = undefined;
+    @JsonProperty('properties', [PropertyItem], true)
+    public properties: PropertyItem[] = undefined;
 
 }
 
@@ -119,18 +120,17 @@ export class ResourceClass {
  */
 
 @JsonObject
-export class BaseOntology {
+export class DefaultResources {
 
     // defaultProperties
-    @JsonProperty('defaultProperties', [Property])
-    public defaultProperties: Property[] = undefined;
+    @JsonProperty('defaultProperties', [PropertyItem])
+    public defaultProperties: PropertyItem[] = undefined;
 
     // defaultPermissions
     @JsonProperty('defaultPermissions', Permissions, true)
     public defaultPermissions: Permissions = undefined;
 
     // defaultResources
-
     @JsonProperty('resourceClasses', [ResourceClass])
     public resourceClasses: ResourceClass[] = undefined;
 

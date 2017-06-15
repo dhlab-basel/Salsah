@@ -16,7 +16,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
-import {BaseOntology, ResourceClass} from "../../../../model/test-data/base-ontology";
+import {DefaultResources, ResourceClass} from "../../../../model/test-data/default-resources";
 
 
 class ListInfo{
@@ -38,7 +38,7 @@ export class AdvancedResourceClassComponent implements OnInit {
     errorMessage: any;
 
     // data from the server
-    baseOntology: BaseOntology = new BaseOntology();
+    baseOntology: DefaultResources = new DefaultResources();
 
     // result to send to the server
     newAdvResource: ResourceClass = new ResourceClass();
@@ -106,7 +106,7 @@ export class AdvancedResourceClassComponent implements OnInit {
         this._baseOntologyService.getBaseOntology()
           .subscribe(
               (result: ApiServiceResult) => {
-                  this.baseOntology = result.getBody(BaseOntology);
+                  this.baseOntology = result.getBody(DefaultResources);
                   console.log(this.baseOntology);
                   this.newAdvResource.permissions = this.baseOntology.defaultPermissions;
                   console.log(this.newAdvResource);
