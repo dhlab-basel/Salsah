@@ -59,7 +59,7 @@ export class StillImageOSDViewerComponent implements OnInit {
       }
     }
 
-    private setupViewer() {
+    private setupViewer() : void {
       let viewerContainer = this.elementRef.nativeElement.getElementsByClassName("osdViewerContainer")[0];
       let osdOptions = {
         element: viewerContainer,
@@ -75,10 +75,13 @@ export class StillImageOSDViewerComponent implements OnInit {
       })
     }
 
-    private openImages() {
+    private openImages() : void {
       let imagesToDisplay = this.getImagesToDisplay();
       let tileSources = [];
-      for (let i = 0; i < imagesToDisplay.length; i++) {
+      for (let i in imagesToDisplay) {
+        // construct IIIF tileSource configuration according to
+        // http://iiif.io/api/image/2.1/#technical-properties
+        // see also http://iiif.io/api/image/2.0/#a-implementation-notes
         let sipiBasePath = imagesToDisplay[i].imageServerIIIFBaseURL + "/" + imagesToDisplay[i].imageFilename;
         let width = imagesToDisplay[i].dimX;
         let height = imagesToDisplay[i].dimY;
@@ -102,7 +105,11 @@ export class StillImageOSDViewerComponent implements OnInit {
       this.viewer.open(tileSources);
     }
 
-    private getImagesToDisplay() {
+    // If this.ignorePreviews == true:
+    //  returns a shallow copy of the this.fileValues array, omitting all entries with entry.isPreview == true.
+    // else:
+    //  returns the this.fileValues array itself
+    private getImagesToDisplay() : ReadStillImageFileValue[] {
       if (this.ignorePreviews) {
         return this.fileValues.filter( (image) => { return !image.isPreview; } );
       } else {
