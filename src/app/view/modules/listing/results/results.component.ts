@@ -87,14 +87,11 @@ export class ResultsComponent implements OnInit {
                         // compact JSON-LD using an empty context: expands all Iris
                         let resPromise = resPromises.compact(resResult.body, {});
 
-                        // reference to this component
-                        let comp = this;
-
-                        resPromise.then(function (resCompacted) {
+                        resPromise.then((resCompacted) => {
 
                             let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(resCompacted);
 
-                            comp._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
                                 (resourceClassInfos: Object) => {
 
                                     // console.log(resourceClassInfos);
@@ -102,7 +99,7 @@ export class ResultsComponent implements OnInit {
                                     let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(resCompacted, resourceClassInfos);
 
                                     // variable 'this' cannot be used in the context of a function
-                                    comp.result = resources;
+                                    this.result = resources;
 
                                 },
                                 (err) => {

@@ -44,7 +44,7 @@ export class StillImageOSDViewerComponent implements OnInit {
     ngOnInit() {
       // initialisation is done on first run of ngOnChanges
     }
-
+    
     ngOnChanges(changes:{[key: string]: SimpleChange}) {
       if (changes["fileValues"].isFirstChange()) {
         this.setupViewer();
@@ -64,7 +64,7 @@ export class StillImageOSDViewerComponent implements OnInit {
       let osdOptions = {
         element: viewerContainer,
         prefixUrl: "assets/icons/openseadragon/"
-      }
+      };
       this.viewer = new OpenSeadragon.Viewer(osdOptions);
       this.viewer.addHandler('full-screen', function (args) {
         if (args.fullScreen) {
