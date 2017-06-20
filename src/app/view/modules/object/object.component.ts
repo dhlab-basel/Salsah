@@ -41,15 +41,12 @@ export class ObjectComponent implements OnChanges, OnInit {
                     // compact JSON-LD using an empty context: expands all Iris
                     let promise = promises.compact(result.body, {});
 
-                    // reference to this component
-                    let comp = this;
-
-                    promise.then(function (compacted) {
+                    promise.then((compacted) => {
 
                         let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                         // variable 'this' cannot be used in the context of a function
-                        comp.resource = resources;
+                        this.resource = resources;
 
                     }, function (err) {
 
@@ -77,15 +74,12 @@ export class ObjectComponent implements OnChanges, OnInit {
                         // compact JSON-LD using an empty context: expands all Iris
                         let promise = promises.compact(result.body, {});
 
-                        // reference to this component
-                        let comp = this;
-
-                        promise.then(function (compacted) {
+                        promise.then((compacted) => {
 
                             let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                             // variable 'this' cannot be used in the context of a function
-                            comp.resource = resources;
+                            this.resource = resources;
 
                         }, function (err) {
 

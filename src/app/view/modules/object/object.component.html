@@ -1,8 +1,23 @@
+<p>{{resource.resources[0]?.type}}</p>
 <p>{{resource.resources[0]?.label}}</p>
 
 <md-list>
     <div md-line *ngFor="let prop of resource.resources[0]?.properties | key">
-        <span>{{prop.key}}</span> <ul><li *ngFor="let val of prop.value | key">
+
+        <span>{{prop.key}}</span>
+
+        <!--  array templates -->
+        <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->
+        <salsah-still-image-osdviewer
+              *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates"
+              [fileValues]="prop.value"
+              [ignorePreviews]="true">
+        </salsah-still-image-osdviewer>
+
+        <!--  single templates -->
+        <!--  other types of properties are displayed in 1 template for each single property in the property list. -->
+        <ng-template #singleTemplates>
+          <ul><li *ngFor="let val of prop.value | key">
             <span [ngSwitch]="val.value.getClassName()">
                 <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value"></read-text-value-as-html>
                 <read-text-value-as-string *ngSwitchCase="AppConfig.ReadTextValueAsString" [valueObject]="val.value"></read-text-value-as-string>
@@ -11,10 +26,10 @@
                 <read-link-value *ngSwitchCase="AppConfig.ReadLinkValue" [valueObject]="val.value"></read-link-value>
                 <read-integer-value *ngSwitchCase="AppConfig.ReadIntegerValue" [valueObject]="val.value"></read-integer-value>
                 <read-decimal-value *ngSwitchCase="AppConfig.ReadDecimalValue" [valueObject]="val.value"></read-decimal-value>
-                <read-still-image-file-value *ngSwitchCase="AppConfig.ReadStillImageFileValue" [valueObject]="val.value"></read-still-image-file-value>
                 <span *ngSwitchDefault="">Not supported {{val.value.getClassName()}}</span>
             </span>
-        </li></ul>
+          </li></ul>
+        </ng-template>
+
     </div>
 </md-list>
-
