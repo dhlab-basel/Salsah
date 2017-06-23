@@ -9,4 +9,8 @@
   }
 
   background-color: black;
+
+  &.fullscreen {
+    max-width: 100%;
+  }
 }
