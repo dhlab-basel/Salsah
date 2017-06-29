@@ -25,6 +25,9 @@ export class EditResourceClassComponent implements OnChanges {
     errorMessage: string = undefined;
     selectedRow: number;
 
+    editResource: boolean;
+
+
 
     constructor(private _resourceTypesService: ResourceTypesService) {
     }
@@ -40,7 +43,7 @@ export class EditResourceClassComponent implements OnChanges {
                     this.resType = result.getBody(ResourceType).restype_info;
 //                    let tmpResTypeInfo: ResourceTypeInfo = result.getBody(ResourceTypeInfo);
 //                    console.log(tmpResTypeInfo.restype_info.label);
-//                    console.log(this.resType);
+                    console.log(this.resType);
                     this.selectedRow = this.index;
                     // disable the progress loader of the submodule
 //                    this.loadingSubmodule.emit(this.isLoadingSubModule);
@@ -54,6 +57,10 @@ export class EditResourceClassComponent implements OnChanges {
 
 
 
+    }
+
+    editResources(){
+        this.editResource = true;
     }
 
 }
