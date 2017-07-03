@@ -9,7 +9,7 @@ It is developed by the [Digital Humanities Lab](http://www.dhlab.unibas.ch/) at 
 
 Salsah is [free software](http://www.gnu.org/philosophy/free-sw.en.html), released under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.en.html).
 
-The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0 (will be updated from time to time!)
+The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.2.0 (will be updated from time to time!)
 
 You find more information about Salsah on: 
 
@@ -19,7 +19,7 @@ You find more information about Salsah on:
 ## Developer Environment
 
 ```
-WARNING (2017/03/07): we updated the angular-cli and other packages to the latest version.
+WARNING (2017/07/04): we updated the angular-cli and other packages to the latest version.
 If you have already installed Salsah 2, please follow the update instructions here: 
 https://github.com/angular/angular-cli#updating-angular-cli
 ```
@@ -34,7 +34,7 @@ We develop the Salsah app with Angular (v4), especially with Angular-cli, which 
 
 **Install [angular-cli](https://github.com/angular/angular-cli) globally**
 
-`npm install -g @angular/cli@1.0.0`
+`npm install -g @angular/cli@1.2.0`
 
 If there are some permission issues, try to fix the writing rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`
 
@@ -68,12 +68,16 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
 
-The SALSAH structure contents directories for each module type.
- `components/`, `directives/`, `services/`, `pipes/` 
- 
- The 'components' folder has some sub folders depending on the Salsah architecture definition. To create a new component, like the imageObject, you have to run the ng command as follow:
+The SALSAH structure contents two main directories: model and view.
+* The **model** directory contains angular services and everything else for API data requests.
+
+* The **view** directory contains all templates (angular components), pipes and directives. Pipes and directives are should be placed in `view/modules/other/`. 
+
+The command to create a new component, like the e.g. a component to handle image objects, should look as follow:
   
- `ng g component components/object/image-object`
+ `ng g component view/object/image-object`
+ 
+"image-object" is the name for the new component.
 
 
 ### Build
