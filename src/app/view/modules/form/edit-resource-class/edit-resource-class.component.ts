@@ -8,7 +8,7 @@ import {ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
 @Component({
     selector: 'salsah-edit-resource-class',
     templateUrl: './edit-resource-class.component.html',
-    styleUrls: ['./edit-resource-class.component.scss']
+    styleUrls: ['./edit-resource-class.component.scss'],
 })
 export class EditResourceClassComponent implements OnChanges {
 
@@ -61,6 +61,15 @@ export class EditResourceClassComponent implements OnChanges {
 
     editResources(){
         this.editResource = true;
+    }
+    closeEditView(){
+        this.editResource = false;
+    }
+
+    //form functions
+    onSubmit(data: any): void {
+        console.log('your new resource is:', this.resType);
+//        this.dialog.closeAll();
     }
 
 }
