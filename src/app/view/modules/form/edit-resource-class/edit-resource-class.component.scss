@@ -1,0 +1,14 @@
+.footer{
+  position:fixed;
+  left:400px;
+//  left:#{$sidebar-width};
+  bottom:0px;
+  height:50px;
+  width:calc(100vw - 400px);
+//  width:calc(100vw - #{$sidebar-width});
+  background:#ffffff;
+}
+
+.full-width{
+  width: 100%
+}

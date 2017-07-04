@@ -1,10 +1,154 @@
-<h3>{{resType.label}}</h3>
-<p>{{resType.description}}</p>
-<md-list>
-    <md-list-item *ngFor="let prop of resType.properties">
-        <h4 md-line>{{prop.label}}</h4>
-        <p md-line>{{prop.description}}</p>
-        <p md-line>{{prop.occurence}} | {{prop.gui_name}}</p>
 
-    </md-list-item>
-</md-list>
+<section *ngIf="!editResource" >
+    <h3>{{resType.label}}</h3>
+    <p >{{resType.description}}</p>
+        <md-list class="list-group" mdTooltip="You can sort this list with drag and drop" dnd-sortable-container [sortableData]="resType.properties">
+            <md-list-item *ngFor="let prop of resType.properties; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+                <h4 md-line>{{prop.label}}</h4>
+                <p md-line>{{prop.description}}</p>
+                <p md-line>{{prop.occurence}} | {{prop.gui_name}}</p>
+            </md-list-item>
+        </md-list>
+    <md-divider></md-divider>
+        <p class="mute">My classes:<br/>
+        <span *ngFor="let prop of resType.properties; let i = index">{{i + 1}}) {{prop.label}}<br/></span>
+
+</section>
+
+<!------------------------------------------------------------------------------------------------------->
+<!------------------------------------Edit resources!    ------------------------------------------------>
+<!------------------------------------------------------------------------------------------------------->
+<!------------------------------------Edit resources!    ------------------------------------------------>
+<!------------------------------------------------------------------------------------------------------->
+
+<section *ngIf="editResource" >
+    <h4>Click on the fields to edit</h4>
+
+<!------------------------------------------------------------------------------------------------------->
+<!-----------Here we will use cards for each resource and property, which will be collapsible------------>
+<!-----------Each card will have its own save button----------------------------------------------------->
+
+    <md-card>
+
+        <md-card-header>
+            <h4>Resource</h4><br>
+        </md-card-header>
+
+        <md-card-content>
+            <form #editRes="ngForm" class="salsah-form">
+                <p><md-input-container class = "full-width">
+                        <input mdInput
+                               placeholder="Resource Type"
+                               name="name"
+                               [(ngModel)]="resType.label"
+                                value="{{resType.label}}">
+                </md-input-container></p>
+
+                <p><md-input-container class = "full-width">
+                    <textarea mdInput
+                              placeholder="Resource Description"
+                              name="description"
+                              [(ngModel)]="resType.description">
+                        {{resType.description}}
+                    </textarea>
+                </md-input-container></p>
+            </form>
+        </md-card-content>
+
+        <md-card-actions>
+            <button md-raised-button
+                    class="save-button"
+                    [color]="'primary'">
+                Save
+            </button>
+        </md-card-actions>
+    </md-card>
+
+
+<!------------------------------------Edit resource properties!  We use tabs  ------------------------------------------------>
+
+    <h4>Properties</h4>
+    <md-divider></md-divider>
+    <md-tab-group >
+        <md-tab *ngFor="let prop of resType.properties | key; let i = index" label="{{prop.value.label}}">
+            <br>
+            <form>
+                <md-input-container class = "full-width" *ngIf="resType.properties[prop.key] !== undefined" >
+                    <input mdInput
+                           placeholder="Property name"
+                           [name]="prop.value.label"
+                           [id]="prop.value.label"
+                           [(ngModel)]="prop.value.label"
+                           [value]="prop.value.label">
+                </md-input-container>
+                <md-input-container class = "full-width" *ngIf="resType.properties[prop.key] !== undefined" >
+                    <input mdInput
+                           placeholder="Property description"
+                           [name]="prop.value.description"
+                           [id]="prop.value.description"
+                           [(ngModel)]="prop.value.description"
+                           [value]="prop.value.description">
+                </md-input-container>
+                <md-input-container class = "full-width" *ngIf="resType.properties[prop.key] !== undefined" >
+                    <input mdInput
+                           placeholder="GUI type"
+                           [name]="prop.value.gui_name"
+                           [id]="prop.value.gui_name"
+                           [(ngModel)]="prop.value.gui_name"
+                           [value]="prop.value.gui_name">
+                </md-input-container>
+                <md-input-container class = "full-width" *ngIf="resType.properties[prop.key] !== undefined" >
+                    <input mdInput
+                           placeholder="Id"
+                           [name]="prop.value.id"
+                           [id]="prop.value.id"
+                           [(ngModel)]="prop.value.id"
+                           [value]="prop.value.id">
+        <!--       </md-input-container>
+                <md-input-container class = "full-width" *ngIf="resType.properties[prop.key] !== undefined" >
+                    <input mdInput
+                           placeholder="Occurence"
+                           [name]="prop.value.occurence"
+                           [id]="prop.value.occurence"
+                           [(ngModel)]="prop.value.occurence"
+                           [value]="prop.value.occurence">
+        -->
+                </md-input-container>
+                <md-input-container class = "full-width" *ngIf="resType.properties[prop.key] !== undefined" >
+                    <input mdInput
+                           placeholder="Value type id"
+                           [name]="prop.value.valuetype_id"
+                           [id]="prop.value.valuetype_id"
+                           [(ngModel)]="prop.value.valuetype_id"
+                           [value]="prop.value.valuetype_id">
+                </md-input-container>
+
+            </form>
+        </md-tab>
+    </md-tab-group>
+
+</section>
+
+
+
+
+
+
+<footer class="footer">
+    <div layout="row" layout-align="center center" flex>
+        <button md-raised-button
+                class="next"
+                [color]="'primary'"
+                (click)="editResources()">
+            Edit
+        </button>
+    </div>
+    <div *ngIf="editResource" layout="row" layout-align="center center" flex>
+        <button md-raised-button
+                class="save-button"
+                [color]="'primary'"
+                (click)="onSubmit(editRes.value)">
+            Save
+        </button>
+    </div>
+</footer>

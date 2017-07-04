@@ -21,6 +21,8 @@ import 'hammerjs';
 
 //
 // import other third party modules
+import {DndModule} from 'ng2-dnd';
+
 //
 
 
@@ -152,7 +154,8 @@ import { EditResourceClassComponent } from './view/modules/form/edit-resource-cl
         AppMaterialModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DndModule.forRoot()
     ],
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [
