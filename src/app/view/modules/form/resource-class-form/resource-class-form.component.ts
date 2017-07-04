@@ -16,7 +16,7 @@ import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {DefaultResourcesService} from "../../../../model/services/default-resources.service";
+import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
 import {DefaultResources, PropertyObject, ResourceClass} from "../../../../model/test-data/default-resources";
 
 
@@ -31,6 +31,7 @@ export class ResourceClassFormComponent implements OnInit {
     errorMessage: any;
 
     // data from the server
+    // TODO: rename baseOntology into basicOntology and DefaultResources into BasicOntology
     baseOntology: DefaultResources = new DefaultResources();
 
     // result to send to the server
@@ -116,14 +117,14 @@ export class ResourceClassFormComponent implements OnInit {
     ];
 
     constructor(public dialog: MdDialog,
-                private _defaultResourcesService: DefaultResourcesService) {
+                private _basicOntologyService: BasicOntologyService) {
     }
 
     ngOnInit() {
 
         this.newResource.id = undefined;
 
-        this._defaultResourcesService.getDefaultResources()
+        this._basicOntologyService.getBasicOntology()
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.baseOntology = result.getBody(DefaultResources);

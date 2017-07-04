@@ -4,7 +4,7 @@ import {NewResourceClassComponent} from './new-resource-class.component';
 import {AppRoutingModule} from "../../../../app-routing.module";
 import {AppMaterialModule} from "../../../../app-material-module";
 import {AppModule} from "../../../../app.module";
-import {DefaultResourcesService} from "../../../../model/services/default-resources.service";
+import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
 
 describe('NewResourceClassComponent', () => {
     let component: NewResourceClassComponent;
@@ -18,7 +18,7 @@ describe('NewResourceClassComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                DefaultResourcesService
+                BasicOntologyService
             ]
         })
             .compileComponents();

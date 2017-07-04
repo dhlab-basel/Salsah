@@ -15,7 +15,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
+import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
 import {DefaultResources, ResourceClass} from "../../../../model/test-data/default-resources";
 
 
@@ -99,11 +99,11 @@ export class AdvancedResourceClassComponent implements OnInit {
     };
 
 
-    constructor(private _baseOntologyService: BaseOntologyService) {}
+    constructor(private _basicOntologyService: BasicOntologyService) {}
 
     ngOnInit() {
 
-        this._baseOntologyService.getBaseOntology()
+        this._basicOntologyService.getBasicOntology()
           .subscribe(
               (result: ApiServiceResult) => {
                   this.baseOntology = result.getBody(DefaultResources);

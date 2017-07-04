@@ -14,7 +14,7 @@
 
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {DefaultResources} from "../../../../model/test-data/default-resources";
-import {DefaultResourcesService} from "../../../../model/services/default-resources.service";
+import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
 
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
@@ -131,11 +131,11 @@ export class NewResourceClassComponent implements OnInit {
         "0-n"
     ];
 
-    constructor(private _defaultResourcesService: DefaultResourcesService) {
+    constructor(private _basicOntologyService: BasicOntologyService) {
     }
 
     ngOnInit() {
-        this._defaultResourcesService.getDefaultResources()
+        this._basicOntologyService.getBasicOntology()
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.baseResources = result.getBody(DefaultResources);
