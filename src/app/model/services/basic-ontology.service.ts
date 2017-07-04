@@ -22,9 +22,7 @@ import {ApiService} from "./api.service";
 export class BasicOntologyService extends ApiService {
 
     /**
-     * returns our list of a base ontology
-     * (this method is the "old" way!)
-     * the new service is called DefaultResourcesService
+     * returns our list of a basic ontology
      *
      * @returns {Observable<any>}
      */
