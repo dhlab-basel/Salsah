@@ -21,139 +21,178 @@
 <!------------------------------------Edit resources!    ------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------->
 
-<section *ngIf="editResource" >
-    <h4>Click on the fields to edit</h4>
+<section *ngIf="editResource">
+    <p>Click on the arrows to expand and edit</p>
 
 <!------------------------------------------------------------------------------------------------------->
 <!-----------Here we will use cards for each resource and property, which will be collapsible------------>
 <!-----------Each card will have its own save button----------------------------------------------------->
 
-    <h4>Resource</h4>
-    <md-card>
-        <form #editRes="ngForm" (ngSubmit)="onSubmit(editRes.value)" class="salsah-form">
-            <md-card-content>
-                    <p><md-input-container class = "full-width">
-                            <input mdInput
-                                   placeholder="Resource Type"
-                                   name="name"
-                                   [(ngModel)]="resType.label"
-                                    value="{{resType.label}}">
-                    </md-input-container></p>
 
-                    <p><md-input-container class = "full-width">
-                        <textarea mdInput
-                                  placeholder="Resource Description"
-                                  name="description"
-                                  [(ngModel)]="resType.description">
-                            {{resType.description}}
-                        </textarea>
-                    </md-input-container></p>
-            </md-card-content>
+        <md-card>
+            <md-card-header>
+                <h4>Resource</h4>
+                <span *ngIf="focusOnResourceEdit=='inactive'">
+                        <button md-icon-button (click)="toggleMenu('resEdit')">
+                            <md-icon>keyboard_arrow_down</md-icon>
+                        </button>
+                    </span>
+                <span *ngIf="focusOnResourceEdit=='active'">
+                        <button md-icon-button (click)="toggleMenu('resEdit')">
+                            <md-icon>keyboard_arrow_up</md-icon>
+                        </button>
+                    </span>
+            </md-card-header>
+                <form #editRes="ngForm" (ngSubmit)="onSubmit(editRes.value)" class="salsah-form">
+                    <!-- toggle only card content -->
 
-            <md-card-actions>
-                <button md-raised-button
-                        class="save-button"
-                        [color]="'primary'"
-                        type="submit">
-                    Save
-                </button>
-            </md-card-actions>
-        </form>
-    </md-card>
+                    <div [@resEdit]="focusOnResourceEdit">
+                        <md-card-content>
+                                <p><md-input-container class = "full-width">
+                                        <input mdInput
+                                               placeholder="Resource Type"
+                                               name="name"
+                                               [(ngModel)]="resType.label"
+                                                value="{{resType.label}}">
+                                </md-input-container></p>
+
+                                <p><md-input-container class = "full-width">
+                                    <textarea mdInput
+                                              placeholder="Resource Description"
+                                              name="description"
+                                              [(ngModel)]="resType.description">
+                                        {{resType.description}}
+                                    </textarea>
+                                </md-input-container></p>
+                        </md-card-content>
+
+                        <md-card-actions>
+                            <button md-raised-button
+                                    class="save-button"
+                                    [color]="'primary'"
+                                    type="submit">
+                                Save
+                            </button>
+                        </md-card-actions>
+                    </div>
+                </form>
+        </md-card>
 
 
 <!------------------------------------Edit resource properties!  We use tabs  ------------------------------------------------>
 <br>
-    <h4>Properties</h4>
-    <md-divider></md-divider>
-    <md-tab-group >
-        <md-tab *ngFor="let prop of resType.properties; let i = index" label="{{prop.label}}">
-            <br>
-            <form #editProp="ngForm" (ngSubmit)="onSubmit(editProp.value)" class="salsah-form">
-                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
-                    <input mdInput
-                           placeholder="Property name"
-                           name="propertyName"
-                           [id]="prop.label"
-                           [(ngModel)]="prop.label"
-                           [value]="prop.label">
-                </md-input-container>
-                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
-                    <input mdInput
-                           placeholder="Property description"
-                           name="propDescription"
-                           [id]="prop.description"
-                           [(ngModel)]="prop.description"
-                           [value]="prop.description">
-                </md-input-container>
-                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
-                    <input mdInput
-                           placeholder="GUI type"
-                           name="guiType"
-                           [id]="prop.gui_name"
-                           [(ngModel)]="prop.gui_name"
-                           [value]="prop.gui_name">
-                </md-input-container>
-                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
-                    <input mdInput
-                           placeholder="Attributes"
-                           name="attributes"
-                           [id]="prop.attributes"
-                           [(ngModel)]="prop.attributes"
-                           [value]="prop.attributes">
-                </md-input-container>
-                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
-                    <input mdInput
-                           placeholder="Id"
-                           name="id"
-                           [id]="prop.id"
-                           [(ngModel)]="prop.id"
-                           disabled value="prop.id">
-               </md-input-container>
-                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
-                    <input mdInput
-                           placeholder="Occurence"
-                           name="occurence"
-                           [id]="prop.occurence"
-                           [(ngModel)]="prop.occurence"
-                           [value]="prop.occurence">
-                </md-input-container>
-                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
-                    <input mdInput
-                           placeholder="Value type id"
-                           name="valuetype_id"
-                           [id]="prop.valuetype_id"
-                           [(ngModel)]="prop.valuetype_id"
-                           disabled value="prop.valuetype_id">
-                </md-input-container>
-                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
-                    <input mdInput
-                           placeholder="Vocabulary"
-                           name="vocabulary"
-                           [id]="prop.vocabulary"
-                           [(ngModel)]="prop.vocabulary"
-                           [value]="prop.vocabulary">
-                </md-input-container>
-                <button md-raised-button
-                        class="save-button"
-                        [color]="'primary'"
-                        type="submit">
-                    Save
-                </button>
-            </form>
-        </md-tab>
-    </md-tab-group>
+    <md-card>
+        <md-card-header>
+           <h4>Resource properties</h4>
+            <span *ngIf="focusOnPropertiesEdit=='inactive'">
+                        <button md-icon-button (click)="toggleMenu('propEdit')">
+                            <md-icon>keyboard_arrow_down</md-icon>
+                        </button>
+                    </span>
+            <span *ngIf="focusOnPropertiesEdit=='active'">
+                        <button md-icon-button (click)="toggleMenu('propEdit')">
+                            <md-icon>keyboard_arrow_up</md-icon>
+                        </button>
+                    </span>
+        </md-card-header>
+            <!-- toggle only card content -->
+            <div [@propEdit]="focusOnPropertiesEdit">
+                <md-tab-group >
+                    <md-tab *ngFor="let prop of resType.properties; let i = index" label="{{prop.label}}">
+                        <form #editProp="ngForm" (ngSubmit)="onSubmit(editProp.value)" class="salsah-form">
+                            <br>
+                            <md-card-content>
+                                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
+                                    <input mdInput
+                                           placeholder="Property name"
+                                           name="propertyName"
+                                           [id]="prop.label"
+                                           [(ngModel)]="prop.label"
+                                           [value]="prop.label">
+                                </md-input-container>
+                                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
+                                    <input mdInput
+                                           placeholder="Property description"
+                                           name="propDescription"
+                                           [id]="prop.description"
+                                           [(ngModel)]="prop.description"
+                                           [value]="prop.description">
+                                </md-input-container>
+                                <!--<md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
+                                    <input mdInput
+                                           placeholder="GUI type"
+                                           name="guiType"
+                                           [id]="prop.gui_name"
+                                           [(ngModel)]="prop.gui_name"
+                                           [value]="prop.gui_name">
+                                </md-input-container>-->
+                                <md-select class = "full-width" *ngIf="resType.properties[i] !== undefined"
+                                           placeholder="GUI type (!!!does not register value yet)"
+                                           [name]="prop.gui_name"
+                                           [(ngModel)]="prop.gui_name">
+                                    <md-option *ngFor="let guiItem of guiItems"
+                                               [value]="prop.gui_name">
+                                        {{guiItem}}
+                                    </md-option>
+                                </md-select>
+                            <br><br>
+                                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
+                                    <input mdInput
+                                           placeholder="Attributes"
+                                           name="attributes"
+                                           [id]="prop.attributes"
+                                           [(ngModel)]="prop.attributes"
+                                           [value]="prop.attributes">
+                                </md-input-container>
+                                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
+                                    <input mdInput
+                                           placeholder="Id"
+                                           name="id"
+                                           [id]="prop.id"
+                                           [(ngModel)]="prop.id"
+                                           disabled value="prop.id">
+                               </md-input-container>
+                                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
+                                    <input mdInput
+                                           placeholder="Occurence"
+                                           name="occurence"
+                                           [id]="prop.occurence"
+                                           [(ngModel)]="prop.occurence"
+                                           [value]="prop.occurence">
+                                </md-input-container>
+                                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
+                                    <input mdInput
+                                           placeholder="Value type id"
+                                           name="valuetype_id"
+                                           [id]="prop.valuetype_id"
+                                           [(ngModel)]="prop.valuetype_id"
+                                           disabled value="prop.valuetype_id">
+                                </md-input-container>
+                                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
+                                    <input mdInput
+                                           placeholder="Vocabulary"
+                                           name="vocabulary"
+                                           [id]="prop.vocabulary"
+                                           [(ngModel)]="prop.vocabulary"
+                                           [value]="prop.vocabulary">
+                                </md-input-container>
+                            </md-card-content>
 
+                            <md-card-actions>
+                                <button md-raised-button
+                                        class="save-button"
+                                        [color]="'primary'"
+                                        type="submit">
+                                    Save
+                                </button>
+                            </md-card-actions>
+                        </form>
+                    </md-tab>
+                </md-tab-group>
+            </div>
+    </md-card>
 </section>
 
-
-<!-- close button
-<div class="salsah-module-detail-header" *ngIf="editResource">
-    <button md-mini-fab (click)="closeEditView()">
-        <md-icon>close</md-icon>
-    </button>
-</div>
--->
 
 
 <footer class="footer">
