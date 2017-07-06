@@ -64,11 +64,12 @@
     width: calc(100vw - #{$sidebar-width});
 
     .salsah-module-detail-header {
-      display: inline-flex;
+//      display: inline-flex;
       position: fixed;
-      right: 12px;
-      top: 48px;
-      width: auto;
+      right: 0;
+//      right: 12px;
+      top: 64px;
+      width: calc(100vw - #{$sidebar-width});
       z-index: 5;
     }
 

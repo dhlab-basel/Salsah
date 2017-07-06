@@ -10,6 +10,9 @@
 <!-- variant b) -->
 <!-- show the logged in user profile incl. projects list, collections and settings -->
 <div class="salsah-module with-header" *ngIf="showOwnProfile">
+
+    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+
     <md-toolbar class="salsah-module-header">
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
@@ -30,7 +33,6 @@
     </md-toolbar>
 
     <div class="salsah-sub-module">
-        <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
         <!-- switch view; not with a second router-outlet, because of the direct (parent) routes like
             "/settings", "/projects" and "/collections
         -->

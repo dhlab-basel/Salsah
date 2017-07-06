@@ -27,7 +27,7 @@ import {Search} from "../../../../model/webapi/knora/";
 export class ResultsComponent implements OnInit {
 
     isLoading: boolean = true;
-    isLoadingSubModule: boolean = true;
+    isLoadingSubModule: boolean = false;
     errorMessage: any;
 
     selectedView: string = 'list';
@@ -92,8 +92,8 @@ export class ResultsComponent implements OnInit {
     }
 
     openResource($event) {
-        if(this.size === 'large') this.size = 'small'; this.cols = 1;
         this.isLoadingSubModule = true;
+        if(this.size === 'large') this.size = 'small'; this.cols = 1;
         this.resource = $event.id;
         this.isLoadingSubModule = false;
     }

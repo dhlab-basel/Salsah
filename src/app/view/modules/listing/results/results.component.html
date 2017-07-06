@@ -1,4 +1,7 @@
 <div class="salsah-module with-header">
+
+    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+
     <md-toolbar class="salsah-module-header">
         <span>Results: {{result.nhits}}</span>
         <span class="fill-remaining-space"><!-- This fills the remaining space of the current row --></span>
@@ -12,8 +15,6 @@
     </md-toolbar>
 
     <div class="salsah-sub-module">
-
-        <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
 
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
@@ -35,14 +36,15 @@
         </div>
 
         <!-- resource detail view on the right hand side -->
-        <div  *ngIf="resource" class="salsah-module-detail" [ngClass]="position.detail">
-            <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
 
-            <div class="salsah-module-detail-content">
+        <div *ngIf="resource" class="salsah-module-detail" [ngClass]="position.detail">
+            <div class="salsah-module-detail-header">
+                <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
                 <button md-icon-button (click)="closeDetailView()" class="right">
                     <md-icon>close</md-icon>
                 </button>
-
+            </div>
+            <div class="salsah-module-detail-content">
                 <salsah-object [iri]="resource"></salsah-object>
             </div>
         </div>
