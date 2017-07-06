@@ -38,8 +38,8 @@ export class PropertyItem {
     @JsonProperty('attributes', String)
     public attributes: string = undefined;
 
-    @JsonProperty('occurrence', String)
-    public occurrence: string = undefined;
+    @JsonProperty('occurence', String, true)
+    public occurence: string = undefined;
 
     @JsonProperty('id', String)
     public id: string = undefined;

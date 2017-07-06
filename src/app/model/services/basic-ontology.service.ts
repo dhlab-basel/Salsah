@@ -19,13 +19,15 @@ import {ApiService} from "./api.service";
 
 
 @Injectable()
-export class BaseOntologyService extends ApiService {
+export class BasicOntologyService extends ApiService {
 
-    getBaseOntology(): Observable<any> {
-
-        return this.httpGet('http://localhost/salsah/v2/src/app/model/test-data/baseOntology.json', {withCredentials: false});
-//        return this.httpGet('http://localhost/baseOntology.json', {withCredentials: false});
+    /**
+     * returns our list of a basic ontology
+     *
+     * @returns {Observable<any>}
+     */
+    getBasicOntology(): Observable<any> {
+        return this.httpGet('http://localhost:4200/test-data/basic-ontology.json', {withCredentials: false});
     }
-
 
 }

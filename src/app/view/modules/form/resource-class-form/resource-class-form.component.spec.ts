@@ -3,7 +3,7 @@ import {AppModule} from '../../../../app.module';
 import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {ResourceClassFormComponent} from './resource-class-form.component';
-import {BaseOntologyService} from '../../../../model/services/base-ontology.service';
+import {BasicOntologyService} from '../../../../model/services/basic-ontology.service';
 import {MdDialogRef} from '@angular/material';
 
 
@@ -19,7 +19,7 @@ describe('ResourceClassFormComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                BaseOntologyService,
+                BasicOntologyService,
                 {provide: MdDialogRef}
             ]
         })

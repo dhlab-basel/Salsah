@@ -1,0 +1,26 @@
+.salsah-tab-group {
+  margin-bottom: -20px;
+
+  .salsah-tab-item {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline;
+    font-size: 14px;
+    font-weight: 500;
+    height: 48px;
+    line-height: 48px;
+    min-width: 160px;
+    opacity: 0.6;
+    padding: 0 12px;
+    text-align: center;
+
+    &.active {
+      border-bottom: 2px solid teal;
+    }
+
+    &:active {
+      background-color: rgba(teal, 0.08);
+      border-bottom: 2px solid teal;
+    }
+  }
+}
