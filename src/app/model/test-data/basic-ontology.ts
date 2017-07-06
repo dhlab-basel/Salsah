@@ -120,7 +120,7 @@ export class ResourceClass {
  */
 
 @JsonObject
-export class DefaultResources {
+export class BasicOntology {
 
     // defaultProperties
     @JsonProperty('defaultProperties', [PropertyItem])
@@ -130,7 +130,7 @@ export class DefaultResources {
     @JsonProperty('defaultPermissions', Permissions, true)
     public defaultPermissions: Permissions = undefined;
 
-    // defaultResources
+    // defaultResourceClasses
     @JsonProperty('resourceClasses', [ResourceClass])
     public resourceClasses: ResourceClass[] = undefined;
 

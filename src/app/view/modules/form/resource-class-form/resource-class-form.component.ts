@@ -16,8 +16,8 @@ import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {DefaultResourcesService} from "../../../../model/services/default-resources.service";
-import {DefaultResources, PropertyObject, ResourceClass} from "../../../../model/test-data/default-resources";
+import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
+import {BasicOntology, PropertyObject, ResourceClass} from "../../../../model/test-data/basic-ontology";
 
 
 @Component({
@@ -31,7 +31,7 @@ export class ResourceClassFormComponent implements OnInit {
     errorMessage: any;
 
     // data from the server
-    baseOntology: DefaultResources = new DefaultResources();
+    basicOntology: BasicOntology = new BasicOntology();
 
     // result to send to the server
     newResource: ResourceClass = new ResourceClass();
@@ -116,17 +116,17 @@ export class ResourceClassFormComponent implements OnInit {
     ];
 
     constructor(public dialog: MdDialog,
-                private _defaultResourcesService: DefaultResourcesService) {
+                private _basicOntologyService: BasicOntologyService) {
     }
 
     ngOnInit() {
 
         this.newResource.id = undefined;
 
-        this._defaultResourcesService.getDefaultResources()
+        this._basicOntologyService.getBasicOntology()
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.baseOntology = result.getBody(DefaultResources);
+                    this.basicOntology = result.getBody(BasicOntology);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -143,28 +143,28 @@ export class ResourceClassFormComponent implements OnInit {
 
     nextFormSection(cntr: number, e, resClassId?: string) {
 
-//        console.log(this.baseOntology);
+//        console.log(this.basicOntology);
 //        console.log(this.newResource);
 
         if(resClassId && cntr === 0) {
             // get the properties for this resClass and create a default resource class
 
-            this.newResource = this.baseOntology.resourceClasses[resClassId];
+            this.newResource = this.basicOntology.resourceClasses[resClassId];
 
             this.newResource.id = resClassId;
 
-            for(let rcProp in this.baseOntology.resourceClasses[resClassId].properties) {
-//                this.newResource.properties[rcProp].permissions = this.baseOntology.defaultPermissions;
+            for(let rcProp in this.basicOntology.resourceClasses[resClassId].properties) {
+//                this.newResource.properties[rcProp].permissions = this.basicOntology.defaultPermissions;
             }
 
             // add all default properties to the new resource properties
-            for(let prop in this.baseOntology.defaultProperties) {
-//                this.newResource.properties[prop] = this.baseOntology.defaultProperties[prop];
-//                this.newResource.properties[prop].permissions = this.baseOntology.defaultPermissions;
+            for(let prop in this.basicOntology.defaultProperties) {
+//                this.newResource.properties[prop] = this.basicOntology.defaultProperties[prop];
+//                this.newResource.properties[prop].permissions = this.basicOntology.defaultPermissions;
             }
 
             // set the resource default permissions:
-            this.newResource.permissions = this.baseOntology.defaultPermissions;
+            this.newResource.permissions = this.basicOntology.defaultPermissions;
             //console.log(this.newResource);
 
             console.log(this.newResource);

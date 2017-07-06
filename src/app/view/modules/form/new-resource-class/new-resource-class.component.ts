@@ -13,8 +13,8 @@
  * */
 
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {DefaultResources} from "../../../../model/test-data/default-resources";
-import {DefaultResourcesService} from "../../../../model/services/default-resources.service";
+import {BasicOntology} from "../../../../model/test-data/basic-ontology";
+import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
 
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
@@ -32,7 +32,7 @@ export class NewResourceClassComponent implements OnInit {
     errorMessage: any;
 
     // default resource class data
-    baseResources: DefaultResources = new DefaultResources();
+    basicOntology: BasicOntology = new BasicOntology();
 
     // the default resource class contains all information, which we need for the form
     // to give the user a view of the new resource class (which will be send to the server at the end)
@@ -131,15 +131,15 @@ export class NewResourceClassComponent implements OnInit {
         "0-n"
     ];
 
-    constructor(private _defaultResourcesService: DefaultResourcesService) {
+    constructor(private _basicOntologyService: BasicOntologyService) {
     }
 
     ngOnInit() {
-        this._defaultResourcesService.getDefaultResources()
+        this._basicOntologyService.getBasicOntology()
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.baseResources = result.getBody(DefaultResources);
-                    this.newResourceClass.permissions = this.baseResources.defaultPermissions;
+                    this.basicOntology = result.getBody(BasicOntology);
+                    this.newResourceClass.permissions = this.basicOntology.defaultPermissions;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -153,21 +153,21 @@ export class NewResourceClassComponent implements OnInit {
             // the user selected a file type,
             // we can set the default values for the new resource class
 
-            this.newResourceClass.label = this.baseResources.resourceClasses[resClassIri].label;
-            this.newResourceClass.description = this.baseResources.resourceClasses[resClassIri].description;
-            this.newResourceClass.permissions = this.baseResources.defaultPermissions;
-            this.newResourceClass.icon = this.baseResources.resourceClasses[resClassIri].icon;
+            this.newResourceClass.label = this.basicOntology.resourceClasses[resClassIri].label;
+            this.newResourceClass.description = this.basicOntology.resourceClasses[resClassIri].description;
+            this.newResourceClass.permissions = this.basicOntology.defaultPermissions;
+            this.newResourceClass.icon = this.basicOntology.resourceClasses[resClassIri].icon;
 
             // set all default properties
-            for (let defProp in this.baseResources.defaultProperties) {
-                this.newResourceClass.properties[defProp] = this.baseResources.defaultProperties[defProp];
+            for (let defProp in this.basicOntology.defaultProperties) {
+                this.newResourceClass.properties[defProp] = this.basicOntology.defaultProperties[defProp];
 
-                this.defaultProperties[defProp] = this.baseResources.defaultProperties[defProp];
+                this.defaultProperties[defProp] = this.basicOntology.defaultProperties[defProp];
             }
             // set all additional properties for this specific resource class
-            for (let rcProp in this.baseResources.resourceClasses[resClassIri].properties) {
-                this.newResourceClass.properties.push(this.baseResources.resourceClasses[resClassIri].properties[rcProp]);
-                this.defaultProperties.push(this.baseResources.resourceClasses[resClassIri].properties[rcProp]);
+            for (let rcProp in this.basicOntology.resourceClasses[resClassIri].properties) {
+                this.newResourceClass.properties.push(this.basicOntology.resourceClasses[resClassIri].properties[rcProp]);
+                this.defaultProperties.push(this.basicOntology.resourceClasses[resClassIri].properties[rcProp]);
             }
 
         }

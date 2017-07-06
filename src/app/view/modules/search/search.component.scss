@@ -24,7 +24,9 @@ $search-width: 720px;
   border-radius: 4px;
   display: inline-flex;
   height: 40px;
+  position: relative;
   width: $search-width;
+  z-index: 10;
 
   &:hover {
     @include box-shadow();
@@ -95,7 +97,7 @@ $search-width: 720px;
 
   &.simple-search {
     padding-top: 60px;
-    z-index: -1;
+//    z-index: -1;
 
     .salsah-previous-search-list {
 
@@ -120,6 +122,7 @@ $search-width: 720px;
 
   &.extended-search {
     // extended search menu styling
+    z-index: 20;
   }
 
 }

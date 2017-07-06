@@ -39,8 +39,8 @@ import {UserService} from './model/services/user.service';
 import {ApiService} from './model/services/api.service';
 import {ListsService} from "./model/services/lists.service";
 // just to get the basic ontology form the json file
-import {DefaultResourcesService} from "./model/services/default-resources.service";
-import {BaseOntologyService} from './model/services/base-ontology.service';
+
+import {BasicOntologyService} from './model/services/basic-ontology.service';
 
 
 import {KeyPipe} from './view/modules/other/key.pipe';
@@ -171,9 +171,8 @@ import { EditResourceClassComponent } from './view/modules/form/edit-resource-cl
         ResourceTypesService,
         SearchService,
         SessionService,
-        BaseOntologyService,
+        BasicOntologyService,
         UserService,
-        DefaultResourcesService,
         ListsService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],

@@ -29,40 +29,20 @@ import {
     animations: [
         trigger('simpleSearchMenu',
             [
-                state('inactive', style({height: '0px', display: 'none'})),
-                state('active', style({height: '560px', display: 'block'})),
-                transition('inactive => active', [
-                    style({transform: 'translateY(100%)'}),
-                    animate('100ms ease-in')
-                ]),
-                transition('active => inactive', [
-                    style({transform: 'translateY(-100%)'}),
-                    animate('100ms ease-out')
-                ])
-            ]),
+                state('inactive', style({display: 'none'})),
+                state('active', style({display: 'block'})),
+                transition('inactive => true', animate('100ms ease-in')),
+                transition('true => inactive', animate('100ms ease-out'))
+            ]
+        ),
         trigger('extendedSearchMenu',
             [
-                state('inactive', style({height: '0px', display: 'none'})),
-                state('active', style({'min-height': '560px', display: 'block'})),
-                transition('inactive => active', [
-                    style({transform: 'translateY(100%)'}),
-                    animate('100ms ease-in')
-                ]),
-                transition('active => inactive', [
-                    style({transform: 'translateY(-100%)'}),
-                    animate('100ms ease-out')
-                ])
-            ]),
-        trigger('size',
-            [
-                state('small, void', style({height: '50px', 'margin-top': '0px', 'margin-left': '0px'})),
-                state('large, void', style({height: '100px', 'margin-top': '30px'})),
-                transition(
-                    'small <=> large', [
-                        animate(500)
-                    ]
-                )
-            ])
+                state('inactive', style({display: 'none'})),
+                state('active', style({display: 'block'})),
+                transition('inactive => true', animate('100ms ease-in')),
+                transition('true => inactive', animate('100ms ease-out'))
+            ]
+        ),
     ]
 })
 

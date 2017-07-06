@@ -3,7 +3,7 @@ import {AppModule} from '../../../../app.module';
 import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {AdvancedResourceClassComponent} from './advanced-resource-class.component';
-import {BaseOntologyService} from 'app/model/services/base-ontology.service';
+import {BasicOntologyService} from 'app/model/services/basic-ontology.service';
 
 describe('AdvancedResourceClassComponent', () => {
     let component: AdvancedResourceClassComponent;
@@ -17,7 +17,7 @@ describe('AdvancedResourceClassComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                BaseOntologyService
+                BasicOntologyService
             ]
         })
             .compileComponents();

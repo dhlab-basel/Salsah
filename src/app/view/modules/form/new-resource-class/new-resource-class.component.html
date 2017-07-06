@@ -8,7 +8,7 @@
         <section [hidden]="counter!==0">
             <p md-subheader>Does the new resource have a file representation? Which one?</p>
             <md-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
-                <md-grid-tile *ngFor="let item of baseResources?.resourceClasses | key; let i = index;">
+                <md-grid-tile *ngFor="let item of basicOntology?.resourceClasses | key; let i = index;">
                     <button md-button [mdTooltip]="item.value.description" mdTooltipPosition="above"
                             (click)="nextFormSection(counter, $event, item.key)">
                         <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>

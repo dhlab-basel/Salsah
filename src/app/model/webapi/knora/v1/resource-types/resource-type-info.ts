@@ -14,7 +14,7 @@
 
 import {JsonObject, JsonProperty} from "json2typescript";
 import {PropertyItem} from "../properties/property-item";
-import {Permissions} from "../../../../test-data/default-resources";
+import {Permissions} from "../../../../test-data/basic-ontology";
 
 @JsonObject
 export class ResourceTypeInfo {
