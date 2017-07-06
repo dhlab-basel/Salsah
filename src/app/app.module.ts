@@ -21,6 +21,8 @@ import 'hammerjs';
 
 //
 // import other third party modules
+import {DndModule} from 'ng2-dnd';
+
 //
 
 
@@ -37,8 +39,8 @@ import {UserService} from './model/services/user.service';
 import {ApiService} from './model/services/api.service';
 import {ListsService} from "./model/services/lists.service";
 // just to get the basic ontology form the json file
-import {DefaultResourcesService} from "./model/services/default-resources.service";
-import {BaseOntologyService} from './model/services/base-ontology.service';
+
+import {BasicOntologyService} from './model/services/basic-ontology.service';
 
 
 import {KeyPipe} from './view/modules/other/key.pipe';
@@ -154,7 +156,8 @@ import { ProjectListsComponent } from './view/dashboard/project/project-lists/pr
         AppMaterialModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DndModule.forRoot()
     ],
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [
@@ -170,9 +173,8 @@ import { ProjectListsComponent } from './view/dashboard/project/project-lists/pr
         ResourceTypesService,
         SearchService,
         SessionService,
-        BaseOntologyService,
+        BasicOntologyService,
         UserService,
-        DefaultResourcesService,
         ListsService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
