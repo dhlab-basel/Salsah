@@ -28,7 +28,7 @@ export class UserSelectComponent implements OnInit {
 
     public form: any = {
         user: {
-            existingUser: 'Add an existing user',
+            existingUser: 'Add a new user to the team',
             title: 'Create a new user account',
         }
     };
