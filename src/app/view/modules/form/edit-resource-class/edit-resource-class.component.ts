@@ -55,13 +55,20 @@ export class EditResourceClassComponent implements OnChanges {
     focusOnResourceEdit: string = 'inactive';
     focusOnPropertiesEdit: string = 'inactive';
 
+    editResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
+
+
     guiItems: string[] = [
-        "Text",
-        "Richtext",
-        "Text area",
-        "Dropdown menu",
-        "Number field",
-        "Date field",
+
+            "Text",
+            "Richtext",
+            "Text area",
+            "Dropdown menu",
+            "Number field",
+            "Date field",
+            "Searchbox"
+
+
     ];
 
 
@@ -79,8 +86,9 @@ export class EditResourceClassComponent implements OnChanges {
                     this.resType = result.getBody(ResourceType).restype_info;
 //                    let tmpResTypeInfo: ResourceTypeInfo = result.getBody(ResourceTypeInfo);
 //                    console.log(tmpResTypeInfo.restype_info.label);
-                    console.log(this.resType);
+//                    console.log(this.resType);
                     this.selectedRow = this.index;
+                    this.editResourceClass.properties= this.resType.properties;
                     // disable the progress loader of the submodule
 //                    this.loadingSubmodule.emit(this.isLoadingSubModule);
                 },
@@ -124,6 +132,10 @@ export class EditResourceClassComponent implements OnChanges {
         }
     }
 
-
+    setGUIname(index: number, event) {
+        if (this.editResourceClass.properties[index] !== undefined) {
+            this.editResourceClass.properties[index].gui_name = event.value;
+        }
+    }
 
 }

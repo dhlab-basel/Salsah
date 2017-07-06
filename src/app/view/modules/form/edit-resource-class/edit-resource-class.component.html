@@ -2,13 +2,20 @@
 <section *ngIf="!editResource" >
     <h3>{{resType.label}}</h3>
     <p >{{resType.description}}</p>
+    <form>
         <md-list class="list-group" mdTooltip="You can sort this list with drag and drop" dnd-sortable-container [sortableData]="resType.properties">
-            <md-list-item *ngFor="let prop of resType.properties; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+
+            <!--TODO assign i to prop.guiorder  -->
+
+            <md-list-item *ngFor="let prop of resType.properties; let i = index"
+                          class="list-group-item"
+                          dnd-sortable [sortableIndex]="i" >
                 <h4 md-line>{{prop.label}}</h4>
                 <p md-line>{{prop.description}}</p>
                 <p md-line>{{prop.occurence}} | {{prop.gui_name}}</p>
             </md-list-item>
         </md-list>
+    </form>
     <md-divider></md-divider>
         <p class="mute">My classes:<br/>
         <span *ngFor="let prop of resType.properties; let i = index">{{i + 1}}) {{prop.label}}<br/></span>
@@ -31,7 +38,7 @@
 
         <md-card>
             <md-card-header>
-                <h4>Resource</h4>
+                <h4>Resource: {{resType.label}}</h4>
                 <span *ngIf="focusOnResourceEdit=='inactive'">
                         <button md-icon-button (click)="toggleMenu('resEdit')">
                             <md-icon>keyboard_arrow_down</md-icon>
@@ -127,11 +134,12 @@
                                            [value]="prop.gui_name">
                                 </md-input-container>-->
                                 <md-select class = "full-width" *ngIf="resType.properties[i] !== undefined"
-                                           placeholder="GUI type (!!!does not register value yet)"
-                                           [name]="prop.gui_name"
-                                           [(ngModel)]="prop.gui_name">
+                                           placeholder="GUI type (!!!does show original value yet)"
+                                           name="gui_name"
+                                           [(ngModel)]="prop.gui_name"
+                                           (change)="setGUIname(i, $event)">
                                     <md-option *ngFor="let guiItem of guiItems"
-                                               [value]="prop.gui_name">
+                                               [value]="guiItem">
                                         {{guiItem}}
                                     </md-option>
                                 </md-select>
