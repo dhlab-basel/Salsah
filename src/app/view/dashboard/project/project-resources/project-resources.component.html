@@ -17,8 +17,8 @@
         click)="openResourceClass(resClass.id, i);" -->
 
         <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes; let i = index"
-
                       (click)="openResource(resClass.id, i);"
+                      [id]="resClass.id"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
             <md-icon md-list-avatar>{{resClass.icon}}</md-icon>

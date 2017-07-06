@@ -114,7 +114,7 @@ export class ProjectResourcesComponent implements OnInit {
         this.addResource = false;
 
         this.resClassIri = id;
-        this.propsIndex = index;
+        this.selectedRow = index;
         this.isLoadingSubModule = false;
 
 
