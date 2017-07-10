@@ -1,6 +1,8 @@
 <!-- select an existing user to add it to a project
       - if the user doesn't exist yet, create a new one by importing the user form component -->
 
+
+<h3>{{form.title}}</h3>
 <div class="user-panel">
     <!--
     <div>
@@ -13,7 +15,7 @@
     <md-input-container class="full-width">
 
         <input mdInput placeholder="User" [mdAutocomplete]="auto" [formControl]="userCtrl"
-               [placeholder]="form.user.existingUser">
+               [placeholder]="form.select">
 
         <md-autocomplete #auto="mdAutocomplete">
             <md-option *ngFor="let user of filteredUsers | async" [value]="user">
@@ -22,13 +24,13 @@
         </md-autocomplete>
     </md-input-container>
 
-    <!--
     <div>
-        <button md-button class="suffix" >
-            {{addUser}}
+        <button md-icon-button class="suffix" >
+            <md-icon>add</md-icon>
         </button>
     </div>
-    -->
 </div>
-
-
+{{form.or}}
+<button md-raised-button (click)="openUserForm()">
+    {{form.create}}
+</button>

@@ -3,11 +3,11 @@ import {AppModule} from '../../../../app.module';
 import {AppMaterialModule} from '../../../../app-material-module';
 import {UserService} from '../../../../model/services/user.service';
 import {MdDialogRef} from '@angular/material';
-import {UserSelectComponent} from './user-select.component';
+import {NewUserComponent} from './new-user.component';
 
-describe('UserSelectComponent', () => {
-    let component: UserSelectComponent;
-    let fixture: ComponentFixture<UserSelectComponent>;
+describe('NewUserComponent', () => {
+    let component: NewUserComponent;
+    let fixture: ComponentFixture<NewUserComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -24,7 +24,7 @@ describe('UserSelectComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(UserSelectComponent);
+        fixture = TestBed.createComponent(NewUserComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

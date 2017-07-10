@@ -88,7 +88,7 @@ import {ProgressIndicatorComponent} from './view/modules/other/progress-indicato
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
 import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
 
-import { UserSelectComponent } from './view/modules/form/user-select/user-select.component';
+import { NewUserComponent } from './view/modules/form/new-user/new-user.component';
 import { DevelopmentComponent } from './view/test/development/development.component';
 
 import { MessageComponent } from './view/modules/message/message.component';
@@ -138,7 +138,7 @@ import { EditResourceClassComponent } from './view/modules/form/edit-resource-cl
         ProgressIndicatorComponent,
         ProgressStepperComponent,
         AdvancedResourceClassComponent,
-        UserSelectComponent,
+        NewUserComponent,
         DevelopmentComponent,
         MessageComponent,
         NewResClassComponent,

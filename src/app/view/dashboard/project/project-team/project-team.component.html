@@ -1,12 +1,7 @@
 <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
     <h2 md-header>Organize your team</h2>
 
-    <salsah-user-select></salsah-user-select>
-
     <md-list>
-        <br>
-        <md-divider></md-divider>
-        <br>
         <h3 md-subheader>Project Member</h3>
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
@@ -30,6 +25,8 @@
         </md-list-item>
         -->
     </md-list>
+    <md-divider></md-divider>
+    <salsah-new-user></salsah-new-user>
 </div>
 
 

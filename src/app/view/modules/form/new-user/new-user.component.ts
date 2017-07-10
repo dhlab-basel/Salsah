@@ -9,28 +9,26 @@ import {UserFormComponent} from "../user-form/user-form.component";
 import {MdDialog} from "@angular/material";
 
 @Component({
-    selector: 'salsah-user-select',
-    templateUrl: './user-select.component.html',
-    styleUrls: ['./user-select.component.scss']
+    selector: 'salsah-new-user',
+    templateUrl: './new-user.component.html',
+    styleUrls: ['./new-user.component.scss']
 })
-export class UserSelectComponent implements OnInit {
+export class NewUserComponent implements OnInit {
 
     errorMessage: any = undefined;
 
-    addUser: string = 'Create new user';
-
     // to add a user to a project, we need a list of all users first; here's the variable
     users: UsersList;
-    usersList: string[] = ['+ Create new user'];
-    // we can use the list of users in the md autocomplete input field; in that case, we need some controllers
+    usersList: string[] = [];
+    // we can use the list of users in the md auto complete input field; in that case, we need some controllers
     userCtrl: FormControl = new FormControl();
     filteredUsers: Observable<string[]>;
 
     public form: any = {
-        user: {
-            existingUser: 'Add a new user to the team',
-            title: 'Create a new user account',
-        }
+        title: 'Add a new user to the team',
+        select: 'by selecting',
+        or: 'OR',
+        create: 'create a new user account'
     };
 
     constructor(public _userService: UserService,
@@ -69,7 +67,7 @@ export class UserSelectComponent implements OnInit {
     }
 
 
-    addNewUser() {
+    openUserForm() {
         let dialogRef = this.dialog.open(UserFormComponent);
         dialogRef.afterClosed().subscribe(result => {
             console.log(result);
