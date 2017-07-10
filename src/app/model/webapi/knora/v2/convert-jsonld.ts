@@ -53,7 +53,8 @@ export module ConvertJSONLD {
             type: resourceJSONLD['@type'],
             typeAsName: resourceClassAsName,
             label: resourceJSONLD[AppConfig.schemaName],
-            properties: properties
+            properties: properties,
+            incoming: []
         };
     }
 

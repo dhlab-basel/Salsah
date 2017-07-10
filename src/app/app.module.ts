@@ -28,6 +28,7 @@ import {ResourceTypesService} from "./model/services/resource-types.service";
 import {OntologyService} from "./model/services/ontology.service";
 import {CacheService} from "./model/services/cache.service";
 import {SearchService} from "./model/services/search.service";
+import {IncomingService} from "./model/services/incoming.service";
 import {SessionService} from "./model/services/session.service";
 // just to get the basic ontology form the json file
 import {BaseOntologyService} from "./model/services/base-ontology.service";
@@ -172,6 +173,7 @@ import { ReadColorValueComponent } from './view/properties/read-color-value/read
         ResourceService,
         ResourceTypesService,
         SearchService,
+        IncomingService,
         SessionService,
         BaseOntologyService,
         UserService,

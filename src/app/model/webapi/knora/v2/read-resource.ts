@@ -24,6 +24,8 @@ export interface ReadResource {
 
     label: string;
 
-    properties?: ReadProperties
+    properties?: ReadProperties;
+
+    incoming: Array<ReadResource>;
 
 }
