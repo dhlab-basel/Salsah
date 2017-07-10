@@ -20,6 +20,8 @@ export class AppConfig {
 
     public static HasProperties: string = AppConfig.KnoraApiV2WithValueObjectPath + "hasProperties";
 
+    public static Region = AppConfig.KnoraApiV2WithValueObjectPath + "Region";
+
     public static TextValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "TextValue";
     public static IntValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "IntValue";
     public static BooleanValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "BooleanValue";
@@ -48,6 +50,8 @@ export class AppConfig {
     public static ReadIntegerValue: string = "ReadIntegerValue";
     public static ReadDecimalValue: string = "ReadDecimalValue";
     public static ReadStillImageFileValue: string = "ReadStillImageFileValue";
+    public static ReadGeomValue: string = "ReadGeomValue";
+    public static ReadColorValue: string = "ReadColorValue";
 
     public static valueAsString: string = AppConfig.KnoraApiV2WithValueObjectPath + "valueAsString";
 
@@ -81,6 +85,11 @@ export class AppConfig {
     public static stillImageFileValueHasDimX = AppConfig.KnoraApiV2WithValueObjectPath + "stillImageFileValueHasDimX";
     public static stillImageFileValueHasDimY = AppConfig.KnoraApiV2WithValueObjectPath + "stillImageFileValueHasDimY";
     public static stillImageFileValueHasIIIFBaseUrl = AppConfig.KnoraApiV2WithValueObjectPath + "stillImageFileValueHasIIIFBaseUrl";
+
+    public static colorValueAsColor = AppConfig.KnoraApiV2WithValueObjectPath + "colorValueAsColor";
+    public static geometryValueAsGeometry = AppConfig.KnoraApiV2WithValueObjectPath + "GeometryValueAsGeometry";
+
+    public static hasGeometry = AppConfig.KnoraApiV2WithValueObjectPath + "hasGeometry";
 
     public static schemaName = "http://schema.org/name";
     public static schemaNumberOfItems = "http://schema.org/numberOfItems";

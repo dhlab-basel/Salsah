@@ -246,3 +246,74 @@ export class ReadStillImageFileValue implements ReadPropertyItem {
         return this.constructor.name;
     }
 }
+
+export class ReadColorValue implements ReadPropertyItem {
+
+    constructor(readonly id:string, readonly propIri, readonly colorHex:string) {
+
+    }
+
+    readonly type = AppConfig.ColorValue;
+
+    getContent(): string {
+        return this.colorHex;
+    };
+
+    getClassName():string {
+        return this.constructor.name;
+    }
+}
+
+export class Point2D {
+  constructor(public x: number, public y: number) {}
+}
+
+export class RegionGeometry {
+  constructor(public status: string,
+              public lineColor: string,
+              public lineWidth: number,
+              public points: Point2D[],
+              public type: string,
+              public radius?: Point2D
+            ) {}
+}
+
+export class ReadGeomValue implements ReadPropertyItem {
+
+    constructor(readonly id:string, readonly propIri, readonly geometryString:string) {
+
+      let geometryJSON = JSON.parse(geometryString);
+
+      let points: Point2D[] = [];
+      for (let point of geometryJSON.points) {
+        points.push(new Point2D(point.x, point.y));
+      }
+
+      let radius = undefined;
+      if (geometryJSON.radius) {
+        radius = new Point2D(geometryJSON.radius.x, geometryJSON.radius.y);
+      }
+
+      this.geometry = new RegionGeometry(
+        geometryJSON.status,
+        geometryJSON.lineColor,
+        geometryJSON.lineWidth,
+        points,
+        geometryJSON.type,
+        radius
+      );
+
+    }
+
+    readonly geometry: RegionGeometry;
+
+    readonly type = AppConfig.GeomValue;
+
+    getContent(): string {
+        return this.geometryString;
+    };
+
+    getClassName():string {
+        return this.constructor.name;
+    }
+}

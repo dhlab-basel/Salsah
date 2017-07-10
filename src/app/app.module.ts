@@ -87,6 +87,8 @@ import { ReadTextValueAsXmlComponent } from './view/properties/read-text-value-a
 import { ReadIntegerValueComponent } from './view/properties/read-integer-value/read-integer-value.component';
 import { ReadDecimalValueComponent } from './view/properties/read-decimal-value/read-decimal-value.component';
 import { StillImageOSDViewerComponent } from './view/properties/still-image-osdviewer/still-image-osdviewer.component';
+import { ReadGeomValueComponent } from './view/properties/read-geom-value/read-geom-value.component';
+import { ReadColorValueComponent } from './view/properties/read-color-value/read-color-value.component';
 //
 // import all app components
 //
@@ -143,7 +145,9 @@ import { StillImageOSDViewerComponent } from './view/properties/still-image-osdv
         ReadTextValueAsXmlComponent,
         ReadIntegerValueComponent,
         ReadDecimalValueComponent,
-        StillImageOSDViewerComponent
+        StillImageOSDViewerComponent,
+        ReadGeomValueComponent,
+        ReadColorValueComponent
     ],
     imports: [
         BrowserModule,
