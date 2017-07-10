@@ -41,16 +41,22 @@ export class ApiServiceResult {
 
     /**
      * Gets the result body as instance of classObject.
+     *
      * @param classObject
      * @returns {any}
      */
     getBody(classObject?: {new(): any}): any {
-        if (!classObject) return this.body;
+
+        if (!classObject) {
+            return this.body;
+        }
+
         try {
             return JsonConvert.deserializeObject(this.body, classObject);
-        } catch(e) {
-            console.log(e);
+        } catch (e) {
+            console.error(e);
         }
+
         return null;
     }
 

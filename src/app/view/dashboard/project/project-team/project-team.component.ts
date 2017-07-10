@@ -12,16 +12,16 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
 import {ProjectsService} from "../../../../model/services/projects.service";
 import {UserService} from "../../../../model/services/user.service";
-import {ProjectMembers, ProjectItem, User} from "../../../../model/webapi/knora";
+import {ProjectItem, ProjectMembers, User} from "../../../../model/webapi/knora";
+import {UserData} from "../../../../model/webapi/knora/v1/users/user-data";
 
 @Component({
-    selector: 'salsah-project-team',
+    selector: "salsah-project-team",
     templateUrl: './project-team.component.html',
     styleUrls: ['./project-team.component.scss']
 })
@@ -35,7 +35,7 @@ export class ProjectTeamComponent implements OnInit {
 
     project: ProjectItem = new ProjectItem;
 
-    members: ProjectMembers = new ProjectMembers();
+    members: UserData[] = [];
 
     user: User;
 
@@ -58,8 +58,8 @@ export class ProjectTeamComponent implements OnInit {
 
         this._projectsService.getProjectMembersByIri(this.project.id)
             .subscribe(
-                (result: ApiServiceResult) => {
-                    this.members = result.getBody(ProjectMembers);
+                (members: UserData[]) => {
+                    this.members = members;
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
@@ -71,7 +71,9 @@ export class ProjectTeamComponent implements OnInit {
 
 
     openUser(id: string, index: number) {
-        if (this.size === 'large') this.size = 'small';
+        if (this.size === 'large') {
+            this.size = 'small';
+        }
         this.isLoadingSubModule = true;
 
         this._userService.getUserByIri(id)

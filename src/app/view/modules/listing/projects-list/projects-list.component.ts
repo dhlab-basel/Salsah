@@ -12,12 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
+import {ProjectItem} from "../../../../model/webapi/knora/";
 
 /**
  * This component has two optional attributes:
@@ -32,17 +31,17 @@ import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
  */
 
 @Component({
-    selector: 'salsah-projects-list',
-    templateUrl: './projects-list.component.html',
-    styleUrls: ['./projects-list.component.scss']
+    selector: "salsah-projects-list",
+    templateUrl: "./projects-list.component.html",
+    styleUrls: ["./projects-list.component.scss"]
 })
 
 
 export class ProjectsListComponent implements OnInit {
 
 
-    @Input('projects') projectsList: ProjectItem[];
-    @Input('listTitle') title: string;
+    @Input("projects") projects: ProjectItem[];
+    @Input("listTitle") title: string;
 
 
     // in the case of a http get request, we display the progress in the loading element
@@ -53,7 +52,7 @@ export class ProjectsListComponent implements OnInit {
     errorMessage: any = undefined;
 
     // the http get request will fill an array called projects
-//    projectsList: ProjectItem[] = [];
+    // projectsList: ProjectItem[] = [];
 
 
 
@@ -64,12 +63,12 @@ export class ProjectsListComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(this.projectsList === undefined) {
+        if (this.projects === undefined) {
             // get all projects from the service
             this._projectsService.getAllProjects()
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.projectsList = result.getBody(ProjectsList).projects;
+                    (projects: ProjectItem[]) => {
+                        this.projects = projects;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -77,16 +76,15 @@ export class ProjectsListComponent implements OnInit {
                         this.isLoading = false;
                     }
                 );
-        }
-        else {
+        } else {
             // the user data contains a list of projects; so the data is already there
             this.isLoading = false;
         }
     }
 
     openProject(id: string) {
-        localStorage.removeItem('currentProject');
-        this._router.navigate(['/project/', id]);
+        localStorage.removeItem("currentProject");
+        this._router.navigate(["/project/", id]);
     }
 
 }

@@ -12,62 +12,155 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Injectable} from "@angular/core";
+import {Observable} from "rxjs/Observable";
 
 import {ApiService} from "./api.service";
+import {Project} from "../webapi/knora/v1/projects/project";
+import {ApiServiceResult} from "./api-service-result";
+import {ApiServiceError} from "./api-service-error";
+import {ProjectItem} from "../webapi/knora/v1/projects/project-item";
+import {ReplaySubject} from "rxjs/ReplaySubject";
+import {ProjectsList} from "../webapi/knora/v1/projects/projects-list";
+import {ProjectMembers} from "../webapi/knora/v1/projects/project-members";
+import {UserData} from "../webapi/knora/v1/users/user-data";
 
 
 @Injectable()
 export class ProjectsService extends ApiService {
 
+    private projects: ReplaySubject<ProjectItem[]> = new ReplaySubject(1);
+    private activeProject: ReplaySubject<ProjectItem> = new ReplaySubject(1);
+    private projectMembers: ReplaySubject<UserData[]> = new ReplaySubject(1);
+
+    /**
+     * returns a list of all projects
+     *
+     * @returns {ReplaySubject<ProjectItem[]>}
+     */
+    getAllProjects(): ReplaySubject<ProjectItem[]> {
+
+        console.log("ProjectsService - getAllProjects");
+
+        this.httpGet("/projects")
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    const projectResponse: ProjectsList = result.getBody(ProjectsList);
+                    const projects: ProjectItem[] = projectResponse.projects;
+                    // console.log("ProjectsService - getAllProjects - projects: " + JSON.stringify(projects));
+                    this.projects.next(projects);
+                },
+                (error: ApiServiceError) => {
+                    const errorMessage = <any>error;
+                    console.log("ProjectsService - getAllProjects - error: " + errorMessage);
+                    throw error;
+                }
+            );
+
+
+        return this.projects;
+    }
+
     /**
      * returns a project object
      *
      * @param iri (= project iri)
-     * @returns {Observable<any>}
+     * @returns {ReplaySubject<ProjectItem>}
      */
-    getProjectByIri(iri: string): Observable<any> {
-        return this.httpGet("/projects/" + encodeURIComponent(iri));
+    getProjectByIri(iri: string): ReplaySubject<ProjectItem> {
+        console.log("ProjectsService - getProjectByIri: " + iri);
+
+        this.httpGet("/projects/" + encodeURIComponent(iri))
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    const projectResponse: Project = result.getBody(Project);
+                    const project: ProjectItem = projectResponse.project_info;
+                    this.activeProject.next(project);
+                },
+                (error: ApiServiceError) => {
+                    const errorMessage = <any>error;
+                    console.log(errorMessage);
+                    throw error;
+                }
+            );
+
+        return this.activeProject;
     }
 
     /**
      * returns a project object
      *
      * @param shortname
-     * @returns {Observable<any>}
+     * @returns {ReplaySubject<ProjectItem>}
      */
-    getProjectByShortname(shortname: string): Observable<any> {
-        return this.httpGet("/projects/" + shortname + "?identifier=shortname");
-    }
+    getProjectByShortname(shortname: string): ReplaySubject<ProjectItem> {
 
-    /**
-     * returns a list of all projects
-     *
-     * @returns {Observable<any>}
-     */
-    getAllProjects(): Observable<any> {
-        return this.httpGet("/projects");
+        console.log("ProjectsService - getProjectByShortname: " + shortname);
+
+        this.httpGet("/projects/" + shortname + "?identifier=shortname")
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    const projectResponse: Project = result.getBody(Project);
+                    const project: ProjectItem = projectResponse.project_info;
+                    this.activeProject.next(project);
+                },
+                (error: ApiServiceError) => {
+                    const errorMessage = <any>error;
+                    console.log("ProjectsService - getProjectByShortname - error: " + errorMessage);
+                    throw error;
+                }
+            );
+
+        return this.activeProject;
     }
 
     /**
      * returns all project members
      *
      * @param iri (= project iri)
-     * @returns {Observable<any>}
+     * @returns {ReplaySubject<UserData[]>}
      */
-    getProjectMembersByIri(iri: string): Observable<any> {
-        return this.httpGet("/projects/members/" + encodeURIComponent(iri));
+    getProjectMembersByIri(iri: string): ReplaySubject<UserData[]> {
+        this.httpGet("/projects/members/" + encodeURIComponent(iri))
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    const members: UserData[] = result.getBody(ProjectMembers).projectMembers;
+                    console.log("ProjectsService - getProjectMembersByIri - members: " + JSON.stringify(members));
+                    this.projectMembers.next(members);
+                },
+                (error: ApiServiceError) => {
+                    const errorMessage = <any>error;
+                    console.log("ProjectsService - getProjectMembersByIri - error: " + errorMessage);
+                    throw error;
+                }
+            );
+
+        return this.projectMembers;
     }
 
     /**
      * returns all project members
      *
      * @param shortname (= project shortname)
-     * @returns {Observable<any>}
+     * @returns {ReplaySubject<UserData[]>}
      */
-    getProjectMembersByShortname(shortname: string): Observable<any> {
-        return this.httpGet("/projects/members/" + shortname + "?identifier=shortname");
+    getProjectMembersByShortname(shortname: string): ReplaySubject<UserData[]> {
+
+        this.httpGet("/projects/members/" + shortname + "?identifier=shortname")
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    const members: UserData[] = result.getBody(ProjectMembers).projectMembers;
+                    console.log("ProjectsService - getProjectMembersByShortname - members: " + JSON.stringify(members));
+                    this.projectMembers.next(members);
+                },
+                (error: ApiServiceError) => {
+                    const errorMessage = <any>error;
+                    console.log("ProjectsService - getProjectMembersByIri - error: " + errorMessage);
+                    throw error;
+                }
+            );
+
+        return this.projectMembers;
     }
 
 

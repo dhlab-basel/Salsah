@@ -10,7 +10,7 @@
         <h3 md-subheader>Project Member</h3>
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
-        <md-list-item *ngFor="let member of members.members; let i = index"
+        <md-list-item *ngFor="let member of members; let i = index"
                       (click)="openUser(member.user_id, i);"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">

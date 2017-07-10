@@ -18,11 +18,12 @@ import {ApiServiceResult} from "../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../model/services/api-service-error";
 import {ProjectsService} from "../../../model/services/projects.service";
 import {Project} from "../../../model/webapi/knora";
+import {ProjectItem} from "../../../model/webapi/knora/v1/projects/project-item";
 
 @Component({
-    selector: 'salsah-project',
-    templateUrl: './project.component.html',
-    styleUrls: ['./project.component.scss']
+    selector: "salsah-project",
+    templateUrl: "./project.component.html",
+    styleUrls: ["./project.component.scss"]
 })
 export class ProjectComponent implements OnInit {
 
@@ -31,26 +32,26 @@ export class ProjectComponent implements OnInit {
     errorMessage: string = undefined;
     project: Project = new Project();
 
-    projectRoute: string = '/project/';
+    projectRoute: string = "/project/";
 
-    firstTabClass: string = 'active';
+    firstTabClass: string = "active";
 
     public menu: any = [
         {
-            name: 'Team',
-            route: 'team'
+            name: "Team",
+            route: "team"
         },
         {
-            name: 'Resources',
-            route: 'resources'
+            name: "Resources",
+            route: "resources"
         },
         {
-            name: 'Lists',
-            route: 'lists'
+            name: "Lists",
+            route: "lists"
         },
         {
-            name: 'Advanced',
-            route: 'advanced'
+            name: "Advanced",
+            route: "advanced"
         }
     ];
 
@@ -71,32 +72,31 @@ export class ProjectComponent implements OnInit {
     ngOnInit() {
 
         this._route.params.subscribe((params: Params) => {
-            this.cur_project = params['pid'];
+            this.cur_project = params["pid"];
             this.projectRoute += this.cur_project;
 
-            this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
+            this.firstTabClass = (this._router.url === this.projectRoute ? "active" : undefined);
 
 
             // get the project information
             this._projectsService.getProjectByShortname(this.cur_project)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.project = result.getBody(Project);
+                    (project: ProjectItem) => {
                         this.isLoading = false;
-                        localStorage.setItem('currentProject', JSON.stringify(
-                            this.project.project_info
+                        localStorage.setItem("currentProject", JSON.stringify(
+                            project
                         ))
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
-                        localStorage.removeItem('currentProject');
+                        localStorage.removeItem("currentProject");
                     }
                 );
 
         });
 //        this.auth = SessionService.checkAuth();
 
-        if(this.cur_project === 'new') {
+        if (this.cur_project === "new") {
             alert("Create a new project!?");
         }
 
@@ -107,7 +107,7 @@ export class ProjectComponent implements OnInit {
     }
 
     enableFirstTab() {
-        this.firstTabClass = 'active';
+        this.firstTabClass = "active";
     }
 
 }
