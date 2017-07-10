@@ -21,19 +21,21 @@ $search-width: 720px;
 
 .user-panel {
 //  background-color: $bright;
-  border-radius: 4px;
-  display: inline-flex;
-  height: 40px;
-  position: relative;
-  width: $search-width;
-  z-index: 10;
+
 
   &:hover {
 //    @include box-shadow();
   }
 
-  div {
-    display: inline-block;
+  .select-user {
+//    display: inline-block;
+    border-radius: 4px;
+    display: inline-flex;
+    height: 40px;
+    margin-bottom: 24px;
+    position: relative;
+    width: $search-width;
+    z-index: 10;
 
     &.input-field {
       flex: 1;
@@ -70,18 +72,9 @@ $search-width: 720px;
       }
     }
   }
-  //    padding: 2px;
-  &.small {
-    //        width: 560px;
-  }
 
-  &.large {
-    //        width: 600px;
-  }
-
-  &.active {
-//    @include box-shadow();
-    //        border-bottom: 2px solid $bright;
+  .linebreak {
+    height: 48px;
   }
 
 }
