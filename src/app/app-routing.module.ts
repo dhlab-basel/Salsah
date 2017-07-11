@@ -36,7 +36,6 @@ import {ProgressStepperComponent} from "./view/modules/other/progress-stepper/pr
 import {MessageComponent} from "./view/modules/message/message.component";
 import {NewResClassComponent} from "./view/test/development/new-res-class/new-res-class.component";
 import {NewResourceClassComponent} from "./view/modules/form/new-resource-class/new-resource-class.component";
-import {AutocompleteComponent} from "./view/test/development/autocomplete/autocomplete.component";
 
 const appRoutes: Routes = [
     {
@@ -143,10 +142,6 @@ const appRoutes: Routes = [
             {
                 path: 'message',
                 component: MessageComponent
-            },
-            {
-                path: 'ac',
-                component: AutocompleteComponent
             }
         ]
 
