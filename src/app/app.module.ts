@@ -98,6 +98,7 @@ import { NewResourceClassComponent } from './view/modules/form/new-resource-clas
 import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
 import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
 import { AutocompleteComponent } from './view/test/development/autocomplete/autocomplete.component';
+import { SortByPipe } from './view/modules/other/sort-by.pipe';
 
 @NgModule({
     declarations: [
@@ -146,7 +147,8 @@ import { AutocompleteComponent } from './view/test/development/autocomplete/auto
         NewResourceClassComponent,
         OsdViewerComponent,
         EditResourceClassComponent,
-        AutocompleteComponent
+        AutocompleteComponent,
+        SortByPipe
     ],
     imports: [
         BrowserModule,
