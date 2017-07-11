@@ -97,6 +97,7 @@ import { NewResourceClassComponent } from './view/modules/form/new-resource-clas
 
 import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
 import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
+import { AutocompleteComponent } from './view/test/development/autocomplete/autocomplete.component';
 
 @NgModule({
     declarations: [
@@ -144,7 +145,8 @@ import { EditResourceClassComponent } from './view/modules/form/edit-resource-cl
         NewResClassComponent,
         NewResourceClassComponent,
         OsdViewerComponent,
-        EditResourceClassComponent
+        EditResourceClassComponent,
+        AutocompleteComponent
     ],
     imports: [
         BrowserModule,

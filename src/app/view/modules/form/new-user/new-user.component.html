@@ -15,12 +15,15 @@
 
         <md-input-container class="full-width">
 
-            <input mdInput placeholder="User" [mdAutocomplete]="auto" [formControl]="userCtrl"
+            <input mdInput
+                   placeholder="User"
+                   [mdAutocomplete]="auto"
+                   [formControl]="userCtrl"
                    [placeholder]="form.select">
 
             <md-autocomplete #auto="mdAutocomplete">
-                <md-option *ngFor="let user of filteredUsers | async" [value]="user">
-                    {{ user }}
+                <md-option *ngFor="let user of reactiveUsers | async" [value]="user.iri">
+                    {{ user.name }}
                 </md-option>
             </md-autocomplete>
         </md-input-container>

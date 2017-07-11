@@ -1,5 +1,10 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {FormControl, NgModel} from "@angular/forms";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormControl, NgModel} from '@angular/forms';
+import {Observable} from "rxjs";
+// OR !??
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/map';
+
 import {MdDialog} from "@angular/material";
 
 import {UsersList} from "app/model/webapi/knora/";
@@ -7,10 +12,6 @@ import {UserFormComponent} from "../user-form/user-form.component";
 import {UserService} from "../../../../model/services/user.service";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {Observable} from "rxjs";
-
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
 
 @Component({
     selector: 'salsah-new-user',
@@ -20,26 +21,28 @@ import 'rxjs/add/operator/map';
 
 export class NewUserComponent implements OnInit {
 
+    // this component uses a service,
+    // so we define an empty errorMessage to have one if needed
     errorMessage: any = undefined;
 
-    // to add a user to a project, we need a list of all users first; here's the variable
-    users: UsersList;
-    usersList: string[] = [];
-    // we can use the list of users in the md auto complete input field; in that case, we need some controllers
+    // to add a user to a project, we need a list of all users first
+    // list of users from the API
+    usersList: UsersList;
+    // list of users for the md input autocomplete
+    users: any = [];
+
+    // for the form (md input autocomplete) we need some controllers
     userCtrl: FormControl;
+
+    // and now some variables to store the value of the selected user
     currentUser = '';
-
-    topHeightCtrl = new FormControl(0);
-
     reactiveUsers: any;
     tdUsers: any[];
 
-    tdDisabled = false;
-
+    // setting to reset the md input autocomplete
     @ViewChild(NgModel) modelDir: NgModel;
 
-    filteredUsers: any;
-
+    // language setup
     public form: any = {
         title: 'Add a new user to the team',
         select: 'by selecting',
@@ -50,18 +53,14 @@ export class NewUserComponent implements OnInit {
     constructor(public _userService: UserService,
                 public dialog: MdDialog) {
 
-        this.tdUsers = this.usersList;
+        this.tdUsers = this.users;
 
         this.userCtrl = new FormControl();
 
         this.reactiveUsers = this.userCtrl.valueChanges
             .startWith(this.userCtrl.value)
             .map(val => this.displayFn(val))
-            .map(name => this.filterUsers(name))
-
-        this.filteredUsers = this.userCtrl.valueChanges
-            .startWith(null)
-            .map(name => this.filterUsers(name))
+            .map(name => this.filterUsers(name));
     }
 
     ngOnInit() {
@@ -69,17 +68,21 @@ export class NewUserComponent implements OnInit {
         this._userService.getAllUsers()
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.users = result.getBody(UsersList);
+                    this.usersList = result.getBody(UsersList);
 //              let tempUsersList: string[] = [];
                     let i: number = 1;
-                    for (let u of this.users.users) {
-                        this.usersList[i] = u.firstname + ' ' + u.lastname + ' (' + u.email + ')';
+                    for (let u of this.usersList.users) {
+                        this.users[i] = {
+                            iri: u.user_id,
+                            name: u.lastname + ', ' + u.firstname + ' (' + u.email + ')'
+                        };
+//                        this.usersList[i] = u.lastname + ', ' + u.firstname + ' (' + u.email + ')';
                         i++;
                     }
 
-                    this.usersList.sort();
+                    this.users.sort();
 
-                    console.log(this.usersList);
+                    console.log(this.users);
 
                 },
                 (error: ApiServiceError) => {
@@ -98,12 +101,13 @@ export class NewUserComponent implements OnInit {
     }
 
     filterUsers(val: string) {
+        console.log(val);
         if (val) {
             const filterValue = val.toLowerCase();
-            return this.usersList.filter(user => user.toLowerCase().startsWith(filterValue));
+            return this.users.filter(user => user.name.toLowerCase().includes(filterValue));
         }
 
-        return this.usersList;
+        return this.users;
     }
 
     /*
