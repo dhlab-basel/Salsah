@@ -5,7 +5,7 @@ import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectsListComponent} from './projects-list.component';
 import {ProjectsService} from '../../../../model/services/projects.service';
 
-describe('ProjectsListComponent', () => {
+fdescribe('ProjectsListComponent', () => {
     let component: ProjectsListComponent;
     let fixture: ComponentFixture<ProjectsListComponent>;
 
@@ -29,7 +29,7 @@ describe('ProjectsListComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should modify', () => {
+    fit('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

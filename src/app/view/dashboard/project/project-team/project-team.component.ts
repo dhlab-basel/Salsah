@@ -12,23 +12,23 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from "@angular/core";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {UserService} from "../../../../model/services/user.service";
-import {ProjectItem, ProjectMembers, User} from "../../../../model/webapi/knora";
-import {UserData} from "../../../../model/webapi/knora/v1/users/user-data";
+import {Component, OnInit} from '@angular/core';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {UserService} from '../../../../model/services/user.service';
+import {ProjectItem, ProjectMembers, User} from '../../../../model/webapi/knora';
+import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 
 @Component({
-    selector: "salsah-project-team",
+    selector: 'salsah-project-team',
     templateUrl: './project-team.component.html',
     styleUrls: ['./project-team.component.scss']
 })
 export class ProjectTeamComponent implements OnInit {
 
-    isLoading: boolean = true;
-    isLoadingSubModule: boolean = true;
+    isLoading = true;
+    isLoadingSubModule = true;
     errorMessage: string = undefined;
 
     selectedRow: number;
@@ -44,7 +44,7 @@ export class ProjectTeamComponent implements OnInit {
         detail: 'right'             // bottom
     };
 
-    size: string = 'large';
+    size = 'large';
 
 
     constructor(

@@ -13,6 +13,7 @@ module.exports = function (config) {
             require('@angular/cli/plugins/karma')
         ],
         client:{
+            captureConsole: true,
             clearContext: false // leave Jasmine Spec Runner output visible in browser
         },
         files: [
@@ -49,7 +50,7 @@ module.exports = function (config) {
                     '--disable-gpu',
                     // Without a remote debugging port, Google Chrome exits immediately.
                     '--remote-debugging-port=9222',
-                ],
+                ]
             }
         }
     });

@@ -5,24 +5,24 @@ import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectTeamComponent} from './project-team.component';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {UserService} from '../../../../model/services/user.service';
-import {ProjectItem} from "../../../../model/webapi/knora/v1/projects/project-item";
+import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
 
-describe('ProjectTeamComponent', () => {
+fdescribe('ProjectTeamComponent', () => {
     let component: ProjectTeamComponent;
     let fixture: ComponentFixture<ProjectTeamComponent>;
 
-    let testProject: ProjectItem = {
-        "shortname": "images",
-        "description": "A demo project of a collection of images",
-        "institution": null,
-        "logo": null,
-        "dataNamedGraph": "http://www.knora.org/data/images",
-        "id": "http://data.knora.org/projects/images",
-        "status": true,
-        "keywords": "images, collection",
-        "name": "Image Collection Demo",
-        "ontologyNamedGraph": "http://www.knora.org/ontology/images",
-        "selfjoin": false
+    const testProject: ProjectItem = {
+        'shortname': 'images',
+        'description': 'A demo project of a collection of images',
+        'institution': null,
+        'logo': null,
+        'dataNamedGraph': 'http://www.knora.org/data/images',
+        'id': 'http://data.knora.org/projects/images',
+        'status': true,
+        'keywords': 'images, collection',
+        'name': 'Image Collection Demo',
+        'ontologyNamedGraph': 'http://www.knora.org/ontology/images',
+        'selfjoin': false
     };
 
     beforeEach(async(() => {
@@ -44,13 +44,13 @@ describe('ProjectTeamComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(localStorage, 'getItem').and.callFake( (key:string):String => {
+        spyOn(localStorage, 'getItem').and.callFake( (key: string): String => {
             return store[key] || null;
         });
-        spyOn(localStorage, 'removeItem').and.callFake((key:string):void =>  {
+        spyOn(localStorage, 'removeItem').and.callFake((key: string): void =>  {
             delete store[key];
         });
-        spyOn(localStorage, 'setItem').and.callFake((key:string, value:string):string =>  {
+        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string =>  {
             return store[key] = <any>value;
         });
         spyOn(localStorage, 'clear').and.callFake(() =>  {
@@ -67,8 +67,11 @@ describe('ProjectTeamComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should get the project data', () => {
-        expect<any>(localStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
+    fit('should be created', () => {
         expect(component).toBeTruthy();
+    });
+
+    fit('should get the project data', () => {
+        expect<any>(localStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
     });
 });

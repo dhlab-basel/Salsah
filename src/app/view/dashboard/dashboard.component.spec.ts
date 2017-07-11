@@ -5,7 +5,7 @@ import {AppRoutingModule} from '../../app-routing.module';
 import {DashboardComponent} from './dashboard.component';
 import {ProjectsService} from '../../model/services/projects.service';
 
-describe('DashboardComponent', () => {
+fdescribe('DashboardComponent', () => {
     let component: DashboardComponent;
     let fixture: ComponentFixture<DashboardComponent>;
 
@@ -29,7 +29,7 @@ describe('DashboardComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should modify', () => {
+    fit('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

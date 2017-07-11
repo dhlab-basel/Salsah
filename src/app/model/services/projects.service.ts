@@ -12,19 +12,17 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Observable";
+import {Injectable} from '@angular/core';
 
-import {ApiService} from "./api.service";
-import {Project} from "../webapi/knora/v1/projects/project";
-import {ApiServiceResult} from "./api-service-result";
-import {ApiServiceError} from "./api-service-error";
-import {ProjectItem} from "../webapi/knora/v1/projects/project-item";
-import {ReplaySubject} from "rxjs/ReplaySubject";
-import {ProjectsList} from "../webapi/knora/v1/projects/projects-list";
-import {ProjectMembers} from "../webapi/knora/v1/projects/project-members";
-import {UserData} from "../webapi/knora/v1/users/user-data";
-
+import {ApiService} from './api.service';
+import {Project} from '../webapi/knora/v1/projects/project';
+import {ApiServiceResult} from './api-service-result';
+import {ApiServiceError} from './api-service-error';
+import {ProjectItem} from '../webapi/knora/v1/projects/project-item';
+import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {ProjectsList} from '../webapi/knora/v1/projects/projects-list';
+import {ProjectMembers} from '../webapi/knora/v1/projects/project-members';
+import {UserData} from '../webapi/knora/v1/users/user-data';
 
 @Injectable()
 export class ProjectsService extends ApiService {
@@ -40,9 +38,9 @@ export class ProjectsService extends ApiService {
      */
     getAllProjects(): ReplaySubject<ProjectItem[]> {
 
-        console.log("ProjectsService - getAllProjects");
+        console.log('ProjectsService - getAllProjects');
 
-        this.httpGet("/projects")
+        this.httpGet('/projects')
             .subscribe(
                 (result: ApiServiceResult) => {
                     const projectResponse: ProjectsList = result.getBody(ProjectsList);
@@ -51,8 +49,7 @@ export class ProjectsService extends ApiService {
                     this.projects.next(projects);
                 },
                 (error: ApiServiceError) => {
-                    const errorMessage = <any>error;
-                    console.log("ProjectsService - getAllProjects - error: " + errorMessage);
+                    console.error(error);
                     throw error;
                 }
             );
@@ -68,9 +65,9 @@ export class ProjectsService extends ApiService {
      * @returns {ReplaySubject<ProjectItem>}
      */
     getProjectByIri(iri: string): ReplaySubject<ProjectItem> {
-        console.log("ProjectsService - getProjectByIri: " + iri);
+        console.log('ProjectsService - getProjectByIri: ' + iri);
 
-        this.httpGet("/projects/" + encodeURIComponent(iri))
+        this.httpGet('/projects/' + encodeURIComponent(iri))
             .subscribe(
                 (result: ApiServiceResult) => {
                     const projectResponse: Project = result.getBody(Project);
@@ -78,8 +75,7 @@ export class ProjectsService extends ApiService {
                     this.activeProject.next(project);
                 },
                 (error: ApiServiceError) => {
-                    const errorMessage = <any>error;
-                    console.log(errorMessage);
+                    console.error(error);
                     throw error;
                 }
             );
@@ -95,9 +91,9 @@ export class ProjectsService extends ApiService {
      */
     getProjectByShortname(shortname: string): ReplaySubject<ProjectItem> {
 
-        console.log("ProjectsService - getProjectByShortname: " + shortname);
+        console.log('ProjectsService - getProjectByShortname: ' + shortname);
 
-        this.httpGet("/projects/" + shortname + "?identifier=shortname")
+        this.httpGet('/projects/' + shortname + '?identifier=shortname')
             .subscribe(
                 (result: ApiServiceResult) => {
                     const projectResponse: Project = result.getBody(Project);
@@ -105,8 +101,7 @@ export class ProjectsService extends ApiService {
                     this.activeProject.next(project);
                 },
                 (error: ApiServiceError) => {
-                    const errorMessage = <any>error;
-                    console.log("ProjectsService - getProjectByShortname - error: " + errorMessage);
+                    console.error(error);
                     throw error;
                 }
             );
@@ -121,16 +116,15 @@ export class ProjectsService extends ApiService {
      * @returns {ReplaySubject<UserData[]>}
      */
     getProjectMembersByIri(iri: string): ReplaySubject<UserData[]> {
-        this.httpGet("/projects/members/" + encodeURIComponent(iri))
+        this.httpGet('/projects/members/' + encodeURIComponent(iri))
             .subscribe(
                 (result: ApiServiceResult) => {
                     const members: UserData[] = result.getBody(ProjectMembers).projectMembers;
-                    console.log("ProjectsService - getProjectMembersByIri - members: " + JSON.stringify(members));
+                    console.log('ProjectsService - getProjectMembersByIri - members: ' + JSON.stringify(members));
                     this.projectMembers.next(members);
                 },
                 (error: ApiServiceError) => {
-                    const errorMessage = <any>error;
-                    console.log("ProjectsService - getProjectMembersByIri - error: " + errorMessage);
+                    console.error(error);
                     throw error;
                 }
             );
@@ -146,16 +140,15 @@ export class ProjectsService extends ApiService {
      */
     getProjectMembersByShortname(shortname: string): ReplaySubject<UserData[]> {
 
-        this.httpGet("/projects/members/" + shortname + "?identifier=shortname")
+        this.httpGet('/projects/members/' + shortname + '?identifier=shortname')
             .subscribe(
                 (result: ApiServiceResult) => {
                     const members: UserData[] = result.getBody(ProjectMembers).projectMembers;
-                    console.log("ProjectsService - getProjectMembersByShortname - members: " + JSON.stringify(members));
+                    console.log('ProjectsService - getProjectMembersByShortname - members: ' + JSON.stringify(members));
                     this.projectMembers.next(members);
                 },
                 (error: ApiServiceError) => {
-                    const errorMessage = <any>error;
-                    console.log("ProjectsService - getProjectMembersByIri - error: " + errorMessage);
+                    console.error(error);
                     throw error;
                 }
             );
