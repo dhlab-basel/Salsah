@@ -12,6 +12,8 @@ import {UserFormComponent} from "../user-form/user-form.component";
 import {UserService} from "../../../../model/services/user.service";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {ProjectsService} from "../../../../model/services/projects.service";
+import {ProjectMembers} from "../../../../model/webapi/knora/v1/projects/project-members";
 
 @Component({
     selector: 'salsah-new-user',
@@ -30,6 +32,11 @@ export class NewUserComponent implements OnInit {
     usersList: UsersList;
     // list of users for the md input autocomplete
     users: any = [];
+
+    // list of users in the project;
+    // we need the list of existing users, to exclude them from
+    // the auto complete list
+    projectUsersList: UsersList;
 
     // for the form (md input autocomplete) we need some controllers
     userCtrl: FormControl;
@@ -51,6 +58,7 @@ export class NewUserComponent implements OnInit {
     };
 
     constructor(public _userService: UserService,
+                public _projectsService: ProjectsService,
                 public dialog: MdDialog) {
 
         this.tdUsers = this.users;
@@ -64,6 +72,9 @@ export class NewUserComponent implements OnInit {
     }
 
     ngOnInit() {
+        // get a list of the users which are already team members;
+        // that list should be already stored in the local storage
+        let members = localStorage.getItem('currentProjectMembers');
 
         this._userService.getAllUsers()
             .subscribe(
@@ -72,36 +83,50 @@ export class NewUserComponent implements OnInit {
 //              let tempUsersList: string[] = [];
                     let i: number = 1;
                     for (let u of this.usersList.users) {
+                        let exists: string = '';
+                        if (members.indexOf(u.user_id) > -1) {
+                            console.log('exists: ' + u.user_id);
+                            exists = '* ';
+                        }
                         this.users[i] = {
                             iri: u.user_id,
-                            name: u.lastname + ', ' + u.firstname + ' (' + u.email + ')'
+                            name: exists + u.firstname + ' ' + u.lastname + ' (' + u.email + ')'
                         };
+
+
 //                        this.usersList[i] = u.lastname + ', ' + u.firstname + ' (' + u.email + ')';
                         i++;
                     }
 
-                    this.users.sort();
-
-                    console.log(this.users);
+                    this.users.sort( function(u1, u2) {
+                        if (u1.name < u2.name) {
+                            return -1;
+                        }
+                        else if (u1.name > u2.name) {
+                            return 1;
+                        }
+                        else {
+                            return 0;
+                        }
+                    });
 
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
             );
-/*
-        this.filteredUsers = this.userCtrl.valueChanges
-            .startWith(null)
-            .map(val => val ? this.filter(val) : this.usersList.slice())
-*/
+        /*
+         this.filteredUsers = this.userCtrl.valueChanges
+         .startWith(null)
+         .map(val => val ? this.filter(val) : this.usersList.slice())
+         */
     }
 
     displayFn(value: any): string {
-        return value && typeof value === 'object' ? value.name: value;
+        return value && typeof value === 'object' ? value.name : value;
     }
 
     filterUsers(val: string) {
-        console.log(val);
         if (val) {
             const filterValue = val.toLowerCase();
             return this.users.filter(user => user.name.toLowerCase().includes(filterValue));
@@ -111,11 +136,11 @@ export class NewUserComponent implements OnInit {
     }
 
     /*
-    filterUsers(val: string) {
-        return val ? this.usersList.filter(u => u.toLowerCase().indexOf(val.toLowerCase()) === 0) : this.usersList;
-//        return this.usersList.filter(option => new RegExp(`^${val}`, 'gi').test(option));
-    }
-    */
+     filterUsers(val: string) {
+     return val ? this.usersList.filter(u => u.toLowerCase().indexOf(val.toLowerCase()) === 0) : this.usersList;
+     //        return this.usersList.filter(option => new RegExp(`^${val}`, 'gi').test(option));
+     }
+     */
 
 
     openUserForm() {

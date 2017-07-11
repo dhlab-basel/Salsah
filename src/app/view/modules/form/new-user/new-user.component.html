@@ -5,38 +5,34 @@
 <h3>{{form.title}}</h3>
 <div class="user-panel">
     <div class="select-user">
-        <!--
-        <div>
-            <button md-icon-button class="prefix">
-                <md-icon>add</md-icon>
-            </button>
-        </div>
-        -->
-
+<!--
+        <button md-icon-button class="prefix">
+            <md-icon>add</md-icon>
+        </button>
+-->
         <md-input-container class="full-width">
 
             <input mdInput
-                   placeholder="User"
                    [mdAutocomplete]="auto"
                    [formControl]="userCtrl"
                    [placeholder]="form.select">
-
-            <md-autocomplete #auto="mdAutocomplete">
-                <md-option *ngFor="let user of reactiveUsers | async" [value]="user.iri">
-                    {{ user.name }}
-                </md-option>
-            </md-autocomplete>
         </md-input-container>
 
-        <div>
-            <button md-icon-button class="suffix" >
-                <md-icon>add</md-icon>
-            </button>
-        </div>
+        <button md-icon-button class="suffix" (click)="userCtrl.reset()" *ngIf="userCtrl.value && userCtrl.dirty">
+            <md-icon>close</md-icon>
+        </button>
+
+        <md-autocomplete #auto="mdAutocomplete">
+            <md-option *ngFor="let user of reactiveUsers | async" [value]="user?.name">
+                {{ user?.name }}
+            </md-option>
+        </md-autocomplete>
     </div>
+
     <div class="linebreak">
         {{form.or}}
     </div>
+
     <div class="add-user">
         <button md-raised-button (click)="openUserForm()">
             {{form.create}}

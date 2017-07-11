@@ -3,15 +3,17 @@
 
     <md-list>
         <h3 md-subheader>Project Member</h3>
+        <p>Sort by</p>
+        <button md-button (click)="sortBy(sortKey)">{{sortLabel}}</button>
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
-        <md-list-item *ngFor="let member of members.members; let i = index"
+        <md-list-item *ngFor="let member of members?.members | sortBy: sortKey; let i = index"
                       (click)="openUser(member.user_id, i);"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
             <!--<md-list-item *ngFor="let admin of project.admins">-->
             <md-icon md-list-avatar>person</md-icon>
-            <h4 md-line>{{member?.lastname}}, {{member?.firstname}}</h4>
+            <h4 md-line>{{member?.firstname}} {{member?.lastname}}</h4>
             <p md-line> {{member?.email}} </p>
         </md-list-item>
         <!--

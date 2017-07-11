@@ -46,6 +46,19 @@ export class ProjectTeamComponent implements OnInit {
 
     size: string = 'large';
 
+    sortProps: any = [
+        {
+            key: 'lastname',
+            label: 'Last name'
+        },
+        {
+            key: 'firstname',
+            label: 'First name'
+        }
+    ];
+    sortKey: string;
+    sortLabel: string;
+
 
     constructor(
         private _projectsService: ProjectsService,
@@ -54,12 +67,22 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.sortKey = this.sortProps[0].key;
+        this.sortLabel = this.sortProps[0].label;
+
         this.project = JSON.parse(localStorage.getItem('currentProject'));
 
         this._projectsService.getProjectMembersByIri(this.project.id)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.members = result.getBody(ProjectMembers);
+                    // set an array of the project members in local storage
+                    // as a list of user IRIs
+                    let currentMembers: string[] = [];
+                    for (let m of this.members.members) {
+                        currentMembers.push(m.user_id);
+                    }
+                    localStorage.setItem('currentProjectMembers', JSON.stringify(currentMembers));
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
@@ -92,6 +115,20 @@ export class ProjectTeamComponent implements OnInit {
         this.size = 'large';
         this.selectedRow = undefined;
         this.user = undefined;
+    }
+
+    sortBy(key: string) {
+
+        if(key === this.sortProps[0].key) {
+
+            this.sortKey = this.sortProps[1].key;
+            this.sortLabel = this.sortProps[1].label;
+        }
+        else {
+            this.sortKey = this.sortProps[0].key;
+            this.sortLabel = this.sortProps[0].label;
+        }
+
     }
 
 }

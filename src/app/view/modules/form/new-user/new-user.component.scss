@@ -5,10 +5,10 @@
 // disable browser's input type appearance
 //
 
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
+input[type="text"]::-webkit-search-decoration,
+input[type="text"]::-webkit-search-cancel-button,
+input[type="text"]::-webkit-search-results-button,
+input[type="text"]::-webkit-search-results-decoration {
   display: none;
 }
 
@@ -17,7 +17,7 @@ input[type="text"] {
   -webkit-appearance: none;
 }
 
-$search-width: 720px;
+$select-user-width: 360px;
 
 .user-panel {
 //  background-color: $bright;
@@ -34,7 +34,7 @@ $search-width: 720px;
     height: 40px;
     margin-bottom: 24px;
     position: relative;
-    width: $search-width;
+    width: $select-user-width;
     z-index: 10;
 
     &.input-field {
@@ -45,7 +45,7 @@ $search-width: 720px;
         font-size: 14pt;
         height: 38px;
         position: absolute;
-        width: $search-width - (2 * 40px);
+        width: $select-user-width - (2 * 40px);
 
         &:active,
         &:focus {
