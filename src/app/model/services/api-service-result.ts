@@ -54,7 +54,7 @@ export class ApiServiceResult {
         try {
             return JsonConvert.deserializeObject(this.body, classObject);
         } catch (e) {
-            console.error(e);
+            console.error('ApiServiceResult - getBody - error: ' + e);
         }
 
         return null;

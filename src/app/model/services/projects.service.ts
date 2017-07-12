@@ -27,7 +27,6 @@ import {UserData} from '../webapi/knora/v1/users/user-data';
 @Injectable()
 export class ProjectsService extends ApiService {
 
-    private projects: ReplaySubject<ProjectItem[]> = new ReplaySubject(1);
     private activeProject: ReplaySubject<ProjectItem> = new ReplaySubject(1);
     private projectMembers: ReplaySubject<UserData[]> = new ReplaySubject(1);
 
@@ -40,22 +39,22 @@ export class ProjectsService extends ApiService {
 
         console.log('ProjectsService - getAllProjects');
 
+        const allProjects: ReplaySubject<ProjectItem[]> = new ReplaySubject(1);
+
         this.httpGet('/projects')
             .subscribe(
                 (result: ApiServiceResult) => {
                     const projectResponse: ProjectsList = result.getBody(ProjectsList);
                     const projects: ProjectItem[] = projectResponse.projects;
-                    // console.log("ProjectsService - getAllProjects - projects: " + JSON.stringify(projects));
-                    this.projects.next(projects);
+                    allProjects.next(projects);
                 },
                 (error: ApiServiceError) => {
-                    console.error(error);
+                    console.error('ProjectsService - getAllProjects - error: ' + error);
                     throw error;
                 }
             );
 
-
-        return this.projects;
+        return allProjects;
     }
 
     /**
