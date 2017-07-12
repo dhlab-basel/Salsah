@@ -1,11 +1,10 @@
 <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
     <h2 md-header>Organize your resources</h2>
 
-
     <md-list>
         <md-list-item class="salsah-link"
-                      (click)="createResource()"
-                      [class.highlight]="addResource">
+                      (click)="addResource()"
+                      [class.highlight]="newResourceIsActive">
             <md-icon md-list-avatar>add</md-icon>
             <h4 md-line>Add new resource type</h4>
             <p md-line>&nbsp;</p>
@@ -52,7 +51,7 @@
     </md-list>
 </div>
 
-<div *ngIf="editResource || addResource" class="salsah-module-detail" [ngClass]="position.detail">
+<div *ngIf="editResourceIsActive || newResourceIsActive" class="salsah-module-detail" [ngClass]="position.detail">
 
     <div class="salsah-module-detail-header">
         <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
@@ -65,15 +64,15 @@
         <!-- if an error occurs: show the error message -->
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
-        <div class="edit-resource" *ngIf="editResource && !errorMessage">
+        <div class="edit-resource" *ngIf="editResourceIsActive && !errorMessage">
             <!-- edit the resource type -->
             <!-- in the next tag we could set the progress loader with (loadingSubmodule)="loadingSubmodule(true) -->
-            <salsah-edit-resource-class [iri]="resClassIri" [index]="propsIndex"></salsah-edit-resource-class>
+            <salsah-edit-resource-class [iri]="iri" [index]="selectedRow"></salsah-edit-resource-class>
         </div>
 
-        <div class="create-resource" *ngIf="addResource">
+        <div class="create-resource" *ngIf="newResourceIsActive">
             <!-- OR create a new resource class -->
-            <salsah-new-resource-class *ngIf="addResource && !errorMessage"
+            <salsah-new-resource-class *ngIf="newResourceIsActive && !errorMessage"
                                        (closeDetailView)="closeDetailView($event)">
             </salsah-new-resource-class>
         </div>

@@ -32,43 +32,53 @@ import {ProjectItem, ResourceTypes, Properties, ResourceTypeInfo, ResourceType} 
 })
 export class ProjectResourcesComponent implements OnInit {
 
+    // two progress loader:
+    // 1) for the main module
     isLoading: boolean = true;
+    // 2) for the sub module: detail view
     isLoadingSubModule: boolean = true;
+
+    // this component makes a http request (service)
+    // if something's going wrong, we need an error message "container"
     errorMessage: string = undefined;
 
+    // for the list of objects we have to know which object is active / selected
     selectedRow: number;
+    // iri of the selected resource
+    iri: string;
 
+    // project information; we get it from local storage
     project: ProjectItem = new ProjectItem;
 
+    // resource types
     resourceTypes: ResourceTypes = new ResourceTypes;
-
-    resType: ResourceTypeInfo = new ResourceTypeInfo;
-
-    addResource: boolean = false;
-    editResource: boolean = false;
-
+    // and their properties
     properties: Properties;
 
-    selectedOption: string;
+    // the sub module of this component can contain
+    // a) a form to add/create a new resource type
+    newResourceIsActive: boolean = false;
+    // OR
+    // b) a form to edit an existing resource type
+    editResourceIsActive: boolean = false;
+    // we need to know, which one is active
 
+    // definition of the position for the preview (main module) and the detail view (sub module)
+    // TODO: implement two additional possitions: top and bottom (it's a css thing)
     position = {
-        preview: 'left',        // top
-        detail: 'right'         // bottom
+        preview: 'left',        // add top
+        detail: 'right'         // add bottom
     };
 
+    // the size of the main module. It is large by default.
+    // if the the new resource module or the edit resource module is active,
+    // the size changes
     size: string = 'large';
 
-    id: string;
-    index: number;
-
-    resClassIri: string;
-    propsIndex: number;
 
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _propertiesService: PropertiesService,
-                public dialog: MdDialog) {
- //       openElem.show.subscribe((val:boolean) => this.isLoadingSubModule = val);
-    }
+                public dialog: MdDialog) { }
 
     ngOnInit() {
 
@@ -84,40 +94,29 @@ export class ProjectResourcesComponent implements OnInit {
                     this.isLoading = false;
                 }
             );
-        // Develop test: open the dialog box for new resources on the start directly
-        // this.addNewResourceClass();
     }
 
 
-    createResource() {
+    addResource() {
         if (this.size === 'large') this.size = 'small';
         this.isLoadingSubModule = true;
         this.selectedRow = undefined;
 
-        this.addResource = true;
-        this.editResource = false;
+        this.newResourceIsActive = true;
+        this.editResourceIsActive = false;
         this.isLoadingSubModule = false;
 
-
-/*
-        let dialogRef = this.dialog.open(ResourceClassFormComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            this.selectedOption = result;
-        });
-*/
     }
 
     openResource(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
         this.isLoadingSubModule = true;
-        this.editResource = true;
-        this.addResource = false;
+        this.editResourceIsActive = true;
+        this.newResourceIsActive = false;
 
-        this.resClassIri = id;
+        this.iri = id;
         this.selectedRow = index;
         this.isLoadingSubModule = false;
-
-
 
 /*
         this._propertiesService.getPropertiesByResType(id)
@@ -138,13 +137,8 @@ export class ProjectResourcesComponent implements OnInit {
     closeDetailView() {
         this.size = 'large';
         this.selectedRow = undefined;
-        this.editResource = false;
-        this.addResource = false;
-    }
-
-    loadingSubmodule(loaded: boolean) {
-        console.log(loaded);
-        this.isLoadingSubModule = loaded;
+        this.editResourceIsActive = false;
+        this.newResourceIsActive = false;
     }
 
 }
