@@ -13,6 +13,9 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
+
+
+
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
@@ -30,6 +33,11 @@ export class ProjectTeamComponent implements OnInit {
     isLoading: boolean = true;
     isLoadingSubModule: boolean = true;
     errorMessage: string = undefined;
+
+    displayedColumns = ['Firstname', 'Lastname', 'eMail', 'Status'];
+
+
+
 
     selectedRow: number;
 
@@ -68,6 +76,7 @@ export class ProjectTeamComponent implements OnInit {
 
     ngOnInit() {
         this.sortKey = this.sortProps[0].key;
+
         this.sortLabel = this.sortProps[0].label;
 
         this.project = JSON.parse(localStorage.getItem('currentProject'));
@@ -118,6 +127,8 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     sortBy(key: string) {
+
+        this.sortKey = (key == this.sortKey ? this.sortProps[1].key : this.sortProps[0].key);
 
         if(key === this.sortProps[0].key) {
 

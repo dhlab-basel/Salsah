@@ -2,6 +2,8 @@
     <h2 md-header>Organize your resources</h2>
 
     <md-list>
+
+        <!-- button to add new resource -->
         <md-list-item class="salsah-link"
                       (click)="addResource()"
                       [class.highlight]="newResourceIsActive">
@@ -9,8 +11,11 @@
             <h4 md-line>Add new resource type</h4>
             <p md-line>&nbsp;</p>
         </md-list-item>
+
         <md-divider></md-divider>
         <br>
+
+        <!-- list of existing resources in this project -->
         <h3 md-subheader>Resources (active)</h3>
         <!--  (click)="showPopup();"
         click)="openResourceClass(resClass.id, i);" -->
