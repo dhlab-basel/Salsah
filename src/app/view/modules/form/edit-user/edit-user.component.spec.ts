@@ -1,6 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material-module';
+import {UserService} from '../../../../model/services/user.service';
+import {EditUserComponent} from "./edit-user.component";
 
-import { EditUserComponent } from './edit-user.component';
 
 describe('EditUserComponent', () => {
   let component: EditUserComponent;
@@ -8,7 +11,13 @@ describe('EditUserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditUserComponent ]
+      imports: [
+        AppModule,
+        AppMaterialModule
+      ],
+      providers: [
+        UserService
+      ]
     })
     .compileComponents();
   }));
