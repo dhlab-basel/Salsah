@@ -98,6 +98,7 @@ import { NewResourceClassComponent } from './view/modules/form/new-resource-clas
 import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
 import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
 import { SortByPipe } from './view/modules/other/sort-by.pipe';
+import { EditUserComponent } from './view/modules/form/edit-user/edit-user.component';
 
 @NgModule({
     declarations: [
@@ -146,7 +147,8 @@ import { SortByPipe } from './view/modules/other/sort-by.pipe';
         NewResourceClassComponent,
         OsdViewerComponent,
         EditResourceClassComponent,
-        SortByPipe
+        SortByPipe,
+        EditUserComponent
     ],
     imports: [
         BrowserModule,

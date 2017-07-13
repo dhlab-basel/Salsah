@@ -13,14 +13,12 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-
-
-
+// services
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
 import {ProjectsService} from "../../../../model/services/projects.service";
 import {UserService} from "../../../../model/services/user.service";
+// json classes
 import {ProjectMembers, ProjectItem, User} from "../../../../model/webapi/knora";
 
 @Component({
@@ -30,30 +28,51 @@ import {ProjectMembers, ProjectItem, User} from "../../../../model/webapi/knora"
 })
 export class ProjectTeamComponent implements OnInit {
 
+    // two progress loader:
+    // 1) for the main module
     isLoading: boolean = true;
+    // 2) for the sub module: detail view
     isLoadingSubModule: boolean = true;
+
+    // this component makes a http request (service)
+    // if something's going wrong, we need an error message "container"
     errorMessage: string = undefined;
 
-    displayedColumns = ['Firstname', 'Lastname', 'eMail', 'Status'];
-
-
-
-
+    // for the list of objects we have to know which object is active / selected
     selectedRow: number;
+    // iri of the selected person
+    iri: string;
 
+    // project information; we get it from local storage
     project: ProjectItem = new ProjectItem;
 
+    // list of members in the project
     members: ProjectMembers = new ProjectMembers();
 
+    // user profile
     user: User;
 
+    // the sub module of this component can contain
+    // a) a form to create a new user and add it to the project
+    newUserIsActive: boolean = false;
+    // OR
+    // b) a form to edit an existing user
+    editUserIsActive: boolean = false;
+    // we need to know, which one is active
+
+    // definition of the position for the preview (main module) and the detail view (sub module)
     position = {
         preview: 'left',            // top
         detail: 'right'             // bottom
     };
 
+    // the size of the main module. It is large by default.
+    // if the the new resource module or the edit resource module is active,
+    // the size changes
     size: string = 'large';
 
+    // sort the list of members by lastname OR firstname.
+    // the sortBy method toggles the right setting, which is defined here
     sortProps: any = [
         {
             key: 'lastname',
@@ -69,10 +88,8 @@ export class ProjectTeamComponent implements OnInit {
     sortLabel: string;
 
 
-    constructor(
-        private _projectsService: ProjectsService,
-        private _userService: UserService
-    ) {
+    constructor(private _projectsService: ProjectsService,
+                private _userService: UserService) {
     }
 
     ngOnInit() {
@@ -102,36 +119,40 @@ export class ProjectTeamComponent implements OnInit {
             );
     }
 
+    addUser() {
+        if (this.size === 'large') this.size = 'small';
+        this.isLoadingSubModule = true;
+        this.selectedRow = undefined;
+
+        this.newUserIsActive = true;
+        this.editUserIsActive = false;
+        this.isLoadingSubModule = false;
+    }
 
     openUser(id: string, index: number) {
         if (this.size === 'large') this.size = 'small';
         this.isLoadingSubModule = true;
+        this.editUserIsActive = true;
+        this.newUserIsActive = false;
 
-        this._userService.getUserByIri(id)
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.user = result.getBody(User);
-                    this.selectedRow = index;
-                    this.isLoadingSubModule = false;
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
-                }
-            );
+        this.iri = id;
+        this.selectedRow = index;
+        this.isLoadingSubModule = false;
+
     }
 
     closeDetailView() {
         this.size = 'large';
         this.selectedRow = undefined;
-        this.user = undefined;
+        this.editUserIsActive = undefined;
+        this.newUserIsActive = undefined;
     }
 
     sortBy(key: string) {
 
 //        this.sortKey = (key == this.sortKey ? this.sortProps[1].key : this.sortProps[0].key);
 
-        if(key === this.sortProps[0].key) {
+        if (key === this.sortProps[0].key) {
 
             this.sortKey = this.sortProps[1].key;
             this.sortLabel = this.sortProps[0].label;

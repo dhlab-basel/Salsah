@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -21,8 +21,6 @@ import {ResourceTypesService} from "../../../../model/services/resource-types.se
 import {PropertiesService} from "../../../../model/services/properties.service";
 // json classes
 import {ProjectItem, ResourceTypes, Properties, ResourceTypeInfo, ResourceType} from "../../../../model/webapi/knora";
-
-// import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
 
 
 @Component({
