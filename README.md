@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dhlab-basel/Salsah.svg?branch=master)](https://travis-ci.org/dhlab-basel/Salsah)
+[![Build Status](https://travis-ci.org/dhlab-basel/Salsah.svg?branch=develop)](https://travis-ci.org/dhlab-basel/Salsah)
 
 # Salsah
 
