@@ -64,6 +64,7 @@ export class ProjectTeamComponent implements OnInit {
             label: 'First name'
         }
     ];
+    sortTitle: string = 'Sort by: ';
     sortKey: string;
     sortLabel: string;
 
@@ -77,7 +78,7 @@ export class ProjectTeamComponent implements OnInit {
     ngOnInit() {
         this.sortKey = this.sortProps[0].key;
 
-        this.sortLabel = this.sortProps[0].label;
+        this.sortLabel = this.sortProps[1].label;
 
         this.project = JSON.parse(localStorage.getItem('currentProject'));
 
@@ -128,16 +129,16 @@ export class ProjectTeamComponent implements OnInit {
 
     sortBy(key: string) {
 
-        this.sortKey = (key == this.sortKey ? this.sortProps[1].key : this.sortProps[0].key);
+//        this.sortKey = (key == this.sortKey ? this.sortProps[1].key : this.sortProps[0].key);
 
         if(key === this.sortProps[0].key) {
 
             this.sortKey = this.sortProps[1].key;
-            this.sortLabel = this.sortProps[1].label;
+            this.sortLabel = this.sortProps[0].label;
         }
         else {
             this.sortKey = this.sortProps[0].key;
-            this.sortLabel = this.sortProps[0].label;
+            this.sortLabel = this.sortProps[1].label;
         }
 
     }
