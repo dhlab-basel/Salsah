@@ -49,7 +49,7 @@ export class ProjectsService extends ApiService {
                     allProjects.next(projects);
                 },
                 (error: ApiServiceError) => {
-                    console.error('ProjectsService - getAllProjects - error: ' + error);
+                    console.error('ProjectsService - getAllProjects - error: ' + JSON.stringify(error));
                     throw error;
                 }
             );
