@@ -12,13 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Injectable} from "@angular/core";
-import {Http, RequestOptionsArgs, Response} from "@angular/http";
-import {Observable} from "rxjs";
-import {environment} from "../../../environments/environment";
-import {JsonConvert} from "json2typescript";
-import {ApiServiceError} from "./api-service-error";
-import {ApiServiceResult} from "./api-service-result";
+import {Injectable} from '@angular/core';
+import {Http, RequestOptionsArgs, Response} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import {environment} from '../../../environments/environment';
+import {JsonConvert} from 'json2typescript';
+import {ApiServiceError} from './api-service-error';
+import {ApiServiceResult} from './api-service-result';
+
 
 @Injectable()
 export class ApiService {
