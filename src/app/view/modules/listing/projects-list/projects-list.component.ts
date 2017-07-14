@@ -12,11 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectItem} from "../../../../model/webapi/knora/";
+import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {Project} from '../../../../model/webapi/knora/v1/projects/project';
 
 /**
  * This component has two optional attributes:
@@ -31,21 +31,21 @@ import {ProjectItem} from "../../../../model/webapi/knora/";
  */
 
 @Component({
-    selector: "salsah-projects-list",
-    templateUrl: "./projects-list.component.html",
-    styleUrls: ["./projects-list.component.scss"]
+    selector: 'salsah-projects-list',
+    templateUrl: './projects-list.component.html',
+    styleUrls: ['./projects-list.component.scss']
 })
 
 
 export class ProjectsListComponent implements OnInit {
 
 
-    @Input("projects") projects: ProjectItem[];
-    @Input("listTitle") title: string;
+    @Input('projects') projects: Project[];
+    @Input('listTitle') title: string;
 
 
     // in the case of a http get request, we display the progress in the loading element
-    isLoading: boolean = true;
+    isLoading = true;
 
     // with the http get request, we need also a variable for error messages;
     // just in the case if something's going wrong
@@ -67,7 +67,8 @@ export class ProjectsListComponent implements OnInit {
             // get all projects from the service
             this._projectsService.getAllProjects()
                 .subscribe(
-                    (projects: ProjectItem[]) => {
+                    (projects: Project[]) => {
+                        console.log(projects);
                         this.projects = projects;
                         this.isLoading = false;
                     },
@@ -83,8 +84,8 @@ export class ProjectsListComponent implements OnInit {
     }
 
     openProject(id: string) {
-        localStorage.removeItem("currentProject");
-        this._router.navigate(["/project/", id]);
+        localStorage.removeItem('currentProject');
+        this._router.navigate(['/project/', id]);
     }
 
 }

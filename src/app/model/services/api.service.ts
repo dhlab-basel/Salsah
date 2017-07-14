@@ -28,16 +28,16 @@ export class ApiService {
 
         const response = new ApiServiceError();
         if (error instanceof Response) {
-//            console.log(error);
+            // console.log(error);
             response.status = error.status;
             response.statusText = error.statusText;
             if (!response.statusText) {
-                response.statusText = "Connection to API endpoint failed";
+                response.statusText = 'Connection to API endpoint failed';
             }
             response.url = url;
         } else {
             response.status = 0;
-            response.statusText = "Connection to API endpoint failed";
+            response.statusText = 'Connection to API endpoint failed';
             response.url = url;
         }
 
@@ -54,8 +54,8 @@ export class ApiService {
         //
         // Json convert error handling
         //
-//        JsonConvert.debugMode = true;
-//        JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
+        // JsonConvert.debugMode = true;
+        // JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
         JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
     }
 
@@ -71,12 +71,12 @@ export class ApiService {
             options = {withCredentials: true};
         }
 
-        url = (url.slice(0, 4) === "http" ? url : environment.api + url);
+        url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
-        if (!environment.production && environment.type === "mock-api") {
+        if (!environment.production && environment.type === 'mock-api') {
             // in this case, we don't need the knora API; we're using mockup files from knora_mockups
 
-            url += ".json";
+            url += '.json';
             options = {withCredentials: false};
         }
 

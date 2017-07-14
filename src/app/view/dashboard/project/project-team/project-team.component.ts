@@ -17,8 +17,9 @@ import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {UserService} from '../../../../model/services/user.service';
-import {ProjectItem, ProjectMembers, User} from '../../../../model/webapi/knora';
 import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
+import {Project} from '../../../../model/webapi/knora/v1/projects/project';
+import {User} from '../../../../model/webapi/knora/v1/users/user';
 
 @Component({
     selector: 'salsah-project-team',
@@ -33,7 +34,7 @@ export class ProjectTeamComponent implements OnInit {
 
     selectedRow: number;
 
-    project: ProjectItem = new ProjectItem;
+    project: Project = new Project;
 
     members: UserData[] = [];
 

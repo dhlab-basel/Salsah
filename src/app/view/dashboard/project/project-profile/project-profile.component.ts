@@ -12,23 +12,23 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params} from "@angular/router";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {Project, ProjectItem} from "../../../../model/webapi/knora";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params} from '@angular/router';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {Project} from '../../../../model/webapi/knora';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
 
 
 @Component({
-    selector: "salsah-project-profile",
-    templateUrl: "./project-profile.component.html",
-    styleUrls: ["./project-profile.component.scss"]
+    selector: 'salsah-project-profile',
+    templateUrl: './project-profile.component.html',
+    styleUrls: ['./project-profile.component.scss']
 })
 export class ProjectProfileComponent implements OnInit {
 
 
     errorMessage: string = undefined;
-    projectItem: ProjectItem = new ProjectItem();
+    projectItem: Project = new Project();
 
     project: Project = new Project();
     description: any = undefined;
@@ -39,25 +39,25 @@ export class ProjectProfileComponent implements OnInit {
 
     ngOnInit() {
 
-        if (JSON.parse(localStorage.getItem("currentProject")) === null) {
+        if (JSON.parse(localStorage.getItem('currentProject')) === null) {
             // the local storage is not ready yet; or something went wrong
             // get the project from the services with the shortname from the route parameter "project"
             this._route.params.subscribe((params: Params) => {
 
-                this._projectsService.getProjectByShortname(params["pid"]).subscribe(
-                    (project: ProjectItem) => {
+                this._projectsService.getProjectByShortname(params['pid']).subscribe(
+                    (project: Project) => {
                         this.projectItem = project;
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
-                        localStorage.removeItem("currentProject");
+                        localStorage.removeItem('currentProject');
                     }
                 );
 
             });
 
         } else {
-            this.projectItem = JSON.parse(localStorage.getItem("currentProject"));
+            this.projectItem = JSON.parse(localStorage.getItem('currentProject'));
         }
 
     }

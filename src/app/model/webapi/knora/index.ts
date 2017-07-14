@@ -23,9 +23,9 @@ export * from './v1/authenticate/session';
  * Interfaces for projects
  */
 export * from './v1/projects/project';
-export * from './v1/projects/project-item';
-export * from './v1/projects/project-members';
-export * from './v1/projects/projects-list';
+export * from './v1/projects/project-members-response';
+export * from './v1/projects/project-response';
+export * from './v1/projects/projects-response';
 
 /**
  * Interfaces for resource types

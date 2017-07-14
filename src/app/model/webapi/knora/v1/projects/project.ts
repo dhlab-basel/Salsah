@@ -12,14 +12,45 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { JsonObject, JsonProperty } from 'json2typescript';
-import {ProjectItem} from "./project-item";
-
+import {JsonObject, JsonProperty} from 'json2typescript';
 
 @JsonObject
 export class Project {
 
-    @JsonProperty('project_info', ProjectItem)
-    public project_info: ProjectItem = undefined;
+//    @JsonProperty('basepath', String, true)
+//    public basepath: string = undefined;
+
+    @JsonProperty('shortname', String)
+    public shortname: string = undefined;
+
+    @JsonProperty('description', String)
+    public description: string = undefined;
+
+    @JsonProperty('institution', String, true)
+    public institution: string = undefined;
+
+    @JsonProperty('logo', String)
+    public logo: string = undefined;
+
+    @JsonProperty('dataNamedGraph', String)
+    public dataNamedGraph: string = undefined;
+
+    @JsonProperty('id', String)
+    public id: string = undefined;
+
+    @JsonProperty('status', Boolean)
+    public status: boolean = undefined;
+
+    @JsonProperty('keywords', String)
+    public keywords: string = undefined;
+
+    @JsonProperty('longname', String)
+    public name: string = undefined;
+
+    @JsonProperty('ontologyNamedGraph', String)
+    public ontologyNamedGraph: string = undefined;
+
+    @JsonProperty('selfjoin', Boolean)
+    public selfjoin: boolean = undefined;
 
 }

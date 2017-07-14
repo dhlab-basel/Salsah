@@ -16,7 +16,7 @@ import { JsonObject, JsonProperty } from 'json2typescript';
 import { UserData } from '../users/user-data';
 
 @JsonObject
-export class ProjectMembers {
+export class ProjectMembersResponse {
     @JsonProperty('members', [UserData])
     public members: UserData[] = undefined;
 }

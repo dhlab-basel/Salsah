@@ -13,14 +13,14 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {MdDialog} from "@angular/material";
+import {MdDialog} from '@angular/material';
 // services
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ResourceTypesService} from "../../../../model/services/resource-types.service";
-import {PropertiesService} from "../../../../model/services/properties.service";
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import {PropertiesService} from '../../../../model/services/properties.service';
 // json classes
-import {ProjectItem, ResourceTypes, Properties, ResourceTypeInfo, ResourceType} from "../../../../model/webapi/knora";
+import {Project, ResourceTypes, Properties, ResourceTypeInfo, ResourceType} from '../../../../model/webapi/knora';
 
 // import {ResourceClassFormComponent} from "../../../modules/form/resource-class-form/resource-class-form.component";
 
@@ -32,20 +32,20 @@ import {ProjectItem, ResourceTypes, Properties, ResourceTypeInfo, ResourceType} 
 })
 export class ProjectResourcesComponent implements OnInit {
 
-    isLoading: boolean = true;
-    isLoadingSubModule: boolean = true;
+    isLoading = true;
+    isLoadingSubModule = true;
     errorMessage: string = undefined;
 
     selectedRow: number;
 
-    project: ProjectItem = new ProjectItem;
+    project: Project = new Project;
 
     resourceTypes: ResourceTypes = new ResourceTypes;
 
     resType: ResourceTypeInfo = new ResourceTypeInfo;
 
-    addResource: boolean = false;
-    editResource: boolean = false;
+    addResource = false;
+    editResource = false;
 
     properties: Properties;
 
@@ -56,7 +56,7 @@ export class ProjectResourcesComponent implements OnInit {
         detail: 'right'         // bottom
     };
 
-    size: string = 'large';
+    size = 'large';
 
     id: string;
     index: number;

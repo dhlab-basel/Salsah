@@ -12,17 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, Inject} from '@angular/core';
-import {MdDialog, MdDialogRef} from "@angular/material";
-import {FormBuilder, Validators, FormGroup, FormControl} from "@angular/forms";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {UserService} from "../../../../model/services/user.service";
-import {ProjectItem} from "../../../../model/webapi/knora/";
-import {UsersList} from "../../../../model/webapi/knora/v1/users/users-list";
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MdDialog} from '@angular/material';
 
 import 'rxjs/add/operator/startWith';
-import {Observable} from "rxjs";
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {UserService} from '../../../../model/services/user.service';
+import {Project} from '../../../../model/webapi/knora/';
 
 @Component({
     selector: 'salsah-user-form',
@@ -36,7 +34,7 @@ export class UserFormComponent implements OnInit {
 
 
     // if no user (incl. the "create user" item) is selected, the user form fields are disabled
-    inactive: boolean = true;
+    inactive = true;
 
     // the user form (uf) to create a new user account
     uf: FormGroup;
@@ -68,18 +66,18 @@ export class UserFormComponent implements OnInit {
     // 1. card: select user or (if not exist) create a new one
     // 2. add the user to the project(s) and give him some rights: admin or member
     // how many steps has the form?
-    max_steps: number = 2;
+    max_steps = 2;
     // or define an array of steps
     steps: string[] = [
-        "Add User",
-        "Permissions",
-        "Save"
+        'Add User',
+        'Permissions',
+        'Save'
     ];
-    counter: number = 0;
+    counter = 0;
 
 
     // Do we need a project variable?
-    project: ProjectItem = new ProjectItem();
+    project: Project = new Project();
 
 
     constructor(public dialog: MdDialog,
