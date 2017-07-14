@@ -27,10 +27,10 @@
             ],
             "environmentSource": "environments/environment.ts",
             "environments": {
-                "dev": "environments/environment.ts",
+                "integration": "environments/environment.integration.ts",
+                "mock": "environments/environment.mock.ts",
                 "prod": "environments/environment.prod.ts",
-                "test": "environments/environment.test.ts",
-                "mock": "environments/environment.mock.ts"
+                "dev": "environments/environment.ts"
             }
         }
     ],
