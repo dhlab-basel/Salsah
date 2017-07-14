@@ -13,7 +13,7 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {UserProfile} from "./user-profile";
+import {UserProfile} from './user-profile';
 
 @JsonObject
 export class User {

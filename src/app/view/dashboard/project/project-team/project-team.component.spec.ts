@@ -5,7 +5,7 @@ import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectTeamComponent} from './project-team.component';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {UserService} from '../../../../model/services/user.service';
-import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
+import {Project} from '../../../../model/webapi/knora';
 import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 
@@ -13,7 +13,7 @@ describe('ProjectTeamComponent', () => {
     let component: ProjectTeamComponent;
     let fixture: ComponentFixture<ProjectTeamComponent>;
 
-    const testProject: ProjectItem = {
+    const testProject: Project = {
         'shortname': 'images',
         'description': 'A demo project of a collection of images',
         'institution': null,
