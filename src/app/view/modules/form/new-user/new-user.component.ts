@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormControl, NgModel} from '@angular/forms';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, NgModel, Validators} from '@angular/forms';
 import {Observable} from "rxjs";
 // OR !??
 import 'rxjs/add/operator/startWith';
@@ -38,6 +38,7 @@ export class NewUserComponent implements OnInit {
     // the auto complete list
     projectUsersList: UsersList;
 
+    // EXISTING user (list for auto completion)
     // for the form (md input autocomplete) we need some controllers
     userCtrl: FormControl;
 
@@ -49,17 +50,42 @@ export class NewUserComponent implements OnInit {
     // setting to reset the md input autocomplete
     @ViewChild(NgModel) modelDir: NgModel;
 
-    // language setup
+    // (NEW) user form
+    // the user form (uf) to create a new user account
+    uf: FormGroup;
+    // email and password validator
+    emailRegexp: any = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    passwordRegexp: any = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i;
+
+    // language package for all form fields...
+    // TODO: modify a language json file or db file for multilingual use; how we want to handle multi language?
     public form: any = {
         title: 'Add a new user to the team',
         select: 'by selecting',
         or: 'OR',
-        create: 'create a new user account'
+        create: 'create a new user account',
+        user: {
+            existingUser: 'Add an existing user',
+            title: 'Create a new user account',
+            firstName: 'First name',
+            lastName: 'Last name',
+            email: 'Email address',
+            emailHint: 'This will be your login name',
+            emailValidation: 'This doesn\'t appear to be a valid email address.',
+            password: 'Password',
+            passwordHint: 'Use at least 8 characters with one uppercase letter and one number.',
+            avatar: 'Upload a profile pic',
+            language: 'Default language',
+            admin: 'Project admin?'
+        }
     };
+
 
     constructor(public _userService: UserService,
                 public _projectsService: ProjectsService,
-                public dialog: MdDialog) {
+                public dialog: MdDialog,
+                @Inject(FormBuilder) fb: FormBuilder
+    ) {
 
         this.tdUsers = this.users;
 
@@ -69,6 +95,16 @@ export class NewUserComponent implements OnInit {
             .startWith(this.userCtrl.value)
             .map(val => this.displayFn(val))
             .map(name => this.filterUsers(name));
+
+        this.uf = fb.group({
+            'givenName': ['gaga hornochs', Validators.required],
+            'familyName': [null, Validators.required],
+            'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
+            'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
+            'systemAdmin': false,
+            'lang': 'en',
+            'status': true
+        });
     }
 
     ngOnInit() {
@@ -135,12 +171,20 @@ export class NewUserComponent implements OnInit {
         return this.users;
     }
 
+    onSubmit(value: any): void {
+        console.log('you submitted value: ', value);
+    }
+
     /*
      filterUsers(val: string) {
      return val ? this.usersList.filter(u => u.toLowerCase().indexOf(val.toLowerCase()) === 0) : this.usersList;
      //        return this.usersList.filter(option => new RegExp(`^${val}`, 'gi').test(option));
      }
      */
+
+    openUser(val: any) {
+        console.log(val);
+    }
 
 
     openUserForm() {

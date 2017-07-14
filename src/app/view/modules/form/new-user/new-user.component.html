@@ -22,6 +22,8 @@
             <md-icon>close</md-icon>
         </button>
 
+        <button md-raised-button (click)="openUser(userCtrl.value)" [disabled]="!userCtrl.value">Add</button>
+
         <md-autocomplete #auto="mdAutocomplete">
             <md-option *ngFor="let user of reactiveUsers | async" [value]="user?.name">
                 {{ user?.name }}
@@ -34,9 +36,91 @@
     </div>
 
     <div class="add-user">
-        <button md-raised-button (click)="openUserForm()">
-            {{form.create}}
-        </button>
+        <h4>{{form.create}}</h4>
+
+        <section>
+            <hr>
+            <!-- form to create a new user or to edit an old one from selection above -->
+            <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
+                <md-input-container class="half-width"
+                                    dividerColor="{{ uf.controls['firstName']?.invalid && uf.controls['firstName']?.touched ? 'warn' : 'primary' }}">
+                    <input mdInput
+                           [placeholder]="form.user.firstName + ' *'"
+                           [formControl]="uf.controls['givenName']">
+                </md-input-container>
+
+                <md-input-container class="half-width"
+                                    dividerColor="{{ uf.controls['lastName']?.invalid && uf.controls['lastName']?.touched ? 'warn' : 'primary' }}">
+                    <input mdInput
+                           [placeholder]="form.user.lastName + ' *'"
+                           [formControl]="uf.controls['familyName']">
+                </md-input-container>
+
+                <md-input-container class="full-width"
+                                    dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
+                    <input mdInput type="email"
+                           [placeholder]="form.user.email + ' *'"
+                           [formControl]="uf.controls['email']">
+                    <md-hint class="salsah-hint">
+                        <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
+                        <span
+                                [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || !uf.controls['email'].touched"
+                                class="salsah-error">{{form.user.emailValidation}}
+                </span>
+                    </md-hint>
+                </md-input-container>
+
+                <md-input-container class="full-width"
+                                    dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
+                    <input mdInput type="password"
+                           [placeholder]="form.user.password + ' *'"
+                           [formControl]="uf.controls['password']">
+                    <md-hint class="salsah-hint">
+                        <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
+                        <span
+                                [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || !uf.controls['password'].touched"
+                                class="salsah-error">
+                                        {{form.user.passwordHint}}
+                                    </span>
+                    </md-hint>
+                </md-input-container>
+
+                <table class="full-width form-table">
+                    <tr>
+                        <td class="left">
+                            <md-select [formControl]="uf.controls['lang']" [placeholder]="form.user.language"
+                                       [(ngModel)]="uf.controls['lang'].value">
+                                <md-option value="en">english</md-option>
+                                <md-option value="de">deutsch</md-option>
+                                <md-option value="fr">français</md-option>
+                                <md-option value="it">italiano</md-option>
+                            </md-select>
+                        </td>
+
+                        <td class="right">
+                            <md-checkbox align="end">
+                                {{form.user.admin}}
+                            </md-checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left">
+
+                        </td>
+                        <td class="right">
+                            <button type="submit"
+                                    md-raised-button
+                                    class="save-button"
+                                    color="primary"
+                                    (click)="onSubmit(uf.value)"
+                                    [disabled]="!uf.valid">
+                                Save
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </section>
     </div>
 </div>
 
