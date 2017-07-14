@@ -1,11 +1,11 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
 import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
-import {ProjectResourcesComponent} from './project-resources.component';
-import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import {AppModule} from '../../../../app.module';
 import {PropertiesService} from '../../../../model/services/properties.service';
+import {ResourceTypesService} from '../../../../model/services/resource-types.service';
 import {Project} from '../../../../model/webapi/knora';
+import {ProjectResourcesComponent} from './project-resources.component';
 
 describe('ProjectResourcesComponent', () => {
     let component: ProjectResourcesComponent;
