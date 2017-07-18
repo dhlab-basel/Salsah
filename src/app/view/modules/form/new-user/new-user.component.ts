@@ -1,7 +1,5 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, NgModel, Validators} from '@angular/forms';
-import {Observable} from "rxjs";
-// OR !??
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 
@@ -13,7 +11,6 @@ import {UserService} from "../../../../model/services/user.service";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectMembers} from "../../../../model/webapi/knora/v1/projects/project-members";
 import {UserData} from "../../../../model/webapi/knora/v1/users/user-data";
 
 @Component({
@@ -47,6 +44,10 @@ export class NewUserComponent implements OnInit {
     currentUser = '';
     reactiveUsers: any;
     tdUsers: any[];
+
+    // selected user
+    selectedUser: UserData = new UserData();
+    userErrorMessage: any = undefined;
 
     // setting to reset the md input autocomplete
     @ViewChild(NgModel) modelDir: NgModel;
@@ -83,7 +84,6 @@ export class NewUserComponent implements OnInit {
 
 
     constructor(public _userService: UserService,
-                public _projectsService: ProjectsService,
                 public dialog: MdDialog,
                 @Inject(FormBuilder) fb: FormBuilder
     ) {
@@ -130,7 +130,6 @@ export class NewUserComponent implements OnInit {
                             name: exists + u.firstname + ' ' + u.lastname + ' (' + u.email + ')'
                         };
 
-
 //                        this.usersList[i] = u.lastname + ', ' + u.firstname + ' (' + u.email + ')';
                         i++;
                     }
@@ -163,26 +162,25 @@ export class NewUserComponent implements OnInit {
         if(value && typeof value === 'object') {
             // the admin has selected a user
             // get the user data
-            let selectedUser: UserData;
-            let result;
+            let selectedUser: string;
             if(this.usersList) {
                 this.usersList.users.filter(function(user) {
-                    result = user.user_id == value.iri;
-                    console.log(result);
+                    if(user.user_id == value.iri) {
+                        console.log(value.iri);
+                        selectedUser = value.iri;
+
+                    }
                 });
             }
-
-//            console.log(result ? result[0] : null);
-//            alert(this.usersList.users.filter(user => user.user_id.includes(value.iri)));
-//            console.log(value.iri);
-
+            return value && value.name && selectedUser;
         }
         else {
             // the admin is still typing; no selected user
+            return value;
 
         }
 
-        return value && typeof value === 'object' ? value.name : value;
+//        return value && typeof value === 'object' ? value.name : value;
     }
 
     filterUsers(val: string) {
