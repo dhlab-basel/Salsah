@@ -1,18 +1,18 @@
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 
-import {ProjectListsComponent} from './project-lists.component';
+import {ProjectListsAdminComponent} from './project-lists.component';
 import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
 import {ApiService} from '../../../../model/services/api.service';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {MockBackend} from '@angular/http/testing';
 
-describe('ProjectListsComponent', () => {
-    let component: ProjectListsComponent;
-    let fixture: ComponentFixture<ProjectListsComponent>;
+describe('ProjectListsAdminComponent', () => {
+    let component: ProjectListsAdminComponent;
+    let fixture: ComponentFixture<ProjectListsAdminComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ProjectListsComponent],
+            declarations: [ProjectListsAdminComponent],
             imports: [
                 HttpModule
             ],
@@ -32,7 +32,7 @@ describe('ProjectListsComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ProjectListsComponent);
+        fixture = TestBed.createComponent(ProjectListsAdminComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
