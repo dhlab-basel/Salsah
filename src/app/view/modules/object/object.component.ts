@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from "@angular/core";
+import {Component, Input, OnChanges, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {ResourceService} from "../../../model/services/resource.service";
 import {IncomingService} from "../../../model/services/incoming.service";
@@ -8,6 +8,7 @@ import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resourc
 import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 import {OntologyService} from "../../../model/services/ontology.service";
 import {AppConfig} from "../../../app.config";
+import {StillImageOSDViewerComponent} from "../../properties/still-image-osdviewer/still-image-osdviewer.component";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -20,6 +21,8 @@ let jsonld = require('jsonld');
 export class ObjectComponent implements OnChanges, OnInit {
 
     @Input('iri') iri: string;
+
+    @ViewChild('OSDViewer') osdViewer: StillImageOSDViewerComponent;
 
     isLoading: boolean = true;
     errorMessage: any;
@@ -117,10 +120,9 @@ export class ObjectComponent implements OnChanges, OnInit {
             (result: ApiServiceResult) => {
               let promise = jsonld.promises.compact(result.body, {});
               promise.then((compacted) => {
-               //  console.log(compacted);
                 let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
-                // console.log(regions);
                  Array.prototype.push.apply(resourceSequence.resources[0].incoming, regions.resources);
+                 if (this.osdViewer) { this.osdViewer.updateRegions(); }
               },
               function (err) {
                 console.log("JSONLD of regions request could not be expanded:" + err);

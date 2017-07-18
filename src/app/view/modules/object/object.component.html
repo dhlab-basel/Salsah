@@ -8,10 +8,9 @@
 
         <!--  array templates -->
         <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->
-        <salsah-still-image-osdviewer
+        <salsah-still-image-osdviewer #OSDViewer
               *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates"
-              [fileValues]="prop.value"
-              [ignorePreviews]="true">
+              [resources]="[ resource.resources[0] ]">
         </salsah-still-image-osdviewer>
 
         <!--  single templates -->
