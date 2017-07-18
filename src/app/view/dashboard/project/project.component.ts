@@ -81,9 +81,7 @@ export class ProjectComponent implements OnInit {
                 .subscribe(
                     (project: Project) => {
                         this.isLoading = false;
-                        localStorage.setItem('currentProject', JSON.stringify(
-                            project
-                        ))
+                        localStorage.setItem('currentProject', JSON.stringify(project))
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;

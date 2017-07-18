@@ -12,12 +12,19 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
+import {JsonObject, JsonProperty} from 'json2typescript';
 
 @JsonObject
 export class List {
 
-    @JsonProperty("id", String)
+    @JsonProperty('id', String)
     public id: string = undefined;
 
+}
+
+@JsonObject
+export class ListNode {
+
+    @JsonProperty('id', String, false)
+    public id: string = undefined;
 }

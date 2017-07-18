@@ -26,8 +26,8 @@ export class UserData {
     @JsonProperty('lastname', String, true)
     public lastname: string = undefined;
 
-    @JsonProperty('isActiveUser', Boolean)
-    public isActiveUser: boolean = undefined;
+    @JsonProperty('status', Boolean)
+    public status: boolean = undefined;
 
     @JsonProperty('lang', String, true)
     public lang: string = undefined;

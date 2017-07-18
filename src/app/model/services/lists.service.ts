@@ -14,52 +14,34 @@
  */
 
 import {Injectable} from '@angular/core';
-import {ApiService} from './api.service';
+import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {List} from '../webapi/knora/v1/lists/list';
-import {ApiServiceResult} from './api-service-result';
+import {ListInfo} from '../webapi/knora/v1/lists/list-info';
+import {ListsResponse} from '../webapi/knora/v1/lists/lists-response';
 import {ApiServiceError} from './api-service-error';
-import {JsonConvert} from 'json2typescript';
-import {ListsList} from '../webapi/knora/v1/lists/lists-list';
+import {ApiServiceResult} from './api-service-result';
+import {ApiService} from './api.service';
 
 @Injectable()
 export class ListsService extends ApiService {
 
-    private lists: ReplaySubject<List[]> = new ReplaySubject(1);
+    private lists: ReplaySubject<ListInfo[]> = new ReplaySubject(1);
 
-    getAllLists(): ReplaySubject<List[]> {
-        console.log('ListsService - getAllLists');
-
-        this.httpGet('/lists').subscribe(
-            (result: ApiServiceResult) => {
-                const lists: List[] = JsonConvert.deserializeObject(result.body['lists'], ListsList).lists;
-                // console.log("ListsService - getAllLists - lists: " + JSON.stringify(lists));
-                this.lists.next(lists);
-            },
-            (error: ApiServiceError) => {
-                const errorMessage = <any>error;
-                console.log('ProjectsService - getAllProjects - error: ' + errorMessage);
-                throw error;
-            }
-        );
-
-        return this.lists;
-    }
-
-    getLists(projectIri: String): ReplaySubject<List[]> {
+    getLists(projectIri?: string): Observable<ListInfo[]> {
 
         console.log('ListsService - getLists - projectIri: ' + projectIri);
 
-        this.httpGet('/lists/' + projectIri).subscribe(
+        this.httpGet('/v1/lists?projectIri=' + encodeURIComponent(projectIri)).subscribe(
             (result: ApiServiceResult) => {
-                const lists: List[] = JsonConvert.deserializeObject(result.body['lists'], ListsList).lists;
-                // console.log("ListsService - getAllLists - lists: " + JSON.stringify(lists));
+                const lists: ListInfo[] = result.getBody(ListsResponse).lists;
                 this.lists.next(lists);
+                // console.log("ListsService - getLists - lists: " + JSON.stringify(lists));
+
             },
             (error: ApiServiceError) => {
                 const errorMessage = <any>error;
-                console.log('ProjectsService - getAllProjects - error: ' + errorMessage);
-                throw error;
+                console.log('ListsService - getLists - error: ' + errorMessage);
+                this.lists.error(error);
             }
         );
 
