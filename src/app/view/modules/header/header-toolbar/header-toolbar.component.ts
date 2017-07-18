@@ -13,8 +13,8 @@
  * */
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
-import {Router, ActivatedRoute} from "@angular/router";
-import {SessionService} from "../../../../model/services/session.service";
+import {Router, ActivatedRoute} from '@angular/router';
+import {SessionService} from '../../../../model/services/session.service';
 
 import {
     trigger,
@@ -49,10 +49,10 @@ export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
 
-    activeSession: boolean = false;
+    activeSession = false;
 
-    focusOnUserMenu: string = 'inactive';
-    focusOnAddMenu: string = 'inactive';
+    focusOnUserMenu = 'inactive';
+    focusOnAddMenu = 'inactive';
 
     constructor(private _eleRef: ElementRef,
                 private _route: ActivatedRoute,
@@ -69,7 +69,9 @@ export class HeaderToolbarComponent implements OnInit {
         // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
         this.activeSession = this._sessionService.checkSession();
 
-        if (JSON.parse(localStorage.getItem('ownProfile'))) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
+        if (JSON.parse(localStorage.getItem('ownProfile'))) {
+            this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
+        }
 
 
     }
@@ -104,7 +106,7 @@ export class HeaderToolbarComponent implements OnInit {
      },
      */
 
-    addMenuTitle: string = "Add some new stuff";
+    addMenuTitle = 'Add some new stuff';
     addMenu: any = [
         {
             title: 'Project',
@@ -149,7 +151,7 @@ export class HeaderToolbarComponent implements OnInit {
     }
 
     goToLoginPage() {
-        let goToUrl: string = '/login';
+        let goToUrl = '/login';
 
         if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
 

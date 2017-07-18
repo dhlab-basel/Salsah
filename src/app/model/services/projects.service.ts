@@ -43,7 +43,7 @@ export class ProjectsService extends ApiService {
 
         const allProjects: ReplaySubject<Project[]> = new ReplaySubject(1);
 
-        this.httpGet('/projects').subscribe(
+        this.httpGet('/v1/projects').subscribe(
                 (result: ApiServiceResult) => {
                     const projects: Project[] = result.getBody(ProjectsResponse).projects;
                     allProjects.next(projects);
@@ -67,7 +67,7 @@ export class ProjectsService extends ApiService {
     getProjectByIri(iri: string): Observable<Project> {
         console.log('ProjectsService - getProjectByIri: ' + iri);
 
-        this.httpGet('/projects/' + encodeURIComponent(iri))
+        this.httpGet('/v1/projects/' + encodeURIComponent(iri))
             .subscribe(
                 (result: ApiServiceResult) => {
                     const project: Project = result.getBody(ProjectResponse).project_info;
@@ -93,7 +93,7 @@ export class ProjectsService extends ApiService {
 
         console.log('ProjectsService - getProjectByShortname: ' + shortname);
 
-        this.httpGet('/projects/' + shortname + '?identifier=shortname')
+        this.httpGet('/v1/projects/' + shortname + '?identifier=shortname')
             .subscribe(
                 (result: ApiServiceResult) => {
                     const project: Project = result.getBody(ProjectResponse).project_info;
@@ -116,7 +116,7 @@ export class ProjectsService extends ApiService {
      * @throws {ApiServiceError}
      */
     getProjectMembersByIri(iri: string): Observable<UserData[]> {
-        this.httpGet('/projects/members/' + encodeURIComponent(iri))
+        this.httpGet('/v1/projects/members/' + encodeURIComponent(iri))
             .subscribe(
                 (result: ApiServiceResult) => {
                     const members: UserData[] = result.getBody(ProjectMembersResponse).projectMembers;
@@ -141,7 +141,7 @@ export class ProjectsService extends ApiService {
      */
     getProjectMembersByShortname(shortname: string): Observable<UserData[]> {
 
-        this.httpGet('/projects/members/' + shortname + '?identifier=shortname')
+        this.httpGet('/v1/projects/members/' + shortname + '?identifier=shortname')
             .subscribe(
                 (result: ApiServiceResult) => {
                     const members: UserData[] = result.getBody(ProjectMembersResponse).projectMembers;
