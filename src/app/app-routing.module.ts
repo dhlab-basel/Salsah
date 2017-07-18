@@ -12,32 +12,31 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Routes, RouterModule} from "@angular/router";
-import {NgModule} from "@angular/core";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {DashboardComponent} from './view/dashboard/dashboard.component';
 
-import {LoginComponent} from "./view/login/login.component";
-import {DashboardComponent} from "./view/dashboard/dashboard.component";
-import {UserComponent} from "./view/dashboard/user/user.component";
+import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
+import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
+import {ProjectProfileComponent} from './view/dashboard/project/project-profile/project-profile.component';
+import {ProjectResourcesComponent} from './view/dashboard/project/project-resources/project-resources.component';
+import {ProjectSettingsComponent} from './view/dashboard/project/project-settings/project-settings.component';
+import {ProjectTeamComponent} from './view/dashboard/project/project-team/project-team.component';
 
-import {ProjectComponent} from "./view/dashboard/project/project.component";
-import {ProjectSettingsComponent} from "./view/dashboard/project/project-settings/project-settings.component";
-import {ProjectProfileComponent} from "./view/dashboard/project/project-profile/project-profile.component";
-import {ResultsComponent} from "./view/modules/listing/results/results.component";
-import {ProjectTeamComponent} from "./view/dashboard/project/project-team/project-team.component";
-import {ProjectResourcesComponent} from "./view/dashboard/project/project-resources/project-resources.component";
-import {ProjectListsComponent} from "./view/dashboard/project/project-lists/project-lists.component";
-import {ProjectFormComponent} from "./view/modules/form/project-form/project-form.component";
-import {DocumentationComponent} from "./view/documentation/documentation.component";
+import {ProjectComponent} from './view/dashboard/project/project.component';
+import {UserComponent} from './view/dashboard/user/user.component';
+import {DocumentationComponent} from './view/documentation/documentation.component';
 
-import {ProjectAdvancedComponent} from "./view/dashboard/project/project-advanced/project-advanced.component";
-import {ObjectComponent} from "./view/modules/object/object.component";
-import {ProgressIndicatorComponent} from "./view/modules/other/progress-indicator/progress-indicator.component";
-import {DevelopmentComponent} from "./view/test/development/development.component";
-import {ProgressStepperComponent} from "./view/modules/other/progress-stepper/progress-stepper.component";
-import {MessageComponent} from "./view/modules/message/message.component";
-import {ResourceClassFormComponent} from "./view/modules/form/resource-class-form/resource-class-form.component";
-import {NewResClassComponent} from "./view/test/development/new-res-class/new-res-class.component";
-import {NewResourceClassComponent} from "./view/modules/form/new-resource-class/new-resource-class.component";
+import {LoginComponent} from './view/login/login.component';
+import {NewResourceClassComponent} from './view/modules/form/new-resource-class/new-resource-class.component';
+import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
+import {ResultsComponent} from './view/modules/listing/results/results.component';
+import {MessageComponent} from './view/modules/message/message.component';
+import {ObjectComponent} from './view/modules/object/object.component';
+import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
+import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
+import {DevelopmentComponent} from './view/test/development/development.component';
+import {NewResClassComponent} from './view/test/development/new-res-class/new-res-class.component';
 
 const appRoutes: Routes = [
     {
@@ -96,7 +95,7 @@ const appRoutes: Routes = [
                 path: 'resources', component: ProjectResourcesComponent
             },
             {
-                path: 'lists', component: ProjectListsComponent
+                path: 'lists', component: ProjectListsAdminComponent
             },
             {
                 path: 'advanced', component: ProjectAdvancedComponent

@@ -29,7 +29,6 @@ import {DndModule} from 'ng2-dnd';
 //
 // import all needed services
 //
-import {LoginService} from './model/services/login.service';
 import {ProjectsService} from './model/services/projects.service';
 import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
@@ -37,7 +36,7 @@ import {SearchService} from './model/services/search.service';
 import {SessionService} from './model/services/session.service';
 import {UserService} from './model/services/user.service';
 import {ApiService} from './model/services/api.service';
-import {ListsService} from "./model/services/lists.service";
+import {ListsService} from './model/services/lists.service';
 // just to get the basic ontology form the json file
 
 import {BasicOntologyService} from './model/services/basic-ontology.service';
@@ -97,7 +96,7 @@ import { NewResourceClassComponent } from './view/modules/form/new-resource-clas
 
 import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
 import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
-import { ProjectListsComponent } from './view/dashboard/project/project-lists/project-lists.component';
+import { ProjectListsAdminComponent } from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
 
 @NgModule({
     declarations: [
@@ -146,7 +145,7 @@ import { ProjectListsComponent } from './view/dashboard/project/project-lists/pr
         NewResourceClassComponent,
         OsdViewerComponent,
         EditResourceClassComponent,
-        ProjectListsComponent
+        ProjectListsAdminComponent
     ],
     imports: [
         BrowserModule,
@@ -166,7 +165,6 @@ import { ProjectListsComponent } from './view/dashboard/project/project-lists/pr
     ],
     providers: [
         ApiService,
-        LoginService,
         ProjectsService,
         PropertiesService,
         ResourceService,
