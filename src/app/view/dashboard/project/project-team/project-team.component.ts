@@ -93,13 +93,15 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.project = JSON.parse(localStorage.getItem('currentProject'));
+
         this.sortKey = this.sortProps[0].key;
 
         this.sortLabel = this.sortProps[1].label;
 
-        this.project = JSON.parse(localStorage.getItem('currentProject'));
+        let proIri = this.project.id;
 
-        this._projectsService.getProjectMembersByIri(this.project.id)
+        this._projectsService.getProjectMembersByIri(proIri)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.members = result.getBody(ProjectMembers);

@@ -1,10 +1,17 @@
 <!-- select an existing user to add it to a project
       - if the user doesn't exist yet, create a new one by importing the user form component -->
 
+<div>
+    <p>Reactive length: {{ reactiveUsers.length }}</p>
+    <p>Reactive value: {{ userCtrl.value | json }}</p>
+    <p>Reactive dirty: {{ userCtrl.dirty }}</p>
+</div>
 
 <h3>{{form.title}}</h3>
 <div class="user-panel">
     <div class="select-user">
+
+
 <!--
         <button md-icon-button class="prefix">
             <md-icon>add</md-icon>
@@ -13,7 +20,7 @@
         <md-input-container class="full-width">
 
             <input mdInput
-                   [mdAutocomplete]="auto"
+                   [mdAutocomplete]="users"
                    [formControl]="userCtrl"
                    [placeholder]="form.select">
         </md-input-container>
@@ -24,12 +31,13 @@
 
         <button md-raised-button (click)="openUser(userCtrl.value)" [disabled]="!userCtrl.value">Add</button>
 
-        <md-autocomplete #auto="mdAutocomplete">
-            <md-option *ngFor="let user of reactiveUsers | async" [value]="user?.name">
+        <md-autocomplete #users="mdAutocomplete" [displayWith]="displayFn">
+            <md-option *ngFor="let user of reactiveUsers | async" [value]="user">
                 {{ user?.name }}
             </md-option>
         </md-autocomplete>
     </div>
+
 
     <div class="linebreak">
         {{form.or}}

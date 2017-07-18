@@ -14,6 +14,7 @@ import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ProjectsService} from "../../../../model/services/projects.service";
 import {ProjectMembers} from "../../../../model/webapi/knora/v1/projects/project-members";
+import {UserData} from "../../../../model/webapi/knora/v1/users/user-data";
 
 @Component({
     selector: 'salsah-new-user',
@@ -159,6 +160,28 @@ export class NewUserComponent implements OnInit {
     }
 
     displayFn(value: any): string {
+        if(value && typeof value === 'object') {
+            // the admin has selected a user
+            // get the user data
+            let selectedUser: UserData;
+            let result;
+            if(this.usersList) {
+                this.usersList.users.filter(function(user) {
+                    result = user.user_id == value.iri;
+                    console.log(result);
+                });
+            }
+
+//            console.log(result ? result[0] : null);
+//            alert(this.usersList.users.filter(user => user.user_id.includes(value.iri)));
+//            console.log(value.iri);
+
+        }
+        else {
+            // the admin is still typing; no selected user
+
+        }
+
         return value && typeof value === 'object' ? value.name : value;
     }
 
@@ -167,7 +190,6 @@ export class NewUserComponent implements OnInit {
             const filterValue = val.toLowerCase();
             return this.users.filter(user => user.name.toLowerCase().includes(filterValue));
         }
-
         return this.users;
     }
 
@@ -184,6 +206,16 @@ export class NewUserComponent implements OnInit {
 
     openUser(val: any) {
         console.log(val);
+    }
+
+    getUser(val: any): string {
+
+        if(val) {
+            console.log('getUser: ' + val);
+
+
+        }
+        return undefined;
     }
 
 
