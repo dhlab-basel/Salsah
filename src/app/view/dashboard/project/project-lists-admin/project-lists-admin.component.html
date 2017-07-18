@@ -18,11 +18,10 @@
 
         <md-list-item *ngFor="let pListItem of projectLists; let i = index"
 
-                      (click)="openResource(pListItem, i);"
+                      (click)="openList(pListItem, i);"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
-            <md-icon md-list-avatar>{{resClass.icon}}</md-icon>
-            <h4 md-line>{{resClass.label}}</h4>
+            <h4 md-line>{{pListItem.label}}</h4>
             <p md-line>
             <span>
                 {{prop.label}}
@@ -52,7 +51,7 @@
     </md-list>
 </div>
 
-<div *ngIf="editResource || addResource" class="salsah-module-detail" [ngClass]="position.detail">
+<div *ngIf="editList || addList" class="salsah-module-detail" [ngClass]="position.detail">
     <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
 
     <div class="salsah-module-detail-header">
@@ -66,10 +65,10 @@
         <!-- if an error occurs: show the error message -->
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
-        <div class="edit-resource" *ngIf="editResource && !errorMessage">
-            <!-- edit the resource type -->
+        <div class="edit-list" *ngIf="editList && !errorMessage">
+            <!-- edit the list -->
             <!-- in the next tag we could set the progress loader with (loadingSubmodule)="loadingSubmodule(true) -->
-            <salsah-edit-resource-class [iri]="resClassIri" [index]="propsIndex"></salsah-edit-resource-class>
+            <salsah-edit-list-class [iri]="listIri"></salsah-edit-list-class>
         </div>
 
         <div class="create-resource" *ngIf="addResource">

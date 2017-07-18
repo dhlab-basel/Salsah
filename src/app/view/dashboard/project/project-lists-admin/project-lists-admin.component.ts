@@ -31,6 +31,8 @@ export class ProjectListsAdminComponent implements OnInit {
     addList = false;
     editList = false;
 
+    listIri: string;
+
     constructor(
         private _router: Router,
         private _listsService: ListsService
@@ -68,9 +70,14 @@ export class ProjectListsAdminComponent implements OnInit {
             );
     }
 
-    openList(id: string) {
-        localStorage.removeItem('currentProject');
-        this._router.navigate(['/project/', id]);
+    openList(id: string, index: number) {
+        if (this.size === 'large') this.size = 'small';
+        this.isLoadingSubModule = true;
+        this.editList = true;
+        this.addList = false;
+
+        this.listIri = id;
+        this.isLoadingSubModule = false;
     }
 
     createList() {
@@ -97,5 +104,11 @@ export class ProjectListsAdminComponent implements OnInit {
         this.editList = false;
         this.addList = false;
     }
+
+    loadingSubmodule(loaded: boolean) {
+        console.log(loaded);
+        this.isLoadingSubModule = loaded;
+    }
+
 
 }
