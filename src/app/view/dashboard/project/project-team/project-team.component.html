@@ -28,7 +28,7 @@
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
         <md-list-item *ngFor="let member of members?.members | sortBy: sortKey; let i = index"
-                      (click)="openUser(member.user_id, i);"
+                      (click)="toggleUser(member.user_id, i);"
                       [id]="member.user_id"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
@@ -38,6 +38,9 @@
             </md-icon>
             <h4 md-line>{{member?.firstname}} {{member?.lastname}}</h4>
             <p md-line> {{member?.email}} </p>
+            <button md-icon-button class="right close close-highlight">
+                <md-icon>close</md-icon>
+            </button>
         </md-list-item>
         <!--
         <md-divider></md-divider>

@@ -91,6 +91,14 @@ a {
   &.highlight,
   &:active {
     background-color: darken($bright, 25%);
+
+    .close-highlight {
+      display: block;
+    }
+  }
+
+  .close-highlight {
+    display: none;
   }
 }
 

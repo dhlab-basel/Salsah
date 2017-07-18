@@ -131,16 +131,22 @@ export class ProjectTeamComponent implements OnInit {
         this.isLoadingSubModule = false;
     }
 
-    openUser(id: string, index: number) {
-        if (this.size === 'large') this.size = 'small';
-        this.isLoadingSubModule = true;
-        this.editUserIsActive = true;
-        this.newUserIsActive = false;
+    toggleUser(id: string, index: number) {
+        if(id === this.iri && index === this.selectedRow) {
+            // the user clicked on the already selected item
+            // close the detail view
+            this.closeDetailView();
+        }
+        else {
+            if (this.size === 'large') this.size = 'small';
+            this.isLoadingSubModule = true;
+            this.editUserIsActive = true;
+            this.newUserIsActive = false;
 
-        this.iri = id;
-        this.selectedRow = index;
-        this.isLoadingSubModule = false;
-
+            this.iri = id;
+            this.selectedRow = index;
+            this.isLoadingSubModule = false;
+        }
     }
 
     closeDetailView() {
