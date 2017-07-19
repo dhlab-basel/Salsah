@@ -129,7 +129,7 @@
 
                         <!-- the properties on the left side are followed by their cardinality settings on the right side -->
                         <md-select *ngIf="newResourceClass.properties[i] !== undefined"
-                                   [(ngModel)]="prop.occurence"
+                                   [(ngModel)]="prop.occurrence"
                                    [name]="'occ_' + i"
                                    (change)="setOcc(i, $event)">
                             <md-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
@@ -161,7 +161,7 @@
                     <tbody *ngFor="let prop of newResourceClass.properties; let i = index">
                     <tr  class="link highlight" *ngIf="newResourceClass.properties[i] !== undefined" style="height: 48px">
 
-                        <td width="36px">({{prop.occurence}})</td>
+                        <td width="36px">({{prop.occurrence}})</td>
 
                         <td style="text-align:left"><strong>{{prop.label}}</strong></td>
 

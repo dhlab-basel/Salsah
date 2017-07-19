@@ -4,6 +4,8 @@ import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {Properties} from "../../../../model/webapi/knora";
 import {ResourceTypesService} from "../../../../model/services/resource-types.service";
 import {ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
+import {ProjectsService} from "../../../../model/services/projects.service";
+import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
 
 import {
     trigger,
@@ -39,6 +41,8 @@ export class EditResourceClassComponent implements OnChanges {
 
     @Input('iri') iri: string;
     @Input('index') index: number;
+    @Input('projects') projectsList: ProjectItem[];
+
 
 //    @Output() loadingSubmodule = new EventEmitter<any>();
 
@@ -57,22 +61,27 @@ export class EditResourceClassComponent implements OnChanges {
 
     editResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
 
-
     guiItems: string[] = [
+        "Text",
+        "Richtext",
+        "Text area",
+        "Dropdown menu",
+        "Number field",
+        "Date field",
+        "Searchbox",
+        "File upload"
+    ];
 
-            "Text",
-            "Richtext",
-            "Text area",
-            "Dropdown menu",
-            "Number field",
-            "Date field",
-            "Searchbox"
-
-
+    cardinalityList: string[] = [
+        "1",
+        "1-n",
+        "0-1",
+        "0-n"
     ];
 
 
-    constructor(private _resourceTypesService: ResourceTypesService) {
+    constructor(private _resourceTypesService: ResourceTypesService,
+                private _projectsService: ProjectsService) {
     }
 
 
@@ -82,13 +91,13 @@ export class EditResourceClassComponent implements OnChanges {
         this._resourceTypesService.getResourceType(this.iri)
             .subscribe(
                 (result: ApiServiceResult) => {
-
                     this.resType = result.getBody(ResourceType).restype_info;
 //                    let tmpResTypeInfo: ResourceTypeInfo = result.getBody(ResourceTypeInfo);
 //                    console.log(tmpResTypeInfo.restype_info.label);
 //                    console.log(this.resType);
                     this.selectedRow = this.index;
                     this.editResourceClass.properties= this.resType.properties;
+
                     // disable the progress loader of the submodule
 //                    this.loadingSubmodule.emit(this.isLoadingSubModule);
                 },
@@ -99,9 +108,15 @@ export class EditResourceClassComponent implements OnChanges {
                 }
             );
 
-
+        this._projectsService.getAllProjects()
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    this.projectsList = result.getBody(ProjectsList).projects;
+                }
+            )
 
     }
+
 
     editResources(){
         this.editResource = true;
@@ -132,10 +147,29 @@ export class EditResourceClassComponent implements OnChanges {
         }
     }
 
-    setGUIname(index: number, event) {
+
+    // setGUIname(index: number, event) {
+    //     //if (this.editResourceClass.properties[index] !== undefined) {
+    //         this.editResourceClass.properties[index].gui_name = event.value;
+    //     console.log("gui is :", event.value);       // }
+    // }
+
+    setGUI(index: number, event) {
         if (this.editResourceClass.properties[index] !== undefined) {
             this.editResourceClass.properties[index].gui_name = event.value;
         }
     }
+
+    setOcc(index: number, event) {
+        if (this.editResourceClass.properties[index] !== undefined) {
+            this.editResourceClass.properties[index].occurrence = event.value;
+        }
+    }
+    setVoc(index: number, event) {
+        if (this.editResourceClass.properties[index] !== undefined) {
+            this.editResourceClass.properties[index].vocabulary = event.value;
+        }
+    }
+
 
 }

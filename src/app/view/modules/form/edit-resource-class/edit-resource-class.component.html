@@ -12,7 +12,7 @@
                           dnd-sortable [sortableIndex]="i" >
                 <h4 md-line>{{prop.label}}</h4>
                 <p md-line>{{prop.description}}</p>
-                <p md-line>{{prop.occurence}} | {{prop.gui_name}}</p>
+                <p md-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
             </md-list-item>
         </md-list>
     </form>
@@ -134,12 +134,11 @@
                                            [value]="prop.gui_name">
                                 </md-input-container>-->
                                 <md-select class = "full-width" *ngIf="resType.properties[i] !== undefined"
-                                           placeholder="GUI type (!!!does show original value yet)"
-                                           name="gui_name"
+                                           placeholder="GUI type (!!!does not show original value yet)"
                                            [(ngModel)]="prop.gui_name"
-                                           (change)="setGUIname(i, $event)">
-                                    <md-option *ngFor="let guiItem of guiItems"
-                                               [value]="guiItem">
+                                           name="GUI type"
+                                           (change)="setGUI(i, $event)">
+                                    <md-option *ngFor="let guiItem of guiItems" [value]="guiItem">
                                         {{guiItem}}
                                     </md-option>
                                 </md-select>
@@ -160,14 +159,25 @@
                                            [(ngModel)]="prop.id"
                                            disabled value="prop.id">
                                </md-input-container>
-                                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
+<!--                                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
                                     <input mdInput
-                                           placeholder="Occurence"
-                                           name="occurence"
-                                           [id]="prop.occurence"
-                                           [(ngModel)]="prop.occurence"
-                                           [value]="prop.occurence">
-                                </md-input-container>
+                                           placeholder="Occurrence"
+                                           name="occurrence"
+                                           [id]="prop.occurrence"
+                                           [(ngModel)]="prop.occurrence"
+                                           [value]="prop.occurrence">
+                                </md-input-container> -->
+                                <md-select class = "full-width" *ngIf="resType.properties[i] !== undefined"
+                                           placeholder="Occurrence"
+                                           [(ngModel)]="prop.occurrence"
+                                           name="Occurrence"
+                                           (change)="setOcc(i, $event)">
+                                    <md-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
+                                        {{cardinality}}
+                                    </md-option>
+                                </md-select>
+                                <br><br>
+
                                 <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
                                     <input mdInput
                                            placeholder="Value type id"
@@ -176,14 +186,25 @@
                                            [(ngModel)]="prop.valuetype_id"
                                            disabled value="prop.valuetype_id">
                                 </md-input-container>
-                                <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
+ <!--                               <md-input-container class = "full-width" *ngIf="resType.properties[i] !== undefined" >
                                     <input mdInput
                                            placeholder="Vocabulary"
                                            name="vocabulary"
                                            [id]="prop.vocabulary"
                                            [(ngModel)]="prop.vocabulary"
                                            [value]="prop.vocabulary">
-                                </md-input-container>
+                                </md-input-container> -->
+                                <md-select class = "full-width" *ngIf="resType.properties[i] !== undefined"
+                                           placeholder="Vocabulary"
+                                           [(ngModel)]="prop.vocabulary"
+                                           name="Vocabulary"
+                                           (change)="setVoc(i, $event)">
+                                    <md-option *ngFor="let project of projectsList" [value]="project">
+                                        {{project.name}}
+                                    </md-option>
+                                </md-select>
+                                <br><br>
+
                             </md-card-content>
 
                             <md-card-actions>
