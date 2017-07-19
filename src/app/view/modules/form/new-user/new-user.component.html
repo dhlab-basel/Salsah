@@ -48,6 +48,7 @@
 
         <section>
             <hr>
+            <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
             <!-- form to create a new user or to edit an old one from selection above -->
             <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
                 <md-input-container class="half-width"
@@ -106,8 +107,8 @@
                         </td>
 
                         <td class="right">
-                            <md-checkbox align="end">
-                                {{form.user.admin}}
+                            <md-checkbox align="end" checked="checked">
+                                {{form.user.member}}
                             </md-checkbox>
                         </td>
                     </tr>
@@ -120,7 +121,6 @@
                                     md-raised-button
                                     class="save-button"
                                     color="primary"
-                                    (click)="onSubmit(uf.value)"
                                     [disabled]="!uf.valid">
                                 Save
                             </button>

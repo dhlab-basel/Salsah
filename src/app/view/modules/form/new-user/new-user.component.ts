@@ -12,6 +12,8 @@ import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ProjectsService} from "../../../../model/services/projects.service";
 import {UserData} from "../../../../model/webapi/knora/v1/users/user-data";
+import {ProjectTeamComponent} from "../../../dashboard/project/project-team/project-team.component";
+import {ProjectItem} from "../../../../model/webapi/knora/v1/projects/project-item";
 
 @Component({
     selector: 'salsah-new-user',
@@ -30,6 +32,9 @@ export class NewUserComponent implements OnInit {
     usersList: UsersList;
     // list of users for the md input autocomplete
     users: any = [];
+
+    // current project iri
+    projectIri: string = JSON.parse(localStorage.getItem('currentProject')).id;
 
     // list of users in the project;
     // we need the list of existing users, to exclude them from
@@ -78,12 +83,14 @@ export class NewUserComponent implements OnInit {
             passwordHint: 'Use at least 8 characters with one uppercase letter and one number.',
             avatar: 'Upload a profile pic',
             language: 'Default language',
-            admin: 'Project admin?'
+            admin: 'Project admin?',
+            member: 'Add the new user to the project'
         }
     };
 
 
     constructor(public _userService: UserService,
+                public _projectTeam: ProjectTeamComponent,
                 public dialog: MdDialog,
                 @Inject(FormBuilder) fb: FormBuilder
     ) {
@@ -122,7 +129,6 @@ export class NewUserComponent implements OnInit {
                     for (let u of this.usersList.users) {
                         let exists: string = '';
                         if (members.indexOf(u.user_id) > -1) {
-                            console.log('exists: ' + u.user_id);
                             exists = '* ';
                         }
                         this.users[i] = {
@@ -192,7 +198,34 @@ export class NewUserComponent implements OnInit {
     }
 
     onSubmit(value: any): void {
+
         console.log('you submitted value: ', value);
+        this._userService.createUser(value).subscribe(
+            (result: ApiServiceResult) => {
+//                console.log(result.body.userProfile.userData.user_id);
+
+                // result.body.userProfile.userData.user_id
+                // this.project.id
+                this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.projectIri).subscribe(
+                    (result: ApiServiceResult) => {
+//                        console.log(result.body);
+                        this._projectTeam.closeDetailView();
+                    },
+                    (error: ApiServiceError) => {
+                        console.log(error);
+                        this.errorMessage = error;
+                    }
+
+                );
+
+
+            },
+            (error: ApiServiceError) => {
+                this.errorMessage = error;
+            }
+        );
+
+
     }
 
     /*

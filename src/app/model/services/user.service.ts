@@ -53,7 +53,6 @@ export class UserService extends ApiService {
         console.log(headers);
         console.log(data);
 //        headers.append("Authorization", "Basic " + btoa(email + ":" + password));
-
         /*
          email: String,
          givenName: String,
@@ -63,9 +62,11 @@ export class UserService extends ApiService {
          lang: String = "en",
          systemAdmin: Boolean = false
          */
-
-
         return this.httpPost("/users", data, {});
+    }
+
+    addUserToProject(uIri: string, pIri: string): Observable<any> {
+        return this.httpPost("/users/projects/" + encodeURIComponent(uIri) + "/" + encodeURIComponent(pIri));
     }
 
 
