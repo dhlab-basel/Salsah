@@ -1,84 +1,82 @@
 <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
-  <h2 md-header>List of every user in Knora</h2>
+    <h2 md-header>List of every user in Knora</h2>
 
-  <md-list>
+    <md-list>
 
-    <!-- button to add new user -->
-    <!--
-    <md-list-item class="salsah-link"
-                  (click)="addUser()"
-                  [class.highlight]="newUserIsActive">
-      <md-icon md-list-avatar>add</md-icon>
-      <h4 md-line>Add new user</h4>
-      <p md-line>&nbsp;</p>
-    </md-list-item>
+        <!-- button to add new user -->
+        <!--
+        <md-list-item class="salsah-link"
+                      (click)="addUser()"
+                      [class.highlight]="newUserIsActive">
+          <md-icon md-list-avatar>add</md-icon>
+          <h4 md-line>Add new user</h4>
+          <p md-line>&nbsp;</p>
+        </md-list-item>
 
-    <md-divider></md-divider>
-    <br>
-    -->
+        <md-divider></md-divider>
+        <br>
+        -->
 
-    <!-- list of all users -->
-    <h3 md-subheader>
-      <button md-icon-button
-              *ngIf="!editUserIsActive && !newUserIsActive"
-              (click)="sortBy(sortKey)"
-              [mdTooltip]="sortTitle + sortLabel" mdTooltipPosition="above">
-        <md-icon>sort_by_alpha</md-icon>
-      </button>
-      Project Members
-    </h3>
-    <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+        <!-- list of all users -->
+        <h3 md-subheader>
+            <button md-icon-button
+                    *ngIf="!editUserIsActive && !newUserIsActive"
+                    (click)="sortBy(sortKey)"
+                    [mdTooltip]="sortTitle + sortLabel" mdTooltipPosition="above">
+                <md-icon>sort_by_alpha</md-icon>
+            </button>
+            Project Members
+        </h3>
+        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
-    <md-list-item *ngFor="let user of usersList | sortBy: sortKey; let i = index"
-                  (click)="toggleUser(user.user_id, i);"
-                  [id]="user.user_id"
-                  class="salsah-link"
-                  [class.highlight]="i == selectedRow">
-      <!--<md-list-item *ngFor="let admin of project.admins">-->
-      <md-icon md-list-avatar>
-        <img salsahGravatar [email]="user?.email" class="salsah-avatar-image"/>
-      </md-icon>
-      <h4 md-line>{{user?.firstname}} {{user?.lastname}}</h4>
-      <p md-line> {{user?.email}} </p>
-      <button md-icon-button class="right close close-highlight">
-        <md-icon>close</md-icon>
-      </button>
-    </md-list-item>
-    <!--
-    <md-divider></md-divider>
-    <h3 md-subheader>Project Member</h3>
-    <md-list-item>
-        <!--<md-list-item *ngFor="let member of project.members">--
-        <md-icon md-list-avatar>person_outline</md-icon>
-        <h4 md-line>Lastname, PreName</h4>
-        <p md-line> function bla bla </p>
-    </md-list-item>
-    -->
-  </md-list>
+        <md-list-item *ngFor="let user of usersList?.users | sortBy: sortKey; let i = index"
+                      [id]="user?.user_id"
+                      class="salsah-link">
+            <!--<md-list-item *ngFor="let admin of project.admins">-->
+            <md-icon md-list-avatar>
+                <img salsahGravatar [email]="user?.email" class="salsah-avatar-image"/>
+            </md-icon>
+            <h4 md-line>{{user?.firstname}} {{user?.lastname}}</h4>
+            <p md-line> {{user?.email}} </p>
+            <button md-icon-button class="right close close-highlight">
+                <md-icon>close</md-icon>
+            </button>
+        </md-list-item>
+        <!--
+        <md-divider></md-divider>
+        <h3 md-subheader>Project Member</h3>
+        <md-list-item>
+            <!--<md-list-item *ngFor="let member of project.members">--
+            <md-icon md-list-avatar>person_outline</md-icon>
+            <h4 md-line>Lastname, PreName</h4>
+            <p md-line> function bla bla </p>
+        </md-list-item>
+        -->
+    </md-list>
 </div>
 
 <!-- detail view (on the right hand side) for selected user -->
 <div *ngIf="editUserIsActive || newUserIsActive" class="salsah-module-detail" [ngClass]="position.detail">
 
-  <div class="salsah-module-detail-header">
-    <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
-    <button md-icon-button (click)="closeDetailView()" class="right close">
-      <md-icon>close</md-icon>
-    </button>
-  </div>
-
-  <div class="salsah-module-detail-content">
-
-    <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
-
-    <div class="edit-user" *ngIf="editUserIsActive && !errorMessage">
-      <!-- form to edit an existing user -->
-      <salsah-edit-user [iri]="iri" [index]="selectedRow"></salsah-edit-user>
+    <div class="salsah-module-detail-header">
+        <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
+        <button md-icon-button (click)="closeDetailView()" class="right close">
+            <md-icon>close</md-icon>
+        </button>
     </div>
 
-    <div class="add-user" *ngIf="newUserIsActive">
-      <!-- form to add (incl. creation) a new users to the project -->
-      <salsah-new-user></salsah-new-user>
+    <div class="salsah-module-detail-content">
+
+        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+
+        <div class="edit-user" *ngIf="editUserIsActive && !errorMessage">
+            <!-- form to edit an existing user -->
+            <salsah-edit-user [iri]="iri" [index]="selectedRow"></salsah-edit-user>
+        </div>
+
+        <div class="add-user" *ngIf="newUserIsActive">
+            <!-- form to add (incl. creation) a new users to the project -->
+            <salsah-new-user></salsah-new-user>
+        </div>
     </div>
-  </div>
 </div>

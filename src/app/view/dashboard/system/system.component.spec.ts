@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SystemComponent } from './system.component';
+import {AppModule} from '../../../app.module';
+import {AppMaterialModule} from '../../../app-material-module';
+import {AppRoutingModule} from '../../../app-routing.module';
 
 describe('SystemComponent', () => {
   let component: SystemComponent;
@@ -8,7 +11,11 @@ describe('SystemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SystemComponent ]
+      imports: [
+        AppModule,
+        AppMaterialModule,
+        AppRoutingModule
+      ]
     })
     .compileComponents();
   }));

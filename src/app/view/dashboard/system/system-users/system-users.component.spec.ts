@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SystemUsersComponent } from './system-users.component';
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material-module';
+import {AppRoutingModule} from '../../../../app-routing.module';
+import {SystemUsersComponent} from './system-users.component';
+import {UserService} from '../../../../model/services/user.service';
 
 describe('SystemUsersComponent', () => {
   let component: SystemUsersComponent;
@@ -8,7 +11,14 @@ describe('SystemUsersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SystemUsersComponent ]
+      imports: [
+        AppModule,
+        AppMaterialModule,
+        AppRoutingModule
+      ],
+      providers: [
+        UserService
+      ]
     })
     .compileComponents();
   }));

@@ -69,10 +69,14 @@ export class SystemUsersComponent implements OnInit {
 
     ngOnInit() {
 
+        this.sortKey = this.sortProps[0].key;
+
+        this.sortLabel = this.sortProps[1].label;
+
         this._userService.getAllUsers()
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.usersList = result.getBody(UsersList).users;
+                    this.usersList = result.getBody(UsersList);
 //              let tempUsersList: string[] = [];
                     let i: number = 1;
                     for (let u of this.usersList.users) {
@@ -98,7 +102,6 @@ export class SystemUsersComponent implements OnInit {
                         }
                     });
 
-                    console.log(this.usersList);
                     this.isLoading = false;
 
                 },

@@ -15,8 +15,8 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {ApiService} from "./api.service";
-import {Headers} from "@angular/http";
+import {ApiService} from './api.service';
+import {Headers} from '@angular/http';
 
 
 @Injectable()
@@ -30,7 +30,7 @@ export class UserService extends ApiService {
      * @returns {Observable<any>}
      */
     getUserByIri(iri: string): Observable<any> {
-        return this.httpGet("/users/" + encodeURIComponent(iri));
+        return this.httpGet('/users/' + encodeURIComponent(iri));
     }
 
     /**
@@ -40,11 +40,11 @@ export class UserService extends ApiService {
      * @returns {Observable<any>}
      */
     getUserByEmail(email: string): Observable<any> {
-        return this.httpGet("/users/" + encodeURIComponent(email) + "?identifier=email");
+        return this.httpGet('/users/' + encodeURIComponent(email) + '?identifier=email');
     }
 
     getAllUsers(): Observable<any> {
-        return this.httpGet("/users");
+        return this.httpGet('/users');
     }
 
     createUser(data: any): Observable<any> {
@@ -62,11 +62,11 @@ export class UserService extends ApiService {
          lang: String = "en",
          systemAdmin: Boolean = false
          */
-        return this.httpPost("/users", data, {});
+        return this.httpPost('/users', data, {});
     }
 
     addUserToProject(uIri: string, pIri: string): Observable<any> {
-        return this.httpPost("/users/projects/" + encodeURIComponent(uIri) + "/" + encodeURIComponent(pIri));
+        return this.httpPost('/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
     }
 
 
