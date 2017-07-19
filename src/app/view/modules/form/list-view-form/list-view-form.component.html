@@ -1,3 +1,33 @@
-<p>
-  list-view-form works!
-</p>
+<div *ngIf="listInfo">
+    <h2>{{listInfo.label}} details!</h2>
+    <div><label>id: </label>{{listInfo.id}}</div>
+    <div>
+        <label>name: </label>
+        <input [(ngModel)]="listInfo.name" placeholder="name"/>
+    </div>
+    <tree-root [nodes]="nodes">
+        <ng-template #treeNodeTemplate let-node let-index="index">
+            <span>{{ node.data.name }}</span>
+            <button (click)="editListNode($event)">Edit</button>
+        </ng-template>
+    </tree-root>
+</div>
+
+<footer class="footer">
+    <div layout="row" layout-align="center center" flex>
+        <button md-raised-button
+                class="next"
+                [color]="'primary'"
+                (click)="editResources()">
+            Edit
+        </button>
+    </div>
+    <div *ngIf="editResource" layout="row" layout-align="center center" flex>
+        <button md-raised-button
+                class="save-button"
+                [color]="'primary'"
+                (click)="onSubmit(editRes.value)">
+            Save
+        </button>
+    </div>
+</footer>

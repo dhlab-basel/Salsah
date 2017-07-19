@@ -15,17 +15,23 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {ListInfo} from '../webapi/knora/v1/lists/list-info';
-import {ListsResponse} from '../webapi/knora/v1/lists/lists-response';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 import {ApiService} from './api.service';
+import {List, ListInfo, ListNode, ListsResponse} from '../webapi/knora';
 
 @Injectable()
 export class ListsService extends ApiService {
 
-    private
-
+    /**
+     * Retrieves basic information about lists. If the 'projectIri' is supplied, then only
+     * information about lists belonging to this project are returned. If no 'projectIri' is
+     * supplied, then all lists are returned.
+     *
+     * @param projectIri
+     * @returns {Observable<ListInfo[]>}
+     * @throws {ApiServiceError}
+     */
     getLists(projectIri?: string): Observable<ListInfo[]> {
 
         const empty: ListInfo[] = [];
@@ -49,6 +55,30 @@ export class ListsService extends ApiService {
                 throw error;
             }
         );
+    }
+
+
+    /**
+     * Retrieves the complete list.
+     *
+     * @param listIri
+     * @returns {Observable<List>}
+     * @throws {ApiServiceError}
+     */
+    getList(listIri: string): Observable<List> {
+        return this.httpGet('/v1/lists/' + encodeURIComponent(listIri)).map(
+            (result: ApiServiceResult) => {
+                const received: List = result.getBody(List);
+                console.log('ListsService - getLists - listIri: ' + listIri +  ' , list: ' + JSON.stringify(received));
+                return received
+            },
+            (error: ApiServiceError) => {
+                const errorMessage = <any>error;
+                console.log('ListsService - getList - error: ' + errorMessage);
+                throw error;
+            }
+        )
+
     }
 
 }

@@ -22,8 +22,7 @@ import 'hammerjs';
 //
 // import other third party modules
 import {DndModule} from 'ng2-dnd';
-
-//
+import {TreeModule} from 'angular-tree-component';
 
 
 //
@@ -162,7 +161,8 @@ import { ListViewFormComponent } from './view/modules/form/list-view-form/list-v
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
-        DndModule.forRoot()
+        DndModule.forRoot(),
+        TreeModule
     ],
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [

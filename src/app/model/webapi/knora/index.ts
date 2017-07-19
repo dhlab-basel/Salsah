@@ -56,3 +56,9 @@ export * from './v1/users/users-list';
 export * from './v1/users/user';
 export * from './v1/users/user-profile';
 
+/**
+ * Interface for lists
+ */
+export * from './v1/lists/list';
+export * from './v1/lists/lists';
+

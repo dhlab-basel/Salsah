@@ -6,9 +6,9 @@ import {ListsService} from '../../../../model/services/lists.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 
 @Component({
-  selector: 'salsah-project-lists-admin',
-  templateUrl: './project-lists-admin.component.html',
-  styleUrls: ['./project-lists-admin.component.scss']
+    selector: 'salsah-project-lists-admin',
+    templateUrl: './project-lists-admin.component.html',
+    styleUrls: ['./project-lists-admin.component.scss']
 })
 export class ProjectListsAdminComponent implements OnInit {
 
@@ -26,17 +26,22 @@ export class ProjectListsAdminComponent implements OnInit {
     projectLists: ListInfo[] = [];
     systemLists: ListInfo[] = [];
 
+    selectedList: ListInfo;
+
     size = 'large';
 
-    addList = false;
-    editList = false;
+    position = {
+        preview: 'left',    // top
+        detail: 'right'     // bottom
+    };
+
+    // the current list operation: view, edit, create
+    listOp: string = undefined;
 
     listIri: string;
 
-    constructor(
-        private _router: Router,
-        private _listsService: ListsService
-    ) {
+    constructor(private _router: Router,
+                private _listsService: ListsService) {
     }
 
     ngOnInit() {
@@ -70,39 +75,43 @@ export class ProjectListsAdminComponent implements OnInit {
             );
     }
 
-    openList(id: string, index: number) {
-        if (this.size === 'large') this.size = 'small';
+    onSelect(listInfo: ListInfo) {
+        if (this.size === 'large') {
+            this.size = 'small';
+        }
         this.isLoadingSubModule = true;
-        this.editList = true;
-        this.addList = false;
-
-        this.listIri = id;
+        this.listOp = 'view';
         this.isLoadingSubModule = false;
+
+        this.selectedList = listInfo;
     }
 
     createList() {
-        if (this.size === 'large') this.size = 'small';
+        if (this.size === 'large') {
+            this.size = 'small';
+        }
         this.isLoadingSubModule = true;
         this.selectedRow = undefined;
 
-        this.addList = true;
-        this.editList = false;
+        this.listOp = 'create';
         this.isLoadingSubModule = false;
+    }
 
+    editList() {
+        if (this.size === 'large') {
+            this.size = 'small';
+        }
+        this.isLoadingSubModule = true;
+        this.selectedRow = undefined;
 
-        /*
-         let dialogRef = this.dialog.open(ResourceClassFormComponent);
-         dialogRef.afterClosed().subscribe(result => {
-         this.selectedOption = result;
-         });
-         */
+        this.listOp = 'edit';
+        this.isLoadingSubModule = false;
     }
 
     closeDetailView() {
         this.size = 'large';
         this.selectedRow = undefined;
-        this.editList = false;
-        this.addList = false;
+        this.listOp = undefined;
     }
 
     loadingSubmodule(loaded: boolean) {

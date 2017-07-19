@@ -14,11 +14,29 @@
  */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {ListInfo} from './list-info';
 
 @JsonObject
 export class ListsResponse {
 
     @JsonProperty('lists', [ListInfo], false)
     public lists: ListInfo[] = undefined;
+}
+
+@JsonObject
+export class ListInfo {
+
+    @JsonProperty('id', String, false)
+    public id: string = undefined;
+
+    @JsonProperty('projectIri', String, true)
+    public projectIri: string = undefined;
+
+    @JsonProperty('name', String, true)
+    public name: string = undefined;
+
+    @JsonProperty('comment', String, true)
+    public comment: string = undefined;
+
+    @JsonProperty('label', String, true)
+    public label: string = undefined;
 }
