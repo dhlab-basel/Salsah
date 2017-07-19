@@ -14,8 +14,8 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ApiServiceError} from "../../../model/services/api-service-error";
+import {ActivatedRoute, Router} from '@angular/router';
+import {ApiServiceError} from '../../../model/services/api-service-error';
 
 @Component({
     selector: 'salsah-message',
@@ -54,10 +54,10 @@ export class MessageComponent implements OnInit {
     ];
 
     // default footnote text
-    knoraError: string = "If you think it\'s a mistake, please " +
-        "<a href='https://github.com/dhlab-basel/knora' target='_blank'> inform the Knora team </a>";
-    salsahError: string = "If you think it\'s a mistake, please " +
-        "<a href='https://github.com/dhlab-basel/salsah' target='_blank'> inform the Salsah developers </a>";
+    knoraError: string = 'If you think it\'s a mistake, please ' +
+        '<a href=\'https://github.com/dhlab-basel/knora\' target=\'_blank\'> inform the Knora team </a>';
+    salsahError: string = 'If you think it\'s a mistake, please ' +
+        '<a href=\'https://github.com/dhlab-basel/salsah\' target=\'_blank\'> inform the Salsah developers </a>';
 
     /**
      *
@@ -107,13 +107,15 @@ export class MessageComponent implements OnInit {
             this._activatedRoute
                 .data
                 .subscribe(
-                    v => this.statusCode = v.code
-            );
+                    (v: any) => {
+                        this.statusCode = '' + v.code;
+                    }
+                );
         }
 
-        if (this.error) {
-            // the attribute apiError is set; in that case we have a problem with the (knora) API server; = 503
-            this.statusCode = '' + this.error.status;
+        // the attribute apiError is set; in that case we have a problem with the (knora) API server; = 503
+        if(this.error) {
+            this.statusCode = (this.error.status !== 0 ? '' + this.error.status : '503');
         }
 
         // if a status code exists and it starts with 4 or 5 (e.g. 404 or 500), then we have to show the error message

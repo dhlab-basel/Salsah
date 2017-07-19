@@ -53,7 +53,7 @@
   }
 
   .login-content {
-//    font-size: 16px;
+    //    font-size: 16px;
   }
 
   .login-field {
@@ -62,8 +62,8 @@
     .mat-icon {
       font-size: 20px;
     }
-//    margin-bottom: 12px;
-//    margin-top: 24px;
+    //    margin-bottom: 12px;
+    //    margin-top: 24px;
   }
 }
 
@@ -73,3 +73,10 @@
   margin-top: 24px;
 }
 
+.login-error {
+  color: firebrick;
+  font-size: 1.4em;
+  margin-top: 12px;
+  text-align: center;
+  width: 100%;
+}

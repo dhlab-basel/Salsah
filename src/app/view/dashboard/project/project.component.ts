@@ -28,7 +28,7 @@ export class ProjectComponent implements OnInit {
 
     isLoading: boolean = true;
 
-    errorMessage: string = undefined;
+    errorMessage: any = undefined;
     project: Project = new Project();
 
     projectRoute: string = '/project/';

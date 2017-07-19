@@ -73,7 +73,8 @@ export class ProjectsListComponent implements OnInit {
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
+                        console.log(error);
+                        this.errorMessage = error;
                         this.isLoading = false;
                     }
                 );

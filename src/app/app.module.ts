@@ -99,6 +99,10 @@ import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.
 import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
 import { SortByPipe } from './view/modules/other/sort-by.pipe';
 import { EditUserComponent } from './view/modules/form/edit-user/edit-user.component';
+import { SystemComponent } from './view/dashboard/system/system.component';
+import { SystemUsersComponent } from './view/dashboard/system/system-users/system-users.component';
+import { SystemProjectsComponent } from './view/dashboard/system/system-projects/system-projects.component';
+import { SystemOntologiesComponent } from './view/dashboard/system/system-ontologies/system-ontologies.component';
 
 @NgModule({
     declarations: [
@@ -148,7 +152,11 @@ import { EditUserComponent } from './view/modules/form/edit-user/edit-user.compo
         OsdViewerComponent,
         EditResourceClassComponent,
         SortByPipe,
-        EditUserComponent
+        EditUserComponent,
+        SystemComponent,
+        SystemUsersComponent,
+        SystemProjectsComponent,
+        SystemOntologiesComponent
     ],
     imports: [
         BrowserModule,

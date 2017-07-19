@@ -36,6 +36,8 @@ import {ProgressStepperComponent} from "./view/modules/other/progress-stepper/pr
 import {MessageComponent} from "./view/modules/message/message.component";
 import {NewResClassComponent} from "./view/test/development/new-res-class/new-res-class.component";
 import {NewResourceClassComponent} from "./view/modules/form/new-resource-class/new-resource-class.component";
+import {SystemComponent} from "./view/dashboard/system/system.component";
+import {SystemUsersComponent} from './view/dashboard/system/system-users/system-users.component';
 
 const appRoutes: Routes = [
     {
@@ -103,6 +105,20 @@ const appRoutes: Routes = [
                 data: {
                     code: '404'
                 }
+            }
+        ]
+    },
+    {
+        path: 'system', component: SystemComponent,
+        children: [
+            {
+                path: '', component: SystemUsersComponent
+            },
+            {
+                path: 'users', component: SystemUsersComponent
+            },
+            {
+                path: '', component: SystemUsersComponent
             }
         ]
     },

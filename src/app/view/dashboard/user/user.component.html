@@ -9,7 +9,7 @@
 
 <!-- variant b) -->
 <!-- show the logged in user profile incl. projects list, collections and settings -->
-<div class="salsah-module with-header" *ngIf="showOwnProfile">
+<div class="salsah-module with-header" *ngIf="showOwnProfile && !errorMessage">
 
     <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
 

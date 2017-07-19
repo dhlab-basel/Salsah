@@ -29,7 +29,7 @@ import {User, UserProfile} from "../../../model/webapi/knora/";
 export class UserComponent implements OnInit {
 
     isLoading: boolean = true;
-    errorMessage: string = undefined;
+    errorMessage: any = undefined;
 
     // the userProfile of the logged in user
     ownProfile: UserProfile = new UserProfile();
