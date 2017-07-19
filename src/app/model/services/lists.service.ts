@@ -15,7 +15,6 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {ListInfo} from '../webapi/knora/v1/lists/list-info';
 import {ListsResponse} from '../webapi/knora/v1/lists/lists-response';
 import {ApiServiceError} from './api-service-error';
@@ -25,27 +24,31 @@ import {ApiService} from './api.service';
 @Injectable()
 export class ListsService extends ApiService {
 
-    private lists: ReplaySubject<ListInfo[]> = new ReplaySubject(1);
+    private
 
     getLists(projectIri?: string): Observable<ListInfo[]> {
 
-        console.log('ListsService - getLists - projectIri: ' + projectIri);
+        const empty: ListInfo[] = [];
 
-        this.httpGet('/v1/lists?projectIri=' + encodeURIComponent(projectIri)).subscribe(
+        return this.httpGet('/v1/lists?projectIri=' + encodeURIComponent(projectIri)).map(
             (result: ApiServiceResult) => {
-                const lists: ListInfo[] = result.getBody(ListsResponse).lists;
-                this.lists.next(lists);
-                // console.log("ListsService - getLists - lists: " + JSON.stringify(lists));
 
+                const received: ListInfo[] = result.getBody(ListsResponse).lists;
+
+                console.log('ListsService - getLists - projectIri: ' + projectIri +  ' , lists: ' + JSON.stringify(received));
+
+                if (received.length > 0) {
+                    return received;
+                } else {
+                    return empty;
+                }
             },
             (error: ApiServiceError) => {
                 const errorMessage = <any>error;
                 console.log('ListsService - getLists - error: ' + errorMessage);
-                this.lists.error(error);
+                throw error;
             }
         );
-
-        return this.lists;
     }
 
 }

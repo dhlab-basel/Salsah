@@ -39,22 +39,17 @@ export class ProjectsService extends ApiService {
      */
     getAllProjects(): Observable<Project[]> {
 
-        console.log('ProjectsService - getAllProjects');
-
-        const allProjects: ReplaySubject<Project[]> = new ReplaySubject(1);
-
-        this.httpGet('/v1/projects').subscribe(
+        return this.httpGet('/v1/projects').map(
                 (result: ApiServiceResult) => {
                     const projects: Project[] = result.getBody(ProjectsResponse).projects;
-                    allProjects.next(projects);
+                    // console.log('ProjectsService - getAllProjects: ' + JSON.stringify(projects));
+                    return projects;
                 },
                 (error: ApiServiceError) => {
                     console.error('ProjectsService - getAllProjects - error: ' + JSON.stringify(error));
-                    allProjects.error(error);
+                    throw error;
                 }
             );
-
-        return allProjects;
     }
 
     /**
@@ -65,21 +60,8 @@ export class ProjectsService extends ApiService {
      * @throws {ApiServiceError}
      */
     getProjectByIri(iri: string): Observable<Project> {
-        console.log('ProjectsService - getProjectByIri: ' + iri);
-
-        this.httpGet('/v1/projects/' + encodeURIComponent(iri))
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    const project: Project = result.getBody(ProjectResponse).project_info;
-                    this.activeProject.next(project);
-                },
-                (error: ApiServiceError) => {
-                    console.error(error);
-                    this.activeProject.error(error);
-                }
-            );
-
-        return this.activeProject;
+        const url = '/v1/projects/' + encodeURIComponent(iri)
+        return this.getProject(url);
     }
 
     /**
@@ -90,22 +72,29 @@ export class ProjectsService extends ApiService {
      * @throws {ApiServiceError}
      */
     getProjectByShortname(shortname: string): Observable<Project> {
+        const url = '/v1/projects/' + shortname + '?identifier=shortname';
+        return this.getProject(url);
+    }
 
-        console.log('ProjectsService - getProjectByShortname: ' + shortname);
-
-        this.httpGet('/v1/projects/' + shortname + '?identifier=shortname')
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    const project: Project = result.getBody(ProjectResponse).project_info;
-                    this.activeProject.next(project);
-                },
-                (error: ApiServiceError) => {
-                    console.error(error);
-                    this.activeProject.error(error);
-                }
-            );
-
-        return this.activeProject;
+    /**
+     * Helper method combining project retrieval
+     *
+     * @param url
+     * @returns {Observable<Project>}
+     * @throws {ApiServiceError}
+     */
+    getProject(url: string): Observable<Project> {
+        return this.httpGet(url).map(
+            (result: ApiServiceResult) => {
+                const project: Project = result.getBody(ProjectResponse).project_info;
+                // console.log('ProjectsService - getProject: ' + url + ' , project: ' + project);
+                return project;
+            },
+            (error: ApiServiceError) => {
+                console.error(error);
+                throw error;
+            }
+        );
     }
 
     /**
@@ -116,20 +105,8 @@ export class ProjectsService extends ApiService {
      * @throws {ApiServiceError}
      */
     getProjectMembersByIri(iri: string): Observable<UserData[]> {
-        this.httpGet('/v1/projects/members/' + encodeURIComponent(iri))
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    const members: UserData[] = result.getBody(ProjectMembersResponse).projectMembers;
-                    console.log('ProjectsService - getProjectMembersByIri - members: ' + JSON.stringify(members));
-                    this.projectMembers.next(members);
-                },
-                (error: ApiServiceError) => {
-                    console.error(error);
-                    this.projectMembers.error(error);
-                }
-            );
-
-        return this.projectMembers;
+        const url = '/v1/projects/members/' + encodeURIComponent(iri);
+        return this.getProjectMembers(url);
     }
 
     /**
@@ -140,21 +117,29 @@ export class ProjectsService extends ApiService {
      * @throws {ApiServiceError}
      */
     getProjectMembersByShortname(shortname: string): Observable<UserData[]> {
+        const url = '/v1/projects/members/' + shortname + '?identifier=shortname';
+        return this.getProjectMembers(url);
+    }
 
-        this.httpGet('/v1/projects/members/' + shortname + '?identifier=shortname')
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    const members: UserData[] = result.getBody(ProjectMembersResponse).projectMembers;
-                    console.log('ProjectsService - getProjectMembersByShortname - members: ' + JSON.stringify(members));
-                    this.projectMembers.next(members);
-                },
-                (error: ApiServiceError) => {
-                    console.error(error);
-                    this.projectMembers.error(error);
-                }
-            );
-
-        return this.projectMembers;
+    /**
+     * Helper method comining project member retrieval
+     *
+     * @param url
+     * @returns {Observable<UserData[]>}
+     * @throws {ApiServiceError}
+     */
+    getProjectMembers(url: string): Observable<UserData[]> {
+        return this.httpGet(url).map(
+            (result: ApiServiceResult) => {
+                const members: UserData[] = result.getBody(ProjectMembersResponse).projectMembers;
+                // console.log('ProjectsService - getProjectMembers - url: ' + JSON.stringify(members) + ' , members: ' + JSON.stringify(members));
+                return members;
+            },
+            (error: ApiServiceError) => {
+                console.error(error);
+                throw error;
+            }
+        )
     }
 
 
