@@ -53,7 +53,7 @@
 
         <!-- view selected list -->
         <div class="view-list" *ngIf="listOp === 'view' && !errorMessage">
-            <salsah-list-view-form [listInfo]="selectedList"></salsah-list-view-form>
+            <salsah-list-view-form [listIri]="selectedList.id"></salsah-list-view-form>
         </div>
 
         <!-- edit selected list -->

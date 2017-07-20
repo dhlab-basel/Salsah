@@ -1,14 +1,14 @@
-<div *ngIf="listInfo">
-    <h2>{{listInfo.label}} details!</h2>
-    <div><label>id: </label>{{listInfo.id}}</div>
+<div *ngIf="currentListInfo">
+    <h2>{{currentListInfo.label}} details!</h2>
+    <div><label>id: </label>{{currentListInfo.id}}</div>
     <div>
         <label>name: </label>
-        <input [(ngModel)]="listInfo.name" placeholder="name"/>
+        <input [(ngModel)]="currentListInfo.name" placeholder="name"/>
     </div>
-    <tree-root [nodes]="currentList">
+    <tree-root [nodes]="currentNodes">
         <ng-template #treeNodeTemplate let-node let-index="index">
-            <span>{{ node.label }}</span>
-            <button (click)="editListNode($event)">Edit</button>
+            <span>{{ node.data.label }}</span>
+            <button (click)="viewDetails(node.data.id)">Details</button>
         </ng-template>
     </tree-root>
 </div>

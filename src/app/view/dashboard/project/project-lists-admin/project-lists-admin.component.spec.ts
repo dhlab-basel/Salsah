@@ -1,10 +1,10 @@
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 
-import {ProjectListsAdminComponent} from './project-lists.component';
 import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
 import {ApiService} from '../../../../model/services/api.service';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {MockBackend} from '@angular/http/testing';
+import {ProjectListsAdminComponent} from './project-lists-admin.component';
 
 describe('ProjectListsAdminComponent', () => {
     let component: ProjectListsAdminComponent;

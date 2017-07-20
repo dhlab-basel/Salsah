@@ -14,45 +14,21 @@
  */
 
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {ListInfo} from '../../../../model/webapi/knora/v1/lists/list-info';
-import {ListsService} from '../../../../model/services/lists.service';
+import {MdDialog} from '@angular/material';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ListsService} from '../../../../model/services/lists.service';
 import {List} from '../../../../model/webapi/knora/v1/lists/list';
 import {ListNode} from '../../../../model/webapi/knora/v1/lists/list-node';
+import {ListInfo} from '../../../../model/webapi/knora/v1/lists/list-info';
 
 @Component({
     selector: 'salsah-list-view-form',
     templateUrl: './list-view-form.component.html',
     styleUrls: ['./list-view-form.component.scss']
 })
-export class ListViewFormComponent implements OnInit, OnChanges {
+export class ListViewFormComponent implements OnChanges {
 
-    @Input() listInfo: ListInfo;
-
-    nodes = [
-        {
-            id: 1,
-            name: 'root1',
-            children: [
-                { id: 2, name: 'child1' },
-                { id: 3, name: 'child2' }
-            ]
-        },
-        {
-            id: 4,
-            name: 'root2',
-            children: [
-                { id: 5, name: 'child2.1' },
-                {
-                    id: 6,
-                    name: 'child2.2',
-                    children: [
-                        { id: 7, name: 'subsub' }
-                    ]
-                }
-            ]
-        }
-    ];
+    @Input() listIri: string;
 
     currentNodes: ListNode[];
     currentListInfo: ListInfo;
@@ -65,12 +41,8 @@ export class ListViewFormComponent implements OnInit, OnChanges {
     constructor(private _listsService: ListsService) {
     }
 
-    ngOnInit() {
-
-    }
-
     ngOnChanges() {
-        this._listsService.getList(this.listInfo.id)
+        this._listsService.getList(this.listIri)
             .subscribe(
                 (list: List) => {
                     console.log(list);
@@ -83,8 +55,8 @@ export class ListViewFormComponent implements OnInit, OnChanges {
             );
     }
 
-    editListNode() {
-        this.editResource = true;
+    viewDetails(nodeIri: string) {
+        this.dialog.open(DialogOverviewExampleDialog);
     }
 
 }
