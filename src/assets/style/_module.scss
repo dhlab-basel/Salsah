@@ -18,9 +18,9 @@
 
     .salsah-module-header {
       @include border-bottom();
-      height: 48px;
-      max-height: 48px;
-      min-height: 48px;
+      height: $module-header-height;
+      max-height: $module-header-height;
+      min-height: $module-header-height;
       top: $header-height;
 
 //      width: 100vw;
@@ -28,7 +28,7 @@
       //            @include box-shadow-bottom();
 
       .mat-toolbar-row {
-        height: 48px;
+        height: $module-header-height;
 
         nav {
           margin: 0;
@@ -38,7 +38,7 @@
 
     .salsah-module-content,
     .salsah-module-detail {
-      top: $header-height;
+      top: $module-header-height;
     }
   }
 

@@ -1,6 +1,25 @@
 <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
     <h2 md-header>List of every user in Knora</h2>
 
+    <table>
+        <tr>
+            <th *ngFor="let col of displayedColumns">{{col}}</th>
+        </tr>
+        <tr *ngFor="let u of usersList?.users; let i = index">
+            <td>
+                <md-icon md-list-avatar>
+                    <img salsahGravatar [email]="u?.email" class="salsah-avatar-image"/>
+                </md-icon>
+            </td>
+            <td>{{u?.firstname}}</td>
+            <td>{{u?.lastname}}</td>
+            <td>{{u?.email}}</td>
+        </tr>
+    </table>
+
+
+
+
     <md-list>
 
         <!-- button to add new user -->
@@ -18,6 +37,7 @@
         -->
 
         <!-- list of all users -->
+        <!--
         <h3 md-subheader>
             <button md-icon-button
                     *ngIf="!editUserIsActive && !newUserIsActive"
@@ -27,12 +47,15 @@
             </button>
             Project Members
         </h3>
-        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+        -->
 
+        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+<!--
         <md-list-item *ngFor="let user of usersList?.users | sortBy: sortKey; let i = index"
                       [id]="user?.user_id"
                       class="salsah-link">
-            <!--<md-list-item *ngFor="let admin of project.admins">-->
+
+
             <md-icon md-list-avatar>
                 <img salsahGravatar [email]="user?.email" class="salsah-avatar-image"/>
             </md-icon>
@@ -42,6 +65,7 @@
                 <md-icon>close</md-icon>
             </button>
         </md-list-item>
+-->
         <!--
         <md-divider></md-divider>
         <h3 md-subheader>Project Member</h3>

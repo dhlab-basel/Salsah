@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserData, UsersList} from '../../../../model/webapi/knora/';
 import {UserService} from '../../../../model/services/user.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
@@ -28,6 +28,9 @@ export class SystemUsersComponent implements OnInit {
 
     // user profile
     user: User;
+
+    // table columns header
+    displayedColumns = ['Gravatar', 'Prename', 'Lastname', 'eMail'];
 
     // the sub module of this component can contain
     // a) a form to create a new user and add it to the project

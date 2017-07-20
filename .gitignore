@@ -46,3 +46,5 @@ docs/env
 docs/_build
 docs/_format_docu
 *.iml
+
+json2typescript

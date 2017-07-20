@@ -13,6 +13,7 @@
  * */
 
 import {JsonConvert} from "json2typescript";
+import {ValueCheckingMode} from '../../../assets/json2typescript/src/json2typescript/json-convert-enums';
 
 /**
  * Result class used as API url response in ApiService
@@ -47,7 +48,16 @@ export class ApiServiceResult {
     getBody(classObject?: {new(): any}): any {
         if (!classObject) return this.body;
         try {
-            return JsonConvert.deserializeObject(this.body, classObject);
+            let jsonConvert = new JsonConvert();
+            jsonConvert.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
+            return jsonConvert.deserialize(this.body, classObject);
+            //
+            // Json convert error handling
+            //
+//        JsonConvert.debugMode = true;
+//        JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
+            //JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
+            //return JsonConvert.deserializeObject(this.body, classObject);
         } catch(e) {
             console.log(e);
         }

@@ -24,13 +24,6 @@ import {ApiServiceResult} from "./api-service-result";
 export class ApiService {
 
     constructor(private _http: Http) {
-
-        //
-        // Json convert error handling
-        //
-//        JsonConvert.debugMode = true;
-//        JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
-        JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
     }
 
     /**

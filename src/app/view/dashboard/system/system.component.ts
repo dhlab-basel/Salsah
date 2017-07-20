@@ -65,6 +65,9 @@ export class SystemComponent implements OnInit {
       */
 
     }
+
+    this.isLoading = false;
+
   }
 
 }

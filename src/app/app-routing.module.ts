@@ -113,7 +113,7 @@ const appRoutes: Routes = [
         path: 'system', component: SystemComponent,
         children: [
             {
-                path: '', component: SystemUsersComponent
+                path: '', redirectTo: 'users', pathMatch: 'full'
             },
             {
                 path: 'users', component: SystemUsersComponent
