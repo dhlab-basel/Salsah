@@ -13,7 +13,8 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {ListInfo} from './lists';
+import {ListNode} from './list-node';
+import {ListInfo} from './list-info';
 
 @JsonObject
 export class List {
@@ -21,28 +22,6 @@ export class List {
     @JsonProperty('info', ListInfo, false)
     public info: ListInfo = undefined;
 
-    @JsonProperty('nodes', ListNode[], false)
+    @JsonProperty('nodes', [ListNode], false)
     public nodes: ListNode[] = undefined;
-}
-
-@JsonObject
-export class ListNode {
-
-    @JsonProperty('id', String, false)
-    public id: string = undefined;
-
-    @JsonProperty('name', String, true)
-    public name: string = undefined;
-
-    @JsonProperty('label', String, true)
-    public label: string = undefined;
-
-    @JsonProperty('children', ListNode[], true)
-    public children: ListNode[] = undefined;
-
-    @JsonProperty('level', Number, false)
-    public level: number = undefined;
-
-    @JsonProperty('position', Number, false)
-    public position: number = undefined;
 }

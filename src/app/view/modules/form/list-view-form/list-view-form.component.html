@@ -5,9 +5,9 @@
         <label>name: </label>
         <input [(ngModel)]="listInfo.name" placeholder="name"/>
     </div>
-    <tree-root [nodes]="nodes">
+    <tree-root [nodes]="currentList">
         <ng-template #treeNodeTemplate let-node let-index="index">
-            <span>{{ node.data.name }}</span>
+            <span>{{ node.label }}</span>
             <button (click)="editListNode($event)">Edit</button>
         </ng-template>
     </tree-root>

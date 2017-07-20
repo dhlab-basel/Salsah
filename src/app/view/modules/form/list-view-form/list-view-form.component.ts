@@ -16,6 +16,9 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {ListInfo} from '../../../../model/webapi/knora/v1/lists/list-info';
 import {ListsService} from '../../../../model/services/lists.service';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {List} from '../../../../model/webapi/knora/v1/lists/list';
+import {ListNode} from '../../../../model/webapi/knora/v1/lists/list-node';
 
 @Component({
     selector: 'salsah-list-view-form',
@@ -51,6 +54,9 @@ export class ListViewFormComponent implements OnInit, OnChanges {
         }
     ];
 
+    currentNodes: ListNode[];
+    currentListInfo: ListInfo;
+
     errorMessage: string = undefined;
     selectedRow: number;
 
@@ -60,14 +66,16 @@ export class ListViewFormComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+
     }
 
     ngOnChanges() {
-        this._listsService.getLists(this.listInfo.projectIri)
+        this._listsService.getList(this.listInfo.id)
             .subscribe(
-                (lists: ListInfo[]) => {
-                    console.log(lists);
-                    this.projectLists = lists;
+                (list: List) => {
+                    console.log(list);
+                    this.currentNodes = list.nodes;
+                    this.currentListInfo = list.info;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;

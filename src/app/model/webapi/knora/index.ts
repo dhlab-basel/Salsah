@@ -60,5 +60,7 @@ export * from './v1/users/user-profile';
  * Interface for lists
  */
 export * from './v1/lists/list';
-export * from './v1/lists/lists';
+export * from './v1/lists/list-info';
+export * from './v1/lists/list-node';
+export * from './v1/lists/lists-response';
 
