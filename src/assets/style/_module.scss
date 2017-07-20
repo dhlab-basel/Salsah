@@ -18,10 +18,22 @@
 
     .salsah-module-header {
       @include border-bottom();
+      height: 48px;
+      max-height: 48px;
+      min-height: 48px;
       top: $header-height;
+
 //      width: 100vw;
       z-index: 9;
       //            @include box-shadow-bottom();
+
+      .mat-toolbar-row {
+        height: 48px;
+
+        nav {
+          margin: 0;
+        }
+      }
     }
 
     .salsah-module-content,
