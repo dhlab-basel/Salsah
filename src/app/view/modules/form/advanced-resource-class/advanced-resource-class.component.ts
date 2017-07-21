@@ -15,8 +15,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
-import {DefaultResources, ResourceClass} from "../../../../model/test-data/default-resources";
+import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
+import {BasicOntology, ResourceClass} from "../../../../model/test-data/basic-ontology";
 
 
 class ListInfo{
@@ -38,7 +38,7 @@ export class AdvancedResourceClassComponent implements OnInit {
     errorMessage: any;
 
     // data from the server
-    baseOntology: DefaultResources = new DefaultResources();
+    basicOntology: BasicOntology = new BasicOntology();
 
     // result to send to the server
     newAdvResource: ResourceClass = new ResourceClass();
@@ -99,29 +99,29 @@ export class AdvancedResourceClassComponent implements OnInit {
     };
 
 
-    constructor(private _baseOntologyService: BaseOntologyService) {}
+    constructor(private _basicOntologyService: BasicOntologyService) {}
 
     ngOnInit() {
 
-        this._baseOntologyService.getBaseOntology()
+        this._basicOntologyService.getBasicOntology()
           .subscribe(
               (result: ApiServiceResult) => {
-                  this.baseOntology = result.getBody(DefaultResources);
-                  console.log(this.baseOntology);
-                  this.newAdvResource.permissions = this.baseOntology.defaultPermissions;
+                  this.basicOntology = result.getBody(BasicOntology);
+                  console.log(this.basicOntology);
+                  this.newAdvResource.permissions = this.basicOntology.defaultPermissions;
                   console.log(this.newAdvResource);
               },
               (error: ApiServiceError) => {
                   this.errorMessage = <any>error;
               }
           );
-//        this.newAdvResource = this.baseOntology.resourceClasses[];
+//        this.newAdvResource = this.basicOntology.resourceClasses[];
         this.newAdvResource.id = this.resClassId;
 
 
         // set the resource default permissions:
 
-//        this.newAdvResource.permissions = this.baseOntology.defaultPermissions;
+//        this.newAdvResource.permissions = this.basicOntology.defaultPermissions;
         //console.log(this.newAdvResource);
 
 
