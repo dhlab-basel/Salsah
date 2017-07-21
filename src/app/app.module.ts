@@ -96,9 +96,8 @@ import { NewResourceClassComponent } from './view/modules/form/new-resource-clas
 import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
 import { EditResourceClassComponent } from './view/modules/form/edit-resource-class/edit-resource-class.component';
 import { ProjectListsAdminComponent } from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
-import { ListEditFormComponent } from './view/modules/form/list-edit-form/list-edit-form.component';
-import { ListCreateFormComponent } from './view/modules/form/list-create-form/list-create-form.component';
-import { ListViewFormComponent } from './view/modules/form/list-view-form/list-view-form.component';
+import { ListNodeFormComponent } from './view/modules/form/list-node-form/list-node-form.component';
+import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 
 @NgModule({
     declarations: [
@@ -148,9 +147,8 @@ import { ListViewFormComponent } from './view/modules/form/list-view-form/list-v
         OsdViewerComponent,
         EditResourceClassComponent,
         ProjectListsAdminComponent,
-        ListEditFormComponent,
-        ListCreateFormComponent,
-        ListViewFormComponent
+        ListNodeFormComponent,
+        ListFormComponent
     ],
     imports: [
         BrowserModule,
@@ -167,7 +165,8 @@ import { ListViewFormComponent } from './view/modules/form/list-view-form/list-v
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [
         ResourceClassFormComponent,
-        UserFormComponent
+        UserFormComponent,
+        ListNodeFormComponent
     ],
     providers: [
         ApiService,

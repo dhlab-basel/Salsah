@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListCreateFormComponent } from './list-create-form.component';
+import { ListNodeFormComponent } from './list-node-form.component';
 
-describe('ListCreateFormComponent', () => {
-  let component: ListCreateFormComponent;
-  let fixture: ComponentFixture<ListCreateFormComponent>;
+describe('ListNodeFormComponent', () => {
+  let component: ListNodeFormComponent;
+  let fixture: ComponentFixture<ListNodeFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListCreateFormComponent ]
+      declarations: [ ListNodeFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListCreateFormComponent);
+    fixture = TestBed.createComponent(ListNodeFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

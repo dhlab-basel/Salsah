@@ -19,6 +19,7 @@ import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 import {ApiService} from './api.service';
 import {List, ListInfo, ListNode, ListsResponse} from '../webapi/knora';
+import {ListNodeInfo} from '../webapi/knora/v1/lists/list-node-info';
 
 @Injectable()
 export class ListsService extends ApiService {
@@ -70,6 +71,29 @@ export class ListsService extends ApiService {
             (result: ApiServiceResult) => {
                 const received: List = result.getBody(List);
                 console.log('ListsService - getLists - listIri: ' + listIri +  ' , list: ' + JSON.stringify(received));
+                return received
+            },
+            (error: ApiServiceError) => {
+                const errorMessage = <any>error;
+                console.log('ListsService - getList - error: ' + errorMessage);
+                throw error;
+            }
+        )
+
+    }
+
+    /**
+     * Retrieves the basic list node information.
+     *
+     * @param nodeIri
+     * @returns {Observable<ListNodeInfo>}
+     * @throws {ApiServiceError}
+     */
+    getListNodeInfo(nodeIri: string): Observable<ListNodeInfo> {
+        return this.httpGet('/v1/lists/nodes/' + encodeURIComponent(nodeIri)).map(
+            (result: ApiServiceResult) => {
+                const received: ListNodeInfo = result.getBody(ListNodeInfo);
+                console.log('ListsService - getLists - listIri: ' + nodeIri +  ' , list: ' + JSON.stringify(received));
                 return received
             },
             (error: ApiServiceError) => {

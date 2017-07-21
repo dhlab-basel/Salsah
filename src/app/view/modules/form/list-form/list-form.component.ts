@@ -13,22 +13,24 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {MdDialog} from '@angular/material';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ListsService} from '../../../../model/services/lists.service';
-import {List} from '../../../../model/webapi/knora/v1/lists/list';
+import {Component, Input, OnChanges} from '@angular/core';
 import {ListNode} from '../../../../model/webapi/knora/v1/lists/list-node';
 import {ListInfo} from '../../../../model/webapi/knora/v1/lists/list-info';
+import {ListsService} from '../../../../model/services/lists.service';
+import {List} from '../../../../model/webapi/knora/v1/lists/list';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ListNodeFormComponent} from '../list-node-form/list-node-form.component';
+import {MdDialog} from '@angular/material';
 
 @Component({
-    selector: 'salsah-list-view-form',
-    templateUrl: './list-view-form.component.html',
-    styleUrls: ['./list-view-form.component.scss']
+  selector: 'salsah-list-form',
+  templateUrl: './list-form.component.html',
+  styleUrls: ['./list-form.component.scss']
 })
-export class ListViewFormComponent implements OnChanges {
+export class ListFormComponent implements OnChanges {
 
     @Input() listIri: string;
+    @Input() listOp: string; // view, edit, create
 
     currentNodes: ListNode[];
     currentListInfo: ListInfo;
@@ -38,11 +40,31 @@ export class ListViewFormComponent implements OnChanges {
 
     editResource: boolean;
 
-    constructor(private _listsService: ListsService) {
-    }
+    constructor(private _listsService: ListsService,
+                private _dialog: MdDialog) {}
 
     ngOnChanges() {
-        this._listsService.getList(this.listIri)
+        this.getCurrentList(this.listIri);
+    }
+
+    viewDetails(nodeIri: string) {
+        const dialogRef = this._dialog.open(ListNodeFormComponent, {
+            height: '400px',
+            width: '500px',
+            data: nodeIri
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+
+            // only if we have changed the list node, go and fetch the updated version
+            if (result === true) {
+                this.getCurrentList(this.listIri);
+            }
+        });
+    }
+
+    getCurrentList(iri: string) {
+        this._listsService.getList(iri)
             .subscribe(
                 (list: List) => {
                     console.log(list);
@@ -53,10 +75,6 @@ export class ListViewFormComponent implements OnChanges {
                     this.errorMessage = <any>error;
                 }
             );
-    }
-
-    viewDetails(nodeIri: string) {
-        this.dialog.open(DialogOverviewExampleDialog);
     }
 
 }

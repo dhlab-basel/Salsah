@@ -1,10 +1,9 @@
 <div *ngIf="currentListInfo">
     <h2>{{currentListInfo.label}} details!</h2>
     <div><label>id: </label>{{currentListInfo.id}}</div>
-    <div>
-        <label>name: </label>
-        <input [(ngModel)]="currentListInfo.name" placeholder="name"/>
-    </div>
+    <div><label>project: </label>{{currentListInfo.projectIri}}</div>
+    <div><label>label: </label>{{currentListInfo.label}}</div>
+    <div><label>comment: </label>{{currentListInfo.comment}}</div>
     <tree-root [nodes]="currentNodes">
         <ng-template #treeNodeTemplate let-node let-index="index">
             <span>{{ node.data.label }}</span>

@@ -25,7 +25,7 @@
         <br/>
         <h2 md-subheader>Lists (system)</h2>
         <md-list-item *ngFor="let sListItem of systemLists; let i = index"
-                      (click)="onSelect(pListItem);"
+                      (click)="onSelect(sListItem);"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
             <h4 md-line>{{sListItem.label}}</h4>
@@ -52,19 +52,19 @@
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
         <!-- view selected list -->
-        <div class="view-list" *ngIf="listOp === 'view' && !errorMessage">
-            <salsah-list-view-form [listIri]="selectedList.id"></salsah-list-view-form>
+        <div class="view-list" *ngIf="!errorMessage">
+            <salsah-list-form [listIri]="selectedList.id" [listOp]="listOp"></salsah-list-form>
         </div>
 
         <!-- edit selected list -->
         <div class="edit-list" *ngIf="listOp === 'edit' && !errorMessage">
-            <salsah-list-edit-form [listInfo]="selectedList"></salsah-list-edit-form>
+            <salsah-list-form [listIri]="selectedList.id"></salsah-list-form>
         </div>
 
         <!-- create new list -->
         <div class="create-list" *ngIf="listOp === 'create' && !errorMessage">
             <!-- OR create a new resource class -->
-            <salsah-list-create-form></salsah-list-create-form>
+            <salsah-list-form></salsah-list-form>
         </div>
     </div>
 </div>
