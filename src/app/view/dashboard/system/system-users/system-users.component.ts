@@ -117,17 +117,13 @@ export class SystemUsersComponent implements OnInit {
 
     }
 
-    openDialog(iri: string, index: number) {
+    openDialog(iri: string) {
 
-        console.log(index);
-        console.log(iri);
+        let dialogRef = this.dialog.open(UserProfileDialogComponent, {data: {iri: iri}});
 
-        let dialogRef = this.dialog.open(UserProfileDialogComponent);
-/*
         dialogRef.afterClosed().subscribe(result => {
             console.log(result);
         });
-        */
     }
 
 }

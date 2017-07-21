@@ -15,10 +15,10 @@
 
         <md-list-item *ngFor="let user of usersList?.users | sortBy: sortKey; let i = index;"
                       [id]="user?.user_id"
-                      (click)="openDialog(user?.user_id, i)"
+                      (click)="openDialog(user?.user_id)"
                       class="salsah-link">
             <md-icon md-list-avatar>
-                <img salsahGravatar [email]="user?.email" class="salsah-avatar-image" [src]="" />
+                <img salsahGravatar [email]="user?.email" class="salsah-avatar-image" />
             </md-icon>
             <h4 md-line>{{user?.firstname}} {{user?.lastname}}</h4>
             <p md-line> {{user?.email}} </p>
