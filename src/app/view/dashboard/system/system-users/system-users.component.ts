@@ -1,8 +1,24 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {User, UserData, UsersList} from '../../../../model/webapi/knora/';
-import {UserService} from '../../../../model/services/user.service';
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * This file is part of SALSAH.
+ * SALSAH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * SALSAH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You should have received a copy of the GNU Affero General Public
+ * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+ * */
+
+import {Component, OnInit} from '@angular/core';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {UserService} from '../../../../model/services/user.service';
+import {UsersList, UserProfile} from '../../../../model/webapi/knora/';
+import {UserProfileDialogComponent} from '../../../modules/dialog/user-profile-dialog/user-profile-dialog.component';
+import {MdDialog} from '@angular/material';
 
 @Component({
     selector: 'salsah-system-users',
@@ -22,7 +38,7 @@ export class SystemUsersComponent implements OnInit {
     errorMessage: string = undefined;
 
     // list of users
-//    usersList: UsersList;
+    usersList: UsersList = new UsersList();
     // and a user's list for sorting
 //    users: any = [];
 
@@ -64,64 +80,33 @@ export class SystemUsersComponent implements OnInit {
         }
     ];
     sortTitle: string = 'Sort by: ';
-    sortKey: string;
-    sortLabel: string;
+    sortKey: string = this.sortProps[0].key;
+    sortLabel: string = this.sortProps[1].label;
 
-    constructor(private _userService: UserService) {
+    constructor(private _userService: UserService,
+                public dialog: MdDialog) {
     }
 
     ngOnInit() {
 
-//        this.sortKey = this.sortProps[0].key;
-
-//        this.sortLabel = this.sortProps[1].label;
-/*
         this._userService.getAllUsers()
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.usersList = result.getBody(UsersList);
-//              let tempUsersList: string[] = [];
-                    let i: number = 1;
-                    for (let u of this.usersList.users) {
-
-                        this.users[i] = {
-                            iri: u.user_id,
-                            name: u.firstname + ' ' + u.lastname + ' (' + u.email + ')'
-                        };
-
-//                        this.usersList[i] = u.lastname + ', ' + u.firstname + ' (' + u.email + ')';
-                        i++;
-                    }
-
-                    this.users.sort(function (u1, u2) {
-                        if (u1.name < u2.name) {
-                            return -1;
-                        }
-                        else if (u1.name > u2.name) {
-                            return 1;
-                        }
-                        else {
-                            return 0;
-                        }
-                    });
-
                     this.isLoading = false;
-
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
             );
-*/
     }
 
-    /*
+
     sortBy(key: string) {
 
 //        this.sortKey = (key == this.sortKey ? this.sortProps[1].key : this.sortProps[0].key);
 
         if (key === this.sortProps[0].key) {
-
             this.sortKey = this.sortProps[1].key;
             this.sortLabel = this.sortProps[0].label;
         }
@@ -131,12 +116,18 @@ export class SystemUsersComponent implements OnInit {
         }
 
     }
-    */
 
+    openDialog(iri: string, index: number) {
+
+        console.log(index);
+        console.log(iri);
+
+        let dialogRef = this.dialog.open(UserProfileDialogComponent);
 /*
-    openUser(iri: string) {
-        alert(iri);
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+        });
+        */
     }
-*/
 
 }

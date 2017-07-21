@@ -13,10 +13,10 @@
  * */
 
 import {Component, EventEmitter, OnChanges, Input, Output} from '@angular/core';
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {UserService} from "../../../../model/services/user.service";
-import {User} from "../../../../model/webapi/knora/";
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {UserService} from '../../../../model/services/user.service';
+import {User} from '../../../../model/webapi/knora/';
 
 @Component({
   selector: 'salsah-edit-user',
@@ -34,7 +34,7 @@ export class EditUserComponent implements OnChanges {
 
 //  editUser: boolean;
 
-  constructor(private _userService: UserService ) { }
+  constructor(private _userService: UserService) { }
 
   ngOnChanges() {
 

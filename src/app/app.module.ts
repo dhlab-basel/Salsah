@@ -103,6 +103,7 @@ import { SystemComponent } from './view/dashboard/system/system.component';
 import { SystemUsersComponent } from './view/dashboard/system/system-users/system-users.component';
 import { SystemProjectsComponent } from './view/dashboard/system/system-projects/system-projects.component';
 import { SystemOntologiesComponent } from './view/dashboard/system/system-ontologies/system-ontologies.component';
+import { UserProfileDialogComponent } from './view/modules/dialog/user-profile-dialog/user-profile-dialog.component';
 
 @NgModule({
     declarations: [
@@ -156,7 +157,8 @@ import { SystemOntologiesComponent } from './view/dashboard/system/system-ontolo
         SystemComponent,
         SystemUsersComponent,
         SystemProjectsComponent,
-        SystemOntologiesComponent
+        SystemOntologiesComponent,
+        UserProfileDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -172,6 +174,7 @@ import { SystemOntologiesComponent } from './view/dashboard/system/system-ontolo
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [
         ResourceClassFormComponent,
+        UserProfileDialogComponent,
         UserFormComponent
     ],
     providers: [

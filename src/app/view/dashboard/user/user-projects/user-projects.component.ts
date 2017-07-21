@@ -14,9 +14,9 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 
-import {UserProfile} from "../../../../model/webapi/knora/";
-import {ProjectFormComponent} from "../../../modules/form/project-form/project-form.component";
-import {MdDialog} from "@angular/material";
+import {UserProfile} from '../../../../model/webapi/knora/';
+import {ProjectFormComponent} from '../../../modules/form/project-form/project-form.component';
+import {MdDialog} from '@angular/material';
 
 @Component({
     selector: 'salsah-user-projects',

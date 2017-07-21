@@ -94,6 +94,11 @@ export class HeaderToolbarComponent implements OnInit {
             title: 'Settings',
             icon: 'settings',
             route: '/settings'
+        },
+        {
+            title: 'System',
+            icon: 'build',
+            route: 'system'
         }
     ];
     /*
