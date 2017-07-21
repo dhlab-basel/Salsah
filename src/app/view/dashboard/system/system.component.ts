@@ -14,8 +14,6 @@ export class SystemComponent implements OnInit {
 
   userProfile: UserProfile = new UserProfile();
 
-  firstTabClass: string = 'active';
-
   public menu: any = [
     {
       name: 'Users',
@@ -45,10 +43,12 @@ export class SystemComponent implements OnInit {
       // there's no logged-in user and the route doesn't match a user id (uid)
 
       // go to the login page and bring the user back to this page after successful login and if the user is a sys admin
+/*
       let goToUrl: string = '/login';
       if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
 //      this._router.navigateByUrl(goToUrl);
       window.location.replace(goToUrl);
+*/
     }
     else {
 

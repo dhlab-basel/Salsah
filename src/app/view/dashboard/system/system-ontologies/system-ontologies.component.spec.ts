@@ -1,25 +1,32 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SystemOntologiesComponent } from './system-ontologies.component';
+import {SystemOntologiesComponent} from './system-ontologies.component';
+import {AppModule} from '../../../../app.module';
+import {AppMaterialModule} from '../../../../app-material-module';
+import {AppRoutingModule} from '../../../../app-routing.module';
 
 describe('SystemOntologiesComponent', () => {
-  let component: SystemOntologiesComponent;
-  let fixture: ComponentFixture<SystemOntologiesComponent>;
+    let component: SystemOntologiesComponent;
+    let fixture: ComponentFixture<SystemOntologiesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SystemOntologiesComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
+            ],
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SystemOntologiesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(SystemOntologiesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should be created', () => {
+        expect(component).toBeTruthy();
+    });
 });

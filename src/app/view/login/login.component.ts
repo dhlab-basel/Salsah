@@ -17,16 +17,12 @@ import {ActivatedRoute} from "@angular/router";
 import {ApiServiceResult} from "../../model/services/api-service-result";
 import {ApiServiceError} from "../../model/services/api-service-error";
 import {SessionService} from "../../model/services/session.service";
-import {Session, UserProfile} from "../../model/webapi/knora/";
-import {User} from "../../model/webapi/knora/v1/users/user";
+import {Session} from "../../model/webapi/knora/";
 import {ProjectItem} from "../../model/webapi/knora/v1/projects/project-item";
-
 
 function getDocument(): any {
     return document;
 }
-
-
 
 @Component({
     selector: 'salsah-login',

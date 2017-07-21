@@ -1,32 +1,102 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SystemComponent } from './system.component';
+import {SystemComponent} from './system.component';
 import {AppModule} from '../../../app.module';
 import {AppMaterialModule} from '../../../app-material-module';
 import {AppRoutingModule} from '../../../app-routing.module';
+import {UserProfile} from '../../../model/webapi/knora/v1/users/user-profile';
 
 describe('SystemComponent', () => {
-  let component: SystemComponent;
-  let fixture: ComponentFixture<SystemComponent>;
+    let component: SystemComponent;
+    let fixture: ComponentFixture<SystemComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        AppModule,
-        AppMaterialModule,
-        AppRoutingModule
-      ]
-    })
-    .compileComponents();
-  }));
+    let testProfile: UserProfile = {
+        "userData": {
+            "email": "multi.user@example.com",
+            "firstname": "Multi",
+            "lastname": "User",
+            "isActiveUser": true,
+            "status": true,
+            "lang": "de",
+            "password": null,
+            "token": null,
+            "user_id": "http://data.knora.org/users/multiuser"
+        },
+        "groups": ["http://data.knora.org/groups/images-reviewer"],
+        "projects_info": [{
+            "shortname": "images",
+            "description": "A demo project of a collection of images",
+            "institution": null,
+            "logo": null,
+            "dataNamedGraph": "http://www.knora.org/data/images",
+            "id": "http://data.knora.org/projects/images",
+            "status": true,
+            "keywords": "images, collection",
+            "name": "Image Collection Demo",
+            "ontologyNamedGraph": "http://www.knora.org/ontology/images",
+            "selfjoin": false
+        }],
+        "sessionId": null,
+        "isSystemUser": false,
+        "permissionData": {
+            "groupsPerProject": {
+                "http://data.knora.org/projects/77275339": ["http://www.knora.org/ontology/knora-base#ProjectMember", "http://www.knora.org/ontology/knora-base#ProjectAdmin"]
+            },
+            "administrativePermissionsPerProject": {
+                "http://data.knora.org/projects/images": [{
+                    "name": "ProjectAdminAllPermission",
+                    "additionalInformation": null,
+                    "v1Code": null
+                }, {
+                    "name": "ProjectResourceCreateAllPermission",
+                    "additionalInformation": null,
+                    "v1Code": null
+                }]
+            },
+            "anonymousUser": false
+        }
+    };
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SystemComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppMaterialModule,
+                AppRoutingModule
+            ]
+        })
+            .compileComponents();
+    }));
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+    // Mock localStorage
+    beforeEach(() => {
+        let store = {};
+
+        spyOn(localStorage, 'getItem').and.callFake( (key:string):String => {
+            return store[key] || null;
+        });
+        spyOn(localStorage, 'removeItem').and.callFake((key:string):void =>  {
+            delete store[key];
+        });
+        spyOn(localStorage, 'setItem').and.callFake((key:string, value:string):string =>  {
+            return store[key] = <any>value;
+        });
+        spyOn(localStorage, 'clear').and.callFake(() =>  {
+            store = {};
+        });
+    });
+
+    beforeEach(() => {
+
+        localStorage.setItem('ownProfile', JSON.stringify(testProfile));
+
+        fixture = TestBed.createComponent(SystemComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should be created', () => {
+        expect<any>(localStorage.getItem('ownProfile')).toBe(JSON.stringify(testProfile));
+        expect(component).toBeTruthy();
+    });
 });

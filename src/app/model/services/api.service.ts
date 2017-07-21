@@ -24,6 +24,13 @@ import {ApiServiceResult} from "./api-service-result";
 export class ApiService {
 
     constructor(private _http: Http) {
+        // TODO: with the new json2typescript version (2017-07-20) remove the following JsonConvert instance
+        //
+        // Json convert error handling
+        //
+//        JsonConvert.debugMode = true;
+//        JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
+        JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
     }
 
     /**

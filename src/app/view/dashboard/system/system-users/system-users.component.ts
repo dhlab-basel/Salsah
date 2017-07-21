@@ -22,12 +22,12 @@ export class SystemUsersComponent implements OnInit {
     errorMessage: string = undefined;
 
     // list of users
-    usersList: UsersList;
+//    usersList: UsersList;
     // and a user's list for sorting
-    users: any = [];
+//    users: any = [];
 
     // user profile
-    user: User;
+//    user: User;
 
     // table columns header
     displayedColumns = ['Gravatar', 'Prename', 'Lastname', 'eMail'];
@@ -72,10 +72,10 @@ export class SystemUsersComponent implements OnInit {
 
     ngOnInit() {
 
-        this.sortKey = this.sortProps[0].key;
+//        this.sortKey = this.sortProps[0].key;
 
-        this.sortLabel = this.sortProps[1].label;
-
+//        this.sortLabel = this.sortProps[1].label;
+/*
         this._userService.getAllUsers()
             .subscribe(
                 (result: ApiServiceResult) => {
@@ -112,9 +112,10 @@ export class SystemUsersComponent implements OnInit {
                     this.errorMessage = <any>error;
                 }
             );
-
+*/
     }
 
+    /*
     sortBy(key: string) {
 
 //        this.sortKey = (key == this.sortKey ? this.sortProps[1].key : this.sortProps[0].key);
@@ -130,5 +131,12 @@ export class SystemUsersComponent implements OnInit {
         }
 
     }
+    */
+
+/*
+    openUser(iri: string) {
+        alert(iri);
+    }
+*/
 
 }

@@ -13,7 +13,7 @@
  * */
 
 import {JsonConvert} from "json2typescript";
-import {ValueCheckingMode} from '../../../assets/json2typescript/src/json2typescript/json-convert-enums';
+//import {ValueCheckingMode} from '../../../assets/json2typescript/src/json2typescript/json-convert-enums';
 
 /**
  * Result class used as API url response in ApiService
@@ -48,16 +48,19 @@ export class ApiServiceResult {
     getBody(classObject?: {new(): any}): any {
         if (!classObject) return this.body;
         try {
-            let jsonConvert = new JsonConvert();
-            jsonConvert.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
-            return jsonConvert.deserialize(this.body, classObject);
+            // for the new version of json2typescript... the package is not yet in npm. 2017-07-20
+            // TODO: with the new json2typescript version (2017-07-20) uncomment the following three lines
+//            let jsonConvert = new JsonConvert();
+//            jsonConvert.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
+//            return jsonConvert.deserialize(this.body, classObject);
             //
             // Json convert error handling
             //
 //        JsonConvert.debugMode = true;
 //        JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
             //JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
-            //return JsonConvert.deserializeObject(this.body, classObject);
+            // TODO: with the new json2typescript version (2017-07-20) remove the following JsonConvert return
+            return JsonConvert.deserializeObject(this.body, classObject);
         } catch(e) {
             console.log(e);
         }
