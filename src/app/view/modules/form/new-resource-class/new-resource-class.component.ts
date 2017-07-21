@@ -184,7 +184,7 @@ export class NewResourceClassComponent implements OnInit {
     }
 
     setProp(property: PropertyItem, index: number, event) {
-        console.log(property.occurence);
+        console.log(property.occurrence);
         console.log(property.name);
 
         if (event.srcElement.checked === true) {
@@ -202,7 +202,7 @@ export class NewResourceClassComponent implements OnInit {
 
     setOcc(index: number, event) {
         if (this.newResourceClass.properties[index] !== undefined) {
-            this.newResourceClass.properties[index].occurence = event.value;
+            this.newResourceClass.properties[index].occurrence = event.value;
         }
     }
 

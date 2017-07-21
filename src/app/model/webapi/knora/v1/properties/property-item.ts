@@ -38,13 +38,13 @@ export class PropertyItem {
     @JsonProperty('attributes', String)
     public attributes: string = undefined;
 
-    @JsonProperty('occurence', String, true)
-    public occurence: string = undefined;
+    @JsonProperty('occurrence', String, true)
+    public occurrence: string = undefined;
 
     @JsonProperty('id', String)
     public id: string = undefined;
 
-    @JsonProperty('gui_name', String)
+    @JsonProperty('gui_name', String, true)
     public gui_name: string = undefined;
 
 /*
