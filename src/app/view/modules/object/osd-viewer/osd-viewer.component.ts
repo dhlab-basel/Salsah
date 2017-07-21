@@ -41,6 +41,13 @@ export class OsdViewerComponent implements OnInit {
       prefixUrl: "assets/icons/openseadragon/"
     }
     this.viewer = new OpenSeadragon.Viewer(osdOptions);
+    this.viewer.addHandler('full-screen', function (args) {
+      if (args.fullScreen) {
+        viewerContainer.classList.add("fullscreen");
+      } else {
+        viewerContainer.classList.remove("fullscreen");
+      }
+    })
   }
 
   private openImage() {
