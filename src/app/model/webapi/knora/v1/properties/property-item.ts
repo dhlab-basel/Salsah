@@ -39,12 +39,12 @@ export class PropertyItem {
     public attributes: string = undefined;
 
     @JsonProperty('occurrence', String, true)
-    public occurence: string = undefined;
+    public occurrence: string = undefined;
 
     @JsonProperty('id', String)
     public id: string = undefined;
 
-    @JsonProperty('gui_name', String)
+    @JsonProperty('gui_name', String, true)
     public gui_name: string = undefined;
 
 /*
