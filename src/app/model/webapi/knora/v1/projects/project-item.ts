@@ -26,8 +26,8 @@ export class ProjectItem {
     @JsonProperty('description', String)
     public description: string = undefined;
 
-    @JsonProperty('belongsToInstitution', null)
-    public belongsToInstitution: any = undefined;
+    @JsonProperty('institution', null)
+    public institution: any = undefined;
 
     @JsonProperty('logo', String)
     public logo: string = undefined;
@@ -50,7 +50,7 @@ export class ProjectItem {
     @JsonProperty('ontologyNamedGraph', String)
     public ontologyNamedGraph: string = undefined;
 
-    @JsonProperty('hasSelfJoinEnabled', Boolean)
-    public hasSelfJoinEnabled: boolean = undefined;
+    @JsonProperty('selfjoin', Boolean)
+    public selfjoin: boolean = undefined;
 
 }
