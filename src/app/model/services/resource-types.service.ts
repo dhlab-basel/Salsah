@@ -37,4 +37,7 @@ export class ResourceTypesService extends ApiService {
         return this.httpGet('/v1/resourcetypes/' + encodeURIComponent(iri));
     }
 
+
+    // putResourceType(iri)
+
 }
