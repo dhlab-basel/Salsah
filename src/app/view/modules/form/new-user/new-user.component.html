@@ -87,7 +87,7 @@
                     <md-hint class="salsah-hint">
                         <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
                         <span
-                                [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || !uf.controls['password'].touched"
+                                [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].touched"
                                 class="salsah-error">
                                         {{form.user.passwordHint}}
                                     </span>

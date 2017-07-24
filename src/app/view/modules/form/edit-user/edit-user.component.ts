@@ -28,7 +28,7 @@ export class EditUserComponent implements OnChanges {
   @Input('iri') iri: string;
   @Input('index') index: number;
 
-  user: User = new User();
+  user: User;
   errorMessage: string = undefined;
   selectedRow: number;
 

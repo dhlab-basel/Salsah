@@ -1,5 +1,5 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MD_DIALOG_DATA} from '@angular/material';
+import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 
 @Component({
     selector: 'salsah-user-profile-dialog',
@@ -8,10 +8,14 @@ import {MD_DIALOG_DATA} from '@angular/material';
 })
 export class UserProfileDialogComponent implements OnInit {
 
-    constructor(@Inject(MD_DIALOG_DATA) public data: any) {
+    constructor(
+        public dialogRef: MdDialogRef<UserProfileDialogComponent>,
+        @Inject(MD_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
+
+//        this.dialogRef.updateSize('80%', '500px');
 
         console.log(this.data);
 
