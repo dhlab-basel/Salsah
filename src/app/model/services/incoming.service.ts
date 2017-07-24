@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {SearchService} from "./search.service";
 
 @Injectable()
-export class IncomingService  extends SearchService {
+export class IncomingService extends SearchService {
 
-  /**
-  * Returns all incoming Regions for a particular resource.
-  */
-  getIncomingRegions(resourceIRI: string) : Observable<any> {
-    let sparqlQueryStr = `
+    /**
+     * Returns all incoming Regions for a particular resource.
+     */
+    getIncomingRegions(resourceIRI: string): Observable<any> {
+        let sparqlQueryStr = `
       PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
 
       CONSTRUCT {
@@ -51,8 +51,56 @@ export class IncomingService  extends SearchService {
       }
     `;
 
-    let searchQuery = encodeURIComponent(sparqlQueryStr);
-    return this.doSearchExtended(searchQuery);
-  }
+        let searchQuery = encodeURIComponent(sparqlQueryStr);
+        return this.doSearchExtended(searchQuery);
+    }
+
+    /**
+     * Returns all the StillImageRepresentations for the given resource, if any.
+     * StillImageRepresentations link to the given resource via knora-base:isPartOf.
+     *
+     * @param resourceIri the Iri of the resource whose StillImageRepresentations whose be returned.
+     * @returns {Observable<any>}
+     */
+    getStillImageRepresentationsForCompoundResource(resourceIri: string): Observable<any> {
+        let sparqlQueryStr = `
+        PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
+        
+        CONSTRUCT {
+            ?page a knora-api:StillImageRepresentation .
+            ?page knora-api:isMainResource true .
+            
+            ?page knora-api:isPartOf <${resourceIri}> .
+            
+            ?page knora-api:seqnum ?seqnum .
+            
+            ?page knora-api:hasStillImageFileValue ?file .
+        } WHERE {
+        
+            ?page a knora-api:StillImageRepresentation .
+            ?page a knora-api:Resource .
+            
+            ?page knora-api:isPartOf <${resourceIri}> .
+            knora-api:isPartOf knora-api:objectType knora-api:Resource .
+            
+            <${resourceIri}> a knora-api:Resource .
+        
+            ?page knora-api:seqnum ?seqnum .
+            knora-api:seqnum knora-api:objectType xsd:integer .
+        
+            ?seqnum a xsd:integer .
+        
+            ?page knora-api:hasStillImageFileValue ?file .
+            knora-api:hasStillImageFileValue knora-api:objectType knora-api:StillImageFile .
+            
+            ?file a knora-api:StillImageFile .
+        
+        }
+`;
+
+        let searchQuery = encodeURIComponent(sparqlQueryStr);
+        return this.doSearchExtended(searchQuery);
+
+    }
 
 }
