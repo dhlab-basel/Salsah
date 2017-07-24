@@ -40,6 +40,7 @@ import {SystemComponent} from "./view/dashboard/system/system.component";
 import {SystemUsersComponent} from './view/dashboard/system/system-users/system-users.component';
 import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
 import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
+import {FrameworkComponent} from './view/modules/framework/framework.component';
 
 const appRoutes: Routes = [
     {
@@ -146,6 +147,10 @@ const appRoutes: Routes = [
         data: {
             code: '401'
         }
+    },
+    {
+        path: 'framework',
+        component: FrameworkComponent,
     },
     {
         path: 'dev', component: DevelopmentComponent,

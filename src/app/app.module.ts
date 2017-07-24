@@ -104,6 +104,7 @@ import { SystemUsersComponent } from './view/dashboard/system/system-users/syste
 import { SystemProjectsComponent } from './view/dashboard/system/system-projects/system-projects.component';
 import { SystemOntologiesComponent } from './view/dashboard/system/system-ontologies/system-ontologies.component';
 import { UserProfileDialogComponent } from './view/modules/dialog/user-profile-dialog/user-profile-dialog.component';
+import { FrameworkComponent } from './view/modules/framework/framework.component';
 
 @NgModule({
     declarations: [
@@ -158,7 +159,8 @@ import { UserProfileDialogComponent } from './view/modules/dialog/user-profile-d
         SystemUsersComponent,
         SystemProjectsComponent,
         SystemOntologiesComponent,
-        UserProfileDialogComponent
+        UserProfileDialogComponent,
+        FrameworkComponent
     ],
     imports: [
         BrowserModule,
