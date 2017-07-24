@@ -12,24 +12,18 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, OnChanges, Input, Output} from '@angular/core';
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {Properties} from "../../../../model/webapi/knora";
-import {ResourceTypesService} from "../../../../model/services/resource-types.service";
-import {ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Component, Input, OnChanges} from '@angular/core';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import {Properties} from '../../../../model/webapi/knora';
+import {Project} from '../../../../model/webapi/knora/v1/projects/project';
+import {ResourceTypeInfo} from '../../../../model/webapi/knora/v1/resource-types/resource-type-info';
+import {ResourceType} from '../../../../model/webapi/knora/v1/resource-types/resource-type';
 
-import {
-    trigger,
-    state,
-    style,
-    animate,
-    transition
-} from '@angular/animations';
-
-//animations are used to create collapsible cards content
+// animations are used to create collapsible cards content
 @Component({
     selector: 'salsah-edit-resource-class',
     templateUrl: './edit-resource-class.component.html',
@@ -57,7 +51,7 @@ export class EditResourceClassComponent implements OnChanges {
 
     @Input('iri') iri: string;
     @Input('index') index: number;
-    @Input('projects') projectsList: ProjectItem[];
+    @Input('projects') projectsList: Project[];
 
 
     resType: ResourceTypeInfo = new ResourceTypeInfo;
@@ -68,27 +62,27 @@ export class EditResourceClassComponent implements OnChanges {
 
     editResource: boolean;
 
-    focusOnResourceEdit: string = 'inactive';
-    focusOnPropertiesEdit: string = 'inactive';
+    focusOnResourceEdit = 'inactive';
+    focusOnPropertiesEdit = 'inactive';
 
     editResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
 
     guiItems: string[] = [
-        "text",
-        "richtext",
-        "text area",
-        "dropdown menu",
-        "number field",
-        "date field",
-        "searchbox",
-        "file upload"
+        'text',
+        'richtext',
+        'text area',
+        'dropdown menu',
+        'number field',
+        'date field',
+        'searchbox',
+        'file upload'
     ];
 
     cardinalityList: string[] = [
-        "1",
-        "1-n",
-        "0-1",
-        "0-n"
+        '1',
+        '1-n',
+        '0-1',
+        '0-n'
     ];
 
 
@@ -106,7 +100,7 @@ export class EditResourceClassComponent implements OnChanges {
                     this.resType = result.getBody(ResourceType).restype_info;
 //                    let tmpResTypeInfo: ResourceTypeInfo = result.getBody(ResourceTypeInfo);
                     this.selectedRow = this.index;
-                    this.editResourceClass.properties= this.resType.properties;
+                    this.editResourceClass.properties = this.resType.properties;
 
                     // disable the progress loader of the submodule
 //                    this.loadingSubmodule.emit(this.isLoadingSubModule);
@@ -120,8 +114,8 @@ export class EditResourceClassComponent implements OnChanges {
 
         this._projectsService.getAllProjects()
             .subscribe(
-                (result: ApiServiceResult) => {
-                    this.projectsList = result.getBody(ProjectsList).projects;
+                (result: Project[]) => {
+                    this.projectsList = result;
                 }
             )
 
@@ -134,7 +128,7 @@ export class EditResourceClassComponent implements OnChanges {
         this.editResource = false;
     }
 
-    //form functions
+    // form functions
     onSubmit(data: any): void {
         console.log('your new resource is:', this.resType);
 //        this.dialog.closeAll();
@@ -156,7 +150,7 @@ export class EditResourceClassComponent implements OnChanges {
         }
     }
 
-    //sets default values from json files on md-select
+    // sets default values from json files on md-select
     setGUI(index: number, event) {
         if (this.editResourceClass.properties[index] !== undefined) {
             this.editResourceClass.properties[index].gui_name = event.value;

@@ -1,3 +1,40 @@
+{{diagnostic}}
+
+<md-card>
+
+    <md-card-title>List Details</md-card-title>
+
+    <md-card-content>
+        <form #listInfoForm="ngForm" class="list-form">
+
+            <md-input-container class="list-item-full-width">
+                <input mdInput placeholder="Id" [(ngModel)]="currentListInfo.id">
+            </md-input-container>
+
+            <md-input-container class="list-item-full-width">
+                <input mdInput placeholder="Project" [(ngModel)]="currentListInfo.projectIri">
+            </md-input-container>
+
+            <md-input-container class="list-item-full-width">
+                <input mdInput placeholder="Label" [(ngModel)]="currentListInfo.label">
+            </md-input-container>
+
+            <md-input-container class="list-item-full-width">
+                <input mdInput placeholder="Comment" [(ngModel)]="currentListInfo.comment">
+            </md-input-container>
+
+            <button type="submit" class="btn btn-success">Submit</button>
+
+        </form>
+
+    </md-card-content>
+</md-card>
+
+
+
+
+
+
 <div *ngIf="currentListInfo">
     <h2>{{currentListInfo.label}} details!</h2>
     <div><label>id: </label>{{currentListInfo.id}}</div>

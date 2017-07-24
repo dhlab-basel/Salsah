@@ -20,7 +20,7 @@ import {ListsService} from '../../../../model/services/lists.service';
 import {List} from '../../../../model/webapi/knora/v1/lists/list';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ListNodeFormComponent} from '../list-node-form/list-node-form.component';
-import {MdDialog} from '@angular/material';
+import {MdDialog, MdDialogConfig} from '@angular/material';
 
 @Component({
   selector: 'salsah-list-form',
@@ -48,7 +48,7 @@ export class ListFormComponent implements OnChanges {
     }
 
     viewDetails(nodeIri: string) {
-        const dialogRef = this._dialog.open(ListNodeFormComponent, {
+        const dialogRef = this._dialog.open(ListNodeFormComponent, <MdDialogConfig>{
             height: '400px',
             width: '500px',
             data: nodeIri
@@ -76,5 +76,8 @@ export class ListFormComponent implements OnChanges {
                 }
             );
     }
+
+    // TODO: Remove this when we're done
+    get diagnostic() { return JSON.stringify(this.currentListInfo); }
 
 }
