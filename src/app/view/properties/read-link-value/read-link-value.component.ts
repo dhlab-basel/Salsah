@@ -13,36 +13,34 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {ReadLinkValue} from "../../../model/webapi/knora/v2/read-property-item";
-import {MdDialog, MdDialogConfig} from "@angular/material";
-import {ObjectComponent} from "../../modules/object/object.component";
+import {ReadLinkValue} from '../../../model/webapi/knora/v2/read-property-item';
+import {MdDialog, MdDialogConfig} from '@angular/material';
+import {ObjectComponent} from '../../modules/object/object.component';
 
 @Component({
-  selector: 'read-link-value',
-  templateUrl: './read-link-value.component.html',
-  styleUrls: ['./read-link-value.component.scss']
+    selector: 'read-link-value',
+    templateUrl: './read-link-value.component.html',
+    styleUrls: ['./read-link-value.component.scss']
 })
 export class ReadLinkValueComponent implements OnInit {
 
     @Input() valueObject: ReadLinkValue;
 
-  constructor(private dialog: MdDialog) { }
+    constructor(private dialog: MdDialog) {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  showReferredResourceInDialog() {
-      let config =  new MdDialogConfig();
-      config.height = "60%";
-      config.width = "60%";
+    showReferredResourceInDialog() {
+        let config = new MdDialogConfig();
+        config.height = '60%';
+        config.width = '60%';
 
-      let dialogRef = this.dialog.open(ObjectComponent, config);
-      // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
-      dialogRef.componentInstance.iri = this.valueObject.referredResourceIri;
-  }
-
-
-
+        let dialogRef = this.dialog.open(ObjectComponent, config);
+        // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
+        dialogRef.componentInstance.iri = this.valueObject.referredResourceIri;
+    }
 
 
 }

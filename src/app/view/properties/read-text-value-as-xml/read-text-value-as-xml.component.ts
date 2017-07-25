@@ -13,20 +13,21 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {ReadTextValueAsXml} from "../../../model/webapi/knora/v2/read-property-item";
+import {ReadTextValueAsXml} from '../../../model/webapi/knora/v2/read-property-item';
 
 @Component({
-  selector: 'read-text-value-as-xml',
-  templateUrl: './read-text-value-as-xml.component.html',
-  styleUrls: ['./read-text-value-as-xml.component.scss']
+    selector: 'read-text-value-as-xml',
+    templateUrl: './read-text-value-as-xml.component.html',
+    styleUrls: ['./read-text-value-as-xml.component.scss']
 })
 export class ReadTextValueAsXmlComponent implements OnInit {
 
     @Input() valueObject: ReadTextValueAsXml;
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }
