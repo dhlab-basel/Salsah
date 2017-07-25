@@ -5,7 +5,7 @@ import {ReadTextValueAsStringComponent} from './read-text-value-as-string.compon
 import {ReadTextValueAsString} from 'app/model/webapi/knora/v2/read-property-item';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
-fdescribe('ReadTextValueAsStringComponent', () => {
+describe('ReadTextValueAsStringComponent', () => {
     let component: ReadTextValueAsStringComponent;
     let fixture: ComponentFixture<ReadTextValueAsStringComponent>;
 
@@ -25,7 +25,7 @@ fdescribe('ReadTextValueAsStringComponent', () => {
         fixture.detectChanges();
     });
 
-    fit('should create', () => {
+    it('should create', () => {
         expect(component).toBeTruthy();
     });
 
