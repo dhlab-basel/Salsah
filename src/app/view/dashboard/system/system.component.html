@@ -4,6 +4,7 @@
   -->
   <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
 
+  <!-- component has his own toolbar, with component specific buttons / tabs / etc. -->
   <md-toolbar class="salsah-module-header">
 
     <!-- This fills the remaining space of the current row -->
@@ -24,6 +25,7 @@
 
   </md-toolbar>
 
+  <!-- and the sub module for route specific child components -->
   <div class="salsah-sub-module">
 
     <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>

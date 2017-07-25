@@ -19,6 +19,7 @@ import {UserService} from '../../../../model/services/user.service';
 import {UsersList, UserProfile} from '../../../../model/webapi/knora/';
 import {UserProfileDialogComponent} from '../../../modules/dialog/user-profile-dialog/user-profile-dialog.component';
 import {MdDialog} from '@angular/material';
+import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 
 @Component({
     selector: 'salsah-system-users',
@@ -83,6 +84,15 @@ export class SystemUsersComponent implements OnInit {
     sortKey: string = this.sortProps[0].key;
     sortLabel: string = this.sortProps[1].label;
 
+
+    // test with framework component
+    data: any = {
+        title: 'List of users in Knora',
+        description: 'not yet implemented (data.description)',
+        type: UserData,
+        list: []
+    };
+
     constructor(private _userService: UserService,
                 public dialog: MdDialog) {
     }
@@ -93,6 +103,7 @@ export class SystemUsersComponent implements OnInit {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.usersList = result.getBody(UsersList);
+                    this.data.list = this.usersList.users;
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {

@@ -1,10 +1,10 @@
 <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
-    <h2 md-header></h2>
+    <!-- main title -->
+    <h2 md-header>{{title}}</h2>
 
+    <!-- followed by a list element -->
     <md-list>
-
-
-        <!-- button to add new stuff -->
+        <!-- button to add new stuff; if necessary -->
         <div *ngIf="add != undefined">
             <md-list-item class="salsah-link"
                           (click)="add.method"
@@ -17,30 +17,30 @@
             <br>
         </div>
 
-        <!-- list of project members -->
+        <!-- main list: start with a title/label and a sort button (if necessary) -->
         <h3 md-subheader>
             <button md-icon-button
                     *ngIf="!editItemIsActive && !newItemIsActive"
                     (click)="sortList(sortKey)"
                     [mdTooltip]="sortTitle + sortLabel" mdTooltipPosition="above">
                 <md-icon>sort_by_alpha</md-icon>
+                {{data.title}}
             </button>
-            {{data.title}}
         </h3>
 
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
-        <md-list-item *ngFor="let member of members?.members | sortBy: sortKey; let i = index"
-                      (click)="toggleUser(member.user_id, i);"
-                      [id]="member.user_id"
+        <md-list-item *ngFor="let item of data.list | sortBy: sortKey; let i = index"
+                      (click)="toggleUser(item.user_id, i);"
+                      [id]="item.user_id"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
             <!--<md-list-item *ngFor="let admin of project.admins">-->
             <md-icon md-list-avatar>
-                <img salsahGravatar [email]="member?.email" class="salsah-avatar-image"/>
+                <img salsahGravatar [email]="item?.email" class="salsah-avatar-image"/>
             </md-icon>
-            <h4 md-line>{{member?.firstname}} {{member?.lastname}}</h4>
-            <p md-line> {{member?.email}} </p>
+            <h4 md-line>{{item?.firstname}} {{item?.lastname}}</h4>
+            <p md-line> {{item?.email}} </p>
             <button md-icon-button class="right close close-highlight">
                 <md-icon>close</md-icon>
             </button>

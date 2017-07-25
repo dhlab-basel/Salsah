@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'salsah-framework',
@@ -8,17 +8,44 @@ import { Component, OnInit } from '@angular/core';
 export class FrameworkComponent implements OnInit {
 
     // TODO: replace with @input object called 'add'
+    /*
     add: any = {
-        title: 'Add something',
-        description: 'What does add mean?',
+        title: 'Add something (add.title)',
+        description: 'What does add mean? (add.description)',
         method: 'This is a method defined in the child component'
     };
+    */
+    @Input('add') add: any;
 
+    // TODO: replace with @Input object called 'data'
+    /*
     data: any = {
-        title: 'Your list',
-        description: 'not yet implemented',
-        list: []
+        title: 'Your list (data.title)',
+        description: 'not yet implemented (data.description)',
+        list: [
+
+        ]
     };
+    */
+    @Input('data') data: any;
+
+    // TODO: replace with @Input string called 'title'
+    title: string = 'Framework for everything';
+
+    // TODO: replace with @Input array called 'sort'
+    sort: any = [
+        {
+            key: 'lastname',
+            label: 'Last name'
+        },
+        {
+            key: 'firstname',
+            label: 'First name'
+        }
+    ];
+    sortTitle: string = 'Sort by: ';
+    sortKey: string = this.sort[0].key;
+    sortLabel: string = this.sort[1].label;
 
     // two progress loader:
     // 1) for the main module
@@ -58,6 +85,9 @@ export class FrameworkComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+      console.log(this.data.list);
+      console.log(this.data.type);
+//      let list: this.data.type[] = this.data.list;
   }
 
   newItem() {
@@ -75,7 +105,14 @@ export class FrameworkComponent implements OnInit {
   }
 
   sortList(key: string) {
-
+      if (key === this.sort[0].key) {
+          this.sortKey = this.sort[1].key;
+          this.sortLabel = this.sort[0].label;
+      }
+      else {
+          this.sortKey = this.sort[0].key;
+          this.sortLabel = this.sort[1].label;
+      }
   }
 
 }
