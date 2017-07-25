@@ -7,11 +7,11 @@
         <br>
         <md-divider></md-divider>
         <br>
-        <h3 md-subheader>Project Admin</h3>
+        <h3 md-subheader>Project Member</h3>
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
         <md-list-item *ngFor="let member of members.members; let i = index"
-                      (click)="openUser(member.email, i);"
+                      (click)="openUser(member.user_id, i);"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
             <!--<md-list-item *ngFor="let admin of project.admins">-->
@@ -19,14 +19,16 @@
             <h4 md-line>{{member?.lastname}}, {{member?.firstname}}</h4>
             <p md-line> {{member?.email}} </p>
         </md-list-item>
+        <!--
         <md-divider></md-divider>
         <h3 md-subheader>Project Member</h3>
         <md-list-item>
-            <!--<md-list-item *ngFor="let member of project.members">-->
+            <!--<md-list-item *ngFor="let member of project.members">--
             <md-icon md-list-avatar>person_outline</md-icon>
             <h4 md-line>Lastname, PreName</h4>
             <p md-line> function bla bla </p>
         </md-list-item>
+        -->
     </md-list>
 </div>
 
@@ -35,11 +37,14 @@
 <div *ngIf="user" class="salsah-module-detail" [ngClass]="position.detail">
     <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
 
-    <div class="salsah-module-detail-content">
+    <div class="salsah-module-detail-header">
         <!-- close button -->
-        <button md-icon-button (click)="closeDetailView()" class="right">
+        <button md-mini-fab (click)="closeDetailView()">
             <md-icon>close</md-icon>
         </button>
+    </div>
+
+    <div class="salsah-module-detail-content">
 
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 

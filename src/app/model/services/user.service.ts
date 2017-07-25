@@ -23,8 +23,24 @@ import {Headers} from "@angular/http";
 export class UserService extends ApiService {
 
 
-    getUser(email: string): Observable<any> {
-        return this.httpGet("/users/email/" + email);
+    /**
+     * returns a user profile
+     *
+     * @param iri
+     * @returns {Observable<any>}
+     */
+    getUserByIri(iri: string): Observable<any> {
+        return this.httpGet("/users/" + encodeURIComponent(iri));
+    }
+
+    /**
+     * returns a user profile
+     *
+     * @param email
+     * @returns {Observable<any>}
+     */
+    getUserByEmail(email: string): Observable<any> {
+        return this.httpGet("/users/" + encodeURIComponent(email) + "?identifier=email");
     }
 
     getAllUsers(): Observable<any> {

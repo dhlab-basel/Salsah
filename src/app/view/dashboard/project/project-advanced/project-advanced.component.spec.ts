@@ -4,7 +4,7 @@ import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectAdvancedComponent} from './project-advanced.component';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {BaseOntologyService} from '../../../../model/services/base-ontology.service';
+import {BasicOntologyService} from '../../../../model/services/basic-ontology.service';
 
 describe('ProjectAdvancedComponent', () => {
     let component: ProjectAdvancedComponent;
@@ -18,8 +18,8 @@ describe('ProjectAdvancedComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: ProjectsService},
-                BaseOntologyService
+                ProjectsService,
+                BasicOntologyService
             ]
 
         })
