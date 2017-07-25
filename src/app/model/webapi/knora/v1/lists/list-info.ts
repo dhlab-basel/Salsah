@@ -25,7 +25,7 @@ export class ListInfo {
     public projectIri: string = undefined;
 
     @JsonProperty('labels', [String], false)
-    public label: string[] = undefined;
+    public labels: string[] = undefined;
 
     @JsonProperty('comment', String, true)
     public comment: string = undefined;

@@ -13,21 +13,22 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, Input, OnChanges} from '@angular/core';
-import {ListNode} from '../../../../model/webapi/knora/v1/lists/list-node';
-import {ListInfo} from '../../../../model/webapi/knora/v1/lists/list-info';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {MdDialog, MdDialogConfig} from '@angular/material';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ListsService} from '../../../../model/services/lists.service';
 import {List} from '../../../../model/webapi/knora/v1/lists/list';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ListInfo} from '../../../../model/webapi/knora/v1/lists/list-info';
+import {ListNode} from '../../../../model/webapi/knora/v1/lists/list-node';
 import {ListNodeFormComponent} from '../list-node-form/list-node-form.component';
-import {MdDialog, MdDialogConfig} from '@angular/material';
 
 @Component({
   selector: 'salsah-list-form',
   templateUrl: './list-form.component.html',
   styleUrls: ['./list-form.component.scss']
 })
-export class ListFormComponent implements OnChanges {
+export class ListFormComponent implements OnChanges, OnInit {
 
     @Input() listIri: string;
     @Input() listOp: string; // view, edit, create
@@ -40,11 +41,65 @@ export class ListFormComponent implements OnChanges {
 
     editResource: boolean;
 
+    public listInfoForm: FormGroup; // our model driven form
+    public labels: FormArray;
+
+    public submitted: boolean; // keep track on whether form is submitted
+    public events: any[] = []; // use later to display form changes
+
     constructor(private _listsService: ListsService,
-                private _dialog: MdDialog) {}
+                private _dialog: MdDialog,
+                private _fb: FormBuilder) {
+
+        // build form
+        this.buildListInfoForm();
+    }
 
     ngOnChanges() {
         this.getCurrentList(this.listIri);
+        this.updateFormValues();
+    }
+
+    ngOnInit() {
+        // subscribe to form changes
+        this.subcribeToFormChanges();
+    }
+
+    buildListInfoForm() {
+        this.listInfoForm = this._fb.group({
+            id: '',
+            projectIri: '',
+            labels: this.buildLabelsArray(),
+            comment: ''
+        });
+
+        // this.listInfoForm.controls['id'].disable();
+        // this.listInfoForm.controls['projectIri'].disable();
+    }
+
+    buildLabelsArray(): FormArray {
+        this.labels = this._fb.array([
+           this.buildLabelGroup()
+        ]);
+        return this.labels;
+    }
+
+    buildLabelGroup(): FormGroup {
+        return this._fb.group({
+            label: '',
+            lang: ''
+        });
+    }
+
+    addLabelGroup() {
+        this.labels.push(this.buildLabelGroup());
+    }
+
+    updateFormValues() {
+        if (this.currentListInfo) {
+            (<FormGroup>this.listInfoForm)
+                .patchValue(this.currentListInfo, { onlySelf: true });
+        }
     }
 
     viewDetails(nodeIri: string) {
@@ -75,6 +130,23 @@ export class ListFormComponent implements OnChanges {
                     this.errorMessage = <any>error;
                 }
             );
+    }
+
+    save(listInfo: ListInfo, isValid: boolean) {
+        this.submitted = true; // set form submit to true
+
+        // check if model is valid
+        // if valid, call API to save customer
+        console.log(listInfo, isValid);
+    }
+
+    subcribeToFormChanges() {
+        // initialize stream
+        const myFormValueChanges$ = this.listInfoForm.valueChanges;
+
+        // subscribe to the stream
+        myFormValueChanges$.subscribe(x => this.events
+            .push({ event: 'STATUS CHANGED', object: x }));
     }
 
     // TODO: Remove this when we're done

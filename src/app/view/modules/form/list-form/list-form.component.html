@@ -1,69 +1,103 @@
+<hr/>
 {{diagnostic}}
+<hr/>
+
+
+<div md-line></div>
 
 <md-card>
 
     <md-card-title>List Details</md-card-title>
 
     <md-card-content>
-        <form #listInfoForm="ngForm" class="list-form">
+        <form #listInfoForm="ngForm" class="list-form" *ngIf="currentListInfo">
 
             <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Id" [(ngModel)]="currentListInfo.id">
+                <input mdInput placeholder="Id" [(ngModel)]="currentListInfo.id" name="id" disabled="false">
+            </md-input-container>
+            <md-input-container class="list-item-full-width">
+                <input mdInput placeholder="Project" [(ngModel)]="currentListInfo.projectIri" name="project">
             </md-input-container>
 
             <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Project" [(ngModel)]="currentListInfo.projectIri">
+                <input mdInput placeholder="Label" [(ngModel)]="currentListInfo.label" name="label">
             </md-input-container>
 
             <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Label" [(ngModel)]="currentListInfo.label">
+                <input mdInput placeholder="Comment" [(ngModel)]="currentListInfo.comment" name="comment">
             </md-input-container>
-
-            <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Comment" [(ngModel)]="currentListInfo.comment">
-            </md-input-container>
-
-            <button type="submit" class="btn btn-success">Submit</button>
-
         </form>
-
     </md-card-content>
 </md-card>
 
+<form [formGroup]="listInfoForm" novalidate>
 
+    <md-card>
 
+        <md-card-title>List Details</md-card-title>
 
+        <md-card-content>
+            <md-input-container class="list-item-full-width">
+                <input mdInput placeholder="Id" formControlName="id">
+            </md-input-container>
 
+            <md-input-container class="list-item-full-width">
+                <input mdInput placeholder="Project" formControlName="projectIri">
+            </md-input-container>
 
-<div *ngIf="currentListInfo">
-    <h2>{{currentListInfo.label}} details!</h2>
-    <div><label>id: </label>{{currentListInfo.id}}</div>
-    <div><label>project: </label>{{currentListInfo.projectIri}}</div>
-    <div><label>label: </label>{{currentListInfo.label}}</div>
-    <div><label>comment: </label>{{currentListInfo.comment}}</div>
-    <tree-root [nodes]="currentNodes">
-        <ng-template #treeNodeTemplate let-node let-index="index">
-            <span>{{ node.data.label }}</span>
-            <button (click)="viewDetails(node.data.id)">Details</button>
-        </ng-template>
-    </tree-root>
-</div>
+            <div formArrayName="labels">
+                <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
+                    <p>Label</p>
+                    <div class="flex align-center">
+                        <md-input-container class="list-item-full-width">
+                            <input mdInput placeholder="Label" formControlName="label">
+                        </md-input-container>
 
-<footer class="footer">
-    <div layout="row" layout-align="center center" flex>
-        <button md-raised-button
-                class="next"
-                [color]="'primary'"
-                (click)="editResources()">
-            Edit
-        </button>
-    </div>
-    <div *ngIf="editResource" layout="row" layout-align="center center" flex>
-        <button md-raised-button
-                class="save-button"
-                [color]="'primary'"
-                (click)="onSubmit(editRes.value)">
-            Save
-        </button>
-    </div>
-</footer>
+                        <select formControlName="lang" class="flex-one">
+                            <option value="" disabled>Select language</option>
+                            <option value="en">en</option>
+                            <option value="de">de</option>
+                            <option value="fr">fr</option>
+                            <option value="it">it</option>
+                        </select>
+                    </div>
+                </div>
+                <button md-raised-button (click)="addLabelGroup()">add label</button>
+            </div>
+
+            <md-input-container class="list-item-full-width">
+                <input mdInput placeholder="Comment" formControlName="comment">
+            </md-input-container>
+
+        </md-card-content>
+        <md-card-actions align="end">
+            <div style="margin-bottom: 1em">
+                <button md-raised-button
+                        [disabled]="listInfoForm.pristine" class="btn btn-success">Save</button> &nbsp;
+                <button md-raised-button (click)="revert()"
+                        [disabled]="listInfoForm.pristine" class="btn btn-danger">Revert</button>
+            </div>
+        </md-card-actions>
+
+    </md-card>
+
+</form>
+
+<hr/>
+{{ listInfoForm.value | json }}
+<hr/>
+
+<md-card>
+    <md-card-title>List Nodes</md-card-title>
+    <md-card-content>
+        <div *ngIf="currentListInfo">
+            <tree-root [nodes]="currentNodes">
+                <ng-template #treeNodeTemplate let-node let-index="index">
+                    <span>{{ node.data.label }}</span>
+                    <button (click)="viewDetails(node.data.id)">Details</button>
+                </ng-template>
+            </tree-root>
+        </div>
+    </md-card-content>
+
+</md-card>
