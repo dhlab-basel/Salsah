@@ -84,6 +84,14 @@ export class SystemUsersComponent implements OnInit {
     sortKey: string = this.sortProps[0].key;
     sortLabel: string = this.sortProps[1].label;
 
+    // NEW NEW NEW
+    mainTitle: string = 'List of users';
+    detailIsActive: boolean = false;
+    add: any = {
+        title: 'Add something (add.title)',
+        description: 'What does add mean? (add.description)',
+        method: 'This is a method defined in the child component'
+    };
 
     // test with framework component
     data: any = {

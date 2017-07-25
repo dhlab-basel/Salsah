@@ -1,8 +1,31 @@
-<salsah-framework [data]="data"></salsah-framework>
+<div class="salsah-list salsah-module-content">
+    <h2 md-header>{{mainTitle}}</h2>
+    <md-list>
+        <!-- this list has an 'add button' to add new stuff;
+        it opens a 'new-something-form'-component in the detail view -->
+        <md-list-item class="salsah-link">
+            <!-- TODO: perhaps an own component for that? -->
+            <button *ngIf="add != undefined" md-icon-button>
+                <md-icon>add</md-icon>
+            </button>
+            {{add.title}}
+        </md-list-item>
+        <md-divider></md-divider>
+        <!-- end of 'add button' -->
+
+        <!-- start with main list -->
+
+    </md-list>
+
+</div>
+
+<div *ngIf="detailIsActive" class="salsah-module-detail">
+
+</div>
 
 
 <!--
-<div class="salsah-list salsah-module-content">
+
 
 
 

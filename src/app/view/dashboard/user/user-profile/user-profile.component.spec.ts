@@ -4,6 +4,7 @@ import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {UserProfileComponent} from './user-profile.component';
 import {UserService} from '../../../../model/services/user.service';
+import {MdDialogRef} from '@angular/material';
 
 describe('UserProfileComponent', () => {
     let component: UserProfileComponent;
@@ -17,7 +18,8 @@ describe('UserProfileComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                {provide: UserService}
+                UserService,
+                {provide: MdDialogRef}
             ]
         })
             .compileComponents();

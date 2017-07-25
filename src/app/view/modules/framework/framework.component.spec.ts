@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {AppModule} from '../../../app.module';
+import {AppMaterialModule} from '../../../app-material-module';
+import {AppRoutingModule} from '../../../app-routing.module';
 import { FrameworkComponent } from './framework.component';
 
 describe('FrameworkComponent', () => {
@@ -8,7 +10,11 @@ describe('FrameworkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FrameworkComponent ]
+        imports: [
+            AppModule,
+            AppMaterialModule,
+            AppRoutingModule
+        ],
     })
     .compileComponents();
   }));
