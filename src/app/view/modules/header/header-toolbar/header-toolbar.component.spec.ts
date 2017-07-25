@@ -15,7 +15,7 @@ describe('HeaderToolbarComponent', () => {
             "email": "multi.user@example.com",
             "firstname": "Multi",
             "lastname": "User",
-            "isActiveUser": true,
+            "status": true,
             "lang": "de",
             "password": null,
             "token": null,
