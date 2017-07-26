@@ -90,7 +90,7 @@ export class SystemUsersComponent implements OnInit {
     add: any = {
         title: 'Add something (add.title)',
         description: 'What does add mean? (add.description)',
-        method: 'This is a method defined in the child component'
+        object: 'user'
     };
 
     // test with framework component

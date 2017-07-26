@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, NgModel, Validators} from '@angular/forms';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
@@ -22,6 +22,11 @@ import {ProjectItem} from "../../../../model/webapi/knora/v1/projects/project-it
 })
 
 export class NewUserComponent implements OnInit {
+
+    // if project value (as IRI) is defined
+    // we can add the new created user direct to the specified project
+    // and/or we need the autocomplete list of knora users
+    @Input() project: string;
 
     // this component uses a service,
     // so we define an empty errorMessage to have one if needed
@@ -90,7 +95,6 @@ export class NewUserComponent implements OnInit {
 
 
     constructor(public _userService: UserService,
-                public _projectTeam: ProjectTeamComponent,
                 public dialog: MdDialog,
                 @Inject(FormBuilder) fb: FormBuilder
     ) {
@@ -209,7 +213,7 @@ export class NewUserComponent implements OnInit {
                 this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.projectIri).subscribe(
                     (result: ApiServiceResult) => {
 //                        console.log(result.body);
-                        this._projectTeam.closeDetailView();
+//                        this._projectTeam.closeDetailView();
                     },
                     (error: ApiServiceError) => {
                         console.log(error);

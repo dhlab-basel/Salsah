@@ -17,7 +17,7 @@ export class UserProfileDialogComponent implements OnInit {
 
 //        this.dialogRef.updateSize('80%', '500px');
 
-        console.log(this.data);
+//        console.log(this.data); // data as iri or nothing as null
 
     }
 

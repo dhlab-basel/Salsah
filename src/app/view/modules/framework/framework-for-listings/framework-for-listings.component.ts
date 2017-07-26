@@ -13,6 +13,10 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
+import {MdDialog} from '@angular/material';
+import {UserFormComponent} from '../../form/user-form/user-form.component';
+import {MessageComponent} from '../../message/message.component';
+import {UserProfileDialogComponent} from '../../dialog/user-profile-dialog/user-profile-dialog.component';
 
 @Component({
     selector: 'salsah-framework-for-listings',
@@ -36,6 +40,7 @@ export class FrameworkForListingsComponent implements OnInit {
 
     // which view is active?
     detailViewIsActive: boolean = false;
+    addNewFormIsActive: boolean = false;
 
     // definition of the position for the preview (main module) and the detail view (sub module)
     position = {
@@ -53,7 +58,7 @@ export class FrameworkForListingsComponent implements OnInit {
     // id (almost the iri) of the selected person
     id: string;
 
-    constructor() {
+    constructor(public dialog: MdDialog) {
     }
 
     ngOnInit() {
@@ -69,6 +74,7 @@ export class FrameworkForListingsComponent implements OnInit {
     toggleDetail($event) {
         let id: string = $event.id;
         let index: number = $event.index;
+        this.addNewFormIsActive = false;
 
         if (id === this.id && index === this.selectedRow) {
             // the user clicked on the already selected item
@@ -78,6 +84,7 @@ export class FrameworkForListingsComponent implements OnInit {
         else {
             if (this.size === 'large') this.size = 'small';
             this.isLoadingSubModule = true;
+            this.addNewFormIsActive = false;
             this.detailViewIsActive = true;
 
             this.id = id;
@@ -90,5 +97,25 @@ export class FrameworkForListingsComponent implements OnInit {
         this.size = 'large';
         this.selectedRow = undefined;
         this.detailViewIsActive = false;
+        this.addNewFormIsActive = false;
+    }
+
+    openNew() {
+        let dialogRef;
+        switch(this.add.object) {
+            case 'user':
+                dialogRef = this.dialog.open(UserProfileDialogComponent);
+            break;
+
+            default:
+                dialogRef = this.dialog.open(MessageComponent);
+
+        }
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+        });
+
+
+
     }
 }

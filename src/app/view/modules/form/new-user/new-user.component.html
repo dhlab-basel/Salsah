@@ -9,7 +9,8 @@
 
 <h3>{{form.title}}</h3>
 <div class="user-panel">
-    <div class="select-user">
+
+    <div class="select-user" *ngIf="project != undefined">
 
 
 <!--
@@ -39,7 +40,7 @@
     </div>
 
 
-    <div class="linebreak">
+    <div class="linebreak" *ngIf="project != undefined">
         {{form.or}}
     </div>
 

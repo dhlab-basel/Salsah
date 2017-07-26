@@ -4,5 +4,17 @@
 </h2>
 -->
 <md-dialog-content>
-    <salsah-edit-user [iri]="data.iri"></salsah-edit-user>
+
+    <salsah-edit-user *ngIf="data" [iri]="data.iri"></salsah-edit-user>
+    <salsah-new-user *ngIf="!data"></salsah-new-user>
+
 </md-dialog-content>
+
+<div md-dialog-actions>
+    <button md-button
+            md-dialog-close
+            class="cancel-button">
+        Cancel
+    </button>
+    <span class="fill-remaining-space"></span>
+</div>
