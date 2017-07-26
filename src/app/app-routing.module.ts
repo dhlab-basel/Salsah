@@ -22,7 +22,7 @@ import {UserComponent} from "./view/dashboard/user/user.component";
 import {ProjectComponent} from "./view/dashboard/project/project.component";
 import {ProjectSettingsComponent} from "./view/dashboard/project/project-settings/project-settings.component";
 import {ProjectProfileComponent} from "./view/dashboard/project/project-profile/project-profile.component";
-import {ResultsComponent} from "./view/modules/listing/results/results.component";
+import {ResultsComponent} from "./view/modules/listings/results/results.component";
 import {ProjectTeamComponent} from "./view/dashboard/project/project-team/project-team.component";
 import {ProjectResourcesComponent} from "./view/dashboard/project/project-resources/project-resources.component";
 import {ProjectFormComponent} from "./view/modules/form/project-form/project-form.component";
@@ -40,7 +40,6 @@ import {SystemComponent} from "./view/dashboard/system/system.component";
 import {SystemUsersComponent} from './view/dashboard/system/system-users/system-users.component';
 import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
 import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
-import {FrameworkComponent} from './view/modules/framework/framework.component';
 
 const appRoutes: Routes = [
     {
@@ -149,10 +148,6 @@ const appRoutes: Routes = [
         }
     },
     {
-        path: 'framework',
-        component: FrameworkComponent,
-    },
-    {
         path: 'dev', component: DevelopmentComponent,
         children: [
             {
@@ -176,7 +171,6 @@ const appRoutes: Routes = [
                 component: MessageComponent
             }
         ]
-
     },
     {
         path: '**',

@@ -28,6 +28,11 @@ import {ProjectMembers, ProjectItem, User} from "../../../../model/webapi/knora"
 })
 export class ProjectTeamComponent implements OnInit {
 
+    // this component has a list of users
+    list: string = 'user';
+    // which are member in the specified project
+    project: string;
+
     // two progress loader:
     // 1) for the main module
     isLoading: boolean = true;
@@ -44,7 +49,7 @@ export class ProjectTeamComponent implements OnInit {
     iri: string;
 
     // project information; we get it from local storage
-    project: ProjectItem = new ProjectItem;
+//    project: ProjectItem = new ProjectItem;
 
     // list of members in the project
     members: ProjectMembers = new ProjectMembers();
@@ -93,15 +98,15 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.project = JSON.parse(localStorage.getItem('currentProject'));
+        this.project = JSON.parse(localStorage.getItem('currentProject')).id;
 
         this.sortKey = this.sortProps[0].key;
 
         this.sortLabel = this.sortProps[1].label;
 
-        let proIri = this.project.id;
+//        let proIri = this.project.id;
 
-        this._projectsService.getProjectMembersByIri(proIri)
+        this._projectsService.getProjectMembersByIri(this.project)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.members = result.getBody(ProjectMembers);

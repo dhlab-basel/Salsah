@@ -1,28 +1,5 @@
-<div class="salsah-list salsah-module-content">
-    <h2 md-header>{{mainTitle}}</h2>
-    <md-list>
-        <!-- this list has an 'add button' to add new stuff;
-        it opens a 'new-something-form'-component in the detail view -->
-        <md-list-item class="salsah-link">
-            <!-- TODO: perhaps an own component for that? -->
-            <button *ngIf="add != undefined" md-icon-button>
-                <md-icon>add</md-icon>
-            </button>
-            {{add.title}}
-        </md-list-item>
-        <md-divider></md-divider>
-        <!-- end of 'add button' -->
 
-        <!-- start with main list -->
-
-    </md-list>
-
-</div>
-
-<div *ngIf="detailIsActive" class="salsah-module-detail">
-
-</div>
-
+<salsah-framework-for-listings [title]="title" [add]="add" [list]="list"></salsah-framework-for-listings>
 
 <!--
 
@@ -58,17 +35,16 @@
 -->
 
 
-
-        <!--
-        <md-divider></md-divider>
-        <h3 md-subheader>Project Member</h3>
-        <md-list-item>
-            <!--<md-list-item *ngFor="let member of project.members">--
-            <md-icon md-list-avatar>person_outline</md-icon>
-            <h4 md-line>Lastname, PreName</h4>
-            <p md-line> function bla bla </p>
-        </md-list-item>
-        -->
+<!--
+<md-divider></md-divider>
+<h3 md-subheader>Project Member</h3>
+<md-list-item>
+    <!--<md-list-item *ngFor="let member of project.members">--
+    <md-icon md-list-avatar>person_outline</md-icon>
+    <h4 md-line>Lastname, PreName</h4>
+    <p md-line> function bla bla </p>
+</md-list-item>
+-->
 <!--
     </md-list>
 </div>

@@ -1,0 +1,31 @@
+@import '../../../../../assets/style/config';
+
+.salsah-module-content {
+
+  &.large {
+    width: 100%;
+  }
+
+  &.small {
+    width: $sidebar-width;
+  }
+}
+
+.salsah-module-detail {
+  padding: 0;
+
+  .salsah-module-detail-header {
+    //      display: inline-flex;
+    position: fixed;
+    right: 0;
+    top: $module-header-height;
+    width: calc(100vw - #{$sidebar-width});
+    z-index: 5;
+  }
+
+  .salsah-module-detail-content {
+    height: 100%;
+    padding: 24px;
+    width: 100%;
+  }
+}

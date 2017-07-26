@@ -1,0 +1,54 @@
+<div class="salsah-module-content salsah-list" [ngClass]="[position.preview, size]">
+    <h2 md-header>{{title}}</h2>
+    <md-list *ngIf="add != undefined">
+        <!-- this list has an 'add button' to add new stuff;
+        it opens a 'new-something-form'-component in the detail view -->
+        <md-list-item class="salsah-link">
+            <!-- TODO: perhaps an own component for that? -->
+            <button md-icon-button>
+                <md-icon>add</md-icon>
+            </button>
+            {{add.title}}
+        </md-list-item>
+        <md-divider></md-divider>
+        <!-- end of 'add button' -->
+    </md-list>
+
+    <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+
+    <!-- start with main list -->
+    <salsah-users-list *ngIf="list == 'user'" [project]="project" (toggleUser)="toggleDetail($event, $event)"></salsah-users-list>
+    <!-- end of main list -->
+
+</div>
+
+<div *ngIf="detailViewIsActive" class="salsah-module-detail" [ngClass]="position.detail">
+    <!-- detail view with own header -->
+    <div class="salsah-module-detail-header">
+        <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
+        <button md-icon-button (click)="closeDetailView()" class="right close">
+            <md-icon>close</md-icon>
+        </button>
+    </div>
+
+    <!-- detail view content -->
+    <div class="salsah-module-detail-content">
+        <!-- a) view incl. edit and delete if the logged in user has the rights -->
+        <salsah-user-object *ngIf="list == 'user'" [id]="id"></salsah-user-object>
+
+
+
+
+        <!-- b) add new object (if the logged in user has the rights -->
+        <!--
+        <div class="add-user" *ngIf="newUserIsActive">
+            <!-- form to add (incl. creation) a new users to the project --
+            <salsah-new-user></salsah-new-user>
+        </div>
+        -->
+
+    </div>
+
+</div>
+
+

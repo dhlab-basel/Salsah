@@ -14,7 +14,7 @@
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
 import {Router, ActivatedRoute} from "@angular/router";
-import {SessionService} from "../../../../model/services/session.service";
+import {SessionService} from "../../../../../../model/services/session.service";
 
 import {
     trigger,

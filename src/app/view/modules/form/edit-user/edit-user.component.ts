@@ -19,36 +19,37 @@ import {UserService} from '../../../../model/services/user.service';
 import {User} from '../../../../model/webapi/knora/';
 
 @Component({
-  selector: 'salsah-edit-user',
-  templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.scss']
+    selector: 'salsah-edit-user',
+    templateUrl: './edit-user.component.html',
+    styleUrls: ['./edit-user.component.scss']
 })
 export class EditUserComponent implements OnChanges {
 
-  @Input('iri') iri: string;
-  @Input('index') index: number;
+    @Input('iri') iri: string;
+    @Input('index') index: number;
 
-  user: User;
-  errorMessage: string = undefined;
-  selectedRow: number;
+    user: User;
+    errorMessage: string = undefined;
+    selectedRow: number;
 
 //  editUser: boolean;
 
-  constructor(private _userService: UserService) { }
+    constructor(private _userService: UserService) {
+    }
 
-  ngOnChanges() {
+    ngOnChanges() {
 
-    this._userService.getUserByIri(this.iri)
-        .subscribe(
-            (result: ApiServiceResult) => {
-              this.user = result.getBody(User);
-              console.log(this.user);
-              this.selectedRow = this.index;
-            },
-            (error: ApiServiceError) => {
-              this.errorMessage = <any>error;
-            }
-        );
-  }
+        this._userService.getUserByIri(this.iri)
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    this.user = result.getBody(User);
+                    console.log(this.user);
+                    this.selectedRow = this.index;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                }
+            );
+    }
 
 }

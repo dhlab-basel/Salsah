@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -85,7 +85,7 @@ export class SystemUsersComponent implements OnInit {
     sortLabel: string = this.sortProps[1].label;
 
     // NEW NEW NEW
-    mainTitle: string = 'List of users';
+    title: string = 'List of users in Knora';
     detailIsActive: boolean = false;
     add: any = {
         title: 'Add something (add.title)',
@@ -100,6 +100,8 @@ export class SystemUsersComponent implements OnInit {
         type: UserData,
         list: []
     };
+
+    list='user';
 
     constructor(private _userService: UserService,
                 public dialog: MdDialog) {

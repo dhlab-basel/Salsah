@@ -175,8 +175,8 @@ export class MessageComponent implements OnInit {
                     break;
 
                 default:
-                    this.message.status.text = 'I\'m a teapot';
-                    this.message.title = 'I\'m not able to brew coffee';
+                    this.message.status.text = 'Something went wrong';
+                    this.message.title = this.error.statusText;
                     this.message.content.text = 'You have the following possibilities now';
                     this.message.content.links = this.defaultLinks;
             }

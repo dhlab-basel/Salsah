@@ -1,31 +1,33 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {AppMaterialModule} from '../../../../app-material-module';
-import {AppRoutingModule} from '../../../../app-routing.module';
-import {HeaderProjectsComponent} from './header-projects.component';
+import {UserObjectComponent} from './user-object.component';
+import {UserService} from '../../../../model/services/user.service';
 
-describe('HeaderProjectsComponent', () => {
-    let component: HeaderProjectsComponent;
-    let fixture: ComponentFixture<HeaderProjectsComponent>;
+describe('UserObjectComponent', () => {
+    let component: UserObjectComponent;
+    let fixture: ComponentFixture<UserObjectComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule,
-                AppRoutingModule
+                AppMaterialModule
+            ],
+            providers: [
+                UserService
             ]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(HeaderProjectsComponent);
+        fixture = TestBed.createComponent(UserObjectComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    it('should modify', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

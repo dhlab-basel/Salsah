@@ -80,7 +80,7 @@
       position: fixed;
       right: 0;
 //      right: 12px;
-      top: 64px;
+      top: $module-header-height;
       width: calc(100vw - #{$sidebar-width});
       z-index: 5;
     }

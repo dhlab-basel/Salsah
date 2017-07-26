@@ -1,10 +1,10 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {AppMaterialModule} from '../../../../app-material-module';
-import {AppRoutingModule} from '../../../../app-routing.module';
+import {AppModule} from '../../../../../../app.module';
+import {AppMaterialModule} from '../../../../../../app-material-module';
+import {AppRoutingModule} from '../../../../../../app-routing.module';
 import {HeaderToolbarComponent} from './header-toolbar.component';
-import {SessionService} from '../../../../model/services/session.service';
-import {UserProfile} from "../../../../model/webapi/knora/v1/users/user-profile";
+import {SessionService} from '../../../../../../model/services/session.service';
+import {UserProfile} from "../../../../../../model/webapi/knora/v1/users/user-profile";
 
 describe('HeaderToolbarComponent', () => {
     let component: HeaderToolbarComponent;

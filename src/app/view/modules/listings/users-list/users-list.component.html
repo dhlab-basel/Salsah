@@ -1,0 +1,32 @@
+<md-list>
+    <h3 md-subheader>
+        <button md-icon-button
+                *ngIf="selectedRow == undefined"
+                (click)="sortBy(sortKey)"
+                [mdTooltip]="sortTitle + sortLabel" mdTooltipPosition="above">
+            <md-icon>sort_by_alpha</md-icon>
+        </button>
+        Project Members
+    </h3>
+
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
+    <md-list-item *ngFor="let u of users | sortBy: sortKey; let i = index"
+                  (click)="toggle(u.user_id, i);"
+                  [id]="u.user_id"
+                  class="salsah-link"
+                  [class.highlight]="i == selectedRow">
+        <!--<md-list-item *ngFor="let admin of project.admins">-->
+        <md-icon md-list-avatar>
+            <img salsahGravatar [email]="u?.email" class="salsah-avatar-image"/>
+        </md-icon>
+        <h4 md-line>{{u?.firstname}} {{u?.lastname}}</h4>
+        <p md-line> {{u?.email}} </p>
+        <button md-icon-button class="right close close-highlight">
+            <md-icon>close</md-icon>
+        </button>
+    </md-list-item>
+</md-list>
+
+
+
