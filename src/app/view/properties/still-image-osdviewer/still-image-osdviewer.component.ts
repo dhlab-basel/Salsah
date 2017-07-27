@@ -171,6 +171,7 @@ export class StillImageOSDViewerComponent implements OnInit {
       let fileValues = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
       let imagesToDisplay = fileValues.filter( (image) => { return !image.isPreview; } );
 
+      // TODO: how to deal with subclasses of knora-base:Region?
       let incomingRegions = resource.incoming.filter((resource) => { return resource.type == AppConfig.Region});
 
       for (let image of imagesToDisplay) {

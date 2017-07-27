@@ -121,8 +121,9 @@ export class ObjectComponent implements OnChanges, OnInit {
               let promise = jsonld.promises.compact(result.body, {});
               promise.then((compacted) => {
                 let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
-                 Array.prototype.push.apply(resourceSequence.resources[0].incoming, regions.resources);
-                 if (this.osdViewer) { this.osdViewer.updateRegions(); }
+                // Append elements of regions.resources to resourceSequence.resources[0].incoming
+                Array.prototype.push.apply(resourceSequence.resources[0].incoming, regions.resources);
+                if (this.osdViewer) { this.osdViewer.updateRegions(); }
               },
               function (err) {
                 console.log("JSONLD of regions request could not be expanded:" + err);
