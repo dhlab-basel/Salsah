@@ -1,12 +1,14 @@
-import {Component, Input, OnChanges, OnInit} from "@angular/core";
+import {Component, Input, OnChanges, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {ResourceService} from "../../../model/services/resource.service";
+import {IncomingService} from "../../../model/services/incoming.service";
 import {ApiServiceResult} from "../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../model/services/api-service-error";
 import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resources-sequence";
 import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 import {OntologyService} from "../../../model/services/ontology.service";
 import {AppConfig} from "../../../app.config";
+import {StillImageOSDViewerComponent} from "../../properties/still-image-osdviewer/still-image-osdviewer.component";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -20,6 +22,8 @@ export class ObjectComponent implements OnChanges, OnInit {
 
     @Input('iri') iri: string;
 
+    @ViewChild('OSDViewer') osdViewer: StillImageOSDViewerComponent;
+
     isLoading: boolean = true;
     errorMessage: any;
 
@@ -28,6 +32,7 @@ export class ObjectComponent implements OnChanges, OnInit {
 
     constructor(private _route: ActivatedRoute,
                 private _resourceService: ResourceService,
+                private _incomingService: IncomingService,
                 private _ontologyService: OntologyService) {
     }
 
@@ -45,12 +50,13 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                         let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-                        // variable 'this' cannot be used in the context of a function
                         this.resource = resources;
+
+                        this.requestIncomingResources(resources);
 
                     }, function (err) {
 
-                        console.log("JSONLD could not be expanded:" + err);
+                        console.log("JSONLD of full resource request could not be expanded:" + err);
                     });
 
                     //console.log(this.resource);
@@ -78,12 +84,13 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                             let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-                            // variable 'this' cannot be used in the context of a function
                             this.resource = resources;
+
+                            this.requestIncomingResources(resources);
 
                         }, function (err) {
 
-                            console.log("JSONLD could not be expanded:" + err);
+                            console.log("JSONLD of full resource request could not be expanded:" + err);
                         });
 
                         this.isLoading = false;
@@ -96,5 +103,41 @@ export class ObjectComponent implements OnChanges, OnInit {
         });
     }
 
+
+    /*
+    * Requests incoming resources for the supplied ReadResourcesSequence, and adds them to the respective ReadResource.incoming array.
+    * Currently we only display the properties of this.resource.resources[0] (see html template),
+    * therefore we also request only the incoming resources to resourceSequence.resources[0].
+    *
+    * @param {ReadResourcesSequence} resourceSequence - the sequence of resources for which incoming resources should be requested.
+    */
+    private requestIncomingResources(resourceSequence: ReadResourcesSequence) {
+      if (resourceSequence.resources.length > 0) {
+
+        // request incoming Regions
+        if (resourceSequence.resources[0].properties[AppConfig.hasStillImageFileValue]) {
+          this._incomingService.getIncomingRegions(resourceSequence.resources[0].id).subscribe(
+            (result: ApiServiceResult) => {
+              let promise = jsonld.promises.compact(result.body, {});
+              promise.then((compacted) => {
+                let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                // Append elements of regions.resources to resourceSequence.resources[0].incoming
+                Array.prototype.push.apply(resourceSequence.resources[0].incoming, regions.resources);
+                if (this.osdViewer) { this.osdViewer.updateRegions(); }
+              },
+              function (err) {
+                console.log("JSONLD of regions request could not be expanded:" + err);
+              });
+            },
+            (error: ApiServiceError) => {
+              this.errorMessage = <any>error;
+              this.isLoading = false;
+            }
+          );
+        }
+
+        // TODO: when the extended search API provides support for it, request other resource types.
+      }
+    }
 
 }

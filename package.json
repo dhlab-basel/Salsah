@@ -30,6 +30,7 @@
         "json2typescript": "^0.9.5",
         "ng2-dnd": "^4.2.0",
         "openseadragon": "^2.2.1",
+        "openseadragon-overlay": "openseadragon/svg-overlay",
         "rxjs": "^5.4.1",
         "ts-helpers": "^1.1.2",
         "ts-md5": "1.2.0",

@@ -20,9 +20,16 @@ import {ApiService} from "./api.service";
 @Injectable()
 export class SearchService extends ApiService {
 
-    doSearch(query, type = 'fulltext'): Observable<any> {
+  doSearch(query: string): Observable<any> {
+      return this.httpGetV2("/search/" + query);
+  }
 
-        return this.httpGetV2("/search/" + query);
-    }
+  /**
+  * Performs an extended search.
+  * @param {string} query - url-encoded SPARQL query string
+  */
+  doSearchExtended(query: string): Observable<any> {
+      return this.httpGetV2("/searchextended/" + query);
+  }
 
 }

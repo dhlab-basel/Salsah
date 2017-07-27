@@ -60,7 +60,7 @@
 
   .salsah-module-detail {
     left: $sidebar-width;
-    overflow-y: hidden;
+    // overflow-y: hidden;
     width: calc(100vw - #{$sidebar-width});
 
     .salsah-module-detail-header {
