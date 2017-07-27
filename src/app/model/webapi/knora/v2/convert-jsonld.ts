@@ -36,22 +36,16 @@ export module ConvertJSONLD {
      * @param properties    a [[ReadProperties]] describing the resource's properties. if any.
      * @returns a [[ReadResource]]
      */
-    function constructReadResource(resourceJSONLD: Object, ontologyResponseJSONLD?: Object): ReadResource {
+    function constructReadResource(resourceJSONLD: Object): ReadResource {
 
         let properties: ReadProperties = constructReadProperties(resourceJSONLD);
 
         // check for resource class information
         let resourceClassAsName: string;
-        if (ontologyResponseJSONLD !== undefined) {
-            resourceClassAsName = ontologyResponseJSONLD[resourceJSONLD['@type']][AppConfig.rdfLabel];
-        } else {
-            resourceClassAsName = undefined;
-        }
 
         return {
             id: resourceJSONLD['@id'],
             type: resourceJSONLD['@type'],
-            typeAsName: resourceClassAsName,
             label: resourceJSONLD[AppConfig.schemaName],
             properties: properties
         };
@@ -248,7 +242,7 @@ export module ConvertJSONLD {
      * @param resourcesResponseJSONLD   a sequence of resources, represented as a JSON-LD object.
      * @returns {ReadResourcesSequence} a [[ReadResourcesSequence]].
      */
-    export function createReadResourcesSequenceFromJsonLD(resourcesResponseJSONLD: Object, ontologyResponseJSONLD?: Object): ReadResourcesSequence {
+    export function createReadResourcesSequenceFromJsonLD(resourcesResponseJSONLD: Object): ReadResourcesSequence {
 
         let resources: Array<ReadResource> = [];
         let numberOfResources: number = resourcesResponseJSONLD[AppConfig.schemaNumberOfItems];
@@ -259,7 +253,7 @@ export module ConvertJSONLD {
 
             for (let resourceJSONLD of resourcesResponseJSONLD[AppConfig.schemaItemListElement]) {
 
-                let resource: ReadResource = constructReadResource(resourceJSONLD, ontologyResponseJSONLD);
+                let resource: ReadResource = constructReadResource(resourceJSONLD);
 
                 // add the resource to the resources array
                 resources.push(resource);
@@ -267,7 +261,7 @@ export module ConvertJSONLD {
         } else {
             // only one resource
 
-            let resource: ReadResource = constructReadResource(resourcesResponseJSONLD[AppConfig.schemaItemListElement], ontologyResponseJSONLD);
+            let resource: ReadResource = constructReadResource(resourcesResponseJSONLD[AppConfig.schemaItemListElement]);
 
             // add the resource to the resources array
             resources.push(resource);

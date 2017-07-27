@@ -2,9 +2,9 @@ import {TestBed, inject} from '@angular/core/testing';
 import {AppModule} from '../../app.module';
 import {AppRoutingModule} from '../../app-routing.module';
 import {ApiService} from './api.service';
-import {CacheService} from './cache.service';
+import {OntologyCacheService} from './cache.service';
 
-describe('CacheService', () => {
+describe('OntologyCacheService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -13,12 +13,12 @@ describe('CacheService', () => {
             ],
             providers: [
                 ApiService,
-                CacheService
+                OntologyCacheService
             ]
         });
     });
 
-    it('should be created', inject([CacheService], (service: CacheService) => {
+    it('should be created', inject([OntologyCacheService], (service: OntologyCacheService) => {
         expect(service).toBeTruthy();
     }));
 });

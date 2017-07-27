@@ -19,7 +19,7 @@ import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {SearchService} from "../../../../model/services/search.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
-import {CacheService} from "../../../../model/services/cache.service";
+import {OntologyCacheService} from "../../../../model/services/cache.service";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -71,7 +71,7 @@ export class ResultsComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute,
                 private _searchService: SearchService,
-                private _cacheService: CacheService) {
+                private _cacheService: OntologyCacheService) {
     }
 
     ngOnInit() {
@@ -79,7 +79,7 @@ export class ResultsComponent implements OnInit {
         this._route.params.subscribe((params: Params) => {
             let query = params['q'];
 
-            this._searchService.doSearch(query)
+            this._searchService.doFulltextSearch(query)
                 .subscribe(
                     (resResult: ApiServiceResult) => {
 
@@ -96,9 +96,8 @@ export class ResultsComponent implements OnInit {
 
                                     // console.log(resourceClassInfos);
 
-                                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(resCompacted, resourceClassInfos);
+                                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(resCompacted);
 
-                                    // variable 'this' cannot be used in the context of a function
                                     this.result = resources;
 
                                 },

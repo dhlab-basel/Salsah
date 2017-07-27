@@ -20,9 +20,35 @@ import {ApiService} from "./api.service";
 @Injectable()
 export class SearchService extends ApiService {
 
-    doSearch(query, type = 'fulltext'): Observable<any> {
+    /**
+     * Perform a fulltext search.
+     *
+     * @param searchTerm the term to search for.
+     * @returns {Observable<any>}
+     */
+    doFulltextSearch(searchTerm: string): Observable<any> {
 
-        return this.httpGetV2("/search/" + query);
+        if (searchTerm === undefined || searchTerm.length == 0) {
+            return Observable.create(observer => observer.error("No search term given for call of SearchService.doFulltextSearch"));
+        }
+
+        return this.httpGetV2("/search/" + searchTerm);
+    }
+
+    /**
+     * Perform an extended search.
+     *
+     * @param sparqlString the Sparql query string to be sent to Knora.
+     * @returns {Observable<any>}
+     */
+    doExtendedSearch(sparqlString: string): Observable<any> {
+
+        if (sparqlString === undefined || sparqlString.length == 0) {
+            return Observable.create(observer => observer.error("No Sparql string given for call of SearchService.doExtendedSearch"));
+        }
+
+        return this.httpGetV2("/searchextended/" + encodeURIComponent(sparqlString));
+
     }
 
 }

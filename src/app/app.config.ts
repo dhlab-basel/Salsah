@@ -16,9 +16,19 @@ export class AppConfig {
 
     public static KnoraApiV2WithValueObjectPath: string = "http://api.knora.org/ontology/knora-api/v2#";
 
-    public static HasResourceClasses: string = AppConfig.KnoraApiV2WithValueObjectPath + "hasResourceClasses";
+    public static hasResourceClasses: string = AppConfig.KnoraApiV2WithValueObjectPath + "hasResourceClasses";
+    public static hasProperties: string = AppConfig.KnoraApiV2WithValueObjectPath + "hasProperties";
 
-    public static HasProperties: string = AppConfig.KnoraApiV2WithValueObjectPath + "hasProperties";
+    public static belongsToOntology: string = AppConfig.KnoraApiV2WithValueObjectPath + "belongsToOntology";
+    public static ResourceIcon: string = AppConfig.KnoraApiV2WithValueObjectPath + "resourceIcon";
+
+    public static OwlOnProperty: string = "http://www.w3.org/2002/07/owl#onProperty";
+    public static OwlMaxCardinality: string = "http://www.w3.org/2002/07/owl#maxCardinality";
+    public static OwlMinCardinality: string = "http://www.w3.org/2002/07/owl#minCardinality";
+    public static OwlCardinality: string = "http://www.w3.org/2002/07/owl#cardinality";
+
+
+
 
     public static TextValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "TextValue";
     public static IntValue: string = AppConfig.KnoraApiV2WithValueObjectPath + "IntValue";
@@ -86,7 +96,9 @@ export class AppConfig {
     public static schemaNumberOfItems = "http://schema.org/numberOfItems";
     public static schemaItemListElement = "http://schema.org/itemListElement";
 
-    public static rdfLabel = "http://www.w3.org/2000/01/rdf-schema#label";
+    public static RdfsLabel = "http://www.w3.org/2000/01/rdf-schema#label";
+    public static RdfsComment = "http://www.w3.org/2000/01/rdf-schema#comment";
+    public static RdfsSubclassOf = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
 
 
 }
