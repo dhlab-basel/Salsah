@@ -15,7 +15,7 @@
 
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {ListsService} from '../../../../model/services/lists.service';
-import {ListNodeInfo} from '../../../../model/webapi/knora/v1/lists/list-node-info';
+import {ListNodeInfo} from '../../../../model/webapi/knora/v2';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 

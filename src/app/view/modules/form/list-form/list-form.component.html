@@ -5,31 +5,6 @@
 
 <div md-line></div>
 
-<md-card>
-
-    <md-card-title>List Details</md-card-title>
-
-    <md-card-content>
-        <form #listInfoForm="ngForm" class="list-form" *ngIf="currentListInfo">
-
-            <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Id" [(ngModel)]="currentListInfo.id" name="id" disabled="false">
-            </md-input-container>
-            <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Project" [(ngModel)]="currentListInfo.projectIri" name="project">
-            </md-input-container>
-
-            <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Label" [(ngModel)]="currentListInfo.label" name="label">
-            </md-input-container>
-
-            <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Comment" [(ngModel)]="currentListInfo.comment" name="comment">
-            </md-input-container>
-        </form>
-    </md-card-content>
-</md-card>
-
 <form [formGroup]="listInfoForm" novalidate>
 
     <md-card>
@@ -45,12 +20,12 @@
                 <input mdInput placeholder="Project" formControlName="projectIri">
             </md-input-container>
 
-            <div formArrayName="labels">
+            <div *ngIf="labels" formArrayName="labels">
                 <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
                     <p>Label</p>
                     <div class="flex align-center">
                         <md-input-container class="list-item-full-width">
-                            <input mdInput placeholder="Label" formControlName="label">
+                            <input mdInput placeholder="Value" formControlName="value">
                         </md-input-container>
 
                         <select formControlName="lang" class="flex-one">
@@ -62,12 +37,28 @@
                         </select>
                     </div>
                 </div>
-                <button md-raised-button (click)="addLabelGroup()">add label</button>
+                <button md-raised-button (click)="addLabel()">Add Label</button>
             </div>
 
-            <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Comment" formControlName="comment">
-            </md-input-container>
+            <div *ngIf="comments" formArrayName="comments">
+                <div *ngFor="let comment of comments.controls; let i=index" [formGroupName]="i">
+                    <p>Comment</p>
+                    <div class="flex align-center">
+                        <md-input-container class="list-item-full-width">
+                            <input mdInput placeholder="Value" formControlName="value">
+                        </md-input-container>
+
+                        <select formControlName="lang" class="flex-one">
+                            <option value="" disabled>Select language</option>
+                            <option value="en">en</option>
+                            <option value="de">de</option>
+                            <option value="fr">fr</option>
+                            <option value="it">it</option>
+                        </select>
+                    </div>
+                </div>
+                <button md-raised-button (click)="addComment()">Add Comment</button>
+            </div>
 
         </md-card-content>
         <md-card-actions align="end">

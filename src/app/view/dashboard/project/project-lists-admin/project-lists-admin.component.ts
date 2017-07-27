@@ -15,7 +15,7 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {Project} from '../../../../model/webapi/knora/v1/projects/project';
-import {ListInfo} from '../../../../model/webapi/knora/v1/lists/list-info';
+import {ListInfo} from '../../../../model/webapi/knora/v2';
 import {Router} from '@angular/router';
 import {ListsService} from '../../../../model/services/lists.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
@@ -67,7 +67,6 @@ export class ProjectListsAdminComponent implements OnInit {
         this._listsService.getLists(this.project.id)
             .subscribe(
                 (lists: ListInfo[]) => {
-                    console.log(lists);
                     this.projectLists = lists;
                 },
                 (error: ApiServiceError) => {
@@ -79,7 +78,6 @@ export class ProjectListsAdminComponent implements OnInit {
         this._listsService.getLists('http://www.knora.org/ontology/knora-base#SystemProject')
             .subscribe(
                 (lists: ListInfo[]) => {
-                    console.log(lists);
                     this.systemLists = lists;
                     this.isLoading = false;
                 },

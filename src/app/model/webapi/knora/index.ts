@@ -18,7 +18,6 @@
 export * from './v1/authenticate/authenticate';
 export * from './v1/authenticate/session';
 
-
 /**
  * Interfaces for projects
  */
@@ -57,10 +56,19 @@ export * from './v1/users/user';
 export * from './v1/users/user-profile';
 
 /**
- * Interface for lists
+ * Interface for lists V1
  */
-export * from './v1/lists/list';
-export * from './v1/lists/list-info';
 export * from './v1/lists/list-node';
-export * from './v1/lists/lists-response';
 
+/**
+ * Interface for lists V2
+ */
+export * from './v2/lists/list';
+export * from './v2/lists/list-info';
+export * from './v2/lists/list-node-info';
+export * from './v2/lists/lists-response';
+
+/**
+ * Interface for shared
+ */
+export * from './v2/shared/strings';

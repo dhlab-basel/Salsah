@@ -1,5 +1,6 @@
-/* Copyright © 2017 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
+/*
+ * Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -10,18 +11,23 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * You should have received a copy of the GNU Affero General Public
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
- * */
+ */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {ListNode} from './list-node';
-import {ListInfo} from './list-info';
+import {StringWithOptionalLang} from '../shared/strings';
 
 @JsonObject
-export class List {
+export class ListInfo {
 
-    @JsonProperty('info', ListInfo, false)
-    public info: ListInfo = undefined;
+    @JsonProperty('id', String, false)
+    public id: string = undefined;
 
-    @JsonProperty('nodes', [ListNode], false)
-    public nodes: ListNode[] = undefined;
+    @JsonProperty('projectIri', String, true)
+    public projectIri: string = undefined;
+
+    @JsonProperty('labels', [StringWithOptionalLang], false)
+    public labels: StringWithOptionalLang[] = undefined;
+
+    @JsonProperty('comments', [StringWithOptionalLang], true)
+    public comments: StringWithOptionalLang[] = undefined;
 }

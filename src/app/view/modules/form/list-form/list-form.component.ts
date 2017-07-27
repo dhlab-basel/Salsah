@@ -18,17 +18,18 @@ import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {MdDialog, MdDialogConfig} from '@angular/material';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ListsService} from '../../../../model/services/lists.service';
-import {List} from '../../../../model/webapi/knora/v1/lists/list';
-import {ListInfo} from '../../../../model/webapi/knora/v1/lists/list-info';
-import {ListNode} from '../../../../model/webapi/knora/v1/lists/list-node';
+import {ListNode} from '../../../../model/webapi/knora/v1';
+import {List, ListInfo} from '../../../../model/webapi/knora/v2';
 import {ListNodeFormComponent} from '../list-node-form/list-node-form.component';
+import {forEach} from '@angular/router/src/utils/collection';
+import {formArrayNameProvider} from '@angular/forms/src/directives/reactive_directives/form_group_name';
 
 @Component({
   selector: 'salsah-list-form',
   templateUrl: './list-form.component.html',
   styleUrls: ['./list-form.component.scss']
 })
-export class ListFormComponent implements OnChanges, OnInit {
+export class ListFormComponent implements OnChanges {
 
     @Input() listIri: string;
     @Input() listOp: string; // view, edit, create
@@ -42,7 +43,8 @@ export class ListFormComponent implements OnChanges, OnInit {
     editResource: boolean;
 
     public listInfoForm: FormGroup; // our model driven form
-    public labels: FormArray;
+    public labels: FormArray = undefined;
+    public comments: FormArray = undefined;
 
     public submitted: boolean; // keep track on whether form is submitted
     public events: any[] = []; // use later to display form changes
@@ -56,13 +58,7 @@ export class ListFormComponent implements OnChanges, OnInit {
     }
 
     ngOnChanges() {
-        this.getCurrentList(this.listIri);
-        this.updateFormValues();
-    }
-
-    ngOnInit() {
-        // subscribe to form changes
-        this.subcribeToFormChanges();
+        this.fetchDataAndUpdateForm(this.listIri);
     }
 
     buildListInfoForm() {
@@ -70,7 +66,7 @@ export class ListFormComponent implements OnChanges, OnInit {
             id: '',
             projectIri: '',
             labels: this.buildLabelsArray(),
-            comment: ''
+            comments: this.buildCommentsArray()
         });
 
         // this.listInfoForm.controls['id'].disable();
@@ -78,27 +74,48 @@ export class ListFormComponent implements OnChanges, OnInit {
     }
 
     buildLabelsArray(): FormArray {
-        this.labels = this._fb.array([
-           this.buildLabelGroup()
-        ]);
+
+        this.labels = this._fb.array([]);
         return this.labels;
     }
 
-    buildLabelGroup(): FormGroup {
+    buildCommentsArray(): FormArray {
+
+        this.comments = this._fb.array([]);
+        return this.comments;
+    }
+
+    buildValueLangGroup(): FormGroup {
         return this._fb.group({
-            label: '',
+            value: '',
             lang: ''
         });
     }
 
-    addLabelGroup() {
-        this.labels.push(this.buildLabelGroup());
+    addNeededNumberOfLabels() {
+        for (let i in this.currentListInfo.labels) {
+            this.addLabel();
+        }
+    }
+
+    addNeededNumberOfComments() {
+        for (let i in this.currentListInfo.comments) {
+            this.addComment();
+        }
+    }
+
+    addLabel() {
+        this.labels.push(this.buildValueLangGroup());
+    }
+
+    addComment() {
+        this.comments.push(this.buildValueLangGroup());
     }
 
     updateFormValues() {
         if (this.currentListInfo) {
             (<FormGroup>this.listInfoForm)
-                .patchValue(this.currentListInfo, { onlySelf: true });
+                .setValue(this.currentListInfo, { onlySelf: true });
         }
     }
 
@@ -113,18 +130,22 @@ export class ListFormComponent implements OnChanges, OnInit {
 
             // only if we have changed the list node, go and fetch the updated version
             if (result === true) {
-                this.getCurrentList(this.listIri);
+                this.fetchDataAndUpdateForm(this.listIri);
             }
         });
     }
 
-    getCurrentList(iri: string) {
+    fetchDataAndUpdateForm(iri: string) {
         this._listsService.getList(iri)
             .subscribe(
                 (list: List) => {
-                    console.log(list);
                     this.currentNodes = list.nodes;
                     this.currentListInfo = list.info;
+
+                    this.buildListInfoForm();
+                    this.addNeededNumberOfLabels();
+                    this.addNeededNumberOfComments();
+                    this.updateFormValues();
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -138,15 +159,6 @@ export class ListFormComponent implements OnChanges, OnInit {
         // check if model is valid
         // if valid, call API to save customer
         console.log(listInfo, isValid);
-    }
-
-    subcribeToFormChanges() {
-        // initialize stream
-        const myFormValueChanges$ = this.listInfoForm.valueChanges;
-
-        // subscribe to the stream
-        myFormValueChanges$.subscribe(x => this.events
-            .push({ event: 'STATUS CHANGED', object: x }));
     }
 
     // TODO: Remove this when we're done

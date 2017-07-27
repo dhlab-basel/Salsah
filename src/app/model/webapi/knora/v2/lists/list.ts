@@ -1,5 +1,6 @@
-/* Copyright © 2017 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
+/*
+ * Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -10,19 +11,18 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * You should have received a copy of the GNU Affero General Public
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
- * */
+ */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
+import {ListInfo} from './list-info';
+import {ListNode} from '../../v1';
 
 @JsonObject
-export class ListNodeInfo {
+export class List {
 
-    @JsonProperty('id', String, false)
-    public id: string = undefined;
+    @JsonProperty('info', ListInfo, false)
+    public info: ListInfo = undefined;
 
-    @JsonProperty('labels', [String], false)
-    public labels: string[] = undefined;
-
-    @JsonProperty('comment', String, true)
-    public comment: string = undefined;
+    @JsonProperty('nodes', [ListNode], false)
+    public nodes: ListNode[] = undefined;
 }

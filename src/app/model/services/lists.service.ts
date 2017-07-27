@@ -18,8 +18,8 @@ import {Observable} from 'rxjs/Observable';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 import {ApiService} from './api.service';
-import {List, ListInfo, ListNode, ListsResponse} from '../webapi/knora';
-import {ListNodeInfo} from '../webapi/knora/v1/lists/list-node-info';
+import {List, ListInfo, ListNodeInfo, ListsResponse} from '../webapi/knora/v2';
+import {ListNode} from '../webapi/knora/v1';
 
 @Injectable()
 export class ListsService extends ApiService {
@@ -37,12 +37,12 @@ export class ListsService extends ApiService {
 
         const empty: ListInfo[] = [];
 
-        return this.httpGet('/v1/lists?projectIri=' + encodeURIComponent(projectIri)).map(
+        return this.httpGet('/v2/lists?projectIri=' + encodeURIComponent(projectIri)).map(
             (result: ApiServiceResult) => {
 
                 const received: ListInfo[] = result.getBody(ListsResponse).lists;
 
-                console.log('ListsService - getLists - projectIri: ' + projectIri +  ' , lists: ' + JSON.stringify(received));
+                console.log('ListsService - getLists - projectIri: ' + projectIri +  ' , lists: ',  received);
 
                 if (received.length > 0) {
                     return received;
@@ -67,10 +67,10 @@ export class ListsService extends ApiService {
      * @throws {ApiServiceError}
      */
     getList(listIri: string): Observable<List> {
-        return this.httpGet('/v1/lists/' + encodeURIComponent(listIri)).map(
+        return this.httpGet('/v2/lists/' + encodeURIComponent(listIri)).map(
             (result: ApiServiceResult) => {
                 const received: List = result.getBody(List);
-                console.log('ListsService - getLists - listIri: ' + listIri +  ' , list: ' + JSON.stringify(received));
+                console.log('ListsService - getLists - listIri: ' + listIri +  ' , list: ', received);
                 return received
             },
             (error: ApiServiceError) => {
@@ -90,10 +90,10 @@ export class ListsService extends ApiService {
      * @throws {ApiServiceError}
      */
     getListNodeInfo(nodeIri: string): Observable<ListNodeInfo> {
-        return this.httpGet('/v1/lists/nodes/' + encodeURIComponent(nodeIri)).map(
+        return this.httpGet('/v2/lists/nodes/' + encodeURIComponent(nodeIri)).map(
             (result: ApiServiceResult) => {
                 const received: ListNodeInfo = result.getBody(ListNodeInfo);
-                console.log('ListsService - getLists - listIri: ' + nodeIri +  ' , list: ' + JSON.stringify(received));
+                console.log('ListsService - getLists - listIri: ' + nodeIri +  ' , list: ', received);
                 return received
             },
             (error: ApiServiceError) => {

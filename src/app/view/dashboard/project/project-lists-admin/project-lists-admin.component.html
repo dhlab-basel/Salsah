@@ -18,7 +18,7 @@
                       (click)="onSelect(pListItem);"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
-            <h4 md-line>{{pListItem.labels}}</h4>
+            <h4 md-line>{{pListItem.labels[0].value}}</h4>
             <h6 md-line>{{pListItem.id}}</h6>
         </md-list-item>
         <md-divider></md-divider>
@@ -28,7 +28,7 @@
                       (click)="onSelect(sListItem);"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
-            <h4 md-line>{{sListItem.labels}}</h4>
+            <h4 md-line>{{sListItem.labels[0].value}}</h4>
             <h6 md-line>{{sListItem.id}}</h6>
         </md-list-item>
     </md-list>

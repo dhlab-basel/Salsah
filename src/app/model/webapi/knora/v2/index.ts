@@ -13,20 +13,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {JsonObject, JsonProperty} from 'json2typescript';
+/**
+ * Interface for lists
+ */
+export * from './lists/list';
+export * from './lists/list-info';
+export * from './lists/list-node-info';
+export * from './lists/lists-response';
 
-@JsonObject
-export class ListInfo {
-
-    @JsonProperty('id', String, false)
-    public id: string = undefined;
-
-    @JsonProperty('projectIri', String, true)
-    public projectIri: string = undefined;
-
-    @JsonProperty('labels', [String], false)
-    public labels: string[] = undefined;
-
-    @JsonProperty('comment', String, true)
-    public comment: string = undefined;
-}
+/**
+ * Interface for shared
+ */
+export * from './shared/strings';
