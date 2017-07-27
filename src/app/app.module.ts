@@ -70,10 +70,10 @@ import {ProjectResourcesComponent} from './view/dashboard/project/project-resour
 import {SearchComponent} from './view/modules/search/search.component';
 import {SimpleSearchComponent} from './view/modules/search/simple-search/simple-search.component';
 import {ExtendedSearchComponent} from './view/modules/search/extended-search/extended-search.component';
-import {ProjectsListComponent} from './view/modules/listings/projects-list/projects-list.component';
-import {ResultsComponent} from './view/modules/listings/results/results.component';
-import {ResourceListComponent} from './view/modules/listings/resource-list/resource-list.component';
-import {ResourceGridListComponent} from './view/modules/listings/resource-grid-list/resource-grid-list.component';
+import {ProjectsListComponent} from './view/modules/listing/projects-list/projects-list.component';
+import {ResultsComponent} from './view/modules/listing/results/results.component';
+import {ResourceListComponent} from './view/modules/listing/resource-list/resource-list.component';
+import {ResourceGridListComponent} from './view/modules/listing/resource-grid-list/resource-grid-list.component';
 import {ObjectComponent} from './view/modules/object/object.component';
 import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
@@ -98,10 +98,13 @@ import {SystemComponent} from './view/dashboard/system/system.component';
 import {SystemUsersComponent} from './view/dashboard/system/system-users/system-users.component';
 import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
 import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
-import {UserProfileDialogComponent} from './view/modules/dialog/user-profile-dialog/user-profile-dialog.component';
-import {UsersListComponent} from './view/modules/listings/users-list/users-list.component';
+
+import {UsersListComponent} from './view/modules/listing/users-list/users-list.component';
 import {FrameworkForListingsComponent} from './view/modules/framework/framework-for-listings/framework-for-listings.component';
 import {UserObjectComponent} from './view/modules/object/user-object/user-object.component';
+import { MessageDialogComponent } from './view/modules/dialog/message-dialog/message-dialog.component';
+import { NewProjectComponent } from './view/modules/form/new-project/new-project.component';
+import { NewFormDialogComponent } from './view/modules/dialog/new-form-dialog/new-form-dialog.component';
 
 @NgModule({
     declarations: [
@@ -156,10 +159,12 @@ import {UserObjectComponent} from './view/modules/object/user-object/user-object
         SystemUsersComponent,
         SystemProjectsComponent,
         SystemOntologiesComponent,
-        UserProfileDialogComponent,
         UsersListComponent,
         FrameworkForListingsComponent,
-        UserObjectComponent
+        UserObjectComponent,
+        MessageDialogComponent,
+        NewProjectComponent,
+        NewFormDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -174,9 +179,8 @@ import {UserObjectComponent} from './view/modules/object/user-object/user-object
     ],
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [
-        ResourceClassFormComponent,
-        UserProfileDialogComponent,
-        UserFormComponent
+        MessageDialogComponent,
+        NewFormDialogComponent
     ],
     providers: [
         ApiService,

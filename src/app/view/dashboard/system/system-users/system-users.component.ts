@@ -17,7 +17,6 @@ import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UserService} from '../../../../model/services/user.service';
 import {UsersList, UserProfile} from '../../../../model/webapi/knora/';
-import {UserProfileDialogComponent} from '../../../modules/dialog/user-profile-dialog/user-profile-dialog.component';
 import {MdDialog} from '@angular/material';
 import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 
@@ -136,15 +135,6 @@ export class SystemUsersComponent implements OnInit {
             this.sortLabel = this.sortProps[1].label;
         }
 
-    }
-
-    openDialog(iri: string) {
-
-        let dialogRef = this.dialog.open(UserProfileDialogComponent, {data: {iri: iri}});
-
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
-        });
     }
 
 }

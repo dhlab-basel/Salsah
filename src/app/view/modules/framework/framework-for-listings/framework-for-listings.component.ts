@@ -14,9 +14,8 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {MdDialog} from '@angular/material';
-import {UserFormComponent} from '../../form/user-form/user-form.component';
-import {MessageComponent} from '../../message/message.component';
-import {UserProfileDialogComponent} from '../../dialog/user-profile-dialog/user-profile-dialog.component';
+import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
+import {NewFormDialogComponent} from '../../dialog/new-form-dialog/new-form-dialog.component';
 
 @Component({
     selector: 'salsah-framework-for-listings',
@@ -102,14 +101,26 @@ export class FrameworkForListingsComponent implements OnInit {
 
     openNew() {
         let dialogRef;
-        switch(this.add.object) {
+        let title: string;
+        switch(this.list) {
             case 'user':
-                console.log(this.project);
-                dialogRef = this.dialog.open(UserProfileDialogComponent, {data: {iri: this.project}});
+                title = 'Add new user';
+                dialogRef = this.dialog.open(NewFormDialogComponent, {data: {title: title, object: this.list, iri: this.project}});
+            break;
+            case 'project':
+                title = 'Create new project';
+                dialogRef = this.dialog.open(NewFormDialogComponent, {data: {title: title, object: this.list}});
             break;
 
+
+
             default:
-                dialogRef = this.dialog.open(MessageComponent);
+                let message = {
+                    title: 'Not yet implemented',
+                    text: 'TODO: add the list type "' + this.list + '" to the openNew method in FrameworkForListings',
+                    path: 'Missing list type: ' + this.list
+                };
+                dialogRef = this.dialog.open(MessageDialogComponent, {data: {note: message}});
 
         }
         dialogRef.afterClosed().subscribe(result => {

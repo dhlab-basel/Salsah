@@ -12,31 +12,31 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Routes, RouterModule} from "@angular/router";
-import {NgModule} from "@angular/core";
+import {Routes, RouterModule} from '@angular/router';
+import {NgModule} from '@angular/core';
 
-import {LoginComponent} from "./view/login/login.component";
-import {DashboardComponent} from "./view/dashboard/dashboard.component";
-import {UserComponent} from "./view/dashboard/user/user.component";
+import {LoginComponent} from './view/login/login.component';
+import {DashboardComponent} from './view/dashboard/dashboard.component';
+import {UserComponent} from './view/dashboard/user/user.component';
 
-import {ProjectComponent} from "./view/dashboard/project/project.component";
-import {ProjectSettingsComponent} from "./view/dashboard/project/project-settings/project-settings.component";
-import {ProjectProfileComponent} from "./view/dashboard/project/project-profile/project-profile.component";
-import {ResultsComponent} from "./view/modules/listings/results/results.component";
-import {ProjectTeamComponent} from "./view/dashboard/project/project-team/project-team.component";
-import {ProjectResourcesComponent} from "./view/dashboard/project/project-resources/project-resources.component";
-import {ProjectFormComponent} from "./view/modules/form/project-form/project-form.component";
-import {DocumentationComponent} from "./view/documentation/documentation.component";
+import {ProjectComponent} from './view/dashboard/project/project.component';
+import {ProjectSettingsComponent} from './view/dashboard/project/project-settings/project-settings.component';
+import {ProjectProfileComponent} from './view/dashboard/project/project-profile/project-profile.component';
+import {ResultsComponent} from './view/modules/listing/results/results.component';
+import {ProjectTeamComponent} from './view/dashboard/project/project-team/project-team.component';
+import {ProjectResourcesComponent} from './view/dashboard/project/project-resources/project-resources.component';
+import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
+import {DocumentationComponent} from './view/documentation/documentation.component';
 
-import {ProjectAdvancedComponent} from "./view/dashboard/project/project-advanced/project-advanced.component";
-import {ObjectComponent} from "./view/modules/object/object.component";
-import {ProgressIndicatorComponent} from "./view/modules/other/progress-indicator/progress-indicator.component";
-import {DevelopmentComponent} from "./view/test/development/development.component";
-import {ProgressStepperComponent} from "./view/modules/other/progress-stepper/progress-stepper.component";
-import {MessageComponent} from "./view/modules/message/message.component";
-import {NewResClassComponent} from "./view/test/development/new-res-class/new-res-class.component";
-import {NewResourceClassComponent} from "./view/modules/form/new-resource-class/new-resource-class.component";
-import {SystemComponent} from "./view/dashboard/system/system.component";
+import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
+import {ObjectComponent} from './view/modules/object/object.component';
+import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
+import {DevelopmentComponent} from './view/test/development/development.component';
+import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
+import {MessageComponent} from './view/modules/message/message.component';
+import {NewResClassComponent} from './view/test/development/new-res-class/new-res-class.component';
+import {NewResourceClassComponent} from './view/modules/form/new-resource-class/new-resource-class.component';
+import {SystemComponent} from './view/dashboard/system/system.component';
 import {SystemUsersComponent} from './view/dashboard/system/system-users/system-users.component';
 import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
 import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';

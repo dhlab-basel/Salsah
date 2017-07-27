@@ -17,7 +17,19 @@
     <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
     <!-- start with main list -->
-    <salsah-users-list *ngIf="list == 'user'" [project]="project" [index]="selectedRow" (toggleUser)="toggleDetail($event, $event)"></salsah-users-list>
+    <div class="salsah-module-content-list" [ngSwitch]="list">
+        <salsah-users-list *ngSwitchCase="'user'"
+                           [project]="project"
+                           [index]="selectedRow"
+                           (toggleUser)="toggleDetail($event, $event)">
+        </salsah-users-list>
+
+        <salsah-projects-list *ngSwitchCase="'project'"
+                              (toggleProject)="toggleDetail($event, $event)">
+        </salsah-projects-list>
+
+    </div>
+
     <!-- end of main list -->
 
 </div>
@@ -32,9 +44,11 @@
     </div>
 
     <!-- detail view content -->
-    <div class="salsah-module-detail-content">
+    <div class="salsah-module-detail-content" [ngSwitch]="list">
         <!-- a) view incl. edit and delete if the logged in user has the rights -->
-        <salsah-user-object *ngIf="list == 'user' && detailViewIsActive" [id]="id"></salsah-user-object>
+        <salsah-user-object *ngSwitchCase="'user'"
+                            [id]="id">
+        </salsah-user-object>
 
 
 

@@ -1,26 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-
-import {UserProfileDialogComponent} from '../../../modules/dialog/user-profile-dialog/user-profile-dialog.component';
+import {Component, OnInit} from '@angular/core';
 import {MdDialog} from '@angular/material';
 
 @Component({
-  selector: 'salsah-system-projects',
-  templateUrl: './system-projects.component.html',
-  styleUrls: ['./system-projects.component.scss']
+    selector: 'salsah-system-projects',
+    templateUrl: './system-projects.component.html',
+    styleUrls: ['./system-projects.component.scss']
 })
 export class SystemProjectsComponent implements OnInit {
 
-  constructor(public dialog: MdDialog) {
-  }
+    title: string = 'All projects in Knora';
+    list: string = 'project';
 
-  ngOnInit() {
-  }
+    add: any = {
+        title: 'Add new project',
+        description: 'What does add mean? (add.description)'
+    };
 
-  openProject() {
-    let dialogRef = this.dialog.open(UserProfileDialogComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-    });
-  }
+    constructor(public dialog: MdDialog) {
+    }
+
+    ngOnInit() {
+    }
+
+
 
 }

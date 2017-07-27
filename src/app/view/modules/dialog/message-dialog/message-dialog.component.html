@@ -3,20 +3,22 @@
     Edit user: {{data.iri}}
 </h2>
 -->
+
+
 <md-dialog-content>
 
     <!-- we don't need the "edit user" here! --
     <salsah-edit-user *ngIf="data" [user]="data.iri"></salsah-edit-user>
     -->
-    <salsah-new-user [project]="data.iri"></salsah-new-user>
+    <salsah-message [note]="data.note"></salsah-message>
 
 </md-dialog-content>
 
-<div md-dialog-actions>
+<md-dialog-actions>
     <button md-button
             md-dialog-close
             class="cancel-button">
         Cancel
     </button>
     <span class="fill-remaining-space"></span>
-</div>
+</md-dialog-actions>

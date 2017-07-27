@@ -1,0 +1,19 @@
+<h1 md-dialog-title>
+    {{data.title}}
+</h1>
+
+<md-dialog-content [ngSwitch]="data.object">
+
+    <salsah-new-project *ngSwitchCase="'project'"></salsah-new-project>
+    <salsah-new-user *ngSwitchCase="'user'" [project]="data.iri"></salsah-new-user>
+
+</md-dialog-content>
+
+<md-dialog-actions>
+    <button md-button
+            md-dialog-close
+            class="cancel-button">
+        Cancel
+    </button>
+    <span class="fill-remaining-space"></span>
+</md-dialog-actions>

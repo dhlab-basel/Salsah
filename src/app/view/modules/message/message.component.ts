@@ -183,7 +183,7 @@ export class MessageComponent implements OnInit {
 //            console.log(this.message);
         }
         else {
-            // no status code or it doesn't starts with 4 or 5
+            // no status code or it doesn't start with 4 or 5
             this.message.type = 'note';
             if (!this.note) {
                 this.message.status.text = 'empty note';
@@ -192,7 +192,7 @@ export class MessageComponent implements OnInit {
             else {
                 this.message.content.text = this.note.text;
                 this.message.title = this.note.title;
-                this.message.footnote = 'Path: ' + this.note.path;
+                this.message.footnote = this.note.path;
             }
         }
 
