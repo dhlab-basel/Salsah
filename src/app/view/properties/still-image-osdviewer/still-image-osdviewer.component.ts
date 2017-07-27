@@ -112,64 +112,52 @@ export class StillImageOSDViewerComponent implements OnInit {
   }
 
   /**
-  * Adds all (non-preview) images in this.resources to the viewer
+  * Adds all (non-preview) images in this.resources to the viewer.
+  * Images are positioned in a horizontal row next to each other.
   */
   private openImages() : void {
-    let imagesToDisplay = this.getImagesToDisplay();
+    // imageXOffset controls the x coordinate of the left side of each image in the OpenSeadragon viewport coordinate system.
+    // The first image has its left side at x = 0, and all images are scaled to have a width of 1 in viewport coordinates.
+    // see also: https://openseadragon.github.io/examples/viewport-coordinates/
+    let imageXOffset = 0;
     let tileSources = [];
-    for (let i in imagesToDisplay) {
-      // construct IIIF tileSource configuration according to
-      // http://iiif.io/api/image/2.1/#technical-properties
-      // see also http://iiif.io/api/image/2.0/#a-implementation-notes
-      let sipiBasePath = imagesToDisplay[i].imageServerIIIFBaseURL + "/" + imagesToDisplay[i].imageFilename;
-      let width = imagesToDisplay[i].dimX;
-      let height = imagesToDisplay[i].dimY;
-      tileSources[i] = {
-        "tileSource": {
-          "@context": "http://iiif.io/api/image/2/context.json",
-          "@id": sipiBasePath,
-          "height": height,
-          "width": width,
-          "profile": [ "http://iiif.io/api/image/2/level2.json" ],
-          "protocol": "http://iiif.io/api/image",
-          "tiles": [{
-            "scaleFactors": [ 1, 2, 4, 8, 16, 32 ],
-            "width": 1024
-          }]
-        },
-        "x": Number(i),
-        "y": 0
-      };
+    for (let resource of this.resources) {
+      let fileValues = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
+      let imagesToDisplay = fileValues.filter( (image) => { return !image.isPreview; } );
+
+      for (let image of imagesToDisplay) {
+        let sipiBasePath = image.imageServerIIIFBaseURL + "/" + image.imageFilename;
+        let width = image.dimX;
+        let height = image.dimY;
+
+        // construct OpenSeadragon tileSources according to https://openseadragon.github.io/docs/OpenSeadragon.Viewer.html#open
+        tileSources.push( {
+          // construct IIIF tileSource configuration according to
+          // http://iiif.io/api/image/2.1/#technical-properties
+          // see also http://iiif.io/api/image/2.0/#a-implementation-notes
+          "tileSource": {
+            "@context": "http://iiif.io/api/image/2/context.json",
+            "@id": sipiBasePath,
+            "height": height,
+            "width": width,
+            "profile": [ "http://iiif.io/api/image/2/level2.json" ],
+            "protocol": "http://iiif.io/api/image",
+            "tiles": [{
+              "scaleFactors": [ 1, 2, 4, 8, 16, 32 ],
+              "width": 1024
+            }]
+          },
+          "x": imageXOffset,
+          "y": 0
+        } );
+
+        imageXOffset++;
+      }
+
     }
+
     this.viewer.clearOverlays();
     this.viewer.open(tileSources);
-  }
-
-  /**
-  * Returns an array containing all (non-preview) images in this.resources
-  * @returns {ReadStillImageFileValue[]}
-  */
-  private getImagesToDisplay() : ReadStillImageFileValue[] {
-    let fileValues : ReadStillImageFileValue[] = [];
-    for (let resource of this.resources) {
-      let fileValuesResource = resource.properties[AppConfig.hasStillImageFileValue];
-      Array.prototype.push.apply(fileValues, fileValuesResource);
-    }
-    return fileValues.filter( (image) => { return !image.isPreview; } );
-  }
-
-  /**
-  * Returns an array containing all regions of all (non-preview) images in this.resources
-  * The returneed array has the form [ [ image0_region0, image0_region1, ... ], [ image1_region0, image1_region1 ], ... ]
-  * @returns {ReadResource[][]}
-  */
-  private getRegionsToDisplay() : ReadResource[][] {
-    let regions = [];
-    for (let resource of this.resources) {
-      let incomingRegions = resource.incoming.filter((resource) => { return resource.type == AppConfig.Region});
-      regions.push(incomingRegions);
-    }
-    return regions;
   }
 
   /**
@@ -177,46 +165,54 @@ export class StillImageOSDViewerComponent implements OnInit {
   */
   private renderRegions() : void {
     this.viewer.clearOverlays();
-    let regionsByResource = this.getRegionsToDisplay();
-    for (let resourceIndex in regionsByResource) {
-      let regions = regionsByResource[resourceIndex];
-      for (let region of regions) {
-        let geometries = region.properties[AppConfig.hasGeometry] as ReadGeomValue[];
-        for (let geometryValue of geometries) {
-          let geometry = geometryValue.geometry;
-          this.createSVGOverlay(geometry, Number(resourceIndex));
+
+    let imageXOffset = 0; // see documentation in this.openImages() for the usage of imageXOffset
+    for (let resource of this.resources) {
+      let fileValues = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
+      let imagesToDisplay = fileValues.filter( (image) => { return !image.isPreview; } );
+
+      let incomingRegions = resource.incoming.filter((resource) => { return resource.type == AppConfig.Region});
+
+      for (let image of imagesToDisplay) {
+        let aspectRatio = (image.dimY/image.dimX);
+
+        for (let region of incomingRegions) {
+          let geometries = region.properties[AppConfig.hasGeometry] as ReadGeomValue[];
+          for (let geometryValue of geometries) {
+            let geometry = geometryValue.geometry;
+            this.createSVGOverlay(geometry, aspectRatio, imageXOffset);
+          }
         }
+
+        imageXOffset++;
       }
+
     }
   }
 
   /**
   * Creates and adds a ROI-overlay to the viewer
   * @param {RegionGeometry} geometry - the geometry describing the ROI
-  * @param {number} resourceIndex - the index (to this.resources) of the resource/image to which the ROI belongs.
+  * @param {number} aspectRatio -  the aspectRatio (h/w) of the image on which the geometry should be placed
+  * @param {number} xOffset -  the x-offset in Openseadragon viewport coordinates of the image on which the geometry should be placed
   */
-  private createSVGOverlay(geometry: RegionGeometry, resourceIndex : number) : void {
+  private createSVGOverlay(geometry: RegionGeometry, aspectRatio: number, xOffset : number) : void {
     let lineColor = geometry.lineColor;
     let lineWidth = geometry.lineWidth;
-
-    let imagesToDisplay = this.getImagesToDisplay();
-    let imgWidth = imagesToDisplay[resourceIndex].dimX;
-    let imgHeight = imagesToDisplay[resourceIndex].dimY;
-    let aspectRatio = (imgHeight/imgWidth);
 
     let svgElement;
     switch (geometry.type) {
       case "rectangle":
         svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');  // yes, we render rectangles as svg polygon elements
-        this.addSVGAttributesRectangle(svgElement, geometry, aspectRatio, resourceIndex);
+        this.addSVGAttributesRectangle(svgElement, geometry, aspectRatio, xOffset);
         break;
       case "polygon":
         svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-        this.addSVGAttributesPolygon(svgElement, geometry, aspectRatio, resourceIndex);
+        this.addSVGAttributesPolygon(svgElement, geometry, aspectRatio, xOffset);
         break;
       case "circle":
         svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        this.addSVGAttributesCircle(svgElement, geometry, aspectRatio, resourceIndex);
+        this.addSVGAttributesCircle(svgElement, geometry, aspectRatio, xOffset);
         break;
       default:
         console.log("ERROR: StillImageOSDViewerComponent.createSVGOverlay: unknown geometryType: "+geometry.type);
@@ -235,12 +231,14 @@ export class StillImageOSDViewerComponent implements OnInit {
   * @param {SVGElement} svgElement - an SVGElement (should have type 'polygon' (sic))
   * @param {RegionGeometry} geometry - the geometry describing the rectangle
   * @param {number} aspectRatio - the aspectRatio (h/w) of the image on which the circle should be placed
-  * @param {number} xOffset - the x-offset in viewport coordinates of the image on which the circle should be placed
+  * @param {number} xOffset - the x-offset in Openseadragon viewport coordinates of the image on which the circle should be placed
   */
   private addSVGAttributesRectangle(svgElement : SVGElement, geometry : RegionGeometry, aspectRatio : number, xOffset: number) : void {
     let pointA = geometry.points[0];
     let pointB = geometry.points[1];
 
+    // geometry.points contains two diagonally opposed corners of the rectangle, but the order of the corners is arbitrary.
+    // We therefore construct the upperleft (UL), lowerright (LR), upperright (UR) and lowerleft (LL) positions of the corners with min and max operations.
     let positionUL = new Point2D(Math.min(pointA.x, pointB.x), Math.min(pointA.y, pointB.y));
     let positionLR = new Point2D(Math.max(pointA.x, pointB.x), Math.max(pointA.y, pointB.y));
     let positionUR = new Point2D(Math.max(pointA.x, pointB.x), Math.min(pointA.y, pointB.y));
@@ -257,7 +255,7 @@ export class StillImageOSDViewerComponent implements OnInit {
   * @param {SVGElement} svgElement - an SVGElement (should have type 'polygon')
   * @param {RegionGeometry} geometry - the geometry describing the polygon
   * @param {number} aspectRatio - the aspectRatio (h/w) of the image on which the circle should be placed
-  * @param {number} xOffset - the x-offset in viewport coordinates of the image on which the circle should be placed
+  * @param {number} xOffset - the x-offset in Openseadragon viewport coordinates of the image on which the circle should be placed
   */
   private addSVGAttributesPolygon(svgElement : SVGElement, geometry : RegionGeometry, aspectRatio : number, xOffset: number) : void {
     let viewCoordPoints = this.image2ViewPortCoords(geometry.points, aspectRatio, xOffset);
@@ -270,12 +268,16 @@ export class StillImageOSDViewerComponent implements OnInit {
   * @param {SVGElement} svgElement - an SVGElement (should have type 'circle')
   * @param {RegionGeometry} geometry - the geometry describing the circle
   * @param {number} aspectRatio - the aspectRatio (h/w) of the image on which the circle should be placed
-  * @param {number} xOffset - the x-offset in viewport coordinates of the image on which the circle should be placed
+  * @param {number} xOffset - the x-offset in Openseadragon viewport coordinates of the image on which the circle should be placed
   */
   private addSVGAttributesCircle(svgElement : SVGElement, geometry : RegionGeometry, aspectRatio : number, xOffset: number) : void {
     let viewCoordPoints = this.image2ViewPortCoords(geometry.points, aspectRatio, xOffset);
     let cx = String(viewCoordPoints[0].x);
     let cy = String(viewCoordPoints[0].y);
+    // geometry.radius contains not the radius itself, but the coordinates of a (arbitrary) point on the circle.
+    // We therefore have to calculate the length of the vector geometry.radius to get the actual radius. -> sqrt(x^2 + y^2)
+    // Since geometry.radius has its y coordinate scaled to the height of the image,
+    // we need to multiply it with the aspectRatio to get to the scale used by Openseadragon, analoguous to this.image2ViewPortCoords()
     let radius = String(Math.sqrt(geometry.radius.x*geometry.radius.x + aspectRatio*aspectRatio*geometry.radius.y*geometry.radius.y));
     svgElement.setAttribute("cx", cx);
     svgElement.setAttribute("cy", cy);
@@ -284,6 +286,7 @@ export class StillImageOSDViewerComponent implements OnInit {
 
   /**
   * Maps a Point2D[] with coordinates relative to an image to a new Point2D[] with coordinates in the viewport coordinate system of Openseadragon
+  * see also: https://openseadragon.github.io/examples/viewport-coordinates/
   * @param {Point2D[]} points - an array of points in coordinate system relative to an image
   * @param {number} aspectRatio - the aspectRatio (h/w) of the image
   * @param {number} xOffset - the x-offset in viewport coordinates of the image
