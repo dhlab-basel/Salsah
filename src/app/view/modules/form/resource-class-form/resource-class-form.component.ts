@@ -16,8 +16,8 @@ import {Component, OnInit} from '@angular/core';
 import {MdDialog} from "@angular/material";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {BaseOntologyService} from "../../../../model/services/base-ontology.service";
-import {BaseOntology, PropertyObject, ResourceClass} from "../../../../model/test-data/base-ontology";
+import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
+import {BasicOntology, PropertyObject, ResourceClass} from "../../../../model/test-data/basic-ontology";
 
 
 @Component({
@@ -31,20 +31,24 @@ export class ResourceClassFormComponent implements OnInit {
     errorMessage: any;
 
     // data from the server
-    baseOntology: BaseOntology = new BaseOntology();
+    basicOntology: BasicOntology = new BasicOntology();
 
     // result to send to the server
     newResource: ResourceClass = new ResourceClass();
+
+    // var for all selected properties (for the checkboxes)
+    allProps: boolean = true;
+    selectPropsText: string = 'Deselect all properties';
 
     // how many steps has the form?
     max_steps: number = 5;
     // or define an array of steps
     steps: string[] = [
-        "Resource type",
+        "Media type",
         "Resource",
         "Properties",
         "Permissions",
-        "Save"
+        "Preview"
     ];
 
     counter: number = 0;
@@ -112,17 +116,17 @@ export class ResourceClassFormComponent implements OnInit {
     ];
 
     constructor(public dialog: MdDialog,
-                private _baseOntologyService: BaseOntologyService) {
+                private _basicOntologyService: BasicOntologyService) {
     }
 
     ngOnInit() {
 
         this.newResource.id = undefined;
 
-        this._baseOntologyService.getBaseOntology()
+        this._basicOntologyService.getBasicOntology()
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.baseOntology = result.getBody(BaseOntology);
+                    this.basicOntology = result.getBody(BasicOntology);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -139,30 +143,36 @@ export class ResourceClassFormComponent implements OnInit {
 
     nextFormSection(cntr: number, e, resClassId?: string) {
 
-//        console.log(this.baseOntology);
+//        console.log(this.basicOntology);
 //        console.log(this.newResource);
 
         if(resClassId && cntr === 0) {
-            //get the properties for this resClass
+            // get the properties for this resClass and create a default resource class
 
-            this.newResource = this.baseOntology.resourceClasses[resClassId];
+            this.newResource = this.basicOntology.resourceClasses[resClassId];
 
             this.newResource.id = resClassId;
 
-            for(let rcProp in this.baseOntology.resourceClasses[resClassId].properties) {
-                this.newResource.properties[rcProp].permissions = this.baseOntology.defaultPermissions;
+            for(let rcProp in this.basicOntology.resourceClasses[resClassId].properties) {
+//                this.newResource.properties[rcProp].permissions = this.basicOntology.defaultPermissions;
             }
 
             // add all default properties to the new resource properties
-            for(let prop in this.baseOntology.defaultProperties) {
-                this.newResource.properties[prop] = this.baseOntology.defaultProperties[prop];
-                this.newResource.properties[prop].permissions = this.baseOntology.defaultPermissions;
+            for(let prop in this.basicOntology.defaultProperties) {
+//                this.newResource.properties[prop] = this.basicOntology.defaultProperties[prop];
+//                this.newResource.properties[prop].permissions = this.basicOntology.defaultPermissions;
             }
 
-
             // set the resource default permissions:
-            this.newResource.permissions = this.baseOntology.defaultPermissions;
+            this.newResource.permissions = this.basicOntology.defaultPermissions;
             //console.log(this.newResource);
+
+            console.log(this.newResource);
+
+        }
+
+        if(this.counter === 3) {
+            console.log(this.newResource);
 
         }
 
@@ -177,18 +187,24 @@ export class ResourceClassFormComponent implements OnInit {
         this.counter = cntr - 1;
     }
 
-    setPerm(property: PropertyObject, group: any, pf: any, event) {
-        console.log(property);
-        console.log(group);
-        console.log(pf);
-        console.log(event);
+//    setPerm(prop: PropertyObject, group: any, event: any) {
+    setPerm(prop: PropertyObject, group: any, permission: any, event: any) {
+        console.log(this.newResource);
+//        console.log(this.newResource.properties[prop.key].permissions[group.id]);
+        console.log(prop);
+        console.log(permission);
+        console.log(group.id);
+        console.log(event.value);
+
+//        prop.value.permissions[group.id] = event.value;
+
     }
 
 
     setProp(property: PropertyObject, event) {
 
         if(event.target.checked === true) {
-            this.newResource.properties[property.key] = property.value;
+//            this.newResource.properties[property.key] = property.value;
         }
         else {
 
@@ -200,6 +216,29 @@ export class ResourceClassFormComponent implements OnInit {
                 }
                 i++;
             }
+
+        }
+    }
+
+    checkAll(ev) {
+//        this.newResource.properties.forEach(x => x.state = ev.target.checked)
+        this.newResource.properties.forEach(x => x.label = ev.target.checked);
+        console.log(ev.target);
+    }
+
+    isAllChecked() {
+//        return this.newResource.properties.every(_ => _.state);
+    }
+
+    toggleAll(properties: any, event) {
+        console.log(event);
+        if(event.target.checked === true) {
+            this.allProps = true;
+            this.selectPropsText = 'Deselect all properties';
+        }
+        else {
+            this.allProps = false;
+            this.selectPropsText = 'Select all properties';
 
         }
     }

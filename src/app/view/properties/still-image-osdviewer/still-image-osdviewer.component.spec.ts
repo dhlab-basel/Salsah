@@ -1,5 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, ViewChild } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {Component, ViewChild} from '@angular/core';
 
 import { StillImageOSDViewerComponent } from './still-image-osdviewer.component';
 import { ReadStillImageFileValue } from "../../../model/webapi/knora/v2/read-property-item";
@@ -10,22 +10,22 @@ import { ConvertJSONLD } from "../../../model/webapi/knora/v2/convert-jsonld";
 // create test input data
 
 let stillImageFullSize: ReadStillImageFileValue = new ReadStillImageFileValue(
-    "http://data.knora.org/22cf0ce68901/reps/dd4b1264ff02",
-    "http://api.knora.org/ontology/knora-api/v2#hasStillImageFileValue",
-    "incunabula_0000001722.jp2",
-    "http://localhost:1024/knora",
-    "http://localhost:1024/knora/incunabula_0000001722.jp2/full/3428,5061/0/default.jpg",
+    'http://data.knora.org/22cf0ce68901/reps/dd4b1264ff02',
+    'http://api.knora.org/ontology/knora-api/v2#hasStillImageFileValue',
+    'incunabula_0000001722.jp2',
+    'http://localhost:1024/knora',
+    'http://localhost:1024/knora/incunabula_0000001722.jp2/full/3428,5061/0/default.jpg',
     3428,
     5061,
     false
 );
 
 let stillImagePreview: ReadStillImageFileValue = new ReadStillImageFileValue(
-    "http://data.knora.org/22cf0ce68901/reps/dd4b1264ff02",
-    "http://api.knora.org/ontology/knora-api/v2#hasStillImageFileValue",
-    "incunabula_0000001722.jp2",
-    "http://localhost:1024/knora",
-    "http://localhost:1024/knora/incunabula_0000001722.jpg/full/86,128/0/default.jpg",
+    'http://data.knora.org/22cf0ce68901/reps/dd4b1264ff02',
+    'http://api.knora.org/ontology/knora-api/v2#hasStillImageFileValue',
+    'incunabula_0000001722.jp2',
+    'http://localhost:1024/knora',
+    'http://localhost:1024/knora/incunabula_0000001722.jpg/full/86,128/0/default.jpg',
     86,
     128,
     true

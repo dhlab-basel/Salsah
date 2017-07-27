@@ -1,16 +1,24 @@
 <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
     <h2 md-header>Organize your resources</h2>
-    <button md-button (click)="addNewResourceClass()">
-        <md-icon> add </md-icon>
-        <span> Add new resource </span>
-    </button>
+
 
     <md-list>
+        <md-list-item class="salsah-link"
+                      (click)="createResource()"
+                      [class.highlight]="addResource">
+            <md-icon md-list-avatar>add</md-icon>
+            <h4 md-line>Add new resource type</h4>
+            <p md-line>&nbsp;</p>
+        </md-list-item>
         <md-divider></md-divider>
         <br>
         <h3 md-subheader>Resources (active)</h3>
+        <!--  (click)="showPopup();"
+        click)="openResourceClass(resClass.id, i);" -->
+
         <md-list-item *ngFor="let resClass of resourceTypes.resourcetypes; let i = index"
-                      (click)="openResourceClass(resClass.id, i);"
+
+                      (click)="openResource(resClass.id, i);"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
             <md-icon md-list-avatar>{{resClass.icon}}</md-icon>
@@ -44,24 +52,36 @@
     </md-list>
 </div>
 
-<div *ngIf="properties" class="salsah-module-detail" [ngClass]="position.detail">
+<div *ngIf="editResource || addResource" class="salsah-module-detail" [ngClass]="position.detail">
     <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
 
-    <div class="salsah-module-detail-content">
+    <div class="salsah-module-detail-header">
         <!-- close button -->
-        <button md-icon-button (click)="closeDetailView()" class="right">
+        <button md-mini-fab (click)="closeDetailView()">
             <md-icon>close</md-icon>
         </button>
+    </div>
 
+    <div class="salsah-module-detail-content">
+        <!-- if an error occurs: show the error message -->
         <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
-        <md-list>
-            <md-list-item *ngFor="let prop of properties.properties">
-                <h4 md-line>{{prop.label}}</h4>
-                <p md-line>{{prop.description}}</p>
-                <p md-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
+        <div class="edit-resource" *ngIf="editResource && !errorMessage">
+            <!-- edit the resource type -->
+            <!-- in the next tag we could set the progress loader with (loadingSubmodule)="loadingSubmodule(true) -->
+            <salsah-edit-resource-class [iri]="resClassIri" [index]="propsIndex"></salsah-edit-resource-class>
+        </div>
 
-            </md-list-item>
-        </md-list>
+        <div class="create-resource" *ngIf="addResource">
+            <!-- OR create a new resource class -->
+            <salsah-new-resource-class *ngIf="addResource && !errorMessage"
+                                       (closeDetailView)="closeDetailView($event)">
+            </salsah-new-resource-class>
+        </div>
+
+
     </div>
+
 </div>
+
+

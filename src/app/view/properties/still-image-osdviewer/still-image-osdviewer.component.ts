@@ -35,9 +35,9 @@ declare var OpenSeadragon: any;
 * @member {ReadResource[]} resources - resources containing (among other resources) the StillImageFileValues and incoming ROIs to be rendered. (Use as angular @Input data binding property.)
 */
 @Component({
-  selector: 'salsah-still-image-osdviewer',
-  templateUrl: './still-image-osdviewer.component.html',
-  styleUrls: ['./still-image-osdviewer.component.scss']
+    selector: 'salsah-still-image-osdviewer',
+    templateUrl: './still-image-osdviewer.component.html',
+    styleUrls: ['./still-image-osdviewer.component.scss']
 })
 export class StillImageOSDViewerComponent implements OnInit {
 

@@ -56,7 +56,7 @@ export class ProjectTeamComponent implements OnInit {
     ngOnInit() {
         this.project = JSON.parse(localStorage.getItem('currentProject'));
 
-        this._projectsService.getProjectMembers(this.project.shortname)
+        this._projectsService.getProjectMembersByIri(this.project.id)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.members = result.getBody(ProjectMembers);
@@ -74,7 +74,7 @@ export class ProjectTeamComponent implements OnInit {
         if (this.size === 'large') this.size = 'small';
         this.isLoadingSubModule = true;
 
-        this._userService.getUser(id)
+        this._userService.getUserByIri(id)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.user = result.getBody(User);

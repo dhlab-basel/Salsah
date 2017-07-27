@@ -13,20 +13,21 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {ReadIntegerValue} from "../../../model/webapi/knora/v2/read-property-item";
+import {ReadIntegerValue} from '../../../model/webapi/knora/v2/read-property-item';
 
 @Component({
-  selector: 'read-integer-value',
-  templateUrl: './read-integer-value.component.html',
-  styleUrls: ['./read-integer-value.component.scss']
+    selector: 'read-integer-value',
+    templateUrl: './read-integer-value.component.html',
+    styleUrls: ['./read-integer-value.component.scss']
 })
 export class ReadIntegerValueComponent implements OnInit {
 
     @Input() valueObject: ReadIntegerValue;
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }
