@@ -16,7 +16,7 @@ import {Component, EventEmitter, OnChanges, Input, Output} from '@angular/core';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UserService} from '../../../../model/services/user.service';
-import {User} from '../../../../model/webapi/knora/';
+import {User, UserProfile} from '../../../../model/webapi/knora/';
 
 @Component({
     selector: 'salsah-edit-user',
@@ -25,10 +25,10 @@ import {User} from '../../../../model/webapi/knora/';
 })
 export class EditUserComponent implements OnChanges {
 
-    @Input('iri') iri: string;
-    @Input('index') index: number;
+    @Input() user: string;
+    @Input() index: number;
 
-    user: User;
+    userProfile: UserProfile;
     errorMessage: string = undefined;
     selectedRow: number;
 
@@ -39,11 +39,11 @@ export class EditUserComponent implements OnChanges {
 
     ngOnChanges() {
 
-        this._userService.getUserByIri(this.iri)
+        this._userService.getUserByIri(this.user)
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.user = result.getBody(User);
-                    console.log(this.user);
+                    this.userProfile = result.getBody(User).userProfile;
+                    console.log(this.userProfile);
                     this.selectedRow = this.index;
                 },
                 (error: ApiServiceError) => {

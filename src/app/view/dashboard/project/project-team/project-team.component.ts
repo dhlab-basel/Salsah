@@ -92,6 +92,12 @@ export class ProjectTeamComponent implements OnInit {
     sortKey: string;
     sortLabel: string;
 
+    add: any = {
+        title: 'Add new user to the team',
+        description: 'What does add mean? (add.description)',
+        object: 'user'
+    };
+
 
     constructor(private _projectsService: ProjectsService,
                 private _userService: UserService) {

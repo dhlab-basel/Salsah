@@ -31,7 +31,8 @@ import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
  * list of users
  *
  * Input:
- * - project<string> --> list of users in the specified project
+ * - project<string> --> project iri returns list of users in the specified project
+ * - index<number> --> index of active list item; for highlighting
  */
 export class UsersListComponent implements OnInit {
 
@@ -41,7 +42,8 @@ export class UsersListComponent implements OnInit {
     // progress loader status
     isLoading: boolean = true;
 
-    @Input('project') project: string;
+    @Input() project: string;
+    @Input() index: number;
     @Output() toggleUser = new EventEmitter<any>();
 
     // the main objects in this component
@@ -73,6 +75,8 @@ export class UsersListComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.selectedRow = this.index;
 
         if (this.project !== undefined) {
             // get project members

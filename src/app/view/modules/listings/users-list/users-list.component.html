@@ -9,7 +9,8 @@
         Project Members
     </h3>
 
-    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+    <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+    <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
     <md-list-item *ngFor="let u of users | sortBy: sortKey; let i = index"
                   (click)="toggle(u.user_id, i);"

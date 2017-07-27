@@ -104,7 +104,8 @@ export class FrameworkForListingsComponent implements OnInit {
         let dialogRef;
         switch(this.add.object) {
             case 'user':
-                dialogRef = this.dialog.open(UserProfileDialogComponent);
+                console.log(this.project);
+                dialogRef = this.dialog.open(UserProfileDialogComponent, {data: {iri: this.project}});
             break;
 
             default:

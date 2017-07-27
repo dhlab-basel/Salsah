@@ -5,8 +5,10 @@
 -->
 <md-dialog-content>
 
-    <salsah-edit-user *ngIf="data" [iri]="data.iri"></salsah-edit-user>
-    <salsah-new-user *ngIf="!data"></salsah-new-user>
+    <!-- we don't need the "edit user" here! --
+    <salsah-edit-user *ngIf="data" [user]="data.iri"></salsah-edit-user>
+    -->
+    <salsah-new-user [project]="data.iri"></salsah-new-user>
 
 </md-dialog-content>
 

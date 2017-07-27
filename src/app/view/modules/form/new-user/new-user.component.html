@@ -1,25 +1,20 @@
 <!-- select an existing user to add it to a project
       - if the user doesn't exist yet, create a new one by importing the user form component -->
 
-<div>
-    <p>Reactive length: {{ reactiveUsers.length }}</p>
-    <p>Reactive value: {{ userCtrl.value | json }}</p>
-    <p>Reactive dirty: {{ userCtrl.dirty }}</p>
-</div>
+
 
 <h3>{{form.title}}</h3>
 <div class="user-panel">
 
-    <div class="select-user" *ngIf="project != undefined">
-
-
-<!--
-        <button md-icon-button class="prefix">
-            <md-icon>add</md-icon>
-        </button>
--->
+    <div class="select-user" *ngIf="project">
+        <!-- for tests only: to have a direct output -->
+        <div>
+            <p>Reactive length: {{ reactiveUsers.length }}</p>
+            <p>Reactive value: {{ userCtrl.value | json }}</p>
+            <p>Reactive dirty: {{ userCtrl.dirty }}</p>
+        </div>
+        <!-- ------------------------------ -->
         <md-input-container class="full-width">
-
             <input mdInput
                    [mdAutocomplete]="users"
                    [formControl]="userCtrl"
@@ -37,10 +32,11 @@
                 {{ user?.name }}
             </md-option>
         </md-autocomplete>
+        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
     </div>
 
 
-    <div class="linebreak" *ngIf="project != undefined">
+    <div class="linebreak" *ngIf="project">
         {{form.or}}
     </div>
 
@@ -49,7 +45,7 @@
 
         <section>
             <hr>
-            <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+
             <!-- form to create a new user or to edit an old one from selection above -->
             <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
                 <md-input-container class="half-width"

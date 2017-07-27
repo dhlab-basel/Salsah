@@ -1,19 +1,33 @@
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
+ * This file is part of SALSAH.
+ * SALSAH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * SALSAH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You should have received a copy of the GNU Affero General Public
+ * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+ * */
+
 import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, NgModel, Validators} from '@angular/forms';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 
-import {MdDialog} from "@angular/material";
+import {MdDialog} from '@angular/material';
 
-import {UsersList} from "app/model/webapi/knora/";
-import {UserFormComponent} from "../user-form/user-form.component";
-import {UserService} from "../../../../model/services/user.service";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {UserData} from "../../../../model/webapi/knora/v1/users/user-data";
-import {ProjectTeamComponent} from "../../../dashboard/project/project-team/project-team.component";
-import {ProjectItem} from "../../../../model/webapi/knora/v1/projects/project-item";
+import {UsersList} from 'app/model/webapi/knora/';
+import {UserFormComponent} from '../user-form/user-form.component';
+import {UserService} from '../../../../model/services/user.service';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
+import {ProjectTeamComponent} from '../../../dashboard/project/project-team/project-team.component';
+import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
 
 @Component({
     selector: 'salsah-new-user',
@@ -39,7 +53,8 @@ export class NewUserComponent implements OnInit {
     users: any = [];
 
     // current project iri
-    projectIri: string = JSON.parse(localStorage.getItem('currentProject')).id;
+    projectIri: string = this.project;
+    // JSON.parse(localStorage.getItem('currentProject')).id;
 
     // list of users in the project;
     // we need the list of existing users, to exclude them from
@@ -96,8 +111,7 @@ export class NewUserComponent implements OnInit {
 
     constructor(public _userService: UserService,
                 public dialog: MdDialog,
-                @Inject(FormBuilder) fb: FormBuilder
-    ) {
+                @Inject(FormBuilder) fb: FormBuilder) {
 
         this.tdUsers = this.users;
 
@@ -144,7 +158,7 @@ export class NewUserComponent implements OnInit {
                         i++;
                     }
 
-                    this.users.sort( function(u1, u2) {
+                    this.users.sort(function (u1, u2) {
                         if (u1.name < u2.name) {
                             return -1;
                         }
@@ -169,13 +183,13 @@ export class NewUserComponent implements OnInit {
     }
 
     displayFn(value: any): string {
-        if(value && typeof value === 'object') {
+        if (value && typeof value === 'object') {
             // the admin has selected a user
             // get the user data
             let selectedUser: string;
-            if(this.usersList) {
-                this.usersList.users.filter(function(user) {
-                    if(user.user_id == value.iri) {
+            if (this.usersList) {
+                this.usersList.users.filter(function (user) {
+                    if (user.user_id == value.iri) {
                         console.log(value.iri);
                         selectedUser = value.iri;
 
@@ -210,17 +224,19 @@ export class NewUserComponent implements OnInit {
 
                 // result.body.userProfile.userData.user_id
                 // this.project.id
-                this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.projectIri).subscribe(
-                    (result: ApiServiceResult) => {
+                if (this.projectIri) {
+                    this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.projectIri).subscribe(
+                        (result: ApiServiceResult) => {
 //                        console.log(result.body);
 //                        this._projectTeam.closeDetailView();
-                    },
-                    (error: ApiServiceError) => {
-                        console.log(error);
-                        this.errorMessage = error;
-                    }
+                        },
+                        (error: ApiServiceError) => {
+                            console.log(error);
+                            this.errorMessage = error;
+                        }
+                    );
 
-                );
+                }
 
 
             },
@@ -245,7 +261,7 @@ export class NewUserComponent implements OnInit {
 
     getUser(val: any): string {
 
-        if(val) {
+        if (val) {
             console.log('getUser: ' + val);
 
 

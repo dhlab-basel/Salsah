@@ -17,7 +17,7 @@
     <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
     <!-- start with main list -->
-    <salsah-users-list *ngIf="list == 'user'" [project]="project" (toggleUser)="toggleDetail($event, $event)"></salsah-users-list>
+    <salsah-users-list *ngIf="list == 'user'" [project]="project" [index]="selectedRow" (toggleUser)="toggleDetail($event, $event)"></salsah-users-list>
     <!-- end of main list -->
 
 </div>
@@ -40,6 +40,7 @@
 
 
         <!-- b) add new object (if the logged in user has the rights) -->
+        <!-- TODO: we open the new thing form in a md dialog box -->
         <salsah-new-user *ngIf="list == 'user' && addNewFormIsActive"></salsah-new-user>
 
 
