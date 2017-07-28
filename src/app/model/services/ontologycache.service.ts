@@ -230,8 +230,62 @@ export class OntologyCacheService {
     }
 
     /**
-     * Convert a Knora response for ontology information about resource classes (JSON-LD)
-     * into an internal representation and cache it.
+     * Converts a Knora response for ontology information about resource classes for named graphs
+     * into an internal representation and caches it.
+     *
+     * Knora automatically includes the resource class definitions for the given named graphs and the property definitions
+     * which are referred to in the cardinalities of the resource classes that have been returned.
+     *
+     * @param {Object} namedGraphDefinitions the named graphs to query the resource classes for.
+     * @param {Object} resourceClassDefinitions resourceClassDefinitions the resource class definitions returned by Knora.
+     * @param {Object} propertyClassDefinitions the property definitions returned by Knora referred to by the resource class definitions.
+     */
+    private convertAndWriteKnoraResourceClassesForNamedGraphsToCache(namedGraphDefinitions: Object, resourceClassDefinitions: Object, propertyClassDefinitions: Object): void {
+
+        for (let namedGraph in namedGraphDefinitions) {
+            let curNamedGraphDef = namedGraphDefinitions[namedGraph];
+
+            this.cacheOntology.resourceClassesForNamedGraph[namedGraph] = curNamedGraphDef;
+        }
+
+        this.convertAndWriteKnoraResourceClassDefinitionsToCache(resourceClassDefinitions, propertyClassDefinitions);
+    }
+
+    /**
+     * Gets information about named graphs from the cache.
+     *
+     * @param {string[]} namedGraphIris the named graphs to query for.
+     * @returns {OntologyCache} an [[OntologyCache]] representing the requested named graphs.
+     */
+    private getResourceClassesForNamedGraphsFromCache(namedGraphIris: string[]): OntologyCache {
+
+        let resourceClassesForNamedGraphs = new ResourceClassesForNamedGraph();
+
+        // collect resource class Iris for all requested named graphs
+        let allResourceClassIris = [];
+
+        for (let namedGraphIri of namedGraphIris) {
+
+            // add information for the given named graph
+            resourceClassesForNamedGraphs[namedGraphIri] = this.cacheOntology.resourceClassesForNamedGraph[namedGraphIri];
+
+            // add all resource class Iris of this named graph
+            allResourceClassIris = allResourceClassIris.concat(this.cacheOntology.resourceClassesForNamedGraph[namedGraphIri]);
+        }
+
+        // get resource class definitions for all named graphs
+        let resClassDefs = this.getResourceClassDefinitionsFromCache(allResourceClassIris);
+
+        // attach information about named graphs
+        resClassDefs.resourceClassesForNamedGraph = resourceClassesForNamedGraphs;
+
+        return resClassDefs
+
+    }
+
+    /**
+     * Converts a Knora response for ontology information about resource classes (JSON-LD)
+     * into an internal representation and caches it.
      *
      * Knora automatically includes the property definitions which are referred to in the cardinalities of the resource classes that have been returned.
      *
@@ -378,6 +432,40 @@ export class OntologyCacheService {
 
     }
 
+
+    /**
+     * Get the entity definitions fro the given named graph Iris (ontologies).
+     *
+     * @param {string[]} namedGraphIri the given named graph Iris.
+     */
+    public getResourceClassesForNamedGraphs(namedGraphIris: string[]): Observable<OntologyCache> {
+
+        let namedGraphIrisToQuery = namedGraphIris.filter(
+            namedGraphIri =>
+                // return the named graph Iris that are not cached yet
+                this.cacheOntology.resourceClassesForNamedGraph[namedGraphIri] === undefined
+        );
+
+        if (namedGraphIrisToQuery.length > 0) {
+
+            return this.getResourceClassDefinitionsForNamedGraphsFromKnora(namedGraphIrisToQuery).map(
+                ontRes => {
+
+                    // write resource classes for named graph to cache (inlcuding resource class definitions and properties)
+                    this.convertAndWriteKnoraResourceClassesForNamedGraphsToCache(ontRes[AppConfig.hasOntologiesWithResourceClasses], ontRes[AppConfig.hasResourceClasses], ontRes[AppConfig.hasProperties]);
+
+                    return this.getResourceClassesForNamedGraphsFromCache(namedGraphIris);
+                }
+            )
+
+        } else {
+
+            return Observable.of(this.getResourceClassesForNamedGraphsFromCache(namedGraphIris))
+        }
+
+
+    }
+
     /**
      * Get definitions for the given resource class Iris.
      * If the definitions are not already in the cache, the will be retrieved from Knora and cached.
@@ -403,9 +491,7 @@ export class OntologyCacheService {
                     // write resource classes to cache (including props)
                     this.convertAndWriteKnoraResourceClassDefinitionsToCache(ontRes[AppConfig.hasResourceClasses], ontRes[AppConfig.hasProperties]);
 
-                    let resClassDefs = this.getResourceClassDefinitionsFromCache(resourceClassIris);
-
-                    return resClassDefs;
+                    return this.getResourceClassDefinitionsFromCache(resourceClassIris);
 
                 }
             );
