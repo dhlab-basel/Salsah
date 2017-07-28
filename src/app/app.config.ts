@@ -26,7 +26,7 @@ export class AppConfig {
     public static OwlMaxCardinality: string = "http://www.w3.org/2002/07/owl#maxCardinality";
     public static OwlMinCardinality: string = "http://www.w3.org/2002/07/owl#minCardinality";
     public static OwlCardinality: string = "http://www.w3.org/2002/07/owl#cardinality";
-
+    public static ObjectClassConstraint = AppConfig.KnoraApiV2WithValueObjectPath + "objectClassConstraint";
 
 
 
