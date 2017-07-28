@@ -13,7 +13,7 @@
 * */
 
 import {Component, Input, OnInit, OnChanges, SimpleChange, ElementRef} from '@angular/core';
-import {ReadStillImageFileValue, ReadGeomValue} from "../../../model/webapi/knora/v2/read-property-item";
+import {ReadStillImageFileValue, ReadGeomValue, ReadTextValueAsString} from "../../../model/webapi/knora/v2/read-property-item";
 import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {Point2D, RegionGeometry} from "../../../model/webapi/knora/v2/read-property-item";
 import {AppConfig} from "../../../app.config"
@@ -179,9 +179,10 @@ export class StillImageOSDViewerComponent implements OnInit {
 
         for (let region of incomingRegions) {
           let geometries = region.properties[AppConfig.hasGeometry] as ReadGeomValue[];
+          let comments = region.properties[AppConfig.hasComment] as ReadTextValueAsString[];
           for (let geometryValue of geometries) {
             let geometry = geometryValue.geometry;
-            this.createSVGOverlay(geometry, aspectRatio, imageXOffset);
+            this.createSVGOverlay(geometry, aspectRatio, imageXOffset, comments);
           }
         }
 
@@ -197,7 +198,7 @@ export class StillImageOSDViewerComponent implements OnInit {
   * @param {number} aspectRatio -  the aspectRatio (h/w) of the image on which the geometry should be placed
   * @param {number} xOffset -  the x-offset in Openseadragon viewport coordinates of the image on which the geometry should be placed
   */
-  private createSVGOverlay(geometry: RegionGeometry, aspectRatio: number, xOffset : number) : void {
+  private createSVGOverlay(geometry: RegionGeometry, aspectRatio: number, xOffset : number, comments:  ReadTextValueAsString[]) : void {
     let lineColor = geometry.lineColor;
     let lineWidth = geometry.lineWidth;
 
@@ -223,8 +224,17 @@ export class StillImageOSDViewerComponent implements OnInit {
     svgElement.setAttribute("class", "roi-svgoverlay");
     svgElement.setAttribute("style", "stroke: "+lineColor+"; stroke-width: "+lineWidth+"px;");
 
+    let toolTipString = "";
+    for (let comment of comments) { toolTipString += comment.str };
+    let svgTitle = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+    svgTitle.textContent = toolTipString;
+
+    let svgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    svgGroup.appendChild(svgTitle);
+    svgGroup.appendChild(svgElement);
+
     let overlay = this.viewer.svgOverlay();
-    overlay.node().appendChild(svgElement);
+    overlay.node().appendChild(svgGroup);
   }
 
   /**
