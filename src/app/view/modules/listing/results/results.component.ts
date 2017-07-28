@@ -19,7 +19,7 @@ import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {SearchService} from "../../../../model/services/search.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
-import {OntologyCacheService} from "../../../../model/services/cache.service";
+import {OntologyCacheService} from "../../../../model/services/ontologycache.service";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');

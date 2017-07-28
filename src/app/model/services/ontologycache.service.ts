@@ -229,9 +229,9 @@ export class OntologyCacheService {
      * Gets information about resource classes from the cache.
      *
      * @param resClassIris the given resource class Iris
-     * @returns {ResourceClasses} an object representing the requested resource classes.
+     * @returns {ResourceClasses} an [[OntologyCache]] representing the requested resource classes.
      */
-    private getResourceClassDefinitionsFromCache(resClassIris: string[]): ResourceClasses {
+    private getResourceClassDefinitionsFromCache(resClassIris: string[]): OntologyCache {
         // collect the definitions for each resource class from the cache
         let resClassDefs = new ResourceClasses();
 
@@ -240,7 +240,11 @@ export class OntologyCacheService {
                 resClassDefs[resClassIri] = this.cacheOntology.resourceClasses[resClassIri]
         );
 
-        return resClassDefs;
+        let ontoCache = new OntologyCache();
+
+        ontoCache.resourceClasses = resClassDefs;
+
+        return ontoCache;
     }
 
     /**
@@ -312,5 +316,7 @@ export class OntologyCacheService {
             return Observable.of(this.getResourceClassDefinitionsFromCache(resourceClassIris));
         }
     }
+
+
 
 }

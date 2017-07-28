@@ -2,7 +2,7 @@ import {TestBed, inject} from '@angular/core/testing';
 import {AppModule} from '../../app.module';
 import {AppRoutingModule} from '../../app-routing.module';
 import {ApiService} from './api.service';
-import {OntologyCacheService} from './cache.service';
+import {OntologyCacheService} from './ontologycache.service';
 
 describe('OntologyCacheService', () => {
     beforeEach(() => {

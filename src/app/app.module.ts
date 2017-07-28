@@ -26,7 +26,7 @@ import {ProjectsService} from './model/services/projects.service';
 import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
 import {OntologyService} from './model/services/ontology.service';
-import {OntologyCacheService} from './model/services/cache.service';
+import {OntologyCacheService} from './model/services/ontologycache.service';
 import {SearchService} from './model/services/search.service';
 import {SessionService} from './model/services/session.service';
 import {IncomingService} from "./model/services/incoming.service";

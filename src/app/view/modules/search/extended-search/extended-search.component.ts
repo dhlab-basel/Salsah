@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {SearchService} from "../../../../model/services/search.service";
-import {OntologyCacheService} from "../../../../model/services/cache.service";
+import {OntologyCacheService} from "../../../../model/services/ontologycache.service";
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
