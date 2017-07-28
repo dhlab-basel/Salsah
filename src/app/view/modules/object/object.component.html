@@ -1,8 +1,8 @@
-<p>{{resource.resources[0]?.type}}</p>
-<p>{{resource.resources[0]?.label}}</p>
+<p>{{resources[0]?.type}}</p>
+<p>{{resources[0]?.label}}</p>
 
 <md-list>
-    <div md-line *ngFor="let prop of resource.resources[0]?.properties | key">
+    <div md-line *ngFor="let prop of resources[0]?.properties | key">
 
         <span>{{prop.key}}</span>
 
@@ -10,7 +10,7 @@
         <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->
         <salsah-still-image-osdviewer #OSDViewer
               *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates"
-              [resources]="[ resource.resources[0] ]">
+              [resources]="[ resources[0] ]">
         </salsah-still-image-osdviewer>
 
         <!--  single templates -->

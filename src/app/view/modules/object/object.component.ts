@@ -1,10 +1,11 @@
-import {Component, Input, OnChanges, OnInit, ViewChild} from "@angular/core";
+import {Component, Input, OnChanges, OnInit, ViewChild, SimpleChange} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {ResourceService} from "../../../model/services/resource.service";
 import {IncomingService} from "../../../model/services/incoming.service";
 import {ApiServiceResult} from "../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../model/services/api-service-error";
 import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resources-sequence";
+import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 import {OntologyService} from "../../../model/services/ontology.service";
 import {AppConfig} from "../../../app.config";
@@ -27,7 +28,7 @@ export class ObjectComponent implements OnChanges, OnInit {
     isLoading: boolean = true;
     errorMessage: any;
 
-    resource: ReadResourcesSequence = new ReadResourcesSequence([], 0);
+    resources: ReadResource[] = [];
     AppConfig = AppConfig;
 
     constructor(private _route: ActivatedRoute,
@@ -36,30 +37,40 @@ export class ObjectComponent implements OnChanges, OnInit {
                 private _ontologyService: OntologyService) {
     }
 
-    ngOnChanges() {
-        this._resourceService.getResource(this.iri)
+    ngOnChanges(changes:{[key: string]: SimpleChange}) {
+        // prevent duplicate requests. if isFirstChange resource will be requested on ngOnInit
+        if (!changes["iri"].isFirstChange()) {
+          this.requestResources(this.iri);
+        }
+    }
+
+    ngOnInit() {
+        this._route.params.subscribe((params: Params) => {
+            let resIri = ( params['rid'] !== undefined ? params['rid'] : this.iri );
+            this.requestResources(resIri);
+        });
+    }
+
+    private requestResources(resourceIRI: string) {
+        this._resourceService.getResource(resourceIRI)
             .subscribe(
                 (result: ApiServiceResult) => {
-                    //console.log(result.body);
-
                     let promises = jsonld.promises;
                     // compact JSON-LD using an empty context: expands all Iris
                     let promise = promises.compact(result.body, {});
 
                     promise.then((compacted) => {
 
-                        let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                        let resourceSeq: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-                        this.resource = resources;
+                        this.resources = resourceSeq.resources;
 
-                        this.requestIncomingResources(resources);
+                        this.requestIncomingResources(resourceSeq.resources);
 
                     }, function (err) {
 
                         console.log("JSONLD of full resource request could not be expanded:" + err);
                     });
-
-                    //console.log(this.resource);
 
                     this.isLoading = false;
                 },
@@ -70,59 +81,25 @@ export class ObjectComponent implements OnChanges, OnInit {
             );
     }
 
-    ngOnInit() {
-        this._route.params.subscribe((params: Params) => {
-            let resIri = ( params['rid'] !== undefined ? params['rid'] : this.iri );
-            this._resourceService.getResource(resIri)
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        let promises = jsonld.promises;
-                        // compact JSON-LD using an empty context: expands all Iris
-                        let promise = promises.compact(result.body, {});
-
-                        promise.then((compacted) => {
-
-                            let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
-
-                            this.resource = resources;
-
-                            this.requestIncomingResources(resources);
-
-                        }, function (err) {
-
-                            console.log("JSONLD of full resource request could not be expanded:" + err);
-                        });
-
-                        this.isLoading = false;
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
-                        this.isLoading = false;
-                    }
-                );
-        });
-    }
-
-
     /*
-    * Requests incoming resources for the supplied ReadResourcesSequence, and adds them to the respective ReadResource.incoming array.
-    * Currently we only display the properties of this.resource.resources[0] (see html template),
-    * therefore we also request only the incoming resources to resourceSequence.resources[0].
+    * Requests incoming resources for the supplied ReadResource[], and adds them to the respective ReadResource.incoming array.
+    * Currently we only display the properties of this.resources[0] (see html template),
+    * therefore we also request only the incoming resources to resources[0].
     *
-    * @param {ReadResourcesSequence} resourceSequence - the sequence of resources for which incoming resources should be requested.
+    * @param {ReadResource[]} resources - the array of resources for which incoming resources should be requested.
     */
-    private requestIncomingResources(resourceSequence: ReadResourcesSequence) {
-      if (resourceSequence.resources.length > 0) {
+    private requestIncomingResources(resources: ReadResource[]) {
+      if (resources.length > 0) {
 
         // request incoming Regions
-        if (resourceSequence.resources[0].properties[AppConfig.hasStillImageFileValue]) {
-          this._incomingService.getIncomingRegions(resourceSequence.resources[0].id).subscribe(
+        if (resources[0].properties[AppConfig.hasStillImageFileValue]) {
+          this._incomingService.getIncomingRegions(resources[0].id).subscribe(
             (result: ApiServiceResult) => {
               let promise = jsonld.promises.compact(result.body, {});
               promise.then((compacted) => {
                 let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
-                // Append elements of regions.resources to resourceSequence.resources[0].incoming
-                Array.prototype.push.apply(resourceSequence.resources[0].incoming, regions.resources);
+                // Append elements of regions.resources to resources[0].incoming
+                Array.prototype.push.apply(resources[0].incoming, regions.resources);
                 if (this.osdViewer) { this.osdViewer.updateRegions(); }
               },
               function (err) {
