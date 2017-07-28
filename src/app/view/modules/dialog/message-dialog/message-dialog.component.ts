@@ -16,19 +16,22 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 
 @Component({
-  selector: 'salsah-message-dialog',
-  templateUrl: './message-dialog.component.html',
-  styleUrls: ['./message-dialog.component.scss']
+    selector: 'salsah-message-dialog',
+    templateUrl: './message-dialog.component.html',
+    styleUrls: ['./message-dialog.component.scss']
 })
 export class MessageDialogComponent implements OnInit {
 
-    constructor(
-        public dialogRef: MdDialogRef<MessageDialogComponent>,
-        @Inject(MD_DIALOG_DATA) public data: any) {
+    constructor(public dialogRef: MdDialogRef<MessageDialogComponent>,
+                @Inject(MD_DIALOG_DATA) public data: any) {
     }
 
-  ngOnInit() {
-      this.dialogRef.updateSize('800px', '560px');
-  }
+    ngOnInit() {
 
+        if(this.dialogRef) {
+            this.dialogRef.updateSize('800px', '560px');
+        }
+
+
+    }
 }

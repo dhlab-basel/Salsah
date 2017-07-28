@@ -180,7 +180,8 @@ import { NewFormDialogComponent } from './view/modules/dialog/new-form-dialog/ne
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [
         MessageDialogComponent,
-        NewFormDialogComponent
+        NewFormDialogComponent,
+        ResourceClassFormComponent
     ],
     providers: [
         ApiService,
