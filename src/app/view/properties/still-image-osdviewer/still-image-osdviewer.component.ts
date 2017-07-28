@@ -12,7 +12,7 @@
 * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 * */
 
-import {Component, Input, OnInit, OnChanges, SimpleChange, ElementRef} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChange, ElementRef, EventEmitter, Output} from '@angular/core';
 import {ReadStillImageFileValue, ReadGeomValue} from "../../../model/webapi/knora/v2/read-property-item";
 import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {Point2D, RegionGeometry} from "../../../model/webapi/knora/v2/read-property-item";
@@ -42,6 +42,8 @@ declare var OpenSeadragon: any;
 export class StillImageOSDViewerComponent implements OnInit {
 
   @Input() resources: ReadResource[] = [];
+
+  @Output() onRegionHover = new EventEmitter<string>();
 
   private viewer;
 
@@ -181,7 +183,7 @@ export class StillImageOSDViewerComponent implements OnInit {
           let geometries = region.properties[AppConfig.hasGeometry] as ReadGeomValue[];
           for (let geometryValue of geometries) {
             let geometry = geometryValue.geometry;
-            this.createSVGOverlay(geometry, aspectRatio, imageXOffset);
+            this.createSVGOverlay(region.id, geometry, aspectRatio, imageXOffset);
           }
         }
 
@@ -197,7 +199,7 @@ export class StillImageOSDViewerComponent implements OnInit {
   * @param {number} aspectRatio -  the aspectRatio (h/w) of the image on which the geometry should be placed
   * @param {number} xOffset -  the x-offset in Openseadragon viewport coordinates of the image on which the geometry should be placed
   */
-  private createSVGOverlay(geometry: RegionGeometry, aspectRatio: number, xOffset : number) : void {
+  private createSVGOverlay(regionID: string, geometry: RegionGeometry, aspectRatio: number, xOffset : number) : void {
     let lineColor = geometry.lineColor;
     let lineWidth = geometry.lineWidth;
 
@@ -222,6 +224,9 @@ export class StillImageOSDViewerComponent implements OnInit {
     svgElement.id = "roi-svgoverlay-" + Math.random()*10000;
     svgElement.setAttribute("class", "roi-svgoverlay");
     svgElement.setAttribute("style", "stroke: "+lineColor+"; stroke-width: "+lineWidth+"px;");
+
+    // example code for registering events with the svg elemnts, and pass event to parent components
+    svgElement.addEventListener('mouseover', () => { this.onRegionHover.emit(regionID); }, false);
 
     let overlay = this.viewer.svgOverlay();
     overlay.node().appendChild(svgElement);

@@ -10,6 +10,7 @@
         <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->
         <salsah-still-image-osdviewer #OSDViewer
               *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates"
+              (onRegionHover)="handleRegionHover($event)"
               [resources]="[ resource.resources[0] ]">
         </salsah-still-image-osdviewer>
 

@@ -140,4 +140,9 @@ export class ObjectComponent implements OnChanges, OnInit {
       }
     }
 
+    // example code for catching mouse events passed up from OpenSeadragonViewer
+    private handleRegionHover(regionID) {
+      console.log("gugus. region "+regionID+" was hovered");
+    }
+
 }
