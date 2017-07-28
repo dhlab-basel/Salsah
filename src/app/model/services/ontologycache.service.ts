@@ -230,6 +230,26 @@ export class OntologyCacheService {
     }
 
     /**
+     * Writes all the named graph Iris returned by Knora to the cache.
+     *
+     * @param {string[]} namedGraphIris all named graph Iris.
+     */
+    private convertAndWriteKnoraAllNamedGraphIrisToCache(namedGraphIris: string[]) {
+        this.cacheOntology.namedGraphs = namedGraphIris;
+    }
+
+    /**
+     * Gets all named graph Iris from the cache and returns them.
+     *
+     * @returns {Array<string>}
+     */
+    private getAllNamedGraphsFromCache(): Array<string> {
+
+        return this.cacheOntology.namedGraphs;
+
+    }
+
+    /**
      * Converts a Knora response for ontology information about resource classes for named graphs
      * into an internal representation and caches it.
      *
@@ -415,6 +435,12 @@ export class OntologyCacheService {
 
     }
 
+    /**
+     * Gets property definitions from the cache.
+     *
+     * @param {string[]} propertyIris the property definitions to be returned.
+     * @returns {OntologyCache}
+     */
     private getPropertyDefinitionsFromCache(propertyIris: string[]): OntologyCache {
 
         let propertyDefs = new Properties();
@@ -432,6 +458,27 @@ export class OntologyCacheService {
 
     }
 
+    /**
+     * Gets all named graph Iris.
+     *
+     * @returns {Observable<Array<string>>}
+     */
+    public getAllNamedGraphIris() {
+
+        if (this.cacheOntology.namedGraphs.length == 0) {
+            return this.getNamedGraphIrisFromKnora().map(
+                ontRes => {
+                    this.convertAndWriteKnoraAllNamedGraphIrisToCache(ontRes[AppConfig.hasOntologies]);
+
+                    return this.getAllNamedGraphsFromCache();
+
+                }
+            )
+        } else {
+            return Observable.of(this.getAllNamedGraphsFromCache());
+        }
+
+    }
 
     /**
      * Get the entity definitions fro the given named graph Iris (ontologies).
