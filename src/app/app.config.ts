@@ -91,8 +91,6 @@ export class AppConfig {
 
     public static hasGeometry = AppConfig.KnoraApiV2WithValueObjectPath + "hasGeometry";
 
-    public static hasComment = AppConfig.KnoraApiV2WithValueObjectPath + "hasComment";
-
     public static schemaName = "http://schema.org/name";
     public static schemaNumberOfItems = "http://schema.org/numberOfItems";
     public static schemaItemListElement = "http://schema.org/itemListElement";
