@@ -75,11 +75,31 @@ export class ListsService extends ApiService {
             },
             (error: ApiServiceError) => {
                 const errorMessage = <any>error;
-                console.log('ListsService - getList - error: ' + errorMessage);
+                console.error('ListsService - getList - error: ' + errorMessage);
                 throw error;
             }
         )
 
+    }
+
+    /**
+     * Updates the list's basic information.
+     *
+     * @param {ListInfo} listInfo
+     * @returns {Observable<Boolean>}
+     */
+    updateListInfo(listInfo: ListInfo): Observable<Boolean> {
+        return this.httpPut('/v2/lists/infos' + encodeURIComponent(listInfo.id), listInfo, {}).map(
+            (result: ApiServiceResult) => {
+                console.log('ListsService - updateListInfo - result:', result);
+                return true;
+            },
+            (error: ApiServiceError) => {
+                const errorMessage = <any>error;
+                console.error('ListsService - updateListInfo - error: ' + errorMessage);
+                throw error;
+            }
+        )
     }
 
     /**

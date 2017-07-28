@@ -25,6 +25,6 @@ export class ListNodeInfo {
     @JsonProperty('labels', [StringWithOptionalLang], false)
     public labels: StringWithOptionalLang[] = undefined;
 
-    @JsonProperty('comments', [StringWithOptionalLang], true)
+    @JsonProperty('comments', [StringWithOptionalLang], false)
     public comments: StringWithOptionalLang[] = undefined;
 }

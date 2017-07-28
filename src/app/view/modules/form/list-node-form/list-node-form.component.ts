@@ -18,6 +18,7 @@ import {ListsService} from '../../../../model/services/lists.service';
 import {ListNodeInfo} from '../../../../model/webapi/knora/v2';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'salsah-list-node-form',
@@ -29,23 +30,91 @@ export class ListNodeFormComponent implements OnInit {
     currentListNodeIri: string;
     currentListNodeInfo: ListNodeInfo;
 
+    submitted: boolean;
     errorMessage: string = undefined;
+
+    public listNodeInfoForm: FormGroup; // our model driven form
+    public labels: FormArray = undefined;
+    public comments: FormArray = undefined;
 
     constructor(private _listsService: ListsService,
                 public dialogRef: MdDialogRef<ListNodeFormComponent>,
-                @Inject(MD_DIALOG_DATA) public data: string) {}
+                private _fb: FormBuilder,
+                @Inject(MD_DIALOG_DATA) public data: string) {
+
+
+        // build form
+        this.buildListInfoForm();
+    }
 
     ngOnInit() {
         this.currentListNodeIri = this.data;
-        this.getCurrentListNodeInfo(this.currentListNodeIri);
+        this.fetchDataAndUpdateForm(this.currentListNodeIri);
     }
 
-    getCurrentListNodeInfo(listIri: string) {
-        this._listsService.getListNodeInfo(listIri)
+    buildListInfoForm() {
+        this.listNodeInfoForm = this._fb.group({
+            id: '',
+            labels: this.buildLabelsArray(),
+            comments: this.buildCommentsArray()
+        });
+
+        // this.listInfoForm.controls['id'].disable();
+        // this.listInfoForm.controls['projectIri'].disable();
+    }
+
+    buildLabelsArray(): FormArray {
+
+        this.labels = this._fb.array([]);
+        return this.labels;
+    }
+
+    buildCommentsArray(): FormArray {
+
+        this.comments = this._fb.array([]);
+        return this.comments;
+    }
+
+    buildValueLangGroup(): FormGroup {
+        return this._fb.group({
+            value: ['', Validators.required],
+            lang: ['', Validators.required]
+        });
+    }
+
+    addNeededNumberOfLabels() {
+        for (let i in this.currentListNodeInfo.labels) {
+            this.addLabel();
+        }
+    }
+
+    addNeededNumberOfComments() {
+        for (let i in this.currentListNodeInfo.comments) {
+            this.addComment();
+        }
+    }
+
+    addLabel() {
+        this.labels.push(this.buildValueLangGroup());
+    }
+
+    addComment() {
+        this.comments.push(this.buildValueLangGroup());
+    }
+
+    fetchDataAndUpdateForm(iri: string) {
+        this._listsService.getListNodeInfo(iri)
             .subscribe(
                 (nodeInfo: ListNodeInfo) => {
-                    console.log(nodeInfo);
                     this.currentListNodeInfo = nodeInfo;
+
+                    this.buildListInfoForm();
+                    this.addNeededNumberOfLabels();
+                    this.addNeededNumberOfComments();
+
+                    (<FormGroup>this.listNodeInfoForm)
+                        .setValue(this.currentListNodeInfo, { onlySelf: true });
+
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -53,4 +122,16 @@ export class ListNodeFormComponent implements OnInit {
             );
     }
 
+    revert() {
+        (<FormGroup>this.listNodeInfoForm)
+            .setValue(this.currentListNodeInfo, { onlySelf: true });
+    }
+
+    save(listNodeInfo: ListNodeInfo) {
+        this.submitted = true; // set form submit to true
+
+        // check if model is valid
+        // if valid, call API to save customer
+        console.log('save:', listNodeInfo);
+    }
 }

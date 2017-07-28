@@ -13,16 +13,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {Component, Input, OnChanges} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MdDialog, MdDialogConfig} from '@angular/material';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ListsService} from '../../../../model/services/lists.service';
 import {ListNode} from '../../../../model/webapi/knora/v1';
 import {List, ListInfo} from '../../../../model/webapi/knora/v2';
 import {ListNodeFormComponent} from '../list-node-form/list-node-form.component';
-import {forEach} from '@angular/router/src/utils/collection';
-import {formArrayNameProvider} from '@angular/forms/src/directives/reactive_directives/form_group_name';
 
 @Component({
   selector: 'salsah-list-form',
@@ -40,14 +38,13 @@ export class ListFormComponent implements OnChanges {
     errorMessage: string = undefined;
     selectedRow: number;
 
-    editResource: boolean;
+    editListInfo: boolean;
 
     public listInfoForm: FormGroup; // our model driven form
     public labels: FormArray = undefined;
     public comments: FormArray = undefined;
 
     public submitted: boolean; // keep track on whether form is submitted
-    public events: any[] = []; // use later to display form changes
 
     constructor(private _listsService: ListsService,
                 private _dialog: MdDialog,
@@ -87,8 +84,8 @@ export class ListFormComponent implements OnChanges {
 
     buildValueLangGroup(): FormGroup {
         return this._fb.group({
-            value: '',
-            lang: ''
+            value: ['', Validators.required],
+            lang: ['', Validators.required]
         });
     }
 
@@ -121,8 +118,8 @@ export class ListFormComponent implements OnChanges {
 
     viewDetails(nodeIri: string) {
         const dialogRef = this._dialog.open(ListNodeFormComponent, <MdDialogConfig>{
-            height: '400px',
-            width: '500px',
+            height: '500px',
+            width: '600px',
             data: nodeIri
         });
 
@@ -153,15 +150,19 @@ export class ListFormComponent implements OnChanges {
             );
     }
 
-    save(listInfo: ListInfo, isValid: boolean) {
+    revert() {
+        (<FormGroup>this.listInfoForm)
+            .setValue(this.currentListInfo, { onlySelf: true });
+    }
+
+    save(listInfo: ListInfo) {
         this.submitted = true; // set form submit to true
+
+
 
         // check if model is valid
         // if valid, call API to save customer
-        console.log(listInfo, isValid);
+        console.log('save:', listInfo);
     }
-
-    // TODO: Remove this when we're done
-    get diagnostic() { return JSON.stringify(this.currentListInfo); }
 
 }

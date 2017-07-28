@@ -128,6 +128,38 @@ export class ApiService {
         });
     }
 
+    /**
+     * Performs a HTTP PUT url to the Knora API.
+     * @param url
+     * @param body
+     * @param options
+     * @returns {Observable<any>}
+     */
+    httpPut(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
+        if (!body) {
+            body = {};
+        }
+
+        if (!options) {
+            options = {withCredentials: true};
+        }
+
+        return this._http.put(environment.api + url, body, options).map((response: Response) => {
+            try {
+                const apiServiceResult: ApiServiceResult = new ApiServiceResult();
+                apiServiceResult.status = response.status;
+                apiServiceResult.statusText = response.statusText;
+                apiServiceResult.body = response.json();
+                apiServiceResult.url = url;
+                return apiServiceResult;
+            } catch (e) {
+                return ApiService.handleError(response, url);
+            }
+        }).catch((error: any) => {
+            return Observable.throw(ApiService.handleError(error, url));
+        });
+    }
+
 
 
 }

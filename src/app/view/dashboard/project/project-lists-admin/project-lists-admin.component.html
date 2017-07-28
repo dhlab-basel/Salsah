@@ -55,16 +55,5 @@
         <div class="view-list" *ngIf="!errorMessage">
             <salsah-list-form [listIri]="selectedList.id" [listOp]="listOp"></salsah-list-form>
         </div>
-
-        <!-- edit selected list -->
-        <div class="edit-list" *ngIf="listOp === 'edit' && !errorMessage">
-            <salsah-list-form [listIri]="selectedList.id"></salsah-list-form>
-        </div>
-
-        <!-- create new list -->
-        <div class="create-list" *ngIf="listOp === 'create' && !errorMessage">
-            <!-- OR create a new resource class -->
-            <salsah-list-form></salsah-list-form>
-        </div>
     </div>
 </div>
