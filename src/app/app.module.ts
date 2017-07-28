@@ -29,6 +29,7 @@ import {OntologyService} from './model/services/ontology.service';
 import {OntologyCacheService} from './model/services/cache.service';
 import {SearchService} from './model/services/search.service';
 import {SessionService} from './model/services/session.service';
+import {IncomingService} from "./model/services/incoming.service";
 
 //
 // import all app components
@@ -54,7 +55,6 @@ import {UserService} from './model/services/user.service';
 import {ApiService} from './model/services/api.service';
 import {ListsService} from './model/services/lists.service';
 import {BasicOntologyService} from './model/services/basic-ontology.service';
-
 
 import {KeyPipe} from './view/modules/other/key.pipe';
 
@@ -98,8 +98,8 @@ import {ReadIntegerValueComponent} from './view/properties/read-integer-value/re
 import {ReadDecimalValueComponent} from './view/properties/read-decimal-value/read-decimal-value.component';
 import {StillImageOSDViewerComponent} from './view/properties/still-image-osdviewer/still-image-osdviewer.component';
 import {NewResourceClassComponent} from './view/modules/form/new-resource-class/new-resource-class.component';
-
-import {OsdViewerComponent} from './view/modules/object/osd-viewer/osd-viewer.component';
+import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geom-value.component';
+import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
 import {EditResourceClassComponent} from './view/modules/form/edit-resource-class/edit-resource-class.component';
 import {AppRoutingModule} from './app-routing.module';
 // just to get the basic ontology form the json file
@@ -161,8 +161,9 @@ import {AppRoutingModule} from './app-routing.module';
         ReadDecimalValueComponent,
         StillImageOSDViewerComponent,
         NewResourceClassComponent,
-        OsdViewerComponent,
-        EditResourceClassComponent
+        EditResourceClassComponent,
+        ReadGeomValueComponent,
+        ReadColorValueComponent
     ],
     imports: [
         BrowserModule,
@@ -188,6 +189,7 @@ import {AppRoutingModule} from './app-routing.module';
         ResourceService,
         ResourceTypesService,
         SearchService,
+        IncomingService,
         SessionService,
         BasicOntologyService,
         UserService,

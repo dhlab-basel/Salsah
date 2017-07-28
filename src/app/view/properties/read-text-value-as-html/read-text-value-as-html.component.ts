@@ -13,22 +13,23 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {ReadTextValueAsHtml} from "../../../model/webapi/knora/v2/read-property-item";
+import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-item';
 
 @Component({
-  selector: 'read-text-value-as-html',
-  templateUrl: './read-text-value-as-html.component.html',
-  styleUrls: ['./read-text-value-as-html.component.scss']
+    selector: 'read-text-value-as-html',
+    templateUrl: './read-text-value-as-html.component.html',
+    styleUrls: ['./read-text-value-as-html.component.scss']
 })
 export class ReadTextValueAsHtmlComponent implements OnInit {
 
     @Input() valueObject: ReadTextValueAsHtml;
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
+    ngOnInit() {
 
-      //console.log(this.valueObject);
-  }
+        //console.log(this.valueObject);
+    }
 
 }

@@ -13,20 +13,21 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {ReadDateValue} from "../../../model/webapi/knora/v2/read-property-item";
+import {ReadDateValue} from '../../../model/webapi/knora/v2/read-property-item';
 
 @Component({
-  selector: 'read-date-value',
-  templateUrl: './read-date-value.component.html',
-  styleUrls: ['./read-date-value.component.scss']
+    selector: 'read-date-value',
+    templateUrl: './read-date-value.component.html',
+    styleUrls: ['./read-date-value.component.scss']
 })
 export class ReadDateValueComponent implements OnInit {
 
     @Input() valueObject: ReadDateValue;
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

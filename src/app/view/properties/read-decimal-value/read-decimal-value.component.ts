@@ -13,20 +13,21 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {ReadDecimalValue} from "../../../model/webapi/knora/v2/read-property-item";
+import {ReadDecimalValue} from '../../../model/webapi/knora/v2/read-property-item';
 
 @Component({
-  selector: 'read-decimal-value',
-  templateUrl: './read-decimal-value.component.html',
-  styleUrls: ['./read-decimal-value.component.scss']
+    selector: 'read-decimal-value',
+    templateUrl: './read-decimal-value.component.html',
+    styleUrls: ['./read-decimal-value.component.scss']
 })
 export class ReadDecimalValueComponent implements OnInit {
 
     @Input() valueObject: ReadDecimalValue;
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

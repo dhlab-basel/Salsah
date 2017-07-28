@@ -18,7 +18,7 @@ import {ReadProperties} from "./read-properties";
 import {
     ReadPropertyItem, ReadTextValueAsHtml, ReadDateValue, ReadLinkValue,
     ReadTextValueAsString, ReadTextValueAsXml, ReadIntegerValue, ReadDecimalValue, ReadStillImageFileValue,
-    ReferredResourcesByStandoffLink
+    ReferredResourcesByStandoffLink, ReadColorValue, ReadGeomValue
 } from "./read-property-item";
 import {AppConfig} from "../../../../app.config";
 import {OntologyService} from "../../../services/ontology.service";
@@ -47,7 +47,8 @@ export module ConvertJSONLD {
             id: resourceJSONLD['@id'],
             type: resourceJSONLD['@type'],
             label: resourceJSONLD[AppConfig.schemaName],
-            properties: properties
+            properties: properties,
+            incoming: []
         };
     }
 
@@ -161,6 +162,30 @@ export module ConvertJSONLD {
                 );
 
                 valueSpecificProp = stillImageFileValue;
+
+                break;
+
+            case AppConfig.ColorValue:
+
+                let readColorValue: ReadColorValue = new ReadColorValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.colorValueAsColor]
+                );
+
+                valueSpecificProp = readColorValue;
+
+                break;
+
+           case AppConfig.GeomValue:
+
+                let readGeomValue: ReadGeomValue = new ReadGeomValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.geometryValueAsGeometry]
+                );
+
+                valueSpecificProp = readGeomValue;
 
                 break;
 
