@@ -50,5 +50,10 @@ export class UserObjectComponent implements OnChanges {
             );
     }
 
+    deleteUser(iri: string) {
+        // open dialog box with text like
+        alert('you\'re sure? Delete user ' + iri);§
+    }
+
 
 }

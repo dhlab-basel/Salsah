@@ -36,12 +36,17 @@
 
 <div *ngIf="detailViewIsActive || addNewFormIsActive" class="salsah-module-detail" [ngClass]="position.detail">
     <!-- detail view with own header -->
+    <!-- because of an issue with the highlight of the selected object in the list,
+        we have to disable this main close button -->
+    <!-- TODO: reacitvate the main close button in detail view -->
+    <!--
     <div class="salsah-module-detail-header">
         <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
         <button md-icon-button (click)="closeDetailView()" class="right close">
             <md-icon>close</md-icon>
         </button>
     </div>
+    -->
 
     <!-- detail view content -->
     <div class="salsah-module-detail-content" [ngSwitch]="list">

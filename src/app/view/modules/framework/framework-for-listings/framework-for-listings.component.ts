@@ -104,8 +104,7 @@ export class FrameworkForListingsComponent implements OnInit {
         let title: string;
         switch(this.list) {
             case 'user':
-                title = 'Add new user';
-                dialogRef = this.dialog.open(NewFormDialogComponent, {data: {title: title, object: this.list, iri: this.project}});
+                dialogRef = this.dialog.open(NewFormDialogComponent, {data: {title: this.add.title, object: this.list, iri: this.project}});
             break;
             case 'project':
                 title = 'Create new project';

@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, NgModel, Validators} from '@angular/forms';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
@@ -24,10 +24,12 @@ import {UserFormComponent} from '../user-form/user-form.component';
 import {UserService} from '../../../../model/services/user.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ProjectsService} from '../../../../model/services/projects.service';
 import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
+import {ProjectsService} from '../../../../model/services/projects.service';
 import {ProjectTeamComponent} from '../../../dashboard/project/project-team/project-team.component';
 import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
+import {UserProfile} from '../../../../model/webapi/knora/';
+import {User} from '../../../../model/webapi/knora/v1/users/user';
 
 @Component({
     selector: 'salsah-new-user',
@@ -35,12 +37,16 @@ import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-it
     styleUrls: ['./new-user.component.scss']
 })
 
-export class NewUserComponent implements OnInit {
+export class NewUserComponent implements OnChanges {
 
     // if project value (as IRI) is defined
     // we can add the new created user direct to the specified project
     // and/or we need the autocomplete list of knora users
     @Input() project: string;
+
+    // on submit
+    @Output() submitData = new EventEmitter<any>();
+
 
     // this component uses a service,
     // so we define an empty errorMessage to have one if needed
@@ -79,6 +85,8 @@ export class NewUserComponent implements OnInit {
 
     // (NEW) user form
     // the user form (uf) to create a new user account
+
+
     uf: FormGroup;
     // email and password validator
     emailRegexp: any = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -87,15 +95,15 @@ export class NewUserComponent implements OnInit {
     // language package for all form fields...
     // TODO: modify a language json file or db file for multilingual use; how we want to handle multi language?
     public form: any = {
-        title: 'Add a new user to the team',
-        select: 'by selecting',
+        selectTitle: '...by selecting',
+        select: 'just type a name here',
         or: 'OR',
-        create: 'create a new user account',
+        createTitle: '...by creating a new user account',
         user: {
             existingUser: 'Add an existing user',
             title: 'Create a new user account',
-            firstName: 'First name',
-            lastName: 'Last name',
+            firstname: 'First name',
+            lastname: 'Last name',
             email: 'Email address',
             emailHint: 'This will be your login name',
             emailValidation: 'This doesn\'t appear to be a valid email address.',
@@ -104,7 +112,8 @@ export class NewUserComponent implements OnInit {
             avatar: 'Upload a profile pic',
             language: 'Default language',
             admin: 'Project admin?',
-            member: 'Add the new user to the project'
+            member: 'Add the new user to the project',
+            group: ''
         }
     };
 
@@ -123,13 +132,13 @@ export class NewUserComponent implements OnInit {
             .map(name => this.filterUsers(name));
 
         this.uf = fb.group({
-            'givenName': ['gaga hornochs', Validators.required],
-            'familyName': [null, Validators.required],
+            'firstname': [null, Validators.required],
+            'lastname': [null, Validators.required],
             'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
-            'systemAdmin': false,
             'lang': 'en',
-            'status': true
+            'status': true,
+            'group': null
         });
     }
 
@@ -182,6 +191,12 @@ export class NewUserComponent implements OnInit {
          */
     }
 
+    ngOnChanges() {
+        if(this.uf.valid) {
+            console.log(this.uf);
+        }
+    }
+
     displayFn(value: any): string {
         if (value && typeof value === 'object') {
             // the admin has selected a user
@@ -190,9 +205,7 @@ export class NewUserComponent implements OnInit {
             if (this.usersList) {
                 this.usersList.users.filter(function (user) {
                     if (user.user_id == value.iri) {
-                        console.log(value.iri);
                         selectedUser = value.iri;
-
                     }
                 });
             }
@@ -201,9 +214,7 @@ export class NewUserComponent implements OnInit {
         else {
             // the admin is still typing; no selected user
             return value;
-
         }
-
 //        return value && typeof value === 'object' ? value.name : value;
     }
 
@@ -259,14 +270,29 @@ export class NewUserComponent implements OnInit {
         console.log(val);
     }
 
-    getUser(val: any): string {
-
-        if (val) {
-            console.log('getUser: ' + val);
+    // get the user
 
 
+    getUser(iri: string) {
+        let selectedUser: UserProfile = new UserProfile();
+
+        if (iri) {
+            this._userService.getUserByIri(iri)
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        let tmpData: User = result.getBody(User);
+                        selectedUser = tmpData.userProfile;
+                        this.uf.controls['firstname'].setValue(selectedUser.userData.firstname);
+                        this.uf.controls['lastname'].setValue(selectedUser.userData.lastname);
+                        this.uf.controls['email'].setValue(selectedUser.userData.email);
+                        this.uf.controls['lang'].setValue(selectedUser.userData.lang);
+                    },
+                    (error: ApiServiceError) => {
+                        console.log(error);
+                        this.errorMessage = error;
+                    }
+                );
         }
-        return undefined;
     }
 
 

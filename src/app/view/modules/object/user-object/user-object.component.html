@@ -27,5 +27,15 @@
           </md-list-item>
           -->
     </md-grid-list>
+    <md-divider></md-divider>
+    <span>Developer hint: only visible, if the user has the rights (TODO)</span>
+    <br>
+    <div class="salsah-panel full-width">
+        <span class="fill-remaining-space"></span>
+        <button md-raised-button color="warn" class="center" (click)="deleteUser(userProfile?.userData.user_id)">
+            Delete user
+        </button>
+        <span class="fill-remaining-space"></span>
+    </div>
 </div>
 

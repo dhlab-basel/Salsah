@@ -4,16 +4,28 @@
 
 <md-dialog-content [ngSwitch]="data.object">
 
+    <!-- salsah new form for projects, users, resource classes etc.
+    all handled by the switch method -->
     <salsah-new-project *ngSwitchCase="'project'"></salsah-new-project>
+
     <salsah-new-user *ngSwitchCase="'user'" [project]="data.iri"></salsah-new-user>
 
 </md-dialog-content>
 
 <md-dialog-actions>
+
     <button md-button
             md-dialog-close
             class="cancel-button">
         Cancel
     </button>
+
     <span class="fill-remaining-space"></span>
+
+    <button md-button
+            md-dialog-close
+            class="submit-button">
+        Save
+    </button>
+
 </md-dialog-actions>

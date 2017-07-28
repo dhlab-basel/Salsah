@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnChanges, OnInit} from '@angular/core';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 
 @Component({
@@ -20,13 +20,27 @@ import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
     templateUrl: './new-form-dialog.component.html',
     styleUrls: ['./new-form-dialog.component.scss']
 })
-export class NewFormDialogComponent implements OnInit {
+export class NewFormDialogComponent implements OnChanges {
+
+    formIsValid: boolean = false;
 
     constructor(public dialogRef: MdDialogRef<NewFormDialogComponent>,
                 @Inject(MD_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
+        console.log(this.data);
     }
 
+    ngOnChanges() {
+
+    }
+
+
+    submitData(data: any, valid: boolean) {
+        // get the data and the valid form information from child component
+        // if the data is valid, activate the submit button
+        // and send the data to the Knora API
+        this.formIsValid = valid;
+    }
 }
