@@ -70,5 +70,12 @@ export class ProjectsService extends ApiService {
         return this.httpGet("/projects/members/" + shortname + "?identifier=shortname");
     }
 
+    createProject(data: any): Observable<any> {
+        let headers: Headers = new Headers();
+        console.log(headers);
+        console.log(data);
+        return this.httpPost('/projects', data, {});
+    }
+
 
 }

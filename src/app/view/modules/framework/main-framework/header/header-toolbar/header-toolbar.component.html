@@ -36,6 +36,30 @@
                     {{item.title}}
                 </button>
             </md-grid-tile>
+            <!-- new project -->
+            <md-grid-tile>
+                <button md-button (click)="toggleMenu('addMenu', 'project')">
+                    <md-icon>create_new_folder</md-icon>
+                    <br>
+                    Project
+                </button>
+            </md-grid-tile>
+            <!-- new collection -->
+            <md-grid-tile>
+                <button md-button (click)="toggleMenu('addMenu', 'collection')">
+                    <md-icon>library_add</md-icon>
+                    <br>
+                    Collection
+                </button>
+            </md-grid-tile>
+            <!-- new resource instance -->
+            <md-grid-tile>
+                <button md-button (click)="toggleMenu('addMenu', 'object')">
+                    <md-icon>note_add</md-icon>
+                    <br>
+                    Object
+                </button>
+            </md-grid-tile>
         </md-grid-list>
     </div>
 

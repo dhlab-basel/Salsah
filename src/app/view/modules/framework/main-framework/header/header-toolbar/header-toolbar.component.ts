@@ -13,8 +13,8 @@
  * */
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
-import {Router, ActivatedRoute} from "@angular/router";
-import {SessionService} from "../../../../../../model/services/session.service";
+import {Router, ActivatedRoute} from '@angular/router';
+import {SessionService} from '../../../../../../model/services/session.service';
 
 import {
     trigger,
@@ -23,6 +23,9 @@ import {
     animate,
     transition
 } from '@angular/animations';
+import {NewFormDialogComponent} from '../../../../dialog/new-form-dialog/new-form-dialog.component';
+import {MdDialog} from '@angular/material';
+import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/message-dialog.component';
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -57,6 +60,7 @@ export class HeaderToolbarComponent implements OnInit {
     constructor(private _eleRef: ElementRef,
                 private _route: ActivatedRoute,
                 private _router: Router,
+                public dialog: MdDialog,
                 private _sessionService: SessionService) {
 
     }
@@ -109,7 +113,7 @@ export class HeaderToolbarComponent implements OnInit {
      },
      */
 
-    addMenuTitle: string = "Add some new stuff";
+    addMenuTitle: string = 'Add some new stuff';
     addMenu: any = [
         {
             title: 'Project',
@@ -140,8 +144,8 @@ export class HeaderToolbarComponent implements OnInit {
         }
     }
 
-    toggleMenu(name: string) {
-        switch (name) {
+    toggleMenu(menu: string, item: string = null) {
+        switch (menu) {
             case 'userMenu':
                 this.focusOnAddMenu = 'inactive';
                 this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
@@ -150,6 +154,26 @@ export class HeaderToolbarComponent implements OnInit {
                 this.focusOnUserMenu = 'inactive';
                 this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
                 break;
+        }
+        if (item) {
+            let dialogRef;
+            let title: string;
+            switch (item) {
+                case 'project':
+                    title = 'Create new project';
+                    dialogRef = this.dialog.open(NewFormDialogComponent, {data: {title: title, object: item}});
+                    break;
+
+                default:
+                    let message = {
+                        title: 'Not yet implemented',
+                        text: 'TODO: add the item type "' + item + '" to the openNew method in HeaderToolbarComponent',
+                        path: 'Missing item type: ' + item
+                    };
+                    dialogRef = this.dialog.open(MessageDialogComponent, {data: {note: message}});
+
+
+            }
         }
     }
 

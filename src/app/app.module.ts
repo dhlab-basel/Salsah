@@ -105,6 +105,7 @@ import {UserObjectComponent} from './view/modules/object/user-object/user-object
 import { MessageDialogComponent } from './view/modules/dialog/message-dialog/message-dialog.component';
 import { NewProjectComponent } from './view/modules/form/new-project/new-project.component';
 import { NewFormDialogComponent } from './view/modules/dialog/new-form-dialog/new-form-dialog.component';
+import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.directive';
 
 @NgModule({
     declarations: [
@@ -164,7 +165,8 @@ import { NewFormDialogComponent } from './view/modules/dialog/new-form-dialog/ne
         UserObjectComponent,
         MessageDialogComponent,
         NewProjectComponent,
-        NewFormDialogComponent
+        NewFormDialogComponent,
+        ForbiddenNameDirective
     ],
     imports: [
         BrowserModule,

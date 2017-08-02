@@ -29,7 +29,7 @@ export class NewFormDialogComponent implements OnChanges {
     }
 
     ngOnInit() {
-        console.log(this.data);
+//        console.log(this.data);
     }
 
     ngOnChanges() {
