@@ -75,7 +75,7 @@ class ResourceClassesForNamedGraph {
 }
 
 /**
- * Represents cached ontology information.
+ * Represents cached ontology information (only used by this service internally).
  */
 class OntologyCache {
 
@@ -108,6 +108,16 @@ class OntologyCache {
      * Property definitions.
      */
     properties: Properties;
+
+}
+
+/**
+ * Represents ontology information requested from this service.
+ */
+export class OntologyInformation {
+
+    constructor(readonly resourceClassesForNamedGraph: ResourceClassesForNamedGraph, readonly resourceClasses: ResourceClasses, readonly properties: Properties) {
+    }
 
 }
 
@@ -152,7 +162,7 @@ export class OntologyCacheService {
      *
      * @param namedGraphIris the Iris of the named graphs whose resource classes are to be returned.
      */
-    private getResourceClassDefinitionsForNamedGraphsFromKnora(namedGraphIris: string[]) {
+    private getResourceClassDefinitionsForNamedGraphsFromKnora(namedGraphIris: string[]): Observable<any> {
 
         let ontResponse = this._ontologyService.getResourceClassesForNamedGraphs(namedGraphIris).flatMap(
             // this would return an Observable of a PromiseObservable -> combine them into one Observable
@@ -277,7 +287,7 @@ export class OntologyCacheService {
      * @param {string[]} namedGraphIris the named graphs to query for.
      * @returns {OntologyCache} an [[OntologyCache]] representing the requested named graphs.
      */
-    private getResourceClassesForNamedGraphsFromCache(namedGraphIris: string[]): OntologyCache {
+    private getResourceClassesForNamedGraphsFromCache(namedGraphIris: string[]): OntologyInformation {
 
         let resourceClassesForNamedGraphs = new ResourceClassesForNamedGraph();
 
@@ -294,12 +304,9 @@ export class OntologyCacheService {
         }
 
         // get resource class definitions for all named graphs
-        let resClassDefs = this.getResourceClassDefinitionsFromCache(allResourceClassIris);
+        let resClassDefs: OntologyInformation = this.getResourceClassDefinitionsFromCache(allResourceClassIris);
 
-        // attach information about named graphs
-        resClassDefs.resourceClassesForNamedGraph = resourceClassesForNamedGraphs;
-
-        return resClassDefs
+        return new OntologyInformation(resourceClassesForNamedGraphs, resClassDefs.resourceClasses, resClassDefs.properties)
 
     }
 
@@ -370,7 +377,7 @@ export class OntologyCacheService {
      * @param resClassIris the given resource class Iris
      * @returns {ResourceClasses} an [[OntologyCache]] representing the requested resource classes.
      */
-    private getResourceClassDefinitionsFromCache(resClassIris: string[]): OntologyCache {
+    private getResourceClassDefinitionsFromCache(resClassIris: string[]): OntologyInformation {
         // collect the definitions for each resource class from the cache
         let resClassDefs = new ResourceClasses();
 
@@ -390,19 +397,10 @@ export class OntologyCacheService {
             }
         );
 
-        // create a new instance of OntologyCache
-        let ontoCache = new OntologyCache();
-
-        // attach resource class definitions to answer
-        ontoCache.resourceClasses = resClassDefs;
-
         // get property definitions from cache
-        let propDefs = this.getPropertyDefinitionsFromCache(propertyIris);
+        let propDefs: OntologyInformation = this.getPropertyDefinitionsFromCache(propertyIris);
 
-        // attach property definitions to answer
-        ontoCache.properties = propDefs.properties;
-
-        return ontoCache;
+        return new OntologyInformation(new ResourceClassesForNamedGraph(), resClassDefs, propDefs.properties);
     }
 
     /**
@@ -441,7 +439,7 @@ export class OntologyCacheService {
      * @param {string[]} propertyIris the property definitions to be returned.
      * @returns {OntologyCache}
      */
-    private getPropertyDefinitionsFromCache(propertyIris: string[]): OntologyCache {
+    private getPropertyDefinitionsFromCache(propertyIris: string[]): OntologyInformation {
 
         let propertyDefs = new Properties();
 
@@ -450,11 +448,7 @@ export class OntologyCacheService {
                 propertyDefs[propIri] = this.cacheOntology.properties[propIri]
         );
 
-        let ontoCache = new OntologyCache();
-
-        ontoCache.properties = propertyDefs;
-
-        return ontoCache
+        return new OntologyInformation(new ResourceClassesForNamedGraph(), new ResourceClasses(), propertyDefs);
 
     }
 
@@ -463,7 +457,7 @@ export class OntologyCacheService {
      *
      * @returns {Observable<Array<string>>}
      */
-    public getAllNamedGraphIris() {
+    public getAllNamedGraphIris(): Observable<Array<string>> {
 
         if (this.cacheOntology.namedGraphs.length == 0) {
             return this.getNamedGraphIrisFromKnora().map(
@@ -485,7 +479,7 @@ export class OntologyCacheService {
      *
      * @param {string[]} namedGraphIri the given named graph Iris.
      */
-    public getResourceClassesForNamedGraphs(namedGraphIris: string[]): Observable<OntologyCache> {
+    public getResourceClassesForNamedGraphs(namedGraphIris: string[]): Observable<OntologyInformation> {
 
         let namedGraphIrisToQuery = namedGraphIris.filter(
             namedGraphIri =>
@@ -521,7 +515,7 @@ export class OntologyCacheService {
      * @returns {Observable<OntologyCache>} an OntologyCache instance representing the requested resource classes (including properties).
      * @returns {Observable<OntologyCache>} an OntologyCache instance representing the requested resource classes (including properties).
      */
-    public getResourceClassDefinitions(resourceClassIris: string[]): Observable<OntologyCache> {
+    public getResourceClassDefinitions(resourceClassIris: string[]): Observable<OntologyInformation> {
 
         let resClassIrisToQueryFor: string[] = resourceClassIris.filter(
             resClassIri =>
@@ -558,7 +552,7 @@ export class OntologyCacheService {
      * @param {string[]} propertyIris the given property Iris.
      * @returns {Observable<OntologyCache>}  an OntologyCache instance representing the requested properties.
      */
-    public getPropertyDefinitions(propertyIris: string[]): Observable<OntologyCache> {
+    public getPropertyDefinitions(propertyIris: string[]): Observable<OntologyInformation> {
 
         let propertiesToQuery: string[] = propertyIris.filter(
             propIri =>

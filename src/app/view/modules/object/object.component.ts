@@ -9,6 +9,7 @@ import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 import {OntologyService} from "../../../model/services/ontology.service";
 import {AppConfig} from "../../../app.config";
 import {StillImageOSDViewerComponent} from "../../properties/still-image-osdviewer/still-image-osdviewer.component";
+import {OntologyCacheService, OntologyInformation} from "../../../model/services/ontologycache.service";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -24,6 +25,8 @@ export class ObjectComponent implements OnChanges, OnInit {
 
     @ViewChild('OSDViewer') osdViewer: StillImageOSDViewerComponent;
 
+    ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in the requested resource with Iri `iri`
+
     isLoading: boolean = true;
     errorMessage: any;
 
@@ -33,7 +36,7 @@ export class ObjectComponent implements OnChanges, OnInit {
     constructor(private _route: ActivatedRoute,
                 private _resourceService: ResourceService,
                 private _incomingService: IncomingService,
-                private _ontologyService: OntologyService) {
+                private _cacheService: OntologyCacheService) {
     }
 
     ngOnChanges() {
@@ -50,10 +53,23 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                         let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-                        this.resource = resources;
+                        // get resource class Iris from response
+                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
-                        this.requestIncomingResources(resources);
+                        // request ontology information about resource class Iris (properties are implied)
+                        this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                            (resourceClassInfos: OntologyInformation) => {
 
+                                // assign ontology information to a variable so it can be used in the component's template
+                                this.ontologyInfo = resourceClassInfos;
+                                this.resource = resources;
+
+                                this.requestIncomingResources(resources);
+                            },
+                            (err) => {
+
+                                console.log("cache request failed: " + err);
+                            })
                     }, function (err) {
 
                         console.log("JSONLD of full resource request could not be expanded:" + err);
@@ -84,9 +100,23 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                             let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-                            this.resource = resources;
+                            // get resource class Iris from response
+                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
-                            this.requestIncomingResources(resources);
+                            // request ontology information about resource class Iris (properties are implied)
+                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                                (resourceClassInfos: OntologyInformation) => {
+
+                                    // assign ontology information to a variable so it can be used in the component's template
+                                    this.ontologyInfo = resourceClassInfos;
+                                    this.resource = resources;
+
+                                    this.requestIncomingResources(resources);
+                                },
+                                (err) => {
+
+                                    console.log("cache request failed: " + err);
+                                })
 
                         }, function (err) {
 
@@ -112,32 +142,34 @@ export class ObjectComponent implements OnChanges, OnInit {
     * @param {ReadResourcesSequence} resourceSequence - the sequence of resources for which incoming resources should be requested.
     */
     private requestIncomingResources(resourceSequence: ReadResourcesSequence) {
-      if (resourceSequence.resources.length > 0) {
+        if (resourceSequence.resources.length > 0) {
 
-        // request incoming Regions
-        if (resourceSequence.resources[0].properties[AppConfig.hasStillImageFileValue]) {
-          this._incomingService.getIncomingRegions(resourceSequence.resources[0].id).subscribe(
-            (result: ApiServiceResult) => {
-              let promise = jsonld.promises.compact(result.body, {});
-              promise.then((compacted) => {
-                let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
-                // Append elements of regions.resources to resourceSequence.resources[0].incoming
-                Array.prototype.push.apply(resourceSequence.resources[0].incoming, regions.resources);
-                if (this.osdViewer) { this.osdViewer.updateRegions(); }
-              },
-              function (err) {
-                console.log("JSONLD of regions request could not be expanded:" + err);
-              });
-            },
-            (error: ApiServiceError) => {
-              this.errorMessage = <any>error;
-              this.isLoading = false;
+            // request incoming Regions
+            if (resourceSequence.resources[0].properties[AppConfig.hasStillImageFileValue]) {
+                this._incomingService.getIncomingRegions(resourceSequence.resources[0].id).subscribe(
+                    (result: ApiServiceResult) => {
+                        let promise = jsonld.promises.compact(result.body, {});
+                        promise.then((compacted) => {
+                                let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                                // Append elements of regions.resources to resourceSequence.resources[0].incoming
+                                Array.prototype.push.apply(resourceSequence.resources[0].incoming, regions.resources);
+                                if (this.osdViewer) {
+                                    this.osdViewer.updateRegions();
+                                }
+                            },
+                            function (err) {
+                                console.log("JSONLD of regions request could not be expanded:" + err);
+                            });
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+                        this.isLoading = false;
+                    }
+                );
             }
-          );
-        }
 
-        // TODO: when the extended search API provides support for it, request other resource types.
-      }
+            // TODO: when the extended search API provides support for it, request other resource types.
+        }
     }
 
 }

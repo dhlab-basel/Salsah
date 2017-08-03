@@ -16,14 +16,21 @@ import {ReadResourcesSequence} from "./read-resources-sequence";
 import {ReadResource} from "./read-resource";
 import {ReadProperties} from "./read-properties";
 import {
-    ReadPropertyItem, ReadTextValueAsHtml, ReadDateValue, ReadLinkValue,
-    ReadTextValueAsString, ReadTextValueAsXml, ReadIntegerValue, ReadDecimalValue, ReadStillImageFileValue,
-    ReferredResourcesByStandoffLink, ReadColorValue, ReadGeomValue
+    ReadColorValue,
+    ReadDateValue,
+    ReadDecimalValue,
+    ReadGeomValue,
+    ReadIntegerValue,
+    ReadLinkValue,
+    ReadPropertyItem,
+    ReadStillImageFileValue,
+    ReadTextValueAsHtml,
+    ReadTextValueAsString,
+    ReadTextValueAsXml,
+    ReferredResourcesByStandoffLink
 } from "./read-property-item";
 import {AppConfig} from "../../../../app.config";
-import {OntologyService} from "../../../services/ontology.service";
-import {ApiServiceResult} from "../../../services/api-service-result";
-import {ApiServiceError} from "../../../services/api-service-error";
+
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
 
