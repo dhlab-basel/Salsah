@@ -116,8 +116,70 @@ class OntologyCache {
  */
 export class OntologyInformation {
 
-    constructor(readonly resourceClassesForNamedGraph: ResourceClassesForNamedGraph, readonly resourceClasses: ResourceClasses, readonly properties: Properties) {
+    constructor(private resourceClassesForNamedGraph: ResourceClassesForNamedGraph, private resourceClasses: ResourceClasses, private properties: Properties) {
     }
+
+    /**
+     * Get all resource classes.
+     *
+     * @returns {ResourceClasses}
+     */
+    getResourceClasses() {
+        return this.resourceClasses;
+    }
+
+    /**
+     * Returns a resource class's label.
+     *
+     * @param {string} resClass to query for.
+     * @returns {string} the resource class's label.
+     */
+    getLabelForResourceClass(resClass: string): string {
+
+        if (resClass !== undefined) {
+
+            let resClassDef = this.resourceClasses[resClass];
+
+            if (resClassDef !== undefined && resClassDef.label !== undefined) {
+                return resClassDef.label
+            } else {
+                console.log(`OntologyInformation: no resource class ${resClass}  found in resourceClasses`);
+            }
+        } else {
+            console.log("call of OntologyInformation.getLabelForResourceClass without argument resClass");
+        }
+    }
+
+    /**
+     * Get all properties.
+     *
+     * @returns {Properties}
+     */
+    getProperties() {
+        return this.properties;
+    }
+
+    /**
+     * Returns a property's label.
+     *
+     * @param {string} property to query for.
+     * @returns {string} the property's label.
+     */
+    getLabelForProperty(property: string): string {
+
+    if (property !== undefined) {
+
+        let propDef = this.properties[property];
+
+        if (propDef !== undefined && propDef.label !== undefined) {
+            return propDef.label
+        } else {
+            console.log(`OntologyInformation: no label found for ${property} in properties`);
+        }
+    } else {
+        console.log("call of OntologyInformation.getLabelForProperty without argument property");
+    }
+}
 
 }
 
@@ -306,7 +368,7 @@ export class OntologyCacheService {
         // get resource class definitions for all named graphs
         let resClassDefs: OntologyInformation = this.getResourceClassDefinitionsFromCache(allResourceClassIris);
 
-        return new OntologyInformation(resourceClassesForNamedGraphs, resClassDefs.resourceClasses, resClassDefs.properties)
+        return new OntologyInformation(resourceClassesForNamedGraphs, resClassDefs.getResourceClasses(), resClassDefs.getProperties())
 
     }
 
@@ -400,7 +462,7 @@ export class OntologyCacheService {
         // get property definitions from cache
         let propDefs: OntologyInformation = this.getPropertyDefinitionsFromCache(propertyIris);
 
-        return new OntologyInformation(new ResourceClassesForNamedGraph(), resClassDefs, propDefs.properties);
+        return new OntologyInformation(new ResourceClassesForNamedGraph(), resClassDefs, propDefs.getProperties());
     }
 
     /**

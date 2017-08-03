@@ -1,11 +1,10 @@
-<p>{{resource.resources[0]?.type}}</p>
-<p>{{ontologyInfo?.resourceClasses[resource.resources[0]?.type].label}}</p>
+<p>{{resource.resources[0]?.type}} ({{ontologyInfo?.getLabelForResourceClass(resource.resources[0]?.type)}})</p>
 <p>{{resource.resources[0]?.label}}</p>
 
 <md-list>
     <div md-line *ngFor="let prop of resource.resources[0]?.properties | key">
 
-        <span>{{prop.key}} ({{ontologyInfo?.properties[prop.key].label}})</span>
+        <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span>
 
         <!--  array templates -->
         <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->

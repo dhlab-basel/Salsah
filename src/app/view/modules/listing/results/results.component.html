@@ -28,10 +28,10 @@
                     <div>
                         <div>
                             <div>
-                                {{res.label}} ({{ontologyInfo?.resourceClasses[res.type].label}})
+                                {{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})
                             </div>
                             <div md-line *ngFor="let prop of res.properties | key">
-                                <span>{{prop.key}} ({{ontologyInfo?.properties[prop.key].label}})</span> <ul><li *ngFor="let val of prop.value | key">{{val.value.getContent()}}</li></ul>
+                                <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span> <ul><li *ngFor="let val of prop.value | key">{{val.value.getContent()}}</li></ul>
                             </div>
                         </div>
                     </div>
