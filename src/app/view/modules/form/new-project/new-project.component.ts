@@ -18,7 +18,8 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectItem} from '../../../../model/webapi/knora/';
-import {forbiddenNameValidator} from '../../other/forbidden-name.directive';
+import {forbiddenNamesValidator} from '../../other/forbidden-name.directive';
+import {ProjectsList} from '../../../../model/webapi/knora/v1/projects/projects-list';
 
 @Component({
     selector: 'salsah-new-project',
@@ -33,6 +34,10 @@ export class NewProjectComponent implements OnInit {
 
     newProject: ProjectItem = new ProjectItem();
 
+    existingProjects: [RegExp] = [
+        new RegExp('project')
+    ];
+
     // form group
     form: FormGroup;
 
@@ -42,12 +47,34 @@ export class NewProjectComponent implements OnInit {
     }
 
     ngOnInit() {
+        // get a list of all projects and create an array of the short names
+        // the short name should be unique and with the array list, we can
+        // prevent to have the same short name; proof it with the ForbiddenName directive
+        this._projectsService.getAllProjects()
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    let projectsList: ProjectItem[] = result.getBody(ProjectsList).projects;
+                    for(let p of projectsList) {
+                        // add each project short name to the list of existing project
+                        // TODO: convert the string expression into a RegExp
+
+                        this.existingProjects.push(new RegExp(p.shortname.toLowerCase()));
+                    }
+                    console.log(this.existingProjects);
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.errorMessage = error;
+                }
+            );
+
+
         this.buildForm();
     }
 
     buildForm(): void {
         this.form = this.fb.group({
-            'shortname': [this.newProject.shortname, [Validators.required, Validators.minLength(3), Validators.maxLength(16), forbiddenNameValidator(/biblio/i)]],
+            'shortname': [this.newProject.shortname, [Validators.required, Validators.minLength(3), Validators.maxLength(16), forbiddenNamesValidator(this.existingProjects)]],
             'longname': [null, Validators.required],
             'description': [null, Validators.maxLength(256)],
             'institution': [null],
@@ -136,28 +163,14 @@ export class NewProjectComponent implements OnInit {
     onSubmit(value: any): void {
         this.submitted = true;
 
-        let project = {
-            shortname: "newerproject",
-            longname: "project longname",
-            description: "project description",
-            keywords: "keywords",
-            logo: "/fu/bar/baz.jpg",
-            status: true,
-            selfjoin: false
-        };
-
-//        this.newProject  = value;
-
-        this.newProject.shortname = value.shortname;
-        this.newProject.name = value.longname;
-        this.newProject.description = value.description;
+        this.newProject  = value;
 
 //        this.newProject.ontologyNamedGraph = 'http://www.knora.org/ontology/' + value.shortname;
 //        this.newProject.dataNamedGraph = 'http://www.knora.org/data/' + value.shortname;
 
         console.log('you submitted value: ', value);
 
-        this._projectsService.createProject(project).subscribe(
+        this._projectsService.createProject(this.newProject).subscribe(
             (result: ApiServiceResult) => {
 
                 console.log("service: ", result);

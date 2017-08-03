@@ -43,10 +43,28 @@ export class ForbiddenNameDirective implements Validators, OnChanges {
     }
 }
 
+// validation of forbidden name value
 export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
         const name = control.value;
         const no = nameRe.test(name);
+        return no ? {'forbiddenName': {name}} : null;
+    };
+}
+
+// the same as above, but with an array list of forbidden names
+export function forbiddenNamesValidator(nameAr: [RegExp]): ValidatorFn {
+
+    return (control: AbstractControl): { [key: string]: any } => {
+        const name = control.value;
+        let no;
+        for(let forbidden of nameAr) {
+            no = forbidden.test(name);
+            if(no) {
+                console.log(no);
+                return no ? {'forbiddenName': {name}} : null;
+            }
+        }
         return no ? {'forbiddenName': {name}} : null;
     };
 }

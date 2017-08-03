@@ -39,8 +39,6 @@ export class SystemComponent implements OnInit {
         let loggedInUser = JSON.parse(localStorage.getItem('ownProfile'));
         this.userProfile = (loggedInUser !== null ? loggedInUser : new UserProfile());
 
-        this.sysAdmin = (this.userProfile.permissionData.groupsPerProject['http://www.knora.org/ontology/knora-base#SystemProject'] == 'http://www.knora.org/ontology/knora-base#SystemAdmin');
-
 
         // if a user isn't logged in, go to the /login page
         // if a user is logged in, but he's not a sys admin, deny the access
