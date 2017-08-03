@@ -31,7 +31,7 @@ function getDocument(): any {
 export class SessionService extends ApiService {
 
     getSession(): Observable<any> {
-        return this.httpGet('/session');
+        return this.httpGet('/session', {withCredentials: true});
     }
 
 
@@ -39,16 +39,18 @@ export class SessionService extends ApiService {
      * returns if the session is valid or not;
      *
      * @param session
-     * @param deny
-     * @returns {boolean}
+     * @param deny<boolean>
+     * @returns {activeSession<boolean>, sysAdmin<boolean>}
      */
-    checkSession(deny = false): any {
+    checkSession(deny:boolean = false): any {
 
         let status: number = 2;
 
-        let activeSession: boolean = false;
+        let activeSession: boolean = null;
 
-        let session: Session;
+        let sysAdmin: boolean = null;
+
+        let session: Session = new Session();
 
         this.getSession().subscribe(
             (result: ApiServiceResult) => {
@@ -69,15 +71,27 @@ export class SessionService extends ApiService {
                             localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
                         }
                     }
+
+                    // TODO: find a better solution for the next construct
+                    // bad hack to get the information about the user status concerning "system admin"
+
+                    if (session.userProfile.permissionData.groupsPerProject['http://www.knora.org/ontology/knora-base#SystemProject'] == 'http://www.knora.org/ontology/knora-base#SystemAdmin') {
+                        // console.log('This user is System Admin!');
+                        localStorage.setItem('sysAdmin', 'true');
+                    }
+
                     // the session is valid and the user profile is stored in the local storage
                     activeSession = true;
+
                 }
                 else {
                     // the session is not valid!
                     activeSession = false;
+                    sysAdmin = false;
                     // the session is not valid!
                     // remove the local stored user profile and return false
                     localStorage.removeItem('ownProfile');
+                    localStorage.removeItem('sysAdmin');
                     getDocument().cookie = "sid=;expires=-1";
                     getDocument().cookie = "KnoraAuthentication=;expires=-1";
                     if(deny === true) this.goToLogin();
@@ -99,8 +113,7 @@ export class SessionService extends ApiService {
 
         );
 
-
-        return activeSession;
+        return {active: activeSession, admin: sysAdmin};
     }
 
     /**

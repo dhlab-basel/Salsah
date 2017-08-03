@@ -77,7 +77,7 @@ export class ApiService {
      */
     httpPost(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
         if (!body) body = {};
-        if (!options) options = {withCredentials: true};
+        if (!options) options = {withCredentials: true, };
         return this._http.post(environment.api + url, body, options).map((response: Response) => {
             try {
                 let apiServiceResult: ApiServiceResult = new ApiServiceResult();

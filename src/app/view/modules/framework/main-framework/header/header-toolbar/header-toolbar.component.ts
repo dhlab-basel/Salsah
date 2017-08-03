@@ -26,6 +26,8 @@ import {
 import {NewFormDialogComponent} from '../../../../dialog/new-form-dialog/new-form-dialog.component';
 import {MdDialog} from '@angular/material';
 import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/message-dialog.component';
+import {ApiServiceResult} from '../../../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../../../model/services/api-service-error';
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -53,30 +55,11 @@ export class HeaderToolbarComponent implements OnInit {
     userName: string = undefined;
 
     activeSession: boolean = false;
+    session: any = {}; // just a test
+    sysAdmin: boolean = false;
 
     focusOnUserMenu: string = 'inactive';
     focusOnAddMenu: string = 'inactive';
-
-    constructor(private _eleRef: ElementRef,
-                private _route: ActivatedRoute,
-                private _router: Router,
-                public dialog: MdDialog,
-                private _sessionService: SessionService) {
-
-    }
-
-    // check authentication: the session (from the services) should be valid and the local storage item "auth" as well
-
-    // if a or b is not valid or if they have different session ids, then the authentication is false!
-    ngOnInit() {
-        // check if the authentication is valid:
-        // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
-        this.activeSession = this._sessionService.checkSession();
-
-        if (JSON.parse(localStorage.getItem('ownProfile'))) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
-
-
-    }
 
     userMenu: any = [
         {
@@ -98,13 +81,53 @@ export class HeaderToolbarComponent implements OnInit {
             title: 'Settings',
             icon: 'settings',
             route: '/settings'
-        },
-        {
-            title: 'System',
-            icon: 'build',
-            route: 'system'
         }
     ];
+
+
+    constructor(private _eleRef: ElementRef,
+                private _route: ActivatedRoute,
+                private _router: Router,
+                public dialog: MdDialog,
+                private _sessionService: SessionService) {
+
+    }
+
+    // check authentication: the session (from the services) should be valid and the local storage item "auth" as well
+
+    // if a or b is not valid or if they have different session ids, then the authentication is false!
+    ngOnInit() {
+        // check if the authentication is valid:
+        // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
+        //this.session =
+        this.session = this._sessionService.checkSession();
+            /*
+            .subscribe(
+            (result: ApiServiceResult) => {
+                console.log(result);
+            },
+
+            (error: ApiServiceError) => {
+                this.errorMessage = error;
+            }
+        );
+*/
+        console.log(this.session);
+
+        if (JSON.parse(localStorage.getItem('ownProfile'))) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
+
+        if (JSON.parse(localStorage.getItem('sysAdmin')) == true) {
+            this.sysAdmin = true;
+            this.userMenu.push({
+                title: 'System',
+                icon: 'build',
+                route: 'system'
+            });
+        }
+
+    }
+
+
     /*
      {
      title: 'Support',

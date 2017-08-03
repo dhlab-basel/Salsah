@@ -136,16 +136,31 @@ export class NewProjectComponent implements OnInit {
     onSubmit(value: any): void {
         this.submitted = true;
 
-        this.newProject = value;
+        let project = {
+            shortname: "newerproject",
+            longname: "project longname",
+            description: "project description",
+            keywords: "keywords",
+            logo: "/fu/bar/baz.jpg",
+            status: true,
+            selfjoin: false
+        };
 
-        this.newProject.ontologyNamedGraph = 'http://www.knora.org/ontology/' + value.shortname;
-        this.newProject.dataNamedGraph = 'http://www.knora.org/data/' + value.shortname;
+//        this.newProject  = value;
+
+        this.newProject.shortname = value.shortname;
+        this.newProject.name = value.longname;
+        this.newProject.description = value.description;
+
+//        this.newProject.ontologyNamedGraph = 'http://www.knora.org/ontology/' + value.shortname;
+//        this.newProject.dataNamedGraph = 'http://www.knora.org/data/' + value.shortname;
 
         console.log('you submitted value: ', value);
 
-        this._projectsService.createProject(value).subscribe(
+        this._projectsService.createProject(project).subscribe(
             (result: ApiServiceResult) => {
-                //                console.log(result.body.userProfile.userData.user_id);
+
+                console.log("service: ", result);
 
                 // result.body.userProfile.userData.user_id
                 // this.project.id

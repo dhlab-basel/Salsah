@@ -37,7 +37,7 @@
                 </button>
             </md-grid-tile>
             <!-- new project -->
-            <md-grid-tile>
+            <md-grid-tile *ngIf='sysAdmin'>
                 <button md-button (click)="toggleMenu('addMenu', 'project')">
                     <md-icon>create_new_folder</md-icon>
                     <br>
