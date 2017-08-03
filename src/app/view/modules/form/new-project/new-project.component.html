@@ -4,21 +4,27 @@
         <tr>
             <td colspan="3">
                 <md-input-container class="full-width">
-                    <input mdInput formControlName="dataNamedGraph">
+                    <input mdInput
+                           [placeholder]="formLabels.dataNamedGraph"
+                           formControlName="dataNamedGraph">
                 </md-input-container>
             </td>
         </tr>
         <tr>
             <td colspan="3">
                 <md-input-container class="full-width">
-                    <input mdInput formControlName="ontologyNamedGraph">
+                    <input mdInput
+                           [placeholder]="formLabels.ontologyNamedGraph"
+                           formControlName="ontologyNamedGraph">
                 </md-input-container>
             </td>
         </tr>
         <tr>
             <td colspan="3">
                 <md-input-container class="full-width">
-                    <input mdInput formControlName="id">
+                    <input mdInput
+                           [placeholder]="formLabels.projectId"
+                           formControlName="id">
                 </md-input-container>
             </td>
         </tr>
@@ -26,8 +32,8 @@
         <tr>
             <td colspan="1">
                 <md-input-container class="full-width">
-                    <input mdInput
-                           [placeholder]="project.form.shortname + ' *'"
+                    <input mdInput autofocus
+                           [placeholder]="formLabels.shortname + ' *'"
                            formControlName="shortname">
                     <md-hint *ngIf="formErrors.shortname">
                         {{ formErrors.shortname }}
@@ -37,7 +43,7 @@
             <td colspan="2">
                 <md-input-container class="full-width">
                     <input mdInput
-                           [placeholder]="project.form.longname + ' *'"
+                           [placeholder]="formLabels.longname + ' *'"
                            formControlName="longname">
                     <md-hint *ngIf="formErrors.longname">
                         {{ formErrors.longname }}
@@ -50,7 +56,7 @@
             <td colspan="3">
                 <md-input-container class="full-width">
                     <textarea mdInput rows="6"
-                              [placeholder]="project.form.description"
+                              [placeholder]="formLabels.description"
                               formControlName="description">
                     </textarea>
                     <md-hint *ngIf="formErrors.description">
@@ -68,7 +74,7 @@
                 add a logo
             </td>
             <td>
-                {{project.form.logo.upload}}
+                {{formLabels.logo.upload}}
             </td>
             <td>
                 preview here? or on the next line

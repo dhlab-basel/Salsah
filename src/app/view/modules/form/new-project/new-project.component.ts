@@ -13,7 +13,7 @@
  * */
 
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
@@ -36,34 +36,9 @@ export class NewProjectComponent implements OnInit {
     // form group
     form: FormGroup;
 
-    // language package for all form fields...
-    // TODO: modify a language json file or db file for multilingual use;
-    public project: any = {
-        form: {
-            title: 'Create a new project',
-            shortname: 'Project short name',
-            longname: 'Project name',
-            description: 'Description',
-            logo: {
-                upload: 'Upload a logo',
-                or: 'OR',
-                url: 'Set an URL'
-            }
-        }
-    };
 
     constructor(public _projectsService: ProjectsService,
                 private fb: FormBuilder) {
-        /*
-        this.form = new FormGroup({
-            first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
-            last: new FormControl('Drew', Validators.required),
-            shortname: new FormControl({value: null, disabled: false}, Validators.required)
-        });
-        */
-
-        let shortnameControl = fb.control('shortname');
-
     }
 
     ngOnInit() {
@@ -72,19 +47,18 @@ export class NewProjectComponent implements OnInit {
 
     buildForm(): void {
         this.form = this.fb.group({
-            'shortname': [this.newProject.shortname, [Validators.required, Validators.minLength(3), forbiddenNameValidator(/biblio/i)]],
+            'shortname': [this.newProject.shortname, [Validators.required, Validators.minLength(3), Validators.maxLength(16), forbiddenNameValidator(/biblio/i)]],
             'longname': [null, Validators.required],
             'description': [null, Validators.maxLength(256)],
             'institution': [null],
             'logo': [null],
             'id': [null],
-            'dataNamedGraph': [null],
-            'ontologyNamedGraph': [null],
+            'dataNamedGraph': new FormControl({value: 'http://www.knora.org/data/', disabled: true}),
+            'ontologyNamedGraph': new FormControl({value: 'http://www.knora.org/ontology/', disabled: true}),
             'status': [true],
             'selfjoin': [false],
             'keywords': [null]
         });
-
 
         this.form.valueChanges
             .subscribe(data => this.onValueChanged(data));
@@ -93,10 +67,18 @@ export class NewProjectComponent implements OnInit {
     }
 
     onValueChanged(data?: any) {
+        console.log(data);
+
         if (!this.form) {
             return;
         }
         const form = this.form;
+
+        if(data && data.shortname) {
+            this.newProject.ontologyNamedGraph = 'http://www.knora.org/ontology/' + data.shortname;
+            this.newProject.dataNamedGraph = 'http://www.knora.org/data/' + data.shortname;
+        }
+
 
         for (const field in this.formErrors) {
             // clear previous error message (if any)
@@ -112,6 +94,20 @@ export class NewProjectComponent implements OnInit {
         }
     }
 
+    formLabels = {
+        shortname: 'Project short name',
+        longname: 'Project name',
+        description: 'Description',
+        logo: {
+            upload: 'Upload a logo',
+            or: 'OR',
+            url: 'Set an URL'
+        },
+        dataNamedGraph: 'Data named graph',
+        ontologyNamedGraph: 'Ontology named graph',
+        projectId: 'Automatic generated project id'
+    };
+
     formErrors = {
         'shortname': '',
         'longname': '',
@@ -122,7 +118,7 @@ export class NewProjectComponent implements OnInit {
         'shortname': {
             'required': 'Short name is required.',
             'minlength': 'Short name must be at least 3 characters long.',
-            'maxlength': 'Short name cannot be more than 24 characters long.',
+            'maxlength': 'Short name cannot be more than 16 characters long.',
             'forbiddenName': 'This short name is already taken.'
         },
         'longname': {
