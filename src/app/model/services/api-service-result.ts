@@ -35,7 +35,7 @@ export class ApiServiceResult {
     url: string = "";
 
     /**
-     * Status number
+     * Body as JSON
      */
     body: any;
 

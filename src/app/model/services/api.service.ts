@@ -13,23 +13,49 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {Http, RequestOptionsArgs, Response} from "@angular/http";
-import {Observable} from "rxjs";
+import {Http, RequestOptionsArgs, Response} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../environments/environment';
 import {JsonConvert} from 'json2typescript';
-import {ApiServiceError} from "./api-service-error";
-import {ApiServiceResult} from "./api-service-result";
+import {ApiServiceError} from './api-service-error';
+import {ApiServiceResult} from './api-service-result';
+
 
 @Injectable()
 export class ApiService {
+
+    static handleError(error: any, url: string): ApiServiceError {
+
+        const response = new ApiServiceError();
+        if (error instanceof Response) {
+            // console.log(error);
+            response.status = error.status;
+            response.statusText = error.statusText;
+            if (!response.statusText) {
+                response.statusText = 'Connection to API endpoint failed';
+            }
+            response.url = url;
+        } else {
+            response.status = 0;
+            response.statusText = 'Connection to API endpoint failed';
+            response.url = url;
+        }
+
+        // response.status === 401 --> Unauthorized; password is wrong
+
+        // response.status === 404 --> Not found; username is wrong
+
+        return response;
+
+    }
 
     constructor(private _http: Http) {
 
         //
         // Json convert error handling
         //
-//        JsonConvert.debugMode = true;
-//        JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
+        // JsonConvert.debugMode = true;
+        // JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
         JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
     }
 
@@ -41,7 +67,9 @@ export class ApiService {
      */
     httpGet(url: string, options?: RequestOptionsArgs): Observable<any> {
 
-        if (!options) options = {withCredentials: true};
+        if (!options) {
+            options = {withCredentials: true};
+        }
 
         url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
@@ -54,7 +82,7 @@ export class ApiService {
 
         return this._http.get(url, options).map((response: Response) => {
             try {
-                let apiServiceResult: ApiServiceResult = new ApiServiceResult();
+                const apiServiceResult: ApiServiceResult = new ApiServiceResult();
                 apiServiceResult.status = response.status;
                 apiServiceResult.statusText = response.statusText;
                 apiServiceResult.body = response.json();
@@ -76,11 +104,17 @@ export class ApiService {
      * @returns {Observable<any>}
      */
     httpPost(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
-        if (!body) body = {};
-        if (!options) options = {withCredentials: true};
+        if (!body) {
+            body = {};
+        }
+
+        if (!options) {
+            options = {withCredentials: true};
+        }
+
         return this._http.post(environment.api + url, body, options).map((response: Response) => {
             try {
-                let apiServiceResult: ApiServiceResult = new ApiServiceResult();
+                const apiServiceResult: ApiServiceResult = new ApiServiceResult();
                 apiServiceResult.status = response.status;
                 apiServiceResult.statusText = response.statusText;
                 apiServiceResult.body = response.json();
@@ -94,27 +128,35 @@ export class ApiService {
         });
     }
 
-    static handleError(error: any, url: string): ApiServiceError {
-
-        let response = new ApiServiceError();
-        if (error instanceof Response) {
-//            console.log(error);
-            response.status = error.status;
-            response.statusText = error.statusText;
-            if (!response.statusText) response.statusText = "Connection to API endpoint failed";
-            response.url = url;
-        } else {
-            response.status = 0;
-            response.statusText = "Connection to API endpoint failed";
-            response.url = url;
+    /**
+     * Performs a HTTP PUT url to the Knora API.
+     * @param url
+     * @param body
+     * @param options
+     * @returns {Observable<any>}
+     */
+    httpPut(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
+        if (!body) {
+            body = {};
         }
 
-        // response.status === 401 --> Unauthorized; password is wrong
+        if (!options) {
+            options = {withCredentials: true};
+        }
 
-        // response.status === 404 --> Not found; username is wrong
-
-        return response;
-
+        return this._http.put(environment.api + url, body, options).map((response: Response) => {
+            try {
+                const apiServiceResult: ApiServiceResult = new ApiServiceResult();
+                apiServiceResult.status = response.status;
+                apiServiceResult.statusText = response.statusText;
+                apiServiceResult.body = response.json();
+                apiServiceResult.url = url;
+                return apiServiceResult;
+            } catch (e) {
+                return ApiService.handleError(response, url);
+            }
+        }).catch((error: any) => {
+            return Observable.throw(ApiService.handleError(error, url));
+        });
     }
-
 }
