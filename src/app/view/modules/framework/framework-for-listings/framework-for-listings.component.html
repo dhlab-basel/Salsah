@@ -18,11 +18,19 @@
 
     <!-- start with main list -->
     <div class="salsah-module-content-list" [ngSwitch]="list">
-        <salsah-users-list *ngSwitchCase="'user'"
-                           [project]="project"
-                           [index]="selectedRow"
-                           (toggleUser)="toggleDetail($event, $event)">
-        </salsah-users-list>
+        <div *ngSwitchCase="'user'">
+            <!-- show the users in a list with a detail (edit) view on the right hand side -->
+            <salsah-users-list *ngIf="!table"
+                               [project]="project"
+                               [index]="selectedRow"
+                               (toggleUser)="toggleDetail($event, $event)">
+            </salsah-users-list>
+            <!-- OR show the users in a table with a detail (edit) view in a dialog box -->
+            <salsah-users-table *ngIf="table"
+                                [project]="project">
+            </salsah-users-table>
+        </div>
+
 
         <salsah-projects-list *ngSwitchCase="'project'"
                               (toggleProject)="toggleDetail($event, $event)">

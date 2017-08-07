@@ -9,6 +9,11 @@
             <md-icon>help_outline</md-icon>
         </button>
     </span>
+    <span>
+        <button md-icon-button (click)="toggleFullscreen()" title="Toggle fullscreen">
+            <md-icon class="md-24">fullscreen</md-icon>
+        </button>
+    </span>
     <!-- add menu -->
     <span class="salsah-menu-button add-menu">
         <button md-icon-button (click)="toggleMenu('addMenu')">
@@ -21,14 +26,14 @@
         <span class="salsah-menu-title">
             {{addMenuTitle}}
         </span>
-        <span class="salsah-menu-action">
+            <span class="salsah-menu-action">
             <button md-icon-button (click)="toggleMenu('addMenu')">
                 <md-icon>close</md-icon>
             </button>
         </span>
         </div>
         <!-- menu items -->
-        <md-grid-list cols="3" gutterSize="6px" >
+        <md-grid-list cols="3" gutterSize="6px">
             <md-grid-tile *ngFor="let item of addMenu">
                 <button md-button [routerLink]="item.route" (click)="toggleMenu('addMenu')">
                     <md-icon>{{item.icon}}</md-icon>
@@ -94,7 +99,8 @@
         </md-grid-list>
         <div class="salsah-menu-footer">
             <button md-button class="salsah-menu-action-logout" routerLink="/logout" (click)="toggleMenu('userMenu')">
-                <md-icon>power_settings_new</md-icon> Logout
+                <md-icon>power_settings_new</md-icon>
+                Logout
             </button>
         </div>
     </div>

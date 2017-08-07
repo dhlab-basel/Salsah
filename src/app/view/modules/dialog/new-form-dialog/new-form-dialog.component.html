@@ -8,7 +8,12 @@
     all handled by the switch method -->
     <salsah-new-project *ngSwitchCase="'project'"></salsah-new-project>
 
-    <salsah-new-user *ngSwitchCase="'user'" [project]="data.iri"></salsah-new-user>
+    <div *ngSwitchCase="'user'">
+        <salsah-new-user *ngIf="data.new" [project]="data.iri"></salsah-new-user>
+        <salsah-edit-user *ngIf="data.edit" [user]="data.iri"></salsah-edit-user>
+    </div>
+
+
 
 </md-dialog-content>
 

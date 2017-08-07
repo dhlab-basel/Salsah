@@ -101,16 +101,16 @@ export class HeaderToolbarComponent implements OnInit {
         // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
         //this.session =
         this.session = this._sessionService.checkSession();
-            /*
-            .subscribe(
-            (result: ApiServiceResult) => {
-                console.log(result);
-            },
+        /*
+        .subscribe(
+        (result: ApiServiceResult) => {
+            console.log(result);
+        },
 
-            (error: ApiServiceError) => {
-                this.errorMessage = error;
-            }
-        );
+        (error: ApiServiceError) => {
+            this.errorMessage = error;
+        }
+    );
 */
         console.log(this.session);
 
@@ -197,6 +197,21 @@ export class HeaderToolbarComponent implements OnInit {
 
 
             }
+        }
+    }
+
+    toggleFullscreen() {
+        console.log(this._eleRef.nativeElement);
+        let elem = this._eleRef.nativeElement.querySelector('.salsah-main');
+        console.log(elem);
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullScreen) {
+            elem.webkitRequestFullScreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.msRequestFullScreen) {
+            elem.msRequestFullScreen();
         }
     }
 

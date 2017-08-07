@@ -106,6 +106,8 @@ import { MessageDialogComponent } from './view/modules/dialog/message-dialog/mes
 import { NewProjectComponent } from './view/modules/form/new-project/new-project.component';
 import { NewFormDialogComponent } from './view/modules/dialog/new-form-dialog/new-form-dialog.component';
 import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.directive';
+import { UsersTableComponent } from './view/modules/listing/users-table/users-table.component';
+import { FormDialogComponent } from './view/modules/dialog/form-dialog/form-dialog.component';
 
 @NgModule({
     declarations: [
@@ -166,7 +168,9 @@ import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.dire
         MessageDialogComponent,
         NewProjectComponent,
         NewFormDialogComponent,
-        ForbiddenNameDirective
+        ForbiddenNameDirective,
+        UsersTableComponent,
+        FormDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -182,6 +186,7 @@ import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.dire
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [
         MessageDialogComponent,
+        FormDialogComponent,
         NewFormDialogComponent,
         ResourceClassFormComponent
     ],

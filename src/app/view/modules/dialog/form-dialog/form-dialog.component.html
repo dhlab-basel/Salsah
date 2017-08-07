@@ -1,0 +1,38 @@
+<h1 md-dialog-title>
+    {{data.title}}
+</h1>
+
+<md-dialog-content [ngSwitch]="data.object">
+
+    <!-- salsah new form for projects, users, resource classes etc.
+    all handled by the switch method -->
+    <salsah-new-project *ngSwitchCase="'project'"></salsah-new-project>
+
+    <div *ngSwitchCase="'user'">
+
+        <salsah-edit-user *ngIf="data.edit" [user]="data.iri"></salsah-edit-user>
+
+        <salsah-new-user *ngIf="!data.edit" [project]="data.iri"></salsah-new-user>
+
+    </div>
+
+
+</md-dialog-content>
+
+<md-dialog-actions>
+
+    <button md-button
+            md-dialog-close
+            class="cancel-button">
+        Cancel
+    </button>
+
+    <span class="fill-remaining-space"></span>
+
+    <button md-button
+            md-dialog-close
+            class="submit-button">
+        Save
+    </button>
+
+</md-dialog-actions>

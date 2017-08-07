@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, OnChanges, Input, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UserService} from '../../../../model/services/user.service';
@@ -23,10 +23,10 @@ import {User, UserProfile} from '../../../../model/webapi/knora/';
     templateUrl: './edit-user.component.html',
     styleUrls: ['./edit-user.component.scss']
 })
-export class EditUserComponent implements OnChanges {
+export class EditUserComponent implements OnInit {
 
     @Input() user: string;
-    @Input() index: number;
+    @Input() index: number = null;
 
     userProfile: UserProfile;
     errorMessage: string = undefined;
@@ -37,8 +37,7 @@ export class EditUserComponent implements OnChanges {
     constructor(private _userService: UserService) {
     }
 
-    ngOnChanges() {
-
+    ngOnInit() {
         this._userService.getUserByIri(this.user)
             .subscribe(
                 (result: ApiServiceResult) => {

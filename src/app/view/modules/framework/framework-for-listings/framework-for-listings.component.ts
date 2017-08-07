@@ -16,19 +16,51 @@ import {Component, Input, OnInit} from '@angular/core';
 import {MdDialog} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {NewFormDialogComponent} from '../../dialog/new-form-dialog/new-form-dialog.component';
+import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 
 @Component({
     selector: 'salsah-framework-for-listings',
     templateUrl: './framework-for-listings.component.html',
     styleUrls: ['./framework-for-listings.component.scss']
 })
+
+/**
+ * This is a framework which can be used in cases of listing stuff
+ * e.g. list of projects or users
+ * @Input title: <string> title of the framework
+ * @Input add: <any> If we need an "add" button, we have to define an add-object with title, description and object (type)
+ *                   e.g. 'user' if we want to add new users in our framework
+ * @Input list: <string> which list? A switch looks for 'user', 'resource', 'project', 'resourceClass'
+ * @Input table: <boolean> if true, shows the list as a table
+ * @Input project: <string> Project iri is needed in the case of the users list
+ *                          if the project iri is set, it shows only the members in the defined project
+ */
 export class FrameworkForListingsComponent implements OnInit {
 
+    /**
+     * title of the framework
+     */
     @Input() title: string;
+    /**
+     * If we need an "add" button, we have to define an add-object with title, description and object (type)
+     *     e.g. 'user' if we want to add new users in our framework
+     */
     @Input() add: any;
+    /**
+     * which list? A switch looks for 'user', 'resource', 'project', 'resourceClass'
+     */
     @Input() list: string;          // which list? switch looks for 'user', 'resource', 'project', 'resourceClass'
+    /**
+     * if true, shows the list as a table
+     */
+    @Input() table: boolean;        // shows the list in a table
+    /**
+     * Project is needed in the case of the users list
+     *     if the project iri is set, it shows only the members in the defined project
+     */
     @Input() project: string;       // project iri
 
+    // error message in the case of an api service error
     errorMessage: string = undefined;
 
     // two progress loader:
@@ -102,15 +134,21 @@ export class FrameworkForListingsComponent implements OnInit {
     openNew() {
         let dialogRef;
         let title: string;
-        switch(this.list) {
+        switch (this.list) {
             case 'user':
-                dialogRef = this.dialog.open(NewFormDialogComponent, {data: {title: this.add.title, object: this.list, iri: this.project}});
-            break;
+                dialogRef = this.dialog.open(FormDialogComponent, {
+                    data: {
+                        title: this.add.title,
+                        object: this.list,
+                        iri: this.project,
+                        edit: false
+                    }
+                });
+                break;
             case 'project':
                 title = 'Create new project';
                 dialogRef = this.dialog.open(NewFormDialogComponent, {data: {title: title, object: this.list}});
-            break;
-
+                break;
 
 
             default:
@@ -119,13 +157,16 @@ export class FrameworkForListingsComponent implements OnInit {
                     text: 'TODO: add the list type "' + this.list + '" to the openNew method in FrameworkForListings',
                     path: 'Missing list type: ' + this.list
                 };
-                dialogRef = this.dialog.open(MessageDialogComponent, {data: {note: message}});
+                dialogRef = this.dialog.open(MessageDialogComponent, {
+                    data: {
+                        note: message
+                    }
+                });
 
         }
         dialogRef.afterClosed().subscribe(result => {
             console.log(result);
         });
-
 
 
     }
