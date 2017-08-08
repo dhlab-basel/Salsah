@@ -23,11 +23,11 @@ import {
     animate,
     transition
 } from '@angular/animations';
-import {NewFormDialogComponent} from '../../../../dialog/new-form-dialog/new-form-dialog.component';
 import {MdDialog} from '@angular/material';
 import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/message-dialog.component';
 import {ApiServiceResult} from '../../../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../../../model/services/api-service-error';
+import {FormDialogComponent} from '../../../../dialog/form-dialog/form-dialog.component';
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -184,7 +184,7 @@ export class HeaderToolbarComponent implements OnInit {
             switch (item) {
                 case 'project':
                     title = 'Create new project';
-                    dialogRef = this.dialog.open(NewFormDialogComponent, {data: {title: title, object: item}});
+                    dialogRef = this.dialog.open(FormDialogComponent, {data: {title: title, form: 'new-project'}});
                     break;
 
                 default:

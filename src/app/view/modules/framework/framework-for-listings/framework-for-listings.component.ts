@@ -15,7 +15,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MdDialog} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
-import {NewFormDialogComponent} from '../../dialog/new-form-dialog/new-form-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 
 @Component({
@@ -139,15 +138,19 @@ export class FrameworkForListingsComponent implements OnInit {
                 dialogRef = this.dialog.open(FormDialogComponent, {
                     data: {
                         title: this.add.title,
-                        object: this.list,
+                        form: 'new-user',
                         iri: this.project,
-                        edit: false
                     }
                 });
                 break;
             case 'project':
                 title = 'Create new project';
-                dialogRef = this.dialog.open(NewFormDialogComponent, {data: {title: title, object: this.list}});
+                dialogRef = this.dialog.open(FormDialogComponent, {
+                    data: {
+                        title: title,
+                        form: 'new-project'
+                    }
+                });
                 break;
 
 

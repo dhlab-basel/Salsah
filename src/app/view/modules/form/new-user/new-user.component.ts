@@ -42,7 +42,7 @@ export class NewUserComponent implements OnChanges {
     // if project value (as IRI) is defined
     // we can add the new created user direct to the specified project
     // and/or we need the autocomplete list of knora users
-    @Input() project: string;
+    @Input() iri: string; // iri of a project, to add the new generated user to the specified project directly
 
     // on submit
     @Output() submitData = new EventEmitter<any>();
@@ -59,7 +59,7 @@ export class NewUserComponent implements OnChanges {
     users: any = [];
 
     // current project iri
-    projectIri: string = this.project;
+    projectIri: string = this.iri;
     // JSON.parse(localStorage.getItem('currentProject')).id;
 
     // list of users in the project;

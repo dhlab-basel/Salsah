@@ -25,7 +25,7 @@ import {User, UserProfile} from '../../../../model/webapi/knora/';
 })
 export class EditUserComponent implements OnInit {
 
-    @Input() user: string;
+    @Input() iri: string;
     @Input() index: number = null;
 
     userProfile: UserProfile;
@@ -38,7 +38,7 @@ export class EditUserComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._userService.getUserByIri(this.user)
+        this._userService.getUserByIri(this.iri)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.userProfile = result.getBody(User).userProfile;

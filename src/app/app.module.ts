@@ -104,7 +104,7 @@ import {FrameworkForListingsComponent} from './view/modules/framework/framework-
 import {UserObjectComponent} from './view/modules/object/user-object/user-object.component';
 import { MessageDialogComponent } from './view/modules/dialog/message-dialog/message-dialog.component';
 import { NewProjectComponent } from './view/modules/form/new-project/new-project.component';
-import { NewFormDialogComponent } from './view/modules/dialog/new-form-dialog/new-form-dialog.component';
+
 import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.directive';
 import { UsersTableComponent } from './view/modules/listing/users-table/users-table.component';
 import { FormDialogComponent } from './view/modules/dialog/form-dialog/form-dialog.component';
@@ -167,7 +167,6 @@ import { FormDialogComponent } from './view/modules/dialog/form-dialog/form-dial
         UserObjectComponent,
         MessageDialogComponent,
         NewProjectComponent,
-        NewFormDialogComponent,
         ForbiddenNameDirective,
         UsersTableComponent,
         FormDialogComponent
@@ -185,9 +184,8 @@ import { FormDialogComponent } from './view/modules/dialog/form-dialog/form-dial
     ],
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [
-        MessageDialogComponent,
         FormDialogComponent,
-        NewFormDialogComponent,
+        MessageDialogComponent,
         ResourceClassFormComponent
     ],
     providers: [

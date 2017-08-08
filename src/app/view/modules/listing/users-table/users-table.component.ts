@@ -126,8 +126,8 @@ export class UsersTableComponent implements OnInit {
         console.log(id);
         let dialogRef = this.dialog.open(FormDialogComponent, {
             data: {
-                user: id,
-                edit: true
+                iri: id,
+                form: 'edit-user'
             }
         });
 

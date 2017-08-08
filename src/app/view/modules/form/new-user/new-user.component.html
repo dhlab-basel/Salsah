@@ -2,7 +2,7 @@
       - if the user doesn't exist yet, create a new one by importing the user form component -->
 
 <!-- we need the select user (autocomplete list) to add an existing user to an existing project -->
-<section class="select-user" *ngIf="project">
+<section class="select-user" *ngIf="projectIri">
     <h4>{{form.selectTitle}}</h4>
     <!-- for tests only: to have a direct output --
     <div>
@@ -118,7 +118,7 @@
                         </md-select>
                     </td>
                     <td>
-                        <md-select *ngIf="project" [formControl]="uf.controls['group']" [placeholder]="form.user.group"
+                        <md-select *ngIf="projectIri" [formControl]="uf.controls['group']" [placeholder]="form.user.group"
                                    [(ngModel)]="uf.controls['group'].value">
                             <md-option value="en">english</md-option>
                             <md-option value="de">deutsch</md-option>
