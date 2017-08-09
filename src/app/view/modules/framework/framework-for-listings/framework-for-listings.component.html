@@ -1,78 +1,84 @@
-<div class="salsah-module-content salsah-list" [ngClass]="[position.preview, size]">
-    <h2 md-header>{{title}}</h2>
-    <md-list *ngIf="add != undefined">
-        <!-- this list has an 'add button' to add new stuff;
-        it opens a 'new-something-form'-component in the detail view -->
-        <md-list-item class="salsah-link" (click)="openNew()" [class.highlight]="addNewFormIsActive">
-            <!-- TODO: perhaps an own component for that? -->
-            <button md-icon-button>
-                <md-icon>add</md-icon>
-            </button>
-            {{add.title}}
-        </md-list-item>
-        <md-divider></md-divider>
-        <!-- end of 'add button' -->
-    </md-list>
+<!-- main module content with different sizes: large or medium (= default) -->
+<div class="salsah-module-content" [ngClass]="moduleSize">
 
-    <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+    <!-- this module has a list with different positions: left or center (= default) -->
+    <div class="salsah-list" [ngClass]="[position, listSize]">
+        <h2 md-header>{{title}}</h2>
+        <md-list *ngIf="add != undefined">
+            <!-- this list has an 'add button' to add new stuff;
+            it opens the form-dialog-component with the 'new-something-form'-component -->
+            <md-list-item class="salsah-link" (click)="openNew()" [class.highlight]="addNewFormIsActive">
+                <!-- TODO: perhaps an own component for that? -->
+                <button md-icon-button>
+                    <md-icon>add</md-icon>
+                </button>
+                {{add.title}}
+            </md-list-item>
+            <md-divider></md-divider>
+            <!-- end of 'add button' -->
+        </md-list>
 
-    <!-- start with main list -->
-    <div class="salsah-module-content-list" [ngSwitch]="list">
-        <div *ngSwitchCase="'user'">
-            <!-- show the users in a list with a detail (edit) view on the right hand side -->
-            <salsah-users-list *ngIf="!table"
-                               [project]="project"
-                               [index]="selectedRow"
-                               (toggleUser)="toggleDetail($event, $event)">
-            </salsah-users-list>
-            <!-- OR show the users in a table with a detail (edit) view in a dialog box -->
-            <salsah-users-table *ngIf="table"
-                                [project]="project">
-            </salsah-users-table>
+        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+
+        <!-- start with main list -->
+        <div class="salsah-module-content-list" [ngSwitch]="list">
+            <div *ngSwitchCase="'user'">
+                <!-- show the users in a list with a detail (edit) view on the right hand side -->
+                <salsah-users-list *ngIf="!table"
+                                   [project]="project"
+                                   [index]="selectedRow"
+                                   (toggleUser)="toggleDetail($event, $event)">
+                </salsah-users-list>
+                <!-- OR show the users in a table with a detail (edit) view in a dialog box -->
+                <salsah-users-table *ngIf="table"
+                                    [project]="project">
+                </salsah-users-table>
+            </div>
+
+
+            <salsah-projects-list *ngSwitchCase="'project'"
+                                  (toggleProject)="toggleDetail($event, $event)">
+            </salsah-projects-list>
+
         </div>
-
-
-        <salsah-projects-list *ngSwitchCase="'project'"
-                              (toggleProject)="toggleDetail($event, $event)">
-        </salsah-projects-list>
-
     </div>
-
     <!-- end of main list -->
 
+    <div *ngIf="detailViewIsActive || addNewFormIsActive" class="salsah-module-detail" [ngClass]="position.detail">
+        <!-- detail view with own header -->
+        <!-- because of an issue with the highlight of the selected object in the list,
+            we have to disable this main close button -->
+        <!-- TODO: reacitvate the main close button in detail view -->
+        <!--
+        <div class="salsah-module-detail-header">
+            <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
+            <button md-icon-button (click)="closeDetailView()" class="right close">
+                <md-icon>close</md-icon>
+            </button>
+        </div>
+        -->
+
+        <!-- detail view content -->
+        <div class="salsah-module-detail-content" [ngSwitch]="list">
+            <!-- a) view incl. edit and delete if the logged in user has the rights -->
+            <salsah-user-object *ngSwitchCase="'user'"
+                                [id]="id">
+            </salsah-user-object>
+
+
+
+
+            <!-- b) add new object (if the logged in user has the rights) -->
+            <!-- TODO: we open the new thing form in a md dialog box -->
+            <salsah-new-user *ngIf="list == 'user' && addNewFormIsActive"></salsah-new-user>
+
+
+        </div>
+
+    </div>
+
 </div>
 
-<div *ngIf="detailViewIsActive || addNewFormIsActive" class="salsah-module-detail" [ngClass]="position.detail">
-    <!-- detail view with own header -->
-    <!-- because of an issue with the highlight of the selected object in the list,
-        we have to disable this main close button -->
-    <!-- TODO: reacitvate the main close button in detail view -->
-    <!--
-    <div class="salsah-module-detail-header">
-        <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
-        <button md-icon-button (click)="closeDetailView()" class="right close">
-            <md-icon>close</md-icon>
-        </button>
-    </div>
-    -->
 
-    <!-- detail view content -->
-    <div class="salsah-module-detail-content" [ngSwitch]="list">
-        <!-- a) view incl. edit and delete if the logged in user has the rights -->
-        <salsah-user-object *ngSwitchCase="'user'"
-                            [id]="id">
-        </salsah-user-object>
-
-
-
-
-        <!-- b) add new object (if the logged in user has the rights) -->
-        <!-- TODO: we open the new thing form in a md dialog box -->
-        <salsah-new-user *ngIf="list == 'user' && addNewFormIsActive"></salsah-new-user>
-
-
-    </div>
-
-</div>
 
 

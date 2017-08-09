@@ -27,6 +27,20 @@ export class UserObjectComponent implements OnChanges {
 
     @Input() id: string;
 
+
+    // test data: project logos
+    testDataPathImages: string = "test-data/images/";
+    logos = {
+        "bmf": "bmf-logo.png",
+        "anything": "anything-logo.png",
+        "images": "dokubib-logo.png",
+        "incunabula": "incunabula-logo.png",
+        "dokubib": "dokubib-logo.png",
+        "biblio": "biblio-logo.png",
+        "beol": "beol-logo.png",
+        "SystemProject": "knora-logo.png"
+    };
+
     userProfile: UserProfile;
     email: string;
     errorMessage: string = undefined;

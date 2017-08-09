@@ -73,15 +73,15 @@ export class FrameworkForListingsComponent implements OnInit {
     addNewFormIsActive: boolean = false;
 
     // definition of the position for the preview (main module) and the detail view (sub module)
-    position = {
-        preview: 'left',            // top
-        detail: 'right'             // bottom
-    };
 
-    // the size of the main module. It is large by default.
+    position: string = 'center';
+
+    // the size of the main module.
+    // the default value (at the begin) is medium
     // if the the new resource module or the edit resource module is active,
-    // the size changes
-    size: string = 'large';
+    // the size changes into large
+    moduleSize: string = 'medium';
+    listSize: string = 'large';
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
@@ -112,7 +112,11 @@ export class FrameworkForListingsComponent implements OnInit {
             this.closeDetailView();
         }
         else {
-            if (this.size === 'large') this.size = 'small';
+            if (this.listSize === 'large') {
+                this.listSize = 'small';
+                this.position = 'left';
+                this.moduleSize = 'large';
+            }
             this.isLoadingSubModule = true;
             this.addNewFormIsActive = false;
             this.detailViewIsActive = true;
@@ -124,7 +128,8 @@ export class FrameworkForListingsComponent implements OnInit {
     }
 
     closeDetailView() {
-        this.size = 'large';
+        this.listSize = 'large';
+        this.moduleSize = 'medium';
         this.selectedRow = undefined;
         this.detailViewIsActive = false;
         this.addNewFormIsActive = false;

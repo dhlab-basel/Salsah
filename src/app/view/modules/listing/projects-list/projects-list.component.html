@@ -5,7 +5,7 @@
     <h3 md-subheader>{{title}}</h3>
     <md-list-item *ngFor="let project of projectsList" (click)="openProject(project.shortname)" class="salsah-link">
         <md-icon md-list-icon>chrome_reader_mode</md-icon>
-        <h4 md-line>{{project.name}}</h4>
+        <h4 md-line>{{project.name}} ({{project.shortname}})</h4>
         <div md-line [innerHtml]="project.description | slice:0:128"></div>
     </md-list-item>
 </md-list>
