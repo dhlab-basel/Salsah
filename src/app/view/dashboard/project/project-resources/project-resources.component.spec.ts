@@ -5,7 +5,8 @@ import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectResourcesComponent} from './project-resources.component';
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
 import {PropertiesService} from '../../../../model/services/properties.service';
-import {ProjectItem} from "../../../../model/webapi/knora/v1/projects/project-item";
+import {ProjectItem} from '../../../../model/webapi/knora/';
+
 
 describe('ProjectResourcesComponent', () => {
     let component: ProjectResourcesComponent;

@@ -149,15 +149,22 @@ export class FrameworkForListingsComponent implements OnInit {
                 });
                 break;
             case 'project':
-                title = 'Create new project';
                 dialogRef = this.dialog.open(FormDialogComponent, {
                     data: {
-                        title: title,
+                        title: this.add.title,
                         form: 'new-project'
                     }
                 });
                 break;
 
+            case 'resource-types':
+                dialogRef = this.dialog.open(FormDialogComponent, {
+                   data: {
+                       title: this.add.title,
+                       form: 'new-resource-class'
+                   }
+                });
+                break;
 
             default:
                 let message = {

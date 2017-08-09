@@ -6,11 +6,9 @@
         <th (click)="sortKey='email'" class="salsah-link">eMail</th>
         <th></th>
     </tr>
-    <tr *ngFor="let u of users | sortBy: sortKey; let i = index">
-        <td>
-            <md-icon md-list-avatar>
-                <img salsahGravatar [email]="u?.email" class="salsah-avatar-image"/>
-            </md-icon>
+    <tr *ngFor="let u of users | sortBy: sortKey; let i = index;">
+        <td class="salsah-avatar-cell">
+            <img salsahGravatar [email]="u?.email" class="salsah-avatar-image"/>
         </td>
         <td>{{u?.firstname}}</td>
         <td>{{u?.lastname}}</td>

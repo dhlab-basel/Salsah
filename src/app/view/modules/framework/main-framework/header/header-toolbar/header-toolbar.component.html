@@ -34,6 +34,7 @@
         </div>
         <!-- menu items -->
         <md-grid-list cols="3" gutterSize="6px">
+            <!-- old version
             <md-grid-tile *ngFor="let item of addMenu">
                 <button md-button [routerLink]="item.route" (click)="toggleMenu('addMenu')">
                     <md-icon>{{item.icon}}</md-icon>
@@ -41,8 +42,9 @@
                     {{item.title}}
                 </button>
             </md-grid-tile>
+            -->
             <!-- new project -->
-            <md-grid-tile *ngIf='sysAdmin'>
+            <md-grid-tile *ngIf='sysAdmin'> <!-- only system admins can add new projects -->
                 <button md-button (click)="toggleMenu('addMenu', 'project')">
                     <md-icon>create_new_folder</md-icon>
                     <br>

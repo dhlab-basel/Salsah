@@ -40,6 +40,10 @@
                                   (toggleProject)="toggleDetail($event, $event)">
             </salsah-projects-list>
 
+            <salsah-resource-types-list *ngSwitchCase="'resource-types'"
+                                    (toggleItem)="toggleDetail($event, $event)">
+            </salsah-resource-types-list>
+
         </div>
     </div>
     <!-- end of main list -->
@@ -64,6 +68,10 @@
             <salsah-user-object *ngSwitchCase="'user'"
                                 [id]="id">
             </salsah-user-object>
+
+            <salsah-edit-resource-class *ngSwitchCase="'resource-types'" [iri]="id">
+
+            </salsah-edit-resource-class>
 
 
 

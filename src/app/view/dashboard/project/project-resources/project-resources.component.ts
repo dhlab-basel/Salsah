@@ -62,12 +62,20 @@ export class ProjectResourcesComponent implements OnInit {
     // we need to know, which one is active
 
     // definition of the position for the preview (main module) and the detail view (sub module)
-    // TODO: implement two additional possitions: top and bottom (it's a css thing)
+    // TODO: implement two additional positions: top and bottom (it's a css thing)
     position = {
         preview: 'left',        // add top
         detail: 'right'         // add bottom
+    }; // --> should be implemented in framework
+
+    add: any = {
+        title: 'Add new resource type',
+        description: 'What does add mean? (add.description)',
+        object: 'new-resource-class'
     };
 
+    list: string = 'resource-types';
+    title: string = 'Resource types in this project';
     // the size of the main module. It is large by default.
     // if the the new resource module or the edit resource module is active,
     // the size changes

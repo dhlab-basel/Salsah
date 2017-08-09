@@ -1,0 +1,29 @@
+<!-- progress indicator, until the data is ready -->
+
+<md-list class="salsah-list">
+    <h3 md-subheader>
+        {{title}}
+    </h3>
+
+    <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+    <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+
+    <h3 md-subheader>{{title}}</h3>
+    <md-list-item *ngFor="let item of list | sortBy: 'label'; let i of index"
+                  (click)="toggle(item.id, i)"
+                  [id]="item.id"
+                  class="salsah-link"
+                  [class.highlight]="i == selectedRow">
+        <md-icon md-list-avatar>{{item.label}}</md-icon>
+        <h4 md-line>{{item.label}}</h4>
+        <p md-line [class.white-space]="!selectedRow">
+            <span *ngFor="let prop of item.properties; let last=last">
+                {{prop.label}} <span *ngIf="!last">/</span>
+            </span>
+        </p>
+        <button md-icon-button class="right close close-highlight">
+            <md-icon>close</md-icon>
+        </button>
+    </md-list-item>
+</md-list>
+

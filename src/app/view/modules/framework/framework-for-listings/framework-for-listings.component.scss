@@ -36,8 +36,12 @@
   }
 
   .salsah-module-detail-content {
+    box-sizing: border-box;
+    display: block;
     height: 100%;
-    padding: 24px;
+    outline: 0;
+    overflow-y: auto;
+    padding: 48px 24px 96px;
     width: 100%;
   }
 }

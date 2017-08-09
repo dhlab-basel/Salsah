@@ -32,14 +32,14 @@
         <span class="fill-remaining-space"></span>
     </md-toolbar>
 
-    <div class="salsah-sub-module">
+    <div class="salsah-module-scroll-area" [ngSwitch]="route">
         <!-- switch view; not with a second router-outlet, because of the direct (parent) routes like
             "/settings", "/projects" and "/collections
         -->
-        <salsah-user-projects *ngIf="route === '/projects'" [user]="userProfile"></salsah-user-projects>
-        <salsah-user-collections *ngIf="route === '/collections'" [user]="userProfile"></salsah-user-collections>
-        <salsah-user-settings *ngIf="route === '/settings'" [user]="userProfile"></salsah-user-settings>
-        <salsah-user-profile *ngIf="route === '/profile'" [user]="userProfile"></salsah-user-profile>
+        <salsah-user-projects *ngSwitchCase="'/projects'" [user]="userProfile"></salsah-user-projects>
+        <salsah-user-collections *ngSwitchCase="'/collections'" [user]="userProfile"></salsah-user-collections>
+        <salsah-user-settings *ngSwitchCase="'/settings'" [user]="userProfile"></salsah-user-settings>
+        <salsah-user-profile *ngSwitchCase="'/profile'" [user]="userProfile"></salsah-user-profile>
     </div>
 </div>
 

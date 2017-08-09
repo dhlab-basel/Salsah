@@ -120,6 +120,11 @@ a {
   flex-shrink: 1;
 }
 
+.white-space,
+.white-space.mat-line {
+  white-space: normal;
+}
+
 .show {
   display: block;
 }
