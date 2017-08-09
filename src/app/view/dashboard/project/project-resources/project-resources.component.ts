@@ -70,10 +70,8 @@ export class ProjectResourcesComponent implements OnInit {
 
     add: any = {
         title: 'Add new resource type',
-        description: 'What does add mean? (add.description)',
-        object: 'new-resource-class'
+        description: 'What does add mean? (add.description)'
     };
-
     list: string = 'resource-types';
     title: string = 'Resource types in this project';
     // the size of the main module. It is large by default.

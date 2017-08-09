@@ -29,7 +29,23 @@ export class UserProjectsComponent implements OnInit {
 
     ownProfile: UserProfile = JSON.parse(localStorage.getItem('ownProfile'));
 
-    constructor(public dialog: MdDialog) {
+    /* TODO: rewrite the attribute settings in framework-for-listings
+    list: any = {
+        title: 'My projects',
+        type: 'project',
+        data: this.ownProfile.projects_info
+    };
+    */
+
+    add: any = {
+        title: 'Create new project',
+        description: 'bla bla bla ... not yet implemented'
+    };
+    list: string = 'project';
+    title: string = 'My projects';
+    listdata: any = this.ownProfile.projects_info;
+
+    constructor() {
     }
 
     ngOnInit() {
@@ -37,12 +53,6 @@ export class UserProjectsComponent implements OnInit {
 
     }
 
-    addNewProject() {
-        let dialogRef = this.dialog.open(ProjectFormComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
-        });
-    }
 
 }
 

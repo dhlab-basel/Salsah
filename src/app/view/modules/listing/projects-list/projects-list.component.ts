@@ -41,8 +41,8 @@ import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
 export class ProjectsListComponent implements OnInit {
 
 
-    @Input('projects') projectsList: ProjectItem[];
-    @Input('listTitle') title: string;
+    @Input() list: ProjectItem[];
+    @Input() title: string;
 
 
     // in the case of a http get request, we display the progress in the loading element
@@ -51,6 +51,8 @@ export class ProjectsListComponent implements OnInit {
     // with the http get request, we need also a variable for error messages;
     // just in the case if something's going wrong
     errorMessage: any = undefined;
+
+    noDataMessage: string = 'It seems there\'s no project yet.';
 
     // the http get request will fill an array called projects
 //    projectsList: ProjectItem[] = [];
@@ -64,12 +66,12 @@ export class ProjectsListComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(this.projectsList === undefined) {
+        if(this.list == undefined) {
             // get all projects from the service
             this._projectsService.getAllProjects()
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.projectsList = result.getBody(ProjectsList).projects;
+                        this.list = result.getBody(ProjectsList).projects;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -78,6 +80,7 @@ export class ProjectsListComponent implements OnInit {
                         this.isLoading = false;
                     }
                 );
+
         }
         else {
             // the user data contains a list of projects; so the data is already there

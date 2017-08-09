@@ -24,6 +24,14 @@ export class UserCollectionsComponent implements OnInit {
 
     @Input('user') user: UserProfile;
 
+    title: string = 'My collections';
+    add: any = {
+        title: 'Create new collection',
+        description: 'Subtitle or sth. similar',
+        object: 'collection'
+    };
+    list: string = 'collection';
+
     constructor() {
     }
 

@@ -109,6 +109,7 @@ import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.dire
 import { UsersTableComponent } from './view/modules/listing/users-table/users-table.component';
 import { FormDialogComponent } from './view/modules/dialog/form-dialog/form-dialog.component';
 import { ResourceTypesListComponent } from './view/modules/listing/resource-types-list/resource-types-list.component';
+import { CollectionListComponent } from './view/modules/listing/collection-list/collection-list.component';
 
 @NgModule({
     declarations: [
@@ -171,7 +172,8 @@ import { ResourceTypesListComponent } from './view/modules/listing/resource-type
         ForbiddenNameDirective,
         UsersTableComponent,
         FormDialogComponent,
-        ResourceTypesListComponent
+        ResourceTypesListComponent,
+        CollectionListComponent
     ],
     imports: [
         BrowserModule,

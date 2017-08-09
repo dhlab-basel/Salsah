@@ -1,0 +1,25 @@
+<md-list class="salsah-list">
+    <h3 md-subheader>{{title}}</h3>
+
+    <!-- fake content... because the service is not ready yet -->
+    <md-list-item>
+        <span class="salsah-hint">
+            It seems you have no collections yet.
+        </span>
+    </md-list-item>
+    <!-- the collection service is not yet implemented -->
+
+    <salsah-message [note]="developerInfo"></salsah-message>
+
+
+    <!--
+    <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+    <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+
+    <md-list-item *ngFor="let item of list" (click)="openProject(item.shortname)" class="salsah-link">
+        <md-icon md-list-icon>chrome_reader_mode</md-icon>
+        <h4 md-line>{{item.name}} ({{item.shortname}})</h4>
+        <div md-line [innerHtml]="item.description | slice:0:128"></div>
+    </md-list-item>
+    -->
+</md-list>

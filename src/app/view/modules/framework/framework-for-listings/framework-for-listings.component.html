@@ -37,12 +37,15 @@
 
 
             <salsah-projects-list *ngSwitchCase="'project'"
+                                  [list]="data"
                                   (toggleProject)="toggleDetail($event, $event)">
             </salsah-projects-list>
 
             <salsah-resource-types-list *ngSwitchCase="'resource-types'"
                                     (toggleItem)="toggleDetail($event, $event)">
             </salsah-resource-types-list>
+
+            <salsah-collection-list *ngSwitchCase="'collection'"></salsah-collection-list>
 
         </div>
     </div>

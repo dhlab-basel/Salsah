@@ -59,6 +59,8 @@ export class FrameworkForListingsComponent implements OnInit {
      */
     @Input() project: string;       // project iri
 
+    @Input() data: any;
+
     // error message in the case of an api service error
     errorMessage: string = undefined;
 
@@ -137,7 +139,6 @@ export class FrameworkForListingsComponent implements OnInit {
 
     openNew() {
         let dialogRef;
-        let title: string;
         switch (this.list) {
             case 'user':
                 dialogRef = this.dialog.open(FormDialogComponent, {
@@ -161,7 +162,8 @@ export class FrameworkForListingsComponent implements OnInit {
                 dialogRef = this.dialog.open(FormDialogComponent, {
                    data: {
                        title: this.add.title,
-                       form: 'new-resource-class'
+                       form: 'new-resource-type',
+                       iri: this.project
                    }
                 });
                 break;

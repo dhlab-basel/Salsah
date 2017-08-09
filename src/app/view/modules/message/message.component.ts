@@ -114,7 +114,7 @@ export class MessageComponent implements OnInit {
         }
 
         // the attribute apiError is set; in that case we have a problem with the (knora) API server; = 503
-        if(this.error) {
+        if (this.error) {
             this.statusCode = (this.error.status !== 0 ? '' + this.error.status : '503');
         }
 

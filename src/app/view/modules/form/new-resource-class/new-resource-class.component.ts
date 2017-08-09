@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BasicOntology} from "../../../../model/test-data/basic-ontology";
 import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
 
@@ -28,6 +28,9 @@ import {PropertyItem} from "../../../../model/webapi/knora/v1/properties/propert
 })
 
 export class NewResourceClassComponent implements OnInit {
+
+    // project iri to add the new resource to this project
+    @Input() iri: string;
 
     errorMessage: any;
 
