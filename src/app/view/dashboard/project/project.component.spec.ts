@@ -1,12 +1,13 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../app.module';
-import {AppMaterialModule} from '../../../app-material-module';
-import {AppRoutingModule} from '../../../app-routing.module';
+import {RouterTestingModule} from '@angular/router/testing';
+
+import {MaterialModule} from '@angular/material';
+
 import {ProjectComponent} from './project.component';
-import {ProjectsService} from '../../../model/services/projects.service';
+import {AppModule} from '../../../app.module';
 
 
-describe('ProjectComponent', () => {
+fdescribe('ProjectComponent', () => {
     let component: ProjectComponent;
     let fixture: ComponentFixture<ProjectComponent>;
 
@@ -14,12 +15,11 @@ describe('ProjectComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule,
-                AppRoutingModule
+                MaterialModule,
+                RouterTestingModule
             ],
             providers: [
-//                MockBackend,
-                ProjectsService
+
             ]
         })
             .compileComponents();
@@ -31,7 +31,7 @@ describe('ProjectComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should modify', () => {
+    fit('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

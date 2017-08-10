@@ -100,6 +100,7 @@ export class HeaderToolbarComponent implements OnInit {
         // check if the authentication is valid:
         // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
         //this.session =
+
         this.session = this._sessionService.checkSession();
         /*
         .subscribe(
@@ -112,18 +113,23 @@ export class HeaderToolbarComponent implements OnInit {
         }
     );
 */
-        console.log(this.session);
 
-        if (JSON.parse(localStorage.getItem('ownProfile'))) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
 
-        if (JSON.parse(localStorage.getItem('sysAdmin')) == true) {
-            this.sysAdmin = true;
-            this.userMenu.push({
-                title: 'System',
-                icon: 'build',
-                route: 'system'
-            });
+        if (JSON.parse(localStorage.getItem('ownProfile'))) {
+            this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
+            if (JSON.parse(localStorage.getItem('sysAdmin')) == true) {
+
+                this.sysAdmin = true;
+                this.userMenu.push({
+                    title: 'System',
+                    icon: 'build',
+                    route: 'system'
+                });
+            }
         }
+
+
+
 
     }
 

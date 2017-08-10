@@ -12,7 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonConvert} from "json2typescript";
+// import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
+import {JsonConvert} from 'json2typescript';
+
 //import {ValueCheckingMode} from '../../../assets/json2typescript/src/json2typescript/json-convert-enums';
 
 /**
@@ -28,12 +30,12 @@ export class ApiServiceResult {
     /**
      * Status text
      */
-    statusText: string = "";
+    statusText: string = '';
 
     /**
      * API url
      */
-    url: string = "";
+    url: string = '';
 
     /**
      * Status number
@@ -45,14 +47,15 @@ export class ApiServiceResult {
      * @param classObject
      * @returns {any}
      */
-    getBody(classObject?: {new(): any}): any {
+    getBody(classObject?: { new(): any }): any {
         if (!classObject) return this.body;
         try {
             // for the new version of json2typescript... the package is not yet in npm. 2017-07-20
             // TODO: with the new json2typescript version (2017-07-20) uncomment the following three lines
-//            let jsonConvert = new JsonConvert();
-//            jsonConvert.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
-//            return jsonConvert.deserialize(this.body, classObject);
+            // let jsonconvert: JsonConvert = new JsonConvert();
+            // jsonconvert.operationMode = OperationMode.LOGGING;
+            // jsonconvert.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
+            // return jsonconvert.deserialize(this.body, classObject);
             //
             // Json convert error handling
             //
@@ -61,7 +64,7 @@ export class ApiServiceResult {
             //JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
             // TODO: with the new json2typescript version (2017-07-20) remove the following JsonConvert return
             return JsonConvert.deserializeObject(this.body, classObject);
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
         return null;

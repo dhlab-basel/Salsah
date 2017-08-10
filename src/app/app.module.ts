@@ -1,29 +1,24 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {APP_BASE_HREF} from '@angular/common';
-
 //
 // import the main app components
 //
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-
 //
 // import the material design modules
 //
-import {AppMaterialModule} from './app-material-module';
+//import {AppMaterialModule} from './app-material-module';
+import {MaterialModule} from '@angular/material';
 import 'hammerjs';
-
 //
 // import other third party modules
 import {DndModule} from 'ng2-dnd';
-
-
 //
 // import all needed services
 //
@@ -37,19 +32,17 @@ import {ResourceTypesService} from './model/services/resource-types.service';
 import {SearchService} from './model/services/search.service';
 import {SessionService} from './model/services/session.service';
 import {UserService} from './model/services/user.service';
-
+// just to get the basic ontology form the json file
+import {BasicOntologyService} from './model/services/basic-ontology.service';
 //
 // import directives, pipes etc.
 //
+import {ForbiddenNameDirective} from './view/modules/other/forbidden-name.directive';
 import {GravatarDirective} from './view/modules/other/gravatar.directive';
 import {KeyPipe} from './view/modules/other/key.pipe';
 import {OverlayDirective} from './view/modules/other/overlay.directive';
 import {ReversePipe} from './view/modules/other/reverse.pipe';
 import {SortByPipe} from './view/modules/other/sort-by.pipe';
-
-// just to get the basic ontology form the json file
-import {BasicOntologyService} from './model/services/basic-ontology.service';
-
 //
 // import all app components
 //
@@ -98,18 +91,15 @@ import {SystemComponent} from './view/dashboard/system/system.component';
 import {SystemUsersComponent} from './view/dashboard/system/system-users/system-users.component';
 import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
 import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
-
 import {UsersListComponent} from './view/modules/listing/users-list/users-list.component';
 import {FrameworkForListingsComponent} from './view/modules/framework/framework-for-listings/framework-for-listings.component';
 import {UserObjectComponent} from './view/modules/object/user-object/user-object.component';
-import { MessageDialogComponent } from './view/modules/dialog/message-dialog/message-dialog.component';
-import { NewProjectComponent } from './view/modules/form/new-project/new-project.component';
-
-import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.directive';
-import { UsersTableComponent } from './view/modules/listing/users-table/users-table.component';
-import { FormDialogComponent } from './view/modules/dialog/form-dialog/form-dialog.component';
-import { ResourceTypesListComponent } from './view/modules/listing/resource-types-list/resource-types-list.component';
-import { CollectionListComponent } from './view/modules/listing/collection-list/collection-list.component';
+import {MessageDialogComponent} from './view/modules/dialog/message-dialog/message-dialog.component';
+import {NewProjectComponent} from './view/modules/form/new-project/new-project.component';
+import {UsersTableComponent} from './view/modules/listing/users-table/users-table.component';
+import {FormDialogComponent} from './view/modules/dialog/form-dialog/form-dialog.component';
+import {ResourceTypesListComponent} from './view/modules/listing/resource-types-list/resource-types-list.component';
+import {CollectionListComponent} from './view/modules/listing/collection-list/collection-list.component';
 
 @NgModule({
     declarations: [
@@ -180,7 +170,7 @@ import { CollectionListComponent } from './view/modules/listing/collection-list/
         FormsModule,
         HttpModule,
         RouterModule,
-        AppMaterialModule,
+        MaterialModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,

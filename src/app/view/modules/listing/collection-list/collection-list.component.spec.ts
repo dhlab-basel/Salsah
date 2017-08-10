@@ -1,5 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
+
 import {MaterialModule} from '@angular/material';
 import {CollectionListComponent} from './collection-list.component';
 

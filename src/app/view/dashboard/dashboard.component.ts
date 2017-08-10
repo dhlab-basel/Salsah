@@ -46,6 +46,7 @@ export class DashboardComponent implements OnInit {
         getDocument().cookie = "KnoraAuthentication=;expires=-1";
         // remove the local storage authentication values
         localStorage.removeItem('ownProfile');
+        localStorage.removeItem('sysAdmin');
         // go to the start page with a reload of the whole app
         window.location.replace('/');
     }

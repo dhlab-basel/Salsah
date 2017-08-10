@@ -34,6 +34,8 @@ export class GravatarDirective {
 
         this.elementRef.nativeElement.src = 'http://www.gravatar.com/avatar/' + this.md5eMail + '?s=' + this.size + 'd=' + this.fallback;
 
+        // TODO: if the gravatar is not available...show a default image
+
     }
 
 
