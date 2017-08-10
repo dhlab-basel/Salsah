@@ -141,7 +141,11 @@ export class ApiService {
         }
 
         if (!options) {
-            options = {withCredentials: true};
+
+            const headers = new Headers();
+            this.createAuthorizationHeader(headers);
+
+            options = {headers: headers};
         }
 
         return this._http.put(environment.api + url, body, options).map((response: Response) => {
@@ -158,5 +162,13 @@ export class ApiService {
         }).catch((error: any) => {
             return Observable.throw(ApiService.handleError(error, url));
         });
+    }
+
+    private createAuthorizationHeader(headers: Headers): Headers {
+        if (JSON.parse(localStorage.getItem('currentUser'))) {
+            const token = JSON.parse(localStorage.getItem('currentUser')).token;
+            headers.append('Authorization', 'Bearer ' + token);
+        }
+        return headers;
     }
 }

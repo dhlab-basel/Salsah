@@ -23,6 +23,7 @@ import {
     animate,
     transition
 } from '@angular/animations';
+import {AuthenticationService} from '../../../../model/services/authentication.service';
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -57,7 +58,7 @@ export class HeaderToolbarComponent implements OnInit {
     constructor(private _eleRef: ElementRef,
                 private _route: ActivatedRoute,
                 private _router: Router,
-                private _sessionService: SessionService) {
+                private _authenticationService: AuthenticationService) {
 
     }
 
@@ -65,11 +66,12 @@ export class HeaderToolbarComponent implements OnInit {
 
     // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
-        // check if the authentication is valid:
-        // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
-        this.activeSession = this._sessionService.checkSession();
+        // check if whe are logged in
+        this.activeSession = this._authenticationService.authenticate();
 
-        if (JSON.parse(localStorage.getItem('ownProfile'))) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
+        if (JSON.parse(localStorage.getItem('currentUser'))) {
+            this.userName = JSON.parse(localStorage.getItem('currentUser')).email;
+        }
 
 
     }

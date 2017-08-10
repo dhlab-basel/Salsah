@@ -13,14 +13,14 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {Headers} from "@angular/http";
+import {Headers} from '@angular/http';
 import {Observable} from 'rxjs';
 
 import {ApiService} from './api.service';
 
 import {Session, UserProfile} from '../webapi/knora';
-import {ApiServiceResult} from "app/model/services/api-service-result";
-import {ApiServiceError} from "./api-service-error";
+import {ApiServiceResult} from 'app/model/services/api-service-result';
+import {ApiServiceError} from './api-service-error';
 
 
 function getDocument(): any {
@@ -31,7 +31,7 @@ function getDocument(): any {
 export class SessionService extends ApiService {
 
     getSession(): Observable<any> {
-        return this.httpGet('/session');
+        return this.httpGet('/v1/session');
     }
 
 
@@ -44,9 +44,9 @@ export class SessionService extends ApiService {
      */
     checkSession(deny = false): any {
 
-        let status: number = 2;
+        let status = 2;
 
-        let activeSession: boolean = false;
+        let activeSession = false;
 
         let session: Session;
 
@@ -54,10 +54,10 @@ export class SessionService extends ApiService {
             (result: ApiServiceResult) => {
                 session = result.getBody(Session);
                 status = session.status;
-                if (status === 0) { //} && session.userProfile.userData.isActiveUser) {
+                if (status === 0) { // } && session.userProfile.userData.isActiveUser) {
                     // the session is valid and a user is authenticated by the api server
                     // get the local stored profile of the user and compare it with the session values
-                    let userProfile: UserProfile = JSON.parse(localStorage.getItem('ownProfile'));
+                    const userProfile: UserProfile = JSON.parse(localStorage.getItem('ownProfile'));
 
                     if (userProfile === null) {
                         // the ownProfile (logged in user data) is not set locally or seems to be wrong
@@ -78,9 +78,9 @@ export class SessionService extends ApiService {
                     // the session is not valid!
                     // remove the local stored user profile and return false
                     localStorage.removeItem('ownProfile');
-                    getDocument().cookie = "sid=;expires=-1";
-                    getDocument().cookie = "KnoraAuthentication=;expires=-1";
-                    if(deny === true) this.goToLogin();
+                    getDocument().cookie = 'sid=;expires=-1';
+                    getDocument().cookie = 'KnoraAuthentication=;expires=-1';
+                    if (deny === true) this.goToLogin();
                 }
             },
             (error: ApiServiceError) => {
@@ -91,10 +91,12 @@ export class SessionService extends ApiService {
                 // the session is not valid!
                 // remove the local stored user profile and return false
                 localStorage.removeItem('ownProfile');
-                getDocument().cookie = "sid=;expires=-1";
-                getDocument().cookie = "KnoraAuthentication=;expires=-1";
+                getDocument().cookie = 'sid=;expires=-1';
+                getDocument().cookie = 'KnoraAuthentication=;expires=-1';
 
-                if(deny === true) this.goToLogin();
+                if (deny === true) {
+                    this.goToLogin();
+                }
             }
 
         );
@@ -113,10 +115,10 @@ export class SessionService extends ApiService {
     login(email: string, password: string): Observable<any> {
 
         // Create header for Basic Auth
-        let headers: Headers = new Headers();
-        headers.append("Authorization", "Basic " + btoa(email + ":" + password));
+        const headers: Headers = new Headers();
+        headers.append('Authorization', 'Basic ' + btoa(email + ':' + password));
 
-        return this.httpPost("/session", {}, {headers: headers});
+        return this.httpPost('/v1/session', {}, {headers: headers});
 
     }
 
@@ -168,7 +170,7 @@ export class SessionService extends ApiService {
 
 
     goToLogin(): any {
-        let goToUrl: string = '/login';
+        const goToUrl = '/login';
 
 //        if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
 

@@ -29,7 +29,6 @@ import {DndModule} from 'ng2-dnd';
 //
 // import all needed services
 //
-import {LoginService} from './model/services/login.service';
 import {ProjectsService} from './model/services/projects.service';
 import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
@@ -165,7 +164,6 @@ import { EditResourceClassComponent } from './view/modules/form/edit-resource-cl
     ],
     providers: [
         ApiService,
-        LoginService,
         ProjectsService,
         PropertiesService,
         ResourceService,
