@@ -33,7 +33,6 @@ import {ProjectsService} from './model/services/projects.service';
 import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
 import {SearchService} from './model/services/search.service';
-import {SessionService} from './model/services/session.service';
 import {UserService} from './model/services/user.service';
 import {ApiService} from './model/services/api.service';
 import {ListsService} from './model/services/lists.service';
@@ -169,7 +168,6 @@ import { EditResourceClassComponent } from './view/modules/form/edit-resource-cl
         ResourceService,
         ResourceTypesService,
         SearchService,
-        SessionService,
         BasicOntologyService,
         UserService,
         ListsService,

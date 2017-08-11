@@ -15,10 +15,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ApiServiceError} from '../../model/services/api-service-error';
-import {ApiServiceResult} from '../../model/services/api-service-result';
-import {SessionService} from '../../model/services/session.service';
-import {Session} from '../../model/webapi/knora/';
-import {ProjectItem} from '../../model/webapi/knora/v1/projects/project-item';
 import {AuthenticationService} from '../../model/services/authentication.service';
 
 
@@ -82,61 +78,59 @@ export class LoginComponent implements OnInit {
 
     onSubmit(lf: any): void {
 
-        this._authenticationService.login(lf.email, lf.password)
-            .subscribe(
-                (result: boolean) => {
+        this._authenticationService.login(lf.email, lf.password).subscribe(
+            (result: boolean) => {
 
-                    /*
-                    const session: Session = result.getBody(Session);
+                /*
+                const session: Session = result.getBody(Session);
 
-                    getDocument().cookie = 'sid=' + session.sid;
-                    getDocument().cookie = 'KnoraAuthentication=' + session.sid;
+                getDocument().cookie = 'sid=' + session.sid;
+                getDocument().cookie = 'KnoraAuthentication=' + session.sid;
 
-                    // we had an issue to store the object array from projects_info; it was always empty
-                    // so let's create a "real" array of user's projects and add it again to the userProfile
-                    const usersProjects: ProjectItem[] = [];
-                    for (const k in session.userProfile.projects_info) {
-                        if (session.userProfile.projects_info.hasOwnProperty(k)) {
-                            console.log(session.userProfile.projects_info[k]);
-                            usersProjects.push(session.userProfile.projects_info[k]);
-                        }
+                // we had an issue to store the object array from projects_info; it was always empty
+                // so let's create a "real" array of user's projects and add it again to the userProfile
+                const usersProjects: ProjectItem[] = [];
+                for (const k in session.userProfile.projects_info) {
+                    if (session.userProfile.projects_info.hasOwnProperty(k)) {
+                        console.log(session.userProfile.projects_info[k]);
+                        usersProjects.push(session.userProfile.projects_info[k]);
                     }
-                    session.userProfile.projects_info = usersProjects;
-
-                    // now we can store the userProfile as ownProfile locally
-                    localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
-                    */
-                    // after successful login, we want to go back to the previous page e.g. search incl. query
-                    // for this case, we stored the previous url parameters in the current login url as query params
-                    //
-
-                    let goToUrl = '/';
-                    this._route.queryParams.subscribe(
-                        data => goToUrl = (data['h'] === undefined ? '/' : data['h'])
-                    );
-
-                    window.location.replace(goToUrl);
-
-                },
-                (error: ApiServiceError) => {
-                    if (error.status === 0) {
-                        this.loginErrorUser = false;
-                        this.loginErrorPw = false;
-                        this.loginErrorServer = true;
-                    }
-                    if (error.status === 401) {
-                        this.loginErrorUser = false;
-                        this.loginErrorPw = true;
-                        this.loginErrorServer = false;
-                    }
-                    if (error.status === 404) {
-                        this.loginErrorUser = true;
-                        this.loginErrorPw = false;
-                        this.loginErrorServer = false;
-                    }
-                    this.errorMessage = <any>error;
                 }
-            );
+                session.userProfile.projects_info = usersProjects;
+
+                // now we can store the userProfile as ownProfile locally
+                localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
+                */
+
+                // after successful login, we want to go back to the previous page e.g. search incl. query
+                // for this case, we stored the previous url parameters in the current login url as query params
+                let goToUrl = '/';
+                this._route.queryParams.subscribe(
+                    data => goToUrl = (data['h'] === undefined ? '/' : data['h'])
+                );
+
+                window.location.replace(goToUrl);
+
+            },
+            (error: ApiServiceError) => {
+                if (error.status === 0) {
+                    this.loginErrorUser = false;
+                    this.loginErrorPw = false;
+                    this.loginErrorServer = true;
+                }
+                if (error.status === 401) {
+                    this.loginErrorUser = false;
+                    this.loginErrorPw = true;
+                    this.loginErrorServer = false;
+                }
+                if (error.status === 404) {
+                    this.loginErrorUser = true;
+                    this.loginErrorPw = false;
+                    this.loginErrorServer = false;
+                }
+                this.errorMessage = <any>error;
+            }
+        );
 
     }
 

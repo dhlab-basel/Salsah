@@ -13,13 +13,12 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {Http, RequestOptionsArgs, Response} from '@angular/http';
+import {Http, RequestOptionsArgs, Response, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../environments/environment';
 import {JsonConvert} from 'json2typescript';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
-
 
 @Injectable()
 export class ApiService {
@@ -63,13 +62,11 @@ export class ApiService {
      * Performs a HTTP GET url to the Knora API.
      * @param url
      * @param options
-     * @returns {Observable<any>}
+     * @returns {Observable<ApiServiceResult>}
      */
-    httpGet(url: string, options?: RequestOptionsArgs): Observable<any> {
+    httpGet(url: string, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
 
-        if (!options) {
-            options = {withCredentials: true};
-        }
+        this.appendToOptions(options);
 
         url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
@@ -101,16 +98,14 @@ export class ApiService {
      * @param url
      * @param body
      * @param options
-     * @returns {Observable<any>}
+     * @returns {Observable<ApiServiceResult>}
      */
-    httpPost(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
+    httpPost(url: string, body?: any, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
         if (!body) {
             body = {};
         }
 
-        if (!options) {
-            options = {withCredentials: true};
-        }
+        this.appendToOptions(options);
 
         return this._http.post(environment.api + url, body, options).map((response: Response) => {
             try {
@@ -133,20 +128,14 @@ export class ApiService {
      * @param url
      * @param body
      * @param options
-     * @returns {Observable<any>}
+     * @returns {Observable<ApiServiceResult>}
      */
-    httpPut(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
+    httpPut(url: string, body?: any, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
         if (!body) {
             body = {};
         }
 
-        if (!options) {
-
-            const headers = new Headers();
-            this.createAuthorizationHeader(headers);
-
-            options = {headers: headers};
-        }
+        this.appendToOptions(options);
 
         return this._http.put(environment.api + url, body, options).map((response: Response) => {
             try {
@@ -164,7 +153,62 @@ export class ApiService {
         });
     }
 
-    private createAuthorizationHeader(headers: Headers): Headers {
+    /**
+     * Performs a HTTP DELETE url to the Knora API.
+     * @param url
+     * @param options
+     * @returns {Observable<ApiServiceResult>}
+     */
+    httpDelete(url: string, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
+        this.appendToOptions(options);
+
+        return this._http.delete(environment.api + url, options).map((response: Response) => {
+            try {
+                const apiServiceResult: ApiServiceResult = new ApiServiceResult();
+                apiServiceResult.status = response.status;
+                apiServiceResult.statusText = response.statusText;
+                apiServiceResult.body = response.json();
+                apiServiceResult.url = url;
+                return apiServiceResult;
+            } catch (e) {
+                return ApiService.handleError(response, url);
+            }
+        }).catch((error: any) => {
+            return Observable.throw(ApiService.handleError(error, url));
+        });
+    }
+
+    /**
+     * Appends to existing options if they exist.
+     * @param {RequestOptionsArgs} options
+     * @returns {RequestOptionsArgs}
+     */
+    private appendToOptions(options: RequestOptionsArgs): RequestOptionsArgs {
+        if (!options) {
+            // no options
+            options = {headers: this.appendAuthorizationHeader()}
+        } else {
+            // have options
+            if (!options.headers) {
+                // no headers set
+                options.headers = this.appendAuthorizationHeader();
+            } else {
+                // have headers, need to append to those
+                options.headers = this.appendAuthorizationHeader(options.headers);
+            }
+        }
+        return options;
+    }
+
+    /**
+     * Appends to existing headers if they exist.
+     * @param {Headers} headers
+     * @returns {Headers}
+     */
+    private appendAuthorizationHeader(headers?: Headers): Headers {
+        if (!headers) {
+            headers = new Headers;
+        }
         if (JSON.parse(localStorage.getItem('currentUser'))) {
             const token = JSON.parse(localStorage.getItem('currentUser')).token;
             headers.append('Authorization', 'Bearer ' + token);
