@@ -13,14 +13,7 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {MdDialog} from "@angular/material";
-// services
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ResourceTypesService} from "../../../../model/services/resource-types.service";
-import {PropertiesService} from "../../../../model/services/properties.service";
-// json classes
-import {ProjectItem, ResourceTypes, Properties, ResourceTypeInfo, ResourceType} from "../../../../model/webapi/knora";
+import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 
 
 @Component({
@@ -30,119 +23,33 @@ import {ProjectItem, ResourceTypes, Properties, ResourceTypeInfo, ResourceType} 
 })
 export class ProjectResourcesComponent implements OnInit {
 
-    // two progress loader:
-    // 1) for the main module
-    isLoading: boolean = true;
-    // 2) for the sub module: detail view
-    isLoadingSubModule: boolean = true;
+    // here we can reuse the framework-for-listings component:
+    // shows a list of users and the possibility to create new users
 
-    // this component makes a http request (service)
-    // if something's going wrong, we need an error message "container"
-    errorMessage: string = undefined;
-
-    // for the list of objects we have to know which object is active / selected
-    selectedRow: number;
-    // iri of the selected resource
-    iri: string;
-
-    // project information; we get it from local storage
-    project: ProjectItem = new ProjectItem;
-
-    // resource types
-    resourceTypes: ResourceTypes = new ResourceTypes;
-    // and their properties
-    properties: Properties;
-
-    // the sub module of this component can contain
-    // a) a form to add/create a new resource type
-    newResourceIsActive: boolean = false;
-    // OR
-    // b) a form to edit an existing resource type
-    editResourceIsActive: boolean = false;
-    // we need to know, which one is active
-
-    // definition of the position for the preview (main module) and the detail view (sub module)
-    // TODO: implement two additional positions: top and bottom (it's a css thing)
-    position = {
-        preview: 'left',        // add top
-        detail: 'right'         // add bottom
-    }; // --> should be implemented in framework
-
-    add: any = {
-        title: 'Add new resource type',
-        description: 'What does add mean? (add.description)'
+    // ------------------------------------------------------------------------
+    //  DATA for FrameworkForListingsComponent
+    // ------------------------------------------------------------------------
+    list: ListData = {
+        title: 'Resource types in this project',
+        description: 'a kind of subtitle',
+        content: 'resource-type',
+        showAsTable: false,
+        restrictedByIri: ''
     };
-    list: string = 'resource-types';
-    title: string = 'Resource types in this project';
-    // the size of the main module. It is large by default.
-    // if the the new resource module or the edit resource module is active,
-    // the size changes
-    size: string = 'large';
 
+    // add new users
+    add: AddData = {
+        title: 'Create new resource type',
+        description: ''
+    };
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-    constructor(private _resourceTypesService: ResourceTypesService,
-                private _propertiesService: PropertiesService,
-                public dialog: MdDialog) { }
+    constructor() {
+    }
 
     ngOnInit() {
-
-        this.project = JSON.parse(localStorage.getItem('currentProject'));
-        this._resourceTypesService.getResourceTypesByVoc(this.project.ontologyNamedGraph)
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.resourceTypes = result.getBody(ResourceTypes);
-                    this.isLoading = false;
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
-                }
-            );
-    }
-
-
-    addResource() {
-        if (this.size === 'large') this.size = 'small';
-        this.isLoadingSubModule = true;
-        this.selectedRow = undefined;
-
-        this.newResourceIsActive = true;
-        this.editResourceIsActive = false;
-        this.isLoadingSubModule = false;
-
-    }
-
-    openResource(id: string, index: number) {
-        if (this.size === 'large') this.size = 'small';
-        this.isLoadingSubModule = true;
-        this.editResourceIsActive = true;
-        this.newResourceIsActive = false;
-
-        this.iri = id;
-        this.selectedRow = index;
-        this.isLoadingSubModule = false;
-
-/*
-        this._propertiesService.getPropertiesByResType(id)
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.properties = result.getBody(Properties);
-                    this.selectedRow = index;
-                    this.isLoadingSubModule = false;
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoadingSubModule = false;
-                }
-            );
-*/
-    }
-
-    closeDetailView() {
-        this.size = 'large';
-        this.selectedRow = undefined;
-        this.editResourceIsActive = false;
-        this.newResourceIsActive = false;
+        this.list.restrictedByIri = JSON.parse(localStorage.getItem('currentProject')).ontologyNamedGraph;
     }
 
 }

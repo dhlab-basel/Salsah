@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -13,11 +13,12 @@
  * */
 
 import {Component, OnInit, Input} from '@angular/core';
-import {Router} from "@angular/router";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
+import {Router} from '@angular/router';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {UserService} from '../../../../model/services/user.service';
+import {ProjectsList, ProjectItem, User, UserProfile} from '../../../../model/webapi/knora/';
 
 /**
  * This component has two optional attributes:
@@ -40,10 +41,7 @@ import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
 
 export class ProjectsListComponent implements OnInit {
 
-
-    @Input() list: ProjectItem[];
-    @Input() title: string;
-
+    @Input('restrictedByIri') user: string;
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
@@ -52,26 +50,46 @@ export class ProjectsListComponent implements OnInit {
     // just in the case if something's going wrong
     errorMessage: any = undefined;
 
-    noDataMessage: string = 'It seems there\'s no project yet.';
+    // in the case of no data, but with a working API
+    noDataMessage: any = {
+        label: '404',
+        title: 'No projects found',
+        text: 'It seems there\'s no project yet. Create a new one with the button above &uarr;'
+    };
 
     // the http get request will fill an array called projects
-//    projectsList: ProjectItem[] = [];
+    list: ProjectItem[] = [];
+    num: number;
 
-
-
-    constructor(
-        private _router: Router,
-        private _projectsService: ProjectsService
-    ) {
+    constructor(private _router: Router,
+                private _projectsService: ProjectsService,
+                private _userService: UserService) {
     }
 
     ngOnInit() {
-        if(this.list == undefined) {
+        if (this.user !== undefined) {
+            // we have a user id
+            // get all the projects where the user is member of
+            this._userService.getUserByIri(this.user)
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        this.list = result.getBody(User).userProfile.projects_info;
+                        this.num = Object.keys(this.list).length;
+                        this.isLoading = false;
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = error;
+                        this.isLoading = false;
+                    }
+                );
+        }
+        else {
             // get all projects from the service
             this._projectsService.getAllProjects()
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.list = result.getBody(ProjectsList).projects;
+                        this.num = this.list.length;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -80,15 +98,10 @@ export class ProjectsListComponent implements OnInit {
                         this.isLoading = false;
                     }
                 );
-
-        }
-        else {
-            // the user data contains a list of projects; so the data is already there
-            this.isLoading = false;
         }
     }
 
-    openProject(id: string) {
+    open(id: string) {
         localStorage.removeItem('currentProject');
         this._router.navigate(['/project/', id]);
     }

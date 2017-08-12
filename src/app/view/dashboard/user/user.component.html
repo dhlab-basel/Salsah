@@ -36,7 +36,7 @@
         <!-- switch view; not with a second router-outlet, because of the direct (parent) routes like
             "/settings", "/projects" and "/collections
         -->
-        <salsah-user-projects *ngSwitchCase="'/projects'" [user]="userProfile"></salsah-user-projects>
+        <salsah-user-projects *ngSwitchCase="'/projects'" [userIri]="userProfile.userData.user_id"></salsah-user-projects>
         <salsah-user-collections *ngSwitchCase="'/collections'" [user]="userProfile"></salsah-user-collections>
         <salsah-user-settings *ngSwitchCase="'/settings'" [user]="userProfile"></salsah-user-settings>
         <salsah-user-profile *ngSwitchCase="'/profile'" [user]="userProfile"></salsah-user-profile>

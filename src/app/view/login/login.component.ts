@@ -43,9 +43,6 @@ export class LoginComponent implements OnInit {
 //    userProfile: UserProfile = new UserProfile();
 //    sessionId: string = undefined;
 
-    /*
-     TODO: language packages: login
-     */
     login = {
         title: "Already have an account?",
         name: "Username",

@@ -2,7 +2,7 @@
       - if the user doesn't exist yet, create a new one by importing the user form component -->
 
 <!-- we need the select user (autocomplete list) to add an existing user to an existing project -->
-<section class="select-user" *ngIf="projectIri">
+<section class="select-user" *ngIf="iri">
     <h4>{{form.selectTitle}}</h4>
     <!-- for tests only: to have a direct output --
     <div>

@@ -7,7 +7,7 @@ import {ProjectComponent} from './project.component';
 import {AppModule} from '../../../app.module';
 
 
-fdescribe('ProjectComponent', () => {
+describe('ProjectComponent', () => {
     let component: ProjectComponent;
     let fixture: ComponentFixture<ProjectComponent>;
 
@@ -31,7 +31,7 @@ fdescribe('ProjectComponent', () => {
         fixture.detectChanges();
     });
 
-    fit('should be created', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

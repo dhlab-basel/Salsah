@@ -36,18 +36,29 @@ import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
  */
 export class UsersListComponent implements OnInit {
 
-    // if we have a service, we need two variables:
-    // error message, if something went wrong
-    errorMessage: any = undefined;
-    // progress loader status
+    @Input('restrictedByIri') project: string;
+    @Input() index: number;
+
+    @Output() toggleItem = new EventEmitter<any>();
+
+
+    // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
 
-    @Input() project: string;
-    @Input() index: number;
-    @Output() toggleUser = new EventEmitter<any>();
+    // with the http get request, we need also a variable for error messages;
+    // just in the case if something's going wrong
+    errorMessage: any = undefined;
+
+    // in the case of no data, but with a working API
+    noDataMessage: any = {
+        label: '404',
+        title: 'No users found',
+        text: 'It seems there\'s no user yet. Add a new one with the button above &uarr;'
+    };
 
     // the main objects in this component
-    users: UserData[] = [];
+    list: UserData[] = [];
+    num: number;
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
@@ -66,9 +77,9 @@ export class UsersListComponent implements OnInit {
             label: 'First name'
         }
     ];
-    sortTitle: string = 'Sort by: ';
-    sortKey: string;
-    sortLabel: string;
+    sortTitle: string = 'Sort them by ';
+    sortKey: string = this.sortProps[0].key;
+    sortLabel: string = this.sortProps[0].label;
 
     constructor(public _projectsService: ProjectsService,
                 public _userService: UserService) {
@@ -83,15 +94,16 @@ export class UsersListComponent implements OnInit {
             this._projectsService.getProjectMembersByIri(this.project)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.users = result.getBody(ProjectMembers).members;
+                        this.list = result.getBody(ProjectMembers).members;
                         // set an array of the project members in local storage
                         // it's a list of user IRIs
                         // we need it, when we want to add new members to a project
                         // in that case we see, if someone is already a member
                         let currentMembers: string[] = [];
-                        for (let m of this.users) {
+                        for (let m of this.list) {
                             currentMembers.push(m.user_id);
                         }
+                        this.num = Object.keys(this.list).length;
                         localStorage.setItem('currentProjectMembers', JSON.stringify(currentMembers));
                         this.isLoading = false;
                     },
@@ -106,7 +118,8 @@ export class UsersListComponent implements OnInit {
             this._userService.getAllUsers()
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.users = result.getBody(UsersList).users;
+                        this.list = result.getBody(UsersList).list;
+                        this.num = Object.keys(this.list).length;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -119,11 +132,7 @@ export class UsersListComponent implements OnInit {
     }
 
     sortBy(key: string) {
-
-//        this.sortKey = (key == this.sortKey ? this.sortProps[1].key : this.sortProps[0].key);
-
         if (key === this.sortProps[0].key) {
-
             this.sortKey = this.sortProps[1].key;
             this.sortLabel = this.sortProps[0].label;
         }
@@ -131,7 +140,6 @@ export class UsersListComponent implements OnInit {
             this.sortKey = this.sortProps[0].key;
             this.sortLabel = this.sortProps[1].label;
         }
-
     }
 
     // open / close user
@@ -139,12 +147,12 @@ export class UsersListComponent implements OnInit {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
-            this.toggleUser.emit({id, index});
+            this.toggleItem.emit({id, index});
         }
         else {
             // open the detail view
             this.selectedRow = index;
-            this.toggleUser.emit({id, index});
+            this.toggleItem.emit({id, index});
         }
 
     }

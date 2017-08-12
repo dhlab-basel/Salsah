@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -13,10 +13,9 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-
 import {UserProfile} from '../../../../model/webapi/knora/';
-import {ProjectFormComponent} from '../../../modules/form/project-form/project-form.component';
-import {MdDialog} from '@angular/material';
+import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
+
 
 @Component({
     selector: 'salsah-user-projects',
@@ -25,32 +24,36 @@ import {MdDialog} from '@angular/material';
 })
 export class UserProjectsComponent implements OnInit {
 
-    @Input('user') user: UserProfile;
+    @Input() userIri: string;
 
-    ownProfile: UserProfile = JSON.parse(localStorage.getItem('ownProfile'));
+    // here we can reuse the framework-for-listings component:
+    // shows a list of user's projects and the possibility to create new projects
 
-    /* TODO: rewrite the attribute settings in framework-for-listings
-    list: any = {
-        title: 'My projects',
-        type: 'project',
-        data: this.ownProfile.projects_info
+    // ------------------------------------------------------------------------
+    //  DATA for FrameworkForListingsComponent
+    // ------------------------------------------------------------------------
+    list: ListData = {
+        title: 'Your projects or projects where you\'re member of',
+        description: 'a kind of subtitle',
+        content: 'project',
+        showAsTable: false,
+        restrictedByIri: ''
     };
-    */
 
-    add: any = {
+    // add new project
+    add: AddData = {
         title: 'Create new project',
-        description: 'bla bla bla ... not yet implemented'
+        description: ''
     };
-    list: string = 'project';
-    title: string = 'My projects';
-    listdata: any = this.ownProfile.projects_info;
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
     constructor() {
     }
 
     ngOnInit() {
-//        this.ownProfile = JSON.parse(localStorage.getItem('ownProfile'));
-
+        this.list.restrictedByIri = this.userIri;
+            // JSON.parse(localStorage.getItem('ownProfile')).user_id;
     }
 
 

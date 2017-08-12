@@ -1,38 +1,39 @@
-<!--
-<div class="left close" *ngIf="selectedRow != undefined">
+<!-- progress indicator while the data is loading -->
+<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
-</div>
--->
-<md-list>
-    <h3 md-subheader>
-        <button md-icon-button
-                *ngIf="selectedRow == undefined"
-                (click)="sortBy(sortKey)"
-                [mdTooltip]="sortTitle + sortLabel" mdTooltipPosition="above">
-            <md-icon>sort_by_alpha</md-icon>
-        </button>
-        Project Members
+<!-- in the case of an API error: show the error message -->
+<salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+
+<!-- if we have the data: show the list-->
+<md-list class="salsah-list" *ngIf="num > 0; else noData">
+    <h3 md-subheader ># Users: {{num}}
+        <span *ngIf="selectedRow == undefined"> | {{sortTitle}}
+            <button md-button
+                    *ngIf="selectedRow == undefined"
+                    (click)="sortBy(sortKey)"
+                    [mdTooltip]="sortTitle + sortLabel" mdTooltipPosition="above">
+                {{sortLabel}} <md-icon>sort_by_alpha</md-icon>
+            </button>
+        </span>
     </h3>
-
-    <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
-    <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
-
-    <md-list-item *ngFor="let u of users | sortBy: sortKey; let i = index"
-                  (click)="toggle(u.user_id, i);"
-                  [id]="u.user_id"
+    <md-list-item *ngFor="let item of list | sortBy: sortKey; let i = index"
+                  (click)="toggle(item.user_id, i);"
+                  [id]="item.user_id"
                   class="salsah-link"
                   [class.highlight]="i == selectedRow">
         <!--<md-list-item *ngFor="let admin of project.admins">-->
-        <md-icon md-list-avatar>
-            <img salsahGravatar [email]="u?.email" class="salsah-avatar-image"/>
+        <md-icon md-list-avatar class="salsah-avatar">
+            <img salsahGravatar [email]="item?.email" class="salsah-avatar-image"/>
         </md-icon>
-        <h4 md-line>{{u?.firstname}} {{u?.lastname}}</h4>
-        <p md-line> {{u?.email}} </p>
+        <h4 md-line>{{item?.firstname}} {{item?.lastname}}</h4>
+        <p md-line> {{item?.email}} </p>
         <button md-icon-button class="right close close-highlight">
             <md-icon>close</md-icon>
         </button>
     </md-list-item>
 </md-list>
 
-
-
+<!-- if there are any data: show a no data message -->
+<ng-template #noData>
+    <salsah-message *ngIf="!isLoading" [note]="noDataMessage"></salsah-message>
+</ng-template>

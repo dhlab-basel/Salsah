@@ -17,6 +17,19 @@ import {MdDialog} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 
+export interface ListData {
+    title: string,
+    description: string,
+    content: string,
+    showAsTable: boolean,
+    restrictedByIri: string
+}
+
+export interface AddData {
+    title: string,
+    description: string
+}
+
 @Component({
     selector: 'salsah-framework-for-listings',
     templateUrl: './framework-for-listings.component.html',
@@ -36,33 +49,14 @@ import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.componen
  */
 export class FrameworkForListingsComponent implements OnInit {
 
-    /**
-     * title of the framework
-     */
-    @Input() title: string;
-    /**
-     * If we need an "add" button, we have to define an add-object with title, description and object (type)
-     *     e.g. 'user' if we want to add new users in our framework
-     */
-    @Input() add: any;
-    /**
-     * which list? A switch looks for 'user', 'resource', 'project', 'resourceClass'
-     */
-    @Input() list: string;          // which list? switch looks for 'user', 'resource', 'project', 'resourceClass'
-    /**
-     * if true, shows the list as a table
-     */
-    @Input() table: boolean;        // shows the list in a table
-    /**
-     * Project is needed in the case of the users list
-     *     if the project iri is set, it shows only the members in the defined project
-     */
-    @Input() project: string;       // project iri
+    // get the list data
+    @Input() list: ListData;
 
-    @Input() data: any;
+    // the list can have an (optional) add button, which opens the form-dialog with a new-XYZ-form
+    @Input() add?: AddData;
 
     // error message in the case of an api service error
-    errorMessage: string = undefined;
+    errorMessage: any = undefined;
 
     // two progress loader:
     // 1) for the main module
@@ -72,16 +66,15 @@ export class FrameworkForListingsComponent implements OnInit {
 
     // which view is active?
     detailViewIsActive: boolean = false;
-    addNewFormIsActive: boolean = false;
+    addNewFormIsActive: boolean = false;    // TODO: will be changed into dialog box!!
 
     // definition of the position for the preview (main module) and the detail view (sub module)
-
     position: string = 'center';
 
-    // the size of the main module.
-    // the default value (at the begin) is medium
-    // if the the new resource module or the edit resource module is active,
-    // the size changes into large
+    // the size of the main module (incl. list and detail view)
+    // at the beginning, the size of the main module is "medium"
+    // if the detail view is active, the size changes into large
+    // and the submodules (list view and detail view) changes their size resp. the visibility as well
     moduleSize: string = 'medium';
     listSize: string = 'large';
 
@@ -94,15 +87,17 @@ export class FrameworkForListingsComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.list === undefined) {
+        if (this.list == undefined) {
             // list is not optional! show an error message
             this.errorMessage = <any>{
                 status: 424,
-                statusText: 'There\'s no specified list in FrameworkForListings!'
+                statusText: 'There\'s no specified list data in FrameworkForListings!'
             }
         }
     }
 
+    //
+    // toggle (open/close) the detail view
     toggleDetail($event) {
         let id: string = $event.id;
         let index: number = $event.index;
@@ -137,34 +132,22 @@ export class FrameworkForListingsComponent implements OnInit {
         this.addNewFormIsActive = false;
     }
 
+    //
+    // if the input "add" is set, this method opens a form dialog box with the new-XYZ-form component
+    // the form-dialog component handles which nex-XYZ-form to use
     openNew() {
         let dialogRef;
-        switch (this.list) {
+        switch (this.list.content) {
             case 'user':
-                dialogRef = this.dialog.open(FormDialogComponent, {
-                    data: {
-                        title: this.add.title,
-                        form: 'new-user',
-                        iri: this.project,
-                    }
-                });
-                break;
             case 'project':
+            case 'resource-type':
                 dialogRef = this.dialog.open(FormDialogComponent, {
                     data: {
                         title: this.add.title,
-                        form: 'new-project'
+                        description: this.add.description,
+                        form: 'new-' + this.list.content,
+                        restriction: this.list.restrictedByIri
                     }
-                });
-                break;
-
-            case 'resource-types':
-                dialogRef = this.dialog.open(FormDialogComponent, {
-                   data: {
-                       title: this.add.title,
-                       form: 'new-resource-type',
-                       iri: this.project
-                   }
                 });
                 break;
 

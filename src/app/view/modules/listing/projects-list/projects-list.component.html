@@ -1,18 +1,20 @@
-<md-list class="salsah-list">
-    <h3 md-subheader>{{title}}</h3>
+<!-- progress indicator while the data is loading -->
+<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
-    <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
-    <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+<!-- in the case of an API error: show the error message -->
+<salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
 
-    <md-list-item *ngFor="let item of list" (click)="openProject(item.shortname)" class="salsah-link">
+<!-- if we have the data: show the list-->
+<md-list class="salsah-list" *ngIf="num > 0; else noData">
+    <h3 md-subheader ># Projects: {{num}}</h3>
+    <md-list-item *ngFor="let item of list | key" (click)="open(item.value.shortname)" class="salsah-link">
         <md-icon md-list-icon>chrome_reader_mode</md-icon>
-        <h4 md-line>{{item.name}} ({{item.shortname}})</h4>
-        <div md-line [innerHtml]="item.description | slice:0:128"></div>
-    </md-list-item>
-    <!-- if there are no data -->
-    <md-list-item  *ngIf="!isLoading && (!list || list?.length == 0)">
-            <span class="salsah-hint">
-                {{noDataMessage}}
-            </span>
+        <h4 md-line>{{item.value.name}} ({{item.value.shortname}})</h4>
+        <div md-line [innerHtml]="item.value.description | slice:0:128"></div>
     </md-list-item>
 </md-list>
+
+<!-- if there are any data: show a no data message -->
+<ng-template #noData>
+    <salsah-message *ngIf="!isLoading" [note]="noDataMessage"></salsah-message>
+</ng-template>

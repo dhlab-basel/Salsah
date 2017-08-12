@@ -25,11 +25,10 @@ import {ResourceTypes, ResourceTypeItem, ProjectItem} from '../../../../model/we
 })
 export class ResourceTypesListComponent implements OnInit {
 
-    @Input() list: ResourceTypeItem[];
-    @Input() title: string;
-    @Output() toggleItem = new EventEmitter<any>();
+    @Input('restrictedByIri') project: string;
+    @Input() index: number;
 
-    project: ProjectItem = new ProjectItem;
+    @Output() toggleItem = new EventEmitter<any>();
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
@@ -38,36 +37,43 @@ export class ResourceTypesListComponent implements OnInit {
     // just in the case if something's going wrong
     errorMessage: any = undefined;
 
-    // the http get request will fill an array called projects
-//    projectsList: ProjectItem[] = [];
+    // in the case of no data, but with a working API
+    noDataMessage: any = {
+        label: '404',
+        title: 'No resource type found',
+        text: 'It seems there\'s no resource type yet. Add a new one with the button above &uarr;'
+    };
+
+    // the main objects in this component
+    list: ResourceTypeItem[] = [];
+    num: number;
+
 
     // for the list of objects we have to know which object is active / selected
-    selectedRow: number = undefined;
-
+    selectedRow: number;
+    // iri of the selected resource type
+    iri: string;
 
     constructor(private _resourceTypesService: ResourceTypesService) {
     }
 
     ngOnInit() {
-        if (this.list === undefined) {
-            this.project = JSON.parse(localStorage.getItem('currentProject'));
-            this._resourceTypesService.getResourceTypesByVoc(this.project.ontologyNamedGraph)
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.list = result.getBody(ResourceTypes).resourcetypes;
-                        this.isLoading = false;
-                    },
-                    (error: ApiServiceError) => {
-                        console.log(error);
-                        this.errorMessage = error;
-                        this.isLoading = false;
-                    }
-                );
-        }
-        else {
-            // the user data contains a list of projects; so the data is already there
-            this.isLoading = false;
-        }
+
+        this.selectedRow = this.index;
+
+        this._resourceTypesService.getResourceTypesByVoc(this.project)
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    this.list = result.getBody(ResourceTypes).resourcetypes;
+                    this.num = Object.keys(this.list).length;
+                    this.isLoading = false;
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.errorMessage = error;
+                    this.isLoading = false;
+                }
+            );
     }
 
     // open / close detail view

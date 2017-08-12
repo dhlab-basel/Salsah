@@ -29,7 +29,7 @@ export class UsersTableComponent implements OnInit {
     // progress loader status
     isLoading: boolean = true;
 
-    @Input() project: string;
+    @Input('restrictedByIri') project: string;
     @Input() index: number;
     @Output() private _toggleUser = new EventEmitter<any>();
 

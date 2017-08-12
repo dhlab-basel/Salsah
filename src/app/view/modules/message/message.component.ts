@@ -190,6 +190,7 @@ export class MessageComponent implements OnInit {
                 this.message.title = 'This is a note without any content';
             }
             else {
+                this.message.status.text = this.note.label;
                 this.message.content.text = this.note.text;
                 this.message.title = this.note.title;
                 this.message.footnote = this.note.path;

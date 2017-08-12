@@ -11,7 +11,7 @@
     </md-card-title>
 
     <md-card-content class="message-content">
-        {{message.content.text}}
+        <p [innerHtml]="message.content.text"></p>
         <md-list *ngIf="message.content?.links">
             <md-list-item *ngFor="let link of message.content?.links" class="link" (click)="goToLocation(link.route)">
                 <md-icon md-list-icon>{{link.icon}}</md-icon>
