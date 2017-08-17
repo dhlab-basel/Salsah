@@ -16,6 +16,19 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ApiServiceError} from '../../../model/services/api-service-error';
+import {Http} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import {StatusMsgServiceService} from '../../../model/services/status-msg-service.service';
+import {ApiServiceResult} from '../../../model/services/api-service-result';
+
+export interface MessageData {
+    status: number,
+    statusMsg?: string,
+    statusText?: string,
+    type?: string,
+    route?: string,
+    footnote?: string,
+}
 
 @Component({
     selector: 'salsah-message',
@@ -24,10 +37,11 @@ import {ApiServiceError} from '../../../model/services/api-service-error';
 })
 export class MessageComponent implements OnInit {
 
-    @Input('type') type: string;                // message type: error, warning, note OR a status code like 404, 500
-    @Input('note') note: any;                   // note / message content
-    @Input('error') error: ApiServiceError;     // error message from api-service-error
-    @Input('statusCode') statusCode: string;          // status code (400, 404, 500, etc.) in the case of not existing ApiServiceError
+    @Input('message') input: MessageData;
+
+    message: MessageData;
+
+    isLoading: boolean = true;
 
     /**
      *
@@ -35,29 +49,38 @@ export class MessageComponent implements OnInit {
      * what he can do in the case of an error
      *
      */
-    defaultLinks: any = [
-        {
-            label: 'go to the start page',
-            route: '/',
-            icon: 'keyboard_arrow_right'
-        },
-        {
-            label: 'try to login',
-            route: '/login',
-            icon: 'keyboard_arrow_right'
-        },
-        {
-            label: 'go back',
-            route: '<--',
-            icon: 'keyboard_arrow_left'
-        }
-    ];
+    links: any = {
+        title: 'You have the following possibilities now',
+        list: [
+            {
+                label: 'go to the start page',
+                route: '/',
+                icon: 'keyboard_arrow_right'
+            },
+            {
+                label: 'try to login',
+                route: '/login',
+                icon: 'keyboard_arrow_right'
+            },
+            {
+                label: 'go back',
+                route: '<--',
+                icon: 'keyboard_arrow_left'
+            }
+        ]
+    };
 
-    // default footnote text
-    knoraError: string = 'If you think it\'s a mistake, please ' +
-        '<a href=\'https://github.com/dhlab-basel/knora\' target=\'_blank\'> inform the Knora team </a>';
-    salsahError: string = 'If you think it\'s a mistake, please ' +
-        '<a href=\'https://github.com/dhlab-basel/salsah\' target=\'_blank\'> inform the Salsah developers </a>';
+    footnote: any = {
+        text: 'If you think it\'s a mistake, please',
+        team: {
+            knora: '<a href=\'https://github.com/dhlab-basel/knora\' target=\'_blank\'> inform the Knora team </a>',
+            salsah: '<a href=\'https://github.com/dhlab-basel/salsah\' target=\'_blank\'> inform the Salsah developers </a>'
+        }
+    };
+
+    statusMsg: any;
+
+    showLinks: boolean = false;
 
     /**
      *
@@ -79,6 +102,8 @@ export class MessageComponent implements OnInit {
      * footnote: string;   --> (action) text in the footnote
      *
      */
+
+    /*
     message: any = {
         type: '',
         icon: '',
@@ -94,68 +119,110 @@ export class MessageComponent implements OnInit {
         },
         footnote: ''
     };
+    */
 
 
-    constructor(private _router: Router,
+    constructor(private _statusMsgService: StatusMsgServiceService,
+                private _router: Router,
                 private _location: Location,
                 private _activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
-        if (!this.statusCode) {
-            // the status code is undefined; perhaps we get one from the activated route (s. app-routing.module.ts)
-            this._activatedRoute
-                .data
-                .subscribe(
-                    (v: any) => {
-                        this.statusCode = '' + v.code;
+
+        // get the http status message from the statusMsg data json package (stored in assets/data)
+        // TODO: we have to implement this data in the multilingual settings
+        this._statusMsgService.getStatusMsg()
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    this.statusMsg = result.getBody();
+                    console.log(this.input);
+                    if(this.input == null) {
+                        this._activatedRoute
+                            .data
+                            .subscribe(
+                                (v: any) => {
+                                    this.input = <MessageData>{
+                                        status: v.status
+                                    };
+                                }
+                            );
                     }
-                );
-        }
+                    this.message = this.setMessage(this.input);
+                    this.isLoading = false;
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                }
+            );
+
+
+
+
+
+
+        /*
+
+        */
 
         // the attribute apiError is set; in that case we have a problem with the (knora) API server; = 503
-        if (this.error) {
-            this.statusCode = (this.error.status !== 0 ? '' + this.error.status : '503');
-        }
+        //     if (this.error) {
+        //           this.statusCode = (this.error.status !== 0 ? '' + this.error.status : '503');
+        //   }
 
         // if a status code exists and it starts with 4 or 5 (e.g. 404 or 500), then we have to show the error message
-        if (this.statusCode && (this.statusCode.substr(0, 1) == '4' || this.statusCode.substr(0, 1) == '5')) {
-
+        //if (this.statusCode && (this.statusCode.substr(0, 1) == '4' || this.statusCode.substr(0, 1) == '5')) {
+/*
+        if ((this.message.status > 399 && this.message.status < 500 ) || this.message.status > 499 && this.input.status < 600) {
+            console.log('we are here!');
+            this.message.status = this.input.status;
             this.message.type = 'error';
 
-            this.message.status.code = this.statusCode;
+            this.showLinks = true;
 
-            switch (this.statusCode) {
+            if(this.message.status > 399 && this.message.status < 500) this.failedOn = 'salsah';
+            if(this.message.status > 499 && this.message.status < 600) this.failedOn = 'knora';
 
+            this.message.statusMsg = this.statusMsg[this.message.status].message;
+            if(this.message.statusText == undefined) {
+                this.message.statusText = this.statusMsg[this.message.status].description;
+            }
+            */
+/*
+            switch (this.message.status) {
                 case '400':
-                    this.message.status.text = 'Bad Request';
+//                    this.message.status = 'Bad Request';
                     break;
 
                 case '401':
                 case '403':
                     // access denied
-                    this.message.status.text = 'Unauthorized';
-                    this.message.title = 'You are not allowed to see the requested page';
-                    this.message.content.text = 'You have the following possibilities now';
-                    this.message.content.links = this.defaultLinks;
-                    this.message.footnote = this.salsahError;
+//                    this.message.status = 'Unauthorized';
+//                    this.message.title = 'You are not allowed to see the requested page';
+
                     break;
 
                 case '404':
                     // page not found
-                    this.message.status.text = 'Not found';
-                    this.message.title = 'The requested page does not exist';
-                    this.message.content.text = 'You have the following possibilities now';
-                    this.message.content.links = this.defaultLinks;
-                    this.message.footnote = this.salsahError;
+//                    this.message.status = 'Not found';
+//                    this.message.title = 'The requested page does not exist';
                     break;
 
                 case '418':
                     // easter egg
-                    this.message.status.text = 'I\'m a teapot';
-                    this.message.title = 'I\'m not able to brew coffee';
-                    this.message.content.text = 'Get you\'re coffee somewhere else';
+//                    this.message.status.text = 'I\'m a teapot';
+//                    this.message.title = 'I\'m not able to brew coffee';
+//                    this.message.content.text = 'Get you\'re coffee somewhere else';
                     break;
+            }
+            */
+//        }
+
+//        if (this.message.status.substr(0, 1) == '5') {
+
+/*
+            switch (this.message.code) {
+
 
                 case '500':
                     // general server error
@@ -180,10 +247,12 @@ export class MessageComponent implements OnInit {
                     this.message.content.text = 'You have the following possibilities now';
                     this.message.content.links = this.defaultLinks;
             }
+            */
 //            console.log(this.message);
-        }
-        else {
+//        }
+//        else {
             // no status code or it doesn't start with 4 or 5
+            /*
             this.message.type = 'note';
             if (!this.note) {
                 this.message.status.text = 'empty note';
@@ -195,9 +264,95 @@ export class MessageComponent implements OnInit {
                 this.message.title = this.note.title;
                 this.message.footnote = this.note.path;
             }
+            */
+//        }
+
+
+    }
+
+    setMessage(msg: MessageData) {
+
+        let tmpMsg: MessageData = <MessageData>{};
+
+        let s: number = (msg.status == 0 ? 503 : msg.status);
+
+        tmpMsg.status = s;
+        tmpMsg.route = msg.route;
+        tmpMsg.statusMsg = msg.statusMsg;
+        tmpMsg.statusText = msg.statusText;
+        tmpMsg.route = msg.route;
+        tmpMsg.footnote = msg.footnote;
+
+        switch (true) {
+            case (s > 0 && s < 300):
+                // the message is a note
+                tmpMsg.type = 'note';
+                console.log('the message is a note');
+                break;
+            case (s >= 300  && s < 400):
+                // the message is a warning
+                tmpMsg.type = 'warning';
+
+
+                console.log('the message is a warning');
+
+                break;
+            case (s >= 400 && s < 500):
+                // the message is a client side (salsah-gui) error
+                // console.log('the message is a client side (salsah-gui) error');
+                tmpMsg.type = 'error';
+                tmpMsg.statusMsg = (msg.statusMsg !== undefined ? msg.statusMsg : this.statusMsg[s].message);
+                tmpMsg.statusText = (msg.statusText !== undefined ? msg.statusText : this.statusMsg[s].description);
+                tmpMsg.footnote = this.footnote.text + ' ' + this.footnote.team.salsah;
+                this.showLinks = true;
+
+                break;
+            case (s >= 500 && s < 600):
+                // the message is a server side (knora-api) error
+                // console.log('the message is a server side (knora-api) error');
+                tmpMsg.type = 'error';
+                tmpMsg.statusMsg = (msg.statusMsg !== undefined ? msg.statusMsg : this.statusMsg[s].message);
+                tmpMsg.statusText = (msg.statusText !== undefined ? msg.statusText : this.statusMsg[s].description);
+                tmpMsg.footnote = this.footnote.text + ' ' + this.footnote.team.knora;
+                this.showLinks = false;
+                break;
+            default:
+                // no default configuration?
+                break;
         }
 
 
+
+        if (msg.status > 99 && msg.status < 600) {
+/*
+
+
+            tmpMsg.statusText;
+            tmpMsg.statusMsg;
+            tmpMsg.footnote;
+            tmpMsg.route;
+
+            this.showLinks = true;
+
+            if (msg.status > 399 && msg.status < 500) this.failedOn = 'salsah';
+            if (msg.status > 499 && msg.status < 600) this.failedOn = 'knora';
+
+            tmpMsg.statusMsg = this.statusMsg[msg.status].message;
+
+            if (msg.title == undefined) {
+                tmpMsg.title = this.statusMsg[msg.status].message;
+            }
+            if (msg.statusText == undefined) {
+                tmpMsg.statusText = this.statusMsg[msg.status].description;
+            }
+            */
+        }
+        else {
+            // the message is a note or a warning
+
+        }
+
+        return tmpMsg;
     }
 
     goToLocation(route) {

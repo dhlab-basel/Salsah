@@ -34,7 +34,7 @@
 
     <div class="salsah-module-scroll-area">
 
-        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+        <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
         <router-outlet *ngIf="!errorMessage" (tabRequest)="activateTab($event)"></router-outlet>
 

@@ -22,7 +22,7 @@
         </md-list>
 
         <!-- error message -->
-        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+        <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
         <!-- main list -->
         <div class="salsah-module-content-list" [ngSwitch]="list.content">
@@ -50,7 +50,7 @@
                                     (toggleItem)="toggleDetail($event, $event)">
             </salsah-resource-types-list>
 
-            <salsah-collection-list *ngSwitchCase="'collection'"></salsah-collection-list>
+            <salsah-collections-list *ngSwitchCase="'collection'"></salsah-collections-list>
 
         </div>
     </div>

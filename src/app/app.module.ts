@@ -34,6 +34,8 @@ import {SessionService} from './model/services/session.service';
 import {UserService} from './model/services/user.service';
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
+// and a list of status messages
+import {StatusMsgServiceService} from './model/services/status-msg-service.service';
 //
 // import directives, pipes etc.
 //
@@ -99,7 +101,7 @@ import {NewProjectComponent} from './view/modules/form/new-project/new-project.c
 import {UsersTableComponent} from './view/modules/listing/users-table/users-table.component';
 import {FormDialogComponent} from './view/modules/dialog/form-dialog/form-dialog.component';
 import {ResourceTypesListComponent} from './view/modules/listing/resource-types-list/resource-types-list.component';
-import {CollectionListComponent} from './view/modules/listing/collection-list/collection-list.component';
+import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
 
 @NgModule({
     declarations: [
@@ -163,7 +165,7 @@ import {CollectionListComponent} from './view/modules/listing/collection-list/co
         UsersTableComponent,
         FormDialogComponent,
         ResourceTypesListComponent,
-        CollectionListComponent
+        CollectionsListComponent
     ],
     imports: [
         BrowserModule,
@@ -194,6 +196,7 @@ import {CollectionListComponent} from './view/modules/listing/collection-list/co
         BasicOntologyService,
         UserService,
         ListsService,
+        StatusMsgServiceService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

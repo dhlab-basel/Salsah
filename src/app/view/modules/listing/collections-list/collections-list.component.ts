@@ -13,18 +13,20 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
+import {MessageData} from '../../message/message.component';
 
 @Component({
-    selector: 'salsah-collection-list',
-    templateUrl: './collection-list.component.html',
-    styleUrls: ['./collection-list.component.scss']
+    selector: 'salsah-collections-list',
+    templateUrl: './collections-list.component.html',
+    styleUrls: ['./collections-list.component.scss']
 })
-export class CollectionListComponent implements OnInit {
+export class CollectionsListComponent implements OnInit {
 
-    developerInfo: any = {
-        title: 'Collections',
-        text: 'We have to implement in Knora a collection service, where a user can store his favorite resources. A collection is similar to a playlist in a music app.',
-        path: 'modules/listing/collection-list/'
+    developerInfo: MessageData = {
+        status: 304,
+        statusMsg: 'TODO: Collections',
+        statusText: 'We have to implement in Knora a collection service, where a user can store his favorite resources. A collection is similar to a playlist in a music app.',
+        route: 'modules/listing/collections-list/'
     };
 
     constructor() {

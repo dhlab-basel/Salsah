@@ -28,11 +28,11 @@
 Message
 =======
 The salsah-message component can be used for error and warning messages, but also for notes and (developer) hints.
-It's a simple card with different background color and content defined in the attribute [note] or [error].
+It's a simple card with different background color and content defined by the status code in the attribute [message].
 
 To show an api error, you can use it as following:
 
-    ``<salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>``
+    ``<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>``
 
 .. figure:: salsah-message-api-error.png
     :scale: 50 %
@@ -42,7 +42,7 @@ To show an api error, you can use it as following:
 
 We're using the same component for 404 page errors in the app routing module directly. In the case of route, we have to add the attribute data here. In this we only set the (http) status code:
 
-    ``component: MessageComponent, data: {code: '404'}``
+    ``component: MessageComponent, data: {message: {status: 404}}``
 
 
 

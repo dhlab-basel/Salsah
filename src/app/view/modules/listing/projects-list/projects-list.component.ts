@@ -19,6 +19,7 @@ import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {UserService} from '../../../../model/services/user.service';
 import {ProjectsList, ProjectItem, User, UserProfile} from '../../../../model/webapi/knora/';
+import {MessageData} from '../../message/message.component';
 
 /**
  * This component has two optional attributes:
@@ -51,10 +52,10 @@ export class ProjectsListComponent implements OnInit {
     errorMessage: any = undefined;
 
     // in the case of no data, but with a working API
-    noDataMessage: any = {
-        label: '404',
-        title: 'No projects found',
-        text: 'It seems there\'s no project yet. Create a new one with the button above &uarr;'
+    noDataMessage: MessageData = {
+        status: 204,
+        statusMsg: 'No projects found',
+        statusText: 'It seems there\'s no project yet. Create a new one with the button above &uarr;'
     };
 
     // the http get request will fill an array called projects

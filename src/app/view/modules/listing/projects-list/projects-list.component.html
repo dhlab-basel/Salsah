@@ -2,7 +2,7 @@
 <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
 <!-- in the case of an API error: show the error message -->
-<salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
 <!-- if we have the data: show the list-->
 <md-list class="salsah-list" *ngIf="num > 0; else noData">
@@ -16,5 +16,5 @@
 
 <!-- if there are any data: show a no data message -->
 <ng-template #noData>
-    <salsah-message *ngIf="!isLoading" [note]="noDataMessage"></salsah-message>
+    <salsah-message *ngIf="!isLoading" [message]="noDataMessage"></salsah-message>
 </ng-template>

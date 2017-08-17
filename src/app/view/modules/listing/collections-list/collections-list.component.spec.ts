@@ -2,11 +2,11 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 
 import {MaterialModule} from '@angular/material';
-import {CollectionListComponent} from './collection-list.component';
+import {CollectionsListComponent} from './collections-list.component';
 
 describe('CollectionListComponent', () => {
-    let component: CollectionListComponent;
-    let fixture: ComponentFixture<CollectionListComponent>;
+    let component: CollectionsListComponent;
+    let fixture: ComponentFixture<CollectionsListComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -14,7 +14,7 @@ describe('CollectionListComponent', () => {
                 MaterialModule
             ],
             declarations: [
-                CollectionListComponent
+                CollectionsListComponent
             ],
             schemas: [
                 NO_ERRORS_SCHEMA
@@ -24,7 +24,7 @@ describe('CollectionListComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(CollectionListComponent);
+        fixture = TestBed.createComponent(CollectionsListComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -1,5 +1,5 @@
 <!-- if an error occurred (from the api), show the error message -->
-<salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
 <!-- variant a) -->
 <!-- if ownProfile is not defined; show the users profile defined in the route /user/[username: email] -->
@@ -37,7 +37,7 @@
             "/settings", "/projects" and "/collections
         -->
         <salsah-user-projects *ngSwitchCase="'/projects'" [userIri]="userProfile.userData.user_id"></salsah-user-projects>
-        <salsah-user-collections *ngSwitchCase="'/collections'" [user]="userProfile"></salsah-user-collections>
+        <salsah-user-collections *ngSwitchCase="'/collections'" [userIri]="userProfile.userData.user_id"></salsah-user-collections>
         <salsah-user-settings *ngSwitchCase="'/settings'" [user]="userProfile"></salsah-user-settings>
         <salsah-user-profile *ngSwitchCase="'/profile'" [user]="userProfile"></salsah-user-profile>
     </div>

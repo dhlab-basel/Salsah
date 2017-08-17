@@ -25,11 +25,11 @@ export class ApiServiceError {
     /**
      * Status text
      */
-    statusText: string = "";
+    statusText: string = '';
 
     /**
      * API url
      */
-    url: string = "";
+    route: string = '';
 
 }

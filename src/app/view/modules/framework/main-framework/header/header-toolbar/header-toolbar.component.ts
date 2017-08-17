@@ -28,6 +28,7 @@ import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/mes
 import {ApiServiceResult} from '../../../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../../../model/services/api-service-error';
 import {FormDialogComponent} from '../../../../dialog/form-dialog/form-dialog.component';
+import {MessageData} from '../../../../message/message.component';
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -194,12 +195,13 @@ export class HeaderToolbarComponent implements OnInit {
                     break;
 
                 default:
-                    let message = {
-                        title: 'Not yet implemented',
-                        text: 'TODO: add the item type "' + item + '" to the openNew method in HeaderToolbarComponent',
-                        path: 'Missing item type: ' + item
+                    let message: MessageData = {
+                        status: 405,
+                        statusMsg: 'Not yet implemented',
+                        statusText: 'TODO: add the item type "' + item + '" to the openNew method in HeaderToolbarComponent',
+                        route: 'Missing item type: ' + item
                     };
-                    dialogRef = this.dialog.open(MessageDialogComponent, {data: {note: message}});
+                    dialogRef = this.dialog.open(MessageDialogComponent, {data: {message: message}});
 
 
             }

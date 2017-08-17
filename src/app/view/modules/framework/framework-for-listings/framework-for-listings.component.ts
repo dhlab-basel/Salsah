@@ -16,6 +16,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {MdDialog} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
+import {MessageData} from '../../message/message.component';
 
 export interface ListData {
     title: string,
@@ -39,13 +40,12 @@ export interface AddData {
 /**
  * This is a framework which can be used in cases of listing stuff
  * e.g. list of projects or users
- * @Input title: <string> title of the framework
- * @Input add: <any> If we need an "add" button, we have to define an add-object with title, description and object (type)
- *                   e.g. 'user' if we want to add new users in our framework
- * @Input list: <string> which list? A switch looks for 'user', 'resource', 'project', 'resourceClass'
- * @Input table: <boolean> if true, shows the list as a table
- * @Input project: <string> Project iri is needed in the case of the users list
- *                          if the project iri is set, it shows only the members in the defined project
+ * @Input list: <ListData> List settings object with
+ *              title, description, content (list type: user || project || resource etc.), showAsTable and restrictedByIri.
+ * @Input add: <AddData> Optional. If we need an "add" button, we have to define an add-object with
+ *              title and description
+ *
+ * Both input type objects are defined in framework-for-listings.component.ts
  */
 export class FrameworkForListingsComponent implements OnInit {
 
@@ -152,14 +152,15 @@ export class FrameworkForListingsComponent implements OnInit {
                 break;
 
             default:
-                let message = {
-                    title: 'Not yet implemented',
-                    text: 'TODO: add the list type "' + this.list + '" to the openNew method in FrameworkForListings',
-                    path: 'Missing list type: ' + this.list
+                let message: MessageData = {
+                    status: 405,
+                    statusMsg: 'Not yet implemented',
+                    statusText: 'TODO: add the list type "' + this.list + '" to the openNew method in FrameworkForListings',
+                    route: 'Missing list type: ' + this.list
                 };
                 dialogRef = this.dialog.open(MessageDialogComponent, {
                     data: {
-                        note: message
+                        message: message
                     }
                 });
 

@@ -16,6 +16,7 @@ import {Component, OnInit, Input} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {UserProfile} from "../../../../model/webapi/knora/";
 import {UserService} from "../../../../model/services/user.service";
+import {MessageData} from '../../../modules/message/message.component';
 
 @Component({
     selector: 'salsah-user-profile',
@@ -29,10 +30,11 @@ export class UserProfileComponent implements OnInit {
 
     @Input('user') user: UserProfile;
 
-    developerInfo: any = {
-        title: "User profile dashboard",
-        text: "What should be in the user's dashboard? List of last edited instances? Social network?",
-        path: "dashboard/user/user-profile/"
+    developerInfo: MessageData = {
+        status: 304,
+        statusMsg: "User profile dashboard",
+        statusText: "TODO: What should be in the user's dashboard? List of last edited instances? Social network?",
+        route: "dashboard/user/user-profile/"
     };
 
     constructor(private _route: ActivatedRoute,

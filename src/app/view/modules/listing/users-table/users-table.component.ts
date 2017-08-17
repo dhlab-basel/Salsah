@@ -5,8 +5,6 @@ import {ProjectsService} from 'app/model/services/projects.service';
 import {UserService} from 'app/model/services/user.service';
 import {UserData, UsersList, ProjectMembers} from 'app/model/webapi/knora/';
 import {MdDialog} from '@angular/material';
-import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
-import {EditUserComponent} from '../../form/edit-user/edit-user.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 
 @Component({

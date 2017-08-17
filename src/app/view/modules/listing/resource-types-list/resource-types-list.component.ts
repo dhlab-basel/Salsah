@@ -17,6 +17,7 @@ import {ResourceTypesService} from '../../../../model/services/resource-types.se
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ResourceTypes, ResourceTypeItem, ProjectItem} from '../../../../model/webapi/knora/';
+import {MessageData} from '../../message/message.component';
 
 @Component({
     selector: 'salsah-resource-types-list',
@@ -38,10 +39,10 @@ export class ResourceTypesListComponent implements OnInit {
     errorMessage: any = undefined;
 
     // in the case of no data, but with a working API
-    noDataMessage: any = {
-        label: '404',
-        title: 'No resource type found',
-        text: 'It seems there\'s no resource type yet. Add a new one with the button above &uarr;'
+    noDataMessage: MessageData = {
+        status: 204,
+        statusMsg: 'No resource type found',
+        statusText: 'It seems there\'s no resource type yet. Add a new one with the button above &uarr;'
     };
 
     // the main objects in this component

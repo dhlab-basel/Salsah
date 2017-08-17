@@ -20,6 +20,7 @@ import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 import {ProjectMembers} from '../../../../model/webapi/knora/v1/projects/project-members';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
+import {MessageData} from '../../message/message.component';
 
 @Component({
     selector: 'salsah-users-list',
@@ -50,10 +51,10 @@ export class UsersListComponent implements OnInit {
     errorMessage: any = undefined;
 
     // in the case of no data, but with a working API
-    noDataMessage: any = {
-        label: '404',
-        title: 'No users found',
-        text: 'It seems there\'s no user yet. Add a new one with the button above &uarr;'
+    noDataMessage: MessageData = {
+        status: 204,
+        statusMsg: 'No users found',
+        statusText: 'It seems there\'s no user yet. Add a new one with the button above &uarr;'
     };
 
     // the main objects in this component

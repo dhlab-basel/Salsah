@@ -103,9 +103,7 @@ const appRoutes: Routes = [
             {
                 path: '**',
                 component: MessageComponent,
-                data: {
-                    code: '404'
-                }
+                data: {status: 404}
             }
         ]
     },
@@ -127,9 +125,7 @@ const appRoutes: Routes = [
             {
                 path: '**',
                 component: MessageComponent,
-                data: {
-                    code: '404'
-                }
+                data: {status: 404}
             }
         ]
     },
@@ -143,9 +139,7 @@ const appRoutes: Routes = [
     {
         path: 'denied',
         component: MessageComponent,
-        data: {
-            code: '401'
-        }
+        data: {status: 403}
     },
     {
         path: 'dev', component: DevelopmentComponent,
@@ -175,9 +169,7 @@ const appRoutes: Routes = [
     {
         path: '**',
         component: MessageComponent,
-        data: {
-            code: '404'
-        }
+        data: {status: 404}
     }
 ];
 

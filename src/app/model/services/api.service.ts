@@ -102,11 +102,11 @@ export class ApiService {
             response.status = error.status;
             response.statusText = error.statusText;
             if (!response.statusText) response.statusText = "Connection to API endpoint failed";
-            response.url = url;
+            response.route = url;
         } else {
             response.status = 0;
             response.statusText = "Connection to API endpoint failed";
-            response.url = url;
+            response.route = url;
         }
 
         // response.status === 401 --> Unauthorized; password is wrong
