@@ -9,9 +9,9 @@
             "root": "src",
             "outDir": "dist",
             "assets": [
-                "assets",
                 "favicon.ico",
-                "test-data"
+                "assets",
+                "data-pool"
             ],
             "index": "index.html",
             "main": "main.ts",

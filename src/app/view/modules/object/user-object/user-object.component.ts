@@ -29,7 +29,7 @@ export class UserObjectComponent implements OnChanges {
 
 
     // test data: project logos
-    testDataPathImages: string = "test-data/images/";
+    testDataPathImages: string = "data-pool/projects/";
     logos = {
         "bmf": "bmf-logo.png",
         "anything": "anything-logo.png",

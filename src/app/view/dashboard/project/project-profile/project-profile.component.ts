@@ -32,7 +32,6 @@ export class ProjectProfileComponent implements OnInit {
     projectItem: ProjectItem = new ProjectItem();
 
     project: Project = new Project();
-    description: any = undefined;
 
     constructor(private _route: ActivatedRoute,
                 private _projectsService: ProjectsService
