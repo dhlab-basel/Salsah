@@ -56,6 +56,8 @@ export class ObjectComponent implements OnChanges, OnInit {
                         // get resource class Iris from response
                         let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
+                        // console.log(resourceClassIris);
+
                         // request ontology information about resource class Iris (properties are implied)
                         this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
                             (resourceClassInfos: OntologyInformation) => {
@@ -99,6 +101,8 @@ export class ObjectComponent implements OnChanges, OnInit {
                         promise.then((compacted) => {
 
                             let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                            //console.log(compacted);
 
                             // get resource class Iris from response
                             let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);

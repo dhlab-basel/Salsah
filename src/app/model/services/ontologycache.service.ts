@@ -575,7 +575,6 @@ export class OntologyCacheService {
      *
      * @param resourceClassIris the given resource class Iris
      * @returns {Observable<OntologyCache>} an OntologyCache instance representing the requested resource classes (including properties).
-     * @returns {Observable<OntologyCache>} an OntologyCache instance representing the requested resource classes (including properties).
      */
     public getResourceClassDefinitions(resourceClassIris: string[]): Observable<OntologyInformation> {
 
