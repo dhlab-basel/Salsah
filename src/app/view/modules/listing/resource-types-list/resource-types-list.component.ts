@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -26,7 +26,7 @@ import {MessageData} from '../../message/message.component';
 })
 export class ResourceTypesListComponent implements OnInit {
 
-    @Input('restrictedByIri') project: string;
+    @Input('restrictedBy') project: string;
     @Input() index: number;
 
     @Output() toggleItem = new EventEmitter<any>();

@@ -30,27 +30,36 @@
             <div *ngSwitchCase="'user'">
                 <!-- show the users in a list with a detail (edit) view on the right hand side -->
                 <salsah-users-list *ngIf="!list.showAsTable"
-                                   [restrictedByIri]="list.restrictedByIri"
+                                   [restrictedBy]="list.restrictedBy"
                                    [index]="selectedRow"
                                    (toggleItem)="toggleDetail($event, $event)">
                 </salsah-users-list>
                 <!-- OR show the users in a table with a detail (edit) view in a dialog box -->
                 <salsah-users-table *ngIf="list.showAsTable"
-                                    [restrictedByIri]="list.restrictedByIri">
+                                    [restrictedBy]="list.restrictedBy">
                 </salsah-users-table>
             </div>
 
 
             <salsah-projects-list *ngSwitchCase="'project'"
-                                  [restrictedByIri]="list.restrictedByIri">
+                                  [restrictedBy]="list.restrictedBy">
             </salsah-projects-list>
 
             <salsah-resource-types-list *ngSwitchCase="'resource-type'"
-                                    [restrictedByIri]="list.restrictedByIri"
+                                    [restrictedBy]="list.restrictedBy"
                                     (toggleItem)="toggleDetail($event, $event)">
             </salsah-resource-types-list>
 
             <salsah-collections-list *ngSwitchCase="'collection'"></salsah-collections-list>
+
+            <div *ngSwitchCase="'resource'">
+                <salsah-resources-list *ngIf="!rerender"
+                                      [searchParam]="list.restrictedBy"
+                                      (toggleItem)="toggleDetail($event, $event)">
+                </salsah-resources-list>
+            </div>
+
+            <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
 
         </div>
     </div>
@@ -73,21 +82,11 @@
         <!-- detail view content -->
         <div class="salsah-module-detail-content" [ngSwitch]="list.content">
             <!-- a) view incl. edit and delete if the logged in user has the rights -->
-            <salsah-user-object *ngSwitchCase="'user'"
-                                [id]="id">
-            </salsah-user-object>
+            <salsah-user-object *ngSwitchCase="'user'" [id]="id"></salsah-user-object>
 
-            <salsah-edit-resource-class *ngSwitchCase="'resource-type'" [iri]="id">
+            <salsah-edit-resource-class *ngSwitchCase="'resource-type'" [iri]="id"></salsah-edit-resource-class>
 
-            </salsah-edit-resource-class>
-
-
-
-
-            <!-- b) add new object (if the logged in user has the rights) -->
-            <!-- TODO: we open the "add new stuff" form in a md dialog box -->
-            <salsah-new-user *ngIf="list == 'user' && addNewFormIsActive"></salsah-new-user>
-
+            <salsah-resource-object *ngSwitchCase="'resource'" [iri]="id"></salsah-resource-object>
 
         </div>
 

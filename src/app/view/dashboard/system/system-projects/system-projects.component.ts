@@ -34,7 +34,7 @@ export class SystemProjectsComponent implements OnInit {
         description: 'a kind of subtitle',
         content: 'project',
         showAsTable: false,
-        restrictedByIri: undefined
+        restrictedBy: undefined
     };
 
     // add new projects

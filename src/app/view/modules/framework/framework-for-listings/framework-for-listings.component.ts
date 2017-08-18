@@ -12,18 +12,19 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {MdDialog} from '@angular/material';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
+import {MdDialog, MdDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MessageData} from '../../message/message.component';
+import {ActivatedRoute, Params} from '@angular/router';
 
 export interface ListData {
     title: string,
     description: string,
     content: string,
     showAsTable: boolean,
-    restrictedByIri: string
+    restrictedBy: string
 }
 
 export interface AddData {
@@ -41,7 +42,7 @@ export interface AddData {
  * This is a framework which can be used in cases of listing stuff
  * e.g. list of projects or users
  * @Input list: <ListData> List settings object with
- *              title, description, content (list type: user || project || resource etc.), showAsTable and restrictedByIri.
+ *              title, description, content (list type: user || project || resource etc.), showAsTable and restrictedBy.
  * @Input add: <AddData> Optional. If we need an "add" button, we have to define an add-object with
  *              title and description
  *
@@ -58,11 +59,20 @@ export class FrameworkForListingsComponent implements OnInit {
     // error message in the case of an api service error
     errorMessage: any = undefined;
 
+    notYetImplemented: MessageData = <MessageData>{
+        status: 204,
+        statusMsg: 'Not yet implemented',
+        statusText: 'TODO: add the following component to the FrameworkForListings component:'
+    };
+
     // two progress loader:
     // 1) for the main module
     isLoading: boolean = true;
     // 2) for the sub module: detail view
     isLoadingSubModule: boolean = true;
+
+    // rerender value, if we have to rerender a child component
+    rerender: boolean = false;
 
     // which view is active?
     detailViewIsActive: boolean = false;
@@ -82,16 +92,32 @@ export class FrameworkForListingsComponent implements OnInit {
     selectedRow: number;
     // id (almost the iri) of the selected person
     id: string;
+    public searchParam: any;
 
-    constructor(public dialog: MdDialog) {
+    constructor(public dialog: MdDialog,
+                private _route: ActivatedRoute,
+                private cdRef: ChangeDetectorRef) {
     }
 
     ngOnInit() {
-        if (this.list == undefined) {
+        if (this.list === undefined || this.list === null) {
             // list is not optional! show an error message
             this.errorMessage = <any>{
                 status: 424,
                 statusText: 'There\'s no specified list data in FrameworkForListings!'
+            }
+        }
+        else {
+            this.notYetImplemented.route = this.list.content;
+
+            if (this.list.content === 'resource') {
+
+                // reload component when activated route changes
+                this._route.params.subscribe((params: Params) => {
+                    this.rerender = true;
+                    this.cdRef.detectChanges();
+                    this.rerender = false;
+                });
             }
         }
     }
@@ -99,8 +125,8 @@ export class FrameworkForListingsComponent implements OnInit {
     //
     // toggle (open/close) the detail view
     toggleDetail($event) {
-        let id: string = $event.id;
-        let index: number = $event.index;
+        const id: string = $event.id;
+        const index: number = $event.index;
         this.addNewFormIsActive = false;
 
         if (id === this.id && index === this.selectedRow) {
@@ -141,24 +167,24 @@ export class FrameworkForListingsComponent implements OnInit {
             case 'user':
             case 'project':
             case 'resource-type':
-                dialogRef = this.dialog.open(FormDialogComponent, {
+                dialogRef = this.dialog.open(FormDialogComponent, <MdDialogConfig>{
                     data: {
                         title: this.add.title,
                         description: this.add.description,
                         form: 'new-' + this.list.content,
-                        restriction: this.list.restrictedByIri
+                        restriction: this.list.restrictedBy
                     }
                 });
                 break;
 
             default:
-                let message: MessageData = {
+                const message: MessageData = {
                     status: 405,
                     statusMsg: 'Not yet implemented',
                     statusText: 'TODO: add the list type "' + this.list + '" to the openNew method in FrameworkForListings',
                     route: 'Missing list type: ' + this.list
                 };
-                dialogRef = this.dialog.open(MessageDialogComponent, {
+                dialogRef = this.dialog.open(MessageDialogComponent, <MdDialogConfig>{
                     data: {
                         message: message
                     }

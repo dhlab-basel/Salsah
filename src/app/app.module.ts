@@ -67,7 +67,7 @@ import {SimpleSearchComponent} from './view/modules/search/simple-search/simple-
 import {ExtendedSearchComponent} from './view/modules/search/extended-search/extended-search.component';
 import {ProjectsListComponent} from './view/modules/listing/projects-list/projects-list.component';
 import {ResultsComponent} from './view/modules/listing/results/results.component';
-import {ResourceListComponent} from './view/modules/listing/resource-list/resource-list.component';
+import {ResourcesListComponent} from './view/modules/listing/resources-list/resources-list.component';
 import {ResourceGridListComponent} from './view/modules/listing/resource-grid-list/resource-grid-list.component';
 import {ObjectComponent} from './view/modules/object/object.component';
 import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
@@ -102,7 +102,8 @@ import {UsersTableComponent} from './view/modules/listing/users-table/users-tabl
 import {FormDialogComponent} from './view/modules/dialog/form-dialog/form-dialog.component';
 import {ResourceTypesListComponent} from './view/modules/listing/resource-types-list/resource-types-list.component';
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
-import { SearchResultsComponent } from './view/search/search-results/search-results.component';
+import {SearchResultsComponent} from './view/search/search-results/search-results.component';
+import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
 
 @NgModule({
     declarations: [
@@ -126,7 +127,7 @@ import { SearchResultsComponent } from './view/search/search-results/search-resu
         ProjectsListComponent,
         OverlayDirective,
         ResultsComponent,
-        ResourceListComponent,
+        ResourcesListComponent,
         ResourceGridListComponent,
         ObjectComponent,
         ProjectTeamComponent,
@@ -167,7 +168,8 @@ import { SearchResultsComponent } from './view/search/search-results/search-resu
         FormDialogComponent,
         ResourceTypesListComponent,
         CollectionsListComponent,
-        SearchResultsComponent
+        SearchResultsComponent,
+        ResourceObjectComponent
     ],
     imports: [
         BrowserModule,

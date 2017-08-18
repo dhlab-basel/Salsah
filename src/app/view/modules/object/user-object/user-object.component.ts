@@ -29,16 +29,16 @@ export class UserObjectComponent implements OnChanges {
 
 
     // test data: project logos
-    testDataPathImages: string = "data-pool/projects/";
+    testDataPathImages: string = 'data-pool/projects/';
     logos = {
-        "bmf": "bmf-logo.png",
-        "anything": "anything-logo.png",
-        "images": "dokubib-logo.png",
-        "incunabula": "incunabula-logo.png",
-        "dokubib": "dokubib-logo.png",
-        "biblio": "biblio-logo.png",
-        "beol": "beol-logo.png",
-        "SystemProject": "knora-logo.png"
+        'bmf': 'bmf-logo.png',
+        'anything': 'anything-logo.png',
+        'images': 'dokubib-logo.png',
+        'incunabula': 'incunabula-logo.png',
+        'dokubib': 'dokubib-logo.png',
+        'biblio': 'biblio-logo.png',
+        'beol': 'beol-logo.png',
+        'SystemProject': 'knora-logo.png'
     };
 
     userProfile: UserProfile;

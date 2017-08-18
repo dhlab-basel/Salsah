@@ -36,7 +36,7 @@ export class UserCollectionsComponent implements OnInit {
         description: 'Store your favorite resources in a collection',
         content: 'collection',
         showAsTable: false,
-        restrictedByIri: ''
+        restrictedBy: ''
     };
 
     // add new project

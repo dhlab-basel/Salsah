@@ -34,7 +34,7 @@ export class ProjectResourcesComponent implements OnInit {
         description: 'a kind of subtitle',
         content: 'resource-type',
         showAsTable: false,
-        restrictedByIri: ''
+        restrictedBy: ''
     };
 
     // add new users
@@ -49,7 +49,7 @@ export class ProjectResourcesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.list.restrictedByIri = JSON.parse(localStorage.getItem('currentProject')).ontologyNamedGraph;
+        this.list.restrictedBy = JSON.parse(localStorage.getItem('currentProject')).ontologyNamedGraph;
     }
 
 }

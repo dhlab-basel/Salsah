@@ -136,7 +136,7 @@ export class MessageComponent implements OnInit {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.statusMsg = result.getBody();
-                    console.log(this.input);
+//                    console.log(this.input);
                     if(this.input == null) {
                         this._activatedRoute
                             .data
@@ -287,14 +287,12 @@ export class MessageComponent implements OnInit {
             case (s > 0 && s < 300):
                 // the message is a note
                 tmpMsg.type = 'note';
-                console.log('the message is a note');
+//                console.log('the message is a note');
                 break;
             case (s >= 300  && s < 400):
                 // the message is a warning
                 tmpMsg.type = 'warning';
-
-
-                console.log('the message is a warning');
+//                console.log('the message is a warning');
 
                 break;
             case (s >= 400 && s < 500):

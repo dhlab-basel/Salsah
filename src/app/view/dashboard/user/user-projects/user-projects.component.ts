@@ -37,7 +37,7 @@ export class UserProjectsComponent implements OnInit {
         description: 'a kind of subtitle',
         content: 'project',
         showAsTable: false,
-        restrictedByIri: ''
+        restrictedBy: ''
     };
 
     // add new project
@@ -52,7 +52,7 @@ export class UserProjectsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.list.restrictedByIri = this.userIri;
+        this.list.restrictedBy = this.userIri;
             // JSON.parse(localStorage.getItem('ownProfile')).user_id;
     }
 

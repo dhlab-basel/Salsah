@@ -2,11 +2,11 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
-import {ResourceListComponent} from './resource-list.component';
+import {ResourcesListComponent} from './resources-list.component';
 
 describe('ResourceListComponent', () => {
-    let component: ResourceListComponent;
-    let fixture: ComponentFixture<ResourceListComponent>;
+    let component: ResourcesListComponent;
+    let fixture: ComponentFixture<ResourcesListComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -20,7 +20,7 @@ describe('ResourceListComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ResourceListComponent);
+        fixture = TestBed.createComponent(ResourcesListComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

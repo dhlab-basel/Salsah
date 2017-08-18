@@ -33,7 +33,7 @@ export class SystemUsersComponent implements OnInit {
         description: 'a kind of subtitle',
         content: 'user',
         showAsTable: true,
-        restrictedByIri: undefined
+        restrictedBy: undefined
     };
 
     // add new users

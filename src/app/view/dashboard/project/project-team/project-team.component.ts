@@ -33,7 +33,7 @@ export class ProjectTeamComponent implements OnInit {
         description: '',
         content: 'user',
         showAsTable: false,
-        restrictedByIri: ''
+        restrictedBy: ''
     };
 
     // add new users
@@ -48,7 +48,7 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.list.restrictedByIri = JSON.parse(localStorage.getItem('currentProject')).id;
+        this.list.restrictedBy = JSON.parse(localStorage.getItem('currentProject')).id;
     }
 
 }

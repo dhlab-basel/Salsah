@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -72,7 +72,7 @@ export class ResultsComponent implements OnInit {
     ngOnInit() {
 
         this._route.params.subscribe((params: Params) => {
-            let query = params['q'];
+            const query = params['q'];
 
             this._searchService.doSearch(query)
                 .subscribe(

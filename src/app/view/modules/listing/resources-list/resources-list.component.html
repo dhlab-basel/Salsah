@@ -1,0 +1,26 @@
+<!-- progress indicator while the data is loading -->
+<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+
+<!-- in the case of an API error: show the error message -->
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+<md-list class="salsah-list" *ngIf="num > 0; else noData">
+    <md-list-item *ngFor="let res of result.subjects; let i = index"
+                  (click)="toggle(res.obj_id, i)"
+                  [id]="res.obj_id"
+                  class="salsah-link"
+                  [class.highlight]="i == selectedRow">
+        <img md-list-avatar [src]="res.preview_path" class="salsah-preview-image" />
+        <p md-line *ngFor="let val of res.value">
+            {{val}}
+        </p>
+        <button md-icon-button class="right close close-highlight">
+            <md-icon>close</md-icon>
+        </button>
+    </md-list-item>
+</md-list>
+
+<!-- if there are any data: show a no data message -->
+<ng-template #noData>
+    <salsah-message *ngIf="!isLoading && !errorMessage" [message]="noDataMessage"></salsah-message>
+</ng-template>

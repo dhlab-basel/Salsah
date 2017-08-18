@@ -37,7 +37,7 @@ import {MessageData} from '../../message/message.component';
  */
 export class UsersListComponent implements OnInit {
 
-    @Input('restrictedByIri') project: string;
+    @Input('restrictedBy') project: string;
     @Input() index: number;
 
     @Output() toggleItem = new EventEmitter<any>();

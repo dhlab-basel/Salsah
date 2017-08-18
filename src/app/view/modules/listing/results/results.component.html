@@ -20,12 +20,13 @@
 
         <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
             <!-- show the results in a simple list -->
-            <salsah-resource-list *ngIf="selectedView=='list' && result"
+            <!--
+            <salsah-resources-list *ngIf="selectedView=='list' && result"
                                   class="list-view"
                                   [result]="result"
                                   (openResource)="openResource($event, $event)">
-            </salsah-resource-list>
-
+            </salsah-resources-list>
+            -->
             <!-- show the results in a grid list -->
             <salsah-resource-grid-list *ngIf="selectedView=='grid' && result"
                                        class="grid-view"

@@ -42,7 +42,7 @@ import {MessageData} from '../../message/message.component';
 
 export class ProjectsListComponent implements OnInit {
 
-    @Input('restrictedByIri') user: string;
+    @Input('restrictedBy') user: string;
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;

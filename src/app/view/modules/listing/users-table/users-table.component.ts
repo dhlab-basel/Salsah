@@ -1,10 +1,24 @@
+/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
+ * This file is part of SALSAH.
+ * SALSAH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * SALSAH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You should have received a copy of the GNU Affero General Public
+ * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+ * */
+
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectsService} from 'app/model/services/projects.service';
 import {UserService} from 'app/model/services/user.service';
 import {UserData, UsersList, ProjectMembers} from 'app/model/webapi/knora/';
-import {MdDialog} from '@angular/material';
+import {MdDialog, MdDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 
 @Component({
@@ -25,9 +39,9 @@ export class UsersTableComponent implements OnInit {
     // error message, if something went wrong
     errorMessage: any = undefined;
     // progress loader status
-    isLoading: boolean = true;
+    isLoading = true;
 
-    @Input('restrictedByIri') project: string;
+    @Input('restrictedBy') project: string;
     @Input() index: number;
     @Output() private _toggleUser = new EventEmitter<any>();
 
@@ -51,7 +65,7 @@ export class UsersTableComponent implements OnInit {
             label: 'First name'
         }
     ];
-    sortTitle: string = 'Sort by: ';
+    sortTitle = 'Sort by: ';
     sortKey: string;
     sortLabel: string;
 
@@ -74,8 +88,8 @@ export class UsersTableComponent implements OnInit {
                         // it's a list of user IRIs
                         // we need it, when we want to add new members to a project
                         // in that case we see, if someone is already a member
-                        let currentMembers: string[] = [];
-                        for (let m of this.users) {
+                        const currentMembers: string[] = [];
+                        for (const m of this.users) {
                             currentMembers.push(m.user_id);
                         }
                         localStorage.setItem('currentProjectMembers', JSON.stringify(currentMembers));
@@ -122,7 +136,7 @@ export class UsersTableComponent implements OnInit {
     // open / close user
     open(id: string) {
         console.log(id);
-        let dialogRef = this.dialog.open(FormDialogComponent, {
+        const dialogRef = this.dialog.open(FormDialogComponent, <MdDialogConfig>{
             data: {
                 iri: id,
                 form: 'edit-user'
