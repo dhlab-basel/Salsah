@@ -70,7 +70,7 @@ export class ResourceTypesListComponent implements OnInit {
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
-                    console.log(error);
+                    console.log('ResourceTypesListComponent', error);
                     this.errorMessage = error;
                     this.isLoading = false;
                 }

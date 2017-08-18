@@ -35,5 +35,5 @@
 
 <!-- if there are any data: show a no data message -->
 <ng-template #noData>
-    <salsah-message *ngIf="!isLoading" [message]="noDataMessage"></salsah-message>
+    <salsah-message *ngIf="!isLoading && !errorMessage" [message]="noDataMessage"></salsah-message>
 </ng-template>
