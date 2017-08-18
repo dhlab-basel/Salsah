@@ -2,6 +2,12 @@
     {{data.title}}
 </h1>
 
+<button md-icon-button
+        md-dialog-close
+        class="cancel-button">
+    <md-icon>close</md-icon>
+</button>
+
 <md-dialog-content [ngSwitch]="data.form">
 
     <!-- salsah new form for projects, users, resource classes etc.

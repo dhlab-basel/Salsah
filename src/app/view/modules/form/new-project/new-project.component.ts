@@ -41,6 +41,8 @@ export class NewProjectComponent implements OnInit {
     // form group
     form: FormGroup;
 
+    descriptionMaxLength: number = 1000;
+
 
     constructor(public _projectsService: ProjectsService,
                 private fb: FormBuilder) {
@@ -55,12 +57,8 @@ export class NewProjectComponent implements OnInit {
                 (result: ApiServiceResult) => {
                     let projectsList: ProjectItem[] = result.getBody(ProjectsList).projects;
                     for(let p of projectsList) {
-                        // add each project short name to the list of existing project
-                        // TODO: convert the string expression into a RegExp
-
                         this.existingProjects.push(new RegExp(p.shortname.toLowerCase()));
                     }
-                    console.log(this.existingProjects);
                 },
                 (error: ApiServiceError) => {
                     console.log(error);
@@ -68,15 +66,15 @@ export class NewProjectComponent implements OnInit {
                 }
             );
 
-
         this.buildForm();
     }
 
     buildForm(): void {
+        // formControllName
         this.form = this.fb.group({
             'shortname': [this.newProject.shortname, [Validators.required, Validators.minLength(3), Validators.maxLength(16), forbiddenNamesValidator(this.existingProjects)]],
             'longname': [null, Validators.required],
-            'description': [null, Validators.maxLength(256)],
+            'description': [null, Validators.maxLength(this.descriptionMaxLength)],
             'institution': [null],
             'logo': [null],
             'id': [null],
@@ -94,7 +92,6 @@ export class NewProjectComponent implements OnInit {
     }
 
     onValueChanged(data?: any) {
-        console.log(data);
 
         if (!this.form) {
             return;
@@ -130,15 +127,14 @@ export class NewProjectComponent implements OnInit {
             or: 'OR',
             url: 'Set an URL'
         },
-        dataNamedGraph: 'Data named graph',
-        ontologyNamedGraph: 'Ontology named graph',
-        projectId: 'Automatic generated project id'
+        keywords: 'Keywords'
     };
 
     formErrors = {
         'shortname': '',
         'longname': '',
-        'description': ''
+        'description': '',
+        'keywords': '',
     };
 
     validationMessages = {
@@ -152,7 +148,10 @@ export class NewProjectComponent implements OnInit {
             'required': 'Long name is required.',
         },
         'description': {
-            'maxlength': 'Description cannot be more than 250 characters long.',
+            'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.',
+        },
+        'keywords': {
+
         }
     };
 

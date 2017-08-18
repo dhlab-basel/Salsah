@@ -102,6 +102,7 @@ import {UsersTableComponent} from './view/modules/listing/users-table/users-tabl
 import {FormDialogComponent} from './view/modules/dialog/form-dialog/form-dialog.component';
 import {ResourceTypesListComponent} from './view/modules/listing/resource-types-list/resource-types-list.component';
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
+import { SearchResultsComponent } from './view/search/search-results/search-results.component';
 
 @NgModule({
     declarations: [
@@ -165,7 +166,8 @@ import {CollectionsListComponent} from './view/modules/listing/collections-list/
         UsersTableComponent,
         FormDialogComponent,
         ResourceTypesListComponent,
-        CollectionsListComponent
+        CollectionsListComponent,
+        SearchResultsComponent
     ],
     imports: [
         BrowserModule,

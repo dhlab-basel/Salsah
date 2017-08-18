@@ -1,33 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
     <table class="full-width" cellspacing="0">
-        <!-- line 0: test data for developer -->
-        <tr>
-            <td colspan="3">
-                <md-input-container class="full-width">
-                    <input mdInput
-                           [placeholder]="formLabels.dataNamedGraph"
-                           formControlName="dataNamedGraph">
-                </md-input-container>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <md-input-container class="full-width">
-                    <input mdInput
-                           [placeholder]="formLabels.ontologyNamedGraph"
-                           formControlName="ontologyNamedGraph">
-                </md-input-container>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <md-input-container class="full-width">
-                    <input mdInput
-                           [placeholder]="formLabels.projectId"
-                           formControlName="id">
-                </md-input-container>
-            </td>
-        </tr>
         <!-- line 1: short and long name of the project -->
         <tr>
             <td colspan="1">
@@ -67,7 +39,22 @@
             </td>
         </tr>
 
-        <!-- line 3: logo upload or url definition -->
+        <!-- line 3: keywords -->
+        <!-- after uploading logo or setting url replace it with the logo -->
+        <tr>
+            <td colspan="3">
+                <md-input-container class="full-width">
+                    <input mdInput
+                           [placeholder]="formLabels.keywords"
+                           formControlName="keywords">
+                    <md-hint *ngIf="formErrors.keywords">
+                        {{ formErrors.keywords }}
+                    </md-hint>
+                </md-input-container>
+            </td>
+        </tr>
+
+        <!-- line 4: logo upload or url definition -->
         <!-- after uploading logo or setting url replace it with the logo -->
         <tr>
             <td>
@@ -84,7 +71,11 @@
         <!-- TODO: how do we handle this with md dialog box? -->
         <tr>
             <td>
-                Cancel
+                <button md-button
+                        class="cancel-button"
+                        (click)="form.reset()">
+                    Cancel
+                </button>
             </td>
             <td>
 
@@ -99,7 +90,8 @@
             </td>
         </tr>
     </table>
-
+<!-- // some outputs for developers
     <p>Value: {{ form.value | json }}</p>
     <p>Validation status: {{ form.status }}</p>
+-->
 </form>
