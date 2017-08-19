@@ -1,5 +1,8 @@
+<!-- error message -->
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
 <!-- main module content with different sizes: large or medium (= default) -->
-<div class="salsah-module-content" [ngClass]="moduleSize">
+<div class="salsah-module-content" [ngClass]="moduleSize" *ngIf="!errorMessage">
 
     <!-- this module has a list with different positions: left or center (= default) -->
     <div class="salsah-list" [ngClass]="[position, listSize]">
@@ -10,8 +13,7 @@
         <md-list *ngIf="add != undefined">
             <!-- this list has an 'add button' to add new stuff;
             it opens the form-dialog-component with the 'new-something-form'-component -->
-            <md-list-item class="salsah-link" (click)="openNew()" [class.highlight]="addNewFormIsActive">
-                <!-- TODO: perhaps an own component for that? -->
+            <md-list-item class="salsah-link" (click)="openNew()">
                 <button md-icon-button>
                     <md-icon>add</md-icon>
                 </button>
@@ -20,9 +22,6 @@
             <md-divider></md-divider>
             <!-- end of 'add button' -->
         </md-list>
-
-        <!-- error message -->
-        <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
         <!-- main list -->
         <div class="salsah-module-content-list" [ngSwitch]="list.content">
@@ -65,7 +64,7 @@
     </div>
     <!-- end of main list -->
 
-    <div *ngIf="detailViewIsActive || addNewFormIsActive" class="salsah-module-detail" [ngClass]="position.detail">
+    <div *ngIf="detailViewIsActive" class="salsah-module-detail" [ngClass]="position.detail">
         <!-- detail view with own header -->
         <!-- because of an issue with the highlight of the selected object in the list,
             we have to disable this main close button -->

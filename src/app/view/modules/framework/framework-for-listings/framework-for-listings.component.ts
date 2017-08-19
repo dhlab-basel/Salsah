@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {MdDialog, MdDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
@@ -76,7 +76,6 @@ export class FrameworkForListingsComponent implements OnInit {
 
     // which view is active?
     detailViewIsActive: boolean = false;
-    addNewFormIsActive: boolean = false;    // TODO: will be changed into dialog box!!
 
     // definition of the position for the preview (main module) and the detail view (sub module)
     position: string = 'center';
@@ -92,11 +91,11 @@ export class FrameworkForListingsComponent implements OnInit {
     selectedRow: number;
     // id (almost the iri) of the selected person
     id: string;
-    public searchParam: any;
 
-    constructor(public dialog: MdDialog,
+//    constructor(@Inject(ElementRef) elementRef: ElementRef, @Inject(Injector) injector: Injector)
+    constructor(private _dialog: MdDialog,
                 private _route: ActivatedRoute,
-                private cdRef: ChangeDetectorRef) {
+                private _cdRef: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -105,7 +104,8 @@ export class FrameworkForListingsComponent implements OnInit {
             this.errorMessage = <any>{
                 status: 424,
                 statusText: 'There\'s no specified list data in FrameworkForListings!'
-            }
+            };
+            this.list = <ListData>{};
         }
         else {
             this.notYetImplemented.route = this.list.content;
@@ -115,7 +115,7 @@ export class FrameworkForListingsComponent implements OnInit {
                 // reload component when activated route changes
                 this._route.params.subscribe((params: Params) => {
                     this.rerender = true;
-                    this.cdRef.detectChanges();
+                    this._cdRef.detectChanges();
                     this.rerender = false;
                 });
             }
@@ -127,7 +127,6 @@ export class FrameworkForListingsComponent implements OnInit {
     toggleDetail($event) {
         const id: string = $event.id;
         const index: number = $event.index;
-        this.addNewFormIsActive = false;
 
         if (id === this.id && index === this.selectedRow) {
             // the user clicked on the already selected item
@@ -141,7 +140,6 @@ export class FrameworkForListingsComponent implements OnInit {
                 this.moduleSize = 'large';
             }
             this.isLoadingSubModule = true;
-            this.addNewFormIsActive = false;
             this.detailViewIsActive = true;
 
             this.id = id;
@@ -155,7 +153,6 @@ export class FrameworkForListingsComponent implements OnInit {
         this.moduleSize = 'medium';
         this.selectedRow = undefined;
         this.detailViewIsActive = false;
-        this.addNewFormIsActive = false;
     }
 
     //
@@ -167,7 +164,7 @@ export class FrameworkForListingsComponent implements OnInit {
             case 'user':
             case 'project':
             case 'resource-type':
-                dialogRef = this.dialog.open(FormDialogComponent, <MdDialogConfig>{
+                dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
                     data: {
                         title: this.add.title,
                         description: this.add.description,
@@ -179,22 +176,21 @@ export class FrameworkForListingsComponent implements OnInit {
 
             default:
                 const message: MessageData = {
-                    status: 405,
+                    status: 204,
                     statusMsg: 'Not yet implemented',
                     statusText: 'TODO: add the list type "' + this.list + '" to the openNew method in FrameworkForListings',
                     route: 'Missing list type: ' + this.list
                 };
-                dialogRef = this.dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                dialogRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
                     data: {
                         message: message
                     }
                 });
-
         }
+
         dialogRef.afterClosed().subscribe(result => {
             console.log(result);
         });
-
-
     }
+
 }

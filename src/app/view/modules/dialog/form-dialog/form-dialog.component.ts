@@ -32,10 +32,6 @@ export class FormDialogComponent implements OnInit {
         console.log(this.data);
     }
 
-    ngOnChanges() {
-
-    }
-
     submitData(data: any, valid: boolean) {
         // get the data and the valid form information from child component
         // if the data is valid, activate the submit button

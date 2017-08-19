@@ -1,7 +1,12 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {AppMaterialModule} from '../../../../app-material-module';
+import {AppRoutingModule} from '../../../../app-routing.module';
+
 import {FrameworkForListingsComponent} from './framework-for-listings.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {MdDialogRef} from '@angular/material';
 
 describe('FrameworkForListingsComponent', () => {
     let component: FrameworkForListingsComponent;
@@ -11,7 +16,13 @@ describe('FrameworkForListingsComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule
+                AppMaterialModule,
+                AppRoutingModule,
+                RouterTestingModule
+            ],
+            providers: [
+                {provide: NO_ERRORS_SCHEMA},
+                {provide: MdDialogRef}
             ]
         })
             .compileComponents();

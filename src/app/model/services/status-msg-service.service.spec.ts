@@ -2,7 +2,7 @@ import {TestBed, inject} from '@angular/core/testing';
 import {AppModule} from '../../app.module';
 import {AppRoutingModule} from '../../app-routing.module';
 import {ApiService} from './api.service';
-import { StatusMsgServiceService } from './status-msg-service.service';
+import {StatusMsgServiceService} from './status-msg-service.service';
 
 describe('SessionService', () => {
     beforeEach(() => {
