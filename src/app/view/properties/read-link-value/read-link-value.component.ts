@@ -16,6 +16,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ReadLinkValue} from '../../../model/webapi/knora/v2/read-property-item';
 import {MdDialog, MdDialogConfig} from '@angular/material';
 import {ObjectComponent} from '../../modules/object/object.component';
+import {OntologyInformation} from "../../../model/services/ontologycache.service";
 
 @Component({
     selector: 'read-link-value',
@@ -25,6 +26,7 @@ import {ObjectComponent} from '../../modules/object/object.component';
 export class ReadLinkValueComponent implements OnInit {
 
     @Input() valueObject: ReadLinkValue;
+    @Input() ontologyInfo: OntologyInformation;
 
     constructor(private dialog: MdDialog) {
     }
