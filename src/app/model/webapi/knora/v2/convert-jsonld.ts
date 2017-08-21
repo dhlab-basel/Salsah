@@ -16,14 +16,21 @@ import {ReadResourcesSequence} from "./read-resources-sequence";
 import {ReadResource} from "./read-resource";
 import {ReadProperties} from "./read-properties";
 import {
-    ReadPropertyItem, ReadTextValueAsHtml, ReadDateValue, ReadLinkValue,
-    ReadTextValueAsString, ReadTextValueAsXml, ReadIntegerValue, ReadDecimalValue, ReadStillImageFileValue,
-    ReferredResourcesByStandoffLink, ReadColorValue, ReadGeomValue
+    ReadColorValue,
+    ReadDateValue,
+    ReadDecimalValue,
+    ReadGeomValue,
+    ReadIntegerValue,
+    ReadLinkValue,
+    ReadPropertyItem,
+    ReadStillImageFileValue,
+    ReadTextValueAsHtml,
+    ReadTextValueAsString,
+    ReadTextValueAsXml,
+    ReferredResourcesByStandoffLink
 } from "./read-property-item";
 import {AppConfig} from "../../../../app.config";
-import {OntologyService} from "../../../services/ontology.service";
-import {ApiServiceResult} from "../../../services/api-service-result";
-import {ApiServiceError} from "../../../services/api-service-error";
+
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
 
@@ -36,22 +43,16 @@ export module ConvertJSONLD {
      * @param properties    a [[ReadProperties]] describing the resource's properties. if any.
      * @returns a [[ReadResource]]
      */
-    function constructReadResource(resourceJSONLD: Object, ontologyResponseJSONLD?: Object): ReadResource {
+    function constructReadResource(resourceJSONLD: Object): ReadResource {
 
         let properties: ReadProperties = constructReadProperties(resourceJSONLD);
 
         // check for resource class information
         let resourceClassAsName: string;
-        if (ontologyResponseJSONLD !== undefined) {
-            resourceClassAsName = ontologyResponseJSONLD[resourceJSONLD['@type']][AppConfig.rdfLabel];
-        } else {
-            resourceClassAsName = undefined;
-        }
 
         return {
             id: resourceJSONLD['@id'],
             type: resourceJSONLD['@type'],
-            typeAsName: resourceClassAsName,
             label: resourceJSONLD[AppConfig.schemaName],
             properties: properties,
             incoming: []
@@ -183,7 +184,7 @@ export module ConvertJSONLD {
 
                 break;
 
-           case AppConfig.GeomValue:
+            case AppConfig.GeomValue:
 
                 let readGeomValue: ReadGeomValue = new ReadGeomValue(
                     propValue['@id'],
@@ -273,7 +274,7 @@ export module ConvertJSONLD {
      * @param resourcesResponseJSONLD   a sequence of resources, represented as a JSON-LD object.
      * @returns {ReadResourcesSequence} a [[ReadResourcesSequence]].
      */
-    export function createReadResourcesSequenceFromJsonLD(resourcesResponseJSONLD: Object, ontologyResponseJSONLD?: Object): ReadResourcesSequence {
+    export function createReadResourcesSequenceFromJsonLD(resourcesResponseJSONLD: Object): ReadResourcesSequence {
 
         let resources: Array<ReadResource> = [];
         let numberOfResources: number = resourcesResponseJSONLD[AppConfig.schemaNumberOfItems];
@@ -284,7 +285,7 @@ export module ConvertJSONLD {
 
             for (let resourceJSONLD of resourcesResponseJSONLD[AppConfig.schemaItemListElement]) {
 
-                let resource: ReadResource = constructReadResource(resourceJSONLD, ontologyResponseJSONLD);
+                let resource: ReadResource = constructReadResource(resourceJSONLD);
 
                 // add the resource to the resources array
                 resources.push(resource);
@@ -292,7 +293,7 @@ export module ConvertJSONLD {
         } else {
             // only one resource
 
-            let resource: ReadResource = constructReadResource(resourcesResponseJSONLD[AppConfig.schemaItemListElement], ontologyResponseJSONLD);
+            let resource: ReadResource = constructReadResource(resourcesResponseJSONLD[AppConfig.schemaItemListElement]);
 
             // add the resource to the resources array
             resources.push(resource);
@@ -300,6 +301,52 @@ export module ConvertJSONLD {
         }
 
         return new ReadResourcesSequence(resources, numberOfResources);
+
+    }
+
+    /**
+     * Collects all the classes of referred resources from a given resource (from its linking properties).
+     *
+     * @param {Object} resourceJSONLD JSON-LD describing one resource.
+     * @return an Array of resource class Iris (including duplicates).
+     */
+    function getReferredResourceClasses(resourceJSONLD: Object): string[] {
+
+        let propNames = Object.keys(resourceJSONLD);
+        // filter out everything that is not a Knora property name
+        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConfig.schemaName);
+
+        let referredResourceClasses = [];
+
+        for (let prop of propNames) {
+
+            // several values given for this property
+            if (Array.isArray(resourceJSONLD[prop])) {
+
+                for (let referredRes of resourceJSONLD[prop]) {
+
+                    // if the property is a LinkValue and it contains an embedded resource, get its type
+                    if (referredRes['@type'] == AppConfig.LinkValue && referredRes[AppConfig.linkValueHasTarget] !== undefined) {
+
+                        // target resource is represented
+                        referredResourceClasses.push(referredRes[AppConfig.linkValueHasTarget]['@type']);
+                    }
+
+                }
+            } else {
+                // only one value given for this property
+
+                // if the property is a LinkValue and it contains an embedded resource, get its type
+                if (resourceJSONLD[prop]['@type'] == AppConfig.LinkValue && resourceJSONLD[prop][AppConfig.linkValueHasTarget] !== undefined) {
+
+                    // target resource is represented
+                    referredResourceClasses.push(resourceJSONLD[prop][AppConfig.linkValueHasTarget]['@type']);
+                }
+            }
+
+        }
+
+        return referredResourceClasses;
 
     }
 
@@ -318,7 +365,14 @@ export module ConvertJSONLD {
 
             // collect all resource classes
             for (let res of resourcesResponseJSONLD[AppConfig.schemaItemListElement]) {
+                // get class of the current resource
                 resourceClasses.push(res["@type"]);
+
+                // get the classes of referred resources
+                let referredResourceClasses = getReferredResourceClasses(res);
+
+                resourceClasses = resourceClasses.concat(referredResourceClasses);
+
             }
 
             // filter out duplicates
@@ -332,8 +386,26 @@ export module ConvertJSONLD {
 
         } else {
 
+            let resourceClasses: Array<string> = [];
+
+            let res = resourcesResponseJSONLD[AppConfig.schemaItemListElement];
+
             // only one resource
-            return [resourcesResponseJSONLD[AppConfig.schemaItemListElement]["@type"]];
+            resourceClasses.push(res["@type"]);
+
+            // get the classes of referred resources
+            let referredResourceClasses = getReferredResourceClasses(res);
+
+            resourceClasses = resourceClasses.concat(referredResourceClasses);
+
+            // filter out duplicates
+            // https://stackoverflow.com/questions/16747798/delete-duplicate-elements-from-an-array
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter?v=example
+            return resourceClasses.filter(function (elem, index, self) {
+                // returns true if the element's index equals the index of the leftmost element
+                // for all other elements, false is returned
+                return index == self.indexOf(elem);
+            });
         }
     }
 

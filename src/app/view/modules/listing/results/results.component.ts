@@ -19,7 +19,7 @@ import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {SearchService} from "../../../../model/services/search.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
-import {CacheService} from "../../../../model/services/cache.service";
+import {OntologyCacheService, OntologyInformation} from "../../../../model/services/ontologycache.service";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -38,6 +38,7 @@ export class ResultsComponent implements OnInit {
     selectedView: string = 'list';
 
     result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
+    ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
 
     viewOptions = [
         {
@@ -71,7 +72,7 @@ export class ResultsComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute,
                 private _searchService: SearchService,
-                private _cacheService: CacheService) {
+                private _cacheService: OntologyCacheService) {
     }
 
     ngOnInit() {
@@ -79,7 +80,7 @@ export class ResultsComponent implements OnInit {
         this._route.params.subscribe((params: Params) => {
             let query = params['q'];
 
-            this._searchService.doSearch(query)
+            this._searchService.doFulltextSearch(query)
                 .subscribe(
                     (resResult: ApiServiceResult) => {
 
@@ -87,18 +88,19 @@ export class ResultsComponent implements OnInit {
                         // compact JSON-LD using an empty context: expands all Iris
                         let resPromise = resPromises.compact(resResult.body, {});
 
-                        resPromise.then((resCompacted) => {
+                        resPromise.then((compacted) => {
 
-                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(resCompacted);
+                            // get resource class Iris from response
+                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
+                            // request ontology information about resource class Iris (properties are implied)
                             this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                                (resourceClassInfos: Object) => {
+                                (resourceClassInfos: OntologyInformation) => {
 
-                                    // console.log(resourceClassInfos);
+                                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-                                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(resCompacted, resourceClassInfos);
-
-                                    // variable 'this' cannot be used in the context of a function
+                                    // assign ontology information to a variable so it can be used in the component's template
+                                    this.ontologyInfo = resourceClassInfos;
                                     this.result = resources;
 
                                 },

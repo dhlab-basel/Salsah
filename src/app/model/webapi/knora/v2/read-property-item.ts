@@ -15,20 +15,46 @@
 import {AppConfig} from "../../../../app.config";
 import {ReadResource} from "./read-resource";
 import {escape} from "querystring";
+import {OntologyInformation} from "../../../services/ontologycache.service";
 
+/**
+ * An abstract interface representing any value object.
+ */
 export interface ReadPropertyItem {
 
+    /**
+     * The value object's Iri.
+     */
     readonly id: string;
 
+    /**
+     * The value object's type.
+     */
     readonly type:string;
 
+    /**
+     * The property pointing to the value object.
+     */
     readonly propIri:string;
 
+    /**
+     * Gets the value object's value.
+     *
+     * @returns {string}
+     */
     getContent:() => string;
 
+    /**
+     * Gets the class name of the class that implements this interface.
+     *
+     * @returns {string}
+     */
     getClassName:() => string;
 }
 
+/**
+ * Represents a text value object without markup (mere character string).
+ */
 export class ReadTextValueAsString implements ReadPropertyItem {
 
     constructor(readonly id:string, readonly propIri, readonly str:string) {
@@ -46,10 +72,16 @@ export class ReadTextValueAsString implements ReadPropertyItem {
     }
 }
 
+/**
+ * Represents resources referred to by standoff links.
+ */
 export class ReferredResourcesByStandoffLink {
     [index: string]: ReadResource;
 }
 
+/**
+ * Represents a text value object with markup that has been turned into HTML.
+ */
 export class ReadTextValueAsHtml implements ReadPropertyItem {
 
     constructor(readonly id:string, readonly propIri, readonly html:string, readonly referredResources: ReferredResourcesByStandoffLink) {
@@ -62,9 +94,19 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
         return this.html;
     };
 
-    getReferredResource(resourceIri) {
+    /**
+     * Gets information about a resource referred to by a standoff link from a text value.
+     *
+     * @param {string} resourceIri the Iri of the referred resource.
+     * @param {OntologyInformation} ontologyInfo ontology information.
+     * @returns {string} information about the referred resource's class and its label.
+     */
+    getReferredResourceInfo(resourceIri: string, ontologyInfo: OntologyInformation) {
         if (this.referredResources !== undefined && this.referredResources[resourceIri] !== undefined) {
-            return this.referredResources[resourceIri].type + " " + this.referredResources[resourceIri].label;
+
+            let resClassLabel = ontologyInfo.getLabelForResourceClass(this.referredResources[resourceIri].type);
+
+            return this.referredResources[resourceIri].label + ` (${resClassLabel})`;
         } else {
             return "no information found"
         }
@@ -76,6 +118,9 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
 
 }
 
+/**
+ * Represents a text value object with markup as XML.
+ */
 export class ReadTextValueAsXml implements ReadPropertyItem {
 
     constructor(readonly id:string, readonly propIri, readonly xml:string, readonly mappingIri:string) {
@@ -96,6 +141,9 @@ export class ReadTextValueAsXml implements ReadPropertyItem {
 
 }
 
+/**
+ * Represents a date value object.
+ */
 export class ReadDateValue implements ReadPropertyItem {
 
     constructor(readonly id:string, readonly propIri, readonly calendar:string, readonly startYear:number, readonly endYear:number, readonly startMonth?:number, readonly endMonth?:number, readonly startDay?:number, readonly endDay?:number) {
@@ -147,6 +195,9 @@ export class ReadDateValue implements ReadPropertyItem {
     }
 }
 
+/**
+ * Represents a link value object (reification).
+ */
 export class ReadLinkValue implements ReadPropertyItem {
 
     constructor(readonly id:string, readonly propIri, readonly referredResourceIri: string, readonly referredResource?: ReadResource) {
@@ -164,9 +215,12 @@ export class ReadLinkValue implements ReadPropertyItem {
         }
     };
 
-    getReferredResourceInfo() {
+    getReferredResourceInfo(ontologyInfo: OntologyInformation) {
         if (this.referredResource !== undefined) {
-            return this.referredResource.type + " " + this.referredResource.label;
+
+            let resClassLabel = ontologyInfo.getLabelForResourceClass(this.referredResource.type);
+
+            return this.referredResource.label + ` (${resClassLabel})`;
         } else {
             return this.referredResourceIri;
         }
@@ -177,6 +231,9 @@ export class ReadLinkValue implements ReadPropertyItem {
     }
 }
 
+/**
+ * Represents an integer value object.
+ */
 export class ReadIntegerValue implements ReadPropertyItem {
 
     constructor(readonly id:string, readonly propIri, readonly integer:number) {
@@ -195,6 +252,9 @@ export class ReadIntegerValue implements ReadPropertyItem {
 
 }
 
+/**
+ * Represents a decimal value object.
+ */
 export class ReadDecimalValue implements ReadPropertyItem {
 
     constructor(readonly id:string, readonly propIri, readonly decimal:number) {
@@ -212,6 +272,9 @@ export class ReadDecimalValue implements ReadPropertyItem {
     }
 }
 
+/**
+ * Represents a still image value object.
+ */
 export class ReadStillImageFileValue implements ReadPropertyItem {
 
     constructor(readonly id:string, readonly propIri, readonly imageFilename:string, readonly imageServerIIIFBaseURL:string, readonly imagePath: string, readonly dimX:number, readonly dimY:number, isPreview?: boolean) {
@@ -247,6 +310,9 @@ export class ReadStillImageFileValue implements ReadPropertyItem {
     }
 }
 
+/**
+ * Represents a color value object.
+ */
 export class ReadColorValue implements ReadPropertyItem {
 
     constructor(readonly id:string, readonly propIri, readonly colorHex:string) {
@@ -264,10 +330,16 @@ export class ReadColorValue implements ReadPropertyItem {
     }
 }
 
+/**
+ * Represents a point in a 2D-coordinate system (for geometry values).
+ */
 export class Point2D {
   constructor(public x: number, public y: number) {}
 }
 
+/**
+ * Represents a geometry value parsed from JSON.
+ */
 export class RegionGeometry {
   constructor(public status: string,
               public lineColor: string,
@@ -278,6 +350,9 @@ export class RegionGeometry {
             ) {}
 }
 
+/**
+ * Represents a geometry value object.
+ */
 export class ReadGeomValue implements ReadPropertyItem {
 
     constructor(readonly id:string, readonly propIri, readonly geometryString:string) {
