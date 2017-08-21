@@ -1,0 +1,14 @@
+.dialog-header {
+
+  .dialog-toolbar {
+    display: flex;
+    flex-direction: row;
+    margin-left: -24px;
+    margin-right: -24px;
+    margin-top: -24px;
+
+    .dialog-title {
+      text-align: center;
+    }
+  }
+}

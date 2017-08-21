@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, Inject} from '@angular/core';
+import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
 import {MdDialog, MdDialogRef} from "@angular/material";
 import {FormBuilder, Validators, FormGroup, FormControl} from "@angular/forms";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
