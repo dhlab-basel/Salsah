@@ -207,7 +207,7 @@ export class UserComponent implements OnInit {
                             localStorage.setItem('userProfile', JSON.stringify(
                                 this.user
                             ));
-                            this.menu[0].name = this.user.userProfile.userData.firstname + ' ' + this.user.userProfile.userData.lastname;
+                            this.menu[0].name = this.user.userProfile.userData.givenName + ' ' + this.user.userProfile.userData.familyName;
 
                         },
                         (error: ApiServiceError) => {

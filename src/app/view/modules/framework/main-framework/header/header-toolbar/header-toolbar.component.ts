@@ -13,7 +13,7 @@
  * */
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Router} from '@angular/router';
 import {SessionService} from '../../../../../../model/services/session.service';
 
 import {
@@ -23,10 +23,8 @@ import {
     animate,
     transition
 } from '@angular/animations';
-import {MdDialog} from '@angular/material';
+import {MdDialog, MdDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/message-dialog.component';
-import {ApiServiceResult} from '../../../../../../model/services/api-service-result';
-import {ApiServiceError} from '../../../../../../model/services/api-service-error';
 import {FormDialogComponent} from '../../../../dialog/form-dialog/form-dialog.component';
 import {MessageData} from '../../../../message/message.component';
 
@@ -85,64 +83,6 @@ export class HeaderToolbarComponent implements OnInit {
         }
     ];
 
-
-    constructor(private _eleRef: ElementRef,
-                private _route: ActivatedRoute,
-                private _router: Router,
-                public dialog: MdDialog,
-                private _sessionService: SessionService) {
-
-    }
-
-    // check authentication: the session (from the services) should be valid and the local storage item "auth" as well
-
-    // if a or b is not valid or if they have different session ids, then the authentication is false!
-    ngOnInit() {
-        // check if the authentication is valid:
-        // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
-        //this.session =
-
-        this.session = this._sessionService.checkSession();
-        /*
-        .subscribe(
-        (result: ApiServiceResult) => {
-            console.log(result);
-        },
-
-        (error: ApiServiceError) => {
-            this.errorMessage = error;
-        }
-    );
-*/
-
-
-        if (JSON.parse(localStorage.getItem('ownProfile'))) {
-            this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
-            if (JSON.parse(localStorage.getItem('sysAdmin')) == true) {
-
-                this.sysAdmin = true;
-                this.userMenu.push({
-                    title: 'System',
-                    icon: 'build',
-                    route: 'system'
-                });
-            }
-        }
-
-
-
-
-    }
-
-
-    /*
-     {
-     title: 'Support',
-     icon: 'headset',
-     route: '/support'
-     },
-     */
-
     addMenuTitle: string = 'Add some new stuff';
     addMenu: any = [
         {
@@ -164,13 +104,45 @@ export class HeaderToolbarComponent implements OnInit {
     ];
 
 
+    constructor(private _eleRef: ElementRef,
+                private _router: Router,
+                public _dialog: MdDialog,
+                private _sessionService: SessionService) {
+
+    }
+
+    // check authentication: the session (from the services) should be valid and the local storage item "auth" as well
+
+    // if a or b is not valid or if they have different session ids, then the authentication is false!
+    ngOnInit() {
+        // check if the authentication is valid:
+        // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
+        // this.session =
+
+        this.session = this._sessionService.checkSession();
+
+        if (JSON.parse(localStorage.getItem('ownProfile'))) {
+            this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
+            if (JSON.parse(localStorage.getItem('sysAdmin')) === true) {
+
+                this.sysAdmin = true;
+                this.userMenu.push({
+                    title: 'System',
+                    icon: 'build',
+                    route: 'system'
+                });
+            }
+        }
+
+    }
+
     @HostListener('document:click', ['$event'])
     public onClick(event) {
         if (!this._eleRef.nativeElement.contains(event.target)) {
 //            this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
 //            this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
-            if (this.focusOnUserMenu === 'active') this.focusOnUserMenu = 'inactive';
-            if (this.focusOnAddMenu === 'active') this.focusOnAddMenu = 'inactive';
+            if (this.focusOnUserMenu === 'active') { this.focusOnUserMenu = 'inactive'; }
+            if (this.focusOnAddMenu === 'active') { this.focusOnAddMenu = 'inactive'; }
         }
     }
 
@@ -191,17 +163,17 @@ export class HeaderToolbarComponent implements OnInit {
             switch (item) {
                 case 'project':
                     title = 'Create new project';
-                    dialogRef = this.dialog.open(FormDialogComponent, {data: {title: title, form: 'new-project'}});
+                    dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{data: {title: title, form: 'new-project'}});
                     break;
 
                 default:
-                    let message: MessageData = {
+                    const message: MessageData = {
                         status: 405,
                         statusMsg: 'Not yet implemented',
                         statusText: 'TODO: add the item type "' + item + '" to the openNew method in HeaderToolbarComponent',
                         route: 'Missing item type: ' + item
                     };
-                    dialogRef = this.dialog.open(MessageDialogComponent, {data: {message: message}});
+                    dialogRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{data: {message: message}});
 
 
             }
@@ -210,7 +182,7 @@ export class HeaderToolbarComponent implements OnInit {
 
     toggleFullscreen() {
         console.log(this._eleRef.nativeElement);
-        let elem = this._eleRef.nativeElement.querySelector('.salsah-main');
+        const elem = this._eleRef.nativeElement.querySelector('.salsah-main');
         console.log(elem);
         if (elem.requestFullscreen) {
             elem.requestFullscreen();
@@ -226,7 +198,7 @@ export class HeaderToolbarComponent implements OnInit {
     goToLoginPage() {
         let goToUrl: string = '/login';
 
-        if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
+        if (this._router.url !== '/') { goToUrl += '?h=' + encodeURIComponent(this._router.url); }
 
         window.location.replace(goToUrl);
     }

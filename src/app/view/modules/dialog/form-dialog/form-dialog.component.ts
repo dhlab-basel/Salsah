@@ -12,15 +12,34 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
+import {
+    trigger,
+    state,
+    style,
+    animate,
+    transition
+} from '@angular/animations';
 
 @Component({
     selector: 'salsah-form-dialog',
     templateUrl: './form-dialog.component.html',
-    styleUrls: ['./form-dialog.component.scss']
+    styleUrls: ['./form-dialog.component.scss'],
+    animations: [
+        trigger('formDialog',
+            [
+                state('full', style({width: '75vw', height: '80vh'})),
+                state('small', style({width: 'auto', height: 'auto'})),
+                transition('fullsize => true', animate('100ms ease-in')),
+                transition('true => fullsize', animate('100ms ease-out'))
+            ]
+        )
+    ]
 })
 export class FormDialogComponent implements OnInit {
+
+    boxSize: string = 'small';
 
     formIsValid: boolean = false;
 
@@ -37,5 +56,9 @@ export class FormDialogComponent implements OnInit {
         // if the data is valid, activate the submit button
         // and send the data to the Knora API
         this.formIsValid = valid;
+    }
+
+    toggleFullsize() {
+        this.boxSize = (this.boxSize === 'full' ? 'small' : 'full');
     }
 }

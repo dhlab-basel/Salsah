@@ -2,7 +2,7 @@
 <salsah-progress-indicator *ngIf="!user"></salsah-progress-indicator>
 -->
 <div>
-    <h3 md-subheader>{{userProfile?.userData.lastname}}, {{userProfile?.userData.firstname}}</h3>
+    <h3 md-subheader>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h3>
     <p><a [href]="'mailto:'+userProfile?.userData.email">{{userProfile?.userData.email}}</a></p>
 
     <md-divider></md-divider>

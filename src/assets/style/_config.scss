@@ -9,7 +9,6 @@ $dark: rgba(41, 41, 41, 1);
 $accent: rgba(255, 196, 0, 1);
 $primary: rgba(0, 105, 92, 1);
 
-
 // general border radius
 $border-radius: 4px;
 
@@ -22,8 +21,10 @@ $header-height: 64px;
 $module-header-height: 48px;
 
 // sizes for the main footer and the footer module
-$footer-height: 0px;
+$footer-height: 0;
 $module-footer-height: $footer-height;
 
 // sizes for the sidebar
 $sidebar-width: 400px;
+
+@import 'mixins';

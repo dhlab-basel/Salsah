@@ -37,13 +37,15 @@ import {User} from '../../../../model/webapi/knora/v1/users/user';
     styleUrls: ['./new-user.component.scss']
 })
 
-export class NewUserComponent implements OnChanges {
+export class NewUserComponent implements OnInit, OnChanges {
 
     // if project value (as IRI) is defined
     // we can add the new created user direct to the specified project
     // and/or we need the autocomplete list of knora users
     @Input() iri: string; // iri of a project, to add the new generated user to the specified project directly
 
+    // before submit
+    @Output() validData = new EventEmitter<any>();
     // on submit
     @Output() submitData = new EventEmitter<any>();
 
@@ -95,15 +97,15 @@ export class NewUserComponent implements OnChanges {
     // language package for all form fields...
     // TODO: modify a language json file or db file for multilingual use; how we want to handle multi language?
     public form: any = {
-        selectTitle: '...by selecting',
+        selectTitle: 'Select one',
         select: 'just type a name here',
         or: 'OR',
-        createTitle: '...by creating a new user account',
+        createTitle: 'Create a new user account',
         user: {
             existingUser: 'Add an existing user',
             title: 'Create a new user account',
-            firstname: 'First name',
-            lastname: 'Last name',
+            givenName: 'First name',
+            familyName: 'Last name',
             email: 'Email address',
             emailHint: 'This will be your login name',
             emailValidation: 'This doesn\'t appear to be a valid email address.',
@@ -132,8 +134,8 @@ export class NewUserComponent implements OnChanges {
             .map(name => this.filterUsers(name));
 
         this.uf = fb.group({
-            'firstname': [null, Validators.required],
-            'lastname': [null, Validators.required],
+            'givenName': [null, Validators.required],
+            'familyName': [null, Validators.required],
             'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
             'lang': 'en',
@@ -145,7 +147,7 @@ export class NewUserComponent implements OnChanges {
     ngOnInit() {
         // get a list of the users which are already team members;
         // that list should be already stored in the local storage
-        let members = localStorage.getItem('currentProjectMembers');
+        const members = localStorage.getItem('currentProjectMembers');
 
         this._userService.getAllUsers()
             .subscribe(
@@ -153,28 +155,26 @@ export class NewUserComponent implements OnChanges {
                     this.usersList = result.getBody(UsersList);
 //              let tempUsersList: string[] = [];
                     let i: number = 1;
-                    for (let u of this.usersList.users) {
+                    for (const u of this.usersList.users) {
                         let exists: string = '';
                         if (members.indexOf(u.user_id) > -1) {
                             exists = '* ';
                         }
                         this.users[i] = {
                             iri: u.user_id,
-                            name: exists + u.firstname + ' ' + u.lastname + ' (' + u.email + ')'
+                            name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
                         };
 
-//                        this.usersList[i] = u.lastname + ', ' + u.firstname + ' (' + u.email + ')';
+//                        this.usersList[i] = u.familyName + ', ' + u.givenName + ' (' + u.email + ')';
                         i++;
                     }
 
                     this.users.sort(function (u1, u2) {
                         if (u1.name < u2.name) {
                             return -1;
-                        }
-                        else if (u1.name > u2.name) {
+                        } else if (u1.name > u2.name) {
                             return 1;
-                        }
-                        else {
+                        } else {
                             return 0;
                         }
                     });
@@ -192,7 +192,8 @@ export class NewUserComponent implements OnChanges {
     }
 
     ngOnChanges() {
-        if(this.uf.valid) {
+        console.log(this.uf.valid);
+        if (this.uf.valid) {
             console.log(this.uf);
         }
     }
@@ -204,7 +205,7 @@ export class NewUserComponent implements OnChanges {
             let selectedUser: string;
             if (this.usersList) {
                 this.usersList.users.filter(function (user) {
-                    if (user.user_id == value.iri) {
+                    if (user.user_id === value.iri) {
                         selectedUser = value.iri;
                     }
                 });
@@ -280,10 +281,10 @@ export class NewUserComponent implements OnChanges {
             this._userService.getUserByIri(iri)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        let tmpData: User = result.getBody(User);
+                        const tmpData: User = result.getBody(User);
                         selectedUser = tmpData.userProfile;
-                        this.uf.controls['firstname'].setValue(selectedUser.userData.firstname);
-                        this.uf.controls['lastname'].setValue(selectedUser.userData.lastname);
+                        this.uf.controls['givenName'].setValue(selectedUser.userData.givenName);
+                        this.uf.controls['familyName'].setValue(selectedUser.userData.familyName);
                         this.uf.controls['email'].setValue(selectedUser.userData.email);
                         this.uf.controls['lang'].setValue(selectedUser.userData.lang);
                     },
@@ -297,7 +298,7 @@ export class NewUserComponent implements OnChanges {
 
 
     openUserForm() {
-        let dialogRef = this.dialog.open(UserFormComponent);
+        const dialogRef = this.dialog.open(UserFormComponent);
         dialogRef.afterClosed().subscribe(result => {
             console.log(result);
         });

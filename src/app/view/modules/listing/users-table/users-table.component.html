@@ -1,8 +1,14 @@
-<table>
+<!-- progress indicator while the data is loading -->
+<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+
+<!-- in the case of an API error: show the error message -->
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+<table *ngIf="!isLoading">
     <tr>
-        <th></th>
-        <th (click)="sortKey='firstname'" class="salsah-link">Firstname</th>
-        <th (click)="sortKey='lastname'" class="salsah-link">Lastname</th>
+        <th># {{users.length}}</th>
+        <th (click)="sortKey='givenName'" class="salsah-link">Firstname</th>
+        <th (click)="sortKey='familyName'" class="salsah-link">Lastname</th>
         <th (click)="sortKey='email'" class="salsah-link">eMail</th>
         <th></th>
     </tr>
@@ -10,12 +16,12 @@
         <td class="salsah-avatar-cell">
             <img salsahGravatar [email]="u?.email" class="salsah-avatar-image"/>
         </td>
-        <td>{{u?.firstname}}</td>
-        <td>{{u?.lastname}}</td>
-        <td>{{u?.email}}</td>
+        <td>{{u.givenName}}</td>
+        <td>{{u.familyName}}</td>
+        <td>{{u.email}}</td>
         <td>
             <button md-icon-button>
-                <md-icon (click)="open(u?.user_id)">
+                <md-icon (click)="open(u.user_id)">
                     info_outline
                 </md-icon>
             </button>

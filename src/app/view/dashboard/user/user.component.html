@@ -24,7 +24,7 @@
                     class="salsah-tab-item"
                     [routerLink]="item.route"
                     routerLinkActive="active">
-                <strong *ngIf="first">{{userProfile.userData.firstname + ' ' + userProfile.userData.lastname}}</strong>
+                <strong *ngIf="first">{{userProfile.userData.givenName + ' ' + userProfile.userData.familyName}}</strong>
                 {{item.name}}
             </button>
         </nav>

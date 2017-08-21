@@ -1,166 +1,127 @@
-<!-- select an existing user to add it to a project
-      - if the user doesn't exist yet, create a new one by importing the user form component -->
+<form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
 
-<!-- we need the select user (autocomplete list) to add an existing user to an existing project -->
-<section class="select-user" *ngIf="iri">
-    <h4>{{form.selectTitle}}</h4>
-    <!-- for tests only: to have a direct output --
-    <div>
-        <p>Reactive length: {{ reactiveUsers.length }}</p>
-        <p>Reactive value: {{ userCtrl.value | json }}</p>
-        <p>Reactive dirty: {{ userCtrl.dirty }}</p>
-    </div>
-    <!-- ------------------------------ -->
-    <md-input-container class="full-width">
-        <input mdInput
-               [mdAutocomplete]="users"
-               [formControl]="userCtrl"
-               [placeholder]="form.select">
-        <md-icon mdSuffix class="salsah-link" (click)="userCtrl.reset()" *ngIf="userCtrl.value && userCtrl.dirty">close</md-icon>
-    </md-input-container>
-<!--
-    <button md-icon-button class="suffix" (click)="userCtrl.reset()" *ngIf="userCtrl.value && userCtrl.dirty">
-        <md-icon>close</md-icon>
-    </button>
--->
-    <md-autocomplete #users="mdAutocomplete" [displayWith]="displayFn">
-        <md-option *ngFor="let user of reactiveUsers | async" [value]="user" (onSelectionChange)="getUser(user?.iri)">
-            {{ user?.name }}
-        </md-option>
-    </md-autocomplete>
+    <!-- select an existing user to add it to a project
+      - if the user doesn't exist yet, create a new one with the new user form component below -->
 
-    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+    <!-- we need the select user (autocomplete list) to add an existing user to an existing project -->
+    <section class="select-user" *ngIf="iri">
+        <h4>{{form.selectTitle}}</h4>
+        <md-input-container class="full-width">
+            <input mdInput
+                   [mdAutocomplete]="users"
+                   [formControl]="userCtrl"
+                   [placeholder]="form.select">
+            <md-icon mdSuffix class="salsah-link" (click)="userCtrl.reset()" *ngIf="userCtrl.value && userCtrl.dirty">
+                close
+            </md-icon>
+        </md-input-container>
+        <md-autocomplete #users="mdAutocomplete" [displayWith]="displayFn">
+            <md-option *ngFor="let user of reactiveUsers | async" [value]="user" (onSelectionChange)="getUser(user?.iri)">
+                {{ user?.name }}
+            </md-option>
+        </md-autocomplete>
 
-    <div class="linebreak">OR</div>
-</section>
+        <div class="linebreak">OR</div>
 
-<section class="add-user">
-    <h4>{{form.createTitle}}</h4>
+    </section>
 
-    <section>
+    <!-- form to create a new user or to edit an old one from selection above -->
+    <section class="add-user">
+        <h4>{{form.createTitle}}</h4>
 
-        <!-- form to create a new user or to edit an old one from selection above -->
-        <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
-            <table class="full-width" cellspacing="0">
-                <!-- line 0: user iri if we select from the autocomplete list above -->
-                <!--
-                <tr>
-                    <td colspan="2">
-                        <md-input-container class="full-width">
-                            <input mdInput disabled [value]="userCtrl.value?.iri">
-                        </md-input-container>
-                    </td>
-                </tr>
-                -->
-                <!-- line 1: pre and last name -->
-                <tr>
-                    <td colspan="1">
-                        <md-input-container class="full-width"
-                                dividerColor="{{ uf.controls['firstname']?.invalid && uf.controls['firstname']?.touched ? 'warn' : 'primary' }}">
-                            <input mdInput
-                                   [placeholder]="form.user.firstname + ' *'"
-                                   [formControl]="uf.controls['firstname']">
-                        </md-input-container>
-                    </td>
-                    <td colspan="1">
-                        <md-input-container class="full-width"
-                                dividerColor="{{ uf.controls['lastname']?.invalid && uf.controls['lastname']?.touched ? 'warn' : 'primary' }}">
-                            <input mdInput
-                                   [placeholder]="form.user.lastname + ' *'"
-                                   [formControl]="uf.controls['lastname']">
-                        </md-input-container>
-                    </td>
-                </tr>
-                <!-- line 2: eMail address -->
-                <tr>
-                    <td colspan="2">
-                        <md-input-container class="full-width"
-                                            dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
-                            <input mdInput type="email"
-                                   [placeholder]="form.user.email + ' *'"
-                                   [formControl]="uf.controls['email']">
-                            <md-hint class="salsah-hint">
-                                <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
-                                <span [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || !uf.controls['email'].touched"
-                                        class="salsah-error">{{form.user.emailValidation}}
+        <table class="full-width" cellspacing="0">
+            <!-- line 1: pre and last name -->
+            <tr>
+                <td colspan="1">
+                    <md-input-container class="full-width"
+                                        dividerColor="{{ uf.controls['givenName']?.invalid && uf.controls['givenName']?.touched ? 'warn' : 'primary' }}">
+                        <input mdInput
+                               [placeholder]="form.user.givenName + ' *'"
+                               [formControl]="uf.controls['givenName']">
+                    </md-input-container>
+                </td>
+                <td colspan="2">
+                    <md-input-container class="full-width"
+                                        dividerColor="{{ uf.controls['familyName']?.invalid && uf.controls['familyName']?.touched ? 'warn' : 'primary' }}">
+                        <input mdInput
+                               [placeholder]="form.user.familyName + ' *'"
+                               [formControl]="uf.controls['familyName']">
+                    </md-input-container>
+                </td>
+            </tr>
+            <!-- line 2: eMail address -->
+            <tr>
+                <td colspan="3">
+                    <md-input-container class="full-width"
+                                        dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
+                        <input mdInput type="email"
+                               [placeholder]="form.user.email + ' *'"
+                               [formControl]="uf.controls['email']">
+                        <md-hint class="salsah-hint">
+                            <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
+                            <span
+                                [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || !uf.controls['email'].touched"
+                                class="salsah-error">{{form.user.emailValidation}}
                                 </span>
-                            </md-hint>
-                        </md-input-container>
-                    </td>
-                </tr>
-                <!-- line 3: password -->
-                <tr>
-                    <td colspan="2">
-                        <md-input-container class="full-width"
-                                            dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
-                            <input mdInput type="password"
-                                   [placeholder]="form.user.password + ' *'"
-                                   [formControl]="uf.controls['password']">
-                            <md-hint class="salsah-hint">
-                                <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
-                                <span [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].touched"
-                                        class="salsah-error">
+                        </md-hint>
+                    </md-input-container>
+                </td>
+            </tr>
+            <!-- line 3: password -->
+            <tr>
+                <td colspan="3">
+                    <md-input-container class="full-width"
+                                        dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
+                        <input mdInput type="password"
+                               [placeholder]="form.user.password + ' *'"
+                               [formControl]="uf.controls['password']">
+                        <md-hint class="salsah-hint">
+                            <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
+                            <span
+                                [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].touched"
+                                class="salsah-error">
                                     {{form.user.passwordHint}}
                                 </span>
-                            </md-hint>
-                        </md-input-container>
-                    </td>
-                </tr>
-                <!-- line 4: language, member and admin -->
-                <tr>
-                    <td>
-                        <md-select [formControl]="uf.controls['lang']" [placeholder]="form.user.language"
-                                   [(ngModel)]="uf.controls['lang'].value">
-                            <md-option value="en">english</md-option>
-                            <md-option value="de">deutsch</md-option>
-                            <md-option value="fr">français</md-option>
-                            <md-option value="it">italiano</md-option>
-                        </md-select>
-                    </td>
-                    <td>
-                        <md-select *ngIf="projectIri" [formControl]="uf.controls['group']" [placeholder]="form.user.group"
-                                   [(ngModel)]="uf.controls['group'].value">
-                            <md-option value="en">english</md-option>
-                            <md-option value="de">deutsch</md-option>
-                            <md-option value="fr">français</md-option>
-                            <md-option value="it">italiano</md-option>
-                        </md-select>
-                    </td>
-                </tr>
+                        </md-hint>
+                    </md-input-container>
+                </td>
+            </tr>
+            <!-- line 4: language, member and admin -->
+            <tr>
+                <td>
+                    <md-select [formControl]="uf.controls['lang']" [placeholder]="form.user.language"
+                               [(ngModel)]="uf.controls['lang'].value">
+                        <md-option value="en">english</md-option>
+                        <md-option value="de">deutsch</md-option>
+                        <md-option value="fr">français</md-option>
+                        <md-option value="it">italiano</md-option>
+                    </md-select>
+                </td>
+                <td>
+                    Project member?
+                </td>
+                <td>
+                    <md-select *ngIf="projectIri" [formControl]="uf.controls['group']" [placeholder]="form.user.group"
+                               [(ngModel)]="uf.controls['group'].value">
+                        <md-option value="en">english</md-option>
+                        <md-option value="de">deutsch</md-option>
+                        <md-option value="fr">français</md-option>
+                        <md-option value="it">italiano</md-option>
+                    </md-select>
+                </td>
+            </tr>
 
-            </table>
-
-
-
-
-
-            <table class="full-width form-table">
-                <tr>
-                    <td class="left">
-
-                    </td>
-
-                    <td class="right">
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="left">
-
-                    </td>
-                    <td class="right">
-                        <button type="submit"
-                                md-raised-button
-                                class="save-button"
-                                color="primary"
-                                [disabled]="!uf.valid">
-                            Save
-                        </button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+        </table>
     </section>
-</section>
+
+    <div class="form-footer">
+        <button md-raised-button
+                class="submit-button center"
+                color="primary"
+                [disabled]="!uf.valid">
+            Save
+        </button>
+    </div>
 
 
+</form>

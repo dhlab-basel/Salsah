@@ -66,15 +66,15 @@ export class UsersListComponent implements OnInit {
     // iri of the selected person
     iri: string;
 
-    // sort the list of members by lastname OR firstname.
+    // sort the list of members by familyName OR givenName.
     // the sortBy method toggles the right setting, which is defined here
     sortProps: any = [
         {
-            key: 'lastname',
+            key: 'familyName',
             label: 'Last name'
         },
         {
-            key: 'firstname',
+            key: 'givenName',
             label: 'First name'
         }
     ];

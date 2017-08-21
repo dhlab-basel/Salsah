@@ -26,10 +26,10 @@ export class UserData {
     //
 
     @JsonProperty('firstname', String, true)
-    public firstname: string = undefined;
+    public givenName: string = undefined;
 
     @JsonProperty('lastname', String, true)
-    public lastname: string = undefined;
+    public familyName: string = undefined;
 
     @JsonProperty('lang', String, true)
     public lang: string = undefined;

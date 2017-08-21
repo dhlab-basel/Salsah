@@ -1,44 +1,50 @@
-<!-- header with close (on the left hand side) and resize (on the right hand side) button
+<div class="form-dialog" [@formDialog]="boxSize">
+    <!-- header with close (on the left hand side) and resize (on the right hand side) button
         and with the title in the center -->
-<div class="dialog-header">
-    <span class="dialog-action-button">
-        <button md-icon-button
-                md-dialog-close
-                class="cancel-button">
-            <md-icon>close</md-icon>
+    <div class="dialog-header">
+        <span class="dialog-action-button">
+            <button md-icon-button
+                    md-dialog-close
+                    class="cancel-button">
+                <md-icon>close</md-icon>
+            </button>
+        </span>
+        <span class="fill-remaining-space dialog-title" md-dialog-title>
+            <h3>{{data.title}}</h3>
+        </span>
+        <span class="dialog-action-button">
+            <button md-icon-button class="resize-button" (click)="toggleFullsize()">
+                <md-icon *ngIf="boxSize === 'small'">call_made</md-icon>
+                <md-icon *ngIf="boxSize === 'full'">call_received</md-icon>
+            </button>
+        </span>
+    </div>
+
+    <!-- dialog content with the form components -->
+    <md-dialog-content [ngSwitch]="data.form" class="dialog-content">
+
+        <!-- salsah new form for projects, users, resource classes etc.
+        all handled by the switch method -->
+        <salsah-new-project *ngSwitchCase="'new-project'"></salsah-new-project>
+
+        <salsah-edit-user *ngSwitchCase="'edit-user'" [iri]="data.iri"></salsah-edit-user>
+
+        <salsah-new-user *ngSwitchCase="'new-user'" [iri]="data.restriction" (submitData)="submitData($event, $event)"></salsah-new-user>
+
+        <salsah-new-resource-class *ngSwitchCase="'new-resource-type'" [iri]="data.restriction"></salsah-new-resource-class>
+
+    </md-dialog-content>
+
+    <!-- footer with save button -->
+    <!--
+    <md-dialog-actions class="dialog-footer">
+        <button md-raised-button
+                class="submit-button"
+                color="primary"
+                [disabled]="!formIsValid">
+            Save
         </button>
-    </span>
-    <span class="fill-remaining-space dialog-title" md-dialog-title>
-        <h3>{{data.title}}</h3>
-    </span>
-    <span class="dialog-action-button">
-        <button md-icon-button class="resize-button">
-            <md-icon>resize</md-icon>
-        </button>
-    </span>
+    </md-dialog-actions>
+    -->
 </div>
 
-<!-- dialog content with the form components -->
-<md-dialog-content [ngSwitch]="data.form">
-
-    <!-- salsah new form for projects, users, resource classes etc.
-    all handled by the switch method -->
-    <salsah-new-project *ngSwitchCase="'new-project'"></salsah-new-project>
-
-    <salsah-edit-user *ngSwitchCase="'edit-user'" [iri]="data.iri"></salsah-edit-user>
-
-    <salsah-new-user *ngSwitchCase="'new-user'" [iri]="data.iri" (submitData)="submitData($event, $event)"></salsah-new-user>
-
-    <salsah-new-resource-class *ngSwitchCase="'new-resource-type'" [iri]="data.iri"></salsah-new-resource-class>
-
-</md-dialog-content>
-
-<!-- footer with save button -->
-<md-dialog-actions>
-    <span class="fill-remaining-space">
-        <button md-button
-                md-dialog-close
-                class="submit-button">Save
-        </button>
-    </span>
-</md-dialog-actions>
