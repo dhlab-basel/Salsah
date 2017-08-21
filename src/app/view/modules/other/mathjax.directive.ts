@@ -2,6 +2,7 @@ import {Directive, ElementRef, HostListener, Input, OnInit} from "@angular/core"
 import {MdDialog, MdDialogConfig, MdSnackBar, MdSnackBarConfig} from "@angular/material";
 import {ObjectComponent} from "../object/object.component";
 import {ReadTextValueAsHtml} from "../../../model/webapi/knora/v2/read-property-item";
+import {OntologyInformation} from "../../../model/services/ontologycache.service";
 
 declare var MathJax: {
     Hub: {
@@ -16,6 +17,7 @@ declare var MathJax: {
 export class MathJaxDirective implements OnInit {
     @Input("mathJax") private html: string = ""; // the HTML to be inserted
     @Input("valueObject") private valueObject: ReadTextValueAsHtml;
+    @Input("ontologyInfo") private ontologyInfo: OntologyInformation;
     constructor(private el: ElementRef, private dialog: MdDialog, private snackBar: MdSnackBar) {
     }
 
@@ -61,13 +63,15 @@ export class MathJaxDirective implements OnInit {
     @HostListener('mouseover', ['$event']) onMouseEnter(event) {
         //console.log("mouseover " + this.valueType);
 
+        //console.log(this.ontologyInfo);
+
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
         if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == "salsah-link") {
             // console.log("mouseenter: internal link to: " + event.toElement.href);
 
             let referredResourceIri = event.toElement.href;
 
-            let resInfo = this.valueObject.getReferredResource(referredResourceIri);
+            let resInfo = this.valueObject.getReferredResourceInfo(referredResourceIri, this.ontologyInfo);
 
             let config  = new MdSnackBarConfig();
             config.duration = 2500;

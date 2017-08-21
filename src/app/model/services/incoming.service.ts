@@ -51,8 +51,7 @@ export class IncomingService extends SearchService {
       }
     `;
 
-        let searchQuery = encodeURIComponent(sparqlQueryStr);
-        return this.doSearchExtended(searchQuery);
+        return this.doExtendedSearch(sparqlQueryStr);
     }
 
     /**
@@ -98,8 +97,7 @@ export class IncomingService extends SearchService {
         }
 `;
 
-        let searchQuery = encodeURIComponent(sparqlQueryStr);
-        return this.doSearchExtended(searchQuery);
+        return this.doExtendedSearch(sparqlQueryStr);
 
     }
 
