@@ -25,6 +25,13 @@ describe('NewUserComponent', () => {
         'selfjoin': false
     };
 
+    const testMembers: any = [
+        'http://data.knora.org/users/b83acc5f05',
+        'http://data.knora.org/users/91e19f1e01',
+        'http://data.knora.org/users/incunabulaMemberUser',
+        'http://data.knora.org/users/multiuser'
+    ];
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -60,6 +67,7 @@ describe('NewUserComponent', () => {
 
     beforeEach(() => {
 
+        localStorage.setItem('currentProjectMembers', JSON.stringify(testMembers));
         localStorage.setItem('currentProject', JSON.stringify(testProject));
 
         fixture = TestBed.createComponent(NewUserComponent);
@@ -68,6 +76,7 @@ describe('NewUserComponent', () => {
     });
 
     it('should create', () => {
+        expect<any>(localStorage.getItem('currentProjectMembers')).toBe(JSON.stringify(testMembers));
         expect<any>(localStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
         expect(component).toBeTruthy();
     });

@@ -13,11 +13,11 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, Params} from "@angular/router";
-import {ApiServiceResult} from "../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../model/services/api-service-error";
-import {ProjectsService} from "../../../model/services/projects.service";
-import {Project} from "../../../model/webapi/knora";
+import {ActivatedRoute, Router, Params} from '@angular/router';
+import {ApiServiceResult} from '../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../model/services/api-service-error';
+import {ProjectsService} from '../../../model/services/projects.service';
+import {Project} from '../../../model/webapi/knora';
 
 @Component({
     selector: 'salsah-project',
@@ -57,11 +57,9 @@ export class ProjectComponent implements OnInit {
         session: undefined
     };
 
-    constructor(
-        private _router: Router,
-        private _route: ActivatedRoute,
-        private _projectsService: ProjectsService
-    ) {
+    constructor(private _router: Router,
+                private _route: ActivatedRoute,
+                private _projectsService: ProjectsService) {
     }
 
     ngOnInit() {
@@ -92,8 +90,8 @@ export class ProjectComponent implements OnInit {
         });
 //        this.auth = SessionService.checkAuth();
 
-        if(this.cur_project === 'new') {
-            alert("Create a new project!?");
+        if (this.cur_project === 'new') {
+            alert('Create a new project!?');
         }
 
     }

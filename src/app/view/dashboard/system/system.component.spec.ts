@@ -75,16 +75,16 @@ describe('SystemComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(localStorage, 'getItem').and.callFake( (key:string):String => {
+        spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
             return store[key] || null;
         });
-        spyOn(localStorage, 'removeItem').and.callFake((key:string):void =>  {
+        spyOn(localStorage, 'removeItem').and.callFake((key: string): void => {
             delete store[key];
         });
-        spyOn(localStorage, 'setItem').and.callFake((key:string, value:string):string =>  {
+        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string => {
             return store[key] = <any>value;
         });
-        spyOn(localStorage, 'clear').and.callFake(() =>  {
+        spyOn(localStorage, 'clear').and.callFake(() => {
             store = {};
         });
     });

@@ -100,8 +100,8 @@ export class UsersListComponent implements OnInit {
                         // it's a list of user IRIs
                         // we need it, when we want to add new members to a project
                         // in that case we see, if someone is already a member
-                        let currentMembers: string[] = [];
-                        for (let m of this.list) {
+                        const currentMembers: string[] = [];
+                        for (const m of this.list) {
                             currentMembers.push(m.user_id);
                         }
                         this.num = Object.keys(this.list).length;
@@ -136,8 +136,7 @@ export class UsersListComponent implements OnInit {
         if (key === this.sortProps[0].key) {
             this.sortKey = this.sortProps[1].key;
             this.sortLabel = this.sortProps[0].label;
-        }
-        else {
+        } else {
             this.sortKey = this.sortProps[0].key;
             this.sortLabel = this.sortProps[1].label;
         }
