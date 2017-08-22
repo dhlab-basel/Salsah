@@ -12,38 +12,21 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, ElementRef, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
-import {
-    trigger,
-    state,
-    style,
-    animate,
-    transition
-} from '@angular/animations';
 
 @Component({
     selector: 'salsah-form-dialog',
     templateUrl: './form-dialog.component.html',
-    styleUrls: ['./form-dialog.component.scss'],
-    animations: [
-        trigger('formDialog',
-            [
-                state('full', style({width: '75vw', height: '80vh'})),
-                state('small', style({width: 'auto', height: 'auto'})),
-                transition('fullsize => true', animate('100ms ease-in')),
-                transition('true => fullsize', animate('100ms ease-out'))
-            ]
-        )
-    ]
+    styleUrls: ['./form-dialog.component.scss']
 })
 export class FormDialogComponent implements OnInit {
 
-    boxSize: string = 'small';
+    fullSize: boolean = false;
 
     formIsValid: boolean = false;
 
-    constructor(public dialogRef: MdDialogRef<FormDialogComponent>,
+    constructor(public _dialogRef: MdDialogRef<FormDialogComponent>,
                 @Inject(MD_DIALOG_DATA) public data: any) {
     }
 
@@ -58,7 +41,14 @@ export class FormDialogComponent implements OnInit {
         this.formIsValid = valid;
     }
 
-    toggleFullsize() {
-        this.boxSize = (this.boxSize === 'full' ? 'small' : 'full');
+    toggleFullSize() {
+        this.fullSize = (!this.fullSize);
+
+        if(this.fullSize) {
+            this._dialogRef.updateSize('100%', '100%');
+        } else {
+            this._dialogRef.updateSize('auto', 'auto');
+            this._dialogRef.updatePosition();
+        }
     }
 }

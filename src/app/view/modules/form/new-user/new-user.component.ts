@@ -97,10 +97,8 @@ export class NewUserComponent implements OnInit, OnChanges {
     // language package for all form fields...
     // TODO: modify a language json file or db file for multilingual use; how we want to handle multi language?
     public form: any = {
-        selectTitle: 'Select one',
+        subtitle: 'Select a user or create a new one below',    // the main title is set in the parent component: formDialog
         select: 'just type a name here',
-        or: 'OR',
-        createTitle: 'Create a new user account',
         user: {
             existingUser: 'Add an existing user',
             title: 'Create a new user account',
@@ -116,6 +114,16 @@ export class NewUserComponent implements OnInit, OnChanges {
             admin: 'Project admin?',
             member: 'Add the new user to the project',
             group: ''
+        },
+        permissions: {
+            admin: 'Administrative rights',
+            adminHint: 'What are admin rights? Describe it here (TODO)',
+            group: 'Group rights',
+            groupHint: 'What are group rights? Describe it here (TODO)'
+        },
+        system: {
+            admin: 'System admin?',
+            adminHint: 'What is sys admin? Describe it here (TODO)'
         }
     };
 
@@ -140,6 +148,7 @@ export class NewUserComponent implements OnInit, OnChanges {
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
             'lang': 'en',
             'status': true,
+            'systemAdmin': false,
             'group': null
         });
     }
@@ -294,6 +303,16 @@ export class NewUserComponent implements OnInit, OnChanges {
                     }
                 );
         }
+    }
+
+    getGroups() {
+        // preparation for the group selection in the permissions section
+        /*
+        this._groupsService.getAll()
+            .subscribe(
+
+            );
+        */
     }
 
 

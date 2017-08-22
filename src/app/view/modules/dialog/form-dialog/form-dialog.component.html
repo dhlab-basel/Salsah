@@ -1,4 +1,4 @@
-<div class="form-dialog" [@formDialog]="boxSize">
+<div class="form-dialog" >
     <!-- header with close (on the left hand side) and resize (on the right hand side) button
         and with the title in the center -->
     <div class="dialog-header">
@@ -9,13 +9,12 @@
                 <md-icon>close</md-icon>
             </button>
         </span>
-        <span class="fill-remaining-space dialog-title" md-dialog-title>
-            <h3>{{data.title}}</h3>
-        </span>
+        <h3 class="fill-remaining-space dialog-title" md-dialog-title>
+            {{data.title}}
+        </h3>
         <span class="dialog-action-button">
-            <button md-icon-button class="resize-button" (click)="toggleFullsize()">
-                <md-icon *ngIf="boxSize === 'small'">call_made</md-icon>
-                <md-icon *ngIf="boxSize === 'full'">call_received</md-icon>
+            <button md-icon-button class="resize-button" (click)="toggleFullSize()">
+                <md-icon [innerHtml]="fullSize ? 'call_received' :'call_made'"></md-icon>
             </button>
         </span>
     </div>

@@ -142,10 +142,11 @@ export class UsersTableComponent implements OnInit {
                 form: 'edit-user'
             }
         });
-
+        /*
         dialogRef.afterClosed().subscribe(result => {
             console.log(result);
         });
+        */
 
     }
 

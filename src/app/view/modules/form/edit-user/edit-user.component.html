@@ -1,9 +1,11 @@
-<!--
-<salsah-progress-indicator *ngIf="!user"></salsah-progress-indicator>
--->
-<div>
+
+<salsah-progress-indicator *ngIf="userProfile === undefined && !errorMessage"></salsah-progress-indicator>
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+<div *ngIf="userProfile">
     <h3 md-subheader>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h3>
     <p><a [href]="'mailto:'+userProfile?.userData.email">{{userProfile?.userData.email}}</a></p>
+    <p>Preferred language: {{userProfile.userData.lang}}</p>
 
     <md-divider></md-divider>
 

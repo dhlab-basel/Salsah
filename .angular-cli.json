@@ -22,8 +22,8 @@
             "prefix": "salsah",
             "styles": [
                 "index.style.css",
-                "assets/style/main.scss",
-                "assets/style/md-teal-amber.scss"
+                "assets/style/md-teal-amber.scss",
+                "assets/style/main.scss"
             ],
             "scripts": [
               "../node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
