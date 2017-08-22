@@ -16,7 +16,7 @@ import {Injectable} from '@angular/core';
 import {Http, RequestOptionsArgs, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {environment} from '../../../environments/environment';
-import {JsonConvert} from 'json2typescript';
+import {JsonConvert, ValueCheckingMode} from 'json2typescript';
 import {ApiServiceError} from "./api-service-error";
 import {ApiServiceResult} from "./api-service-result";
 
@@ -24,13 +24,7 @@ import {ApiServiceResult} from "./api-service-result";
 export class ApiService {
 
     constructor(private _http: Http) {
-        // TODO: with the new json2typescript version (2017-07-20) remove the following JsonConvert instance
-        //
-        // Json convert error handling
-        //
-//        JsonConvert.debugMode = true;
-//        JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
-        JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
+
     }
 
     /**
