@@ -14,8 +14,14 @@
     <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
 
     <md-toolbar class="salsah-module-header">
-        <!-- This fills the remaining space of the current row -->
+        <md-icon>person</md-icon>
+        <h3 md-subheader class="fill-remaining-space">
+            Person
+        </h3>
+        <!-- This fills the remaining space of the current row --
         <span class="fill-remaining-space"></span>
+        -->
+
         <!-- Tab menu -->
         <nav class="salsah-tab-group" *ngIf="!errorMessage">
 

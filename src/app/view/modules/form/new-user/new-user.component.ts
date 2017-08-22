@@ -25,9 +25,6 @@ import {UserService} from '../../../../model/services/user.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {ProjectTeamComponent} from '../../../dashboard/project/project-team/project-team.component';
-import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
 import {UserProfile} from '../../../../model/webapi/knora/';
 import {User} from '../../../../model/webapi/knora/v1/users/user';
 
@@ -220,8 +217,7 @@ export class NewUserComponent implements OnInit, OnChanges {
                 });
             }
             return value && value.name && selectedUser;
-        }
-        else {
+        } else {
             // the admin is still typing; no selected user
             return value;
         }
@@ -247,8 +243,8 @@ export class NewUserComponent implements OnInit, OnChanges {
                 // this.project.id
                 if (this.projectIri) {
                     this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.projectIri).subscribe(
-                        (result: ApiServiceResult) => {
-//                        console.log(result.body);
+                        (secondResult: ApiServiceResult) => {
+                            console.log(secondResult.body);
 //                        this._projectTeam.closeDetailView();
                         },
                         (error: ApiServiceError) => {

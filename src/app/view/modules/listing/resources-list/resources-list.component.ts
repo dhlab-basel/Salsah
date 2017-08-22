@@ -28,6 +28,8 @@ export class ResourcesListComponent implements OnInit {
 
     @Input() searchParam: any;
 
+//no    @Output()
+
     @Output() toggleItem = new EventEmitter<any>();
 
     public isLoading: boolean = true;

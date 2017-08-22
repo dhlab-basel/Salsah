@@ -9,50 +9,53 @@ describe('UserProjectsComponent', () => {
     let component: UserProjectsComponent;
     let fixture: ComponentFixture<UserProjectsComponent>;
 
-    let testProfile: UserProfile = {
-        "userData": {
-            "email": "multi.user@example.com",
-            "firstname": "Multi",
-            "lastname": "User",
-            "isActiveUser": true,
-            "status": true,
-            "lang": "de",
-            "password": null,
-            "token": null,
-            "user_id": "http://data.knora.org/users/multiuser"
+    const testProfile: UserProfile = <UserProfile>{
+        'userData': {
+            'email': 'multi.user@example.com',
+            'givenName': 'Multi',
+            'familyName': 'User',
+            'isActiveUser': true,
+            'status': true,
+            'lang': 'de',
+            'password': null,
+            'token': null,
+            'user_id': 'http://data.knora.org/users/multiuser'
         },
-        "groups": ["http://data.knora.org/groups/images-reviewer"],
-        "projects_info": [{
-            "shortname": "images",
-            "description": "A demo project of a collection of images",
-            "institution": null,
-            "logo": null,
-            "dataNamedGraph": "http://www.knora.org/data/images",
-            "id": "http://data.knora.org/projects/images",
-            "status": true,
-            "keywords": "images, collection",
-            "name": "Image Collection Demo",
-            "ontologyNamedGraph": "http://www.knora.org/ontology/images",
-            "selfjoin": false
+        'groups': ['http://data.knora.org/groups/images-reviewer'],
+        'projects_info': [{
+            'shortname': 'images',
+            'description': 'A demo project of a collection of images',
+            'institution': null,
+            'logo': null,
+            'dataNamedGraph': 'http://www.knora.org/data/images',
+            'id': 'http://data.knora.org/projects/images',
+            'status': true,
+            'keywords': 'images, collection',
+            'name': 'Image Collection Demo',
+            'ontologyNamedGraph': 'http://www.knora.org/ontology/images',
+            'selfjoin': false
         }],
-        "sessionId": null,
-        "isSystemUser": false,
-        "permissionData": {
-            "groupsPerProject": {
-                "http://data.knora.org/projects/77275339": ["http://www.knora.org/ontology/knora-base#ProjectMember", "http://www.knora.org/ontology/knora-base#ProjectAdmin"]
+        'sessionId': null,
+        'isSystemUser': false,
+        'permissionData': {
+            'groupsPerProject': {
+                'http://data.knora.org/projects/77275339': [
+                    'http://www.knora.org/ontology/knora-base#ProjectMember',
+                    'http://www.knora.org/ontology/knora-base#ProjectAdmin'
+                ]
             },
-            "administrativePermissionsPerProject": {
-                "http://data.knora.org/projects/images": [{
-                    "name": "ProjectAdminAllPermission",
-                    "additionalInformation": null,
-                    "v1Code": null
+            'administrativePermissionsPerProject': {
+                'http://data.knora.org/projects/images': [{
+                    'name': 'ProjectAdminAllPermission',
+                    'additionalInformation': null,
+                    'v1Code': null
                 }, {
-                    "name": "ProjectResourceCreateAllPermission",
-                    "additionalInformation": null,
-                    "v1Code": null
+                    'name': 'ProjectResourceCreateAllPermission',
+                    'additionalInformation': null,
+                    'v1Code': null
                 }]
             },
-            "anonymousUser": false
+            'anonymousUser': false
         }
     };
 

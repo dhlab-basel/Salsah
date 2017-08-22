@@ -33,6 +33,8 @@ export class ProjectProfileComponent implements OnInit {
 
     project: Project = new Project();
 
+    projectLogoPath: string = '/data-pool/projects/';
+
     constructor(private _route: ActivatedRoute,
                 private _projectsService: ProjectsService
     ) {
@@ -60,8 +62,7 @@ export class ProjectProfileComponent implements OnInit {
                         }
                     );
             });
-        }
-        else {
+        } else {
             this.projectItem = JSON.parse(localStorage.getItem('currentProject'));
         }
 
