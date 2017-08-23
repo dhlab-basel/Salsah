@@ -1,10 +1,9 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../../../app.module';
-import {AppMaterialModule} from '../../../../../../app-material-module';
 import {AppRoutingModule} from '../../../../../../app-routing.module';
 import {HeaderToolbarComponent} from './header-toolbar.component';
 import {SessionService} from '../../../../../../model/services/session.service';
-import {UserProfile} from "../../../../../../model/webapi/knora/v1/users/user-profile";
+import {UserProfile} from '../../../../../../model/webapi/knora/v1/users/user-profile';
 
 describe('HeaderToolbarComponent', () => {
     let component: HeaderToolbarComponent;
@@ -64,7 +63,6 @@ describe('HeaderToolbarComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule,
                 AppRoutingModule
             ],
             providers: [
@@ -78,16 +76,16 @@ describe('HeaderToolbarComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(localStorage, 'getItem').and.callFake( (key:string):String => {
+        spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
             return store[key] || null;
         });
-        spyOn(localStorage, 'removeItem').and.callFake((key:string):void =>  {
+        spyOn(localStorage, 'removeItem').and.callFake((key: string): void => {
             delete store[key];
         });
-        spyOn(localStorage, 'setItem').and.callFake((key:string, value:string):string =>  {
+        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string => {
             return store[key] = <any>value;
         });
-        spyOn(localStorage, 'clear').and.callFake(() =>  {
+        spyOn(localStorage, 'clear').and.callFake(() => {
             store = {};
         });
     });

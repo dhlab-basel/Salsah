@@ -1,9 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
-import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {UserProjectsComponent} from './user-projects.component';
-import {ProjectItem, UserProfile} from '../../../../model/webapi/knora/';
+import {UserProfile} from '../../../../model/webapi/knora/';
 
 describe('UserProjectsComponent', () => {
     let component: UserProjectsComponent;
@@ -63,7 +62,6 @@ describe('UserProjectsComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule,
                 AppRoutingModule
             ]
         })

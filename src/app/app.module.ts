@@ -14,7 +14,7 @@ import {AppRoutingModule} from './app-routing.module';
 // import the material design modules
 //
 //import {AppMaterialModule} from './app-material-module';
-import {MaterialModule} from '@angular/material';
+import {AppMaterialModule} from './app-material-module';
 import 'hammerjs';
 //
 // import other third party modules
@@ -103,6 +103,8 @@ import {ResourceTypesListComponent} from './view/modules/listing/resource-types-
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
+import {EditProjectComponent} from './view/modules/form/edit-project/edit-project.component';
+
 
 @NgModule({
     declarations: [
@@ -167,14 +169,15 @@ import {ResourceObjectComponent} from './view/modules/object/resource-object/res
         ResourceTypesListComponent,
         CollectionsListComponent,
         SearchResultsComponent,
-        ResourceObjectComponent
+        ResourceObjectComponent,
+        EditProjectComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
         RouterModule,
-        MaterialModule,
+        AppMaterialModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,

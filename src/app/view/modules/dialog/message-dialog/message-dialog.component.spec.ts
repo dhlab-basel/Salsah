@@ -1,6 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
-import {AppMaterialModule} from '../../../../app-material-module';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 import {MessageDialogComponent} from './message-dialog.component';
 
@@ -11,8 +10,7 @@ describe('MessageDialogComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                AppModule,
-                AppMaterialModule
+                AppModule
             ],
             providers: [
                 {provide: MD_DIALOG_DATA, useValue: {}},

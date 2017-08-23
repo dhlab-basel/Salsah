@@ -1,7 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-
-import {MaterialModule} from '@angular/material';
+import {AppModule} from '../../../../app.module';
 import {CollectionsListComponent} from './collections-list.component';
 
 describe('CollectionListComponent', () => {
@@ -11,13 +9,7 @@ describe('CollectionListComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                MaterialModule
-            ],
-            declarations: [
-                CollectionsListComponent
-            ],
-            schemas: [
-                NO_ERRORS_SCHEMA
+                AppModule
             ]
         })
             .compileComponents();

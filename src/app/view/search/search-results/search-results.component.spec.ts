@@ -1,6 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {SearchResultsComponent} from './search-results.component';
-import {AppMaterialModule} from '../../../app-material-module';
 import {AppModule} from '../../../app.module';
 
 describe('SearchResultsComponent', () => {
@@ -10,8 +9,7 @@ describe('SearchResultsComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                AppModule,
-                AppMaterialModule
+                AppModule
             ]
         })
             .compileComponents();

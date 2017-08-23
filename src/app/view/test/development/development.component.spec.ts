@@ -1,7 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {AppModule} from "../../../app.module";
-import {AppMaterialModule} from "../../../app-material-module";
+import {AppModule} from '../../../app.module';
 import {DevelopmentComponent} from './development.component';
 
 describe('DevelopmentComponent', () => {
@@ -11,8 +9,7 @@ describe('DevelopmentComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                AppModule,
-                AppMaterialModule
+                AppModule
             ],
             providers: []
         })

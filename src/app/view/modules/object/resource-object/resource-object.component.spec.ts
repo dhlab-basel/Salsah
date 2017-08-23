@@ -2,7 +2,6 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ResourceObjectComponent} from './resource-object.component';
 import {ResourceService} from '../../../../model/services/resource.service';
 import {AppModule} from '../../../../app.module';
-import {AppMaterialModule} from '../../../../app-material-module';
 
 describe('ResourceObjectComponent', () => {
     let component: ResourceObjectComponent;
@@ -11,8 +10,7 @@ describe('ResourceObjectComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                AppModule,
-                AppMaterialModule
+                AppModule
             ],
             providers: [
                 ResourceService

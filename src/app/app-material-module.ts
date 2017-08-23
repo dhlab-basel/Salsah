@@ -1,6 +1,5 @@
-import {ApplicationRef, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {
-    FullscreenOverlayContainer,
     MdAutocompleteModule,
     MdButtonModule,
     MdButtonToggleModule,
@@ -32,7 +31,6 @@ import {
     MdTabsModule,
     MdToolbarModule,
     MdTooltipModule,
-    OverlayContainer,
     StyleModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk';
