@@ -3,7 +3,7 @@ import {AppModule} from '../../../../app.module';
 import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {UserProjectsComponent} from './user-projects.component';
-import {ProjectItem, UserProfile} from "../../../../model/webapi/knora/";
+import {ProjectItem, UserProfile} from '../../../../model/webapi/knora/';
 
 describe('UserProjectsComponent', () => {
     let component: UserProjectsComponent;
@@ -31,7 +31,7 @@ describe('UserProjectsComponent', () => {
             'id': 'http://data.knora.org/projects/images',
             'status': true,
             'keywords': 'images, collection',
-            'name': 'Image Collection Demo',
+            'longname': 'Image Collection Demo',
             'ontologyNamedGraph': 'http://www.knora.org/ontology/images',
             'selfjoin': false
         }],
@@ -74,16 +74,16 @@ describe('UserProjectsComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(localStorage, 'getItem').and.callFake( (key:string):String => {
+        spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
             return store[key] || null;
         });
-        spyOn(localStorage, 'removeItem').and.callFake((key:string):void =>  {
+        spyOn(localStorage, 'removeItem').and.callFake((key: string): void => {
             delete store[key];
         });
-        spyOn(localStorage, 'setItem').and.callFake((key:string, value:string):string =>  {
+        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string => {
             return store[key] = <any>value;
         });
-        spyOn(localStorage, 'clear').and.callFake(() =>  {
+        spyOn(localStorage, 'clear').and.callFake(() => {
             store = {};
         });
     });

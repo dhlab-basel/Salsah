@@ -11,18 +11,18 @@ describe('ProjectTeamComponent', () => {
     let component: ProjectTeamComponent;
     let fixture: ComponentFixture<ProjectTeamComponent>;
 
-    let testProject: ProjectItem = {
-        "shortname": "images",
-        "description": "A demo project of a collection of images",
-        "institution": null,
-        "logo": null,
-        "dataNamedGraph": "http://www.knora.org/data/images",
-        "id": "http://data.knora.org/projects/images",
-        "status": true,
-        "keywords": "images, collection",
-        "name": "Image Collection Demo",
-        "ontologyNamedGraph": "http://www.knora.org/ontology/images",
-        "selfjoin": false
+    const testProject: ProjectItem = {
+        'shortname': 'images',
+        'description': 'A demo project of a collection of images',
+        'institution': null,
+        'logo': null,
+        'dataNamedGraph': 'http://www.knora.org/data/images',
+        'id': 'http://data.knora.org/projects/images',
+        'status': true,
+        'keywords': 'images, collection',
+        'longname': 'Image Collection Demo',
+        'ontologyNamedGraph': 'http://www.knora.org/ontology/images',
+        'selfjoin': false
     };
 
     beforeEach(async(() => {

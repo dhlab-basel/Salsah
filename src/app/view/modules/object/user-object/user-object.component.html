@@ -2,7 +2,7 @@
 
 <div *ngIf="userProfile">
 
-    <img salsahGravatar *ngIf="email" [email]="email" class="salsah-avatar-image"/>
+    <img salsahImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image"/>
     <h3 md-subheader>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h3>
     <p><a [href]="'mailto:' + email">{{email}}</a></p>
 

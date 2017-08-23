@@ -40,7 +40,7 @@ import {StatusMsgServiceService} from './model/services/status-msg-service.servi
 // import directives, pipes etc.
 //
 import {ForbiddenNameDirective} from './view/modules/other/forbidden-name.directive';
-import {GravatarDirective} from './view/modules/other/gravatar.directive';
+import {ImageDirective} from './view/modules/other/image.directive';
 import {KeyPipe} from './view/modules/other/key.pipe';
 import {OverlayDirective} from './view/modules/other/overlay.directive';
 import {ReversePipe} from './view/modules/other/reverse.pipe';
@@ -98,7 +98,6 @@ import {FrameworkForListingsComponent} from './view/modules/framework/framework-
 import {UserObjectComponent} from './view/modules/object/user-object/user-object.component';
 import {MessageDialogComponent} from './view/modules/dialog/message-dialog/message-dialog.component';
 import {NewProjectComponent} from './view/modules/form/new-project/new-project.component';
-import {UsersTableComponent} from './view/modules/listing/users-table/users-table.component';
 import {FormDialogComponent} from './view/modules/dialog/form-dialog/form-dialog.component';
 import {ResourceTypesListComponent} from './view/modules/listing/resource-types-list/resource-types-list.component';
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
@@ -119,7 +118,7 @@ import {ResourceObjectComponent} from './view/modules/object/resource-object/res
         HeaderToolbarComponent,
         HeaderProjectsComponent,
         DashboardComponent,
-        GravatarDirective,
+        ImageDirective,
         UserSettingsComponent,
         ProjectSettingsComponent,
         UserProfileComponent,
@@ -164,7 +163,6 @@ import {ResourceObjectComponent} from './view/modules/object/resource-object/res
         MessageDialogComponent,
         NewProjectComponent,
         ForbiddenNameDirective,
-        UsersTableComponent,
         FormDialogComponent,
         ResourceTypesListComponent,
         CollectionsListComponent,

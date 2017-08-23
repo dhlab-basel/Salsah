@@ -20,6 +20,8 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {UserService} from '../../../../model/services/user.service';
 import {ProjectsList, ProjectItem, User, UserProfile} from '../../../../model/webapi/knora/';
 import {MessageData} from '../../message/message.component';
+import {MdDialog, MdDialogConfig} from '@angular/material';
+import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 
 /**
  * This component has two optional attributes:
@@ -43,6 +45,7 @@ import {MessageData} from '../../message/message.component';
 export class ProjectsListComponent implements OnInit {
 
     @Input('restrictedBy') user: string;
+    @Input() showAsTable?: boolean = false;
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
@@ -62,9 +65,12 @@ export class ProjectsListComponent implements OnInit {
     list: ProjectItem[] = [];
     num: number;
 
+    sortKey: string;
+
     constructor(private _router: Router,
                 private _projectsService: ProjectsService,
-                private _userService: UserService) {
+                private _userService: UserService,
+                public _dialog: MdDialog) {
     }
 
     ngOnInit() {
@@ -100,6 +106,16 @@ export class ProjectsListComponent implements OnInit {
                     }
                 );
         }
+    }
+
+
+    edit(id: string) {
+        const dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
+            data: {
+                iri: id,
+                form: 'edit-project'
+            }
+        });
     }
 
     open(id: string) {

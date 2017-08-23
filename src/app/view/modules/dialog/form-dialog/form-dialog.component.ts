@@ -14,6 +14,7 @@
 
 import {Component, Inject, OnInit} from '@angular/core';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
+import {MessageData} from '../../message/message.component';
 
 @Component({
     selector: 'salsah-form-dialog',
@@ -26,12 +27,18 @@ export class FormDialogComponent implements OnInit {
 
     formIsValid: boolean = false;
 
+    notYetImplemented: MessageData = <MessageData>{
+        status: 204,
+        statusMsg: 'Not yet implemented',
+        statusText: 'TODO: add the following form component to the FormDialog component:'
+    };
+
     constructor(public _dialogRef: MdDialogRef<FormDialogComponent>,
                 @Inject(MD_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
-        console.log(this.data);
+        this.notYetImplemented.route = this.data.form;
     }
 
     submitData(data: any, valid: boolean) {

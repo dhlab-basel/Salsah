@@ -1,5 +1,8 @@
-@import '../../../../../../../assets/style/mixins';
 @import '../../../../../../../assets/style/config';
+
+.user-menu button {
+
+}
 
 .salsah-menu {
   @include md-box-shadow();

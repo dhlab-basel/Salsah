@@ -160,6 +160,7 @@ export class NewProjectComponent implements OnInit {
      * @param value
      */
     onSubmit(value: any): void {
+
         this.submitted = true;
 
         this.newProject  = value;

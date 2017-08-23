@@ -6,14 +6,16 @@
 
     <!-- component has his own toolbar, with component specific buttons / tabs / etc. -->
     <md-toolbar class="salsah-module-header">
-        <md-icon>build</md-icon>
-        <h3 md-subheader class="fill-remaining-space">
+        <!-- type of the current dashboard -->
+        <h4 md-subheader>
             System
-        </h3>
-
-        <!-- This fills the remaining space of the current row --
-        <span class="fill-remaining-space"></span>
+        </h4>
+        <!--
+        <md-icon>build</md-icon>
         -->
+
+        <!-- This fills the remaining space of the current row -->
+        <span class="fill-remaining-space"></span>
 
         <!-- Tab menu -->
         <nav class="salsah-tab-group" *ngIf="!errorMessage">

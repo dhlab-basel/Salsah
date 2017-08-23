@@ -32,7 +32,7 @@ describe('HeaderToolbarComponent', () => {
             'id': 'http://data.knora.org/projects/images',
             'status': true,
             'keywords': 'images, collection',
-            'name': 'Image Collection Demo',
+            'longname': 'Image Collection Demo',
             'ontologyNamedGraph': 'http://www.knora.org/ontology/images',
             'selfjoin': false
         }],

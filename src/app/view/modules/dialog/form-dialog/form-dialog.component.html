@@ -32,6 +32,7 @@
 
         <salsah-new-resource-class *ngSwitchCase="'new-resource-type'" [iri]="data.restriction"></salsah-new-resource-class>
 
+        <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
     </md-dialog-content>
 
     <!-- footer with save button -->

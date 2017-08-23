@@ -21,6 +21,9 @@ import {ProjectMembers} from '../../../../model/webapi/knora/v1/projects/project
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
 import {MessageData} from '../../message/message.component';
+import {MdDialog, MdDialogConfig} from '@angular/material';
+import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'salsah-users-list',
@@ -39,6 +42,7 @@ export class UsersListComponent implements OnInit {
 
     @Input('restrictedBy') project: string;
     @Input() index: number;
+    @Input() showAsTable?: boolean = false;
 
     @Output() toggleItem = new EventEmitter<any>();
 
@@ -82,8 +86,10 @@ export class UsersListComponent implements OnInit {
     sortKey: string = this.sortProps[0].key;
     sortLabel: string = this.sortProps[0].label;
 
-    constructor(public _projectsService: ProjectsService,
-                public _userService: UserService) {
+    constructor(private _router: Router,
+                public _projectsService: ProjectsService,
+                public _userService: UserService,
+                public _dialog: MdDialog) {
     }
 
     ngOnInit() {
@@ -119,7 +125,7 @@ export class UsersListComponent implements OnInit {
             this._userService.getAllUsers()
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.list = result.getBody(UsersList).list;
+                        this.list = result.getBody(UsersList).users;
                         this.num = Object.keys(this.list).length;
                         this.isLoading = false;
                     },
@@ -142,6 +148,7 @@ export class UsersListComponent implements OnInit {
         }
     }
 
+    // in the list view, it opens an object on the right hand side detail view
     // open / close user
     toggle(id: string, index: number) {
         if (this.selectedRow === index) {
@@ -155,6 +162,27 @@ export class UsersListComponent implements OnInit {
             this.toggleItem.emit({id, index});
         }
 
+    }
+
+    // in the table view, it opens an object in a dialog box
+    // open / close user
+    edit(id: string) {
+        const dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
+            data: {
+                iri: id,
+                form: 'edit-user'
+            }
+        });
+        /*
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+        });
+        */
+
+    }
+
+    open(id: string) {
+        this._router.navigate(['/user/', id]);
     }
 
 }

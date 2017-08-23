@@ -45,7 +45,7 @@ export class ProjectItem {
     public keywords: string = undefined;
 
     @JsonProperty('longname', String)
-    public name: string = undefined;
+    public longname: string = undefined;
 
     @JsonProperty('ontologyNamedGraph', String)
     public ontologyNamedGraph: string = undefined;

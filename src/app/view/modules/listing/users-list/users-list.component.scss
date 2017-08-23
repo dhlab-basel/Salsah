@@ -1,0 +1,23 @@
+@import '../../../../../assets/style/config';
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+
+  tr {
+    @include border-bottom();
+    height: 48px;
+
+    td,
+    th {
+      padding: 12px;
+      text-align: left;
+    }
+  }
+}
+
+.salsah-avatar-cell {
+  text-align: center;
+  width: 48px;
+
+}

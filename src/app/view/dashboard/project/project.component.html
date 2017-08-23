@@ -5,13 +5,16 @@
     <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
 
     <md-toolbar class="salsah-module-header">
-        <md-icon>assignment</md-icon>
-        <h3 md-subheader class="fill-remaining-space">
+        <!-- type of the current dashboard -->
+        <h4 md-subheader>
             Project
-        </h3>
-        <!-- This fills the remaining space of the current row --
-        <span class="fill-remaining-space"></span>
+        </h4>
+        <!--
+        <md-icon>assignment</md-icon>
         -->
+
+        <!-- This fills the remaining space of the current row -->
+        <span class="fill-remaining-space"></span>
 
         <!-- Tab menu -->
         <nav class="salsah-tab-group" *ngIf="!errorMessage">
