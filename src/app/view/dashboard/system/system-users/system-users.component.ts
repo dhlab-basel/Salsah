@@ -30,7 +30,7 @@ export class SystemUsersComponent implements OnInit {
     // ------------------------------------------------------------------------
     list: ListData = {
         title: 'List of users in Knora',
-        description: 'a kind of subtitle',
+        description: '',
         content: 'user',
         showAsTable: true,
         restrictedBy: undefined

@@ -1,18 +1,143 @@
-<!-- not a card; how can we use it in an md-dialog? same setup as in new resource class form... -->
-<br><br>
-<div class="salsah-component-content">
-    <h3>old project form</h3>
+<div *ngIf="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
+        <table class="full-width" cellspacing="0">
+            <!-- line 1: short and long name of the project -->
+            <tr>
+                <td colspan="1">
+                    <md-input-container class="full-width">
+                        <input mdInput autofocus
+                               [placeholder]="formLabels.shortname + ' *'"
+                               formControlName="shortname">
+                        <md-hint *ngIf="formErrors.shortname">
+                            {{ formErrors.shortname }}
+                        </md-hint>
+                    </md-input-container>
+                </td>
+                <td colspan="2">
+                    <md-input-container class="full-width">
+                        <input mdInput
+                               [placeholder]="formLabels.longname + ' *'"
+                               formControlName="longname">
+                        <md-hint *ngIf="formErrors.longname">
+                            {{ formErrors.longname }}
+                        </md-hint>
+                    </md-input-container>
+                </td>
+            </tr>
+            <!-- line 2: project description -->
+            <tr>
+                <td colspan="3">
+                    <md-input-container class="full-width">
+                    <textarea mdInput rows="6"
+                              [placeholder]="formLabels.description"
+                              formControlName="description">
+                    </textarea>
+                        <md-hint *ngIf="formErrors.description">
+                            {{ formErrors.description }}
+                        </md-hint>
+                    </md-input-container>
 
-    <md-card class="salsah-project-creator fix-width no-shadow">
-        <salsah-new-project></salsah-new-project>
-    </md-card>
+                </td>
+            </tr>
+
+            <!-- line 3: keywords -->
+            <!-- after uploading logo or setting url replace it with the logo -->
+            <tr>
+                <td colspan="3">
+                    <md-input-container class="full-width">
+                        <input mdInput
+                               [placeholder]="formLabels.keywords"
+                               formControlName="keywords">
+                        <md-hint *ngIf="formErrors.keywords">
+                            {{ formErrors.keywords }}
+                        </md-hint>
+                    </md-input-container>
+                </td>
+            </tr>
+
+            <!-- line 4: logo upload or url definition -->
+            <!-- after uploading logo or setting url replace it with the logo -->
+            <tr>
+                <td>
+                    add a logo
+                </td>
+                <td>
+                    {{formLabels.logo.upload}}
+                </td>
+                <td>
+                    preview here? or on the next line
+                </td>
+            </tr>
+            <!-- line 4: cancel and submit button -->
+            <!-- TODO: how do we handle this with md dialog box? -->
+            <tr>
+                <td>
+                    <button md-button
+                            class="cancel-button"
+                            (click)="form.reset()">
+                        Cancel
+                    </button>
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    <button md-raised-button
+                            class="save-button"
+                            color="primary"
+                            [disabled]="!form.valid">
+                        Save
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <!-- // some outputs for developers
+            <p>Value: {{ form.value | json }}</p>
+            <p>Validation status: {{ form.status }}</p>
+        -->
+    </form>
 </div>
+
+
+
+<!--
+                <div class="full-width file-upload-wrapper">
+                    <p class="md-input-placeholder">{{form.project.logo}}</p>
+                    <!-- app.component.html -->
+<!--
+<input type="file"
+       ngFileSelect
+       [options]="options"
+       (onUpload)="handleUpload($event)"
+       (beforeUpload)="beforeUpload($event)"
+       #inputFileElement>
+-->
+<!-- drag & drop file example-->
+<!--
+<div ngFileDrop
+     [options]="options"
+     (onUpload)="handleUpload($event)"
+     [ngClass]="{'file-over': hasBaseDropZoneOver}"
+     (onFileOver)="fileOverBase($event)"
+     (beforeUpload)="beforeUpload($event)"
+     class="file-upload-zone">
+  <div>
+    <p class="file-dragndrop">Drag &amp; Drop</p>
+    <span class="file-browse" md-button (click)="inputFileElement.click()">Browse</span>
+  </div>
+
+</div>
+-->
+<!--
+            <div>
+                Response: {{ uploadFile | json }}
+            </div>
+        </div>
+        -->
+
 
 <md-divider></md-divider>
 
-<div class="salsah-component-content">
-    <h3>old project form</h3>
-    <md-card class="salsah-project-creator fix-width no-shadow">
         <!--
                 <ckeditor
                     [(ngModel)]="ckeditorContent"
@@ -50,38 +175,7 @@
                               ngModel></textarea>
                 </md-input-container>
 
-                <div class="full-width file-upload-wrapper">
-                    <p class="md-input-placeholder">{{form.project.logo}}</p>
-                    <!-- app.component.html -->
-                    <!--
-                    <input type="file"
-                           ngFileSelect
-                           [options]="options"
-                           (onUpload)="handleUpload($event)"
-                           (beforeUpload)="beforeUpload($event)"
-                           #inputFileElement>
-                    -->
-                    <!-- drag & drop file example-->
-                    <!--
-                    <div ngFileDrop
-                         [options]="options"
-                         (onUpload)="handleUpload($event)"
-                         [ngClass]="{'file-over': hasBaseDropZoneOver}"
-                         (onFileOver)="fileOverBase($event)"
-                         (beforeUpload)="beforeUpload($event)"
-                         class="file-upload-zone">
-                      <div>
-                        <p class="file-dragndrop">Drag &amp; Drop</p>
-                        <span class="file-browse" md-button (click)="inputFileElement.click()">Browse</span>
-                      </div>
 
-                    </div>
-                    -->
-        <!--
-                    <div>
-                        Response: {{ uploadFile | json }}
-                    </div>
-                </div>
 
 
             </md-card-content>
@@ -96,9 +190,6 @@
             </md-card-actions>
         </form>
         -->
-    </md-card>
-
-</div>
 
 
 

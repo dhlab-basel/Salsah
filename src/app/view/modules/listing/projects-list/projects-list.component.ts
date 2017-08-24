@@ -113,7 +113,7 @@ export class ProjectsListComponent implements OnInit {
         const dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
             data: {
                 iri: id,
-                form: 'edit-project'
+                form: 'project'
             }
         });
     }

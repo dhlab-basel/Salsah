@@ -6,8 +6,9 @@
 
     <!-- this module has a list with different positions: left or center (= default) -->
     <div class="salsah-list" [ngClass]="[position, listSize]">
-        <h2 md-header>{{list.title}}</h2>
-        <p md-subheader>{{list.description}}</p>
+        <div class="salsah-list-header">
+            <h3 md-header [class.has-border]="list.description">{{list.title}}</h3><p md-subheader>{{list.description}}</p>
+        </div>
 
         <!-- add button? -->
         <md-list *ngIf="add != undefined">

@@ -77,5 +77,12 @@ export class ProjectsService extends ApiService {
         return this.httpPost('/projects', data);
     }
 
+    updateProject(iri: string, data: any): Observable<any> {
+        let headers: Headers = new Headers();
+        console.log(headers);
+        console.log(data);
+        return this.httpPost('/projects/' + encodeURIComponent(iri), data);
+    }
+
 
 }

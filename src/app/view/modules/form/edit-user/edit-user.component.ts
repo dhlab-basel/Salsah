@@ -29,10 +29,8 @@ export class EditUserComponent implements OnInit {
     @Input() index: number = null;
 
     userProfile: UserProfile;
-    errorMessage: string = undefined;
+    errorMessage: any = undefined;
     selectedRow: number;
-
-//  editUser: boolean;
 
     constructor(private _userService: UserService) {
     }

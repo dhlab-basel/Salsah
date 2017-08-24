@@ -54,7 +54,7 @@ export class ImageDirective implements OnInit {
                     if(this.image.slice(0, 4) === 'http') {
                         this.source = this.image;
                     } else {
-                        this.source = this.defaultPath + 'projects' + this.image;
+                        this.source = this.defaultPath + '/projects/' + this.image;
                     }
                 }
                 break;

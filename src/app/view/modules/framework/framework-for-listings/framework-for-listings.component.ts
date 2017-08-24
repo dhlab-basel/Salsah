@@ -168,7 +168,7 @@ export class FrameworkForListingsComponent implements OnInit {
                     data: {
                         title: this.add.title,
                         description: this.add.description,
-                        form: 'new-' + this.list.content,
+                        form: this.list.content,
                         restriction: this.list.restrictedBy
                     }
                 });

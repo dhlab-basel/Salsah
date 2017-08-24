@@ -22,13 +22,17 @@
     <!-- dialog content with the form components -->
     <md-dialog-content [ngSwitch]="data.form" class="dialog-content">
 
-        <!-- salsah new form for projects, users, resource classes etc.
+        <!-- salsah form components for projects, users, resource classes etc.
         all handled by the switch method -->
+        <salsah-project-form *ngSwitchCase="'project'" [iri]="data.iri"></salsah-project-form>
+
         <salsah-new-project *ngSwitchCase="'new-project'"></salsah-new-project>
 
-        <salsah-edit-user *ngSwitchCase="'edit-user'" [iri]="data.iri"></salsah-edit-user>
+        <salsah-edit-project *ngSwitchCase="'edit-project'" [iri]="data.iri"></salsah-edit-project>
 
         <salsah-new-user *ngSwitchCase="'new-user'" [iri]="data.restriction" (submitData)="submitData($event, $event)"></salsah-new-user>
+
+        <salsah-edit-user *ngSwitchCase="'edit-user'" [iri]="data.iri"></salsah-edit-user>
 
         <salsah-new-resource-class *ngSwitchCase="'new-resource-type'" [iri]="data.restriction"></salsah-new-resource-class>
 

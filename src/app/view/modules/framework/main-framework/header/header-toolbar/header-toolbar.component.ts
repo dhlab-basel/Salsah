@@ -163,7 +163,7 @@ export class HeaderToolbarComponent implements OnInit {
             switch (item) {
                 case 'project':
                     title = 'Create new project';
-                    dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{data: {title: title, form: 'new-project'}});
+                    dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{data: {title: title, form: 'project'}});
                     break;
 
                 default:
