@@ -13,7 +13,6 @@ import {AppRoutingModule} from './app-routing.module';
 //
 // import the material design modules
 //
-//import {AppMaterialModule} from './app-material-module';
 import {AppMaterialModule} from './app-material-module';
 import 'hammerjs';
 //
@@ -71,7 +70,6 @@ import {ResourcesListComponent} from './view/modules/listing/resources-list/reso
 import {ResourceGridListComponent} from './view/modules/listing/resource-grid-list/resource-grid-list.component';
 import {ObjectComponent} from './view/modules/object/object.component';
 import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
-import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {ResourceClassFormComponent} from './view/modules/form/resource-class-form/resource-class-form.component';
 import {ResourceFormComponent} from './view/modules/form/resource-form/resource-form.component';
 import {DocumentationComponent} from './view/documentation/documentation.component';
@@ -81,14 +79,13 @@ import {ProjectAdvancedComponent} from './view/dashboard/project/project-advance
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
 import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
-import {NewUserComponent} from './view/modules/form/new-user/new-user.component';
+import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
 import {MessageComponent} from './view/modules/message/message.component';
 import {NewResClassComponent} from './view/test/development/new-res-class/new-res-class.component';
 import {NewResourceClassComponent} from './view/modules/form/new-resource-class/new-resource-class.component';
 import {OsdViewerComponent} from './view/modules/object/osd-viewer/osd-viewer.component';
 import {EditResourceClassComponent} from './view/modules/form/edit-resource-class/edit-resource-class.component';
-import {EditUserComponent} from './view/modules/form/edit-user/edit-user.component';
 import {SystemComponent} from './view/dashboard/system/system.component';
 import {SystemUsersComponent} from './view/dashboard/system/system-users/system-users.component';
 import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
@@ -97,13 +94,12 @@ import {UsersListComponent} from './view/modules/listing/users-list/users-list.c
 import {FrameworkForListingsComponent} from './view/modules/framework/framework-for-listings/framework-for-listings.component';
 import {UserObjectComponent} from './view/modules/object/user-object/user-object.component';
 import {MessageDialogComponent} from './view/modules/dialog/message-dialog/message-dialog.component';
-import {NewProjectComponent} from './view/modules/form/new-project/new-project.component';
+
 import {FormDialogComponent} from './view/modules/dialog/form-dialog/form-dialog.component';
 import {ResourceTypesListComponent} from './view/modules/listing/resource-types-list/resource-types-list.component';
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
-import {EditProjectComponent} from './view/modules/form/edit-project/edit-project.component';
 
 
 @NgModule({
@@ -146,7 +142,6 @@ import {EditProjectComponent} from './view/modules/form/edit-project/edit-projec
         ProgressIndicatorComponent,
         ProgressStepperComponent,
         AdvancedResourceClassComponent,
-        NewUserComponent,
         DevelopmentComponent,
         MessageComponent,
         NewResClassComponent,
@@ -154,7 +149,6 @@ import {EditProjectComponent} from './view/modules/form/edit-project/edit-projec
         OsdViewerComponent,
         EditResourceClassComponent,
         SortByPipe,
-        EditUserComponent,
         SystemComponent,
         SystemUsersComponent,
         SystemProjectsComponent,
@@ -163,14 +157,12 @@ import {EditProjectComponent} from './view/modules/form/edit-project/edit-projec
         FrameworkForListingsComponent,
         UserObjectComponent,
         MessageDialogComponent,
-        NewProjectComponent,
         ForbiddenNameDirective,
         FormDialogComponent,
         ResourceTypesListComponent,
         CollectionsListComponent,
         SearchResultsComponent,
         ResourceObjectComponent,
-        EditProjectComponent
     ],
     imports: [
         BrowserModule,

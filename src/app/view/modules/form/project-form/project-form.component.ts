@@ -45,7 +45,7 @@ export class ProjectFormComponent implements OnInit {
 
     form: FormGroup;
 
-    descriptionMaxLength: number = 1000;
+    descriptionMaxLength: number = 2000;
 
     constructor(public _projectsService: ProjectsService,
                 private _fb: FormBuilder) {
@@ -59,8 +59,8 @@ export class ProjectFormComponent implements OnInit {
         this._projectsService.getAllProjects()
             .subscribe(
                 (result: ApiServiceResult) => {
-                    let projectsList: ProjectItem[] = result.getBody(ProjectsList).projects;
-                    for (let p of projectsList) {
+                    const projectsList: ProjectItem[] = result.getBody(ProjectsList).projects;
+                    for (const p of projectsList) {
                         this.existingShortNames.push(new RegExp(p.shortname.toLowerCase()));
                     }
                 },
@@ -77,10 +77,14 @@ export class ProjectFormComponent implements OnInit {
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.project = result.getBody(Project).project_info;
-                        let short = new RegExp(this.project.shortname);
+                        console.log(this.existingShortNames);
+
+                        const short = new RegExp(this.project.shortname);
 
                         console.log(short);
+
                         this.existingShortNames.splice(this.existingShortNames.indexOf(short), 1);
+
                         this.buildForm(this.project);
                     },
                     (error: ApiServiceError) => {
@@ -206,7 +210,7 @@ export class ProjectFormComponent implements OnInit {
             this._projectsService.createProject(this.project).subscribe(
                 (result: ApiServiceResult) => {
 
-                    console.log("service: ", result);
+                    console.log('service: ', result);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = error;
@@ -219,7 +223,7 @@ export class ProjectFormComponent implements OnInit {
             this._projectsService.updateProject(this.iri, this.project).subscribe(
                 (result: ApiServiceResult) => {
 
-                    console.log("service: ", result);
+                    console.log('service: ', result);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = error;

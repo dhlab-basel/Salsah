@@ -170,7 +170,7 @@ export class UsersListComponent implements OnInit {
         const dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
             data: {
                 iri: id,
-                form: 'edit-user'
+                form: 'user'
             }
         });
         /*

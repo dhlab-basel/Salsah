@@ -1,5 +1,5 @@
 <div class="salsah-module-content medium" *ngIf="projectItem">
-    <img salsahImage [image]="projectItem.logo" type="'project'">
+    <img salsahImage [image]="projectItem.logo" [type]="'project'">
     <h2 md-header>{{projectItem.longname}}</h2>
     <div [innerHTML]="projectItem.description" class="salsah-text"></div>
 </div>

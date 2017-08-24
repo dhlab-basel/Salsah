@@ -35,7 +35,7 @@ export class ImageDirective implements OnInit {
 
     ngOnInit() {
 
-        switch(this.type) {
+        switch (this.type) {
 
             case 'user':
                 this.onError += '/users/defaultUser.png';
@@ -44,14 +44,13 @@ export class ImageDirective implements OnInit {
                 break;
 
             case 'project':
-                this.onError += '/projects/defaultProject.png';
+                this.onError += '/errors/image-not-available.png';
 
-                if(this.image === null) {
-                    this.source = this.onError;
-                }
-                else {
+                if (this.image === null || this.image === undefined) {
+                    this.source = this.defaultPath + '/projects/defaultProject.png';
+                } else {
                     // if the image is a complete url
-                    if(this.image.slice(0, 4) === 'http') {
+                    if (this.image.slice(0, 4) === 'http') {
                         this.source = this.image;
                     } else {
                         this.source = this.defaultPath + '/projects/' + this.image;

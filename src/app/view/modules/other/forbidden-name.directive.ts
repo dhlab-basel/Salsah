@@ -58,9 +58,9 @@ export function forbiddenNamesValidator(nameAr: [RegExp]): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
         const name = control.value;
         let no;
-        for(let forbidden of nameAr) {
+        for (const forbidden of nameAr) {
             no = forbidden.test(name);
-            if(no) {
+            if (no) {
                 console.log(no);
                 return no ? {'forbiddenName': {name}} : null;
             }

@@ -13,12 +13,11 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {Http, RequestOptionsArgs, Response} from "@angular/http";
-import {Observable} from "rxjs";
+import {Http, RequestOptionsArgs, Response} from '@angular/http';
+import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {JsonConvert, ValueCheckingMode} from 'json2typescript';
-import {ApiServiceError} from "./api-service-error";
-import {ApiServiceResult} from "./api-service-result";
+import {ApiServiceError} from './api-service-error';
+import {ApiServiceResult} from './api-service-result';
 
 @Injectable()
 export class ApiService {
@@ -35,7 +34,7 @@ export class ApiService {
      */
     httpGet(url: string, options?: RequestOptionsArgs): Observable<any> {
 
-        if (!options) options = {withCredentials: true};
+        if (!options) { options = {withCredentials: true}; }
 
         url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
@@ -48,7 +47,7 @@ export class ApiService {
 
         return this._http.get(url, options).map((response: Response) => {
             try {
-                let apiServiceResult: ApiServiceResult = new ApiServiceResult();
+                const apiServiceResult: ApiServiceResult = new ApiServiceResult();
                 apiServiceResult.status = response.status;
                 apiServiceResult.statusText = response.statusText;
                 apiServiceResult.body = response.json();
@@ -70,11 +69,37 @@ export class ApiService {
      * @returns {Observable<any>}
      */
     httpPost(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
-        if (!body) body = {};
-        if (!options) options = {withCredentials: true, };
+        if (!body) { body = {}; }
+        if (!options) { options = {withCredentials: true}; }
         return this._http.post(environment.api + url, body, options).map((response: Response) => {
             try {
-                let apiServiceResult: ApiServiceResult = new ApiServiceResult();
+                const apiServiceResult: ApiServiceResult = new ApiServiceResult();
+                apiServiceResult.status = response.status;
+                apiServiceResult.statusText = response.statusText;
+                apiServiceResult.body = response.json();
+                apiServiceResult.url = url;
+                return apiServiceResult;
+            } catch (e) {
+                return ApiService.handleError(response, url);
+            }
+        }).catch((error: any) => {
+            return Observable.throw(ApiService.handleError(error, url));
+        });
+    }
+
+    /**
+     * Performs a HTTP PUT url to the Knora API.
+     * @param url
+     * @param body
+     * @param options
+     * @returns {Observable<any>}
+     */
+    httpPut(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
+        if (!body) { body = {}; }
+        if (!options) { options = {withCredentials: true}; }
+        return this._http.put(environment.api + url, body, options).map((response: Response) => {
+            try {
+                const apiServiceResult: ApiServiceResult = new ApiServiceResult();
                 apiServiceResult.status = response.status;
                 apiServiceResult.statusText = response.statusText;
                 apiServiceResult.body = response.json();
@@ -90,16 +115,16 @@ export class ApiService {
 
     static handleError(error: any, url: string): ApiServiceError {
 
-        let response = new ApiServiceError();
+        const response = new ApiServiceError();
         if (error instanceof Response) {
 //            console.log(error);
             response.status = error.status;
             response.statusText = error.statusText;
-            if (!response.statusText) response.statusText = "Connection to API endpoint failed";
+            if (!response.statusText) { response.statusText = 'Connection to API endpoint failed'; }
             response.route = url;
         } else {
             response.status = 0;
-            response.statusText = "Connection to API endpoint failed";
+            response.statusText = 'Connection to API endpoint failed';
             response.route = url;
         }
 

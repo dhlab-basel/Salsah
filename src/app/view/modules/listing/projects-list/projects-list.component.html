@@ -9,7 +9,7 @@
     <md-list class="salsah-list" *ngIf="!showAsTable">
         <h3 md-subheader ># Projects: {{num}}</h3>
         <md-list-item *ngFor="let item of list | key" (click)="open(item.value.shortname)" class="salsah-link">
-            <md-icon md-list-icon>chrome_reader_mode</md-icon>
+            <img md-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-avatar-image"/>
             <h4 md-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
             <div md-line [innerHtml]="item.value.description | slice:0:128"></div>
         </md-list-item>
