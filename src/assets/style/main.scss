@@ -65,6 +65,7 @@ a {
   &.fullscreen {
     background-color: $bright;
     display: block;
+    position: fixed;
     z-index: 100;
   }
 }

@@ -47,6 +47,7 @@ export class ProjectsListComponent implements OnInit {
     @Input('restrictedBy') user: string;
     @Input() listType?: string;
 
+
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
 
@@ -65,7 +66,7 @@ export class ProjectsListComponent implements OnInit {
     list: ProjectItem[] = [];
     num: number;
 
-    sortKey: string;
+    sortKey: string = 'longname';
 
     constructor(private _router: Router,
                 private _projectsService: ProjectsService,

@@ -1,62 +1,68 @@
-md-list.salsah-list {
+// salsah has three types of list views
+// a) simple list
+// b) grid list
+// c) table list
 
-  .mat-list-item {
-    //        min-height: 112px;
+// a) simple list
+.salsah-list {
+
+  .salsah-list-item {
     margin-bottom: 8px;
     margin-top: 8px;
 
     .salsah-preview-image {
       border-radius: 0;
-      height: 96px;
-      object-fit: cover;
-      width: 96px;
-      //            margin-top: 36px;
-    }
-
-    .mat-list-text {
-
-      [md-line] {
-        overflow: hidden;
-      }
     }
   }
+
 }
 
-md-grid-list.salsah-grid-list {
-  md-card {
-    height: 88%;
+
+// b) grid list
+.salsah-grid-list {
+
+  .salsah-grid-tile {
+    height: 100%;
     margin: 6px;
     max-width: 400px;
     width: 100%;
 
+    .mat-card {
+      height: 88%;
+      width: 100%;
+      background: transparent;
+    }
+
     .salsah-preview-image {
       height: 240px;
-      object-fit: cover;
-    }
-
-    .salsah-preview-text {
-
-      &:after {
-        content: '...';
-      }
-    }
-
-    p.prop-val {
-
-      &.second {
-
-      }
+      object-fit: contain;
+      width: 100%;
     }
   }
 }
 
-.list-view {
+// c) table list
+.salsah-table {
+  border-collapse: collapse;
+  width: 100%;
 
+  tr {
+    @include border-bottom();
+    height: 48px;
+
+    td,
+    th {
+      padding: 12px;
+      text-align: left;
+    }
+  }
+
+  .salsah-avatar-cell {
+    text-align: center;
+    width: 48px;
+  }
 }
 
-.grid-view {
-
-}
 
 salsah-dashboard {
   margin-left: auto;
@@ -67,25 +73,7 @@ salsah-dashboard {
     margin: 2px;
   }
 
-  md-grid-tile {
-    ::content {
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100%;
-    }
-  }
 
-  md-list {
-    //        width: 420px;
-    .mat-list-item {
-      //            cursor: pointer;
-      &:hover {
-        //                @include box-shadow();
-        //                background-color: white;
-      }
-    }
-  }
 
   .salsah-module-header {
     position: relative;

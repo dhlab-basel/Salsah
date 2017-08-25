@@ -112,7 +112,7 @@ const appRoutes: Routes = [
         path: 'system', component: SystemComponent,
         children: [
             {
-                path: '', redirectTo: 'users', pathMatch: 'full'
+                path: '', redirectTo: 'projects', pathMatch: 'full'
             },
             {
                 path: 'users', component: SystemUsersComponent
@@ -166,7 +166,7 @@ const appRoutes: Routes = [
                 component: MessageComponent
             },
             {
-                path: 'upload',
+                path: 'uploader',
                 component: FileUploaderComponent
             }
         ]

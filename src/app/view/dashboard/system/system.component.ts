@@ -17,16 +17,16 @@ export class SystemComponent implements OnInit {
 
     public menu: any = [
         {
-            name: 'Users',
-            route: 'users'
+            name: 'Ontologies',
+            route: 'ontologies'
         },
         {
             name: 'Projects',
             route: 'projects'
         },
         {
-            name: 'Ontologies',
-            route: 'ontologies'
+            name: 'Users',
+            route: 'users'
         }
     ];
 

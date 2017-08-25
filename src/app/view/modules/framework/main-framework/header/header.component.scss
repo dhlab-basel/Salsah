@@ -3,7 +3,8 @@
 
 .salsah-main-header {
   @include md-box-shadow-2();
-  // position: relative;
+  position: absolute;
+  width: 100vw;
   z-index: 11;
 
   .salsah-logo {

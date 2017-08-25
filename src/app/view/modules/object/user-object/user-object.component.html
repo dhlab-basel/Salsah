@@ -1,5 +1,7 @@
 <salsah-progress-indicator *ngIf="!userProfile"></salsah-progress-indicator>
 
+<salsah-message *ngIf="errorMessage" [message]="error"></salsah-message>
+
 <div *ngIf="userProfile">
 
     <img salsahImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image"/>
@@ -10,39 +12,7 @@
 
     <h3 md-subheader>Member in the following projects</h3>
 
-    <md-grid-list class="salsah-grid-list" cols="2" gutterSize="12px" rowHeight="480px">
-        <md-grid-tile *ngFor="let project of userProfile?.projects_info | key; let i = index" [id]="project.key">
-            <md-card>
-                <!-- original -->
-                <!--
-                <img md-card-image [src]="project.value.logo" class="salsah-preview-image"/>
-                -->
-                <!-- fake test data -->
-                <img md-card-image [src]="testDataPathImages + logos[project.value.shortname]"
-                     class="salsah-preview-image"/>
+    <salsah-projects-list [restrictedBy]="iri" *ngIf="iri"></salsah-projects-list>
 
-                <md-card-title>{{project.value.name}}</md-card-title>
-                <md-card-subtitle class="salsah-preview-text"
-                                  [innerHtml]="project.value.description | slice:0:200"></md-card-subtitle>
-            </md-card>
-        </md-grid-tile>
-        <!--
-          <md-list-item *ngFor="let project of user.userProfile?.projects_info | key; let i = index">
-            <h4 md-line>{{project.value.name}}</h4>
-            <div md-line [innerHtml]="project.value.description"></div>
-            <md-divider></md-divider>
-          </md-list-item>
-          -->
-    </md-grid-list>
-    <md-divider></md-divider>
-    <span>Developer hint: only visible, if the user has the rights (TODO)</span>
-    <br>
-    <div class="salsah-panel full-width">
-        <span class="fill-remaining-space"></span>
-        <button md-raised-button color="warn" class="center" (click)="deleteUser(userProfile?.userData.user_id)">
-            Delete user
-        </button>
-        <span class="fill-remaining-space"></span>
-    </div>
 </div>
 

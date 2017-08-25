@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -27,29 +27,19 @@ export class UserObjectComponent implements OnChanges {
 
     @Input() id: string;
 
-
-    // test data: project logos
-    testDataPathImages: string = 'data-pool/projects/';
-    logos = {
-        'bmf': 'bmf-logo.png',
-        'anything': 'anything-logo.png',
-        'images': 'dokubib-logo.png',
-        'incunabula': 'incunabula-logo.png',
-        'dokubib': 'dokubib-logo.png',
-        'biblio': 'biblio-logo.png',
-        'beol': 'beol-logo.png',
-        'SystemProject': 'knora-logo.png'
-    };
-
     userProfile: UserProfile;
     email: string;
-    errorMessage: string = undefined;
+    iri: string;
+
     selectedRow: number;
+
+    errorMessage: any;
 
     constructor(private _userService: UserService) {
     }
 
     ngOnChanges() {
+        this.iri = undefined;
         this.email = undefined;
         this._userService.getUserByIri(this.id)
             .subscribe(
@@ -57,17 +47,12 @@ export class UserObjectComponent implements OnChanges {
                     let user: User = result.getBody(User);
                     this.userProfile = user.userProfile;
                     this.email = user.userProfile.userData.email;
+                    this.iri = this.id;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
             );
     }
-
-    deleteUser(iri: string) {
-        // open dialog box with text like
-        alert('you\'re sure? Delete user ' + iri);
-    }
-
 
 }
