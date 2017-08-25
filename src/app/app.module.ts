@@ -18,6 +18,7 @@ import 'hammerjs';
 //
 // import other third party modules
 import {DndModule} from 'ng2-dnd';
+import {FileUploaderModule} from '@uniprank/ng2-file-uploader';
 //
 // import all needed services
 //
@@ -175,6 +176,7 @@ import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uplo
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
+        FileUploaderModule,
         DndModule.forRoot()
     ],
     // we need the entryComponents for every component inside of a md-dialog module

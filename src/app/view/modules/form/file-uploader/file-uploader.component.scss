@@ -20,6 +20,10 @@ $text: rgba($dark, .6);
     position: relative;
     text-align: center;
     width: 100%;
+
+    &.drag-over {
+      border: 2px solid $text;
+    }
   }
 }
 
@@ -41,8 +45,31 @@ $text: rgba($dark, .6);
     .x-file-label {
       cursor: pointer;
       display: flex;
-      padding: 39% 0;
+      padding: 58px 0;
+    }
+  }
+}
 
+.file-url-zone {
+  display: inline-flex;
+  padding: 36px 0;
+  width: 100%;
+
+  .url-form {
+    width: 100%;
+
+    .x-file-url {
+      background: $bright;
+      border-style: none;
+      font-size: 14px;
+      margin: 0 0 10px;
+      padding: 9px 7px;
+      vertical-align: middle;
+      width: 80%;
+    }
+
+    .x-file-url-submit {
+      width: 30%;
     }
   }
 }
@@ -52,7 +79,6 @@ $text: rgba($dark, .6);
   bottom: 0;
   color: $text;
   display: block;
-  font-size: 14px;
   left: 0;
   line-height: 12px;
   padding: 10px;

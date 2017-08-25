@@ -49,6 +49,41 @@ export class ProjectFormComponent implements OnInit {
 
     descriptionMaxLength: number = 2000;
 
+    formLabels = {
+        shortname: 'Project short name',
+        longname: 'Project name',
+        description: 'Description',
+        logo: {
+            upload: 'Upload a logo',
+            or: 'OR',
+            url: 'Set an URL'
+        },
+        keywords: 'Keywords'
+    };
+
+    formErrors = {
+        'shortname': '',
+        'longname': '',
+        'description': '',
+        'keywords': '',
+    };
+
+    validationMessages = {
+        'shortname': {
+            'required': 'Short name is required.',
+            'minlength': 'Short name must be at least 3 characters long.',
+            'maxlength': 'Short name cannot be more than 16 characters long.',
+            'forbiddenName': 'This short name is already taken.'
+        },
+        'longname': {
+            'required': 'Long name is required.',
+        },
+        'description': {
+            'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.',
+        },
+        'keywords': {}
+    };
+
     constructor(public _projectsService: ProjectsService,
                 private _fb: FormBuilder) {
     }
@@ -165,41 +200,6 @@ export class ProjectFormComponent implements OnInit {
             }
         }
     }
-
-    formLabels = {
-        shortname: 'Project short name',
-        longname: 'Project name',
-        description: 'Description',
-        logo: {
-            upload: 'Upload a logo',
-            or: 'OR',
-            url: 'Set an URL'
-        },
-        keywords: 'Keywords'
-    };
-
-    formErrors = {
-        'shortname': '',
-        'longname': '',
-        'description': '',
-        'keywords': '',
-    };
-
-    validationMessages = {
-        'shortname': {
-            'required': 'Short name is required.',
-            'minlength': 'Short name must be at least 3 characters long.',
-            'maxlength': 'Short name cannot be more than 16 characters long.',
-            'forbiddenName': 'This short name is already taken.'
-        },
-        'longname': {
-            'required': 'Long name is required.',
-        },
-        'description': {
-            'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.',
-        },
-        'keywords': {}
-    };
 
     onSubmit(value: any, iri?: string): void {
 

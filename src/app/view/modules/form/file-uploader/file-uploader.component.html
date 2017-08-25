@@ -1,41 +1,45 @@
 <div class="salsah-file-uploader">
-    <section class="upload-box center">
+
+    <section class="upload-box center" [ngSwitch]="viewType" (drop)="drop($event)" (dragover)="allowDrop($event)" [class.drag-over]="dragStatus">
+
         <!-- 1) select file (browse or drag'n'drop) -->
-        <div class="file-upload-zone">
+        <div class="file-upload-zone" *ngSwitchCase="'upload'">
             <div class="upload-form center">
-                <input id="x-file-upload" tabindex="0" type="file" accept="image/gif,image/jpg,image/jpeg,image/png,image/svg+xml" class="x-file-input">
+                <input id="x-file-upload" tabindex="0" type="file" accept="image/gif,image/jpg,image/jpeg,image/png,image/svg+xml" class="x-file-input" ng2File2Select [uploader]="uploader">
                 <label for="x-file-upload" class="x-file-label">
                     Upload an image
                 </label>
             </div>
         </div>
         <!-- OR 2) set file by url -->
-        <div class="file-url-zone">
-
+        <div class="file-url-zone" *ngSwitchCase="'url'">
+            <form class="url-form">
+                <input class="x-file-url" placeholder="http://">
+                <button class="x-file-url-submit" md-raised-button [color]="'primary'">Save</button>
+            </form>
         </div>
         <!-- AND after upload: 3) show the file (in the case of an image) -->
-        <div class="show-file-zone">
+        <div class="file-preview-zone" *ngSwitchCase="'preview'">
 
         </div>
 
         <!-- some buttons to switch the different kind of views above -->
         <!-- position: in the bottom left corner -->
-        <!-- 1) switch to file-url-zone -->
-        <button class="switch-uploader" md-icon-button>
-            <md-icon>link</md-icon>
-        </button>
-        <!-- OR 2) swtich to file-upload-zone -->
-        <button class="switch-uploader" md-icon-button>
-            <md-icon>attach_file</md-icon>
+        <button class="switch-uploader" md-icon-button *ngIf="viewType !== 'preview'" (click)="switchUploader()">
+            <!-- 1) switch to file-url-zone -->
+            <md-icon *ngIf="viewType === 'upload'">link</md-icon>
+            <!-- OR 2) switch to file-upload-zone -->
+            <md-icon *ngIf="viewType === 'url'">attach_file</md-icon>
         </button>
 
         <!-- AND after upload: 3) cancel button to delete the uploaded file -->
         <!-- position: in the top right corner -->
-        <button class="cancel-uploader" md-icon-button>
+        <button class="cancel-uploader" md-icon-button *ngIf="viewType === 'preview'">
             <md-icon>delete</md-icon>
         </button>
 
     </section>
+
 </div>
 <section class="gh-container">
     <div id="ember1823" class="ember-view rendered-markdown js-rendered-markdown">
@@ -89,6 +93,8 @@
                         <span class="hidden">Delete</span>
                     </a>
                     <!-- /button -->
+
+                    <button md-raised-button (click)="upload()"></button>
 
                 </section>
             </div>
