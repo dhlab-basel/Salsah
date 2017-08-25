@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
@@ -32,6 +32,8 @@ export class ProjectFormComponent implements OnInit {
     // otherwise the form is empty to create a new project
 
     @Input() iri?: string;
+
+    @Output() submitData = new EventEmitter<any>();
 
     errorMessage: any;
 
@@ -205,11 +207,12 @@ export class ProjectFormComponent implements OnInit {
         console.log('you submitted value: ', value);
         this.project = value;
 
+        this.submitData.emit({value, iri});
+
         if (!this.iri) {
             // create project
             this._projectsService.createProject(this.project).subscribe(
                 (result: ApiServiceResult) => {
-
                     console.log('service: ', result);
                 },
                 (error: ApiServiceError) => {

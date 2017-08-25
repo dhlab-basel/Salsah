@@ -41,11 +41,13 @@ export class FormDialogComponent implements OnInit {
         this.notYetImplemented.route = this.data.form;
     }
 
-    submitData(data: any, valid: boolean) {
+    submitData(data: any, iri?: string) {
         // get the data and the valid form information from child component
         // if the data is valid, activate the submit button
         // and send the data to the Knora API
-        this.formIsValid = valid;
+        console.log('FormDialog submitData: iri', iri);
+        console.log('FormDialog submitData: data', data);
+        this._dialogRef.close();
     }
 
     toggleFullSize() {

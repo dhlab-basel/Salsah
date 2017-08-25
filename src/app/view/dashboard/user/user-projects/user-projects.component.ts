@@ -36,7 +36,7 @@ export class UserProjectsComponent implements OnInit {
         title: 'Your projects or projects where you\'re member of',
         description: 'a kind of subtitle',
         content: 'project',
-        showAsTable: false,
+        showAs: undefined,
         restrictedBy: ''
     };
 

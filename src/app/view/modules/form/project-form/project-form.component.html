@@ -59,6 +59,11 @@
             <!-- after uploading logo or setting url replace it with the logo -->
             <tr>
                 <td>
+                    <md-input-container>
+                        <input mdInput
+                               [placeholder]="formLabels.logo"
+                               formControlName="logo">
+                    </md-input-container>
                     add a logo
                 </td>
                 <td>
@@ -85,7 +90,6 @@
         </div>
     </form>
 </div>
-
 
 
 <!--
@@ -126,58 +130,58 @@
 
 <md-divider></md-divider>
 
-        <!--
-                <ckeditor
-                    [(ngModel)]="ckeditorContent"
-                    [config]="{uiColor: '#000000'}"
-                    (change)="onChange($event)"
-                    (ready)="onReady($event)"
-                    (focus)="onFocus($event)"
-                    (blur)="onBlur($event)"
-                    debounce="500">
-                </ckeditor>
-        -->
-        <!-- This is the project form (pf) -->
-        <!--
-        <form class="new-project-form" #pf="ngForm" (ngSubmit)="onSubmit(pf.value)">
-            <md-card-header>
-                <md-card-title>
-                    {{form.project.title}}
-                </md-card-title>
-            </md-card-header>
-            <md-card-content class="project">
+<!--
+        <ckeditor
+            [(ngModel)]="ckeditorContent"
+            [config]="{uiColor: '#000000'}"
+            (change)="onChange($event)"
+            (ready)="onReady($event)"
+            (focus)="onFocus($event)"
+            (blur)="onBlur($event)"
+            debounce="500">
+        </ckeditor>
+-->
+<!-- This is the project form (pf) -->
+<!--
+<form class="new-project-form" #pf="ngForm" (ngSubmit)="onSubmit(pf.value)">
+    <md-card-header>
+        <md-card-title>
+            {{form.project.title}}
+        </md-card-title>
+    </md-card-header>
+    <md-card-content class="project">
 
-                <md-input-container class="full-width">
-                    <input mdInput [placeholder]="form.project.name" autofocus required name="projectName"
-                           ngControl="projectName" ngModel>
-                </md-input-container>
-
-
-                <md-input-container class="full-width">
-                    <input mdInput [placeholder]="form.project.shortname" required name="projectShortName" ngModel>
-                </md-input-container>
+        <md-input-container class="full-width">
+            <input mdInput [placeholder]="form.project.name" autofocus required name="projectName"
+                   ngControl="projectName" ngModel>
+        </md-input-container>
 
 
-                <md-input-container class="full-width">
-                    <textarea mdInput [placeholder]="form.project.description" rows="8" name="projectDescription"
-                              ngModel></textarea>
-                </md-input-container>
+        <md-input-container class="full-width">
+            <input mdInput [placeholder]="form.project.shortname" required name="projectShortName" ngModel>
+        </md-input-container>
+
+
+        <md-input-container class="full-width">
+            <textarea mdInput [placeholder]="form.project.description" rows="8" name="projectDescription"
+                      ngModel></textarea>
+        </md-input-container>
 
 
 
 
-            </md-card-content>
-            <md-card-actions>
-                <span class="left">
-                    <button md-button type="reset" class="save-buttton">reset</button>
-                </span>
-                <span class="right">
-                    <button md-raised-button type="submit" [disabled]="!pf.valid" class="save-buttton md-primary">Save
-                    </button>
-                </span>
-            </md-card-actions>
-        </form>
-        -->
+    </md-card-content>
+    <md-card-actions>
+        <span class="left">
+            <button md-button type="reset" class="save-buttton">reset</button>
+        </span>
+        <span class="right">
+            <button md-raised-button type="submit" [disabled]="!pf.valid" class="save-buttton md-primary">Save
+            </button>
+        </span>
+    </md-card-actions>
+</form>
+-->
 
 
 

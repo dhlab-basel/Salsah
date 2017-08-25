@@ -45,7 +45,7 @@ import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.componen
 export class ProjectsListComponent implements OnInit {
 
     @Input('restrictedBy') user: string;
-    @Input() showAsTable?: boolean = false;
+    @Input() listType?: string;
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;

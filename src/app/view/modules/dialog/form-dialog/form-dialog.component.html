@@ -24,7 +24,7 @@
 
         <!-- salsah form components for projects, users, resource classes etc.
         all handled by the switch method -->
-        <salsah-project-form *ngSwitchCase="'project'" [iri]="data.iri"></salsah-project-form>
+        <salsah-project-form *ngSwitchCase="'project'" [iri]="data.iri" (submitData)="submitData($event, $event)"></salsah-project-form>
 
         <salsah-user-form *ngSwitchCase="'user'" [iri]="data.iri" [restrictedBy]="data.restriction"></salsah-user-form>
 <!--

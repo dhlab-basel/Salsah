@@ -33,7 +33,7 @@ export class SystemProjectsComponent implements OnInit {
         title: 'List of projects in Knora',
         description: 'a kind of subtitle',
         content: 'project',
-        showAsTable: true,
+        showAs: 'table',
         restrictedBy: undefined
     };
 

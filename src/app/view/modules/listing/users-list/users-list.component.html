@@ -5,9 +5,39 @@
 <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
 <!-- if we have the data: show the list-->
-<div *ngIf="num > 0; else noData">
+<div *ngIf="num > 0; else noData"  [ngSwitch]="listType">
     <!-- list if "showAsTable" is false -->
-    <md-list class="salsah-list" *ngIf="!showAsTable">
+
+
+    <!-- table if "showAsTable" is true -->
+    <table *ngSwitchCase="'table'">
+        <tr>
+            <th># {{num}}</th>
+            <th (click)="sortKey='givenName'" class="salsah-link">Firstname</th>
+            <th (click)="sortKey='familyName'" class="salsah-link">Lastname</th>
+            <th (click)="sortKey='email'" class="salsah-link">eMail</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let item of list | sortBy: sortKey; let i = index;">
+            <td class="salsah-avatar-cell">
+                <img salsahImage [image]="item.email" [type]="'user'" class="salsah-avatar-image"/>
+            </td>
+            <td>{{item.givenName}}</td>
+            <td>{{item.familyName}}</td>
+            <td>{{item.email}}</td>
+            <td>
+                <button md-icon-button (click)="edit(item.user_id)">
+                    <md-icon>edit</md-icon>
+                </button>
+                <button md-icon-button (click)="open(item.email)">
+                        <md-icon>forward</md-icon>
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <!-- default list -->
+    <md-list class="salsah-list" *ngSwitchDefault>
         <h3 md-subheader># Users: {{num}}
             <span *ngIf="selectedRow === undefined && num > 1"> | {{sortTitle}}
             <button md-button
@@ -34,34 +64,6 @@
             </button>
         </md-list-item>
     </md-list>
-
-    <!-- table if "showAsTable" is true -->
-    <table *ngIf="showAsTable">
-        <tr>
-            <th># {{num}}</th>
-            <th (click)="sortKey='givenName'" class="salsah-link">Firstname</th>
-            <th (click)="sortKey='familyName'" class="salsah-link">Lastname</th>
-            <th (click)="sortKey='email'" class="salsah-link">eMail</th>
-            <th></th>
-        </tr>
-        <tr *ngFor="let item of list | sortBy: sortKey; let i = index;">
-            <td class="salsah-avatar-cell">
-                <img salsahImage [image]="item.email" [type]="'user'" class="salsah-avatar-image"/>
-            </td>
-            <td>{{item.givenName}}</td>
-            <td>{{item.familyName}}</td>
-            <td>{{item.email}}</td>
-            <td>
-                <button md-icon-button (click)="edit(item.user_id)">
-                    <md-icon>edit</md-icon>
-                </button>
-                <button md-icon-button (click)="open(item.email)">
-                        <md-icon>forward</md-icon>
-                </button>
-            </td>
-        </tr>
-    </table>
-
 </div>
 
 <!-- if there are any data: show a no data message -->

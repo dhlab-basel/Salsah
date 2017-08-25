@@ -33,7 +33,7 @@ export class ProjectResourcesComponent implements OnInit {
         title: 'Resource types in this project',
         description: 'a kind of subtitle',
         content: 'resource-type',
-        showAsTable: false,
+        showAs: undefined,
         restrictedBy: ''
     };
 

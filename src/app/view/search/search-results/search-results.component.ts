@@ -33,7 +33,7 @@ export class SearchResultsComponent implements OnInit {
         title: 'Results: ',
         description: 'Looked for: ',
         content: 'resource',
-        showAsTable: false,
+        showAs: undefined,
         restrictedBy: ''
     };
 

@@ -23,7 +23,7 @@ export interface ListData {
     title: string,
     description: string,
     content: string,
-    showAsTable: boolean,
+    showAs: string,
     restrictedBy: string
 }
 
@@ -42,7 +42,7 @@ export interface AddData {
  * This is a framework which can be used in cases of listing stuff
  * e.g. list of projects or users
  * @Input list: <ListData> List settings object with
- *              title, description, content (list type: user || project || resource etc.), showAsTable and restrictedBy.
+ *              title, description, content (list type: user || project || resource etc.), showAs (table || grid || (list = default)) and restrictedBy.
  * @Input add: <AddData> Optional. If we need an "add" button, we have to define an add-object with
  *              title and description
  *

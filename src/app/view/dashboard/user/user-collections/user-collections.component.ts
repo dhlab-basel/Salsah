@@ -35,7 +35,7 @@ export class UserCollectionsComponent implements OnInit {
         title: 'Your collections',
         description: 'Store your favorite resources in a collection',
         content: 'collection',
-        showAsTable: false,
+        showAs: undefined,
         restrictedBy: ''
     };
 

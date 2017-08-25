@@ -32,7 +32,7 @@
         <div class="salsah-module-content-list" [ngSwitch]="list.content">
 
             <salsah-users-list *ngSwitchCase="'user'"
-                               [showAsTable]="list.showAsTable"
+                               [listType]="list.showAs"
                                [restrictedBy]="list.restrictedBy"
                                [index]="selectedRow"
                                (toggleItem)="toggleDetail($event, $event)">
@@ -54,7 +54,7 @@
 
 
             <salsah-projects-list *ngSwitchCase="'project'"
-                                  [showAsTable]="list.showAsTable"
+                                  [listType]="list.showAs"
                                   [restrictedBy]="list.restrictedBy">
             </salsah-projects-list>
 

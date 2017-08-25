@@ -42,7 +42,7 @@ export class UsersListComponent implements OnInit {
 
     @Input('restrictedBy') project: string;
     @Input() index: number;
-    @Input() showAsTable?: boolean = false;
+    @Input() listType?: string;
 
     @Output() toggleItem = new EventEmitter<any>();
 

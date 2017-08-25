@@ -32,7 +32,7 @@ export class SystemUsersComponent implements OnInit {
         title: 'List of users in Knora',
         description: '',
         content: 'user',
-        showAsTable: true,
+        showAs: 'table',
         restrictedBy: undefined
     };
 
