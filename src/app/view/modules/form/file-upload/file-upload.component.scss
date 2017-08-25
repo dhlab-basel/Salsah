@@ -1,0 +1,89 @@
+.gh-container {
+  cursor: default;
+  flex-grow: 1;
+  hyphens: auto;
+  overflow: auto;
+  padding: 19px 20px 37px;
+  word-break: break-all;
+}
+
+.gh-image-uploader {
+  align-items: center;
+  background: #f6f7f8;
+  border-radius: 4px;
+  color: #808284;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  flex-direction: column;
+  margin: 1.6em 0;
+  min-height: 130px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  width: 100%;
+
+  // upload form
+  .upload-form {
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+
+    .x-file--input {
+      height: 0;
+      max-width: 0;
+      opacity: 0;
+      width: 1px;
+      z-index: -1;
+    }
+  }
+
+  // url form
+  .url-form {
+    padding: 55px 60px;
+    width: 100%;
+
+    .url {
+      background: #fff;
+      font-size: 1.4rem;
+      margin: 0 0 10px;
+      outline: 0;
+      padding: 9px 7px;
+      vertical-align: middle;
+    }
+  }
+
+  // some buttons
+  .image-upload,
+  .image-url {
+    bottom: 0;
+    color: #7d878a;
+    display: block;
+    font-size: 14px;
+    left: 0;
+    line-height: 12px;
+    padding: 10px;
+    position: absolute;
+    text-decoration: none;
+  }
+
+  // after upload: delete / cancel
+  .image-cancel {
+    background: rgba(0, 0, 0, .6);
+    border-radius: 4px;
+    box-shadow: rgba(255, 255, 255, .2) 0 0 0 1px;
+    color: #fff;
+    display: block;
+    font-size: 13px;
+    line-height: 10px;
+    padding: 8px;
+    position: absolute;
+    right: 10px;
+    text-decoration: none;
+    top: 10px;
+    z-index: 300;
+  }
+}
+
+

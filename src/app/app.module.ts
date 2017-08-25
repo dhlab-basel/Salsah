@@ -100,6 +100,7 @@ import {ResourceTypesListComponent} from './view/modules/listing/resource-types-
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
+import {FileUploadComponent} from './view/modules/form/file-upload/file-upload.component';
 
 
 @NgModule({
@@ -163,6 +164,7 @@ import {ResourceObjectComponent} from './view/modules/object/resource-object/res
         CollectionsListComponent,
         SearchResultsComponent,
         ResourceObjectComponent,
+        FileUploadComponent,
     ],
     imports: [
         BrowserModule,
