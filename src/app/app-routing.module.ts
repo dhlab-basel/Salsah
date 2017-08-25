@@ -40,7 +40,7 @@ import {SystemUsersComponent} from './view/dashboard/system/system-users/system-
 import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
 import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
-import {FileUploadComponent} from './view/modules/form/file-upload/file-upload.component';
+import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 
 const appRoutes: Routes = [
     {
@@ -167,7 +167,7 @@ const appRoutes: Routes = [
             },
             {
                 path: 'upload',
-                component: FileUploadComponent
+                component: FileUploaderComponent
             }
         ]
     },

@@ -1,9 +1,94 @@
+@import '../../../../../assets/style/config';
+
+$text: rgba($dark, .6);
+
+.salsah-file-uploader {
+  flex-grow: 1;
+  padding: 20px;
+  word-break: break-all;
+
+  .upload-box {
+    align-items: center;
+    background: $border-color;
+    border-radius: $border-radius;
+    color: $text;
+    display: flex;
+    flex-direction: column;
+    max-width: 560px;
+    min-height: 128px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.file-upload-zone {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+
+  .upload-form {
+
+    .x-file-input {
+      height: 0;
+      max-width: 0;
+      opacity: 0;
+      width: 1px;
+      z-index: -1;
+    }
+
+    .x-file-label {
+      cursor: pointer;
+      display: flex;
+      padding: 39% 0;
+
+    }
+  }
+}
+
+// buttons
+.switch-uploader {
+  bottom: 0;
+  color: $text;
+  display: block;
+  font-size: 14px;
+  left: 0;
+  line-height: 12px;
+  padding: 10px;
+  position: absolute;
+  text-decoration: none;
+}
+
+.cancel-uploader {
+  background: $black-60-opacity;
+  border-radius: 4px;
+  box-shadow: $border-color;
+  color: $bright;
+  display: block;
+  font-size: 13px;
+  line-height: 10px;
+  padding: 8px;
+  position: absolute;
+  right: 10px;
+  text-decoration: none;
+  top: 10px;
+  z-index: 300;
+
+  // &:hover ???
+}
+
+// original style and classes from ghost uploader
+
 .gh-container {
   cursor: default;
   flex-grow: 1;
   hyphens: auto;
   overflow: auto;
-  padding: 19px 20px 37px;
+  padding-top: 19px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 37px;
   word-break: break-all;
 }
 

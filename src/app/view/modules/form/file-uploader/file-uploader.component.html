@@ -1,3 +1,42 @@
+<div class="salsah-file-uploader">
+    <section class="upload-box center">
+        <!-- 1) select file (browse or drag'n'drop) -->
+        <div class="file-upload-zone">
+            <div class="upload-form center">
+                <input id="x-file-upload" tabindex="0" type="file" accept="image/gif,image/jpg,image/jpeg,image/png,image/svg+xml" class="x-file-input">
+                <label for="x-file-upload" class="x-file-label">
+                    Upload an image
+                </label>
+            </div>
+        </div>
+        <!-- OR 2) set file by url -->
+        <div class="file-url-zone">
+
+        </div>
+        <!-- AND after upload: 3) show the file (in the case of an image) -->
+        <div class="show-file-zone">
+
+        </div>
+
+        <!-- some buttons to switch the different kind of views above -->
+        <!-- position: in the bottom left corner -->
+        <!-- 1) switch to file-url-zone -->
+        <button class="switch-uploader" md-icon-button>
+            <md-icon>link</md-icon>
+        </button>
+        <!-- OR 2) swtich to file-upload-zone -->
+        <button class="switch-uploader" md-icon-button>
+            <md-icon>attach_file</md-icon>
+        </button>
+
+        <!-- AND after upload: 3) cancel button to delete the uploaded file -->
+        <!-- position: in the top right corner -->
+        <button class="cancel-uploader" md-icon-button>
+            <md-icon>delete</md-icon>
+        </button>
+
+    </section>
+</div>
 <section class="gh-container">
     <div id="ember1823" class="ember-view rendered-markdown js-rendered-markdown">
         <section class="js-drop-zone" id="image-uploader-1826">
