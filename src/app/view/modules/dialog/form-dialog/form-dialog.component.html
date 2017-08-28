@@ -31,7 +31,7 @@
         <salsah-user-form *ngSwitchCase="'new-user'" [iri]="data.restriction" (submitData)="submitData($event, $event)"></salsah-user-form>
 -->
 
-        <salsah-new-resource-class *ngSwitchCase="'new-resource-type'" [iri]="data.restriction"></salsah-new-resource-class>
+        <salsah-new-resource-class *ngSwitchCase="'resource-type'" [iri]="data.restriction"></salsah-new-resource-class>
 
         <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
     </md-dialog-content>

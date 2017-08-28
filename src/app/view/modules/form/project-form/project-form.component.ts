@@ -17,8 +17,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {Project, ProjectItem, ProjectsList} from '../../../../model/webapi/knora/';
-import {forbiddenNamesValidator} from '../../other/forbidden-name.directive';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {existingNamesValidator} from '../../other/existing-name.directive';
 
 @Component({
     selector: 'salsah-project-form',
@@ -34,6 +34,8 @@ export class ProjectFormComponent implements OnInit {
     @Input() iri?: string;
 
     @Output() submitData = new EventEmitter<any>();
+
+    isLoading: boolean = true;
 
     errorMessage: any;
 
@@ -75,7 +77,7 @@ export class ProjectFormComponent implements OnInit {
             'required': 'Short name is required.',
             'minlength': 'Short name must be at least 3 characters long.',
             'maxlength': 'Short name cannot be more than 16 characters long.',
-            'forbiddenName': 'This short name is already taken.'
+            'existingName': 'This short name is already taken.'
         },
         'longname': {
             'required': 'Long name is required.',
@@ -100,7 +102,8 @@ export class ProjectFormComponent implements OnInit {
                 (result: ApiServiceResult) => {
                     const projectsList: ProjectItem[] = result.getBody(ProjectsList).projects;
                     for (const p of projectsList) {
-                        this.existingShortNames.push(new RegExp(p.shortname.toLowerCase()));
+                        this.existingShortNames.push(new RegExp('(?:^|\W)' + p.shortname.toLowerCase() + '(?:$|\W)'));
+
                     }
                 },
                 (error: ApiServiceError) => {
@@ -150,7 +153,8 @@ export class ProjectFormComponent implements OnInit {
 
         this.form = this._fb.group({
 //            'shortname': new FormControl({value: proj.shortname}),
-            'shortname': [proj.shortname, [Validators.required, Validators.minLength(3), Validators.maxLength(16), forbiddenNamesValidator(this.existingShortNames)]],
+            'shortname': new FormControl({value: proj.shortname, disabled: this.iri !== undefined}, [Validators.required, Validators.minLength(3), Validators.maxLength(16), existingNamesValidator(this.existingShortNames)]),
+//            'shortnameDeprecated': [proj.shortname, [Validators.required, Validators.minLength(3), Validators.maxLength(16), existingNamesValidator(this.existingShortNames)]],
             'longname': [proj.longname, Validators.required],
             'description': [proj.description, Validators.maxLength(this.descriptionMaxLength)],
             'institution': [proj.institution],
@@ -163,6 +167,7 @@ export class ProjectFormComponent implements OnInit {
             'keywords': [proj.keywords]
         });
 
+        this.isLoading = false;
 
 
         this.form.valueChanges

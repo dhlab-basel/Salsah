@@ -1,4 +1,6 @@
-<div *ngIf="form">
+<salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
+<div *ngIf="form && !isLoading">
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
         <table class="full-width" cellspacing="0">
             <!-- line 1: short and long name of the project -->
@@ -59,14 +61,14 @@
             <tr>
                 <td colspan="3">
                     <salsah-file-uploader [file]="logo"></salsah-file-uploader>
-<!--
-                    <md-input-container>
-                        <input mdInput
-                               [placeholder]="formLabels.logo"
-                               formControlName="logo">
-                    </md-input-container>
-                    add a logo
--->
+                    <!--
+                                        <md-input-container>
+                                            <input mdInput
+                                                   [placeholder]="formLabels.logo"
+                                                   formControlName="logo">
+                                        </md-input-container>
+                                        add a logo
+                    -->
                 </td>
             </tr>
         </table>

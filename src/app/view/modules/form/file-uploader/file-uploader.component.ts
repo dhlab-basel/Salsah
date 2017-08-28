@@ -16,6 +16,7 @@ import {Component, ElementRef, Input, OnInit} from '@angular/core';
 
 import {Http} from '@angular/http';
 import {FileUploader} from '@uniprank/ng2-file-uploader';
+import {HttpRequest} from '@angular/common/http';
 
 @Component({
     selector: 'salsah-file-uploader',
@@ -33,9 +34,10 @@ export class FileUploaderComponent implements OnInit {
 
     constructor(private _http: Http,
                 private _ele: ElementRef) {
+
         this.uploader = new FileUploader({
             autoUpload: true,
-            url: 'http://localhost:3000/uploads',
+            url: 'http://localhost:3000/upload',
             method: 'POST',
             removeBySuccess: true
         })
@@ -48,9 +50,13 @@ export class FileUploaderComponent implements OnInit {
 
     }
 
+    /**
+     * button to toggle the view between 'upload' (browse and drag'n'drop view) and 'url' (set an url of the (image) file)
+     */
     switchUploader() {
         this.viewType = (this.viewType === 'upload' ? 'url' : 'upload')
     }
+
 
     allowDrop(ev) {
         this.dragStatus = true;
@@ -58,17 +64,28 @@ export class FileUploaderComponent implements OnInit {
     }
 
     drag(ev) {
+        console.log('drag', ev);
         ev.dataTransfer.setData('text', ev.target.id);
     }
 
     drop(ev) {
+        this.dragStatus = false;
         ev.preventDefault();
         const data = ev.dataTransfer.getData('text');
+        console.log(data);
         ev.target.appendChild(document.getElementById(data));
+
+        /*
+        const req = new HttpRequest('POST', 'http://localhost:3000/upload', file, {
+            reportProgress: true
+        })
+        */
+
+
     }
 
     upload() {
-
+        console.log('upload');
 
     }
 

@@ -18,7 +18,7 @@
         </tr>
         <tr *ngFor="let item of list | sortBy: sortKey; let i = index;">
             <td class="salsah-avatar-cell">
-                <img salsahImage [image]="item.logo" [type]="'project'" class="salsah-avatar-image"/>
+                <img salsahImage [image]="item.logo" [type]="'project'" class="salsah-project-logo"/>
             </td>
             <td>{{item.shortname}}</td>
             <td>{{item.longname}}</td>
@@ -36,27 +36,31 @@
 
     <!-- show the list in a grid -->
     <md-grid-list *ngSwitchCase="'grid'" class="salsah-grid-list" cols="2" gutterSize="12px" rowHeight="480px">
-        <md-grid-tile *ngFor="let item of list | sortBy: sortKey; let i = index;" class="salsah-grid-tile salsah-link" (click)="open(item.shortname)">
+        <md-grid-tile *ngFor="let item of list | sortBy: sortKey; let i = index;" class="salsah-grid-tile salsah-link"
+                      (click)="open(item.shortname)">
             <md-card>
                 <!-- original -->
                 <!--
                 <img md-card-image [src]="project.value.logo" class="salsah-preview-image"/>
                 -->
                 <!-- fake test data -->
-                <img salsahImage [image]="item.logo" [type]="'project'" class="salsah-preview-image"/>
+                <img salsahImage [image]="item.logo" [type]="'project'"
+                     [class.salsah-project-logo]="item.logo"
+                     [class.salsah-project-icon]="!item.logo"/>
 
                 <md-card-title>{{item.longname}}</md-card-title>
-                <md-card-subtitle class="salsah-preview-text"
-                                  [innerHtml]="item.description | slice:0:200"></md-card-subtitle>
+                <md-card-content class="salsah-preview-text"
+                                 [innerHtml]="item.description | slice:0:300">
+                </md-card-content>
             </md-card>
         </md-grid-tile>
     </md-grid-list>
 
     <!-- default list -->
     <md-list class="salsah-list" *ngSwitchDefault>
-        <h3 md-subheader ># Projects: {{num}}</h3>
+        <h3 md-subheader># Projects: {{num}}</h3>
         <md-list-item *ngFor="let item of list | key" (click)="open(item.value.shortname)" class="salsah-link">
-            <img md-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-avatar-image"/>
+            <img md-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
             <h4 md-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
             <div md-line [innerHtml]="item.value.description | slice:0:128"></div>
         </md-list-item>
