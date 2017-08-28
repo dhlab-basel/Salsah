@@ -212,6 +212,8 @@ export class StillImageOSDViewerComponent implements OnInit {
 
         let imageXOffset = 0; // see documentation in this.openImages() for the usage of imageXOffset
         for (let resource of this.resources) {
+            // only do this for regions belonging to this resource's StillImageRepresentation
+            // TODO: Should we display the regions also for the incoming StillImageRepresentations?
             if (resource.properties[AppConfig.hasStillImageFileValue] !== undefined) {
                 let fileValues = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[]; // TODO: do we have to check for subproperties of hasStillImageFileValue?
                 let imagesToDisplay = fileValues.filter((image) => {
