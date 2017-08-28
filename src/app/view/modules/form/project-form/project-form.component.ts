@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -40,6 +40,8 @@ export class ProjectFormComponent implements OnInit {
     submitted: boolean = false;
 
     project: ProjectItem = new ProjectItem();
+
+    logo: string;
 
     existingShortNames: [RegExp] = [
         new RegExp('project')
@@ -109,16 +111,12 @@ export class ProjectFormComponent implements OnInit {
 
         if (this.iri) {
             // edit existing project; get the data first
-            console.log('Edit existing project', this.iri);
             this._projectsService.getProjectByIri(this.iri)
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.project = result.getBody(Project).project_info;
-                        console.log(this.existingShortNames);
 
                         const short = new RegExp(this.project.shortname);
-
-                        console.log(short);
 
                         this.existingShortNames.splice(this.existingShortNames.indexOf(short), 1);
 
@@ -137,8 +135,6 @@ export class ProjectFormComponent implements OnInit {
     }
 
     buildForm(proj: ProjectItem): void {
-        console.log('buildForm:', proj);
-        console.log('buildForm:', this.existingShortNames);
         // formControllName
         /*
         this.form = new FormGroup({
@@ -150,6 +146,8 @@ export class ProjectFormComponent implements OnInit {
 
         console.log(this.form);
         */
+        this.logo = proj.logo;
+
         this.form = this._fb.group({
 //            'shortname': new FormControl({value: proj.shortname}),
             'shortname': [proj.shortname, [Validators.required, Validators.minLength(3), Validators.maxLength(16), forbiddenNamesValidator(this.existingShortNames)]],
@@ -164,6 +162,7 @@ export class ProjectFormComponent implements OnInit {
             'selfjoin': [false],
             'keywords': [proj.keywords]
         });
+
 
 
         this.form.valueChanges

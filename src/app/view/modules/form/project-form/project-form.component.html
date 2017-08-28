@@ -57,19 +57,16 @@
             <!-- line 4: logo upload or url definition -->
             <!-- after uploading logo or setting url replace it with the logo -->
             <tr>
-                <td>
+                <td colspan="3">
+                    <salsah-file-uploader [file]="logo"></salsah-file-uploader>
+<!--
                     <md-input-container>
                         <input mdInput
                                [placeholder]="formLabels.logo"
                                formControlName="logo">
                     </md-input-container>
                     add a logo
-                </td>
-                <td>
-                    {{formLabels.logo.upload}}
-                </td>
-                <td>
-                    preview here? or on the next line
+-->
                 </td>
             </tr>
         </table>
