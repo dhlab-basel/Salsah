@@ -25,22 +25,25 @@ import {HttpRequest} from '@angular/common/http';
 })
 export class FileUploaderComponent implements OnInit {
 
-    @Input() file: string;
+    @Input() file?: string;
+
+    filesToUpload: Array<File>;
 
     viewType: string = 'upload';
     dragStatus: boolean = false;
 
-    uploader: FileUploader;
+//    uploader: FileUploader;
 
-    constructor(private _http: Http,
-                private _ele: ElementRef) {
-
-        this.uploader = new FileUploader({
-            autoUpload: true,
-            url: 'http://localhost:3000/upload',
-            method: 'POST',
-            removeBySuccess: true
-        })
+    constructor() {
+        this.filesToUpload = [];
+        /*
+                this.uploader = new FileUploader({
+                    autoUpload: true,
+                    url: 'http://localhost:3000/upload',
+                    method: 'POST',
+                    removeBySuccess: true
+                })
+        */
     }
 
     ngOnInit() {
@@ -84,9 +87,44 @@ export class FileUploaderComponent implements OnInit {
 
     }
 
-    upload() {
-        console.log('upload');
+    // another method; source: https://www.thepolyglotdeveloper.com/2016/02/upload-files-to-node-js-using-angular-2/
 
+    upload() {
+        this.makeFileRequest('http://localhost:3000/upload', [], this.filesToUpload).then((result) => {
+            console.log(result);
+        }, (error) => {
+            console.error(error);
+        });
+
+    }
+
+    fileChangeEvent(fileInput: any) {
+        this.filesToUpload = <Array<File>> fileInput.target.files;
+
+        console.log(this.filesToUpload);
+//        this.upload();
+    }
+
+    makeFileRequest(url: string, params: Array<string>, files: Array<File>) {
+        return new Promise((resolve, reject) => {
+            const formData: any = new FormData();
+            const xhr = new XMLHttpRequest();
+            for (let i = 0; i < files.length; i++) {
+                formData.append('uploads[]', files[i], files[i].name);
+            }
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        resolve(JSON.parse(xhr.response));
+                    } else {
+                        reject(xhr.response);
+                    }
+                }
+            };
+
+            xhr.open('POST', url, true);
+            xhr.send(formData);
+        });
     }
 
     delete(ev) {

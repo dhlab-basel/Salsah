@@ -9,7 +9,7 @@
         <!-- 1) select file (browse or drag'n'drop) -->
         <div class="file-upload-zone" *ngSwitchCase="'upload'">
             <div class="upload-form center">
-                <input id="x-file-upload" tabindex="0" type="file" accept="image/gif,image/jpg,image/jpeg,image/png,image/svg+xml" class="x-file-input" >
+                <input id="x-file-upload" tabindex="0" type="file" accept="image/gif,image/jpg,image/jpeg,image/png,image/svg+xml" class="x-file-input" (change)="fileChangeEvent($event)" >
                 <label for="x-file-upload" class="x-file-label">
                     Upload an image
                 </label>
