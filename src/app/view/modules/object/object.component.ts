@@ -65,6 +65,8 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                         let resourceSeq: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
+                        //console.log(resourceSeq);
+
                         // get resource class Iris from response
                         let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
@@ -108,15 +110,16 @@ export class ObjectComponent implements OnChanges, OnInit {
     private requestIncomingResources(resources: ReadResource[]) {
         if (resources.length > 0) {
 
-            // request incoming Regions
-            if (resources[0].properties[AppConfig.hasStillImageFileValue]) {
+            // request incoming regions
+            if (resources[0].properties[AppConfig.hasStillImageFileValue]) { // TODO: check if resources[0] is a StillImageRepresentation using the ontology responder (support for subclass relations required)
+                // the resource is a StillImageRepresentation, check if there are regions pointing to it
                 this._incomingService.getIncomingRegions(resources[0].id).subscribe(
                     (result: ApiServiceResult) => {
                         let promise = jsonld.promises.compact(result.body, {});
                         promise.then((compacted) => {
                                 let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
                                 // Append elements of regions.resources to resources[0].incoming
-                                Array.prototype.push.apply(resources[0].incoming, regions.resources);
+                                Array.prototype.push.apply(resources[0].incomingRegions, regions.resources);
                                 if (this.osdViewer) {
                                     this.osdViewer.updateRegions();
                                 }
@@ -131,9 +134,45 @@ export class ObjectComponent implements OnChanges, OnInit {
                     }
                 );
 
-
-                // TODO: when the extended search API provides support for it, request other resource types.
             }
+
+            // check if there are StillImageRepresentations pointing to this resource
+            this._incomingService.getStillImageRepresentationsForCompoundResource(resources[0].id).subscribe(
+                (result: ApiServiceResult) => {
+
+                    let promise = jsonld.promises.compact(result.body, {});
+                    promise.then((compacted) => {
+                            let imageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                            // sort them by seqnum
+                            // TODO: Implement sorting for extended search v2
+                            /*let imageRepresentationsSorted = imageRepresentations.resources.sort(
+                                (res1, res2) => {
+                                    if (res1.properties[AppConfig.KnoraApiV2WithValueObjectPath+ 'seqnum'] < res2.properties[AppConfig.KnoraApiV2WithValueObjectPath + 'seqnum']) {
+                                        return -1
+                                    } else {
+                                       return 1
+                                    }
+                                }
+                            );*/
+
+                            // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
+                            Array.prototype.push.apply(resources[0].incomingStillImageRepresentations, imageRepresentations.resources);
+
+
+                        },
+                        function (err) {
+                            console.log("JSONLD of regions request could not be expanded:" + err);
+                        });
+
+
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                    this.isLoading = false;
+                }
+            )
+
         }
 
     }

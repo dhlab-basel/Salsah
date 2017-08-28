@@ -24,6 +24,8 @@ export interface ReadResource {
 
     properties?: ReadProperties;
 
-    incoming: Array<ReadResource>;
+    incomingRegions: Array<ReadResource>;
+
+    incomingStillImageRepresentations: Array<ReadResource>;
 
 }

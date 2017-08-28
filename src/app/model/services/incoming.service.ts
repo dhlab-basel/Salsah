@@ -7,7 +7,7 @@ import {SearchService} from "./search.service";
 export class IncomingService extends SearchService {
 
     /**
-     * Returns all incoming Regions for a particular resource.
+     * Returns all incoming regions for a particular resource.
      */
     getIncomingRegions(resourceIRI: string): Observable<any> {
         let sparqlQueryStr = `
@@ -15,8 +15,6 @@ export class IncomingService extends SearchService {
 
       CONSTRUCT {
           ?region knora-api:isMainResource true .
-
-          ?region a knora-api:Region .
 
           ?region knora-api:isRegionOf <${resourceIRI}> .
 
@@ -66,7 +64,7 @@ export class IncomingService extends SearchService {
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
         
         CONSTRUCT {
-            ?page a knora-api:StillImageRepresentation .
+
             ?page knora-api:isMainResource true .
             
             ?page knora-api:isPartOf <${resourceIri}> .

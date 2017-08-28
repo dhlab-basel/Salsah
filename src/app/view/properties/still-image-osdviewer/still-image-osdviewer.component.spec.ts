@@ -40,19 +40,19 @@ let resources: ReadResource[] = [
         {
           id: "not used here",
           type: "not used here",
-          typeAsName: "not used here",
           label: "not used here",
           properties: {
             'http://api.knora.org/ontology/knora-api/v2#hasStillImageFileValue': [
               stillImageFullSize, stillImagePreview
             ]
           },
-          incoming: [
+          incomingRegions: [
             testRegionRectangle,
             testRegionPolygon,
             testRegionCircle,
             testRegionMulti
-          ]
+          ],
+          incomingStillImageRepresentations: []
         }
 ];
 

@@ -8,6 +8,7 @@
 
         <!--  array templates -->
         <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->
+        <!-- TODO: Do we have to check for subproperties of hasStillImageFileValue? -->
         <salsah-still-image-osdviewer #OSDViewer
               *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates"
               [resources]="[ resources[0] ]">
@@ -33,4 +34,11 @@
         </ng-template>
 
     </div>
+
+    <!-- Check if StillImageRepresentations are pointing to the current resource -->
+    <salsah-still-image-osdviewer
+        *ngIf="resources[0]?.incomingStillImageRepresentations?.length > 0"
+        [resources]="[ resources[0] ]">
+    </salsah-still-image-osdviewer>
+
 </md-list>
