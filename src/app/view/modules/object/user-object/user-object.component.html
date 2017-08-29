@@ -1,0 +1,18 @@
+<salsah-progress-indicator *ngIf="!userProfile"></salsah-progress-indicator>
+
+<salsah-message *ngIf="errorMessage" [message]="error"></salsah-message>
+
+<div *ngIf="userProfile">
+
+    <img salsahImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image"/>
+    <h3 md-subheader>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h3>
+    <p><a [href]="'mailto:' + email">{{email}}</a></p>
+
+    <md-divider></md-divider>
+
+    <h3 md-subheader>Member in the following projects</h3>
+
+    <salsah-projects-list [restrictedBy]="iri" *ngIf="iri"></salsah-projects-list>
+
+</div>
+

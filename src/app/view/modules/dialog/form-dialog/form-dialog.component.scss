@@ -1,0 +1,47 @@
+@import '../../../../../assets/style/config';
+
+.form-dialog {
+  position: relative;
+
+  .dialog-header {
+    display: flex;
+    flex-direction: row;
+    height: 64px;
+    margin: -18px -18px 0 -18px;
+
+    .dialog-title {
+      text-align: center;
+    }
+  }
+
+  .dialog-content {
+    height: auto;
+  }
+
+  .dialog-footer {
+    @include border-top();
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+
+    .submit-button {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      width: 240px;
+    }
+  }
+/*
+  &.full {
+    .dialog-header {
+      margin: 0;
+    }
+
+    .dialog-content {
+      padding: 48px;
+    }
+  }
+  */
+}
+

@@ -1,0 +1,27 @@
+<header class="salsah-main-header">
+    <md-toolbar>
+        <div class="salsah-logo">
+            <a routerLink="/">
+                <img src="{{ currentProject.logo }}" alt="{{ currentProject.name }}"
+                     title="{{ currentProject.title }}">
+            </a>
+        </div>
+
+        <!-- project buttons on the top left corner -->
+
+        <!--
+        <salsah-header-projects [projects]="user?.userProjects" [currentProject]="currentProject" (selectRequest)="onSelectProject($event)"></salsah-header-projects>
+        -->
+
+        <span class="fill-remaining-space"></span>
+
+        <!-- salsah specific search panel incl.
+             simple and extended search menu -->
+        <salsah-search></salsah-search>
+
+        <span class="fill-remaining-space"></span>
+
+        <salsah-header-toolbar></salsah-header-toolbar>
+
+    </md-toolbar>
+</header>
