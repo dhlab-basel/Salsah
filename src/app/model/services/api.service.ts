@@ -66,7 +66,7 @@ export class ApiService {
      */
     httpGet(url: string, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
 
-        this.appendToOptions(options);
+        options = this.appendToOptions(options);
 
         url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
@@ -105,7 +105,7 @@ export class ApiService {
             body = {};
         }
 
-        this.appendToOptions(options);
+        options = this.appendToOptions(options);
 
         return this._http.post(environment.api + url, body, options).map((response: Response) => {
             try {
@@ -135,7 +135,7 @@ export class ApiService {
             body = {};
         }
 
-        this.appendToOptions(options);
+        options = this.appendToOptions(options);
 
         return this._http.put(environment.api + url, body, options).map((response: Response) => {
             try {
@@ -160,7 +160,8 @@ export class ApiService {
      * @returns {Observable<ApiServiceResult>}
      */
     httpDelete(url: string, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
-        this.appendToOptions(options);
+
+        options = this.appendToOptions(options);
 
         return this._http.delete(environment.api + url, options).map((response: Response) => {
             try {
