@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../../app.module';
 import {AppRoutingModule} from '../../../../../app-routing.module';
 import {HeaderComponent} from './header.component';
-import {SessionService} from 'app/model/services/session.service';
+import {AuthenticationService} from '../../../../../model/services/authentication.service';
 
 describe('HeaderComponent', () => {
     let component: HeaderComponent;
@@ -15,7 +15,7 @@ describe('HeaderComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                SessionService
+                AuthenticationService
             ]
         })
             .compileComponents();

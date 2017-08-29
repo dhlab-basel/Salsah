@@ -13,7 +13,7 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 
 import {ApiService} from './api.service';
 
@@ -28,7 +28,7 @@ export class ProjectsService extends ApiService {
      * @returns {Observable<any>}
      */
     getProjectByIri(iri: string): Observable<any> {
-        return this.httpGet('/projects/' + encodeURIComponent(iri));
+        return this.httpGet('/v1/projects/' + encodeURIComponent(iri));
     }
 
     /**
@@ -38,7 +38,7 @@ export class ProjectsService extends ApiService {
      * @returns {Observable<any>}
      */
     getProjectByShortname(shortname: string): Observable<any> {
-        return this.httpGet('/projects/' + shortname + '?identifier=shortname');
+        return this.httpGet('/v1/projects/' + shortname + '?identifier=shortname');
     }
 
     /**
@@ -47,7 +47,7 @@ export class ProjectsService extends ApiService {
      * @returns {Observable<any>}
      */
     getAllProjects(): Observable<any> {
-        return this.httpGet('/projects');
+        return this.httpGet('/v1/projects');
     }
 
     /**
@@ -57,7 +57,7 @@ export class ProjectsService extends ApiService {
      * @returns {Observable<any>}
      */
     getProjectMembersByIri(iri: string): Observable<any> {
-        return this.httpGet('/projects/members/' + encodeURIComponent(iri));
+        return this.httpGet('/v1/projects/members/' + encodeURIComponent(iri));
     }
 
     /**
@@ -67,21 +67,21 @@ export class ProjectsService extends ApiService {
      * @returns {Observable<any>}
      */
     getProjectMembersByShortname(shortname: string): Observable<any> {
-        return this.httpGet('/projects/members/' + shortname + '?identifier=shortname');
+        return this.httpGet('/v1/projects/members/' + shortname + '?identifier=shortname');
     }
 
     createProject(data: any): Observable<any> {
         const headers: Headers = new Headers();
         console.log(headers);
         console.log(data);
-        return this.httpPost('/projects', data);
+        return this.httpPost('/v1/projects', data);
     }
 
     updateProject(iri: string, data: any): Observable<any> {
         const headers: Headers = new Headers();
         console.log(headers);
         console.log(data);
-        return this.httpPut('/projects/' + encodeURIComponent(iri), data);
+        return this.httpPut('/v1/projects/' + encodeURIComponent(iri), data);
     }
 
 

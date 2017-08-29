@@ -13,7 +13,7 @@
  * */
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SessionService} from '../../../../../../model/services/session.service';
 
 import {
@@ -27,6 +27,8 @@ import {MdDialog, MdDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../../../dialog/form-dialog/form-dialog.component';
 import {MessageData} from '../../../../message/message.component';
+import {AuthenticationService} from '../../../../../../model/services/authentication.service';
+
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -53,12 +55,11 @@ export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
 
-    activeSession: boolean = false;
-    session: any = {}; // just a test
     sysAdmin: boolean = false;
+    activeSession = false;
 
-    focusOnUserMenu: string = 'inactive';
-    focusOnAddMenu: string = 'inactive';
+    focusOnUserMenu = 'inactive';
+    focusOnAddMenu = 'inactive';
 
     userMenu: any = [
         {
@@ -84,6 +85,7 @@ export class HeaderToolbarComponent implements OnInit {
     ];
 
     addMenuTitle: string = 'Add some new stuff';
+
     addMenu: any = [
         {
             title: 'Project',
@@ -103,24 +105,23 @@ export class HeaderToolbarComponent implements OnInit {
 
     ];
 
-
     constructor(private _eleRef: ElementRef,
+                private _dialog: MdDialog,
+                private _route: ActivatedRoute,
                 private _router: Router,
-                public _dialog: MdDialog,
-                private _sessionService: SessionService) {
+                private _authenticationService: AuthenticationService) {
 
     }
 
-    // check authentication: the session (from the services) should be valid and the local storage item "auth" as well
 
-    // if a or b is not valid or if they have different session ids, then the authentication is false!
     ngOnInit() {
-        // check if the authentication is valid:
-        // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
-        // this.session =
+        // check if whe are logged in
+        this.activeSession = this._authenticationService.authenticate();
 
-        this.session = this._sessionService.checkSession();
-
+        if (JSON.parse(localStorage.getItem('currentUser'))) {
+            this.userName = JSON.parse(localStorage.getItem('currentUser')).email;
+        }
+        /* TODO: fix isSysAdmin on login!?
         if (JSON.parse(localStorage.getItem('ownProfile'))) {
             this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
             if (JSON.parse(localStorage.getItem('sysAdmin')) === true) {
@@ -133,16 +134,22 @@ export class HeaderToolbarComponent implements OnInit {
                 });
             }
         }
-
+         */
     }
+
 
     @HostListener('document:click', ['$event'])
     public onClick(event) {
         if (!this._eleRef.nativeElement.contains(event.target)) {
 //            this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
 //            this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
-            if (this.focusOnUserMenu === 'active') { this.focusOnUserMenu = 'inactive'; }
-            if (this.focusOnAddMenu === 'active') { this.focusOnAddMenu = 'inactive'; }
+
+            if (this.focusOnUserMenu === 'active') {
+                this.focusOnUserMenu = 'inactive';
+            }
+            if (this.focusOnAddMenu === 'active') {
+                this.focusOnAddMenu = 'inactive';
+            }
         }
     }
 
@@ -180,27 +187,14 @@ export class HeaderToolbarComponent implements OnInit {
         }
     }
 
-    toggleFullscreen() {
-        console.log(this._eleRef.nativeElement);
-        const elem = this._eleRef.nativeElement.querySelector('.salsah-main');
-        console.log(elem);
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.webkitRequestFullScreen) {
-            elem.webkitRequestFullScreen();
-        } else if (elem.mozRequestFullScreen) {
-            elem.mozRequestFullScreen();
-        } else if (elem.msRequestFullScreen) {
-            elem.msRequestFullScreen();
-        }
-    }
 
     goToLoginPage() {
         let goToUrl: string = '/login';
 
-        if (this._router.url !== '/') { goToUrl += '?h=' + encodeURIComponent(this._router.url); }
-
-        window.location.replace(goToUrl);
+        if (this._router.url !== '/') {
+            goToUrl += '?h=' + encodeURIComponent(this._router.url);
+        }
+        this._router.navigate([goToUrl]);
     }
 
 }
