@@ -19,6 +19,8 @@ import {environment} from '../../../environments/environment';
 import {JsonConvert} from 'json2typescript';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class ApiService {
