@@ -102,6 +102,7 @@ import {CollectionsListComponent} from './view/modules/listing/collections-list/
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
 import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
+import { DndDirective } from './view/modules/other/dnd.directive';
 
 
 @NgModule({
@@ -166,6 +167,7 @@ import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uplo
         SearchResultsComponent,
         ResourceObjectComponent,
         FileUploaderComponent,
+        DndDirective,
     ],
     imports: [
         BrowserModule,

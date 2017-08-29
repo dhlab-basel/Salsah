@@ -1,7 +1,19 @@
 @import '../../../../../assets/style/config';
 
 $text: rgba($dark, .6);
+/*
+input[type="file"]::-webkit-search-decoration,
+input[type="file"]::-webkit-search-cancel-button,
+input[type="file"]::-webkit-search-results-button,
+input[type="file"]::-webkit-search-results-decoration {
+  display: none;
+}
 
+input[type="file"] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+*/
 .salsah-file-uploader {
   flex-grow: 1;
   padding: 20px;
@@ -31,10 +43,15 @@ $text: rgba($dark, .6);
   display: flex;
   flex-direction: row;
   flex-grow: 1;
+  width: 100%;
+
+  &.drag-over {
+    border: 2px solid $text;
+  }
 
   .upload-form {
 
-    .x-file-input {
+    .xy-file-input {
       height: 0;
       max-width: 0;
       opacity: 0;

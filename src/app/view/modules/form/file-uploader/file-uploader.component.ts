@@ -27,7 +27,10 @@ export class FileUploaderComponent implements OnInit {
 
     @Input() file?: string;
 
-    filesToUpload: Array<File>;
+    private fileList : any = [];
+    private invalidFiles : any = [];
+
+    private filesToUpload : any = [];
 
     viewType: string = 'upload';
     dragStatus: boolean = false;
@@ -35,22 +38,13 @@ export class FileUploaderComponent implements OnInit {
 //    uploader: FileUploader;
 
     constructor() {
-        this.filesToUpload = [];
-        /*
-                this.uploader = new FileUploader({
-                    autoUpload: true,
-                    url: 'http://localhost:3000/upload',
-                    method: 'POST',
-                    removeBySuccess: true
-                })
-        */
+
     }
 
     ngOnInit() {
         if (this.file) {
             this.viewType = 'preview';
         }
-
     }
 
     /**
@@ -60,37 +54,20 @@ export class FileUploaderComponent implements OnInit {
         this.viewType = (this.viewType === 'upload' ? 'url' : 'upload')
     }
 
-
-    allowDrop(ev) {
-        this.dragStatus = true;
-        ev.preventDefault();
+    onFilesChange(fileList : Array<File>){
+        this.fileList = fileList;
     }
 
-    drag(ev) {
-        console.log('drag', ev);
-        ev.dataTransfer.setData('text', ev.target.id);
+    onFileInvalids(fileList : Array<File>){
+        this.invalidFiles = fileList;
+        this.upload();
     }
 
-    drop(ev) {
-        this.dragStatus = false;
-        ev.preventDefault();
-        const data = ev.dataTransfer.getData('text');
-        console.log(data);
-        ev.target.appendChild(document.getElementById(data));
-
-        /*
-        const req = new HttpRequest('POST', 'http://localhost:3000/upload', file, {
-            reportProgress: true
-        })
-        */
-
-
-    }
 
     // another method; source: https://www.thepolyglotdeveloper.com/2016/02/upload-files-to-node-js-using-angular-2/
 
     upload() {
-        this.makeFileRequest('http://localhost:3000/upload', [], this.filesToUpload).then((result) => {
+        this.makeFileRequest('http://localhost:3000/upload', [], this.fileList).then((result) => {
             console.log(result);
         }, (error) => {
             console.error(error);
@@ -99,8 +76,12 @@ export class FileUploaderComponent implements OnInit {
     }
 
     fileChangeEvent(fileInput: any) {
+
+        console.log('fileChangeEvent', fileInput);
+
         this.filesToUpload = <Array<File>> fileInput.target.files;
 
+        console.log(this.fileList);
         console.log(this.filesToUpload);
 //        this.upload();
     }
