@@ -15,6 +15,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UserProfile} from '../../../../model/webapi/knora/';
 import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
+import {User} from '../../../../model/webapi/knora/v1/users/user';
 
 
 @Component({
@@ -23,8 +24,6 @@ import {AddData, ListData} from '../../../modules/framework/framework-for-listin
     styleUrls: ['./user-projects.component.scss']
 })
 export class UserProjectsComponent implements OnInit {
-
-    @Input() userIri: string;
 
     // here we can reuse the framework-for-listings component:
     // shows a list of user's projects and the possibility to create new projects
@@ -52,8 +51,8 @@ export class UserProjectsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.list.restrictedBy = this.userIri;
-            // JSON.parse(localStorage.getItem('ownProfile')).user_id;
+        let user: UserProfile = JSON.parse(sessionStorage.getItem('user'));
+        this.list.restrictedBy = user.userData.user_id;
     }
 
 

@@ -4,13 +4,17 @@ import {Observable} from 'rxjs/Observable';
 import {ApiServiceResult} from './api-service-result';
 import {ApiServiceError} from './api-service-error';
 import {Http} from '@angular/http';
+import {UserService} from './user.service';
+import {UserProfile} from '../webapi/knora/v1/users/user-profile';
+import {User} from '../webapi/knora/v1/users/user';
 
 @Injectable()
 export class AuthenticationService extends ApiService {
 
     public token: string;
+    public sysAdmin: boolean = false;
 
-    constructor(_http: Http) {
+    constructor(_http: Http, private _userService: UserService) {
         super(_http);
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
@@ -35,7 +39,26 @@ export class AuthenticationService extends ApiService {
                     this.token = token;
 
                     // store username and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ email: email, token: token }));
+                    localStorage.setItem('currentUser', JSON.stringify({ email: email, token: token, sysAdmin: this.sysAdmin }));
+
+                    // ask if the user is system admin
+                    this._userService.getUserByEmail(email)
+                        .subscribe(
+                            (result: ApiServiceResult) => {
+                                let userProfile: UserProfile = result.getBody(User).userProfile;
+                                if (userProfile.permissionData.groupsPerProject['http://www.knora.org/ontology/knora-base#SystemProject'] == 'http://www.knora.org/ontology/knora-base#SystemAdmin') {
+                                    this.sysAdmin = true;
+                                    console.log('This user is System Admin!');
+                                    // localStorage.setItem('sysAdmin', 'true');
+                                    // restore username and jwt token in local storage to keep user logged in between page refreshes
+                                    localStorage.setItem('currentUser', JSON.stringify({ email: email, token: token, sysAdmin: this.sysAdmin }));
+                                }
+                            },
+                            (error: ApiServiceError) => {
+                                console.log(error);
+                            }
+                        );
+
 
                     // return true to indicate successful login
                     return true;
@@ -67,7 +90,7 @@ export class AuthenticationService extends ApiService {
 
         this.httpGet('/v2/authentication').subscribe(
             (result: ApiServiceResult) => {
-                status = result.status
+                status = result.status;
                 if (status === 200) {
                     // the stored credentials (token) is valid and a user is authenticated by the api server
                     activeSession = true;
@@ -85,7 +108,7 @@ export class AuthenticationService extends ApiService {
                 activeSession = false;
                 // the session is not valid!
                 // remove the local stored user profile and return false
-                localStorage.removeItem('ownProfile');
+                localStorage.removeItem('currentUser');
             }
 
         );

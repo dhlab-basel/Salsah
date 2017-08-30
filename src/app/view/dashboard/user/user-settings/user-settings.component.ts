@@ -23,7 +23,9 @@ import {MessageData} from '../../../modules/message/message.component';
 })
 export class UserSettingsComponent implements OnInit {
 
-    @Input('user') user: UserProfile;
+    // @Input('user') user: UserProfile;
+
+    user: UserProfile = new UserProfile();
 
     developerInfo: MessageData = {
         status: 304,
@@ -36,7 +38,7 @@ export class UserSettingsComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        this.user = JSON.parse(sessionStorage.getItem('user'));
     }
 
 }

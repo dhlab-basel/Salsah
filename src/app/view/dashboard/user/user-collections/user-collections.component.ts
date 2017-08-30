@@ -23,8 +23,6 @@ import {AddData, ListData} from '../../../modules/framework/framework-for-listin
 })
 export class UserCollectionsComponent implements OnInit {
 
-    @Input() userIri: string;
-
     // here we can reuse the framework-for-listings component:
     // shows a list of user's projects and the possibility to create new projects
 
@@ -52,6 +50,8 @@ export class UserCollectionsComponent implements OnInit {
     }
 
     ngOnInit() {
+        let user: UserProfile = JSON.parse(sessionStorage.getItem('user'));
+        this.list.restrictedBy = user.userData.user_id;
     }
 
 

@@ -26,9 +26,10 @@ import {MessageData} from '../../../modules/message/message.component';
 export class UserProfileComponent implements OnInit {
 
     errorMessage: string = undefined;
-//    user: UserProfile = new UserProfile();
+    user: UserProfile = new UserProfile();
 
-    @Input('user') user: UserProfile;
+    @Input() iri: string;
+
 
     developerInfo: MessageData = {
         status: 304,
@@ -37,15 +38,17 @@ export class UserProfileComponent implements OnInit {
         route: "dashboard/user/user-profile/"
     };
 
-    constructor(private _route: ActivatedRoute,
-                private _userService: UserService
-    ) {
+    constructor() {
 
     }
 
     ngOnInit() {
+        console.log('Input', this.iri);
+        if (sessionStorage.getItem('user') !== null) {
 
-        console.log(this.user);
+            this.user = JSON.parse(sessionStorage.getItem('user'));
+            console.log('SessionStorage', this.user.userData.user_id);
+        }
 
 /*
         // get the user name from the url

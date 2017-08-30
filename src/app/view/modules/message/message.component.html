@@ -1,6 +1,6 @@
 <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
-<md-card *ngIf="!isLoading && message !== undefined" class="fix-width" [ngClass]="'salsah-' + message?.type">
+<md-card *ngIf="!isLoading && message !== undefined" class="fix-width salsah-message" [ngClass]="'salsah-' + message?.type">
 
     <md-card-subtitle class="message-subtitle">
         <span class="left">{{message?.type | uppercase }} {{message?.status}} | {{message?.statusMsg}}</span>
