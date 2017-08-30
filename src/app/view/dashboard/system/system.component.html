@@ -1,4 +1,4 @@
-<div class="salsah-module with-header" *ngIf="sysAdmin">
+<div class="salsah-module with-header" *ngIf="sysAdmin && !errorMessage">
     <!-- this component has his own toolbar header
         with tabs for navigation through the settings
     -->
@@ -35,12 +35,13 @@
     <!-- and the sub module for route specific child components -->
     <div class="salsah-module-scroll-area">
 
-        <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
-
-        <router-outlet *ngIf="!errorMessage" (tabRequest)="activateTab($event)"></router-outlet>
+        <router-outlet (tabRequest)="activateTab($event)"></router-outlet>
 
     </div>
 
+</div>
+<div class="salsah-module without-header" *ngIf="errorMessage && !sysAdmin">
+    <salsah-message [message]="errorMessage"></salsah-message>
 </div>
 
 

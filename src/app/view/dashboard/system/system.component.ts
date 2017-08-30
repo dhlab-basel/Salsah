@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserProfile} from '../../../model/webapi/knora/';
 import {ActivatedRoute, Router} from '@angular/router';
+import {MessageData} from '../../modules/message/message.component';
 
 @Component({
     selector: 'salsah-system',
@@ -9,11 +10,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class SystemComponent implements OnInit {
 
-    errorMessage: any = undefined;
+    errorMessage: MessageData;
     isLoading: boolean = true;
 
     userProfile: UserProfile = new UserProfile();
     sysAdmin: boolean = false;
+    loggedInUser: boolean = false;
 
     public menu: any = [
         {
@@ -35,30 +37,32 @@ export class SystemComponent implements OnInit {
     }
 
     ngOnInit() {
-        // is there a logged in user?
-        let loggedInUser = JSON.parse(localStorage.getItem('ownProfile'));
-        this.userProfile = (loggedInUser !== null ? loggedInUser : new UserProfile());
-
-
-        // if a user isn't logged in, go to the /login page
-        // if a user is logged in, but he's not a sys admin, deny the access
-        if (this.userProfile.userData == undefined) {
-
-            // go to the login page and bring the user back to this page after successful login and if the user is a sys admin
-            let goToUrl: string = '/login';
-            if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
-            window.location.replace(goToUrl);
+        // is there a logged in user? if true, does this user have sysAdmin rights?
+        if(localStorage.getItem('currentUser') !== null) {
+            this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+            this.loggedInUser = true;
+        } else {
+            this.loggedInUser = false;
         }
-        else {
-            this.sysAdmin = (this.userProfile.permissionData.groupsPerProject['http://www.knora.org/ontology/knora-base#SystemProject'] == 'http://www.knora.org/ontology/knora-base#SystemAdmin');
 
-            if(this.sysAdmin === false) {
-                this._router.navigateByUrl('/denied');
+
+        if(!this.sysAdmin) {
+            // there's no sysAdmin; but is there a logged-in user?
+            // in that case show a access denied message or otherwise go to the login page
+            if(this.loggedInUser) {
+                this.errorMessage = <MessageData>{
+                    status: 403,
+                    statusText: 'You don\'t have the rights to open the requested page. Please ask a system administrator for help.'
+                };
+            } else {
+                // go to the login page and bring the user back to this page after successful login and if the user is a sys admin
+                let goToUrl: string = '/login';
+                if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
+                window.location.replace(goToUrl);
             }
-
+        } else {
+            this.isLoading = false;
         }
-
-        this.isLoading = false;
 
     }
 
