@@ -49,24 +49,24 @@ describe('UserFormComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
+        spyOn(sessionStorage, 'getItem').and.callFake((key: string): String => {
             return store[key] || null;
         });
-        spyOn(localStorage, 'removeItem').and.callFake((key: string): void => {
+        spyOn(sessionStorage, 'removeItem').and.callFake((key: string): void => {
             delete store[key];
         });
-        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string => {
+        spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => {
             return store[key] = <any>value;
         });
-        spyOn(localStorage, 'clear').and.callFake(() => {
+        spyOn(sessionStorage, 'clear').and.callFake(() => {
             store = {};
         });
     });
 
     beforeEach(() => {
 
-        localStorage.setItem('currentProjectMembers', JSON.stringify(testMembers));
-        localStorage.setItem('currentProject', JSON.stringify(testProject));
+        sessionStorage.setItem('currentMembers', JSON.stringify(testMembers));
+        sessionStorage.setItem('currentProject', JSON.stringify(testProject));
 
         fixture = TestBed.createComponent(UserFormComponent);
         component = fixture.componentInstance;
@@ -74,8 +74,8 @@ describe('UserFormComponent', () => {
     });
 
     it('should create', () => {
-        expect<any>(localStorage.getItem('currentProjectMembers')).toBe(JSON.stringify(testMembers));
-        expect<any>(localStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
+        expect<any>(sessionStorage.getItem('currentMembers')).toBe(JSON.stringify(testMembers));
+        expect<any>(sessionStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
         expect(component).toBeTruthy();
     });
 });

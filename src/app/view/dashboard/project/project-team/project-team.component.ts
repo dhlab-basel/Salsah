@@ -48,7 +48,7 @@ export class ProjectTeamComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.list.restrictedBy = JSON.parse(localStorage.getItem('currentProject')).id;
+        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
     }
 
 }

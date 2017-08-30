@@ -2,61 +2,16 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../../../app.module';
 import {AppRoutingModule} from '../../../../../../app-routing.module';
 import {HeaderToolbarComponent} from './header-toolbar.component';
-import {SessionService} from '../../../../../../model/services/session.service';
-import {UserProfile} from '../../../../../../model/webapi/knora/v1/users/user-profile';
+import {AuthenticationService} from '../../../../../../model/services/authentication.service';
 
 describe('HeaderToolbarComponent', () => {
     let component: HeaderToolbarComponent;
     let fixture: ComponentFixture<HeaderToolbarComponent>;
 
-    const testProfile: UserProfile = <UserProfile>{
-        'userData': {
-            'email': 'multi.user@example.com',
-            'givenName': 'Multi',
-            'familyName': 'User',
-            'isActiveUser': true,
-            'status': true,
-            'lang': 'de',
-            'password': null,
-            'token': null,
-            'user_id': 'http://data.knora.org/users/multiuser'
-        },
-        'groups': ['http://data.knora.org/groups/images-reviewer'],
-        'projects_info': [{
-            'shortname': 'images',
-            'description': 'A demo project of a collection of images',
-            'institution': null,
-            'logo': null,
-            'dataNamedGraph': 'http://www.knora.org/data/images',
-            'id': 'http://data.knora.org/projects/images',
-            'status': true,
-            'keywords': 'images, collection',
-            'longname': 'Image Collection Demo',
-            'ontologyNamedGraph': 'http://www.knora.org/ontology/images',
-            'selfjoin': false
-        }],
-        'sessionId': null,
-        'isSystemUser': false,
-        'permissionData': {
-            'groupsPerProject': {
-                'http://data.knora.org/projects/77275339': [
-                    'http://www.knora.org/ontology/knora-base#ProjectMember',
-                    'http://www.knora.org/ontology/knora-base#ProjectAdmin'
-                ]
-            },
-            'administrativePermissionsPerProject': {
-                'http://data.knora.org/projects/images': [{
-                    'name': 'ProjectAdminAllPermission',
-                    'additionalInformation': null,
-                    'v1Code': null
-                }, {
-                    'name': 'ProjectResourceCreateAllPermission',
-                    'additionalInformation': null,
-                    'v1Code': null
-                }]
-            },
-            'anonymousUser': false
-        }
+    const currentTestUser = <any>{
+        'email': 'multi.user@example.com',
+        'token': '',
+        'sysAdmin': false
     };
 
     beforeEach(async(() => {
@@ -66,7 +21,7 @@ describe('HeaderToolbarComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                SessionService
+                AuthenticationService
             ],
         })
             .compileComponents();
@@ -76,16 +31,16 @@ describe('HeaderToolbarComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
+        spyOn(sessionStorage, 'getItem').and.callFake((key: string): String => {
             return store[key] || null;
         });
-        spyOn(localStorage, 'removeItem').and.callFake((key: string): void => {
+        spyOn(sessionStorage, 'removeItem').and.callFake((key: string): void => {
             delete store[key];
         });
-        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string => {
+        spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => {
             return store[key] = <any>value;
         });
-        spyOn(localStorage, 'clear').and.callFake(() => {
+        spyOn(sessionStorage, 'clear').and.callFake(() => {
             store = {};
         });
     });
@@ -93,7 +48,7 @@ describe('HeaderToolbarComponent', () => {
 
     beforeEach(() => {
 
-        localStorage.setItem('ownProfile', JSON.stringify(testProfile));
+        localStorage.setItem('currentUser', JSON.stringify(currentTestUser));
 
         fixture = TestBed.createComponent(HeaderToolbarComponent);
         component = fixture.componentInstance;
@@ -101,7 +56,7 @@ describe('HeaderToolbarComponent', () => {
     });
 
     it('should get the user data', () => {
-        expect<any>(localStorage.getItem('ownProfile')).toBe(JSON.stringify(testProfile));
+        expect<any>(localStorage.getItem('currentUser')).toBe(JSON.stringify(currentTestUser));
         expect(component).toBeTruthy();
     });
 });

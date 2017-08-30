@@ -12,14 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Directive, ElementRef, Renderer2, Input, OnInit} from '@angular/core';
+import {Directive, ElementRef, Renderer2, Input, OnInit, OnChanges} from '@angular/core';
 import {Md5} from 'ts-md5/dist/md5';
 import {environment} from '../../../../environments/environment';
 
 @Directive({
     selector: '[salsahImage]'
 })
-export class ImageDirective implements OnInit {
+export class ImageDirective implements OnChanges {
 
     @Input() image: string;
     @Input() type: string;
@@ -33,7 +33,7 @@ export class ImageDirective implements OnInit {
                 private _ele: ElementRef) {
     }
 
-    ngOnInit() {
+    ngOnChanges() {
 
         switch (this.type) {
 

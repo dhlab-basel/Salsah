@@ -28,9 +28,6 @@ export class UserProfileComponent implements OnInit {
     errorMessage: string = undefined;
     user: UserProfile = new UserProfile();
 
-    @Input() iri: string;
-
-
     developerInfo: MessageData = {
         status: 304,
         statusMsg: "User profile dashboard",
@@ -43,11 +40,8 @@ export class UserProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('Input', this.iri);
-        if (sessionStorage.getItem('user') !== null) {
-
-            this.user = JSON.parse(sessionStorage.getItem('user'));
-            console.log('SessionStorage', this.user.userData.user_id);
+        if (sessionStorage.getItem('currentUser') !== null) {
+            this.user = JSON.parse(sessionStorage.getItem('currentUser'));
         }
 
 /*

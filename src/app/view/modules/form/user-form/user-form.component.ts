@@ -158,8 +158,8 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         // get a list of the users which are already team members;
-        // that list should be already stored in the local storage
-        const members = localStorage.getItem('currentProjectMembers');
+        // that list should already be in the session storage
+        const members = sessionStorage.getItem('currentMembers');
 
         this._userService.getAllUsers()
             .subscribe(

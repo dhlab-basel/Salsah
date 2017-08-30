@@ -79,7 +79,7 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
-        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('currentUser');
 
         // we're using this user component in two cases/routes:
         // a) /user/[uid] as a public dashboard for every user
@@ -127,11 +127,11 @@ export class UserComponent implements OnInit {
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.userProfile = result.getBody(User).userProfile;
-                        sessionStorage.setItem('user', JSON.stringify(this.userProfile));
+                        sessionStorage.setItem('currentUser', JSON.stringify(this.userProfile));
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
-                        sessionStorage.removeItem('user');
+                        sessionStorage.removeItem('currentUser');
                         this.errorMessage = <any>error;
                         this.isLoading = false;
                     }

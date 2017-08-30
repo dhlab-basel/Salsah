@@ -111,7 +111,7 @@ export class UsersListComponent implements OnInit {
                             currentMembers.push(m.user_id);
                         }
                         this.num = Object.keys(this.list).length;
-                        localStorage.setItem('currentProjectMembers', JSON.stringify(currentMembers));
+                        sessionStorage.setItem('currentMembers', JSON.stringify(currentMembers));
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {

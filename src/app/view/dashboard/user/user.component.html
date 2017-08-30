@@ -3,7 +3,7 @@
 <div class="salsah-module without-header" *ngIf="!showOwnProfile">
     <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
     <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
-    <salsah-user-profile *ngIf="!errorMessage && !isLoading" [iri]="userProfile.userData?.user_id"></salsah-user-profile>
+    <salsah-user-profile *ngIf="!errorMessage && !isLoading"></salsah-user-profile>
 </div>
 
 <!-- case b) -->
@@ -52,7 +52,7 @@
         <salsah-user-projects *ngSwitchCase="'/projects'"></salsah-user-projects>
         <salsah-user-collections *ngSwitchCase="'/collections'"></salsah-user-collections>
         <salsah-user-settings *ngSwitchCase="'/settings'"></salsah-user-settings>
-        <salsah-user-profile *ngSwitchCase="'/profile'" [iri]="userProfile.userData?.user_id"></salsah-user-profile>
+        <salsah-user-profile *ngSwitchCase="'/profile'"></salsah-user-profile>
     </div>
 </div>
 

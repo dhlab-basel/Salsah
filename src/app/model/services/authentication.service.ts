@@ -46,9 +46,11 @@ export class AuthenticationService extends ApiService {
                         .subscribe(
                             (result: ApiServiceResult) => {
                                 let userProfile: UserProfile = result.getBody(User).userProfile;
-                                if (userProfile.permissionData.groupsPerProject['http://www.knora.org/ontology/knora-base#SystemProject'] == 'http://www.knora.org/ontology/knora-base#SystemAdmin') {
+                                sessionStorage.setItem('currentUser', JSON.stringify(userProfile));
+                                const sysProject = 'http://www.knora.org/ontology/knora-base#SystemProject';
+                                const sysAdminGroup = 'http://www.knora.org/ontology/knora-base#SystemAdmin';
+                                if (userProfile.permissionData.groupsPerProject[sysProject] == sysAdminGroup) {
                                     this.sysAdmin = true;
-                                    console.log('This user is System Admin!');
                                     // localStorage.setItem('sysAdmin', 'true');
                                     // restore username and jwt token in local storage to keep user logged in between page refreshes
                                     localStorage.setItem('currentUser', JSON.stringify({ email: email, token: token, sysAdmin: this.sysAdmin }));
@@ -58,7 +60,6 @@ export class AuthenticationService extends ApiService {
                                 console.log(error);
                             }
                         );
-
 
                     // return true to indicate successful login
                     return true;
@@ -135,6 +136,7 @@ export class AuthenticationService extends ApiService {
         // clear token remove user from local storage to log user out
         this.token = null;
         localStorage.removeItem('currentUser');
+        sessionStorage.clear();
     }
 
 }

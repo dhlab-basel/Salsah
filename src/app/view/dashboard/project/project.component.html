@@ -17,13 +17,13 @@
         <span class="fill-remaining-space"></span>
 
         <!-- Tab menu -->
-        <nav class="salsah-tab-group" *ngIf="!errorMessage">
+        <nav class="salsah-tab-group" *ngIf="!errorMessage && !isLoading">
             <button md-button
                     class="salsah-tab-item"
                     [routerLink]="projectRoute"
                     [ngClass]="firstTabClass"
                     (click)="enableFirstTab()">
-                <strong>{{cur_project | uppercase}}</strong>
+                <strong>{{project.shortname | uppercase}}</strong>
             </button>
             <button *ngFor="let item of menu; let i = index; let first=first"
                     md-button
@@ -43,7 +43,7 @@
 
         <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
-        <router-outlet *ngIf="!errorMessage"></router-outlet>
+        <router-outlet *ngIf="!errorMessage && !isLoading" (tabRequest)="activateTab($event)"></router-outlet>
 
     </div>
 

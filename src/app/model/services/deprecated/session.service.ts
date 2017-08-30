@@ -16,11 +16,11 @@ import {Injectable} from '@angular/core';
 import {Headers} from "@angular/http";
 import {Observable} from 'rxjs';
 
-import {ApiService} from './api.service';
+import {ApiService} from '../api.service';
 
-import {Session, UserProfile} from '../webapi/knora';
+import {Session, UserProfile} from '../../webapi/knora';
 import {ApiServiceResult} from "app/model/services/api-service-result";
-import {ApiServiceError} from "./api-service-error";
+import {ApiServiceError} from "../api-service-error";
 
 
 function getDocument(): any {

@@ -18,6 +18,7 @@ import {ApiServiceResult} from '../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../model/services/api-service-error';
 import {ProjectsService} from '../../../model/services/projects.service';
 import {Project} from '../../../model/webapi/knora';
+import {ProjectItem} from '../../../model/webapi/knora/v1/projects/project-item';
 
 @Component({
     selector: 'salsah-project',
@@ -29,7 +30,7 @@ export class ProjectComponent implements OnInit {
     isLoading: boolean = true;
 
     errorMessage: any = undefined;
-    project: Project = new Project();
+    project: ProjectItem = new ProjectItem();
 
     projectRoute: string = '/project/';
 
@@ -63,6 +64,7 @@ export class ProjectComponent implements OnInit {
     }
 
     ngOnInit() {
+        sessionStorage.removeItem('currentProject');
 
         this._route.params.subscribe((params: Params) => {
             this.cur_project = params['pid'];
@@ -75,15 +77,15 @@ export class ProjectComponent implements OnInit {
             this._projectsService.getProjectByShortname(this.cur_project)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.project = result.getBody(Project);
+                        this.project = result.getBody(Project).project_info;
+                        sessionStorage.setItem('currentProject', JSON.stringify(
+                            this.project
+                        ));
                         this.isLoading = false;
-                        localStorage.setItem('currentProject', JSON.stringify(
-                            this.project.project_info
-                        ))
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
-                        localStorage.removeItem('currentProject');
+                        sessionStorage.removeItem('currentProject');
                     }
                 );
 

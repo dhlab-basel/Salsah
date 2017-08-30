@@ -51,7 +51,7 @@ export class UserProjectsComponent implements OnInit {
     }
 
     ngOnInit() {
-        let user: UserProfile = JSON.parse(sessionStorage.getItem('user'));
+        let user: UserProfile = JSON.parse(sessionStorage.getItem('currentUser'));
         this.list.restrictedBy = user.userData.user_id;
     }
 

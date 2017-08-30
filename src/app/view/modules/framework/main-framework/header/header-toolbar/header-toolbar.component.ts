@@ -14,7 +14,6 @@
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {SessionService} from '../../../../../../model/services/session.service';
 
 import {
     trigger,
@@ -115,18 +114,13 @@ export class HeaderToolbarComponent implements OnInit {
 
 
     ngOnInit() {
-        // check if whe are logged in
+        // check if a user is logged-in
         this.activeSession = this._authenticationService.authenticate();
 
         if (JSON.parse(localStorage.getItem('currentUser'))) {
             this.userName = JSON.parse(localStorage.getItem('currentUser')).email;
-        }
-        /* TODO: fix isSysAdmin on login!?
-        if (JSON.parse(localStorage.getItem('ownProfile'))) {
-            this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
-            if (JSON.parse(localStorage.getItem('sysAdmin')) === true) {
-
-                this.sysAdmin = true;
+            this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+            if(this.sysAdmin) {
                 this.userMenu.push({
                     title: 'System',
                     icon: 'build',
@@ -134,7 +128,7 @@ export class HeaderToolbarComponent implements OnInit {
                 });
             }
         }
-         */
+
     }
 
 
