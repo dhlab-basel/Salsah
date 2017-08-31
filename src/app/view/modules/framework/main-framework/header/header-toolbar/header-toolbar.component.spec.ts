@@ -31,16 +31,16 @@ describe('HeaderToolbarComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(sessionStorage, 'getItem').and.callFake((key: string): String => {
+        spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
             return store[key] || null;
         });
-        spyOn(sessionStorage, 'removeItem').and.callFake((key: string): void => {
+        spyOn(localStorage, 'removeItem').and.callFake((key: string): void => {
             delete store[key];
         });
-        spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => {
+        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string => {
             return store[key] = <any>value;
         });
-        spyOn(sessionStorage, 'clear').and.callFake(() => {
+        spyOn(localStorage, 'clear').and.callFake(() => {
             store = {};
         });
     });

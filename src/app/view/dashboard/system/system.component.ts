@@ -57,7 +57,11 @@ export class SystemComponent implements OnInit {
             } else {
                 // go to the login page and bring the user back to this page after successful login and if the user is a sys admin
                 let goToUrl: string = '/login';
-                if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
+
+                if (this._router.url !== '/') {
+                    goToUrl += '?h=' + encodeURIComponent(this._router.url);
+                }
+//                this._router.navigate([goToUrl]);
                 window.location.replace(goToUrl);
             }
         } else {

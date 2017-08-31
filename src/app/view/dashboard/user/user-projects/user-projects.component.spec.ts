@@ -58,6 +58,12 @@ describe('UserProjectsComponent', () => {
         }
     };
 
+    const currentTestUser = <any>{
+        'email': 'multi.user@example.com',
+        'token': '',
+        'sysAdmin': false
+    };
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -72,32 +78,31 @@ describe('UserProjectsComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
+        spyOn(sessionStorage, 'getItem').and.callFake((key: string): String => {
             return store[key] || null;
         });
-        spyOn(localStorage, 'removeItem').and.callFake((key: string): void => {
+        spyOn(sessionStorage, 'removeItem').and.callFake((key: string): void => {
             delete store[key];
         });
-        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string => {
+        spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => {
             return store[key] = <any>value;
         });
-        spyOn(localStorage, 'clear').and.callFake(() => {
+        spyOn(sessionStorage, 'clear').and.callFake(() => {
             store = {};
         });
     });
 
     beforeEach(() => {
 
-        localStorage.setItem('ownProfile', JSON.stringify(testProfile));
+        sessionStorage.setItem('currentUser', JSON.stringify(testProfile));
 
         fixture = TestBed.createComponent(UserProjectsComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-
-    it('should get the user data', () => {
-        expect<any>(localStorage.getItem('ownProfile')).toBe(JSON.stringify(testProfile));
+    it('should be created', () => {
+        expect<any>(sessionStorage.getItem('currentUser')).toBe(JSON.stringify(testProfile));
         expect(component).toBeTruthy();
     });
 });

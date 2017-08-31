@@ -42,23 +42,23 @@ describe('ProjectTeamComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
+        spyOn(sessionStorage, 'getItem').and.callFake((key: string): String => {
             return store[key] || null;
         });
-        spyOn(localStorage, 'removeItem').and.callFake((key: string): void => {
+        spyOn(sessionStorage, 'removeItem').and.callFake((key: string): void => {
             delete store[key];
         });
-        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string => {
+        spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => {
             return store[key] = <any>value;
         });
-        spyOn(localStorage, 'clear').and.callFake(() => {
+        spyOn(sessionStorage, 'clear').and.callFake(() => {
             store = {};
         });
     });
 
     beforeEach(() => {
 
-        localStorage.setItem('currentProject', JSON.stringify(testProject));
+        sessionStorage.setItem('currentProject', JSON.stringify(testProject));
 
         fixture = TestBed.createComponent(ProjectTeamComponent);
         component = fixture.componentInstance;
@@ -66,7 +66,7 @@ describe('ProjectTeamComponent', () => {
     });
 
     it('should get the project data', () => {
-        expect<any>(localStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
+        expect<any>(sessionStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
         expect(component).toBeTruthy();
     });
 });

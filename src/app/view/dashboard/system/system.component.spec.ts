@@ -9,54 +9,10 @@ describe('SystemComponent', () => {
     let component: SystemComponent;
     let fixture: ComponentFixture<SystemComponent>;
 
-    const testProfile: UserProfile = <UserProfile>{
-        'userData': {
-            'email': 'multi.user@example.com',
-            'givenName': 'Multi',
-            'familyName': 'User',
-            'isActiveUser': true,
-            'status': true,
-            'lang': 'de',
-            'password': null,
-            'token': null,
-            'user_id': 'http://data.knora.org/users/multiuser'
-        },
-        'groups': ['http://data.knora.org/groups/images-reviewer'],
-        'projects_info': [{
-            'shortname': 'images',
-            'description': 'A demo project of a collection of images',
-            'institution': null,
-            'logo': null,
-            'dataNamedGraph': 'http://www.knora.org/data/images',
-            'id': 'http://data.knora.org/projects/images',
-            'status': true,
-            'keywords': 'images, collection',
-            'longname': 'Image Collection Demo',
-            'ontologyNamedGraph': 'http://www.knora.org/ontology/images',
-            'selfjoin': false
-        }],
-        'sessionId': null,
-        'isSystemUser': false,
-        'permissionData': {
-            'groupsPerProject': {
-                'http://data.knora.org/projects/77275339': [
-                    'http://www.knora.org/ontology/knora-base#ProjectMember',
-                    'http://www.knora.org/ontology/knora-base#ProjectAdmin'
-                ]
-            },
-            'administrativePermissionsPerProject': {
-                'http://data.knora.org/projects/images': [{
-                    'name': 'ProjectAdminAllPermission',
-                    'additionalInformation': null,
-                    'v1Code': null
-                }, {
-                    'name': 'ProjectResourceCreateAllPermission',
-                    'additionalInformation': null,
-                    'v1Code': null
-                }]
-            },
-            'anonymousUser': false
-        }
+    const currentTestUser = <any>{
+        'email': 'multi.user@example.com',
+        'token': '',
+        'sysAdmin': false
     };
 
     beforeEach(async(() => {
@@ -89,7 +45,7 @@ describe('SystemComponent', () => {
 
     beforeEach(() => {
 
-        localStorage.setItem('ownProfile', JSON.stringify(testProfile));
+        localStorage.setItem('currentUser', JSON.stringify(currentTestUser));
 
         fixture = TestBed.createComponent(SystemComponent);
         component = fixture.componentInstance;
@@ -97,7 +53,7 @@ describe('SystemComponent', () => {
     });
 
     it('should be created', () => {
-        expect<any>(localStorage.getItem('ownProfile')).toBe(JSON.stringify(testProfile));
+        expect<any>(localStorage.getItem('currentUser')).toBe(JSON.stringify(currentTestUser));
         expect(component).toBeTruthy();
     });
 });
