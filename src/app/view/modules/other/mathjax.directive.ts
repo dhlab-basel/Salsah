@@ -3,6 +3,7 @@ import {MdDialog, MdDialogConfig, MdSnackBar, MdSnackBarConfig} from '@angular/m
 import {ObjectComponent} from '../object/object.component';
 import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-item';
 import {OntologyInformation} from '../../../model/services/ontologycache.service';
+import {AppConfig} from "../../../app.config";
 
 declare var MathJax: {
     Hub: {
@@ -33,7 +34,7 @@ export class MathJaxDirective implements OnInit {
         //console.log("click");
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == 'salsah-link') {
+        if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
             let config = new MdDialogConfig();
             config.height = '60%';
@@ -69,7 +70,7 @@ export class MathJaxDirective implements OnInit {
         //console.log(this.ontologyInfo);
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase() == 'salsah-link') {
+        if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
             // console.log("mouseenter: internal link to: " + event.toElement.href);
 
             let referredResourceIri = event.toElement.href;
