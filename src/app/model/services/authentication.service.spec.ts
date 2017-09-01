@@ -4,7 +4,7 @@ import {AuthenticationService} from './authentication.service';
 import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 
-fdescribe('AuthenticationService', () => {
+describe('AuthenticationService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -23,7 +23,7 @@ fdescribe('AuthenticationService', () => {
         });
     });
 
-    fit('should be created', async(inject(
+    it('should be created', async(inject(
         [AuthenticationService, MockBackend], (service, mockBackend) => {
             expect(service).toBeDefined();
         }))
