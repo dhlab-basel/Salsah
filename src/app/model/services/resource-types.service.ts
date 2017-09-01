@@ -13,8 +13,8 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {ApiService} from "./api.service";
-import {Observable} from "rxjs";
+import {ApiService} from './api.service';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class ResourceTypesService extends ApiService {
@@ -25,7 +25,7 @@ export class ResourceTypesService extends ApiService {
      * @returns {Observable<any>}
      */
     getResourceTypesByVoc(iri: string): Observable<any> {
-        return this.httpGet("/resourcetypes?vocabulary=" + encodeURIComponent(iri));
+        return this.httpGet('/v1/resourcetypes?vocabulary=' + encodeURIComponent(iri));
     }
 
     /**
@@ -34,7 +34,7 @@ export class ResourceTypesService extends ApiService {
      * @returns {Observable<any>}
      */
     getResourceType(iri: string): Observable<any> {
-        return this.httpGet("/resourcetypes/" + encodeURIComponent(iri));
+        return this.httpGet('/v1/resourcetypes/' + encodeURIComponent(iri));
     }
 
 

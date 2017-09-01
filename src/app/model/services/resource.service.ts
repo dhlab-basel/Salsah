@@ -13,14 +13,14 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {ApiService} from "./api.service";
-import {Observable} from "rxjs";
+import {ApiService} from './api.service';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class ResourceService extends ApiService {
 
     getResource(iri): Observable<any> {
-        return this.httpGet("/resources/" + encodeURIComponent(iri) );
+        return this.httpGet('/v1/resources/' + encodeURIComponent(iri) );
     }
 
 }

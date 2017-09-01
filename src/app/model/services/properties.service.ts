@@ -13,18 +13,18 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {ApiService} from "./api.service";
-import {Observable} from "rxjs";
+import {ApiService} from './api.service';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class PropertiesService extends ApiService {
 
     getPropertiesByResType(rid: string): Observable<any> {
-        return this.httpGet("/propertylists?restype=" + encodeURIComponent(rid));
+        return this.httpGet('/v1/propertylists?restype=' + encodeURIComponent(rid));
     }
 
     getPropertiesByVocabulary(vid: string): Observable<any> {
-        return this.httpGet("/propertylists?vocabulary=" + encodeURIComponent(vid));
+        return this.httpGet('/v1/propertylists?vocabulary=' + encodeURIComponent(vid));
     }
 
 }
