@@ -12,6 +12,7 @@ import {User} from '../webapi/knora/v1/users/user';
 export class AuthenticationService extends ApiService {
 
     public token: string;
+
     public sysAdmin: boolean = false;
 
     constructor(_http: Http, private _userService: UserService) {
@@ -29,7 +30,7 @@ export class AuthenticationService extends ApiService {
      */
     login(email: string, password: string): Observable<boolean> {
 
-        return this.httpPost('/v2/authentication', { email: email, password: password }).map(
+        return this.httpPost('/v2/authentication', {email: email, password: password}).map(
             (result: ApiServiceResult) => {
                 console.log('AuthenticationService - login - result:', result);
 
@@ -39,7 +40,11 @@ export class AuthenticationService extends ApiService {
                     this.token = token;
 
                     // store username and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ email: email, token: token, sysAdmin: this.sysAdmin }));
+                    localStorage.setItem('currentUser', JSON.stringify({
+                        email: email,
+                        token: token,
+                        sysAdmin: this.sysAdmin
+                    }));
 
                     // ask if the user is system admin
                     this._userService.getUserByEmail(email)
@@ -53,7 +58,11 @@ export class AuthenticationService extends ApiService {
                                     this.sysAdmin = true;
                                     // localStorage.setItem('sysAdmin', 'true');
                                     // restore username and jwt token in local storage to keep user logged in between page refreshes
-                                    localStorage.setItem('currentUser', JSON.stringify({ email: email, token: token, sysAdmin: this.sysAdmin }));
+                                    localStorage.setItem('currentUser', JSON.stringify({
+                                        email: email,
+                                        token: token,
+                                        sysAdmin: this.sysAdmin
+                                    }));
                                 }
                             },
                             (error: ApiServiceError) => {
@@ -111,7 +120,6 @@ export class AuthenticationService extends ApiService {
                 // remove the local stored user profile and return false
                 localStorage.removeItem('currentUser');
             }
-
         );
 
         return activeSession;
@@ -122,7 +130,7 @@ export class AuthenticationService extends ApiService {
      */
     logout(): void {
 
-         this.httpDelete('/v2/authentication').subscribe (
+        this.httpDelete('/v2/authentication').subscribe(
             (result: ApiServiceResult) => {
                 console.log('AuthenticationService - logout - result:', result);
             },

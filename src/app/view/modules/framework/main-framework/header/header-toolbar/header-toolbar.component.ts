@@ -14,14 +14,7 @@
 
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-
-import {
-    trigger,
-    state,
-    style,
-    animate,
-    transition
-} from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MdDialog, MdDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../../../dialog/form-dialog/form-dialog.component';
@@ -119,8 +112,9 @@ export class HeaderToolbarComponent implements OnInit {
 
         if (JSON.parse(localStorage.getItem('currentUser'))) {
             this.userName = JSON.parse(localStorage.getItem('currentUser')).email;
+
             this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-            if(this.sysAdmin) {
+            if (this.sysAdmin) {
                 this.userMenu.push({
                     title: 'System',
                     icon: 'build',
@@ -128,7 +122,6 @@ export class HeaderToolbarComponent implements OnInit {
                 });
             }
         }
-
     }
 
 
@@ -137,7 +130,6 @@ export class HeaderToolbarComponent implements OnInit {
         if (!this._eleRef.nativeElement.contains(event.target)) {
 //            this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
 //            this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
-
             if (this.focusOnUserMenu === 'active') {
                 this.focusOnUserMenu = 'inactive';
             }
@@ -164,7 +156,12 @@ export class HeaderToolbarComponent implements OnInit {
             switch (item) {
                 case 'project':
                     title = 'Create new project';
-                    dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{data: {title: title, form: 'project'}});
+                    dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
+                        data: {
+                            title: title,
+                            form: 'project'
+                        }
+                    });
                     break;
 
                 default:

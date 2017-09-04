@@ -12,12 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Injectable} from '@angular/core';
-
 import {Http, RequestOptionsArgs, Response, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+// import {JsonConvert} from 'json2typescript';
 import {environment} from '../../../environments/environment';
-
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 import 'rxjs/add/operator/map';
@@ -78,7 +77,7 @@ export class ApiService {
         url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
         /*
-        if (!environment.production && environment.type === 'mock-api') {
+        if (!environment.production && environment.description === 'mock-api') {
             // in this case, we don't need the knora API; we're using mockup files from knora_mockups
 
             url += '.json';
@@ -109,7 +108,6 @@ export class ApiService {
      * @param options
      * @returns {Observable<ApiServiceResult>}
      */
-
     httpPost(url: string, body?: any, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
         if (!body) {
             body = {};

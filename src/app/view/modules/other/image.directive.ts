@@ -24,7 +24,7 @@ export class ImageDirective implements OnChanges {
     @Input() image: string;
     @Input() type: string;
 
-    defaultPath: string = environment.dataPool;
+    defaultPath: string = environment.localData;
 
     source: string;
     onError: string = this.defaultPath;
