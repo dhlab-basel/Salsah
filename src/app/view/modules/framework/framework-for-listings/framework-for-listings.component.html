@@ -7,7 +7,8 @@
     <!-- this module has a list with different positions: left or center (= default) -->
     <div class="salsah-list" [ngClass]="[position, listSize]">
         <div class="salsah-list-header">
-            <h3 md-header [class.has-border]="list.description">{{list.title}}</h3><p md-subheader>{{list.description}}</p>
+            <h3 md-header [class.has-border]="list.description">{{list.title}}</h3>
+            <p md-subheader>{{list.description}}</p>
         </div>
 
         <!-- add button? -->
@@ -59,16 +60,17 @@
             </salsah-projects-list>
 
             <salsah-resource-types-list *ngSwitchCase="'resource-type'"
-                                    [restrictedBy]="list.restrictedBy"
-                                    (toggleItem)="toggleDetail($event, $event)">
+                                        [restrictedBy]="list.restrictedBy"
+                                        (toggleItem)="toggleDetail($event, $event)">
             </salsah-resource-types-list>
 
             <salsah-collections-list *ngSwitchCase="'collection'"></salsah-collections-list>
 
             <div *ngSwitchCase="'resource'">
                 <salsah-resources-list *ngIf="!rerender"
-                                      [searchParam]="list.restrictedBy"
-                                      (toggleItem)="toggleDetail($event, $event)">
+                                       [listType]="list.showAs"
+                                       [searchParam]="list.restrictedBy"
+                                       (toggleItem)="toggleDetail($event, $event)">
                 </salsah-resources-list>
             </div>
 

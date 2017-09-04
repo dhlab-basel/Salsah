@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChange} from '@angular/core';
 import {MdDialog, MdDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
@@ -48,7 +48,7 @@ export interface AddData {
  *
  * Both input type objects are defined in framework-for-listings.component.ts
  */
-export class FrameworkForListingsComponent implements OnInit {
+export class FrameworkForListingsComponent implements OnInit, OnChanges {
 
     // get the list data
     @Input() list: ListData;
@@ -106,8 +106,7 @@ export class FrameworkForListingsComponent implements OnInit {
                 statusText: 'There\'s no specified list data in FrameworkForListings!'
             };
             this.list = <ListData>{};
-        }
-        else {
+        } else {
             this.notYetImplemented.route = this.list.content;
 
             if (this.list.content === 'resource') {
@@ -122,6 +121,10 @@ export class FrameworkForListingsComponent implements OnInit {
         }
     }
 
+    ngOnChanges() {
+        console.log(this.list);
+    }
+
     //
     // toggle (open/close) the detail view
     toggleDetail($event) {
@@ -132,8 +135,7 @@ export class FrameworkForListingsComponent implements OnInit {
             // the user clicked on the already selected item
             // close the detail view
             this.closeDetailView();
-        }
-        else {
+        } else {
             if (this.listSize === 'large') {
                 this.listSize = 'small';
                 this.position = 'left';

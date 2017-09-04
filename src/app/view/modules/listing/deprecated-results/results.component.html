@@ -19,7 +19,7 @@
         <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
         <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
-            <!-- show the results in a simple list -->
+            <!-- show the deprecated-results in a simple list -->
             <!--
             <salsah-resources-list *ngIf="selectedView=='list' && result"
                                   class="list-view"
@@ -27,7 +27,7 @@
                                   (openResource)="openResource($event, $event)">
             </salsah-resources-list>
             -->
-            <!-- show the results in a grid list -->
+            <!-- show the deprecated-results in a grid list -->
             <salsah-resource-grid-list *ngIf="selectedView=='grid' && result"
                                        class="grid-view"
                                        [result]="result"

@@ -4,8 +4,8 @@ $text: rgba($dark, .6);
 /*
 input[type="file"]::-webkit-search-decoration,
 input[type="file"]::-webkit-search-cancel-button,
-input[type="file"]::-webkit-search-results-button,
-input[type="file"]::-webkit-search-results-decoration {
+input[type="file"]::-webkit-search-deprecated-results-button,
+input[type="file"]::-webkit-search-deprecated-results-decoration {
   display: none;
 }
 

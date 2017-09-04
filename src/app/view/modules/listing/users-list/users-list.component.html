@@ -6,9 +6,6 @@
 
 <!-- if we have the data: show the list-->
 <div *ngIf="num > 0; else noData"  [ngSwitch]="listType">
-    <!-- list if "showAsTable" is false -->
-
-
     <!-- table if "showAsTable" is true -->
     <table *ngSwitchCase="'table'" class="salsah-table">
         <tr>

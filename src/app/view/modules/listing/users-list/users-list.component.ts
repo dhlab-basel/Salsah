@@ -119,8 +119,7 @@ export class UsersListComponent implements OnInit {
                         this.isLoading = false;
                     }
                 );
-        }
-        else {
+        } else {
             // get all users from knora
             this._userService.getAllUsers()
                 .subscribe(
@@ -155,8 +154,7 @@ export class UsersListComponent implements OnInit {
             // close the detail view
             this.selectedRow = undefined;
             this.toggleItem.emit({id, index});
-        }
-        else {
+        } else {
             // open the detail view
             this.selectedRow = index;
             this.toggleItem.emit({id, index});

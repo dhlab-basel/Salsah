@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnInit, Output} from '@angular/core';
 import {ListData} from '../../modules/framework/framework-for-listings/framework-for-listings.component';
 import {ActivatedRoute, Params} from '@angular/router';
 
@@ -22,6 +22,33 @@ import {ActivatedRoute, Params} from '@angular/router';
     styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent implements OnInit {
+
+    @Output() change: EventEmitter<any> = new EventEmitter<any>();
+
+    public counter: number = 0;
+
+    public selectedView: string = 'list';
+
+    viewOptions = [
+        {
+            name: 'list',
+            title: 'List',
+            isDisabled: false,
+            icon: 'view_headline'
+        },
+        {
+            name: 'grid',
+            title: 'Grid',
+            isDisabled: false,
+            icon: 'view_module'
+        },
+        {
+            name: 'table',
+            title: 'Table',
+            isDisabled: true,
+            icon: 'view_comfy'
+        }
+    ];
 
     // here we can reuse the framework-for-listings component:
     // shows a list of users and the possibility to create new users
@@ -33,7 +60,7 @@ export class SearchResultsComponent implements OnInit {
         title: 'Results: ',
         description: 'Looked for: ',
         content: 'resource',
-        showAs: undefined,
+        showAs: this.selectedView,
         restrictedBy: ''
     };
 
@@ -50,6 +77,10 @@ export class SearchResultsComponent implements OnInit {
             this.list.restrictedBy = params['q'];
 
         });
+    }
+
+    public changeView(view: string): void {
+        this.list.showAs = view;
     }
 
 }

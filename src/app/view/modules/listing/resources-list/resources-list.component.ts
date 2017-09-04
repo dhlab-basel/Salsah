@@ -27,10 +27,11 @@ import {MessageData} from '../../message/message.component';
 export class ResourcesListComponent implements OnInit {
 
     @Input() searchParam: any;
-
-//no    @Output()
+    @Input() listType?: string;
 
     @Output() toggleItem = new EventEmitter<any>();
+
+    cols: number = 3;
 
     public isLoading: boolean = true;
     public errorMessage: any;
@@ -54,6 +55,9 @@ export class ResourcesListComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.listType === 'grid') {
+            this.cols = 3;
+        }
 
         this._searchService.doSearch(this.searchParam)
             .subscribe(
@@ -74,11 +78,20 @@ export class ResourcesListComponent implements OnInit {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
+            if (this.cols > 0) {
+                // in the case of the grid, show the grid list after close
+                this.listType = 'grid';
+                this.cols = 3;
+            }
             this.toggleItem.emit({id, index});
-        }
-        else {
+        } else {
             // open the detail view
             this.selectedRow = index;
+            if (this.cols > 0) {
+                // in the case of the grid, show the default list view here
+                this.listType = 'list';
+                this.cols = 1;
+            }
             this.toggleItem.emit({id, index});
         }
 
