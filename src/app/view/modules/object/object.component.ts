@@ -65,18 +65,14 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                         let resourceSeq: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-                        //console.log(resourceSeq);
-
                         // get resource class Iris from response
                         let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
-
-                        // console.log(resourceClassIris);
 
                         // request ontology information about resource class Iris (properties are implied)
                         this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
                             (resourceClassInfos: OntologyInformation) => {
 
-                                // assign ontology information to a variable so it can be used in the component's template
+                                // initialize ontology information
                                 this.ontologyInfo = resourceClassInfos;
                                 this.resources = resourceSeq.resources;
 
@@ -85,7 +81,7 @@ export class ObjectComponent implements OnChanges, OnInit {
                             (err) => {
 
                                 console.log("cache request failed: " + err);
-                            })
+                            });
                     }, function (err) {
 
                         console.log("JSONLD of full resource request could not be expanded:" + err);
@@ -118,11 +114,26 @@ export class ObjectComponent implements OnChanges, OnInit {
                         let promise = jsonld.promises.compact(result.body, {});
                         promise.then((compacted) => {
                                 let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
-                                // Append elements of regions.resources to resources[0].incoming
-                                Array.prototype.push.apply(resources[0].incomingRegions, regions.resources);
-                                if (this.osdViewer) {
-                                    this.osdViewer.updateRegions();
-                                }
+
+                                // get resource class Iris from response
+                                let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+                                // request ontology information about resource class Iris (properties are implied)
+                                this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                                    (resourceClassInfos: OntologyInformation) => {
+                                        // update ontology information
+                                        this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+
+                                        // Append elements of regions.resources to resources[0].incoming
+                                        Array.prototype.push.apply(resources[0].incomingRegions, regions.resources);
+                                        if (this.osdViewer) {
+                                            this.osdViewer.updateRegions();
+                                        }
+                                    },
+                                    (err) => {
+
+                                        console.log("cache request failed: " + err);
+                                    });
                             },
                             function (err) {
                                 console.log("JSONLD of regions request could not be expanded:" + err);
@@ -144,22 +155,22 @@ export class ObjectComponent implements OnChanges, OnInit {
                     promise.then((compacted) => {
                             let imageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-                            // sort them by seqnum
-                            // TODO: Implement sorting for extended search v2
-                            /*let imageRepresentationsSorted = imageRepresentations.resources.sort(
-                                (res1, res2) => {
-                                    if (res1.properties[AppConfig.KnoraApiV2WithValueObjectPath+ 'seqnum'] < res2.properties[AppConfig.KnoraApiV2WithValueObjectPath + 'seqnum']) {
-                                        return -1
-                                    } else {
-                                       return 1
-                                    }
-                                }
-                            );*/
+                            // get resource class Iris from response
+                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
-                            // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
-                            Array.prototype.push.apply(resources[0].incomingStillImageRepresentations, imageRepresentations.resources);
+                            // request ontology information about resource class Iris (properties are implied)
+                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                                (resourceClassInfos: OntologyInformation) => {
+                                    // update ontology information
+                                    this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
 
+                                    // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
+                                    Array.prototype.push.apply(resources[0].incomingStillImageRepresentations, imageRepresentations.resources);
+                                },
+                                (err) => {
 
+                                    console.log("cache request failed: " + err);
+                                });
                         },
                         function (err) {
                             console.log("JSONLD of regions request could not be expanded:" + err);
@@ -171,7 +182,42 @@ export class ObjectComponent implements OnChanges, OnInit {
                     this.errorMessage = <any>error;
                     this.isLoading = false;
                 }
-            )
+            );
+
+            // check for incoming links for the current resource
+            this._incomingService.getIncomingLinksForResource(resources[0].id).subscribe(
+                (result: ApiServiceResult) => {
+                    let promise = jsonld.promises.compact(result.body, {});
+                    promise.then((compacted) => {
+                            let incomingResources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                            // get resource class Iris from response
+                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+                            // request ontology information about resource class Iris (properties are implied)
+                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                                (resourceClassInfos: OntologyInformation) => {
+                                    // update ontology information
+                                    this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+
+                                    // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
+                                    Array.prototype.push.apply(resources[0].incomingLinks, incomingResources.resources);
+
+                                },
+                                (err) => {
+
+                                    console.log("cache request failed: " + err);
+                                });
+                        },
+                        function (err) {
+                            console.log("JSONLD of regions request could not be expanded:" + err);
+                        });
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                    this.isLoading = false;
+                }
+            );
 
         }
 

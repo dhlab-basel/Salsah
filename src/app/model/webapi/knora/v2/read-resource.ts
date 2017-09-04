@@ -28,4 +28,6 @@ export interface ReadResource {
 
     incomingStillImageRepresentations: Array<ReadResource>;
 
+    incomingLinks: Array<ReadResource>;
+
 }

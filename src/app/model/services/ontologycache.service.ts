@@ -120,6 +120,47 @@ export class OntologyInformation {
     }
 
     /**
+     *
+     * Merge the given [[OntologyInformation]] into the current instance,
+     * updating the existing information.
+     *
+     * @params ontoInfo the given [[OntologyInformation]] that has to be intergrated.
+     */
+    updateOntologyInformation(ontoInfo: OntologyInformation): void {
+
+        // update resourceClassesForNamedGraph
+        let newResourceClassesForNamedGraph = ontoInfo.getResourceClassForNamedGraph();
+
+        for (let newResClassForNamedGraph in newResourceClassesForNamedGraph) {
+            this.resourceClassesForNamedGraph[newResClassForNamedGraph] = newResourceClassesForNamedGraph[newResClassForNamedGraph]
+        }
+
+        // update resourceClasses
+        let newResourceClasses = ontoInfo.getResourceClasses();
+
+        for (let newResClass in newResourceClasses) {
+            this.resourceClasses[newResClass] = newResourceClasses[newResClass];
+        }
+
+        // update properties
+        let newProperties = ontoInfo.getProperties();
+
+        for (let newProp in newProperties) {
+            this.properties[newProp] = newProperties[newProp];
+        }
+
+    }
+
+    /**
+     * Get all resource classes definitions for named graphs.
+     *
+     * @returns {ResourceClassesForNamedGraph}
+     */
+    getResourceClassForNamedGraph() {
+        return this.resourceClassesForNamedGraph;
+    }
+
+    /**
      * Get all resource classes.
      *
      * @returns {ResourceClasses}
@@ -167,19 +208,19 @@ export class OntologyInformation {
      */
     getLabelForProperty(property: string): string {
 
-    if (property !== undefined) {
+        if (property !== undefined) {
 
-        let propDef = this.properties[property];
+            let propDef = this.properties[property];
 
-        if (propDef !== undefined && propDef.label !== undefined) {
-            return propDef.label
+            if (propDef !== undefined && propDef.label !== undefined) {
+                return propDef.label
+            } else {
+                console.log(`OntologyInformation: no label found for ${property} in properties`);
+            }
         } else {
-            console.log(`OntologyInformation: no label found for ${property} in properties`);
+            console.log("call of OntologyInformation.getLabelForProperty without argument property");
         }
-    } else {
-        console.log("call of OntologyInformation.getLabelForProperty without argument property");
     }
-}
 
 }
 
