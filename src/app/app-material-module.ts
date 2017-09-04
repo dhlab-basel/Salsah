@@ -33,7 +33,8 @@ import {
     MdTooltipModule,
     StyleModule
 } from '@angular/material';
-import {CdkTableModule} from '@angular/cdk';
+
+//import {CdkTableModule} from '@angular/cdk';
 
 @NgModule({
     imports: [
@@ -68,7 +69,7 @@ import {CdkTableModule} from '@angular/cdk';
         MdToolbarModule,
         MdTooltipModule,
         MdNativeDateModule,
-        CdkTableModule,
+//        CdkTableModule,
         StyleModule
     ],
 
@@ -104,7 +105,7 @@ import {CdkTableModule} from '@angular/cdk';
         MdToolbarModule,
         MdTooltipModule,
         MdNativeDateModule,
-        CdkTableModule,
+//        CdkTableModule,
         StyleModule
     ]
 })
