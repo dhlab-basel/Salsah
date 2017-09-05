@@ -4,7 +4,7 @@
              [class.drag-over]="dragStatus">
 
         <!-- 1) select file (browse or drag'n'drop) -->
-        <div class="file-upload-zone" *ngSwitchCase="'upload'" salsahDnd (filesChangeEmitter)="onFilesChange($event)" (filesInvalidEmitter)="onFileInvalids($event)" [allowed_extensions]="['png', 'jpg', 'bmp']" >
+        <div class="file-upload-zone" *ngSwitchCase="'upload'" salsahDnd (filesChangeEmitter)="onFileChanges($event)" (filesInvalidEmitter)="onFileInvalids($event)" [allowed_extensions]="['png', 'jpg', 'bmp']" >
 
             <input id="x-file-upload"
                    class="x-file-input"
@@ -17,8 +17,8 @@
             <div class="upload-form center">
 
             </div>
-            -->
             <button type="button" (click)="upload()">Upload</button>
+            -->
         </div>
 
         <!-- OR 2) set file by url -->
@@ -44,7 +44,7 @@
 
         <!-- AND after upload: 3) cancel button to delete the uploaded file -->
         <!-- position: in the top right corner -->
-        <button class="cancel-uploader" md-icon-button *ngIf="viewType === 'preview'" (click)="delete($event)">
+        <button class="cancel-uploader" md-icon-button *ngIf="viewType === 'preview'" (click)="deleteFile($event)">
             <md-icon>delete</md-icon>
         </button>
 

@@ -49,21 +49,18 @@ input[type="file"] {
     border: 2px solid $text;
   }
 
-  .upload-form {
+  .x-file-input {
+    height: 0;
+    max-width: 0;
+    opacity: 0;
+    width: 1px;
+    z-index: -1;
+  }
 
-    .xy-file-input {
-      height: 0;
-      max-width: 0;
-      opacity: 0;
-      width: 1px;
-      z-index: -1;
-    }
-
-    .x-file-label {
-      cursor: pointer;
-      display: flex;
-      padding: 58px 0;
-    }
+  .x-file-label {
+    cursor: pointer;
+    display: flex;
+    padding: 58px 0;
   }
 }
 

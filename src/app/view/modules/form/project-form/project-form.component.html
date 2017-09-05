@@ -60,7 +60,7 @@
             <!-- after uploading logo or setting url replace it with the logo -->
             <tr>
                 <td colspan="3">
-                    <salsah-file-uploader [file]="logo"></salsah-file-uploader>
+                    <salsah-file-uploader [file]="logo" (setFiles)="getFiles($event)"></salsah-file-uploader>
                     <!--
                                         <md-input-container>
                                             <input mdInput
@@ -69,6 +69,10 @@
                                         </md-input-container>
                                         add a logo
                     -->
+                    <br>
+                    <!-- the input will be hidden in the future -->
+                        <input [placeholder]="formLabels.logo.name"
+                               formControlName="logo">
                 </td>
             </tr>
         </table>

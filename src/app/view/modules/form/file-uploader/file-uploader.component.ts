@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -12,11 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
-
-import {Http} from '@angular/http';
-import {FileUploader} from '@uniprank/ng2-file-uploader';
-import {HttpRequest} from '@angular/common/http';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
     selector: 'salsah-file-uploader',
@@ -26,6 +22,8 @@ import {HttpRequest} from '@angular/common/http';
 export class FileUploaderComponent implements OnInit {
 
     @Input() file?: string;
+
+    @Output() setFiles = new EventEmitter<any>();
 
     private fileList : any = [];
     private invalidFiles : any = [];
@@ -54,7 +52,7 @@ export class FileUploaderComponent implements OnInit {
         this.viewType = (this.viewType === 'upload' ? 'url' : 'upload')
     }
 
-    onFilesChange(fileList : Array<File>){
+    onFileChanges(fileList : Array<File>){
         this.fileList = fileList;
     }
 
@@ -77,12 +75,10 @@ export class FileUploaderComponent implements OnInit {
 
     fileChangeEvent(fileInput: any) {
 
-        console.log('fileChangeEvent', fileInput);
-
         this.filesToUpload = <Array<File>> fileInput.target.files;
 
-        console.log(this.fileList);
-        console.log(this.filesToUpload);
+        this.setFiles.emit(this.filesToUpload);
+
 //        this.upload();
     }
 
@@ -108,7 +104,7 @@ export class FileUploaderComponent implements OnInit {
         });
     }
 
-    delete(ev) {
+    deleteFile(ev) {
         ev.preventDefault();
         this.file = undefined;
         this.viewType = 'upload';

@@ -168,6 +168,10 @@ const appRoutes: Routes = [
             {
                 path: 'uploader',
                 component: FileUploaderComponent
+            },
+            {
+                path: 'new-project',
+                component: ProjectFormComponent
             }
         ]
     },

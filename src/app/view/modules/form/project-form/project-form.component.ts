@@ -43,7 +43,7 @@ export class ProjectFormComponent implements OnInit {
 
     project: ProjectItem = new ProjectItem();
 
-    logo: string;
+    logo: string = null;
 
     existingShortNames: [RegExp] = [
         new RegExp('project')
@@ -60,7 +60,8 @@ export class ProjectFormComponent implements OnInit {
         logo: {
             upload: 'Upload a logo',
             or: 'OR',
-            url: 'Set an URL'
+            url: 'Set an URL',
+            name: 'Logo file name or URL'
         },
         keywords: 'Keywords'
     };
@@ -149,7 +150,12 @@ export class ProjectFormComponent implements OnInit {
 
         console.log(this.form);
         */
-        this.logo = proj.logo;
+
+        console.log(proj.logo);
+
+        if(proj.logo !== undefined) {
+            this.logo = proj.logo;
+        }
 
         this.form = this._fb.group({
 //            'shortname': new FormControl({value: proj.shortname}),
@@ -166,6 +172,9 @@ export class ProjectFormComponent implements OnInit {
             'selfjoin': [false],
             'keywords': [proj.keywords]
         });
+
+
+        console.log(this.form);
 
         this.isLoading = false;
 
@@ -275,6 +284,11 @@ export class ProjectFormComponent implements OnInit {
             uploadingFile.setAbort();
             alert('File is too large');
         }
+    }
+
+    getFiles(files: any): void {
+        this.logo = files[0].name;
+        console.log('getFile: ', files[0].name);
     }
 
 }

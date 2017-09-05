@@ -122,7 +122,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        console.log(this.list);
+//        console.log(this.list);
     }
 
     //
