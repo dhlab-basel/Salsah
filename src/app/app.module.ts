@@ -102,6 +102,7 @@ import {SearchResultsComponent} from './view/search/search-results/search-result
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
 import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {DndDirective} from './view/modules/other/dnd.directive';
+import { ResizeGridDirective } from './view/modules/other/resize-grid.directive';
 
 
 @NgModule({
@@ -166,6 +167,7 @@ import {DndDirective} from './view/modules/other/dnd.directive';
         ResourceObjectComponent,
         FileUploaderComponent,
         DndDirective,
+        ResizeGridDirective,
     ],
     imports: [
         BrowserModule,

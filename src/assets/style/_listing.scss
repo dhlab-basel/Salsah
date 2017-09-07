@@ -17,27 +17,47 @@
 
 }
 
-
 // b) grid list
 .salsah-grid-list {
 
   .salsah-grid-tile {
-    height: 100%;
-    margin: 6px;
-    max-width: 400px;
-    width: 100%;
+    max-height: 308px;
+    max-width: 208px;
 
-    .mat-card {
-      height: 88%;
-      width: 100%;
-      background: transparent;
-    }
+  }
+}
 
-    .salsah-preview-image {
-      height: 240px;
-      object-fit: contain;
-      width: 100%;
-    }
+.mat-card.salsah-preview {
+  background: transparent;
+  height: 100%;
+  max-height: 300px;
+  max-width: 200px;
+  padding: 0 12px;
+  width: 100%;
+
+  .salsah-preview-image {
+    height: 153px;
+    margin: 0 -12px;
+    object-fit: contain;
+    width: 204px;
+  }
+
+  .salsah-preview-icon {
+    display: block;
+    height: 153px;
+    margin: 0 auto;
+    object-fit: contain;
+    width: 48px;
+  }
+
+  .salsah-preview-title {
+    font-size: 14px;
+    font-weight: bolder;
+    height: 34px;
+  }
+
+  .salsah-preview-text {
+    font-size: 12px
   }
 }
 
@@ -63,7 +83,6 @@
   }
 }
 
-
 salsah-dashboard {
   margin-left: auto;
   margin-right: auto;
@@ -72,8 +91,6 @@ salsah-dashboard {
   md-card {
     margin: 2px;
   }
-
-
 
   .salsah-module-header {
     position: relative;

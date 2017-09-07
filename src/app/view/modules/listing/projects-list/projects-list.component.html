@@ -35,23 +35,31 @@
     </table>
 
     <!-- show the list in a grid -->
-    <md-grid-list *ngSwitchCase="'grid'" class="salsah-grid-list" cols="2" gutterSize="12px" rowHeight="480px">
-        <md-grid-tile *ngFor="let item of list | sortBy: sortKey; let i = index;" class="salsah-grid-tile salsah-link"
+    <md-grid-list *ngSwitchCase="'grid'"
+                  class="salsah-grid-list"
+                  salsahResizeGrid
+                  [cols]="columns"
+                  [gutterSize]="colGutter + 'px'"
+                  [rowHeight]="rowHeight + 'px'">
+        <md-grid-tile *ngFor="let item of list | sortBy: sortKey; let i = index;"
+                      class="salsah-grid-tile salsah-link"
                       (click)="open(item.shortname)">
-            <md-card>
+            <md-card class="salsah-preview">
                 <!-- original -->
                 <!--
                 <img md-card-image [src]="project.value.logo" class="salsah-preview-image"/>
                 -->
                 <!-- fake test data -->
                 <img salsahImage [image]="item.logo" [type]="'project'"
-                     [class.salsah-project-logo]="item.logo"
-                     [class.salsah-project-icon]="!item.logo"/>
+                     [class.salsah-preview-image]="item.logo"
+                     [class.salsah-preview-icon]="!item.logo"/>
+                <div class="salsah-preview-content">
+                    <md-card-title class="salsah-preview-title">{{item.longname}}</md-card-title>
+                    <md-card-content class="salsah-preview-text"
+                                     [innerHtml]="item.description | slice:0:150">
+                    </md-card-content>
+                </div>
 
-                <md-card-title>{{item.longname}}</md-card-title>
-                <md-card-content class="salsah-preview-text"
-                                 [innerHtml]="item.description | slice:0:300">
-                </md-card-content>
             </md-card>
         </md-grid-tile>
     </md-grid-list>
