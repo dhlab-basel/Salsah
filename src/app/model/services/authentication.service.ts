@@ -7,6 +7,7 @@ import {Http} from '@angular/http';
 import {UserService} from './user.service';
 import {UserProfile} from '../webapi/knora/v1/users/user-profile';
 import {User} from '../webapi/knora/v1/users/user';
+import {PermissionData} from '../webapi/knora/v1/permissions/permission-data';
 
 @Injectable()
 export class AuthenticationService extends ApiService {
@@ -32,7 +33,7 @@ export class AuthenticationService extends ApiService {
 
         return this.httpPost('/v2/authentication', {email: email, password: password}).map(
             (result: ApiServiceResult) => {
-                console.log('AuthenticationService - login - result:', result);
+//                console.log('AuthenticationService - login - result:', result);
 
                 const token = result.body && result.body.token;
                 if (token) {
@@ -47,28 +48,19 @@ export class AuthenticationService extends ApiService {
                     }));
 
                     // ask if the user is system admin
+                    /*
                     this._userService.getUserByEmail(email)
                         .subscribe(
                             (result: ApiServiceResult) => {
                                 let userProfile: UserProfile = result.getBody(User).userProfile;
                                 sessionStorage.setItem('currentUser', JSON.stringify(userProfile));
-                                const sysProject = 'http://www.knora.org/ontology/knora-base#SystemProject';
-                                const sysAdminGroup = 'http://www.knora.org/ontology/knora-base#SystemAdmin';
-                                if (userProfile.permissionData.groupsPerProject[sysProject] == sysAdminGroup) {
-                                    this.sysAdmin = true;
-                                    // localStorage.setItem('sysAdmin', 'true');
-                                    // restore username and jwt token in local storage to keep user logged in between page refreshes
-                                    localStorage.setItem('currentUser', JSON.stringify({
-                                        email: email,
-                                        token: token,
-                                        sysAdmin: this.sysAdmin
-                                    }));
-                                }
+
                             },
                             (error: ApiServiceError) => {
                                 console.log(error);
                             }
                         );
+                        */
 
                     // return true to indicate successful login
                     return true;
@@ -96,7 +88,7 @@ export class AuthenticationService extends ApiService {
 
         let status = 0;
 
-        let activeSession = false;
+        let activeSession: boolean = false;
 
         this.httpGet('/v2/authentication').subscribe(
             (result: ApiServiceResult) => {
@@ -123,6 +115,40 @@ export class AuthenticationService extends ApiService {
         );
 
         return activeSession;
+    }
+
+    system(): boolean {
+
+        let isSysAdmin: boolean = false;
+
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        let permissions: PermissionData;
+
+        const sysProject = 'http://www.knora.org/ontology/knora-base#SystemProject';
+        const sysAdminGroup = 'http://www.knora.org/ontology/knora-base#SystemAdmin';
+
+        this.httpGet('/v1/users/' + encodeURIComponent(currentUser.email) + '?identifier=email').subscribe(
+            (result: ApiServiceResult) => {
+
+                permissions = result.body.userProfile.permissionData;
+                if (permissions.groupsPerProject[sysProject] == sysAdminGroup) {
+                    isSysAdmin = true;
+                    // localStorage.setItem('sysAdmin', 'true');
+                    // restore username and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('currentUser', JSON.stringify({
+                        email: currentUser.email,
+                        token: currentUser.token,
+                        sysAdmin: isSysAdmin
+                    }));
+                }
+            },
+            (error: ApiServiceError) => {
+                console.log(error);
+            }
+        );
+
+        return isSysAdmin
     }
 
     /**

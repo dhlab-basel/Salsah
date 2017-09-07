@@ -111,9 +111,11 @@ export class HeaderToolbarComponent implements OnInit {
         this.activeSession = this._authenticationService.authenticate();
 
         if (JSON.parse(localStorage.getItem('currentUser'))) {
+            this.sysAdmin = this._authenticationService.system();
+
             this.userName = JSON.parse(localStorage.getItem('currentUser')).email;
 
-            this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+            //this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
             if (this.sysAdmin) {
                 this.userMenu.push({
                     title: 'System',
