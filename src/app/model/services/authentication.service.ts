@@ -54,7 +54,10 @@ export class AuthenticationService extends ApiService {
                         (res: ApiServiceResult) => {
                             // alert(email + ' ' + token);
                             permissions = res.body.userProfile.permissionData;
-                            isSysAdmin = permissions.groupsPerProject[sysProject][0] === sysAdminGroup;
+
+                            if (permissions.groupsPerProject[sysProject]) {
+                                isSysAdmin = permissions.groupsPerProject[sysProject][0] === sysAdminGroup;
+                            }
 
                             // store username and jwt token in local storage to keep user logged in between page refreshes
                             // and set the system admin property to true or false
@@ -104,7 +107,7 @@ export class AuthenticationService extends ApiService {
      */
     authenticate(): boolean {
 
-        let status = 0;
+        let status: number = 0;
 
         let activeSession: boolean = false;
 
@@ -134,7 +137,7 @@ export class AuthenticationService extends ApiService {
 
         return activeSession;
     }
-/*
+
     system(user?: string): boolean {
 
         let isSysAdmin: boolean = false;
@@ -173,7 +176,7 @@ export class AuthenticationService extends ApiService {
 
         return isSysAdmin;
     }
-    */
+
 
     /**
      * Sends a logout request to the server and removes the token from local storage.
