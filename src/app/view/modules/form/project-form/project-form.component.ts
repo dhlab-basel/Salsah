@@ -153,7 +153,7 @@ export class ProjectFormComponent implements OnInit {
 
         console.log(proj.logo);
 
-        if(proj.logo !== undefined) {
+        if (proj.logo !== undefined) {
             this.logo = proj.logo;
         }
 
@@ -174,7 +174,7 @@ export class ProjectFormComponent implements OnInit {
         });
 
 
-        console.log(this.form);
+        // console.log(this.form);
 
         this.isLoading = false;
 

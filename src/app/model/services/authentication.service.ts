@@ -14,7 +14,7 @@ export class AuthenticationService extends ApiService {
 
     public token: string;
 
-    public sysAdmin: boolean = false;
+    public isSysAdmin: boolean;
 
     constructor(_http: Http, private _userService: UserService) {
         super(_http);
@@ -31,6 +31,15 @@ export class AuthenticationService extends ApiService {
      */
     login(email: string, password: string): Observable<boolean> {
 
+        let isLoading: boolean = true;
+
+        // data to check if the user has system admin (sysAdmin) rights
+        let isSysAdmin: boolean = false;
+        let permissions: PermissionData;
+        const sysProject = 'http://www.knora.org/ontology/knora-base#SystemProject';
+        const sysAdminGroup = 'http://www.knora.org/ontology/knora-base#SystemAdmin';
+
+
         return this.httpPost('/v2/authentication', {email: email, password: password}).map(
             (result: ApiServiceResult) => {
 //                console.log('AuthenticationService - login - result:', result);
@@ -40,29 +49,39 @@ export class AuthenticationService extends ApiService {
                     // set token property
                     this.token = token;
 
-                    // store username and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({
-                        email: email,
-                        token: token,
-                        sysAdmin: this.sysAdmin
-                    }));
+                    // check if the user is sysAdmin
+                    this.httpGet('/v1/users/' + encodeURIComponent(email) + '?identifier=email').subscribe(
+                        (res: ApiServiceResult) => {
+                            // alert(email + ' ' + token);
+                            permissions = res.body.userProfile.permissionData;
+                            isSysAdmin = permissions.groupsPerProject[sysProject][0] === sysAdminGroup;
 
-                    // ask if the user is system admin
-                    /*
-                    this._userService.getUserByEmail(email)
-                        .subscribe(
-                            (result: ApiServiceResult) => {
-                                let userProfile: UserProfile = result.getBody(User).userProfile;
-                                sessionStorage.setItem('currentUser', JSON.stringify(userProfile));
+                            // store username and jwt token in local storage to keep user logged in between page refreshes
+                            // and set the system admin property to true or false
+                            localStorage.setItem('currentUser', JSON.stringify({
+                                email: email,
+                                token: token,
+                                sysAdmin: isSysAdmin
+                            }));
+                            isLoading = false;
 
-                            },
-                            (error: ApiServiceError) => {
-                                console.log(error);
-                            }
-                        );
-                        */
+                        },
+                        (error: ApiServiceError) => {
+                            console.log(error);
+                            isSysAdmin = false;
+                            // store username and jwt token in local storage to keep user logged in between page refreshes
+                            // and set a system admin property to false
+                            localStorage.setItem('currentUser', JSON.stringify({
+                                email: email,
+                                token: token,
+                                sysAdmin: this.isSysAdmin
+                            }));
+                            isLoading = false;
+                        }
+                    );
 
                     // return true to indicate successful login
+                    if (!isLoading) {}
                     return true;
                 } else {
 
@@ -81,7 +100,6 @@ export class AuthenticationService extends ApiService {
     /**
      * Checks if the user is logged in or not.
      *
-     * @param deny
      * @returns {boolean}
      */
     authenticate(): boolean {
@@ -116,26 +134,30 @@ export class AuthenticationService extends ApiService {
 
         return activeSession;
     }
-
-    system(): boolean {
+/*
+    system(user?: string): boolean {
 
         let isSysAdmin: boolean = false;
+        let currentUser: any;
 
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!user) {
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            user = currentUser.email;
+        }
 
         let permissions: PermissionData;
 
         const sysProject = 'http://www.knora.org/ontology/knora-base#SystemProject';
         const sysAdminGroup = 'http://www.knora.org/ontology/knora-base#SystemAdmin';
 
-        this.httpGet('/v1/users/' + encodeURIComponent(currentUser.email) + '?identifier=email').subscribe(
+        this.httpGet('/v1/users/' + encodeURIComponent(user) + '?identifier=email').subscribe(
             (result: ApiServiceResult) => {
 
                 permissions = result.body.userProfile.permissionData;
-                if (permissions.groupsPerProject[sysProject] == sysAdminGroup) {
-                    isSysAdmin = true;
-                    // localStorage.setItem('sysAdmin', 'true');
-                    // restore username and jwt token in local storage to keep user logged in between page refreshes
+                isSysAdmin = permissions.groupsPerProject[sysProject][0] === sysAdminGroup;
+
+                if (currentUser) {
+                    // reset the currentUser
                     localStorage.setItem('currentUser', JSON.stringify({
                         email: currentUser.email,
                         token: currentUser.token,
@@ -145,11 +167,13 @@ export class AuthenticationService extends ApiService {
             },
             (error: ApiServiceError) => {
                 console.log(error);
+                isSysAdmin = false;
             }
         );
 
-        return isSysAdmin
+        return isSysAdmin;
     }
+    */
 
     /**
      * Sends a logout request to the server and removes the token from local storage.

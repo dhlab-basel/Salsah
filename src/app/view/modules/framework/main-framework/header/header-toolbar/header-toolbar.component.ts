@@ -48,7 +48,7 @@ export class HeaderToolbarComponent implements OnInit {
     userName: string = undefined;
 
     sysAdmin: boolean = false;
-    activeSession = false;
+    activeSession: boolean = false;
 
     focusOnUserMenu = 'inactive';
     focusOnAddMenu = 'inactive';
@@ -102,21 +102,19 @@ export class HeaderToolbarComponent implements OnInit {
                 private _route: ActivatedRoute,
                 private _router: Router,
                 private _authenticationService: AuthenticationService) {
-
     }
-
 
     ngOnInit() {
         // check if a user is logged-in
         this.activeSession = this._authenticationService.authenticate();
 
         if (JSON.parse(localStorage.getItem('currentUser'))) {
-            this.sysAdmin = this._authenticationService.system();
 
             this.userName = JSON.parse(localStorage.getItem('currentUser')).email;
 
-            //this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-            if (this.sysAdmin) {
+            this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+
+            if (this.sysAdmin === true) {
                 this.userMenu.push({
                     title: 'System',
                     icon: 'build',

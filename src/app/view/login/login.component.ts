@@ -74,6 +74,8 @@ export class LoginComponent implements OnInit {
         this._authenticationService.login(lf.email, lf.password).subscribe(
             (result: boolean) => {
 
+                console.log(result);
+
                 /*
                 const session: Session = result.getBody(Session);
 
