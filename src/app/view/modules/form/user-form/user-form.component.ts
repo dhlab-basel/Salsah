@@ -52,6 +52,16 @@ export class UserFormComponent implements OnInit, OnChanges {
     // on submit
     @Output() submitData = new EventEmitter<any>();
 
+    // how many steps has the form?
+    max_steps: number = 3;
+    // or define an array of steps
+    steps: string[] = [
+        'User',
+        'Project',
+        'Save'
+    ];
+
+    counter: number = 0;
 
     // this component uses a service,
     // so we define an empty errorMessage to have one if needed

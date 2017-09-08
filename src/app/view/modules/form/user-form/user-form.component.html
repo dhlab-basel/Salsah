@@ -1,3 +1,36 @@
+<!--
+ the user form is a step by step form, which will be used in system and project admin
+ to create new user, to edit existing users or/and to add user to or remove from projects
+
+ the steps (depending on the usage / route) are as follow:
+    1) user profile
+        a) in case of project admin: select existing user OR create new user profile => b)
+        b) in case of system admin: create new user profile or edit old one
+
+    2) add user to project and set permissions
+        a) in case of project admin: only permission settings
+        b) in case of system admin: select project and set permissions or add user to project or remove user from project
+
+    3) special stuff like "add the user to system project" and set system permissions
+
+-->
+
+<div class="salsah-step-by-step-form">
+    <!-- form header with form stepper -->
+    <div class="salsah-form-stepper">
+        <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
+    </div>
+    <!-- form content -->
+    <div class="salsah-form-content">
+
+    </div>
+
+    <!-- form footer with navigation forward and backward -->
+    <div class="salsah-form-navigation">
+
+    </div>
+</div>
+
 <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
 
     <!-- select an existing user to add it to a project

@@ -13,11 +13,11 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {MdDialog} from "@angular/material";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
-import {BasicOntology, PropertyObject, ResourceClass} from "../../../../model/test-data/basic-ontology";
+import {MdDialog} from '@angular/material';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {BasicOntologyService} from '../../../../model/services/basic-ontology.service';
+import {BasicOntology, PropertyObject, ResourceClass} from '../../../../model/test-data/basic-ontology';
 
 
 @Component({
@@ -44,75 +44,75 @@ export class ResourceClassFormComponent implements OnInit {
     max_steps: number = 5;
     // or define an array of steps
     steps: string[] = [
-        "Media type",
-        "Resource",
-        "Properties",
-        "Permissions",
-        "Preview"
+        'Media type',
+        'Resource',
+        'Properties',
+        'Permissions',
+        'Preview'
     ];
 
     counter: number = 0;
 
     permissions: any = {
-        "categories": [
+        'categories': [
             {
-                id: "none",
-                label: "no permission",
-                description: ""
+                id: 'none',
+                label: 'no permission',
+                description: ''
             },
             {
-                id: "read",
-                label: "Read only",
-                description: ""
+                id: 'read',
+                label: 'Read only',
+                description: ''
             },
             {
-                id: "comment",
-                label: "Comment",
-                description: ""
+                id: 'comment',
+                label: 'Comment',
+                description: ''
             },
             {
-                id: "edit",
-                label: "Edit",
-                description: ""
+                id: 'edit',
+                label: 'Edit',
+                description: ''
             },
             {
-                id: "delete",
-                label: "Delete",
-                description: ""
+                id: 'delete',
+                label: 'Delete',
+                description: ''
             }
 
         ],
-        "groups": [
+        'groups': [
             {
-                id: "everyone",
-                label: "Everyone",
-                description: "Every visitor (without login)"
+                id: 'everyone',
+                label: 'Everyone',
+                description: 'Every visitor (without login)'
             },
             {
-                id: "guest",
-                label: "User",
-                description: "Logged in user and not a member of the project"
+                id: 'guest',
+                label: 'User',
+                description: 'Logged in user and not a member of the project'
             },
             {
-                id: "member",
-                label: "Member",
-                description: "Logged in user and member of the project"
+                id: 'member',
+                label: 'Member',
+                description: 'Logged in user and member of the project'
             },
             {
-                id: "admin",
-                label: "Admin",
-                description: "Logged in user and admin of the project"
+                id: 'admin',
+                label: 'Admin',
+                description: 'Logged in user and admin of the project'
             }
         ]
     };
 
 
-    //selector of cardinality (referred to as occurrence in the GUI)
+    // selector of cardinality (referred to as occurrence in the GUI)
     cardinalityList: string[] = [
-        "1",
-        "1-n",
-        "0-1",
-        "0-n"
+        '1',
+        '1-n',
+        '0-1',
+        '0-n'
     ];
 
     constructor(public dialog: MdDialog,
@@ -134,7 +134,7 @@ export class ResourceClassFormComponent implements OnInit {
             );
     }
 
-    //form functions
+    // form functions
     onSubmit(data: any): void {
         console.log('you submitted value:', data);
         console.log('your new resource is:', this.newResource);
@@ -146,32 +146,32 @@ export class ResourceClassFormComponent implements OnInit {
 //        console.log(this.basicOntology);
 //        console.log(this.newResource);
 
-        if(resClassId && cntr === 0) {
+        if (resClassId && cntr === 0) {
             // get the properties for this resClass and create a default resource class
 
             this.newResource = this.basicOntology.resourceClasses[resClassId];
 
             this.newResource.id = resClassId;
 
-            for(let rcProp in this.basicOntology.resourceClasses[resClassId].properties) {
+            for (let rcProp in this.basicOntology.resourceClasses[resClassId].properties) {
 //                this.newResource.properties[rcProp].permissions = this.basicOntology.defaultPermissions;
             }
 
             // add all default properties to the new resource properties
-            for(let prop in this.basicOntology.defaultProperties) {
+            for (let prop in this.basicOntology.defaultProperties) {
 //                this.newResource.properties[prop] = this.basicOntology.defaultProperties[prop];
 //                this.newResource.properties[prop].permissions = this.basicOntology.defaultPermissions;
             }
 
             // set the resource default permissions:
             this.newResource.permissions = this.basicOntology.defaultPermissions;
-            //console.log(this.newResource);
+            // console.log(this.newResource);
 
             console.log(this.newResource);
 
         }
 
-        if(this.counter === 3) {
+        if (this.counter === 3) {
             console.log(this.newResource);
 
         }
@@ -203,14 +203,12 @@ export class ResourceClassFormComponent implements OnInit {
 
     setProp(property: PropertyObject, event) {
 
-        if(event.target.checked === true) {
+        if (event.target.checked === true) {
 //            this.newResource.properties[property.key] = property.value;
-        }
-        else {
-
+        } else {
             let i: number = 0;
             for (let prop in this.newResource.properties) {
-                if(prop === property.key) {
+                if (prop === property.key) {
 //                    this.newResource.properties.splice(i, 1); // <-- this solution is not working ;(
                     this.newResource.properties[property.key] = undefined;
                 }
@@ -232,7 +230,7 @@ export class ResourceClassFormComponent implements OnInit {
 
     toggleAll(properties: any, event) {
         console.log(event);
-        if(event.target.checked === true) {
+        if (event.target.checked === true) {
             this.allProps = true;
             this.selectPropsText = 'Deselect all properties';
         }
