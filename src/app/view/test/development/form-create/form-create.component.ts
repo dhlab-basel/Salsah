@@ -69,4 +69,8 @@ export class FormCreateComponent implements OnInit {
         }
     }
 
+    refresh(): void {
+        window.location.reload();
+    }
+
 }

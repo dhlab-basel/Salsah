@@ -1,5 +1,9 @@
 @import '../../../../../assets/style/config';
 
+.optimize-direction {
+  transform: scale(-1, 1);
+}
+
 .form-dialog {
   position: relative;
 

@@ -45,6 +45,9 @@ export class UserFormComponent implements OnInit, OnChanges {
     // we can add the new created user direct to the specified project
     // and/or we need the autocomplete list of knora users
     @Input() restrictedBy?: string; // = iri of a project, to add the new generated user to the specified project directly
+    // if restrictedBy is defined, show the select user form
+    // incl. the material expansion
+    expand: number = 0;
 
 
     // before submit
@@ -62,6 +65,8 @@ export class UserFormComponent implements OnInit, OnChanges {
     ];
 
     counter: number = 0;
+
+    showPassword: boolean = false;
 
     // this component uses a service,
     // so we define an empty errorMessage to have one if needed
@@ -167,45 +172,54 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        // for the test environment
+        // this.restrictedBy = 'http://data.knora.org/projects/77275339';
+
+        // in case of project admin:
         // get a list of the users which are already team members;
         // that list should already be in the session storage
-        const members = sessionStorage.getItem('currentMembers');
+        if (this.restrictedBy) {
+            const members = sessionStorage.getItem('currentMembers');
 
-        this._userService.getAllUsers()
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.usersList = result.getBody(UsersList);
+            this._userService.getAllUsers()
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        this.usersList = result.getBody(UsersList);
 //              let tempUsersList: string[] = [];
-                    let i: number = 1;
-                    for (const u of this.usersList.users) {
-                        let exists: string = '';
-                        if (members.indexOf(u.user_id) > -1) {
-                            exists = '* ';
-                        }
-                        this.users[i] = {
-                            iri: u.user_id,
-                            name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
-                        };
+                        let i: number = 1;
+                        for (const u of this.usersList.users) {
+                            let exists: string = '';
+                            if (members.indexOf(u.user_id) > -1) {
+                                exists = '* ';
+                            }
+                            this.users[i] = {
+                                iri: u.user_id,
+                                name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
+                            };
 
 //                        this.usersList[i] = u.familyName + ', ' + u.givenName + ' (' + u.email + ')';
-                        i++;
-                    }
-
-                    this.users.sort(function (u1, u2) {
-                        if (u1.name < u2.name) {
-                            return -1;
-                        } else if (u1.name > u2.name) {
-                            return 1;
-                        } else {
-                            return 0;
+                            i++;
                         }
-                    });
 
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                }
-            );
+                        this.users.sort(function (u1, u2) {
+                            if (u1.name < u2.name) {
+                                return -1;
+                            } else if (u1.name > u2.name) {
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        });
+
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+                    }
+                );
+        } else {
+            this.expand = 1;
+        }
+
         /*
          this.filteredUsers = this.userCtrl.valueChanges
          .startWith(null)
@@ -214,9 +228,9 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        console.log(this.uf.valid);
+//        console.log(this.uf.valid);
         if (this.uf.valid) {
-            console.log(this.uf);
+//            console.log(this.uf);
         }
     }
 
@@ -240,12 +254,20 @@ export class UserFormComponent implements OnInit, OnChanges {
 //        return value && typeof value === 'object' ? value.name : value;
     }
 
+    setExpansion(index: number) {
+        this.expand = index;
+    }
+
     filterUsers(val: string) {
         if (val) {
             const filterValue = val.toLowerCase();
             return this.users.filter(user => user.name.toLowerCase().includes(filterValue));
         }
         return this.users;
+    }
+
+    toggleVisibility() {
+        this.showPassword = (!this.showPassword);
     }
 
     onSubmit(value: any): void {
@@ -281,20 +303,8 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     }
 
-    /*
-     filterUsers(val: string) {
-     return val ? this.usersList.filter(u => u.toLowerCase().indexOf(val.toLowerCase()) === 0) : this.usersList;
-     //        return this.usersList.filter(option => new RegExp(`^${val}`, 'gi').test(option));
-     }
-     */
 
-    openUser(val: any) {
-        console.log(val);
-    }
-
-    // get the user
-
-
+    // get the user profile, if selected from the list
     getUser(iri: string) {
         let selectedUser: UserProfile = new UserProfile();
 
@@ -315,6 +325,16 @@ export class UserFormComponent implements OnInit, OnChanges {
                     }
                 );
         }
+    }
+
+    prevStep(ev) {
+        ev.preventDefault();
+        this.counter--;
+    }
+
+    nextStep(ev) {
+        ev.preventDefault();
+        this.counter++;
     }
 
     getGroups() {
