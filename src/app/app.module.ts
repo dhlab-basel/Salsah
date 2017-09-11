@@ -103,6 +103,7 @@ import {ResourceObjectComponent} from './view/modules/object/resource-object/res
 import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {DndDirective} from './view/modules/other/dnd.directive';
 import { ResizeGridDirective } from './view/modules/other/resize-grid.directive';
+import { FormCreateComponent } from './view/test/development/form-create/form-create.component';
 
 
 @NgModule({
@@ -168,6 +169,7 @@ import { ResizeGridDirective } from './view/modules/other/resize-grid.directive'
         FileUploaderComponent,
         DndDirective,
         ResizeGridDirective,
+        FormCreateComponent,
     ],
     imports: [
         BrowserModule,

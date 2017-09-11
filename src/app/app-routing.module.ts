@@ -42,6 +42,7 @@ import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologi
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
 import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
+import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
 
 const appRoutes: Routes = [
     {
@@ -153,6 +154,17 @@ const appRoutes: Routes = [
             {
                 path: 'progress-stepper',
                 component: ProgressStepperComponent
+            },
+            {
+                path: 'form/:name', component: FormCreateComponent,
+                children: [
+                    {
+                        path: '', redirectTo: 'project', pathMatch: 'full'
+                    },
+                    {
+                        path: 'user', component: UserFormComponent
+                    }
+                ]
             },
             {
                 path: 'res-class',

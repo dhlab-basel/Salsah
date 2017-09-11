@@ -160,9 +160,9 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
     //
     // if the input "add" is set, this method opens a form dialog box with the new-XYZ-form component
     // the form-dialog component handles which nex-XYZ-form to use
-    openNew() {
+    openNew(form: string) {
         let dialogRef;
-        switch (this.list.content) {
+        switch (form) {
             case 'user':
             case 'project':
             case 'resource-type':
@@ -180,8 +180,8 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
                 const message: MessageData = {
                     status: 204,
                     statusMsg: 'Not yet implemented',
-                    statusText: 'TODO: add the list type "' + this.list + '" to the openNew method in FrameworkForListings',
-                    route: 'Missing list type: ' + this.list
+                    statusText: 'TODO: add the list type "' + form + '" to the openNew method in FrameworkForListings',
+                    route: 'Missing list type: ' + form
                 };
                 dialogRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
                     data: {

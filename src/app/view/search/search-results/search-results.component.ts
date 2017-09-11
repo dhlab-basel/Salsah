@@ -15,6 +15,7 @@
 import {Component, EventEmitter, OnChanges, OnInit, Output} from '@angular/core';
 import {ListData} from '../../modules/framework/framework-for-listings/framework-for-listings.component';
 import {ActivatedRoute, Params} from '@angular/router';
+import {Title} from '@angular/platform-browser';
 
 @Component({
     selector: 'salsah-search-results',
@@ -68,14 +69,15 @@ export class SearchResultsComponent implements OnInit {
     // ------------------------------------------------------------------------
 
 
-    constructor(private _route: ActivatedRoute) {
+    constructor(private _title: Title,
+                private _route: ActivatedRoute) {
     }
 
     ngOnInit() {
         this._route.params.subscribe((params: Params) => {
 
             this.list.restrictedBy = params['q'];
-
+            this._title.setTitle( 'Salsah | Looked for ' + this.list.restrictedBy);
         });
     }
 

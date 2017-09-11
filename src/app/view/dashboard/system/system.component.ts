@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserProfile} from '../../../model/webapi/knora/';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageData} from '../../modules/message/message.component';
+import {Title} from '@angular/platform-browser';
 
 @Component({
     selector: 'salsah-system',
@@ -19,26 +20,27 @@ export class SystemComponent implements OnInit {
 
     public menu: any = [
         {
-            name: 'Ontologies',
-            route: 'ontologies'
-        },
-        {
             name: 'Projects',
             route: 'projects'
         },
         {
             name: 'Users',
             route: 'users'
+        },
+        {
+            name: 'Ontologies',
+            route: 'ontologies'
         }
     ];
 
-    constructor(private _router: Router,
+    constructor(private _title: Title,
+                private _router: Router,
                 private _route: ActivatedRoute) {
     }
 
     ngOnInit() {
         // is there a logged in user? if true, does this user have sysAdmin rights?
-        if(localStorage.getItem('currentUser') !== null) {
+        if (localStorage.getItem('currentUser') !== null) {
             this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
             this.loggedInUser = true;
         } else {
@@ -46,10 +48,11 @@ export class SystemComponent implements OnInit {
         }
 
 
-        if(!this.sysAdmin) {
+        if (!this.sysAdmin) {
             // there's no sysAdmin; but is there a logged-in user?
-            // in that case show a access denied message or otherwise go to the login page
-            if(this.loggedInUser) {
+            // in that case show an access denied message or otherwise go to the login page
+            if (this.loggedInUser) {
+                this._title.setTitle( 'Salsah | Access denied');
                 this.errorMessage = <MessageData>{
                     status: 403,
                     statusText: 'You don\'t have the rights to open the requested page. Please ask a system administrator for help.'
@@ -65,6 +68,7 @@ export class SystemComponent implements OnInit {
                 window.location.replace(goToUrl);
             }
         } else {
+            this._title.setTitle( 'Salsah | System admin');
             this.isLoading = false;
         }
 

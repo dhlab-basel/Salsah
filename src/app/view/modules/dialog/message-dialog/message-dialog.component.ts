@@ -28,7 +28,7 @@ export class MessageDialogComponent implements OnInit {
 
     ngOnInit() {
 
-        if(this.dialogRef) {
+        if (this.dialogRef) {
             this.dialogRef.updateSize('800px', '560px');
         }
 

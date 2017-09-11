@@ -1,0 +1,7 @@
+<h3>Test your form</h3>
+<p>Switch to other forms:</p>
+<ul>
+    <li *ngFor="let form of existingForms">
+        <a [routerLink]="'/dev/form/' + form">{{form}}</a>
+    </li>
+</ul>
