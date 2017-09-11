@@ -12,9 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 import {MessageData} from '../../message/message.component';
+
+export interface FormSteps {
+    maxSteps?: number,
+    steps: string[]
+}
 
 @Component({
     selector: 'salsah-form-dialog',
@@ -22,6 +27,8 @@ import {MessageData} from '../../message/message.component';
     styleUrls: ['./form-dialog.component.scss']
 })
 export class FormDialogComponent implements OnInit {
+
+    @Input() steps?: FormSteps;
 
     fullSize: boolean = false;
 
@@ -53,7 +60,7 @@ export class FormDialogComponent implements OnInit {
     toggleFullSize() {
         this.fullSize = (!this.fullSize);
 
-        if(this.fullSize) {
+        if (this.fullSize) {
             this._dialogRef.updateSize('100%', '100%');
         } else {
             this._dialogRef.updateSize('auto', 'auto');

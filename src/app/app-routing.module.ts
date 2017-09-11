@@ -41,6 +41,7 @@ import {SystemProjectsComponent} from './view/dashboard/system/system-projects/s
 import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
 import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
+import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 
 const appRoutes: Routes = [
     {
@@ -170,8 +171,8 @@ const appRoutes: Routes = [
                 component: FileUploaderComponent
             },
             {
-                path: 'new-project',
-                component: ProjectFormComponent
+                path: 'new-user',
+                component: UserFormComponent
             }
         ]
     },
