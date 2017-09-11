@@ -173,7 +173,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         // for the test environment
-        // this.restrictedBy = 'http://data.knora.org/projects/77275339';
+        this.restrictedBy = 'http://data.knora.org/projects/77275339';
 
         // in case of project admin:
         // get a list of the users which are already team members;

@@ -27,7 +27,8 @@
         <!-- first step; case 1a and b) -->
         <section [hidden]="counter!==0">
             <md-accordion class="headers-align no-shadow">
-                <md-expansion-panel [expanded]="expand === 0" (opened)="setExpansion(0)" hideToggle="true" *ngIf="restrictedBy">
+                <md-expansion-panel [expanded]="expand === 0" (opened)="setExpansion(0)" hideToggle="true"
+                                    *ngIf="restrictedBy">
                     <md-expansion-panel-header>
                         <md-panel-title>
                             Add user
@@ -37,22 +38,22 @@
                             <md-icon>playlist_add</md-icon>
                         </md-panel-description>
                     </md-expansion-panel-header>
-                        <md-input-container class="full-width">
-                            <input mdInput
-                                   [mdAutocomplete]="users"
-                                   [formControl]="userCtrl"
-                                   [placeholder]="form.select">
-                            <md-icon mdSuffix class="salsah-link" (click)="userCtrl.reset()"
-                                     *ngIf="userCtrl.value && userCtrl.dirty">
-                                close
-                            </md-icon>
-                        </md-input-container>
-                        <md-autocomplete #users="mdAutocomplete" [displayWith]="displayFn">
-                            <md-option *ngFor="let user of reactiveUsers | async" [value]="user"
-                                       (onSelectionChange)="getUser(user?.iri)">
-                                {{ user?.name }}
-                            </md-option>
-                        </md-autocomplete>
+                    <md-input-container class="full-width">
+                        <input mdInput
+                               [mdAutocomplete]="users"
+                               [formControl]="userCtrl"
+                               [placeholder]="form.select">
+                        <md-icon mdSuffix class="salsah-link" (click)="userCtrl.reset()"
+                                 *ngIf="userCtrl.value && userCtrl.dirty">
+                            close
+                        </md-icon>
+                    </md-input-container>
+                    <md-autocomplete #users="mdAutocomplete" [displayWith]="displayFn">
+                        <md-option *ngFor="let user of reactiveUsers | async" [value]="user"
+                                   (onSelectionChange)="getUser(user?.iri)">
+                            {{ user?.name }}
+                        </md-option>
+                    </md-autocomplete>
                     <md-action-row>
                         <button md-button
                                 class="navigation-button center"
@@ -72,7 +73,7 @@
                             Create user
                         </md-panel-title>
                         <md-panel-description *ngIf="restrictedBy">
-                            If the user doesn't exist, create a new one
+                            If the user doesn't exist,<br>create a new one
                             <md-icon>add</md-icon>
                         </md-panel-description>
                     </md-expansion-panel-header>
@@ -94,7 +95,7 @@
                                    [formControl]="uf.controls['email']">
                             <md-hint class="salsah-hint">
                                 <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
-                                <span [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || !uf.controls['email'].touched"
+                                <span [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || uf.controls['email'].pristine"
                                       class="salsah-error">
                                     {{form.user.emailValidation}}
                                 </span>
@@ -105,18 +106,55 @@
                             <input mdInput [type]="showPassword ? 'text' : 'password'"
                                    [placeholder]="form.user.password + ' *'"
                                    [formControl]="uf.controls['password']">
-                            <md-icon mdSuffix class="input-icon icon-for-password" (click)="toggleVisibility()" [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></md-icon>
+                            <md-icon mdSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
+                                     [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></md-icon>
                             <md-hint class="salsah-hint">
                                 <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
-                                <span
-                                    [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].touched"
-                                    class="salsah-error">
+                                <span [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].pristine"
+                                      class="salsah-error">
                                         {{form.user.passwordHint}}
                                     </span>
                             </md-hint>
                         </md-form-field>
+
+                        <md-select class="large"
+                                   [formControl]="uf.controls['lang']"
+                                   [placeholder]="form.user.language"
+                                   [(ngModel)]="uf.controls['lang'].value">
+
+                            <md-option value="en">english</md-option>
+                            <md-option value="de">deutsch</md-option>
+                            <md-option value="fr">français</md-option>
+                            <md-option value="it">italiano</md-option>
+                        </md-select>
+
+                    </form>
+                    <md-action-row>
+                        <button md-button
+                                class="navigation-button center"
+                                color="primary"
+                                (click)="nextStep($event)"
+                                [disabled]="!uf.valid">
+                            Next
+                        </button>
+                    </md-action-row>
+                </md-expansion-panel>
+            </md-accordion>
+        </section>
+    </div>
+</div>
+
+<!-- next section
+{{form.system.admin}}
+                                    <md-slide-toggle [color]="'primary'" [formControl]="uf.controls['systemAdmin']"
+                                                     [(ngModel)]="uf.controls['systemAdmin'].value">
+                                    </md-slide-toggle>
+                                    -->
+
+
+<!--
                         <table class="full-width" cellspacing="0">
-                            <!-- line 1: pre and last name -->
+                            <!-- line 1: pre and last name --
                             <tr>
                                 <td colspan="1">
                                     <md-input-container class="full-width"
@@ -135,7 +173,7 @@
                                     </md-input-container>
                                 </td>
                             </tr>
-                            <!-- line 2: eMail address -->
+                            <!-- line 2: eMail address --
                             <tr>
                                 <td colspan="3">
                                     <md-input-container class="full-width"
@@ -153,7 +191,7 @@
                                     </md-input-container>
                                 </td>
                             </tr>
-                            <!-- line 3: password -->
+                            <!-- line 3: password --
                             <tr>
                                 <td colspan="3">
                                     <md-input-container class="full-width"
@@ -162,7 +200,7 @@
                                                [placeholder]="form.user.password + ' *'"
                                                [formControl]="uf.controls['password']">
                                         <md-hint class="salsah-hint">
-                                            <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
+                                            <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  --
                                             <span
                                                 [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].touched"
                                                 class="salsah-error">
@@ -172,7 +210,7 @@
                                     </md-input-container>
                                 </td>
                             </tr>
-                            <!-- line 4: preferred language -->
+                            <!-- line 4: preferred language --
                             <tr>
                                 <td colspan="2">
                                     <md-select [formControl]="uf.controls['lang']"
@@ -202,12 +240,4 @@
                                 Next
                             </button>
                         </md-action-row>
-
-                    </form>
-                </md-expansion-panel>
-
-
-            </md-accordion>
-        </section>
-    </div>
-</div>
+-->
