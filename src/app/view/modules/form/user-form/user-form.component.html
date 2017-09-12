@@ -26,15 +26,16 @@
     <div class="salsah-form-content">
         <!-- first step; case 1a and b) -->
         <section [hidden]="counter!==0">
+            <!-- 1a) project admin: add user to project; select an existing one -->
             <md-accordion class="headers-align no-shadow">
                 <md-expansion-panel [expanded]="expand === 0" (opened)="setExpansion(0)" hideToggle="true"
                                     *ngIf="restrictedBy">
                     <md-expansion-panel-header>
                         <md-panel-title>
-                            Add user
+                            Select user
                         </md-panel-title>
                         <md-panel-description>
-                            Select one from the list
+                            Look for an existing user
                             <md-icon>playlist_add</md-icon>
                         </md-panel-description>
                     </md-expansion-panel-header>
@@ -43,10 +44,8 @@
                                [mdAutocomplete]="users"
                                [formControl]="userCtrl"
                                [placeholder]="form.select">
-                        <md-icon mdSuffix class="salsah-link" (click)="userCtrl.reset()"
-                                 *ngIf="userCtrl.value && userCtrl.dirty">
-                            close
-                        </md-icon>
+                        <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
+                                 *ngIf="userCtrl.value && userCtrl.dirty">close</md-icon>
                     </md-input-container>
                     <md-autocomplete #users="mdAutocomplete" [displayWith]="displayFn">
                         <md-option *ngFor="let user of reactiveUsers | async" [value]="user"
@@ -66,7 +65,8 @@
                 </md-expansion-panel>
 
                 <md-divider *ngIf="restrictedBy"></md-divider>
-
+                <!-- 1a) project admin: if the user doesn't exist, create a new one
+                     1b) system admin: no selection; create new one only -->
                 <md-expansion-panel [expanded]="expand === 1" (opened)="setExpansion(1)" hideToggle="true">
                     <md-expansion-panel-header>
                         <md-panel-title>
@@ -140,6 +140,104 @@
                     </md-action-row>
                 </md-expansion-panel>
             </md-accordion>
+        </section>
+
+        <!-- second step; case 2a and b) -->
+        <section [hidden]="counter!==1">
+            <md-accordion class="headers-align no-shadow">
+                <!-- 2a) project admin: add user to project; here we need the project iri only -->
+                <md-expansion-panel [expanded]="expand === 0" (opened)="setExpansion(0)" hideToggle="true"
+                                    *ngIf="restrictedBy">
+                    <md-expansion-panel-header>
+                        <md-panel-title>
+                            Select user
+                        </md-panel-title>
+                        <md-panel-description>
+                            Look for an existing user
+                            <md-icon>playlist_add</md-icon>
+                        </md-panel-description>
+                    </md-expansion-panel-header>
+                    <md-input-container class="full-width">
+                        <input mdInput
+                               [mdAutocomplete]="users"
+                               [formControl]="userCtrl"
+                               [placeholder]="form.select">
+                        <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
+                                 *ngIf="userCtrl.value && userCtrl.dirty">close</md-icon>
+                    </md-input-container>
+                    <md-autocomplete #users="mdAutocomplete" [displayWith]="displayFn">
+                        <md-option *ngFor="let user of reactiveUsers | async" [value]="user"
+                                   (onSelectionChange)="getUser(user?.iri)">
+                            {{ user?.name }}
+                        </md-option>
+                    </md-autocomplete>
+                    <md-action-row>
+                        <button md-button
+                                class="navigation-button center"
+                                color="primary"
+                                (click)="nextStep($event)"
+                                [disabled]="!uf.valid">
+                            Next
+                        </button>
+                    </md-action-row>
+                </md-expansion-panel>
+
+                <!-- 2b) system admin: create user and select project to add the new user -->
+                <md-expansion-panel [expanded]="expand === 0" (opened)="setExpansion(0)" hideToggle="true"
+                                    *ngIf="restrictedBy">
+                    <md-expansion-panel-header>
+                        <md-panel-title>
+                            Select user
+                        </md-panel-title>
+                        <md-panel-description>
+                            Look for an existing user
+                            <md-icon>playlist_add</md-icon>
+                        </md-panel-description>
+                    </md-expansion-panel-header>
+                    <md-input-container class="full-width">
+                        <input mdInput
+                               [mdAutocomplete]="users"
+                               [formControl]="userCtrl"
+                               [placeholder]="form.select">
+                        <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
+                                 *ngIf="userCtrl.value && userCtrl.dirty">close</md-icon>
+                    </md-input-container>
+                    <md-autocomplete #users="mdAutocomplete" [displayWith]="displayFn">
+                        <md-option *ngFor="let user of reactiveUsers | async" [value]="user"
+                                   (onSelectionChange)="getUser(user?.iri)">
+                            {{ user?.name }}
+                        </md-option>
+                    </md-autocomplete>
+                    <md-action-row>
+                        <button md-button
+                                class="navigation-button center"
+                                color="primary"
+                                (click)="nextStep($event)"
+                                [disabled]="!uf.valid">
+                            Next
+                        </button>
+                    </md-action-row>
+                </md-expansion-panel>
+            </md-accordion>
+
+                <!-- 2a and b) set the permissions for this user in the selected project -->
+
+            <!-- action row to navigate forward (or backward) -->
+            <md-action-row>
+                <button md-button
+                        class="navigation-button center"
+                        color="warn"
+                        (click)="prevStep($event)">
+                    Back
+                </button>
+                <button md-button
+                        class="navigation-button center"
+                        color="primary"
+                        (click)="nextStep($event)"
+                        [disabled]="!uf.valid">
+                    Next
+                </button>
+            </md-action-row>
         </section>
     </div>
 </div>

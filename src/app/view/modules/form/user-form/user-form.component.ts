@@ -64,7 +64,7 @@ export class UserFormComponent implements OnInit, OnChanges {
         'Save'
     ];
 
-    counter: number = 0;
+    counter: number = 1;        // Default: 0; for developers: you have to change to step number where you're working on
 
     showPassword: boolean = false;
 
