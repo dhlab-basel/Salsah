@@ -26,6 +26,7 @@ import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 import {UserProfile} from '../../../../model/webapi/knora/';
 import {User} from '../../../../model/webapi/knora/v1/users/user';
+import {ProjectsList} from '../../../../model/webapi/knora/v1/projects/projects-list';
 
 @Component({
     selector: 'salsah-user-form',
@@ -34,52 +35,160 @@ import {User} from '../../../../model/webapi/knora/v1/users/user';
 })
 
 export class UserFormComponent implements OnInit, OnChanges {
+    // the user-form can be used to create new users or to edit existing users
 
-
-    // the user-form can be used to create new users or the edit existing users
-    // it can have an attribute called iri which creates the edit form
-    // otherwise the form is empty to create a new user
+    // it can have an attribute called iri which opens the edit form
+    // otherwise the form is empty to create new user
     @Input() iri?: string;
 
-    // if the attribute restrcitedBy is set
-    // we can add the new created user direct to the specified project
-    // and/or we need the autocomplete list of knora users
-    @Input() restrictedBy?: string; // = iri of a project, to add the new generated user to the specified project directly
-    // if restrictedBy is defined, show the select user form
-    // incl. the material expansion
-    expand: number = 0;
+    // project admin case: restrictedBy is the iri of the project
+    // in this case, the project admin adds a new (or existing) person to this project
+    @Input() restrictedBy?: string;
 
+    // the form is a step by step form
+    /* the steps (depending on the usage / route) are as follow:
+        1) user profile
+            a) in case of project admin: select existing user OR create new user profile => b)
+            b) in case of system admin: create new user profile or edit old one
 
+        2) add user to project and set permissions
+            a) in case of project admin: only permission settings
+            b) in case of system admin: select project and set permissions or add user to project or remove user from project
+
+        3) special stuff like "add the user to system project" and set system permissions
+
+     */
+
+    // step number in the form
+    step: number = 0; // Default: 0; for developers: you have to change to step number to open the step where you're working on
+
+    // outputs which should be sent to the parent component; form-dialog in this case
+    // TODO: it doesn't work yet
     // before submit
     @Output() validData = new EventEmitter<any>();
     // on submit
     @Output() submitData = new EventEmitter<any>();
 
+    // form settings
+
+    // autocomplete list preparation
+    // http request service:
+    // in case of an api error
+    errorMessage: any = undefined;
+
+    // case 1a) select user form
+    // autocomplete existing users
+    // users list for md-autocomplete
+    users: any = [];
+    filteredUsers: any;
+    // form controller for md-autocomplete
+    userCtrl: FormControl;
+
+    // case 2a) select project form
+    // autocomplete existing projects
+    projectsList: ProjectsList;
+    // special list for md-autocomplete
+    projects: any = [];
+    // form controller for md-autocomplete
+    projectCtrl: FormControl;
+
+    // case 1b) create new user form
+    // uf => user form control
+    uf: FormGroup;
+    // email and password validator
+    emailRegexp: any = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    passwordRegexp: any = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i;
+    // password visibility
+    showPassword: boolean = false;
+
+    public form: any = {
+        user: {
+            select: {
+                title: 'Select user',
+                description: 'Add an existing one',
+                autoComplete: 'just type a name here',
+                autoCompleteHint: '',
+                skip: 'Skip and create new user instead'
+            },
+            create: {
+                title: 'Create user',
+                description: 'If the user doesn\'t exist, create a new one',
+                givenName: 'First name',
+                familyName: 'Last name',
+                email: 'Email address',
+                emailHint: 'This will be your login name',
+                emailValidation: 'This doesn\'t appear to be a valid email address.',
+                password: 'Password',
+                passwordHint: 'Use at least 8 characters with one uppercase letter and one number.',
+                avatar: 'Upload a profile pic',
+                language: 'Default language'
+            }
+        },
+        project: {
+            select: {
+                title: 'Project member',
+                description: 'Add user to the project',
+                autoComplete: 'Just type a project name here',
+                autoCompleteHint: ''
+            },
+            existing: {
+                title: 'You\'re adding the user to the project ',
+                description: ''
+            },
+            permissions: {
+                admin: 'Administrative rights',
+                adminHint: 'What are admin rights? Describe it here (TODO)',
+                group: 'Group rights',
+                groupHint: 'What are group rights? Describe it here (TODO)'
+            }
+        },
+        system: {
+            title: 'System admin',
+            description: 'Set system admin rights for this user (only sys admin can do that)'
+        },
+        navigation: {
+            next: 'Next',
+            back: 'Back',
+            skip: 'Skip',
+            cancel: 'Cancel',
+            submit: 'Save'
+        }
+    };
+
+
+
+
+
+
+
+    // if restrictedBy is defined, show the select user form
+    // incl. the material expansion
+    expand: number = 0;
+
+
+
+
     // how many steps has the form?
     max_steps: number = 3;
     // or define an array of steps
-    steps: string[] = [
-        'User',
-        'Project',
-        'Save'
-    ];
+    steps: string[] = [];
 
-    counter: number = 1;        // Default: 0; for developers: you have to change to step number where you're working on
+    counter: number = 0;
 
-    showPassword: boolean = false;
+
 
     // this component uses a service,
     // so we define an empty errorMessage to have one if needed
-    errorMessage: any = undefined;
+
 
     // to add a user to a project, we need a list of all users first
     // list of users from the API
-    usersList: UsersList;
+
     // list of users for the md input autocomplete
-    users: any = [];
+
 
     // current project iri
-    projectIri: string = this.restrictedBy;
+//    projectIri: string = this.restrictedBy;
     // JSON.parse(localStorage.getItem('currentProject')).id;
 
     // list of users in the project;
@@ -87,13 +196,11 @@ export class UserFormComponent implements OnInit, OnChanges {
     // the auto complete list
     projectUsersList: UsersList;
 
-    // EXISTING user (list for auto completion)
-    // for the form (md input autocomplete) we need some controllers
-    userCtrl: FormControl;
+
 
     // and now some variables to store the value of the selected user
     currentUser = '';
-    reactiveUsers: any;
+//    reactiveUsers: any;
     tdUsers: any[];
 
     // selected user
@@ -101,49 +208,12 @@ export class UserFormComponent implements OnInit, OnChanges {
     userErrorMessage: any = undefined;
 
     // setting to reset the md input autocomplete
-    @ViewChild(NgModel) modelDir: NgModel;
+//    @ViewChild(NgModel) modelDir: NgModel;
 
     // (NEW) user form
     // the user form (uf) to create a new user account
 
 
-    uf: FormGroup;
-    // email and password validator
-    emailRegexp: any = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    passwordRegexp: any = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i;
-
-    // language package for all form fields...
-    // TODO: modify a language json file or db file for multilingual use; how we want to handle multi language?
-    public form: any = {
-        subtitle: 'Select a user or create a new one below',    // the main title is set in the parent component: formDialog
-        select: 'just type a name here',
-        user: {
-            existingUser: 'Add an existing user',
-            title: 'Create a new user account',
-            givenName: 'First name',
-            familyName: 'Last name',
-            email: 'Email address',
-            emailHint: 'This will be your login name',
-            emailValidation: 'This doesn\'t appear to be a valid email address.',
-            password: 'Password',
-            passwordHint: 'Use at least 8 characters with one uppercase letter and one number.',
-            avatar: 'Upload a profile pic',
-            language: 'Default language',
-            admin: 'Project admin?',
-            member: 'Add the new user to the project',
-            group: ''
-        },
-        permissions: {
-            admin: 'Administrative rights',
-            adminHint: 'What are admin rights? Describe it here (TODO)',
-            group: 'Group rights',
-            groupHint: 'What are group rights? Describe it here (TODO)'
-        },
-        system: {
-            admin: 'System admin?',
-            adminHint: 'What is sys admin? Describe it here (TODO)'
-        }
-    };
 
 
     constructor(public _userService: UserService,
@@ -154,7 +224,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
         this.userCtrl = new FormControl();
 
-        this.reactiveUsers = this.userCtrl.valueChanges
+        this.filteredUsers = this.userCtrl.valueChanges
             .startWith(this.userCtrl.value)
             .map(val => this.displayFn(val))
             .map(name => this.filterUsers(name));
@@ -179,15 +249,22 @@ export class UserFormComponent implements OnInit, OnChanges {
         // get a list of the users which are already team members;
         // that list should already be in the session storage
         if (this.restrictedBy) {
+            this.steps = [
+                'Select User',
+                'Create User',
+                'Project Permissions',
+                'Save'
+            ];
             const members = sessionStorage.getItem('currentMembers');
 
+            let usersList: UsersList;
             this._userService.getAllUsers()
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.usersList = result.getBody(UsersList);
+                        usersList = result.getBody(UsersList);
 //              let tempUsersList: string[] = [];
                         let i: number = 1;
-                        for (const u of this.usersList.users) {
+                        for (const u of usersList.users) {
                             let exists: string = '';
                             if (members.indexOf(u.user_id) > -1) {
                                 exists = '* ';
@@ -217,6 +294,12 @@ export class UserFormComponent implements OnInit, OnChanges {
                     }
                 );
         } else {
+            this.steps = [
+                'Create User',
+                'Select Projects',
+                'Project Permissions',
+                'Save'
+            ];
             this.expand = 1;
         }
 
@@ -228,10 +311,15 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
+        // still needed ????????????????????????????????
 //        console.log(this.uf.valid);
         if (this.uf.valid) {
 //            console.log(this.uf);
         }
+    }
+
+    setStep(index: number) {
+        this.step = index;
     }
 
     displayFn(value: any): string {
@@ -239,6 +327,7 @@ export class UserFormComponent implements OnInit, OnChanges {
             // the admin has selected a user
             // get the user data
             let selectedUser: string;
+            /*
             if (this.usersList) {
                 this.usersList.users.filter(function (user) {
                     if (user.user_id === value.iri) {
@@ -246,6 +335,7 @@ export class UserFormComponent implements OnInit, OnChanges {
                     }
                 });
             }
+            */
             return value && value.name && selectedUser;
         } else {
             // the admin is still typing; no selected user
@@ -253,6 +343,10 @@ export class UserFormComponent implements OnInit, OnChanges {
         }
 //        return value && typeof value === 'object' ? value.name : value;
     }
+
+
+
+
 
     setExpansion(index: number) {
         this.expand = index;
@@ -279,8 +373,8 @@ export class UserFormComponent implements OnInit, OnChanges {
 
                 // result.body.userProfile.userData.user_id
                 // this.project.id
-                if (this.projectIri) {
-                    this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.projectIri).subscribe(
+                if (this.restrictedBy) {
+                    this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.restrictedBy).subscribe(
                         (secondResult: ApiServiceResult) => {
                             console.log(secondResult.body);
 //                        this._projectTeam.closeDetailView();

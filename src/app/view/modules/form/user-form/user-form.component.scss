@@ -79,7 +79,7 @@ $select-user-width: 360px;
 
 }
 
-$form-width: 420;
+$form-width: 480;
 $gc-large: $form-width / 1.618;
 $gc-small: $form-width - $gc-large;
 
@@ -99,6 +99,10 @@ $gc-small: $form-width - $gc-large;
   .large {
     min-width: $form-width + px;
   }
+
+  .input-icon {
+    color: $black-60-opacity;
+  }
 }
 
 .headers-align .mat-expansion-panel-header-title,
@@ -112,5 +116,5 @@ $gc-small: $form-width - $gc-large;
 }
 
 .no-shadow .mat-expansion-panel {
-  box-shadow: none;
+//  box-shadow: none;
 }

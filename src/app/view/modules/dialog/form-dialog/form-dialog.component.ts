@@ -45,6 +45,8 @@ export class FormDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        // start in full size
+        this.toggleFullSize();
         this.notYetImplemented.route = this.data.form;
     }
 
