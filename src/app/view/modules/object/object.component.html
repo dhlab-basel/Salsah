@@ -37,7 +37,10 @@
 
     <!-- Check for incoming links -->
     <div *ngIf="resources[0]?.incomingLinks?.length > 0">
-        <p>incoming links: {{resources[0].incomingLinks.length}}</p>
+        <p>Incoming Links:</p>
+        <ul *ngFor="let incomingRes of  resources[0].incomingLinks">
+            <li>{{incomingRes.label}} ({{ontologyInfo?.getLabelForResourceClass(incomingRes.type)}})</li>
+        </ul>
     </div>
 
     <!-- Check if StillImageRepresentations are pointing to the current resource -->
