@@ -92,7 +92,7 @@ export class IncomingService extends SearchService {
             
             ?file a knora-api:StillImageFile .
         
-        }
+        } ORDER BY ?seqnum
 `;
 
         return this.doExtendedSearch(sparqlQueryStr);
