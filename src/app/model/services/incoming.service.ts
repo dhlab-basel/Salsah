@@ -128,13 +128,16 @@ export class IncomingService extends SearchService {
             
             ?incomingProp knora-api:objectType knora-api:Resource .
             
-            #FILTER NOT EXISTS {
-            #    ?incomingRes  knora-api:isPartOf <${resourceIri}> .
-            #}
+            knora-api:isRegionOf knora-api:objectType knora-api:Resource .
+            knora-api:isPartOf knora-api:objectType knora-api:Resource .
             
-            #FILTER NOT EXISTS {
-            #    ?incomingRes  knora-api:isRegionOf <${resourceIri}> .
-            #}
+            FILTER NOT EXISTS {
+               ?incomingRes  knora-api:isRegionOf <${resourceIri}> .
+            }
+               
+            FILTER NOT EXISTS {
+               ?incomingRes  knora-api:isPartOf <${resourceIri}> .
+            }
             
         }
         
