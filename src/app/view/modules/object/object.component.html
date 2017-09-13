@@ -1,7 +1,5 @@
 <p>{{resources[0]?.type}} ({{ontologyInfo?.getLabelForResourceClass(resources[0]?.type)}})</p>
 <p>{{resources[0]?.label}}</p>
-<p><a target="_blank" href="http://www.ub.unibas.ch/bernoulli/index.php/{{resources[0]?.label}}">BEBB</a></p>
-<p>{{resources[0]?.id}}</p>
 
 <md-list>
     <div md-line *ngFor="let prop of resources[0]?.properties | key">
