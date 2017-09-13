@@ -7,7 +7,7 @@ import {SearchService} from "./search.service";
 export class IncomingService extends SearchService {
 
     /**
-     * Returns all incoming Regions for a particular resource.
+     * Returns all incoming regions for a particular resource.
      */
     getIncomingRegions(resourceIRI: string): Observable<any> {
         let sparqlQueryStr = `
@@ -15,8 +15,6 @@ export class IncomingService extends SearchService {
 
       CONSTRUCT {
           ?region knora-api:isMainResource true .
-
-          ?region a knora-api:Region .
 
           ?region knora-api:isRegionOf <${resourceIRI}> .
 
@@ -58,7 +56,7 @@ export class IncomingService extends SearchService {
      * Returns all the StillImageRepresentations for the given resource, if any.
      * StillImageRepresentations link to the given resource via knora-base:isPartOf.
      *
-     * @param resourceIri the Iri of the resource whose StillImageRepresentations whose be returned.
+     * @param resourceIri the Iri of the resource whose StillImageRepresentations should be returned.
      * @returns {Observable<any>}
      */
     getStillImageRepresentationsForCompoundResource(resourceIri: string): Observable<any> {
@@ -66,7 +64,7 @@ export class IncomingService extends SearchService {
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
         
         CONSTRUCT {
-            ?page a knora-api:StillImageRepresentation .
+
             ?page knora-api:isMainResource true .
             
             ?page knora-api:isPartOf <${resourceIri}> .
@@ -99,6 +97,50 @@ export class IncomingService extends SearchService {
 
         return this.doExtendedSearch(sparqlQueryStr);
 
+    }
+
+
+    /**
+     *
+     * Returns all incoming links for the given resource Iri
+     * but incoming regions and still image representations.
+     *
+     * @param {string} resourceIri the Iri of the resource whose incoming links should be returned.
+     */
+    getIncomingLinksForResource(resourceIri: string): Observable<any> {
+        let sparqlQueryStr = `
+        PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
+        
+        
+        CONSTRUCT {
+        
+            ?incomingRes knora-api:isMainResource true .
+            
+            ?incomingRes ?incomingProp <${resourceIri}> .
+        
+        } WHERE {
+        
+            ?incomingRes a knora-api:Resource .
+            
+            ?incomingRes ?incomingProp <${resourceIri}> .
+            
+            <${resourceIri}> a knora-api:Resource .
+            
+            ?incomingProp knora-api:objectType knora-api:Resource .
+            
+            #FILTER NOT EXISTS {
+            #    ?incomingRes  knora-api:isPartOf <${resourceIri}> .
+            #}
+            
+            #FILTER NOT EXISTS {
+            #    ?incomingRes  knora-api:isRegionOf <${resourceIri}> .
+            #}
+            
+        }
+        
+        `;
+
+        return this.doExtendedSearch(sparqlQueryStr);
     }
 
 }

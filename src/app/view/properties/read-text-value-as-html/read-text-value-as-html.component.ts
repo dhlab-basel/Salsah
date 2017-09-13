@@ -14,7 +14,7 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-item';
-import {OntologyInformation} from "../../../model/services/ontologycache.service";
+import {OntologyInformation} from '../../../model/services/ontologycache.service';
 
 @Component({
     selector: 'read-text-value-as-html',
@@ -25,13 +25,15 @@ export class ReadTextValueAsHtmlComponent implements OnInit {
 
     @Input() valueObject: ReadTextValueAsHtml;
     @Input() ontologyInfo: OntologyInformation;
+    @Input() mathJax;
 
     constructor() {
     }
 
     ngOnInit() {
 
-        //console.log(this.valueObject);
+        // console.log(this.valueObject);
+
     }
 
 }

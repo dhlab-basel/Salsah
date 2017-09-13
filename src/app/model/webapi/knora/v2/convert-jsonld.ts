@@ -55,7 +55,9 @@ export module ConvertJSONLD {
             type: resourceJSONLD['@type'],
             label: resourceJSONLD[AppConfig.schemaName],
             properties: properties,
-            incoming: []
+            incomingRegions: [],
+            incomingStillImageRepresentations: [],
+            incomingLinks: []
         };
     }
 

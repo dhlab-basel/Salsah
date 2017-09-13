@@ -1,11 +1,11 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {Component, ViewChild} from '@angular/core';
 
-import { StillImageOSDViewerComponent } from './still-image-osdviewer.component';
-import { ReadStillImageFileValue } from "../../../model/webapi/knora/v2/read-property-item";
-import { ReadResource } from "../../../model/webapi/knora/v2/read-resource";
-import { ReadResourcesSequence } from "../../../model/webapi/knora/v2/read-resources-sequence";
-import { ConvertJSONLD } from "../../../model/webapi/knora/v2/convert-jsonld";
+import {StillImageOSDViewerComponent} from './still-image-osdviewer.component';
+import {ReadStillImageFileValue} from "../../../model/webapi/knora/v2/read-property-item";
+import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
+import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resources-sequence";
+import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 
 // create test input data
 
@@ -37,101 +37,103 @@ let testRegionCircle = createTestRegionCircle();
 let testRegionMulti = createTestRegionMulti();
 
 let resources: ReadResource[] = [
-        {
-          id: "not used here",
-          type: "not used here",
-          typeAsName: "not used here",
-          label: "not used here",
-          properties: {
+    {
+        id: "not used here",
+        type: "not used here",
+        label: "not used here",
+        properties: {
             'http://api.knora.org/ontology/knora-api/v2#hasStillImageFileValue': [
-              stillImageFullSize, stillImagePreview
+                stillImageFullSize, stillImagePreview
             ]
-          },
-          incoming: [
+        },
+        incomingRegions: [
             testRegionRectangle,
             testRegionPolygon,
             testRegionCircle,
             testRegionMulti
-          ]
-        }
+        ],
+        incomingStillImageRepresentations: [],
+        incomingLinks: []
+    }
 ];
 
 // define and create host component
 
 @Component({
-  template: `<salsah-still-image-osdviewer [resources]="resourcesHost">
-             </salsah-still-image-osdviewer>`
+    template: `
+        <salsah-still-image-osdviewer [resources]="resourcesHost">
+        </salsah-still-image-osdviewer>`
 })
 class TestHostComponent {
-  resourcesHost: ReadResource[] = [];
-  @ViewChild(StillImageOSDViewerComponent) osdViewerComp: StillImageOSDViewerComponent;
+    resourcesHost: ReadResource[] = [];
+    @ViewChild(StillImageOSDViewerComponent) osdViewerComp: StillImageOSDViewerComponent;
 }
 
 // tests
 
 describe('StillImageOSDViewerComponent', () => {
-  let component: StillImageOSDViewerComponent;
-  let host: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+    let component: StillImageOSDViewerComponent;
+    let host: TestHostComponent;
+    let fixture: ComponentFixture<TestHostComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ StillImageOSDViewerComponent, TestHostComponent ],
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [StillImageOSDViewerComponent, TestHostComponent],
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TestHostComponent);
-    host = fixture.componentInstance;
-    component = fixture.componentInstance.osdViewerComp;
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TestHostComponent);
+        host = fixture.componentInstance;
+        component = fixture.componentInstance.osdViewerComp;
+    });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should be created', () => {
+        expect(component).toBeTruthy();
+    });
 
-  // atm StillImageOSDViewerComponent has not many public methods or members.
-  // to be able to still test state of StillImageOSDViewerComponent we use the following technique for the first couple of tests:
-  // test private methods, members with: component["method"](param), or compomnent["member"]
-  // this prevents TS compiler from restricting access, while still checking type safety.
+    // atm StillImageOSDViewerComponent has not many public methods or members.
+    // to be able to still test state of StillImageOSDViewerComponent we use the following technique for the first couple of tests:
+    // test private methods, members with: component["method"](param), or compomnent["member"]
+    // this prevents TS compiler from restricting access, while still checking type safety.
 
-  it('should have initialized viewer after resources change', () => {
-    host.resourcesHost = resources;
-    fixture.detectChanges();
-    expect(component["viewer"]).toBeTruthy();
-  });
+    it('should have initialized viewer after resources change', () => {
+        host.resourcesHost = resources;
+        fixture.detectChanges();
+        expect(component["viewer"]).toBeTruthy();
+    });
 
-  it('should have OpenSeadragon.Viewer.isVisible() == true after resources change', () => {
-    host.resourcesHost = resources;
-    fixture.detectChanges();
-    expect(component["viewer"].isVisible()).toBeTruthy();
-  });
+    it('should have OpenSeadragon.Viewer.isVisible() == true after resources change', () => {
+        host.resourcesHost = resources;
+        fixture.detectChanges();
+        expect(component["viewer"].isVisible()).toBeTruthy();
+    });
 
-  it('should have 1 image loaded after resources change with 1 full size image and 1 (ignored) preview image', () => {
-    host.resourcesHost = resources;
-    fixture.detectChanges();
-    component["viewer"].addHandler('open', function (args) {
-      expect(component["viewer"].world.getItemCount()).toEqual(1);
-    })
-    component["viewer"].addHandler('open-failed', function (args) {
-      expect(component["viewer"].world.getItemCount()).toEqual(0);
-    })
-  });
+    it('should have 1 image loaded after resources change with 1 full size image and 1 (ignored) preview image', () => {
+        host.resourcesHost = resources;
+        fixture.detectChanges();
+        component["viewer"].addHandler('open', function (args) {
+            expect(component["viewer"].world.getItemCount()).toEqual(1);
+        })
+        component["viewer"].addHandler('open-failed', function (args) {
+            expect(component["viewer"].world.getItemCount()).toEqual(0);
+        })
+    });
 
-  it('should have 5 test regions loaded (rect, circle, poylgon, circle_from_multiregion, rect_from_multiregion)', () => {
-    host.resourcesHost = resources;
-    fixture.detectChanges();
-    let overlay = component["viewer"].svgOverlay();
-    expect(overlay.node().childElementCount).toEqual(5);
-  });
+    it('should have 5 test regions loaded (rect, circle, poylgon, circle_from_multiregion, rect_from_multiregion)', () => {
+        host.resourcesHost = resources;
+        fixture.detectChanges();
+        let overlay = component["viewer"].svgOverlay();
+        expect(overlay.node().childElementCount).toEqual(5);
+    });
 
 });
 
 // utility functions
 
 function createTestRegionRectangle() {
-  let testRegionRect_compacted_json = `
+    let testRegionRect_compacted_json = `
         {
           "@type":"http://schema.org/ItemList",
           "http://schema.org/itemListElement":{
@@ -167,13 +169,13 @@ function createTestRegionRectangle() {
           "http://schema.org/numberOfItems":1
         }
       `;
-  let testRegionRect_compacted = JSON.parse(testRegionRect_compacted_json);
-  let testRegionRect_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionRect_compacted);
-  return testRegionRect_resources.resources[0];
+    let testRegionRect_compacted = JSON.parse(testRegionRect_compacted_json);
+    let testRegionRect_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionRect_compacted);
+    return testRegionRect_resources.resources[0];
 }
 
 function createTestRegionPolygon() {
-  let testRegionPolygon_compacted_json = `
+    let testRegionPolygon_compacted_json = `
         {
           "@type":"http://schema.org/ItemList",
           "http://schema.org/itemListElement":{
@@ -209,13 +211,13 @@ function createTestRegionPolygon() {
           "http://schema.org/numberOfItems":1
         }
       `;
-  let testRegionPolygon_compacted = JSON.parse(testRegionPolygon_compacted_json);
-  let testRegionPolygon_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionPolygon_compacted);
-  return testRegionPolygon_resources.resources[0];
+    let testRegionPolygon_compacted = JSON.parse(testRegionPolygon_compacted_json);
+    let testRegionPolygon_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionPolygon_compacted);
+    return testRegionPolygon_resources.resources[0];
 }
 
 function createTestRegionCircle() {
-  let testRegionCircle_compacted_json = `
+    let testRegionCircle_compacted_json = `
         {
           "@type":"http://schema.org/ItemList",
           "http://schema.org/itemListElement":{
@@ -250,13 +252,13 @@ function createTestRegionCircle() {
           "http://schema.org/numberOfItems":1
         }
       `;
-  let testRegionCircle_compacted = JSON.parse(testRegionCircle_compacted_json);
-  let testRegionCircle_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionCircle_compacted);
-  return testRegionCircle_resources.resources[0];
+    let testRegionCircle_compacted = JSON.parse(testRegionCircle_compacted_json);
+    let testRegionCircle_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionCircle_compacted);
+    return testRegionCircle_resources.resources[0];
 }
 
 function createTestRegionMulti() {
-  let testRegionMulti_compacted_json = `
+    let testRegionMulti_compacted_json = `
        {
          "@type": "http://schema.org/ItemList",
          "http://schema.org/itemListElement": {
@@ -298,7 +300,7 @@ function createTestRegionMulti() {
          "http://schema.org/numberOfItems": 1
        }
        `;
-  let testRegionMulti_compacted = JSON.parse(testRegionMulti_compacted_json);
-  let testRegionMulti_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionMulti_compacted);
-  return testRegionMulti_resources.resources[0];
+    let testRegionMulti_compacted = JSON.parse(testRegionMulti_compacted_json);
+    let testRegionMulti_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionMulti_compacted);
+    return testRegionMulti_resources.resources[0];
 }
