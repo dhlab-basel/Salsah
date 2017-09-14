@@ -27,6 +27,8 @@ import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 import {UserProfile} from '../../../../model/webapi/knora/';
 import {User} from '../../../../model/webapi/knora/v1/users/user';
 import {ProjectsList} from '../../../../model/webapi/knora/v1/projects/projects-list';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
 
 @Component({
     selector: 'salsah-user-form',
@@ -39,11 +41,11 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     // it can have an attribute called iri which opens the edit form
     // otherwise the form is empty to create new user
-    @Input() iri?: string;
+    @Input() iri?: string = undefined;
 
     // project admin case: restrictedBy is the iri of the project
     // in this case, the project admin adds a new (or existing) person to this project
-    @Input() restrictedBy?: string;
+    @Input() restrictedBy?: string = undefined;
 
     // the form is a step by step form
     /* the steps (depending on the usage / route) are as follow:
@@ -65,9 +67,9 @@ export class UserFormComponent implements OnInit, OnChanges {
     // outputs which should be sent to the parent component; form-dialog in this case
     // TODO: it doesn't work yet
     // before submit
-    @Output() validData = new EventEmitter<any>();
+//    @Output() validData = new EventEmitter<any>();
     // on submit
-    @Output() submitData = new EventEmitter<any>();
+//    @Output() submitData = new EventEmitter<any>();
 
     // form settings
 
@@ -83,6 +85,8 @@ export class UserFormComponent implements OnInit, OnChanges {
     filteredUsers: any;
     // form controller for md-autocomplete
     userCtrl: FormControl;
+    // selected user ???????
+    selectedUser: UserData = new UserData();
 
     // case 2a) select project form
     // autocomplete existing projects
@@ -129,7 +133,8 @@ export class UserFormComponent implements OnInit, OnChanges {
                 title: 'Project member',
                 description: 'Add user to the project',
                 autoComplete: 'Just type a project name here',
-                autoCompleteHint: ''
+                autoCompleteHint: '',
+                skip: 'Skip this step'
             },
             existing: {
                 title: 'You\'re adding the user to the project ',
@@ -155,72 +160,14 @@ export class UserFormComponent implements OnInit, OnChanges {
         }
     };
 
-
-
-
-
-
-
-    // if restrictedBy is defined, show the select user form
-    // incl. the material expansion
-    expand: number = 0;
-
-
-
-
-    // how many steps has the form?
-    max_steps: number = 3;
-    // or define an array of steps
-    steps: string[] = [];
-
-    counter: number = 0;
-
-
-
-    // this component uses a service,
-    // so we define an empty errorMessage to have one if needed
-
-
-    // to add a user to a project, we need a list of all users first
-    // list of users from the API
-
-    // list of users for the md input autocomplete
-
-
-    // current project iri
-//    projectIri: string = this.restrictedBy;
-    // JSON.parse(localStorage.getItem('currentProject')).id;
-
-    // list of users in the project;
-    // we need the list of existing users, to exclude them from
-    // the auto complete list
-    projectUsersList: UsersList;
-
-
-
-    // and now some variables to store the value of the selected user
-    currentUser = '';
-//    reactiveUsers: any;
-    tdUsers: any[];
-
-    // selected user
-    selectedUser: UserData = new UserData();
-    userErrorMessage: any = undefined;
-
     // setting to reset the md input autocomplete
-//    @ViewChild(NgModel) modelDir: NgModel;
-
-    // (NEW) user form
-    // the user form (uf) to create a new user account
-
-
-
+    @ViewChild(NgModel) modelDir: NgModel;
 
     constructor(public _userService: UserService,
+                public _projectsService: ProjectsService,
                 public dialog: MdDialog,
                 @Inject(FormBuilder) fb: FormBuilder) {
 
-        this.tdUsers = this.users;
 
         this.userCtrl = new FormControl();
 
@@ -243,26 +190,20 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         // for the test environment
-        this.restrictedBy = 'http://data.knora.org/projects/77275339';
+        // this.restrictedBy = 'http://data.knora.org/projects/77275339';
 
         // in case of project admin:
         // get a list of the users which are already team members;
         // that list should already be in the session storage
         if (this.restrictedBy) {
-            this.steps = [
-                'Select User',
-                'Create User',
-                'Project Permissions',
-                'Save'
-            ];
             const members = sessionStorage.getItem('currentMembers');
+            const project: string = JSON.parse(sessionStorage.getItem('currentProject')).shortname;
 
             let usersList: UsersList;
             this._userService.getAllUsers()
                 .subscribe(
                     (result: ApiServiceResult) => {
                         usersList = result.getBody(UsersList);
-//              let tempUsersList: string[] = [];
                         let i: number = 1;
                         for (const u of usersList.users) {
                             let exists: string = '';
@@ -273,8 +214,6 @@ export class UserFormComponent implements OnInit, OnChanges {
                                 iri: u.user_id,
                                 name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
                             };
-
-//                        this.usersList[i] = u.familyName + ', ' + u.givenName + ' (' + u.email + ')';
                             i++;
                         }
 
@@ -294,13 +233,17 @@ export class UserFormComponent implements OnInit, OnChanges {
                     }
                 );
         } else {
-            this.steps = [
-                'Create User',
-                'Select Projects',
-                'Project Permissions',
-                'Save'
-            ];
-            this.expand = 1;
+            let projectsList: ProjectsList;
+            this._projectsService.getAllProjects()
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        projectsList = result.getBody(ProjectsList);
+                        console.log(projectsList);
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+                    }
+                )
         }
 
         /*
@@ -326,7 +269,7 @@ export class UserFormComponent implements OnInit, OnChanges {
         if (value && typeof value === 'object') {
             // the admin has selected a user
             // get the user data
-            let selectedUser: string;
+            // let selectedUser: string;
             /*
             if (this.usersList) {
                 this.usersList.users.filter(function (user) {
@@ -336,7 +279,8 @@ export class UserFormComponent implements OnInit, OnChanges {
                 });
             }
             */
-            return value && value.name && selectedUser;
+//            return value && value.name && selectedUser;
+            return 'deprecated';
         } else {
             // the admin is still typing; no selected user
             return value;
@@ -344,13 +288,6 @@ export class UserFormComponent implements OnInit, OnChanges {
 //        return value && typeof value === 'object' ? value.name : value;
     }
 
-
-
-
-
-    setExpansion(index: number) {
-        this.expand = index;
-    }
 
     filterUsers(val: string) {
         if (val) {
@@ -423,12 +360,12 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     prevStep(ev) {
         ev.preventDefault();
-        this.counter--;
+        this.step--;
     }
 
     nextStep(ev) {
         ev.preventDefault();
-        this.counter++;
+        this.step++;
     }
 
     getGroups() {

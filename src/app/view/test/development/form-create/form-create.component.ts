@@ -32,23 +32,27 @@ export class FormCreateComponent implements OnInit {
             this.form = params['name'];
 
             this._title.setTitle( 'Developer environment | Test ' + this.form + ' form');
-            this.open(this.form);
+
+            setTimeout(this.open(this.form), 1000);
+//            this.open(this.form);
 
         });
     }
 
     open(form: string) {
         let dialogRef;
+        let restrictedBy: string = undefined;
         switch (form) {
             case 'user':
             case 'project':
             case 'resource-type':
+                restrictedBy = 'http://data.knora.org/projects/77275339';
                 dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
                     data: {
                         title: 'Test ' + form + ' form',
                         description: 'Create new',
                         form: form,
-                        restriction: undefined
+                        restriction: restrictedBy
                     }
                 });
                 break;

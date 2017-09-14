@@ -27,10 +27,11 @@
     <div class="salsah-form-content">
         <md-accordion class="headers-align">
             <!-- 1a) project admin only: add user to project; select an existing one -->
-            <md-expansion-panel *ngIf="restrictedBy"
-                                [expanded]="step === 0"
+
+            <md-expansion-panel [expanded]="step === 0"
                                 (opened)="setStep(0)"
-                                hideToggle="true">
+                                hideToggle="true"
+                                *ngIf="restrictedBy">
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
@@ -50,7 +51,7 @@
                     <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
                              *ngIf="userCtrl.value && userCtrl.dirty">close</md-icon>
                     <md-autocomplete #autoUser="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
-                        <md-option *ngFor="let user of filteredUsers | async" [value]="user.name"
+                        <md-option *ngFor="let user of filteredUsers | async" [value]="user?.name"
                                    (onSelectionChange)="getUser(user?.iri)">
                             {{ user?.name }}
                         </md-option>
@@ -74,7 +75,7 @@
                 </md-action-row>
             </md-expansion-panel>
 
-            <!-- 1b) project admin / system admin: create new user -->
+            <!-- 1b) system admin / project admin: create new user -->
             <md-expansion-panel [expanded]="step === 1"
                                 (opened)="setStep(1)"
                                 hideToggle="true">
@@ -83,7 +84,7 @@
                     <md-panel-title>
                         {{form.user.create.title}}
                     </md-panel-title>
-                    <md-panel-description *ngIf="restrictedBy">
+                    <md-panel-description [hidden]="!restrictedBy">
                         {{form.user.create.description}}
                         <md-icon>add</md-icon>
                     </md-panel-description>
@@ -93,31 +94,31 @@
                 <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
                     <md-form-field class="small">
                         <input mdInput
-                               [placeholder]="form.user.givenName + ' *'"
+                               [placeholder]="form.user.create.givenName + ' *'"
                                [formControl]="uf.controls['givenName']">
                     </md-form-field>
                     <md-form-field class="medium">
                         <input mdInput
-                               [placeholder]="form.user.familyName + ' *'"
+                               [placeholder]="form.user.create.familyName + ' *'"
                                [formControl]="uf.controls['familyName']">
                     </md-form-field>
                     <!-- email = username -->
                     <md-form-field class="large">
                         <input mdInput type="email" class="full-width"
-                               [placeholder]="form.user.email + ' *'"
+                               [placeholder]="form.user.create.email + ' *'"
                                [formControl]="uf.controls['email']">
                         <md-hint class="salsah-hint">
-                            <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
+                            <span [hidden]="uf.controls['email'].invalid">{{form.user.create.emailHint}}</span>
                             <span [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || uf.controls['email'].pristine"
                                   class="salsah-error">
-                                    {{form.user.emailValidation}}
+                                    {{form.user.create.emailValidation}}
                                 </span>
                         </md-hint>
                     </md-form-field>
                     <!-- password -->
                     <md-form-field class="large">
                         <input mdInput [type]="showPassword ? 'text' : 'password'"
-                               [placeholder]="form.user.password + ' *'"
+                               [placeholder]="form.user.create.password + ' *'"
                                [formControl]="uf.controls['password']">
                         <md-icon mdSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
                                  [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></md-icon>
@@ -125,7 +126,7 @@
                             <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
                             <span [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].pristine"
                                   class="salsah-error">
-                                        {{form.user.passwordHint}}
+                                        {{form.user.create.passwordHint}}
                                     </span>
                         </md-hint>
                     </md-form-field>
@@ -156,19 +157,53 @@
 
             </md-expansion-panel>
 
-            <!-- 2a) project admin: add user to project; here we need the project iri only -->
-            <md-expansion-panel [expanded]="step === 2" (opened)="setExpansion(0)" hideToggle="true"
-                                *ngIf="restrictedBy">
-                <!--
+            <!-- 2) project member -->
+            <md-expansion-panel [expanded]="step === 2"
+                                (opened)="setStep(2)"
+                                hideToggle="true">
+
+                <!-- 2a) project admin: add user to project defined in restrictedBy -->
+
+                <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
-                        Select user
+                        {{form.project.select.title}}
                     </md-panel-title>
-                    <md-panel-description>
-                        Look for an existing user
-                        <md-icon>playlist_add</md-icon>
+                    <!-- 2a) show the project shortname only -->
+                    <md-panel-description *ngIf="restrictedBy">
+                        Hallo Welt {{project}}
+                        <md-icon>bookmark</md-icon>
                     </md-panel-description>
+                    <md-panel-description *ngIf="!restrictedBy">
+                        {{form.project.select.description}}
+                        <md-icon>bookmark</md-icon>
+                    </md-panel-description>
+
                 </md-expansion-panel-header>
+
+                <!-- step 2 form content -->
+
+                <!-- 2b) system admin: select project to add the new created user to the project -->
+
+
+                <!-- 2a/b) system admin / project admin: set permission for the user in this project -->
+
+
+                <!-- footer -->
+                <md-action-row>
+                    <button md-button
+                            class="navigation-button center"
+                            color="primary"
+                            (click)="nextStep($event)">
+                        Next
+                    </button>
+                </md-action-row>
+
+
+
+
+                <!--
+
                 <md-input-container class="full-width">
                     <input mdInput
                            [mdAutocomplete]="users"
@@ -194,6 +229,8 @@
                 </md-action-row>
                 -->
             </md-expansion-panel>
+
+            <!-- 2b) system admin / project admin: set permission for the user in the selected project -->
 
 
 
