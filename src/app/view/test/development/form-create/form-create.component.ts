@@ -46,7 +46,7 @@ export class FormCreateComponent implements OnInit {
             case 'user':
             case 'project':
             case 'resource-type':
-                restrictedBy = 'http://data.knora.org/projects/77275339';
+//                restrictedBy = 'http://data.knora.org/projects/77275339';
                 dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
                     data: {
                         title: 'Test ' + form + ' form',

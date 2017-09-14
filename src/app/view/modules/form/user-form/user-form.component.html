@@ -5,11 +5,11 @@
  the steps (depending on the usage / route) are as follow:
     1) user profile
         a) in case of project admin: select existing user OR create new user profile => b)
-        b) in case of system admin: create new user profile or edit old one
+        b) in case of system admin: create new user profile (or edit old one?)
 
-    2) add user to project and set permissions
-        a) in case of project admin: only permission settings
-        b) in case of system admin: select project and set permissions or add user to project or remove user from project
+    2) project membership
+        a) in case of system admin: select project AND set the permissions => b)
+        b) in case of project admin: set permissions
 
     3) special stuff like "add the user to system project" and set system permissions
 
@@ -24,14 +24,15 @@
     </div>
     <br>
     -->
+
     <div class="salsah-form-content">
         <md-accordion class="headers-align">
-            <!-- 1a) project admin only: add user to project; select an existing one -->
 
-            <md-expansion-panel [expanded]="step === 0"
+            <!-- 1) user profile -->
+            <!-- 1a) in case of project admin: select existing user OR create new user profile => b) -->
+            <md-expansion-panel [expanded]="step === 0" *ngIf="restrictedBy"
                                 (opened)="setStep(0)"
-                                hideToggle="true"
-                                *ngIf="restrictedBy">
+                                hideToggle="true">
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
@@ -39,10 +40,11 @@
                     </md-panel-title>
                     <md-panel-description>
                         {{form.user.select.description}}
-                        <md-icon>playlist_add</md-icon>
+                        <md-icon>person</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
                 <!-- step 0 form content -->
+
                 <md-form-field class="full-width">
                     <input mdInput
                            [placeholder]="form.user.select.autoComplete"
@@ -65,28 +67,37 @@
                             (click)="nextStep($event)">
                         {{form.user.select.skip}}
                     </button>
-                    <button md-button
+                    <button md-button *ngIf="restrictedBy"
                             class="navigation-button center"
                             color="primary"
-                            (click)="nextStep($event)"
-                            [disabled]="!uf.valid">
+                            (click)="nextStep($event, 3)"
+                            [disabled]="!userCtrl.valid">
+                        {{form.navigation.next}}
+                    </button>
+                    <button md-button *ngIf="!restrictedBy"
+                            class="navigation-button center"
+                            color="primary"
+                            (click)="nextStep($event, 2)"
+                            [disabled]="!userCtrl.valid">
                         {{form.navigation.next}}
                     </button>
                 </md-action-row>
             </md-expansion-panel>
 
-            <!-- 1b) system admin / project admin: create new user -->
+            <!-- 1b) project and system admin: create new user profile (or edit old one?) -->
             <md-expansion-panel [expanded]="step === 1"
                                 (opened)="setStep(1)"
                                 hideToggle="true">
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
-                        {{form.user.create.title}}
+                        <span *ngIf="restrictedBy">{{form.user.create.projectAdmin.title}}</span>
+                        <span *ngIf="!restrictedBy">{{form.user.create.systemAdmin.title}}</span>
                     </md-panel-title>
                     <md-panel-description [hidden]="!restrictedBy">
-                        {{form.user.create.description}}
-                        <md-icon>add</md-icon>
+                        <span *ngIf="restrictedBy">{{form.user.create.projectAdmin.description}}</span>
+                        <span *ngIf="!restrictedBy">{{form.user.create.systemAdmin.description}}</span>
+                        <md-icon>person_add</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
 
@@ -156,9 +167,12 @@
                 </md-action-row>
 
             </md-expansion-panel>
+            <!-- ////////////////////////////////////////////////////////////////////////////////// -->
 
-            <!-- 2) project member -->
-            <md-expansion-panel [expanded]="step === 2"
+            <!-- 2) project membership -->
+
+            <!-- 2a) in case of system admin: select project AND set the permissions => b) -->
+            <md-expansion-panel [expanded]="step === 2" *ngIf="!restrictedBy"
                                 (opened)="setStep(2)"
                                 hideToggle="true">
 
@@ -170,15 +184,10 @@
                         {{form.project.select.title}}
                     </md-panel-title>
                     <!-- 2a) show the project shortname only -->
-                    <md-panel-description *ngIf="restrictedBy">
-                        Hallo Welt {{project}}
-                        <md-icon>bookmark</md-icon>
-                    </md-panel-description>
-                    <md-panel-description *ngIf="!restrictedBy">
+                    <md-panel-description>
                         {{form.project.select.description}}
-                        <md-icon>bookmark</md-icon>
+                        <md-icon>assignment</md-icon>
                     </md-panel-description>
-
                 </md-expansion-panel-header>
 
                 <!-- step 2 form content -->
@@ -195,7 +204,7 @@
                             class="navigation-button center"
                             color="primary"
                             (click)="nextStep($event)">
-                        Next
+                        {{form.navigation.next}}
                     </button>
                 </md-action-row>
 
@@ -224,13 +233,85 @@
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!uf.valid">
-                        Next
+                        {{form.navigation.next}}
                     </button>
                 </md-action-row>
                 -->
+
             </md-expansion-panel>
 
-            <!-- 2b) system admin / project admin: set permission for the user in the selected project -->
+            <!-- 2b) project and system admin: set permissions -->
+            <md-expansion-panel [expanded]="step === 3"
+                                (opened)="setStep(3)"
+                                hideToggle="true">
+                <!-- header -->
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        {{form.project.permissions.title}}
+                    </md-panel-title>
+                    <md-panel-description>
+                        <span *ngIf="restrictedBy">{{restrictedBy}}</span>
+                        <span *ngIf="!restrictedBy">{{form.project.permissions.description}}</span>
+                        <md-icon>accessibility</md-icon>
+                    </md-panel-description>
+                </md-expansion-panel-header>
+
+                <!-- step 2 form content -->
+
+                <!-- 2b) system admin: select project to add the new created user to the project -->
+
+
+                <!-- 2a/b) system admin / project admin: set permission for the user in this project -->
+
+
+                <!-- footer -->
+                <md-action-row>
+                    <button md-button
+                            class="navigation-button center"
+                            color="primary"
+                            (click)="nextStep($event)">
+                        {{form.navigation.next}}
+                    </button>
+                </md-action-row>
+
+            </md-expansion-panel>
+
+            <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+
+            <!-- 3) overview or additional form stuff -->
+            <md-expansion-panel [expanded]="step === 4"
+                                (opened)="setStep(4)"
+                                hideToggle="true">
+                <!-- header -->
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        {{form.overview.title}}
+                    </md-panel-title>
+                    <md-panel-description>
+                        {{form.overview.description}}
+                        <md-icon>done</md-icon>
+                    </md-panel-description>
+                </md-expansion-panel-header>
+
+                <!-- step 2 form content -->
+
+                <!-- 2b) system admin: select project to add the new created user to the project -->
+
+
+                <!-- 2a/b) system admin / project admin: set permission for the user in this project -->
+
+
+                <!-- footer -->
+                <md-action-row>
+                    <button md-button
+                            class="navigation-button center"
+                            color="primary"
+                            (click)="nextStep($event)">
+                        {{form.navigation.submit}}
+                    </button>
+                </md-action-row>
+
+            </md-expansion-panel>
 
 
 

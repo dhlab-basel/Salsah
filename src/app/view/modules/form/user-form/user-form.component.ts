@@ -88,7 +88,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     // selected user ???????
     selectedUser: UserData = new UserData();
 
-    // case 2a) select project form
+    // case 2a) form to select project form
     // autocomplete existing projects
     projectsList: ProjectsList;
     // special list for md-autocomplete
@@ -96,7 +96,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     // form controller for md-autocomplete
     projectCtrl: FormControl;
 
-    // case 1b) create new user form
+    // case 1b) form to create new user
     // uf => user form control
     uf: FormGroup;
     // email and password validator
@@ -115,8 +115,14 @@ export class UserFormComponent implements OnInit, OnChanges {
                 skip: 'Skip and create new user instead'
             },
             create: {
-                title: 'Create user',
-                description: 'If the user doesn\'t exist, create a new one',
+                projectAdmin: {
+                    title: 'Or create new user',
+                    description: 'If the user doesn\'t exist, create a new one',
+                },
+                systemAdmin: {
+                    title: 'Add user',
+                    description: 'Create new user profile',
+                },
                 givenName: 'First name',
                 familyName: 'Last name',
                 email: 'Email address',
@@ -130,7 +136,7 @@ export class UserFormComponent implements OnInit, OnChanges {
         },
         project: {
             select: {
-                title: 'Project member',
+                title: 'Project membership',
                 description: 'Add user to the project',
                 autoComplete: 'Just type a project name here',
                 autoCompleteHint: '',
@@ -141,6 +147,8 @@ export class UserFormComponent implements OnInit, OnChanges {
                 description: ''
             },
             permissions: {
+                title: 'Project permissions',
+                description: '',
                 admin: 'Administrative rights',
                 adminHint: 'What are admin rights? Describe it here (TODO)',
                 group: 'Group rights',
@@ -150,6 +158,10 @@ export class UserFormComponent implements OnInit, OnChanges {
         system: {
             title: 'System admin',
             description: 'Set system admin rights for this user (only sys admin can do that)'
+        },
+        overview: {
+            title: 'Submit data',
+            description: 'The following data will be sent to Knora'
         },
         navigation: {
             next: 'Next',
@@ -169,12 +181,13 @@ export class UserFormComponent implements OnInit, OnChanges {
                 @Inject(FormBuilder) fb: FormBuilder) {
 
 
-        this.userCtrl = new FormControl();
+        this.userCtrl = new FormControl('', Validators.required);
 
         this.filteredUsers = this.userCtrl.valueChanges
             .startWith(this.userCtrl.value)
             .map(val => this.displayFn(val))
             .map(name => this.filterUsers(name));
+
 
         this.uf = fb.group({
             'givenName': [null, Validators.required],
@@ -233,6 +246,7 @@ export class UserFormComponent implements OnInit, OnChanges {
                     }
                 );
         } else {
+            this.step = 1;
             let projectsList: ProjectsList;
             this._projectsService.getAllProjects()
                 .subscribe(
@@ -358,14 +372,22 @@ export class UserFormComponent implements OnInit, OnChanges {
         }
     }
 
-    prevStep(ev) {
+    prevStep(ev, step?: number) {
         ev.preventDefault();
-        this.step--;
+        if (step) {
+            this.step = step;
+        } else {
+            this.step--;
+        }
     }
 
-    nextStep(ev) {
+    nextStep(ev, step?: number) {
         ev.preventDefault();
-        this.step++;
+        if (step) {
+            this.step = step;
+        } else {
+            this.step++;
+        }
     }
 
     getGroups() {
