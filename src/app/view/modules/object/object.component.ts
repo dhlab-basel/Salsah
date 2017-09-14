@@ -111,6 +111,7 @@ export class ObjectComponent implements OnChanges, OnInit {
             // request incoming regions
             if (resources[0].properties[AppConfig.hasStillImageFileValue]) { // TODO: check if resources[0] is a StillImageRepresentation using the ontology responder (support for subclass relations required)
                 // the resource is a StillImageRepresentation, check if there are regions pointing to it
+
                 this._incomingService.getIncomingRegions(resources[0].id).subscribe(
                     (result: ApiServiceResult) => {
                         let promise = jsonld.promises.compact(result.body, {});
@@ -147,44 +148,47 @@ export class ObjectComponent implements OnChanges, OnInit {
                     }
                 );
 
+            } else {
+                // this resource is not a StillImageRepresentation
+                // check if there are StillImageRepresentations pointing to this resource
+
+                this._incomingService.getStillImageRepresentationsForCompoundResource(resources[0].id).subscribe(
+                    (result: ApiServiceResult) => {
+
+                        let promise = jsonld.promises.compact(result.body, {});
+                        promise.then((compacted) => {
+                                
+                                let imageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                                // get resource class Iris from response
+                                let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+                                // request ontology information about resource class Iris (properties are implied)
+                                this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                                    (resourceClassInfos: OntologyInformation) => {
+                                        // update ontology information
+                                        this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+
+                                        // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
+                                        Array.prototype.push.apply(resources[0].incomingStillImageRepresentations, imageRepresentations.resources);
+                                    },
+                                    (err) => {
+
+                                        console.log("cache request failed: " + err);
+                                    });
+                            },
+                            function (err) {
+                                console.log("JSONLD of regions request could not be expanded:" + err);
+                            });
+
+
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+                        this.isLoading = false;
+                    }
+                );
             }
-
-            // check if there are StillImageRepresentations pointing to this resource
-            this._incomingService.getStillImageRepresentationsForCompoundResource(resources[0].id).subscribe(
-                (result: ApiServiceResult) => {
-
-                    let promise = jsonld.promises.compact(result.body, {});
-                    promise.then((compacted) => {
-                            let imageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
-
-                            // get resource class Iris from response
-                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
-
-                            // request ontology information about resource class Iris (properties are implied)
-                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                                (resourceClassInfos: OntologyInformation) => {
-                                    // update ontology information
-                                    this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
-
-                                    // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
-                                    Array.prototype.push.apply(resources[0].incomingStillImageRepresentations, imageRepresentations.resources);
-                                },
-                                (err) => {
-
-                                    console.log("cache request failed: " + err);
-                                });
-                        },
-                        function (err) {
-                            console.log("JSONLD of regions request could not be expanded:" + err);
-                        });
-
-
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
-                }
-            );
 
             // check for incoming links for the current resource
             this._incomingService.getIncomingLinksForResource(resources[0].id).subscribe(
