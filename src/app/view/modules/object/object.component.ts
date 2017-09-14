@@ -10,6 +10,7 @@ import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 import {AppConfig} from "../../../app.config";
 import {StillImageOSDViewerComponent} from "../../properties/still-image-osdviewer/still-image-osdviewer.component";
 import {OntologyCacheService, OntologyInformation} from "../../../model/services/ontologycache.service";
+import {MdDialog, MdDialogConfig} from "@angular/material";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -36,7 +37,8 @@ export class ObjectComponent implements OnChanges, OnInit {
     constructor(private _route: ActivatedRoute,
                 private _resourceService: ResourceService,
                 private _incomingService: IncomingService,
-                private _cacheService: OntologyCacheService) {
+                private _cacheService: OntologyCacheService,
+                private dialog: MdDialog) {
     }
 
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
@@ -222,4 +224,22 @@ export class ObjectComponent implements OnChanges, OnInit {
         }
 
     }
+
+    /**
+     * Shows the source of an incoming link (a resource) in a dialog box.
+     *
+     * @param {string} resourceIri the Iri of the source of the incoming link.
+     */
+    private showSourceOfIncomingLinkInDialog(resourceIri: string) {
+
+        let config = new MdDialogConfig();
+        config.height = '60%';
+        config.width = '60%';
+
+        let dialogRef = this.dialog.open(ObjectComponent, config);
+
+        dialogRef.componentInstance.iri = resourceIri;
+
+    }
+
 }

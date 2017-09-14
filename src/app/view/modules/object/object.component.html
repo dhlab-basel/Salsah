@@ -38,8 +38,12 @@
     <!-- Check for incoming links -->
     <div *ngIf="resources[0]?.incomingLinks?.length > 0">
         <p>Incoming Links:</p>
-        <ul *ngFor="let incomingRes of  resources[0].incomingLinks">
-            <li>{{incomingRes.label}} ({{ontologyInfo?.getLabelForResourceClass(incomingRes.type)}})</li>
+        <ul>
+            <li *ngFor="let incomingLinkSourceRes of resources[0].incomingLinks">
+                <span mdTooltip="{{incomingLinkSourceRes.label}} {{ontologyInfo?.getLabelForResourceClass(incomingLinkSourceRes.type)}}" (click)="showSourceOfIncomingLinkInDialog(incomingLinkSourceRes.id)">
+                    <span>{{incomingLinkSourceRes.label}}</span>
+                </span>
+            </li>
         </ul>
     </div>
 
