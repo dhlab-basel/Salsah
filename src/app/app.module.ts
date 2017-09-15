@@ -104,6 +104,7 @@ import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uplo
 import {DndDirective} from './view/modules/other/dnd.directive';
 import { ResizeGridDirective } from './view/modules/other/resize-grid.directive';
 import { FormCreateComponent } from './view/test/development/form-create/form-create.component';
+import { FocusDirective } from './view/modules/other/focus.directive';
 
 
 @NgModule({
@@ -170,6 +171,7 @@ import { FormCreateComponent } from './view/test/development/form-create/form-cr
         DndDirective,
         ResizeGridDirective,
         FormCreateComponent,
+        FocusDirective,
     ],
     imports: [
         BrowserModule,
