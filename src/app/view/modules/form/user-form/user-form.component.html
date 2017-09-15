@@ -39,19 +39,19 @@
                         {{form.user.select.title}}
                     </md-panel-title>
                     <md-panel-description>
-                        {{form.user.select.description}}
+                        <span *ngIf="!selectedUser">{{form.user.select.description}}</span>
+                        <span *ngIf="selectedUser"><i>{{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}</i></span>
                         <md-icon>person</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
-                <!-- step 0 form content -->
-
-                <md-form-field class="full-width">
+                <md-form-field class="large">
                     <input mdInput
                            [placeholder]="form.user.select.autoComplete"
                            [mdAutocomplete]="autoUser"
                            [formControl]="userCtrl">
                     <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
-                             *ngIf="userCtrl.value && userCtrl.dirty">close</md-icon>
+                             *ngIf="userCtrl.value && userCtrl.dirty">close
+                    </md-icon>
                     <md-autocomplete #autoUser="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
                         <md-option *ngFor="let user of filteredUsers | async" [value]="user?.name"
                                    (onSelectionChange)="getUser(user?.iri)">
@@ -85,7 +85,7 @@
             </md-expansion-panel>
 
             <!-- 1b) project and system admin: create new user profile (or edit old one?) -->
-            <md-expansion-panel [expanded]="step === 1"
+            <md-expansion-panel [expanded]="step === 1" *ngIf="!selectedUser"
                                 (opened)="setStep(1)"
                                 hideToggle="true">
                 <!-- header -->
@@ -94,7 +94,7 @@
                         <span *ngIf="restrictedBy">{{form.user.create.projectAdmin.title}}</span>
                         <span *ngIf="!restrictedBy">{{form.user.create.systemAdmin.title}}</span>
                     </md-panel-title>
-                    <md-panel-description [hidden]="!restrictedBy">
+                    <md-panel-description>
                         <span *ngIf="restrictedBy">{{form.user.create.projectAdmin.description}}</span>
                         <span *ngIf="!restrictedBy">{{form.user.create.systemAdmin.description}}</span>
                         <md-icon>person_add</md-icon>
@@ -122,8 +122,8 @@
                             <span [hidden]="uf.controls['email'].invalid">{{form.user.create.emailHint}}</span>
                             <span [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || uf.controls['email'].pristine"
                                   class="salsah-error">
-                                    {{form.user.create.emailValidation}}
-                                </span>
+                                {{form.user.create.emailValidation}}
+                            </span>
                         </md-hint>
                     </md-form-field>
                     <!-- password -->
@@ -137,8 +137,8 @@
                             <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
                             <span [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].pristine"
                                   class="salsah-error">
-                                        {{form.user.create.passwordHint}}
-                                    </span>
+                                {{form.user.create.passwordHint}}
+                            </span>
                         </md-hint>
                     </md-form-field>
 
@@ -162,7 +162,7 @@
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!uf.valid">
-                        {{form.navigation.next}}
+                        {{form.navigation.submit}} / {{form.navigation.next}}
                     </button>
                 </md-action-row>
 
@@ -175,40 +175,48 @@
             <md-expansion-panel [expanded]="step === 2" *ngIf="!restrictedBy"
                                 (opened)="setStep(2)"
                                 hideToggle="true">
-
-                <!-- 2a) project admin: add user to project defined in restrictedBy -->
-
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
                         {{form.project.select.title}}
                     </md-panel-title>
-                    <!-- 2a) show the project shortname only -->
+                    <!-- 2a) show the project short name only -->
                     <md-panel-description>
                         {{form.project.select.description}}
                         <md-icon>assignment</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
-
-                <!-- step 2 form content -->
-
-                <!-- 2b) system admin: select project to add the new created user to the project -->
-
-
-                <!-- 2a/b) system admin / project admin: set permission for the user in this project -->
-
-
+                <md-form-field class="large">
+                    <input mdInput
+                           [placeholder]="form.project.select.autoComplete"
+                           [mdAutocomplete]="autoProject"
+                           [formControl]="projectCtrl">
+                    <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="projectCtrl.reset()"
+                             *ngIf="projectCtrl.value && projectCtrl.dirty">close
+                    </md-icon>
+                    <md-autocomplete #autoProject="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
+                        <md-option *ngFor="let project of filteredProjects | async" [value]="project?.name"
+                                   (onSelectionChange)="getProject(project?.iri)">
+                            {{ project?.name }}
+                        </md-option>
+                    </md-autocomplete>
+                </md-form-field>
                 <!-- footer -->
                 <md-action-row>
                     <button md-button
+                            class="navigation-button left"
+                            color="warn"
+                            (click)="nextStep($event, 4)">
+                        {{form.project.select.skip}}
+                    </button>
+                    <button md-button
                             class="navigation-button center"
                             color="primary"
-                            (click)="nextStep($event)">
+                            (click)="nextStep($event)"
+                            [disabled]="!projectCtrl.valid">
                         {{form.navigation.next}}
                     </button>
                 </md-action-row>
-
-
 
 
                 <!--
@@ -250,8 +258,8 @@
                         {{form.project.permissions.title}}
                     </md-panel-title>
                     <md-panel-description>
-                        <span *ngIf="restrictedBy">{{restrictedBy}}</span>
-                        <span *ngIf="!restrictedBy">{{form.project.permissions.description}}</span>
+                        <span *ngIf="selectedProject"><i>{{selectedProject.longname}}</i></span>
+                        <span *ngIf="!selectedProject">{{form.project.permissions.description}}</span>
                         <md-icon>accessibility</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
@@ -312,7 +320,6 @@
                 </md-action-row>
 
             </md-expansion-panel>
-
 
 
         </md-accordion>

@@ -29,6 +29,7 @@ import {User} from '../../../../model/webapi/knora/v1/users/user';
 import {ProjectsList} from '../../../../model/webapi/knora/v1/projects/projects-list';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
+import {Project} from '../../../../model/webapi/knora/v1/projects/project';
 
 @Component({
     selector: 'salsah-user-form',
@@ -85,16 +86,16 @@ export class UserFormComponent implements OnInit, OnChanges {
     filteredUsers: any;
     // form controller for md-autocomplete
     userCtrl: FormControl;
-    // selected user ???????
-    selectedUser: UserData = new UserData();
+    selectedUser: UserProfile;
 
     // case 2a) form to select project form
     // autocomplete existing projects
-    projectsList: ProjectsList;
-    // special list for md-autocomplete
+    // project list for md-autocomplete
     projects: any = [];
+    filteredProjects: any;
     // form controller for md-autocomplete
     projectCtrl: FormControl;
+    selectedProject: ProjectItem;
 
     // case 1b) form to create new user
     // uf => user form control
@@ -137,7 +138,7 @@ export class UserFormComponent implements OnInit, OnChanges {
         project: {
             select: {
                 title: 'Project membership',
-                description: 'Add user to the project',
+                description: 'Add this user to a project',
                 autoComplete: 'Just type a project name here',
                 autoCompleteHint: '',
                 skip: 'Skip this step'
@@ -148,7 +149,7 @@ export class UserFormComponent implements OnInit, OnChanges {
             },
             permissions: {
                 title: 'Project permissions',
-                description: '',
+                description: 'Set user\'s permissions for this project',
                 admin: 'Administrative rights',
                 adminHint: 'What are admin rights? Describe it here (TODO)',
                 group: 'Group rights',
@@ -182,18 +183,36 @@ export class UserFormComponent implements OnInit, OnChanges {
 
 
         this.userCtrl = new FormControl('', Validators.required);
+        this.projectCtrl = new FormControl('', Validators.required);
 
         this.filteredUsers = this.userCtrl.valueChanges
             .startWith(this.userCtrl.value)
             .map(val => this.displayFn(val))
             .map(name => this.filterUsers(name));
 
+        this.filteredProjects = this.projectCtrl.valueChanges
+            .startWith(this.projectCtrl.value)
+            .map(val => this.displayFn(val))
+            .map(name => this.filterProjects(name));
 
+        /* disabled in dev test
+                this.uf = fb.group({
+                    'givenName': [null, Validators.required],
+                    'familyName': [null, Validators.required],
+                    'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
+                    'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
+                    'lang': 'en',
+                    'status': true,
+                    'systemAdmin': false,
+                    'group': null
+                });
+                */
+// test data
         this.uf = fb.group({
-            'givenName': [null, Validators.required],
-            'familyName': [null, Validators.required],
-            'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
-            'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
+            'givenName': ['hans', Validators.required],
+            'familyName': ['wurst', Validators.required],
+            'email': ['hans@wurst.bell', Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
+            'password': ['etwasKompliziertes2x', Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
             'lang': 'en',
             'status': true,
             'systemAdmin': false,
@@ -203,7 +222,8 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         // for the test environment
-        // this.restrictedBy = 'http://data.knora.org/projects/77275339';
+        this.restrictedBy = 'http://data.knora.org/projects/77275339';
+
 
         // in case of project admin:
         // get a list of the users which are already team members;
@@ -212,11 +232,15 @@ export class UserFormComponent implements OnInit, OnChanges {
             const members = sessionStorage.getItem('currentMembers');
             const project: string = JSON.parse(sessionStorage.getItem('currentProject')).shortname;
 
+            this.selectedProject = new ProjectItem();
+            this.getProject(this.restrictedBy);
+
             let usersList: UsersList;
             this._userService.getAllUsers()
                 .subscribe(
                     (result: ApiServiceResult) => {
                         usersList = result.getBody(UsersList);
+                        console.log(usersList);
                         let i: number = 1;
                         for (const u of usersList.users) {
                             let exists: string = '';
@@ -247,12 +271,33 @@ export class UserFormComponent implements OnInit, OnChanges {
                 );
         } else {
             this.step = 1;
+
             let projectsList: ProjectsList;
             this._projectsService.getAllProjects()
                 .subscribe(
                     (result: ApiServiceResult) => {
                         projectsList = result.getBody(ProjectsList);
                         console.log(projectsList);
+
+                        let i: number = 1;
+                        for (const p of projectsList.projects) {
+                            this.projects[i] = {
+                                iri: p.id,
+                                name: p.longname + ' (' + p.shortname + ')'
+                            };
+                            i++;
+                        }
+
+                        this.projects.sort(function (p1, p2) {
+                            if (p1.name < p2.name) {
+                                return -1;
+                            } else if (p1.name > p2.name) {
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        });
+
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
@@ -311,6 +356,14 @@ export class UserFormComponent implements OnInit, OnChanges {
         return this.users;
     }
 
+    filterProjects(val: string) {
+        if (val) {
+            const filterValue = val.toLowerCase();
+            return this.projects.filter(project => project.name.toLowerCase().includes(filterValue));
+        }
+        return this.projects;
+    }
+
     toggleVisibility() {
         this.showPassword = (!this.showPassword);
     }
@@ -351,24 +404,47 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     // get the user profile, if selected from the list
     getUser(iri: string) {
-        let selectedUser: UserProfile = new UserProfile();
-
         if (iri) {
+            this.selectedUser = new UserProfile();
             this._userService.getUserByIri(iri)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        const tmpData: User = result.getBody(User);
-                        selectedUser = tmpData.userProfile;
-                        this.uf.controls['givenName'].setValue(selectedUser.userData.givenName);
-                        this.uf.controls['familyName'].setValue(selectedUser.userData.familyName);
-                        this.uf.controls['email'].setValue(selectedUser.userData.email);
-                        this.uf.controls['lang'].setValue(selectedUser.userData.lang);
+                        this.selectedUser = result.getBody(User).userProfile;
+                        this.uf.controls['givenName'].setValue(this.selectedUser.userData.givenName);
+                        this.uf.controls['familyName'].setValue(this.selectedUser.userData.familyName);
+                        this.uf.controls['email'].setValue(this.selectedUser.userData.email);
+                        this.uf.controls['lang'].setValue(this.selectedUser.userData.lang);
                     },
                     (error: ApiServiceError) => {
                         console.log(error);
                         this.errorMessage = error;
                     }
                 );
+            if (this.step === 0) {
+                this.nextStep(event, 3);
+            }
+        } else {
+            this.selectedUser = undefined;
+        }
+    }
+
+    // get the project item, if selected from the list
+    getProject(iri: string) {
+        if (iri) {
+            this.selectedProject = new ProjectItem();
+            this._projectsService.getProjectByIri(iri)
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        this.selectedProject = result.getBody(Project).project_info;
+                    },
+                    (error: ApiServiceError) => {
+                        console.log(error);
+                        this.errorMessage = error;
+                    }
+                );
+            if (this.step === 2) {
+                this.nextStep(event);
+            }
         }
     }
 
