@@ -48,7 +48,8 @@
     </div>
 
     <!-- Check if StillImageRepresentations are pointing to the current resource -->
-    <salsah-still-image-osdviewer #OSDViewer
+    <!-- Event changeOffset: more images are requested (previous or next set) -->
+    <salsah-still-image-osdviewer #OSDViewer (changeOffset)="changeOffsetForStillImageRepresentations($event)"
         *ngIf="resources[0]?.incomingStillImageRepresentations?.length > 0"
         [resources]="[ resources[0] ]">
     </salsah-still-image-osdviewer>

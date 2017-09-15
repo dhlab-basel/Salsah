@@ -12,7 +12,7 @@
 * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 * */
 
-import {Component, Input, OnInit, OnChanges, SimpleChange, ElementRef} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChange, ElementRef, EventEmitter, Output} from '@angular/core';
 import {ReadStillImageFileValue, ReadGeomValue} from "../../../model/webapi/knora/v2/read-property-item";
 import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {Point2D, RegionGeometry} from "../../../model/webapi/knora/v2/read-property-item";
@@ -42,6 +42,8 @@ declare var OpenSeadragon: any;
 export class StillImageOSDViewerComponent implements OnInit {
 
     @Input() resources: ReadResource[] = [];
+
+    @Output() changeOffset = new EventEmitter<number>(); // sends a message to the parent component (object.component) to load the next or previous page of results (images) from the server
 
     private viewer;
 
@@ -83,6 +85,20 @@ export class StillImageOSDViewerComponent implements OnInit {
     }
 
     /**
+     * Get the more images from the server by requesting the next page of results for the current resource (increase offset).
+     */
+    private increaseOffset() {
+        this.changeOffset.emit(1);
+    }
+
+    /**
+     * Get the more images from the server by requesting the previous page of results for the current resource (decrease offset).
+     */
+    private decreaseOffset() {
+        this.changeOffset.emit(-1);
+    }
+
+    /**
      * Renders all Regions to be found in the 'incomingRegions' property of the resources in this.resources.
      * (Although this.resources is a Angular Input property, the built-in change detection of Angular does not detect changes in complex objects or arrays, only reassignment of objects/arrays.
      * Use this method if additional regions were added to the resources.incomingRegions array of the resources in this.resources after creation/assignment of the this.resources array.)
@@ -101,7 +117,9 @@ export class StillImageOSDViewerComponent implements OnInit {
         let viewerContainer = this.elementRef.nativeElement.getElementsByClassName("osdViewerContainer")[0];
         let osdOptions = {
             element: viewerContainer,
-            prefixUrl: "assets/icons/openseadragon/"
+            prefixUrl: "assets/icons/openseadragon/",
+            sequenceMode: false,
+            showNavigator: true
         };
         this.viewer = new OpenSeadragon.Viewer(osdOptions);
         this.viewer.addHandler('full-screen', function (args) {
@@ -114,6 +132,7 @@ export class StillImageOSDViewerComponent implements OnInit {
         this.viewer.addHandler('resize', function (args) {
             args.eventSource.svgOverlay().resize();
         });
+
     }
 
     /**
@@ -124,6 +143,7 @@ export class StillImageOSDViewerComponent implements OnInit {
      */
     private static prepareTileSourcesFromFileValues(imagesToDisplay: ReadStillImageFileValue[]): Object[] {
         let imageXOffset = 0;
+        let imageYOffset = 0;
         let tileSources = [];
 
         for (let image of imagesToDisplay) {
@@ -149,10 +169,16 @@ export class StillImageOSDViewerComponent implements OnInit {
                     }]
                 },
                 "x": imageXOffset,
-                "y": 0
+                "y": imageYOffset
             });
 
             imageXOffset++;
+
+            // 10 image s per row
+            if (imageXOffset % 10 == 0) {
+                imageYOffset += 2;
+                imageXOffset = 0;
+            }
         }
 
         return tileSources;

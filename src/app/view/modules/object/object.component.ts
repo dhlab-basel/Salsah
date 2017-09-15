@@ -199,12 +199,13 @@ export class ObjectComponent implements OnChanges, OnInit {
 
     /**
      * Get StillImageRepresentations pointing to the current resource.
+     * This method may have to called several times with an increasing offset in order to get all available StillImageRepresentations.
      *
      * @param {string} resourceIri                 the Iri of the resource the StillImageRepresentations refer to.
      * @param incomingStillImageRepresentations    the collection to add the StillImageRepresentations to.
      * @param {number} offset                      the offset to be used (needed for paging). First request uses an offset of 0.
      */
-    getStillImageRepresentations(resourceIri: string, incomingStillImageRepresentations: ReadResource[], offset: number): void {
+    private getStillImageRepresentations(resourceIri: string, incomingStillImageRepresentations: ReadResource[], offset: number): void {
         // update current offset
         this.stillImageRepresentationsOffset = offset;
 
@@ -213,7 +214,7 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                 let promise = jsonld.promises.compact(result.body, {});
                 promise.then((compacted) => {
-                        //console.log(compacted);
+                        console.log(compacted);
 
                         let imageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
@@ -229,13 +230,13 @@ export class ObjectComponent implements OnChanges, OnInit {
                                     this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
 
                                     // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
+                                    // TODO: Find a way to prepend images if user did not start at beginning of collection
+                                    // TODO: currently, new images are just appended which may be wrong
                                     Array.prototype.push.apply(incomingStillImageRepresentations, imageRepresentations.resources);
 
                                     if (this.osdViewer) {
                                         this.osdViewer.updateImages();
                                     }
-
-                                    //this.getStillImageRepresentations(resourceIri, incomingStillImageRepresentations, offset +1)
 
                                 }
                             },
@@ -256,8 +257,29 @@ export class ObjectComponent implements OnChanges, OnInit {
             }
         );
 
-
     }
+
+    /**
+     * Gets the next or previous set of StillImageRepresentations from the server.
+     *
+     * @param {number} offsetChange 1 or -1. If set to 1, gets the next set of results. If set to -1, gets the previous set of results.
+     */
+    private changeOffsetForStillImageRepresentations(offsetChange: number) {
+        if (offsetChange == -1) {
+            // get StillImageRepresentations for previous page
+            // check that offset can be decreased, otherwise do nothing
+            if (this.stillImageRepresentationsOffset > 0) {
+                this.getStillImageRepresentations(this.resources[0].id, this.resources[0].incomingStillImageRepresentations, this.stillImageRepresentationsOffset -1);
+            }
+
+        } else if (offsetChange == 1) {
+            // get StillImageRepresentations for next page
+            this.getStillImageRepresentations(this.resources[0].id, this.resources[0].incomingStillImageRepresentations, this.stillImageRepresentationsOffset +1);
+
+        } else {
+            console.log(`Illegal argument for changeOffsetForStillImageRepresentations, must either be -1 or 1, but ${offsetChange} given.`)
+        }
+    };
 
     /**
      * Shows the source of an incoming link (a resource) in a dialog box.
