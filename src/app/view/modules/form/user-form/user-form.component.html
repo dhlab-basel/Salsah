@@ -29,14 +29,15 @@
         <md-accordion class="headers-align">
 
             <!-- 1) user profile -->
-            <!-- 1a) in case of project admin: select existing user OR create new user profile => b) -->
-            <md-expansion-panel [expanded]="step === 0" *ngIf="restrictedBy"
+            <!-- 1a) view: project admin: select existing user OR create new user profile => b) -->
+            <md-expansion-panel [expanded]="step === 0" *ngIf="restrictedBy && !uf.valid"
                                 (opened)="setStep(0)"
                                 hideToggle="true">
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
-                        {{form.user.select.title}}
+                        <span *ngIf="!selectedUser">{{form.user.select.title}}</span>
+                        <span *ngIf="selectedUser">{{form.user.select.titleDone}}</span>
                     </md-panel-title>
                     <md-panel-description>
                         <span *ngIf="!selectedUser">{{form.user.select.description}}</span>
@@ -49,7 +50,7 @@
                            [placeholder]="form.user.select.autoComplete"
                            [mdAutocomplete]="autoUser"
                            [formControl]="userCtrl">
-                    <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
+                    <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="resetSelectedUser()"
                              *ngIf="userCtrl.value && userCtrl.dirty">close
                     </md-icon>
                     <md-autocomplete #autoUser="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
@@ -61,7 +62,7 @@
                 </md-form-field>
                 <!-- footer -->
                 <md-action-row>
-                    <button md-button
+                    <button md-button *ngIf="!selectedUser"
                             class="navigation-button left"
                             color="warn"
                             (click)="nextStep($event)">
@@ -84,8 +85,8 @@
                 </md-action-row>
             </md-expansion-panel>
 
-            <!-- 1b) project and system admin: create new user profile (or edit old one?) -->
-            <md-expansion-panel [expanded]="step === 1" *ngIf="!selectedUser"
+            <!-- 1b) view: project and system admin: create new user profile (or edit old one?) -->
+            <md-expansion-panel [expanded]="step === 1" *ngIf="!selectedUser && !userCtrl.value"
                                 (opened)="setStep(1)"
                                 hideToggle="true">
                 <!-- header -->
@@ -94,9 +95,13 @@
                         <span *ngIf="restrictedBy">{{form.user.create.projectAdmin.title}}</span>
                         <span *ngIf="!restrictedBy">{{form.user.create.systemAdmin.title}}</span>
                     </md-panel-title>
-                    <md-panel-description>
+                    <md-panel-description *ngIf="!uf.controls['givenName'].value && !uf.controls['familyName'].value">
                         <span *ngIf="restrictedBy">{{form.user.create.projectAdmin.description}}</span>
                         <span *ngIf="!restrictedBy">{{form.user.create.systemAdmin.description}}</span>
+                        <md-icon>person_add</md-icon>
+                    </md-panel-description>
+                    <md-panel-description *ngIf="uf.controls['givenName'].value && uf.controls['familyName'].value">
+                        {{uf.controls['givenName'].value}} {{uf.controls['familyName'].value}}
                         <md-icon>person_add</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
@@ -104,7 +109,7 @@
                 <!-- step 1 form content -->
                 <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
                     <md-form-field class="small">
-                        <input mdInput
+                        <input mdInput [salsahFocus]="step === 1"
                                [placeholder]="form.user.create.givenName + ' *'"
                                [formControl]="uf.controls['givenName']">
                     </md-form-field>
@@ -120,8 +125,9 @@
                                [formControl]="uf.controls['email']">
                         <md-hint class="salsah-hint">
                             <span [hidden]="uf.controls['email'].invalid">{{form.user.create.emailHint}}</span>
-                            <span [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || uf.controls['email'].pristine"
-                                  class="salsah-error">
+                            <span
+                                [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || uf.controls['email'].pristine"
+                                class="salsah-error">
                                 {{form.user.create.emailValidation}}
                             </span>
                         </md-hint>
@@ -135,17 +141,17 @@
                                  [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></md-icon>
                         <md-hint class="salsah-hint">
                             <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
-                            <span [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].pristine"
-                                  class="salsah-error">
+                            <span
+                                [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].pristine"
+                                class="salsah-error">
                                 {{form.user.create.passwordHint}}
                             </span>
                         </md-hint>
                     </md-form-field>
 
                     <md-select class="large"
-                               [formControl]="uf.controls['lang']"
                                [placeholder]="form.user.language"
-                               [(ngModel)]="uf.controls['lang'].value">
+                               [formControl]="uf.controls['lang']">
 
                         <md-option value="en">english</md-option>
                         <md-option value="de">deutsch</md-option>
@@ -157,7 +163,14 @@
 
                 <!-- footer -->
                 <md-action-row>
-                    <button md-button
+                    <button md-button *ngIf="restrictedBy"
+                            class="navigation-button center"
+                            color="primary"
+                            (click)="nextStep($event, 3)"
+                            [disabled]="!uf.valid">
+                        {{form.navigation.submit}} / {{form.navigation.next}}
+                    </button>
+                    <button md-button *ngIf="!restrictedBy"
                             class="navigation-button center"
                             color="primary"
                             (click)="nextStep($event)"
@@ -171,7 +184,7 @@
 
             <!-- 2) project membership -->
 
-            <!-- 2a) in case of system admin: select project AND set the permissions => b) -->
+            <!-- 2a) view: system admin: select project AND set the permissions => b) -->
             <md-expansion-panel [expanded]="step === 2" *ngIf="!restrictedBy"
                                 (opened)="setStep(2)"
                                 hideToggle="true">
@@ -248,7 +261,7 @@
 
             </md-expansion-panel>
 
-            <!-- 2b) project and system admin: set permissions -->
+            <!-- 2b) view: project and system admin: set permissions -->
             <md-expansion-panel [expanded]="step === 3"
                                 (opened)="setStep(3)"
                                 hideToggle="true">
@@ -263,13 +276,11 @@
                         <md-icon>accessibility</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
-
-                <!-- step 2 form content -->
-
-                <!-- 2b) system admin: select project to add the new created user to the project -->
+                <md-checkbox [(ngModel)]="groupPermission" [disabled]="adminPermission">{{form.project.permissions.group}}</md-checkbox><br>
+                <md-checkbox [(ngModel)]="adminPermission" [disabled]="!groupPermission">{{form.project.permissions.admin}}</md-checkbox>
 
 
-                <!-- 2a/b) system admin / project admin: set permission for the user in this project -->
+
 
 
                 <!-- footer -->
@@ -300,6 +311,30 @@
                         <md-icon>done</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
+
+                <!-- name / email of selected user -->
+                <section *ngIf="selectedUser">
+                    <strong>{{form.user.select.titleDone}}:</strong><br>
+                    {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}
+                    <br>
+                    {{selectedUser.userData?.email}}
+                </section>
+                <!-- OR name / email of new user -->
+                <section *ngIf="!selectedUser && uf.valid">
+                    <strong>{{form.user.create.projectAdmin.titleDone}}:</strong><br>
+                    {{uf.controls['givenName'].value}} {{uf.controls['familyName'].value}}, {{uf.controls['email'].value}}
+                </section>
+                <br>
+                <!-- selected project incl. project permissons -->
+                <section *ngIf="restrictedBy || selectedProject">
+                    <strong>{{form.project.existing.title}}:</strong><br>
+                    {{selectedProject.longname}} ({{selectedProject.shortname}})
+                    <br><br>
+                    <strong>{{form.project.permissions.titleDone}}:</strong><br>
+                    <span *ngIf="groupPermission">{{form.project.permissions.group}}</span>
+                    <span *ngIf="adminPermission"> / {{form.project.permissions.admin}}</span>
+                </section>
+
 
                 <!-- step 2 form content -->
 

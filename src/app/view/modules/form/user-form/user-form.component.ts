@@ -12,18 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, NgModel, Validators} from '@angular/forms';
+import {AfterViewInit, Component, ElementRef, Inject, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
-
-import {MdDialog} from '@angular/material';
 
 import {UsersList} from 'app/model/webapi/knora/';
 import {UserService} from '../../../../model/services/user.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 import {UserProfile} from '../../../../model/webapi/knora/';
 import {User} from '../../../../model/webapi/knora/v1/users/user';
 import {ProjectsList} from '../../../../model/webapi/knora/v1/projects/projects-list';
@@ -106,10 +103,15 @@ export class UserFormComponent implements OnInit, OnChanges {
     // password visibility
     showPassword: boolean = false;
 
+    // case 2b) project permission
+    groupPermission: boolean = true;
+    adminPermission: boolean = false;
+
     public form: any = {
         user: {
             select: {
                 title: 'Select user',
+                titleDone: 'Selected user',
                 description: 'Add an existing one',
                 autoComplete: 'just type a name here',
                 autoCompleteHint: '',
@@ -118,10 +120,12 @@ export class UserFormComponent implements OnInit, OnChanges {
             create: {
                 projectAdmin: {
                     title: 'Or create new user',
+                    titleDone: 'New user',
                     description: 'If the user doesn\'t exist, create a new one',
                 },
                 systemAdmin: {
                     title: 'Add user',
+                    titleDone: 'New user',
                     description: 'Create new user profile',
                 },
                 givenName: 'First name',
@@ -149,6 +153,7 @@ export class UserFormComponent implements OnInit, OnChanges {
             },
             permissions: {
                 title: 'Project permissions',
+                titleDone: 'With the following permissions',
                 description: 'Set user\'s permissions for this project',
                 admin: 'Administrative rights',
                 adminHint: 'What are admin rights? Describe it here (TODO)',
@@ -174,11 +179,13 @@ export class UserFormComponent implements OnInit, OnChanges {
     };
 
     // setting to reset the md input autocomplete
-    @ViewChild(NgModel) modelDir: NgModel;
+    // @ViewChild(NgModel) modelDir: NgModel;
+
+    // @ViewChild('selectUser') selectUser: ElementRef;
+
 
     constructor(public _userService: UserService,
                 public _projectsService: ProjectsService,
-                public dialog: MdDialog,
                 @Inject(FormBuilder) fb: FormBuilder) {
 
 
@@ -195,19 +202,20 @@ export class UserFormComponent implements OnInit, OnChanges {
             .map(val => this.displayFn(val))
             .map(name => this.filterProjects(name));
 
-        /* disabled in dev test
-                this.uf = fb.group({
-                    'givenName': [null, Validators.required],
-                    'familyName': [null, Validators.required],
-                    'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
-                    'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
-                    'lang': 'en',
-                    'status': true,
-                    'systemAdmin': false,
-                    'group': null
-                });
-                */
+        /* disabled in dev test */
+        this.uf = fb.group({
+            'givenName': [null, Validators.required],
+            'familyName': [null, Validators.required],
+            'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
+            'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
+            'lang': 'en',
+            'status': true,
+            'systemAdmin': false,
+            'group': null
+        });
+
 // test data
+        /*
         this.uf = fb.group({
             'givenName': ['hans', Validators.required],
             'familyName': ['wurst', Validators.required],
@@ -218,21 +226,19 @@ export class UserFormComponent implements OnInit, OnChanges {
             'systemAdmin': false,
             'group': null
         });
+        */
     }
 
     ngOnInit() {
         // for the test environment
-        this.restrictedBy = 'http://data.knora.org/projects/77275339';
-
+//        this.restrictedBy = 'http://data.knora.org/projects/77275339';
 
         // in case of project admin:
         // get a list of the users which are already team members;
         // that list should already be in the session storage
         if (this.restrictedBy) {
             const members = sessionStorage.getItem('currentMembers');
-            const project: string = JSON.parse(sessionStorage.getItem('currentProject')).shortname;
 
-            this.selectedProject = new ProjectItem();
             this.getProject(this.restrictedBy);
 
             let usersList: UsersList;
@@ -240,7 +246,6 @@ export class UserFormComponent implements OnInit, OnChanges {
                 .subscribe(
                     (result: ApiServiceResult) => {
                         usersList = result.getBody(UsersList);
-                        console.log(usersList);
                         let i: number = 1;
                         for (const u of usersList.users) {
                             let exists: string = '';
@@ -277,7 +282,6 @@ export class UserFormComponent implements OnInit, OnChanges {
                 .subscribe(
                     (result: ApiServiceResult) => {
                         projectsList = result.getBody(ProjectsList);
-                        console.log(projectsList);
 
                         let i: number = 1;
                         for (const p of projectsList.projects) {
@@ -322,6 +326,10 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     setStep(index: number) {
         this.step = index;
+
+        if (index === 3 && !this.selectedProject) {
+            this.groupPermission = false;
+        }
     }
 
     displayFn(value: any): string {
@@ -348,6 +356,11 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
 
+
+    toggleVisibility() {
+        this.showPassword = (!this.showPassword);
+    }
+
     filterUsers(val: string) {
         if (val) {
             const filterValue = val.toLowerCase();
@@ -364,56 +377,31 @@ export class UserFormComponent implements OnInit, OnChanges {
         return this.projects;
     }
 
-    toggleVisibility() {
-        this.showPassword = (!this.showPassword);
-    }
-
-    onSubmit(value: any): void {
-
-        console.log('you submitted value: ', value);
-        this._userService.createUser(value).subscribe(
-            (result: ApiServiceResult) => {
-//                console.log(result.body.userProfile.userData.user_id);
-
-                // result.body.userProfile.userData.user_id
-                // this.project.id
-                if (this.restrictedBy) {
-                    this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.restrictedBy).subscribe(
-                        (secondResult: ApiServiceResult) => {
-                            console.log(secondResult.body);
-//                        this._projectTeam.closeDetailView();
-                        },
-                        (error: ApiServiceError) => {
-                            console.log(error);
-                            this.errorMessage = error;
-                        }
-                    );
-
-                }
-
-
-            },
-            (error: ApiServiceError) => {
-                this.errorMessage = error;
-            }
-        );
-
-
-    }
-
-
     // get the user profile, if selected from the list
     getUser(iri: string) {
+        // check if the selected user isn't in the project yet
+        if (this.restrictedBy) {
+            const members = sessionStorage.getItem('currentMembers');
+            if (members.indexOf(iri) > -1) {
+                alert('The selected user (' + iri + ') has already a membership in this project (' + this.restrictedBy + ')');
+                this.resetSelectedUser();
+                iri = null;
+            }
+        }
+
         if (iri) {
             this.selectedUser = new UserProfile();
             this._userService.getUserByIri(iri)
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.selectedUser = result.getBody(User).userProfile;
+                        /*
                         this.uf.controls['givenName'].setValue(this.selectedUser.userData.givenName);
                         this.uf.controls['familyName'].setValue(this.selectedUser.userData.familyName);
                         this.uf.controls['email'].setValue(this.selectedUser.userData.email);
                         this.uf.controls['lang'].setValue(this.selectedUser.userData.lang);
+                        */
+
                     },
                     (error: ApiServiceError) => {
                         console.log(error);
@@ -448,6 +436,18 @@ export class UserFormComponent implements OnInit, OnChanges {
         }
     }
 
+    resetSelectedUser() {
+        this.userCtrl.reset();
+        this.selectedUser = null;
+    }
+
+    resetSelectedProject() {
+        this.projectCtrl.reset();
+        this.selectedProject = null;
+    }
+
+
+
     prevStep(ev, step?: number) {
         ev.preventDefault();
         if (step) {
@@ -464,6 +464,39 @@ export class UserFormComponent implements OnInit, OnChanges {
         } else {
             this.step++;
         }
+    }
+
+    onSubmit(value: any): void {
+
+        console.log('you submitted value: ', value);
+        this._userService.createUser(value).subscribe(
+            (result: ApiServiceResult) => {
+//                console.log(result.body.userProfile.userData.user_id);
+
+                // result.body.userProfile.userData.user_id
+                // this.project.id
+                if (this.restrictedBy) {
+                    this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.restrictedBy).subscribe(
+                        (secondResult: ApiServiceResult) => {
+                            console.log(secondResult.body);
+//                        this._projectTeam.closeDetailView();
+                        },
+                        (error: ApiServiceError) => {
+                            console.log(error);
+                            this.errorMessage = error;
+                        }
+                    );
+
+                }
+
+
+            },
+            (error: ApiServiceError) => {
+                this.errorMessage = error;
+            }
+        );
+
+
     }
 
     getGroups() {
