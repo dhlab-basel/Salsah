@@ -466,6 +466,39 @@ export class UserFormComponent implements OnInit, OnChanges {
         }
     }
 
+    submitData(): void {
+
+        // existing user or new user?
+        // in case of new user, we have to sent those data first to receive a user iri
+        if (this.uf.valid && !this.selectedUser) {
+            // new user: send the data to knora
+            this._userService.createUser(this.uf.value).subscribe(
+                (result: ApiServiceResult) => {
+                    console.log(result);
+                    this.selectedUser = result.getBody(UserProfile);
+                    // next step: add the user to the selected project
+                    // we have to implement it right here!
+                    console.log(this.selectedUser);
+
+
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.errorMessage = error;
+                }
+            )
+        }
+
+        if (this.selectedUser) {
+            console.log('selectedUser', this.selectedUser);
+
+            // add the selected user to the project and set the permissions
+            console.log('selectedProject', this.selectedProject);
+        }
+
+
+    }
+
     onSubmit(value: any): void {
 
         console.log('you submitted value: ', value);
