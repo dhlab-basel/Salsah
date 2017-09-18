@@ -69,5 +69,9 @@ export class UserService extends ApiService {
         return this.httpPost('/v1/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
     }
 
+    addUserToProjectAdmin(uIri, string, pIri: string): Observable<any> {
+        return this.httpPost( '/v1/users/projects-admin' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+    }
+
 
 }

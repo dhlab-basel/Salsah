@@ -15,6 +15,8 @@
 
 -->
 
+
+
 <div class="salsah-step-by-step-form">
     <!-- form header with form stepper -->
     <!--
@@ -25,29 +27,31 @@
     <br>
     -->
 
-    <div class="salsah-form-content">
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
+    <div class="salsah-form-content" *ngIf="!isLoading">
         <md-accordion class="headers-align">
 
             <!-- 1) user profile -->
             <!-- 1a) view: project admin: select existing user OR create new user profile => b) -->
-            <md-expansion-panel [expanded]="step === 0" *ngIf="restrictedBy && !uf.valid"
+            <md-expansion-panel [expanded]="step === 0" *ngIf="restrictedBy && !form.valid"
                                 (opened)="setStep(0)"
                                 hideToggle="true">
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
-                        <span *ngIf="!selectedUser">{{form.user.select.title}}</span>
-                        <span *ngIf="selectedUser">{{form.user.select.titleDone}}</span>
+                        <span *ngIf="!selectedUser">{{formLabels.user.select.title}}</span>
+                        <span *ngIf="selectedUser">{{formLabels.user.select.titleDone}}</span>
                     </md-panel-title>
                     <md-panel-description>
-                        <span *ngIf="!selectedUser">{{form.user.select.description}}</span>
+                        <span *ngIf="!selectedUser">{{formLabels.user.select.description}}</span>
                         <span *ngIf="selectedUser"><i>{{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}</i></span>
                         <md-icon>person</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
                 <md-form-field class="large">
                     <input mdInput
-                           [placeholder]="form.user.select.autoComplete"
+                           [placeholder]="formLabels.user.select.autoComplete"
                            [mdAutocomplete]="autoUser"
                            [formControl]="userCtrl">
                     <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="resetSelectedUser()"
@@ -66,21 +70,21 @@
                             class="navigation-button left"
                             color="warn"
                             (click)="nextStep($event)">
-                        {{form.user.select.skip}}
+                        {{formLabels.user.select.skip}}
                     </button>
                     <button md-button *ngIf="restrictedBy"
                             class="navigation-button center"
                             color="primary"
                             (click)="nextStep($event, 3)"
                             [disabled]="!userCtrl.valid">
-                        {{form.navigation.next}}
+                        {{formLabels.navigation.next}}
                     </button>
                     <button md-button *ngIf="!restrictedBy"
                             class="navigation-button center"
                             color="primary"
                             (click)="nextStep($event, 2)"
                             [disabled]="!userCtrl.valid">
-                        {{form.navigation.next}}
+                        {{formLabels.navigation.next}}
                     </button>
                 </md-action-row>
             </md-expansion-panel>
@@ -92,66 +96,83 @@
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
-                        <span *ngIf="restrictedBy">{{form.user.create.projectAdmin.title}}</span>
-                        <span *ngIf="!restrictedBy">{{form.user.create.systemAdmin.title}}</span>
+                        <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.title}}</span>
+                        <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.title}}</span>
                     </md-panel-title>
-                    <md-panel-description *ngIf="!uf.controls['givenName'].value && !uf.controls['familyName'].value">
-                        <span *ngIf="restrictedBy">{{form.user.create.projectAdmin.description}}</span>
-                        <span *ngIf="!restrictedBy">{{form.user.create.systemAdmin.description}}</span>
+                    <md-panel-description *ngIf="!form.controls['givenName'].value && !form.controls['familyName'].value">
+                        <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.description}}</span>
+                        <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.description}}</span>
                         <md-icon>person_add</md-icon>
                     </md-panel-description>
-                    <md-panel-description *ngIf="uf.controls['givenName'].value && uf.controls['familyName'].value">
-                        {{uf.controls['givenName'].value}} {{uf.controls['familyName'].value}}
+                    <md-panel-description *ngIf="form.controls['givenName'].value && form.controls['familyName'].value">
+                        {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}
                         <md-icon>person_add</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
 
                 <!-- step 1 form content -->
-                <form class="salsah-form new-user" [formGroup]="uf" >
+                <form class="salsah-form new-user" [formGroup]="form" >
                     <md-form-field class="small">
                         <input mdInput [salsahFocus]="step === 1"
-                               [placeholder]="form.user.create.givenName + ' *'"
-                               [formControl]="uf.controls['givenName']">
+                               [placeholder]="formLabels.user.create.givenName + ' *'"
+                               [formControl]="form.controls['givenName']">
+                        <md-hint *ngIf="formErrors.givenName">
+                            {{ formErrors.givenName }}
+                        </md-hint>
                     </md-form-field>
                     <md-form-field class="medium">
                         <input mdInput
-                               [placeholder]="form.user.create.familyName + ' *'"
-                               [formControl]="uf.controls['familyName']">
+                               [placeholder]="formLabels.user.create.familyName + ' *'"
+                               [formControl]="form.controls['familyName']">
+                        <md-hint *ngIf="formErrors.familyName">
+                            {{ formErrors.familyName }}
+                        </md-hint>
                     </md-form-field>
                     <!-- email = username -->
                     <md-form-field class="large">
                         <input mdInput type="email" class="full-width"
-                               [placeholder]="form.user.create.email + ' *'"
-                               [formControl]="uf.controls['email']">
+                               [placeholder]="formLabels.user.create.email + ' *'"
+                               [formControl]="form.controls['email']">
+                        <md-hint *ngIf="formErrors.email">
+                            {{ formErrors.email }}
+                        </md-hint>
+<!--
                         <md-hint class="salsah-hint">
-                            <span [hidden]="uf.controls['email'].invalid">{{form.user.create.emailHint}}</span>
+                            <span [hidden]="form.controls['email'].invalid">{{formLabels.user.create.emailHint}}</span>
                             <span
-                                [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || uf.controls['email'].pristine"
+                                [hidden]="form.controls['email'].valid && form.controls['email'].dirty || form.controls['email'].pristine"
                                 class="salsah-error">
-                                {{form.user.create.emailValidation}}
+                                {{formLabels.user.create.emailValidation}}
                             </span>
                         </md-hint>
+-->
                     </md-form-field>
                     <!-- password -->
                     <md-form-field class="large">
                         <input mdInput [type]="showPassword ? 'text' : 'password'"
-                               [placeholder]="form.user.create.password + ' *'"
-                               [formControl]="uf.controls['password']">
+                               [placeholder]="formLabels.user.create.password + ' *'"
+                               [formControl]="form.controls['password']">
                         <md-icon mdSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
                                  [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></md-icon>
-                        <md-hint class="salsah-hint">
-                            <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
-                            <span
-                                [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].pristine"
-                                class="salsah-error">
-                                {{form.user.create.passwordHint}}
-                            </span>
+                        <md-hint *ngIf="formErrors.password">
+                            {{ formErrors.password }}
                         </md-hint>
+<!--
+                        <md-hint class="salsah-hint">
+                            <!-- [hidden]="form.controls['password'].valid" [ngClass]="{'salsah-error': (form.controls['password'].invalid && form.controls['password'].dirty)}"  --
+                            <span
+                                [hidden]="form.controls['password'].valid && form.controls['password'].dirty || form.controls['password'].pristine"
+                                class="salsah-error">
+                                {{formLabels.user.create.passwordHint}}
+                            </span>
+
+                        </md-hint>
+-->
                     </md-form-field>
 
                     <md-select class="large"
-                               [placeholder]="form.user.language"
-                               [formControl]="uf.controls['lang']">
+                               [placeholder]="formLabels.user.language"
+                               [formControl]="form.controls['lang']">
 
                         <md-option value="en">english</md-option>
                         <md-option value="de">deutsch</md-option>
@@ -167,15 +188,15 @@
                             class="navigation-button center"
                             color="primary"
                             (click)="nextStep($event, 3)"
-                            [disabled]="!uf.valid">
-                        {{form.navigation.submit}} / {{form.navigation.next}}
+                            [disabled]="!form.valid">
+                        {{formLabels.navigation.submit}} / {{formLabels.navigation.next}}
                     </button>
                     <button md-button *ngIf="!restrictedBy"
                             class="navigation-button center"
                             color="primary"
                             (click)="nextStep($event)"
-                            [disabled]="!uf.valid">
-                        {{form.navigation.submit}} / {{form.navigation.next}}
+                            [disabled]="!form.valid">
+                        {{formLabels.navigation.submit}} / {{formLabels.navigation.next}}
                     </button>
                 </md-action-row>
 
@@ -191,17 +212,17 @@
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
-                        {{form.project.select.title}}
+                        {{formLabels.project.select.title}}
                     </md-panel-title>
                     <!-- 2a) show the project short name only -->
                     <md-panel-description>
-                        {{form.project.select.description}}
+                        {{formLabels.project.select.description}}
                         <md-icon>assignment</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
                 <md-form-field class="large">
                     <input mdInput
-                           [placeholder]="form.project.select.autoComplete"
+                           [placeholder]="formLabels.project.select.autoComplete"
                            [mdAutocomplete]="autoProject"
                            [formControl]="projectCtrl">
                     <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="projectCtrl.reset()"
@@ -220,14 +241,14 @@
                             class="navigation-button left"
                             color="warn"
                             (click)="nextStep($event, 4)">
-                        {{form.project.select.skip}}
+                        {{formLabels.project.select.skip}}
                     </button>
                     <button md-button
                             class="navigation-button center"
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!projectCtrl.valid">
-                        {{form.navigation.next}}
+                        {{formLabels.navigation.next}}
                     </button>
                 </md-action-row>
 
@@ -238,7 +259,7 @@
                     <input mdInput
                            [mdAutocomplete]="users"
                            [formControl]="userCtrl"
-                           [placeholder]="form.select">
+                           [placeholder]="formLabels.select">
                     <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
                              *ngIf="userCtrl.value && userCtrl.dirty">close</md-icon>
                 </md-input-container>
@@ -253,8 +274,8 @@
                             class="navigation-button center"
                             color="primary"
                             (click)="nextStep($event)"
-                            [disabled]="!uf.valid">
-                        {{form.navigation.next}}
+                            [disabled]="!form.valid">
+                        {{formLabels.navigation.next}}
                     </button>
                 </md-action-row>
                 -->
@@ -268,16 +289,16 @@
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
-                        {{form.project.permissions.title}}
+                        {{formLabels.project.permissions.title}}
                     </md-panel-title>
                     <md-panel-description>
                         <span *ngIf="selectedProject"><i>{{selectedProject.longname}}</i></span>
-                        <span *ngIf="!selectedProject">{{form.project.permissions.description}}</span>
+                        <span *ngIf="!selectedProject">{{formLabels.project.permissions.description}}</span>
                         <md-icon>accessibility</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
-                <md-checkbox [(ngModel)]="groupPermission" [disabled]="adminPermission">{{form.project.permissions.group}}</md-checkbox><br>
-                <md-checkbox [(ngModel)]="adminPermission" [disabled]="!groupPermission">{{form.project.permissions.admin}}</md-checkbox>
+                <md-checkbox [(ngModel)]="groupPermission" [disabled]="adminPermission">{{formLabels.project.permissions.group}}</md-checkbox><br>
+                <md-checkbox [(ngModel)]="adminPermission" [disabled]="!groupPermission">{{formLabels.project.permissions.admin}}</md-checkbox>
 
 
 
@@ -289,7 +310,7 @@
                             class="navigation-button center"
                             color="primary"
                             (click)="nextStep($event)">
-                        {{form.navigation.next}}
+                        {{formLabels.navigation.next}}
                     </button>
                 </md-action-row>
 
@@ -304,45 +325,49 @@
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
-                        {{form.overview.title}}
+                        {{formLabels.overview.title}}
                     </md-panel-title>
                     <md-panel-description>
-                        {{form.overview.description}}
+                        {{formLabels.overview.description}}
                         <md-icon>done</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
 
                 <!-- name / email of selected user -->
-                <section *ngIf="selectedUser">
-                    <strong>{{form.user.select.titleDone}}:</strong><br>
-                    {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}
+                <div *ngIf="!isSubmitting">
+                    <section *ngIf="selectedUser">
+                        <strong>{{formLabels.user.select.titleDone}}:</strong><br>
+                        {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}
+                        <br>
+                        {{selectedUser.userData?.email}}
+                    </section>
+                    <!-- OR name / email of new user -->
+                    <section *ngIf="!selectedUser && form.valid">
+                        <strong>{{formLabels.user.create.projectAdmin.titleDone}}:</strong><br>
+                        {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
+                    </section>
                     <br>
-                    {{selectedUser.userData?.email}}
-                </section>
-                <!-- OR name / email of new user -->
-                <section *ngIf="!selectedUser && uf.valid">
-                    <strong>{{form.user.create.projectAdmin.titleDone}}:</strong><br>
-                    {{uf.controls['givenName'].value}} {{uf.controls['familyName'].value}}, {{uf.controls['email'].value}}
-                </section>
-                <br>
-                <!-- selected project incl. project permissons -->
-                <section *ngIf="restrictedBy || selectedProject">
-                    <strong>{{form.project.existing.title}}:</strong><br>
-                    {{selectedProject.longname}} ({{selectedProject.shortname}})
-                    <br><br>
-                    <strong>{{form.project.permissions.titleDone}}:</strong><br>
-                    <span *ngIf="groupPermission">{{form.project.permissions.group}}</span>
-                    <span *ngIf="adminPermission"> / {{form.project.permissions.admin}}</span>
-                </section>
+                    <!-- selected project incl. project permissons -->
+                    <section *ngIf="restrictedBy || selectedProject">
+                        <strong>{{formLabels.project.existing.title}}:</strong><br>
+                        {{selectedProject.longname}} ({{selectedProject.shortname}})
+                        <br><br>
+                        <strong>{{formLabels.project.permissions.titleDone}}:</strong><br>
+                        <span *ngIf="groupPermission">{{formLabels.project.permissions.group}}</span>
+                        <span *ngIf="adminPermission"> / {{formLabels.project.permissions.admin}}</span>
+                    </section>
+                </div>
+                <salsah-progress-indicator *ngIf="isSubmitting"></salsah-progress-indicator>
 
                 <!-- footer -->
                 <md-action-row>
+                    <button md-button (click)="getInfos()">Test</button>
                     <!-- two buttons for both cases and submit the data with the method -->
-                    <button md-raised-button [disabled]="!uf.valid || !selectedUser"
+                    <button md-raised-button [disabled]="(!form.valid) && (!selectedUser?.userData?.user_id)"
                             class="navigation-button center"
                             color="primary"
                             (click)="submitData()">
-                        {{form.navigation.submit}}
+                        {{formLabels.navigation.submit}}
                     </button>
                 </md-action-row>
 
@@ -356,9 +381,9 @@
 </div>
 
 <!-- next section
-{{form.system.admin}}
-                                    <md-slide-toggle [color]="'primary'" [formControl]="uf.controls['systemAdmin']"
-                                                     [(ngModel)]="uf.controls['systemAdmin'].value">
+{{formLabels.system.admin}}
+                                    <md-slide-toggle [color]="'primary'" [formControl]="form.controls['systemAdmin']"
+                                                     [(ngModel)]="form.controls['systemAdmin'].value">
                                     </md-slide-toggle>
                                     -->
 
@@ -369,18 +394,18 @@
                             <tr>
                                 <td colspan="1">
                                     <md-input-container class="full-width"
-                                                        dividerColor="{{ uf.controls['givenName']?.invalid && uf.controls['givenName']?.touched ? 'warn' : 'primary' }}">
+                                                        dividerColor="{{ form.controls['givenName']?.invalid && form.controls['givenName']?.touched ? 'warn' : 'primary' }}">
                                         <input mdInput
-                                               [placeholder]="form.user.givenName + ' *'"
-                                               [formControl]="uf.controls['givenName']">
+                                               [placeholder]="formLabels.user.givenName + ' *'"
+                                               [formControl]="form.controls['givenName']">
                                     </md-input-container>
                                 </td>
                                 <td colspan="2">
                                     <md-input-container class="full-width"
-                                                        dividerColor="{{ uf.controls['familyName']?.invalid && uf.controls['familyName']?.touched ? 'warn' : 'primary' }}">
+                                                        dividerColor="{{ form.controls['familyName']?.invalid && form.controls['familyName']?.touched ? 'warn' : 'primary' }}">
                                         <input mdInput
-                                               [placeholder]="form.user.familyName + ' *'"
-                                               [formControl]="uf.controls['familyName']">
+                                               [placeholder]="formLabels.user.familyName + ' *'"
+                                               [formControl]="form.controls['familyName']">
                                     </md-input-container>
                                 </td>
                             </tr>
@@ -388,15 +413,15 @@
                             <tr>
                                 <td colspan="3">
                                     <md-input-container class="full-width"
-                                                        dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
+                                                        dividerColor="{{ form.controls['email']?.invalid && form.controls['email']?.touched ? 'warn' : 'primary' }}">
                                         <input mdInput type="email"
-                                               [placeholder]="form.user.email + ' *'"
-                                               [formControl]="uf.controls['email']">
+                                               [placeholder]="formLabels.user.email + ' *'"
+                                               [formControl]="form.controls['email']">
                                         <md-hint class="salsah-hint">
-                                            <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
+                                            <span [hidden]="form.controls['email'].invalid">{{formLabels.user.emailHint}}</span>
                                             <span
-                                                [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || !uf.controls['email'].touched"
-                                                class="salsah-error">{{form.user.emailValidation}}
+                                                [hidden]="form.controls['email'].valid && form.controls['email'].dirty || !form.controls['email'].touched"
+                                                class="salsah-error">{{formLabels.user.emailValidation}}
                                     </span>
                                         </md-hint>
                                     </md-input-container>
@@ -406,16 +431,16 @@
                             <tr>
                                 <td colspan="3">
                                     <md-input-container class="full-width"
-                                                        dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
+                                                        dividerColor="{{ !form.controls['password']?.valid ? 'warn' : 'primary' }}">
                                         <input mdInput type="password"
-                                               [placeholder]="form.user.password + ' *'"
-                                               [formControl]="uf.controls['password']">
+                                               [placeholder]="formLabels.user.password + ' *'"
+                                               [formControl]="form.controls['password']">
                                         <md-hint class="salsah-hint">
-                                            <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  --
+                                            <!-- [hidden]="form.controls['password'].valid" [ngClass]="{'salsah-error': (form.controls['password'].invalid && form.controls['password'].dirty)}"  --
                                             <span
-                                                [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || uf.controls['password'].touched"
+                                                [hidden]="form.controls['password'].valid && form.controls['password'].dirty || form.controls['password'].touched"
                                                 class="salsah-error">
-                                        {{form.user.passwordHint}}
+                                        {{formLabels.user.passwordHint}}
                                     </span>
                                         </md-hint>
                                     </md-input-container>
@@ -424,9 +449,9 @@
                             <!-- line 4: preferred language --
                             <tr>
                                 <td colspan="2">
-                                    <md-select [formControl]="uf.controls['lang']"
-                                               [placeholder]="form.user.language"
-                                               [(ngModel)]="uf.controls['lang'].value">
+                                    <md-select [formControl]="form.controls['lang']"
+                                               [placeholder]="formLabels.user.language"
+                                               [(ngModel)]="form.controls['lang'].value">
                                         <md-option value="en">english</md-option>
                                         <md-option value="de">deutsch</md-option>
                                         <md-option value="fr">français</md-option>
@@ -434,9 +459,9 @@
                                     </md-select>
                                 </td>
                                 <td>
-                                    {{form.system.admin}}
-                                    <md-slide-toggle [color]="'primary'" [formControl]="uf.controls['systemAdmin']"
-                                                     [(ngModel)]="uf.controls['systemAdmin'].value">
+                                    {{formLabels.system.admin}}
+                                    <md-slide-toggle [color]="'primary'" [formControl]="form.controls['systemAdmin']"
+                                                     [(ngModel)]="form.controls['systemAdmin'].value">
                                     </md-slide-toggle>
                                 </td>
                             </tr>
@@ -447,7 +472,7 @@
                                     class="navigation-button center"
                                     color="primary"
                                     (click)="nextStep($event)"
-                                    [disabled]="!uf.valid">
+                                    [disabled]="!form.valid">
                                 Next
                             </button>
                         </md-action-row>

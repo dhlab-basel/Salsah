@@ -199,8 +199,20 @@ export class ProjectFormComponent implements OnInit {
         }
         */
 
+        Object.keys(this.formErrors).map(field => {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                Object.keys(control.errors).map(key => {
+                    this.formErrors[field] += messages[key] + ' ';
+                });
 
-        for (const field in this.formErrors) {
+            }
+        });
+
+/*
+        for (const field in Object.keys(this.formErrors)) {
             // clear previous error message (if any)
             this.formErrors[field] = '';
             const control = form.get(field);
@@ -212,6 +224,7 @@ export class ProjectFormComponent implements OnInit {
                 }
             }
         }
+        */
     }
 
     onSubmit(value: any, iri?: string): void {

@@ -27,6 +27,7 @@ import {ProjectsList} from '../../../../model/webapi/knora/v1/projects/projects-
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
 import {Project} from '../../../../model/webapi/knora/v1/projects/project';
+import {existingNamesValidator} from '../../other/existing-name.directive';
 
 @Component({
     selector: 'salsah-user-form',
@@ -58,6 +59,10 @@ export class UserFormComponent implements OnInit, OnChanges {
         3) special stuff like "add the user to system project" and set system permissions
 
      */
+
+    // loader
+    isLoading: boolean = true;
+    isSubmitting: boolean = false;
 
     // step number in the form
     step: number = 0; // Default: 0; for developers: you have to change to step number to open the step where you're working on
@@ -96,18 +101,24 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     // case 1b) form to create new user
     // uf => user form control
-    uf: FormGroup;
+    form: FormGroup;
     // email and password validator
     emailRegexp: any = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    passwordRegexp: any = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i;
+//    passwordRegexp: any = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i;
+    passwordRegexp: any = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/i;
     // password visibility
     showPassword: boolean = false;
+    // list of users to prevent duplicate entries
+    existingUserNames: [RegExp] = [
+        new RegExp('user')
+    ];
 
     // case 2b) project permission
     groupPermission: boolean = true;
     adminPermission: boolean = false;
 
-    public form: any = {
+    // some titles, descriptions and labels or hints
+    public formLabels: any = {
         user: {
             select: {
                 title: 'Select user',
@@ -130,7 +141,7 @@ export class UserFormComponent implements OnInit, OnChanges {
                 },
                 givenName: 'First name',
                 familyName: 'Last name',
-                email: 'Email address',
+                email: 'Email address (will be your login name)',
                 emailHint: 'This will be your login name',
                 emailValidation: 'This doesn\'t appear to be a valid email address.',
                 password: 'Password',
@@ -178,6 +189,36 @@ export class UserFormComponent implements OnInit, OnChanges {
         }
     };
 
+    // the following form fields would have an error check
+
+    formErrors = {
+        'givenName': '',
+        'familyName': '',
+        'email': '',
+        'password': '',
+    };
+
+    // ...with the following messages
+    validationMessages = {
+        'givenName': {
+            'required': 'First name is required.'
+
+        },
+        'familyName': {
+            'required': 'Last name is required.'
+        },
+        'email': {
+            'required': 'Email address is required.',
+            'pattern': 'This doesn\'t appear to be a valid email address.',
+            'existingName': 'This email address exists already.'
+        },
+        'password': {
+            'required': 'A password is required.',
+            'minlength': 'Use at least 8 characters.',
+            'pattern': 'The password should have at least one uppercase letter and one number.',
+        }
+    };
+
     // setting to reset the md input autocomplete
     // @ViewChild(NgModel) modelDir: NgModel;
 
@@ -203,10 +244,10 @@ export class UserFormComponent implements OnInit, OnChanges {
             .map(name => this.filterProjects(name));
 
         /* disabled in dev test */
-        this.uf = fb.group({
+        this.form = fb.group({
             'givenName': [null, Validators.required],
             'familyName': [null, Validators.required],
-            'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
+            'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp), existingNamesValidator(this.existingUserNames)])],
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
             'lang': 'en',
             'status': true,
@@ -231,21 +272,29 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         // for the test environment
-//        this.restrictedBy = 'http://data.knora.org/projects/77275339';
+        this.restrictedBy = 'http://data.knora.org/projects/77275339';
 
-        // in case of project admin:
-        // get a list of the users which are already team members;
-        // that list should already be in the session storage
-        if (this.restrictedBy) {
-            const members = sessionStorage.getItem('currentMembers');
+        // get a list of all users and create an array of the user name ( = email address)
+        // the user name should be unique and with the array list, we can
+        // prevent to have the same user name twice; proof it with the ForbiddenName directive
+        let usersList: UsersList;
 
-            this.getProject(this.restrictedBy);
+        this._userService.getAllUsers()
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    usersList = result.getBody(UsersList);
+                    for (const user of usersList.users) {
+                        this.existingUserNames.push(new RegExp('(?:^|\W)' + user.email.toLowerCase() + '(?:$|\W)'));
+                    }
 
-            let usersList: UsersList;
-            this._userService.getAllUsers()
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        usersList = result.getBody(UsersList);
+                    // in case of project admin:
+                    // get a list of the users which are already team members;
+                    // that list should already be in the session storage
+                    if (this.restrictedBy) {
+                        const members = sessionStorage.getItem('currentMembers');
+
+                        this.getProject(this.restrictedBy);
+
                         let i: number = 1;
                         for (const u of usersList.users) {
                             let exists: string = '';
@@ -269,45 +318,56 @@ export class UserFormComponent implements OnInit, OnChanges {
                             }
                         });
 
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
+                    } else {
+                        // in case of system admin:
+                        // get a list of projects to add the new created user
+                        this.step = 1;
+
+                        let projectsList: ProjectsList;
+                        this._projectsService.getAllProjects()
+                            .subscribe(
+                                (res: ApiServiceResult) => {
+                                    projectsList = res.getBody(ProjectsList);
+
+                                    let i: number = 1;
+                                    for (const p of projectsList.projects) {
+                                        this.projects[i] = {
+                                            iri: p.id,
+                                            name: p.longname + ' (' + p.shortname + ')'
+                                        };
+                                        i++;
+                                    }
+
+                                    this.projects.sort(function (p1, p2) {
+                                        if (p1.name < p2.name) {
+                                            return -1;
+                                        } else if (p1.name > p2.name) {
+                                            return 1;
+                                        } else {
+                                            return 0;
+                                        }
+                                    });
+
+                                },
+                                (error: ApiServiceError) => {
+                                    this.errorMessage = <any>error;
+                                }
+                            )
                     }
-                );
-        } else {
-            this.step = 1;
 
-            let projectsList: ProjectsList;
-            this._projectsService.getAllProjects()
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        projectsList = result.getBody(ProjectsList);
+                    this.isLoading = false;
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.errorMessage = error;
+                }
+            );
 
-                        let i: number = 1;
-                        for (const p of projectsList.projects) {
-                            this.projects[i] = {
-                                iri: p.id,
-                                name: p.longname + ' (' + p.shortname + ')'
-                            };
-                            i++;
-                        }
 
-                        this.projects.sort(function (p1, p2) {
-                            if (p1.name < p2.name) {
-                                return -1;
-                            } else if (p1.name > p2.name) {
-                                return 1;
-                            } else {
-                                return 0;
-                            }
-                        });
+        this.form.valueChanges
+            .subscribe(data => this.onValueChanged(data));
 
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
-                    }
-                )
-        }
+        this.onValueChanged(); // (re)set validation messages now
 
         /*
          this.filteredUsers = this.userCtrl.valueChanges
@@ -319,9 +379,30 @@ export class UserFormComponent implements OnInit, OnChanges {
     ngOnChanges() {
         // still needed ????????????????????????????????
 //        console.log(this.uf.valid);
-        if (this.uf.valid) {
+        if (this.form.valid) {
 //            console.log(this.uf);
         }
+    }
+
+    onValueChanged(data?: any) {
+
+        if (!this.form) {
+            return;
+        }
+
+        const form = this.form;
+
+        Object.keys(this.formErrors).map(field => {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                Object.keys(control.errors).map(key => {
+                    this.formErrors[field] += messages[key] + ' ';
+                });
+
+            }
+        });
     }
 
     setStep(index: number) {
@@ -354,7 +435,6 @@ export class UserFormComponent implements OnInit, OnChanges {
         }
 //        return value && typeof value === 'object' ? value.name : value;
     }
-
 
 
     toggleVisibility() {
@@ -447,7 +527,6 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
 
-
     prevStep(ev, step?: number) {
         ev.preventDefault();
         if (step) {
@@ -467,20 +546,37 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     submitData(): void {
+        this.isSubmitting = true;
 
-        // existing user or new user?
+        // 1) existing user or new user?
         // in case of new user, we have to sent those data first to receive a user iri
-        if (this.uf.valid && !this.selectedUser) {
+        if (this.form.valid && !this.selectedUser) {
             // new user: send the data to knora
-            this._userService.createUser(this.uf.value).subscribe(
+            this._userService.createUser(this.form.value).subscribe(
                 (result: ApiServiceResult) => {
-                    console.log(result);
+
                     this.selectedUser = result.getBody(UserProfile);
                     // next step: add the user to the selected project
-                    // we have to implement it right here!
-                    console.log(this.selectedUser);
+                    /*
+                    const project: string = (this.restrictedBy ? this.restrictedBy : this.selectedProject.id);
 
-
+                    if (project) {
+//                        this.addUserToProject(this.selectedUser.userData.user_id, project);
+                    }
+                    */
+                    this.isSubmitting = false;
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.errorMessage = error;
+                }
+            )
+        } else {
+            // existing user from list; add the user to the project and set the permissions
+            this._userService.addUserToProject(this.selectedUser.userData.user_id, this.restrictedBy).subscribe(
+                (result: ApiServiceResult) => {
+                    console.log(result);
+                    this.isSubmitting = false;
                 },
                 (error: ApiServiceError) => {
                     console.log(error);
@@ -488,6 +584,10 @@ export class UserFormComponent implements OnInit, OnChanges {
                 }
             )
         }
+
+        // 2) add user to project, if project iri exists
+        // we need the user iri first!
+
 
         if (this.selectedUser) {
             console.log('selectedUser', this.selectedUser);
@@ -498,6 +598,12 @@ export class UserFormComponent implements OnInit, OnChanges {
 
 
     }
+
+    /*
+    addUserToProject(uIri: string, pIri: string) {
+
+    }
+    */
 
     onSubmit(value: any): void {
 
@@ -530,6 +636,13 @@ export class UserFormComponent implements OnInit, OnChanges {
         );
 
 
+    }
+
+    getInfos() {
+        console.log('groupPermission?', this.groupPermission);
+        console.log('adminPermission?', this.adminPermission);
+        console.log('disabled by form?', !this.form.valid);
+        console.log('disabled by user?', !this.selectedUser);
     }
 
     getGroups() {
