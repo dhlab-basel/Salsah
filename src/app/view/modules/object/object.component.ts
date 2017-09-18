@@ -9,11 +9,13 @@ import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 import {AppConfig} from "../../../app.config";
 import {
-    RequestImages,
-    StillImageOSDViewerComponent
+    ImageRegion,
+    RequestStillImageRepresentations,
+    StillImageOSDViewerComponent, StillImageRepresentation
 } from "../../properties/still-image-osdviewer/still-image-osdviewer.component";
 import {OntologyCacheService, OntologyInformation} from "../../../model/services/ontologycache.service";
 import {MdDialog, MdDialogConfig} from "@angular/material";
+import {ReadGeomValue, ReadStillImageFileValue} from "../../../model/webapi/knora/v2/read-property-item";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -81,6 +83,12 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                                 // initialize ontology information
                                 this.ontologyInfo = resourceClassInfos;
+
+                                let imagesToDisplay = this.getImagesForResource(resourceSeq.resources[0]);
+
+                                // TODO: make this generic (for a collection of resources)
+                                resourceSeq.resources[0].stillImageRepresentationsToDisplay = imagesToDisplay;
+
                                 this.resources = resourceSeq.resources;
 
                                 this.requestIncomingResources(resourceSeq.resources);
@@ -134,6 +142,10 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                                         // Append elements of regions.resources to resources[0].incoming
                                         Array.prototype.push.apply(resources[0].incomingRegions, regions.resources);
+
+                                        // TODO: make this generic (for a collection of resources)
+                                        this.resources[0].stillImageRepresentationsToDisplay = this.getImagesForResource(this.resources[0]);
+
                                         if (this.osdViewer) {
                                             this.osdViewer.updateRegions();
                                         }
@@ -217,7 +229,7 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                 let promise = jsonld.promises.compact(result.body, {});
                 promise.then((compacted) => {
-                        console.log(compacted);
+                        //console.log(compacted);
 
                         let incomingImageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
@@ -238,6 +250,9 @@ export class ObjectComponent implements OnChanges, OnInit {
                                     // TODO: Find a way to prepend images if user did not start at beginning of collection
                                     // TODO: currently, new images are just appended which may be wrong
                                     Array.prototype.push.apply(incomingStillImageRepresentations, incomingImageRepresentations.resources);
+
+                                    // TODO: make this generic (for a collection of resources)
+                                    this.resources[0].stillImageRepresentationsToDisplay = this.getImagesForResource(this.resources[0]);
 
                                 }
                             },
@@ -260,12 +275,88 @@ export class ObjectComponent implements OnChanges, OnInit {
 
     }
 
+
+    /**
+     * Creates a collection of [[StillImageRepresentation]] belonging to the given resource. Each [[StillImageRepresentation]] represents an image including regions.
+     *
+     * @param {ReadResource} resource          The resource to get the images for.
+     * @returns {StillImageRepresentation[]}   A collection of images for the given resource.
+     */
+    private getImagesForResource(resource: ReadResource): StillImageRepresentation[] {
+
+        let imgRepresentations: StillImageRepresentation[] = [];
+
+        if (resource.properties[AppConfig.hasStillImageFileValue] !== undefined) {
+            // resource has StillImageFileValues that are directly attached to it (properties)
+
+            let fileValues: ReadStillImageFileValue[] = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
+            let imagesToDisplay: ReadStillImageFileValue[] = fileValues.filter((image) => {
+                return !image.isPreview;
+            });
+
+
+            for (let img of imagesToDisplay) {
+
+                let regions: ImageRegion[] = [];
+                for (let incomingRegion of resource.incomingRegions) {
+
+                    let geometries: ReadGeomValue[] = incomingRegion.properties[AppConfig.hasGeometry] as ReadGeomValue[];
+                    let region = new ImageRegion(incomingRegion, geometries);
+
+                    regions.push(region);
+
+                }
+
+                let stillImage = new StillImageRepresentation(img, regions);
+                imgRepresentations.push(stillImage);
+
+            }
+
+
+        } else if (resource.incomingStillImageRepresentations.length > 0) {
+            // there are StillImageRepresentations pointing to this resource (incoming)
+
+            let readStillImageFileValues: ReadStillImageFileValue[] = resource.incomingStillImageRepresentations.map(
+                (stillImageRes: ReadResource) => {
+                    let fileValues = stillImageRes.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
+                    let imagesToDisplay = fileValues.filter((image) => {
+                        return !image.isPreview;
+                    });
+
+                    return imagesToDisplay;
+                }
+            ).reduce(function (prev, curr) {
+                // transform ReadStillImageFileValue[][] to ReadStillImageFileValue[]
+                return prev.concat(curr);
+            });
+
+            for (let img of readStillImageFileValues) {
+
+                let regions: ImageRegion[] = [];
+                for (let incomingRegion of resource.incomingRegions) {
+
+                    let geometries: ReadGeomValue[] = incomingRegion.properties[AppConfig.hasGeometry] as ReadGeomValue[];
+                    let region = new ImageRegion(incomingRegion, geometries);
+                    regions.push(region);
+
+                }
+
+                let stillImage = new StillImageRepresentation(img, regions);
+                imgRepresentations.push(stillImage);
+            }
+
+        }
+
+        return imgRepresentations;
+
+    }
+
     /**
      * Gets the next or previous set of StillImageRepresentations from the server.
      *
      * @param {number} offsetChange 1 or -1. If set to 1, gets the next set of results. If set to -1, gets the previous set of results.
      */
-    private changeOffsetForStillImageRepresentations(offsetChange: RequestImages) {
+    private changeOffsetForStillImageRepresentations(offsetChange: RequestStillImageRepresentations) {
         // TODO: check if the data is already there or has to be requested from server
 
         console.log(offsetChange);

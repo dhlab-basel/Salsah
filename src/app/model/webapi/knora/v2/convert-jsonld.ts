@@ -57,7 +57,8 @@ export module ConvertJSONLD {
             properties: properties,
             incomingRegions: [],
             incomingStillImageRepresentations: [],
-            incomingLinks: []
+            incomingLinks: [],
+            stillImageRepresentationsToDisplay: []
         };
     }
 
