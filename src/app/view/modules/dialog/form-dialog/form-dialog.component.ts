@@ -1,4 +1,4 @@
-/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
+  /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
  * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
@@ -16,10 +16,12 @@ import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 import {MessageData} from '../../message/message.component';
 
+/*
 export interface FormSteps {
     maxSteps?: number,
     steps: string[]
 }
+*/
 
 @Component({
     selector: 'salsah-form-dialog',
@@ -28,11 +30,11 @@ export interface FormSteps {
 })
 export class FormDialogComponent implements OnInit {
 
-    @Input() steps?: FormSteps;
+//    @Input() steps?: FormSteps;
 
     fullSize: boolean = false;
 
-    formIsValid: boolean = false;
+//    formIsValid: boolean = false;
 
     notYetImplemented: MessageData = <MessageData>{
         status: 204,
@@ -46,10 +48,13 @@ export class FormDialogComponent implements OnInit {
 
     ngOnInit() {
         // start in full size
-        this.toggleFullSize();
+        if (this._dialogRef) {
+            this.toggleFullSize();
+        }
         this.notYetImplemented.route = this.data.form;
     }
 
+    /*
     submitData(data: any, iri?: string) {
         // get the data and the valid form information from child component
         // if the data is valid, activate the submit button
@@ -58,6 +63,7 @@ export class FormDialogComponent implements OnInit {
         console.log('FormDialog submitData: data', data);
         this._dialogRef.close();
     }
+    */
 
     toggleFullSize() {
         this.fullSize = (!this.fullSize);

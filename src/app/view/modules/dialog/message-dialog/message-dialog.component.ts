@@ -22,14 +22,14 @@ import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 })
 export class MessageDialogComponent implements OnInit {
 
-    constructor(public dialogRef: MdDialogRef<MessageDialogComponent>,
+    constructor(public _dialogRef: MdDialogRef<MessageDialogComponent>,
                 @Inject(MD_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
 
-        if (this.dialogRef) {
-            this.dialogRef.updateSize('800px', '560px');
+        if (this._dialogRef) {
+            this._dialogRef.updateSize('800px', '560px');
         }
 
 

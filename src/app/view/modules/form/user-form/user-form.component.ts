@@ -548,6 +548,8 @@ export class UserFormComponent implements OnInit, OnChanges {
     submitData(): void {
         this.isSubmitting = true;
 
+        let userIri: string;
+
         // 1) existing user or new user?
         // in case of new user, we have to sent those data first to receive a user iri
         if (this.form.valid && !this.selectedUser) {
@@ -556,6 +558,9 @@ export class UserFormComponent implements OnInit, OnChanges {
                 (result: ApiServiceResult) => {
 
                     this.selectedUser = result.getBody(UserProfile);
+
+                    userIri = this.selectedUser.userData.user_id;
+
                     // next step: add the user to the selected project
                     /*
                     const project: string = (this.restrictedBy ? this.restrictedBy : this.selectedProject.id);
@@ -587,7 +592,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
         // 2) add user to project, if project iri exists
         // we need the user iri first!
-
+        console.log(this.selectedUser.userData.user_id);
 
         if (this.selectedUser) {
             console.log('selectedUser', this.selectedUser);
@@ -638,7 +643,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     }
 
-    getInfos() {
+    getInfo() {
         console.log('groupPermission?', this.groupPermission);
         console.log('adminPermission?', this.adminPermission);
         console.log('disabled by form?', !this.form.valid);
