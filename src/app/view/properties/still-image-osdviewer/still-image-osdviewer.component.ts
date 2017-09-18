@@ -12,7 +12,10 @@
 * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 * */
 
-import {Component, Input, OnInit, OnChanges, SimpleChange, ElementRef, EventEmitter, Output} from '@angular/core';
+import {
+    Component, Input, OnInit, OnChanges, SimpleChange, ElementRef, EventEmitter, Output,
+    OnDestroy
+} from '@angular/core';
 import {ReadStillImageFileValue, ReadGeomValue} from "../../../model/webapi/knora/v2/read-property-item";
 import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {Point2D, RegionGeometry} from "../../../model/webapi/knora/v2/read-property-item";
@@ -24,8 +27,21 @@ import {AppConfig} from "../../../app.config"
 // OpenSeadragon does not export itself as ES6/ECMA2015 module,
 // it is loaded globally in scripts tag of angular-cli.json,
 // we still need to declare the namespace to make TypeScript compiler happy.
-declare var OpenSeadragon: any;
+declare let OpenSeadragon: any;
 
+class StillImageRepresentation {
+
+    stillImageFileValues: ReadStillImageFileValue[];
+
+    regions: ReadGeomValue[];
+
+}
+
+export class RequestImages {
+
+    constructor(readonly offsetChange: number, readonly whenLoadedCB: () => void) {
+    }
+}
 
 /**
  * This component creates a OpenSeadragon viewer instance.
@@ -39,13 +55,17 @@ declare var OpenSeadragon: any;
     templateUrl: './still-image-osdviewer.component.html',
     styleUrls: ['./still-image-osdviewer.component.scss']
 })
-export class StillImageOSDViewerComponent implements OnInit {
+export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestroy {
 
-    @Input() resources: ReadResource[] = [];
+    @Input() resources: ReadResource[] = []; // TODO: use images instead
+    @Input() images: StillImageRepresentation[];
 
-    @Output() changeOffset = new EventEmitter<number>(); // sends a message to the parent component (object.component) to load the next or previous page of results (images) from the server
+    @Output() getImages = new EventEmitter<RequestImages>(); // sends a message to the parent component (object.component) to load the next or previous page of results (images) from the server
 
     private viewer;
+
+    private imageRangeStart: number = 0;
+    private imageRangeEnd: number = 4 ;
 
     constructor(private elementRef: ElementRef) {
     }
@@ -88,14 +108,26 @@ export class StillImageOSDViewerComponent implements OnInit {
      * Get the more images from the server by requesting the next page of results for the current resource (increase offset).
      */
     private increaseOffset() {
-        this.changeOffset.emit(1);
+        let cb = () => {
+            console.log("loaded");
+        };
+
+        let msg = new RequestImages(1, cb);
+
+        this.getImages.emit(msg);
     }
 
     /**
      * Get the more images from the server by requesting the previous page of results for the current resource (decrease offset).
      */
     private decreaseOffset() {
-        this.changeOffset.emit(-1);
+        let cb = () => {
+            console.log("loaded");
+        };
+
+        let msg = new RequestImages(-1, cb);
+
+        this.getImages.emit(msg);
     }
 
     /**
@@ -174,14 +206,40 @@ export class StillImageOSDViewerComponent implements OnInit {
 
             imageXOffset++;
 
-            // 10 image s per row
-            if (imageXOffset % 10 == 0) {
+            // 5 images per row
+            if (imageXOffset % 5 == 0) {
                 imageYOffset += 2;
                 imageXOffset = 0;
             }
         }
 
         return tileSources;
+    }
+
+    /**
+     * Given an array of image resources, creates an array of ReadStillImageFileValue.
+     *
+     * @param {ReadResource[]} imageResources the given image resources.
+     * @returns {ReadStillImageFileValue[]} a collection of ReadStillImageFileValue.
+     */
+    private createReadStillImageFileFromReadResourceArray(imageResources: ReadResource[]): ReadStillImageFileValue[] {
+
+        let readStillImageFileValues = imageResources.map(
+            (stillImageRes: ReadResource) => {
+                let fileValues = stillImageRes.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
+                let imagesToDisplay = fileValues.filter((image) => {
+                    return !image.isPreview;
+                });
+
+                return imagesToDisplay;
+            }
+        ).reduce(function (prev, curr) {
+            // transform ReadStillImageFileValue[][] to ReadStillImageFileValue[]
+            return prev.concat(curr);
+        });
+
+        return readStillImageFileValues;
+
     }
 
     /**
@@ -206,20 +264,10 @@ export class StillImageOSDViewerComponent implements OnInit {
             } else if (resource.incomingStillImageRepresentations.length > 0) {
                 // there are StillImageRepresentations pointing to this resource
 
-                // collect file values
-                let imagesToDisplay: ReadStillImageFileValue[] = resource.incomingStillImageRepresentations.map(
-                    (stillImageRes: ReadResource) => {
-                        let fileValues = stillImageRes.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
-                        let imagesToDisplay = fileValues.filter((image) => {
-                            return !image.isPreview;
-                        });
+                let imageRange = resource.incomingStillImageRepresentations.slice(this.imageRangeStart, this.imageRangeEnd+1);
 
-                        return imagesToDisplay;
-                    }
-                ).reduce(function (prev, curr) {
-                    // transform ReadStillImageFileValue[][] to ReadStillImageFileValue[]
-                    return prev.concat(curr);
-                });
+                // collect file values
+                let imagesToDisplay: ReadStillImageFileValue[] = this.createReadStillImageFileFromReadResourceArray(imageRange);
 
                 tileSources = StillImageOSDViewerComponent.prepareTileSourcesFromFileValues(imagesToDisplay);
 

@@ -8,7 +8,10 @@ import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resourc
 import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 import {AppConfig} from "../../../app.config";
-import {StillImageOSDViewerComponent} from "../../properties/still-image-osdviewer/still-image-osdviewer.component";
+import {
+    RequestImages,
+    StillImageOSDViewerComponent
+} from "../../properties/still-image-osdviewer/still-image-osdviewer.component";
 import {OntologyCacheService, OntologyInformation} from "../../../model/services/ontologycache.service";
 import {MdDialog, MdDialogConfig} from "@angular/material";
 
@@ -100,13 +103,13 @@ export class ObjectComponent implements OnChanges, OnInit {
             );
     }
 
-    /*
-    * Requests incoming resources for the supplied ReadResource[], and adds them to the respective ReadResource.incoming array.
-    * Currently we only display the properties of this.resources[0] (see html template),
-    * therefore we also request only the incoming resources to resources[0].
-    *
-    * @param {ReadResource[]} resources - the array of resources for which incoming resources should be requested.
-    */
+    /**
+     * Requests incoming resources for the supplied ReadResource[], and adds them to the respective ReadResource.incoming array.
+     * Currently we only display the properties of this.resources[0] (see html template),
+     * therefore we also request only the incoming resources to resources[0].
+     *
+     * @param {ReadResource[]} resources - the array of resources for which incoming resources should be requested.
+     **/
     private requestIncomingResources(resources: ReadResource[]) {
         if (resources.length > 0) {
 
@@ -154,7 +157,7 @@ export class ObjectComponent implements OnChanges, OnInit {
                 // this resource is not a StillImageRepresentation
                 // check if there are StillImageRepresentations pointing to this resource
 
-                this.getStillImageRepresentations(resources[0].id, resources[0].incomingStillImageRepresentations, 0);
+                this.getIncomingStillImageRepresentations(resources[0].id, resources[0].incomingStillImageRepresentations, 0);
 
             }
 
@@ -205,7 +208,7 @@ export class ObjectComponent implements OnChanges, OnInit {
      * @param incomingStillImageRepresentations    the collection to add the StillImageRepresentations to.
      * @param {number} offset                      the offset to be used (needed for paging). First request uses an offset of 0.
      */
-    private getStillImageRepresentations(resourceIri: string, incomingStillImageRepresentations: ReadResource[], offset: number): void {
+    private getIncomingStillImageRepresentations(resourceIri: string, incomingStillImageRepresentations: ReadResource[], offset: number): void {
         // update current offset
         this.stillImageRepresentationsOffset = offset;
 
@@ -216,7 +219,7 @@ export class ObjectComponent implements OnChanges, OnInit {
                 promise.then((compacted) => {
                         console.log(compacted);
 
-                        let imageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                        let incomingImageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                         // get resource class Iris from response
                         let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
@@ -225,18 +228,16 @@ export class ObjectComponent implements OnChanges, OnInit {
                         this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
                             (resourceClassInfos: OntologyInformation) => {
 
-                                if (imageRepresentations.resources.length > 0) {
+                                if (incomingImageRepresentations.resources.length > 0) {
                                     // update ontology information
                                     this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+
+                                    let numberOfExistingIncomingImages = incomingStillImageRepresentations.length;
 
                                     // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
                                     // TODO: Find a way to prepend images if user did not start at beginning of collection
                                     // TODO: currently, new images are just appended which may be wrong
-                                    Array.prototype.push.apply(incomingStillImageRepresentations, imageRepresentations.resources);
-
-                                    if (this.osdViewer) {
-                                        this.osdViewer.updateImages();
-                                    }
+                                    Array.prototype.push.apply(incomingStillImageRepresentations, incomingImageRepresentations.resources);
 
                                 }
                             },
@@ -264,21 +265,26 @@ export class ObjectComponent implements OnChanges, OnInit {
      *
      * @param {number} offsetChange 1 or -1. If set to 1, gets the next set of results. If set to -1, gets the previous set of results.
      */
-    private changeOffsetForStillImageRepresentations(offsetChange: number) {
-        if (offsetChange == -1) {
+    private changeOffsetForStillImageRepresentations(offsetChange: RequestImages) {
+        // TODO: check if the data is already there or has to be requested from server
+
+        console.log(offsetChange);
+        offsetChange.whenLoadedCB();
+
+        /*if (offsetChange == -1) {
             // get StillImageRepresentations for previous page
             // check that offset can be decreased, otherwise do nothing
             if (this.stillImageRepresentationsOffset > 0) {
-                this.getStillImageRepresentations(this.resources[0].id, this.resources[0].incomingStillImageRepresentations, this.stillImageRepresentationsOffset -1);
+                this.getIncomingStillImageRepresentations(this.resources[0].id, this.resources[0].incomingStillImageRepresentations, this.stillImageRepresentationsOffset -1);
             }
 
         } else if (offsetChange == 1) {
             // get StillImageRepresentations for next page
-            this.getStillImageRepresentations(this.resources[0].id, this.resources[0].incomingStillImageRepresentations, this.stillImageRepresentationsOffset +1);
+            this.getIncomingStillImageRepresentations(this.resources[0].id, this.resources[0].incomingStillImageRepresentations, this.stillImageRepresentationsOffset +1);
 
         } else {
             console.log(`Illegal argument for changeOffsetForStillImageRepresentations, must either be -1 or 1, but ${offsetChange} given.`)
-        }
+        }*/
     };
 
     /**
