@@ -79,7 +79,7 @@ export class RequestStillImageRepresentations {
      * @param {number} offsetChange the relative change of the offset in order to get more incoming StillImageRepresentations for the resource currently being displayed. Either 1 or -1.
      * @param {() => void} whenLoadedCB a callback function that is called when more incoming StillImageRepresentations have been requested and the answer arrived from the server.
      */
-    constructor(readonly offsetChange: number, readonly whenLoadedCB: () => void) {
+    constructor(readonly offsetChange: number, readonly whenLoadedCB: (numberOfImages: number) => void) {
     }
 }
 
@@ -105,6 +105,7 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
 
     private imageRangeStart: number = 0;  // index first image of this.images to be displayed
     private imageRangeEnd: number = 4; // index of last image of this.images to be displayed.
+    private imageChangeInterval: number = 5; // the size of the interval when displaying more images of this.images
 
     constructor(private elementRef: ElementRef) {
     }
@@ -147,35 +148,83 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
     /**
      * Get the more images from the server by requesting the previous page of results for the current resource (decrease offset).
      */
-    private gotoLeft(interval: number) {
+    private gotoLeft() {
 
         // TODO: move left on this.images
         // TODO: if necessary, request more images from the server
 
-        let cb = () => {
+        if (this.imageRangeStart - this.imageChangeInterval >= 0) {
+            // this.images has more images to display
+            this.imageRangeStart -= this.imageChangeInterval;
+            this.imageRangeEnd -= this.imageChangeInterval;
+
+            this.openImages();
+            this.renderRegions();
+        } else {
+            // this.images cannot display more images of length interval
+            // request more images from the server using a negative offset
+
+        }
+
+        /*let cb = () => {
             console.log("loaded");
         };
 
         let msg = new RequestStillImageRepresentations(-1, cb);
 
-        this.getImages.emit(msg);
+        this.getImages.emit(msg);*/
     }
 
     /**
      * Get the more images from the server by requesting the next page of results for the current resource (increase offset).
      */
-    private gotoRight(interval: number) {
+    private gotoRight() {
 
-        // TODO: move right on this.images
-        // TODO: if necessary, request more images from the server
+        console.log(this.imageRangeEnd + this.imageChangeInterval < this.images.length);
 
-        let cb = () => {
-            console.log("loaded");
-        };
+        if (this.imageRangeEnd + this.imageChangeInterval < this.images.length) {
+            // this.images has more images to display
+            this.imageRangeStart += this.imageChangeInterval;
+            this.imageRangeEnd += this.imageChangeInterval;
 
-        let msg = new RequestStillImageRepresentations(1, cb);
+            this.openImages();
+            this.renderRegions();
+        } else {
+            // this.images cannot display more images of length interval
+            // request more images from the server using a positive offset
 
-        this.getImages.emit(msg);
+            // function called when parent component loaded new images
+            let callback = (numberOfImages: number) => {
+
+                console.log(numberOfImages);
+
+                if (numberOfImages >= this.imageChangeInterval) {
+                    // more images were loaded than are actually to be displayed
+
+                    this.imageRangeStart += this.imageChangeInterval;
+                    this.imageRangeEnd += this.imageChangeInterval;
+
+                    this.openImages();
+                    this.renderRegions();
+                } else {
+                    // the amount of new images in less than the interval, show everything that can be shown
+
+                    this.imageRangeStart += numberOfImages;
+                    this.imageRangeEnd += numberOfImages;
+
+                    this.openImages();
+                    this.renderRegions();
+                }
+
+                // TODO: if numberOfImages is 0, no new images can be loaded -> deactivate control in GUI
+
+            };
+
+            let msg = new RequestStillImageRepresentations(1, callback);
+
+            this.getImages.emit(msg);
+
+        }
     }
 
     /**

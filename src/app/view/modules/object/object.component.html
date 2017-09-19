@@ -1,8 +1,9 @@
-<p>{{resources[0]?.type}} ({{ontologyInfo?.getLabelForResourceClass(resources[0]?.type)}})</p>
-<p>{{resources[0]?.label}}</p>
+<salsah-message *ngIf="errorMessage">{{errorMessage}}</salsah-message>
+<p>{{resource?.type}} ({{ontologyInfo?.getLabelForResourceClass(resource?.type)}})</p>
+<p>{{resource?.label}}</p>
 
 <md-list>
-    <div md-line *ngFor="let prop of resources[0]?.properties | key">
+    <div md-line *ngFor="let prop of resource?.properties | key">
 
         <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span>
 
@@ -10,7 +11,7 @@
         <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->
         <!-- TODO: Do we have to check for subproperties of hasStillImageFileValue? -->
         <salsah-still-image-osdviewer #OSDViewer
-              *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates" [images]="resources[0]?.stillImageRepresentationsToDisplay">
+              *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates" [images]="resource?.stillImageRepresentationsToDisplay">
         </salsah-still-image-osdviewer>
 
         <!--  single templates -->
@@ -35,10 +36,10 @@
     </div>
 
     <!-- Check for incoming links -->
-    <div *ngIf="resources[0]?.incomingLinks?.length > 0">
+    <div *ngIf="resource?.incomingLinks?.length > 0">
         <p>Incoming Links:</p>
         <ul>
-            <li *ngFor="let incomingLinkSourceRes of resources[0].incomingLinks">
+            <li *ngFor="let incomingLinkSourceRes of resource.incomingLinks">
                 <span mdTooltip="{{incomingLinkSourceRes.label}} {{ontologyInfo?.getLabelForResourceClass(incomingLinkSourceRes.type)}}" (click)="showSourceOfIncomingLinkInDialog(incomingLinkSourceRes.id)">
                     <span>{{incomingLinkSourceRes.label}}</span>
                 </span>
@@ -49,7 +50,7 @@
     <!-- Check if StillImageRepresentations are pointing to the current resource -->
     <!-- Event getImages: more images are requested (previous or next set) -->
     <salsah-still-image-osdviewer #OSDViewer (getImages)="changeOffsetForStillImageRepresentations($event)"
-            *ngIf="resources[0]?.incomingStillImageRepresentations?.length > 0;" [images]="resources[0]?.stillImageRepresentationsToDisplay">
+            *ngIf="resource?.incomingStillImageRepresentations?.length > 0;" [images]="resource?.stillImageRepresentationsToDisplay">
     </salsah-still-image-osdviewer>
 
 </md-list>
