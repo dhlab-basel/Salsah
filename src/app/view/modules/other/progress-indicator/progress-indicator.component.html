@@ -2,20 +2,20 @@
     <div *ngSwitchCase="'submit'"
          class="submit-progress-indicator">
         <!-- spinner while on load -->
-        <div class="spinner" *ngIf="status === 0">
-            <div class="spinner-icon"></div>
+        <div class="on-submit" *ngIf="status === 0">
+            <div class="spinner"></div>
         </div>
 
-        <button md-icon-button class="spinner-done">
+        <button md-icon-button>
             <!-- bullet point before submit -->
             <!--
             <md-icon *ngIf="status === -1">keyboard_arrow_right</md-icon>
             -->
-            <md-icon *ngIf="status === -1">check</md-icon>
+            <md-icon *ngIf="status === -1" class="before-submit">check</md-icon>
             <!-- icon 'check' when done -->
-            <md-icon *ngIf="status === 1" [color]="'primary'">done</md-icon>
+            <md-icon *ngIf="status === 1" class="after-submit">done</md-icon>
             <!-- in case of an error -->
-            <md-icon *ngIf="status === 400" [color]="'warn'">failed</md-icon>
+            <md-icon *ngIf="status === 400" class="submit-error">not_interested</md-icon>
         </button>
 
 

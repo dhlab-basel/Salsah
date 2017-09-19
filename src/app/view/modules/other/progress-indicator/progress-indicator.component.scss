@@ -75,13 +75,13 @@
   height: 32px;
   width: 32px;
 
-  .spinner {
+  .on-submit {
     animation: spinner-keyframes .7s linear infinite;
     height: 32px;
 //    margin: 2px;
     width: 32px;
 
-    .spinner-icon {
+    .spinner {
       border: 2px solid $primary;
       border-bottom-color: transparent;
       border-radius: 50%;
@@ -90,6 +90,18 @@
       width: 28px;
 //      background: yellow;
     }
+  }
+
+  .before-submit {
+    color: $mute;
+  }
+
+  .after-submit {
+    color: $primary;
+  }
+
+  .submit-error {
+    color: $warn;
   }
 
   @keyframes spinner-keyframes {

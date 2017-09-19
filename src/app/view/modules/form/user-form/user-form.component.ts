@@ -263,6 +263,7 @@ export class UserFormComponent implements OnInit, OnChanges {
         });
 
 // test data for developing...
+/*
         this.form = fb.group({
             'givenName': ['hans', Validators.required],
             'familyName': ['wurst', Validators.required],
@@ -273,6 +274,7 @@ export class UserFormComponent implements OnInit, OnChanges {
             'systemAdmin': false,
             'group': null
         });
+*/
     }
 
     ngOnInit() {
