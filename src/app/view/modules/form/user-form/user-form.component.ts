@@ -66,6 +66,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     userIri: string = this.iri;
     // on submitting user data, activate a progress loader
     submitUserData: boolean = false;
+    submitUserStatus: number = 0;
     // on error with user data
     userErrorMessage: any = undefined;
 
@@ -86,6 +87,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     projectIri: string = this.restrictedBy;
     // on submitting project data (resp. when adding to user to a project), activate a progress loader
     submitProjectData: boolean = false;
+    submitProjectStatus: number = -1;
     // on error with project data
     projectErrorMessage: any = undefined;
 
@@ -261,8 +263,7 @@ export class UserFormComponent implements OnInit, OnChanges {
         });
 
 // test data for developing...
-        /*
-        this.uf = fb.group({
+        this.form = fb.group({
             'givenName': ['hans', Validators.required],
             'familyName': ['wurst', Validators.required],
             'email': ['hans@wurst.bell', Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
@@ -272,7 +273,6 @@ export class UserFormComponent implements OnInit, OnChanges {
             'systemAdmin': false,
             'group': null
         });
-        */
     }
 
     ngOnInit() {
@@ -326,7 +326,7 @@ export class UserFormComponent implements OnInit, OnChanges {
                     } else {
                         // in case of system admin:
                         // get a list of projects to add the new created user
-                        this.step = 1;
+                        this.step = 4; // default 1
 
                         let projectsList: ProjectsList;
                         this._projectsService.getAllProjects()
@@ -469,8 +469,8 @@ export class UserFormComponent implements OnInit, OnChanges {
             const members = sessionStorage.getItem('currentMembers');
             if (members.indexOf(iri) > -1) {
                 alert('The selected user (' + iri + ') has already a membership in this project (' + this.restrictedBy + ')');
-                this.resetSelectedUser();
                 iri = null;
+                this.resetSelectedUser();
             }
         }
 
@@ -480,12 +480,6 @@ export class UserFormComponent implements OnInit, OnChanges {
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.selectedUser = result.getBody(User).userProfile;
-                        /*
-                        this.uf.controls['givenName'].setValue(this.selectedUser.userData.givenName);
-                        this.uf.controls['familyName'].setValue(this.selectedUser.userData.familyName);
-                        this.uf.controls['email'].setValue(this.selectedUser.userData.email);
-                        this.uf.controls['lang'].setValue(this.selectedUser.userData.lang);
-                        */
 
                     },
                     (error: ApiServiceError) => {
@@ -523,12 +517,12 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     resetSelectedUser() {
         this.userCtrl.reset();
-        this.selectedUser = null;
+        this.selectedUser = undefined;
     }
 
     resetSelectedProject() {
         this.projectCtrl.reset();
-        this.selectedProject = null;
+        this.selectedProject = undefined;
     }
 
 

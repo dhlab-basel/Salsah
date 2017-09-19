@@ -334,12 +334,35 @@
                 </md-expansion-panel-header>
 
                 <!-- name / email of selected user -->
-                <div *ngIf="!isSubmitting">
+                <md-list>
+                    <md-list-item>
+                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'" [status]="submitUserStatus"></salsah-progress-indicator>
+                        <h4 md-line>
+                            <span *ngIf="selectedUser">
+                                {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}, {{selectedUser.userData?.email}}
+                            </span>
+                            <span *ngIf="!selectedUser && form.valid">
+                                {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
+                            </span>
+                        </h4>
+                        <p md-line>
+                            <span *ngIf="selectedUser">
+                                {{formLabels.user.select.titleDone}}
+                            </span>
+                            <span *ngIf="!selectedUser && form.valid">
+                                {{formLabels.user.create.projectAdmin.titleDone}}
+                            </span>
+                        </p>
+                    </md-list-item>
+                </md-list>
+                <div>
+
                     <section *ngIf="selectedUser">
                         <strong>{{formLabels.user.select.titleDone}}:</strong><br>
                         {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}
                         <br>
                         {{selectedUser.userData?.email}}
+                        <salsah-progress-indicator [type]="'submit'"></salsah-progress-indicator>
                     </section>
                     <!-- OR name / email of new user -->
                     <section *ngIf="!selectedUser && form.valid">
