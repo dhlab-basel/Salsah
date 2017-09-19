@@ -120,7 +120,8 @@ export class ObjectComponent implements OnChanges, OnInit {
     }
 
     /**
-     * Requests incoming resources for the supplied ReadResource, and adds them to the respective ReadResource.incoming array.
+     * Requests incoming resources for [[this.resource]].
+     * Incoming resources are: regions, StillImageRepresentations, and incoming links.
      *
      * @param {ReadResource} resource - the resource for which incoming resources should be requested.
      **/
@@ -133,60 +134,36 @@ export class ObjectComponent implements OnChanges, OnInit {
         if (this.resource.properties[AppConfig.hasStillImageFileValue]) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
             // the resource is a StillImageRepresentation, check if there are regions pointing to it
 
-            this._incomingService.getIncomingRegions(this.resource.id, 0).subscribe(
-                (result: ApiServiceResult) => {
-                    let promise = jsonld.promises.compact(result.body, {});
-                    promise.then((compacted) => {
-                            let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
-
-                            // get resource class Iris from response
-                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
-
-                            // request ontology information about resource class Iris (properties are implied)
-                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                                (resourceClassInfos: OntologyInformation) => {
-                                    // update ontology information
-                                    this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
-
-                                    // Append elements of regions.resources to resource.incoming
-                                    Array.prototype.push.apply(this.resource.incomingRegions, regions.resources);
-
-                                    // prepare regions to be displayed
-                                    ObjectComponent.collectImagesAndRegionsForResource(this.resource);
-
-                                    if (this.osdViewer) {
-                                        this.osdViewer.updateRegions();
-                                    }
-                                },
-                                (err) => {
-
-                                    console.log("cache request failed: " + err);
-                                });
-                        },
-                        function (err) {
-                            console.log("JSONLD of regions request could not be expanded:" + err);
-                        });
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
-                }
-            );
+            this.getIncomingRegions(0);
 
         } else {
             // this resource is not a StillImageRepresentation
             // check if there are StillImageRepresentations pointing to this resource
 
-            this.getIncomingStillImageRepresentations(0);
-
+            // this gets the first page of incoming StillImageRepresentations
+            // more pages may be requested by [[this.viewer]].
+            this.stillImageRepresentationsOffset = -1; // will be changed to 0 with offsetChange 1
+            this.getIncomingStillImageRepresentations(1);
         }
 
         // check for incoming links for the current resource
-        this._incomingService.getIncomingLinksForResource(this.resource.id, 0).subscribe(
+        this.getIncomingLinks(0);
+
+
+    }
+
+    /**
+     * Gets the incoming regions for [[this.resource]].
+     *
+     * @param {number} offset                                   the offset to be used (needed for paging). First request uses an offset of 0.
+     * @param {(numberOfResources: number) => void} callback    function to be called when new images have been loaded from the server. It takes the number of images returned as an argument.
+     */
+    private getIncomingRegions(offset: number, callback?: (numberOfResources: number) => void): void {
+        this._incomingService.getIncomingRegions(this.resource.id, offset).subscribe(
             (result: ApiServiceResult) => {
                 let promise = jsonld.promises.compact(result.body, {});
                 promise.then((compacted) => {
-                        let incomingResources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                        let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                         // get resource class Iris from response
                         let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
@@ -197,9 +174,18 @@ export class ObjectComponent implements OnChanges, OnInit {
                                 // update ontology information
                                 this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
 
-                                // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
-                                Array.prototype.push.apply(this.resource.incomingLinks, incomingResources.resources);
+                                // Append elements of regions.resources to resource.incoming
+                                Array.prototype.push.apply(this.resource.incomingRegions, regions.resources);
 
+                                // prepare regions to be displayed
+                                ObjectComponent.collectImagesAndRegionsForResource(this.resource);
+
+                                if (this.osdViewer) {
+                                    this.osdViewer.updateRegions();
+                                }
+
+                                // if callback is given, execute function with the amount of new images as the parameter
+                                if (callback !== undefined) callback(regions.resources.length);
                             },
                             (err) => {
 
@@ -215,26 +201,32 @@ export class ObjectComponent implements OnChanges, OnInit {
                 this.isLoading = false;
             }
         );
-
-
     }
 
     /**
      * Get StillImageRepresentations pointing to the current resource.
-     * This method may have to called several times with an increasing offset in order to get all available StillImageRepresentations.
+     * This method may have to called several times with an increasing offsetChange in order to get all available StillImageRepresentations.
      *
-     * @param {number} offset                      the offset to be used (needed for paging). First request uses an offset of 0.
-     * @param callback                             function to be called when new images have been loaded from the server. It takes the number of images returned as an argument.
+     * @param {number} offsetChange                                   the offsetChange to be used (needed for paging). First request uses an offsetChange of 0.
+     * @param {(numberOfResources: number) => void} callback    function to be called when new images have been loaded from the server. It takes the number of images returned as an argument.
      */
-    private getIncomingStillImageRepresentations(offset: number, callback?: (numberOfImages: number) => void): void {
+    private getIncomingStillImageRepresentations(offsetChange: number, callback?: (numberOfResources: number) => void): void {
 
         // make sure that this.resource has been initialized correctly
         if (this.resource === undefined) return;
 
-        // update current offset
-        this.stillImageRepresentationsOffset = offset;
+        if (offsetChange == 1) {
+            // update current offsetChange
+            this.stillImageRepresentationsOffset += offsetChange;
+        } else if (offsetChange == -1 && this.stillImageRepresentationsOffset > 0) {
+            // update current offsetChange
+            this.stillImageRepresentationsOffset -= offsetChange;
+        } else {
+            console.log(`offsetChange of ${offsetChange} is invalid`);
+            return;
+        }
 
-        this._incomingService.getStillImageRepresentationsForCompoundResource(this.resource.id, offset).subscribe(
+        this._incomingService.getStillImageRepresentationsForCompoundResource(this.resource.id, this.stillImageRepresentationsOffset).subscribe(
             (result: ApiServiceResult) => {
 
                 let promise = jsonld.promises.compact(result.body, {});
@@ -254,18 +246,24 @@ export class ObjectComponent implements OnChanges, OnInit {
                                     // update ontology information
                                     this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
 
-                                    // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
-                                    // TODO: Find a way to prepend images if user did not start at beginning of collection
-                                    // TODO: currently, new images are just appended which may be wrong
-                                    Array.prototype.push.apply(this.resource.incomingStillImageRepresentations, incomingImageRepresentations.resources);
+                                    if (offsetChange == 1) {
+                                        // offsetChange 1 -> append
+                                        // append incomingImageRepresentations.resources to this.resource.incomingStillImageRepresentations
+                                        Array.prototype.push.apply(this.resource.incomingStillImageRepresentations, incomingImageRepresentations.resources);
+                                    } else {
+                                        // offsetChange -1 -> prepend (append and swap)
+                                        // append this.resource.incomingStillImageRepresentations to incomingImageRepresentations.resources
+                                        // then assign incomingImageRepresentations.resources to this.resource.incomingStillImageRepresentations (swap)
+                                        Array.prototype.push.apply(incomingImageRepresentations.resources, this.resource.incomingStillImageRepresentations);
+                                        this.resource.incomingStillImageRepresentations = incomingImageRepresentations.resources;
+                                    }
 
                                     // prepare attached image files to be displayed
                                     ObjectComponent.collectImagesAndRegionsForResource(this.resource);
-
-                                    // if callback is given, execute function with the amount of new images as the parameter
-                                    if (callback !== undefined) callback(incomingImageRepresentations.resources.length);
-
                                 }
+
+                                // if callback is given, execute function with the amount of new images as the parameter
+                                if (callback !== undefined) callback(incomingImageRepresentations.resources.length);
                             },
                             (err) => {
 
@@ -284,6 +282,50 @@ export class ObjectComponent implements OnChanges, OnInit {
             }
         );
 
+    }
+
+    /**
+     *
+     * @param {number} offset the offset to be used (needed for paging). First request uses an offset of 0.
+     * @param {(numberOfResources: number) => void} callback function to be called when new images have been loaded from the server. It takes the number of images returned as an argument.
+     */
+    private getIncomingLinks(offset: number, callback?: (numberOfResources: number) => void): void {
+        this._incomingService.getIncomingLinksForResource(this.resource.id, offset).subscribe(
+            (result: ApiServiceResult) => {
+                let promise = jsonld.promises.compact(result.body, {});
+                promise.then((compacted) => {
+                        let incomingResources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                        // get resource class Iris from response
+                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+                        // request ontology information about resource class Iris (properties are implied)
+                        this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                            (resourceClassInfos: OntologyInformation) => {
+                                // update ontology information
+                                this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+
+                                // Append elements incomingResources to this.resource.incomingLinks
+                                Array.prototype.push.apply(this.resource.incomingLinks, incomingResources.resources);
+
+                                // if callback is given, execute function with the amount of incoming resources as the parameter
+                                if (callback !== undefined) callback(incomingResources.resources.length);
+
+                            },
+                            (err) => {
+
+                                console.log("cache request failed: " + err);
+                            });
+                    },
+                    function (err) {
+                        console.log("JSONLD of regions request could not be expanded:" + err);
+                    });
+            },
+            (error: ApiServiceError) => {
+                this.errorMessage = <any>error;
+                this.isLoading = false;
+            }
+        );
     }
 
 
@@ -372,13 +414,13 @@ export class ObjectComponent implements OnChanges, OnInit {
             // get StillImageRepresentations for previous page
             // check that offset can be decreased, otherwise do nothing
             if (this.stillImageRepresentationsOffset > 0) {
-                this.getIncomingStillImageRepresentations(this.stillImageRepresentationsOffset -1, request.whenLoadedCB);
+                this.getIncomingStillImageRepresentations(-1, request.whenLoadedCB);
             }
 
         } else*/
         if (request.offsetChange == 1) {
             // get StillImageRepresentations for next page
-            this.getIncomingStillImageRepresentations(this.stillImageRepresentationsOffset + 1, request.whenLoadedCB);
+            this.getIncomingStillImageRepresentations(1, request.whenLoadedCB);
 
         } else {
             console.log(`Illegal argument for changeOffsetForStillImageRepresentations, must either be -1 or 1, but ${request.offsetChange} given.`)
