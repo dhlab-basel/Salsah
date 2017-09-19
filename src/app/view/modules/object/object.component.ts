@@ -300,8 +300,7 @@ export class ObjectComponent implements OnChanges, OnInit {
                 let regions: ImageRegion[] = [];
                 for (let incomingRegion of resource.incomingRegions) {
 
-                    let geometries: ReadGeomValue[] = incomingRegion.properties[AppConfig.hasGeometry] as ReadGeomValue[];
-                    let region = new ImageRegion(incomingRegion, geometries);
+                    let region = new ImageRegion(incomingRegion);
 
                     regions.push(region);
 
@@ -335,8 +334,7 @@ export class ObjectComponent implements OnChanges, OnInit {
                 let regions: ImageRegion[] = [];
                 for (let incomingRegion of resource.incomingRegions) {
 
-                    let geometries: ReadGeomValue[] = incomingRegion.properties[AppConfig.hasGeometry] as ReadGeomValue[];
-                    let region = new ImageRegion(incomingRegion, geometries);
+                    let region = new ImageRegion(incomingRegion);
                     regions.push(region);
 
                 }

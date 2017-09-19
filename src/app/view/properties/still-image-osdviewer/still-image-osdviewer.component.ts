@@ -34,8 +34,22 @@ declare let OpenSeadragon: any;
  * Contains a reference to the resource representing the region and its geometries.
  */
 export class ImageRegion {
-    constructor(readonly resource: ReadResource, readonly geometries: ReadGeomValue[]) {
 
+    /**
+     *
+     * @param {ReadResource} regionResource a resource of type Region
+     */
+    constructor(readonly regionResource: ReadResource) {
+
+    }
+
+    /**
+     * Get all geometry information belonging to this region.
+     *
+     * @returns {ReadGeomValue[]}
+     */
+    getGeometries() {
+        return this.regionResource.properties[AppConfig.hasGeometry] as ReadGeomValue[]
     }
 }
 
@@ -44,6 +58,11 @@ export class ImageRegion {
  */
 export class StillImageRepresentation {
 
+    /**
+     *
+     * @param {ReadStillImageFileValue} stillImageFileValue a [[ReadStillImageFileValue]] representing an image.
+     * @param {ImageRegion[]} regions the regions belonging to the image.
+     */
     constructor(readonly stillImageFileValue: ReadStillImageFileValue, readonly regions: ImageRegion[]) {
 
     }
@@ -55,6 +74,11 @@ export class StillImageRepresentation {
  */
 export class RequestStillImageRepresentations {
 
+    /**
+     *
+     * @param {number} offsetChange the relative change of the offset in order to get more incoming StillImageRepresentations for the resource currently being displayed. Either 1 or -1.
+     * @param {() => void} whenLoadedCB a callback function that is called when more incoming StillImageRepresentations have been requested and the answer arrived from the server.
+     */
     constructor(readonly offsetChange: number, readonly whenLoadedCB: () => void) {
     }
 }
@@ -79,14 +103,16 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
 
     private viewer;
 
-    private imageRangeStart: number = 0;
-    private imageRangeEnd: number = 4;
+    private imageRangeStart: number = 0;  // index first image of this.images to be displayed
+    private imageRangeEnd: number = 4; // index of last image of this.images to be displayed.
 
     constructor(private elementRef: ElementRef) {
     }
 
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
         if (changes["images"] && changes["images"].isFirstChange()) {
+            // TODO: set range appropriately
+
             this.setupViewer();
         }
         if (changes["images"]) {
@@ -119,27 +145,35 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
     }
 
     /**
-     * Get the more images from the server by requesting the next page of results for the current resource (increase offset).
-     */
-    private increaseOffset() {
-        let cb = () => {
-            console.log("loaded");
-        };
-
-        let msg = new RequestStillImageRepresentations(1, cb);
-
-        this.getImages.emit(msg);
-    }
-
-    /**
      * Get the more images from the server by requesting the previous page of results for the current resource (decrease offset).
      */
-    private decreaseOffset() {
+    private gotoLeft(interval: number) {
+
+        // TODO: move left on this.images
+        // TODO: if necessary, request more images from the server
+
         let cb = () => {
             console.log("loaded");
         };
 
         let msg = new RequestStillImageRepresentations(-1, cb);
+
+        this.getImages.emit(msg);
+    }
+
+    /**
+     * Get the more images from the server by requesting the next page of results for the current resource (increase offset).
+     */
+    private gotoRight(interval: number) {
+
+        // TODO: move right on this.images
+        // TODO: if necessary, request more images from the server
+
+        let cb = () => {
+            console.log("loaded");
+        };
+
+        let msg = new RequestStillImageRepresentations(1, cb);
 
         this.getImages.emit(msg);
     }
@@ -244,7 +278,8 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
                 return img.stillImageFileValue
             });
 
-        let tileSources: Object[] = StillImageOSDViewerComponent.prepareTileSourcesFromFileValues(fileValues);
+        // display only the defined range of this.images
+        let tileSources: Object[] = StillImageOSDViewerComponent.prepareTileSourcesFromFileValues(fileValues.slice(this.imageRangeStart, this.imageRangeEnd+1));
 
         this.viewer.clearOverlays();
         this.viewer.open(tileSources);
@@ -263,9 +298,9 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
 
             for (let region of image.regions) {
 
-                for (let geometryValue of region.geometries) {
+                for (let geometryValue of region.getGeometries()) {
                     let geometry = geometryValue.geometry;
-                    this.createSVGOverlay(geometry, aspectRatio, imageXOffset, region.resource.label);
+                    this.createSVGOverlay(geometry, aspectRatio, imageXOffset, region.regionResource.label);
                 }
             }
 

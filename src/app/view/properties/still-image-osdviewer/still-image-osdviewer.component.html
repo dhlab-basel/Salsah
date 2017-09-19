@@ -1,4 +1,6 @@
 <div class="osdViewerContainer"></div>
-<p (click)="increaseOffset()">Get more images</p>
-<!--<p (click)="decreaseOffset()">Decrease offset</p>-->
+<div>
+    <span *ngIf="images.length > 1" (click)="gotoLeft(1)">&lt; &lt; </span>
+    <span *ngIf="images.length > 1" (click)="gotoRight(1)"> &gt;&gt; </span>
+</div>
 <!-- <span><img src="{{valueObject.getContent()}}"/></span> -->
