@@ -59,7 +59,7 @@
                     </md-icon>
                     <md-autocomplete #autoUser="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
                         <md-option *ngFor="let user of filteredUsers | async" [value]="user?.name"
-                                   (onSelectionChange)="getUser(user?.iri)">
+                                   (onSelectionChange)="setSelectedUser(user?.iri)">
                             {{ user?.name }}
                         </md-option>
                     </md-autocomplete>
@@ -230,7 +230,7 @@
                     </md-icon>
                     <md-autocomplete #autoProject="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
                         <md-option *ngFor="let project of filteredProjects | async" [value]="project?.name"
-                                   (onSelectionChange)="getProject(project?.iri)">
+                                   (onSelectionChange)="setSelectedProject(project?.iri)">
                             {{ project?.name }}
                         </md-option>
                     </md-autocomplete>
@@ -240,7 +240,7 @@
                     <button md-button
                             class="navigation-button left"
                             color="warn"
-                            (click)="nextStep($event, 4)">
+                            (click)="skipStep($event, 4, 'project')">
                         {{formLabels.project.select.skip}}
                     </button>
                     <button md-button

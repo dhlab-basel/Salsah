@@ -36,16 +36,6 @@ import {existingNamesValidator} from '../../other/existing-name.directive';
 })
 
 export class UserFormComponent implements OnInit, OnChanges {
-    // the user-form can be used to create new users or to edit existing users
-
-    // it can have an attribute called iri which opens the edit form
-    // otherwise the form is empty to create new user
-    @Input() iri?: string = undefined;
-
-    // project admin case: restrictedBy is the iri of the project
-    // in this case, the project admin adds a new (or existing) person to this project
-    @Input() restrictedBy?: string = undefined;
-
     // the form is a step by step form
     /* the steps (depending on the usage / route) are as follow:
         1) user profile
@@ -60,26 +50,24 @@ export class UserFormComponent implements OnInit, OnChanges {
 
      */
 
-    // loader
+    // general stuff
     isLoading: boolean = true;
-    isSubmitting: boolean = false;
+    errorMessage: any = undefined;
 
     // step number in the form
-    step: number = 0; // Default: 0; for developers: you have to change to step number to open the step where you're working on
+    step: number = 0;
 
-    // outputs which should be sent to the parent component; form-dialog in this case
-    // TODO: it doesn't work yet
-    // before submit
-//    @Output() validData = new EventEmitter<any>();
-    // on submit
-//    @Output() submitData = new EventEmitter<any>();
 
-    // form settings
-
-    // autocomplete list preparation
-    // http request service:
-    // in case of an api error
-    errorMessage: any = undefined;
+    // user data:
+    // the user-form can be used to create new users or to edit existing users
+    // it can have an attribute called iri which opens the edit form
+    // otherwise the form is empty to create new user
+    @Input() iri?: string = undefined;
+    userIri: string = this.iri;
+    // on submitting user data, activate a progress loader
+    submitUserData: boolean = false;
+    // on error with user data
+    userErrorMessage: any = undefined;
 
     // case 1a) select user form
     // autocomplete existing users
@@ -90,6 +78,17 @@ export class UserFormComponent implements OnInit, OnChanges {
     userCtrl: FormControl;
     selectedUser: UserProfile;
 
+
+    // project data:
+    // project admin case: restrictedBy is the iri of the project
+    // in this case, the project admin adds a new (or existing) person to this project
+    @Input() restrictedBy?: string = undefined;
+    projectIri: string = this.restrictedBy;
+    // on submitting project data (resp. when adding to user to a project), activate a progress loader
+    submitProjectData: boolean = false;
+    // on error with project data
+    projectErrorMessage: any = undefined;
+
     // case 2a) form to select project form
     // autocomplete existing projects
     // project list for md-autocomplete
@@ -99,6 +98,8 @@ export class UserFormComponent implements OnInit, OnChanges {
     projectCtrl: FormControl;
     selectedProject: ProjectItem;
 
+
+    // form data and settings:
     // case 1b) form to create new user
     // uf => user form control
     form: FormGroup;
@@ -117,7 +118,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     groupPermission: boolean = true;
     adminPermission: boolean = false;
 
-    // some titles, descriptions and labels or hints
+    // some titles, descriptions, labels and hints
     public formLabels: any = {
         user: {
             select: {
@@ -219,16 +220,20 @@ export class UserFormComponent implements OnInit, OnChanges {
         }
     };
 
-    // setting to reset the md input autocomplete
+    // outputs which should be sent to the parent component; form-dialog in this case
+    // TODO: it doesn't work yet
+    // before submit
+//    @Output() validData = new EventEmitter<any>();
+    // on submit
+//    @Output() submitData = new EventEmitter<any>();
+
+    // setting to reset the md input autocomplete. How does it work? TODO: fix or reactivate this
     // @ViewChild(NgModel) modelDir: NgModel;
-
     // @ViewChild('selectUser') selectUser: ElementRef;
-
 
     constructor(public _userService: UserService,
                 public _projectsService: ProjectsService,
                 @Inject(FormBuilder) fb: FormBuilder) {
-
 
         this.userCtrl = new FormControl('', Validators.required);
         this.projectCtrl = new FormControl('', Validators.required);
@@ -243,7 +248,7 @@ export class UserFormComponent implements OnInit, OnChanges {
             .map(val => this.displayFn(val))
             .map(name => this.filterProjects(name));
 
-        /* disabled in dev test */
+        // form validation configuration
         this.form = fb.group({
             'givenName': [null, Validators.required],
             'familyName': [null, Validators.required],
@@ -255,7 +260,7 @@ export class UserFormComponent implements OnInit, OnChanges {
             'group': null
         });
 
-// test data
+// test data for developing...
         /*
         this.uf = fb.group({
             'givenName': ['hans', Validators.required],
@@ -272,7 +277,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         // for the test environment
-        this.restrictedBy = 'http://data.knora.org/projects/77275339';
+//        this.restrictedBy = 'http://data.knora.org/projects/77275339';
 
         // get a list of all users and create an array of the user name ( = email address)
         // the user name should be unique and with the array list, we can
@@ -289,11 +294,11 @@ export class UserFormComponent implements OnInit, OnChanges {
 
                     // in case of project admin:
                     // get a list of the users which are already team members;
-                    // that list should already be in the session storage
+                    // the list of project members should already be in the session storage
                     if (this.restrictedBy) {
                         const members = sessionStorage.getItem('currentMembers');
 
-                        this.getProject(this.restrictedBy);
+                        this.setSelectedProject(this.restrictedBy);
 
                         let i: number = 1;
                         for (const u of usersList.users) {
@@ -458,7 +463,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     // get the user profile, if selected from the list
-    getUser(iri: string) {
+    setSelectedUser(iri: string) {
         // check if the selected user isn't in the project yet
         if (this.restrictedBy) {
             const members = sessionStorage.getItem('currentMembers');
@@ -497,7 +502,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     // get the project item, if selected from the list
-    getProject(iri: string) {
+    setSelectedProject(iri: string) {
         if (iri) {
             this.selectedProject = new ProjectItem();
             this._projectsService.getProjectByIri(iri)
@@ -507,7 +512,7 @@ export class UserFormComponent implements OnInit, OnChanges {
                     },
                     (error: ApiServiceError) => {
                         console.log(error);
-                        this.errorMessage = error;
+                        this.projectErrorMessage = error;
                     }
                 );
             if (this.step === 2) {
@@ -545,8 +550,22 @@ export class UserFormComponent implements OnInit, OnChanges {
         }
     }
 
+    skipStep(ev, nextStep: number, skip: string) {
+        ev.preventDefault();
+        this.step = nextStep;
+        switch (skip) {
+            case 'project':
+                this.resetSelectedProject();
+                break;
+            case 'user':
+                this.resetSelectedUser();
+                break;
+        }
+    }
+
+
     submitData(): void {
-        this.isSubmitting = true;
+//        this.isSubmitting = true;
 
         let userIri: string;
 
@@ -561,7 +580,10 @@ export class UserFormComponent implements OnInit, OnChanges {
 
                     userIri = this.selectedUser.userData.user_id;
 
+
                     // next step: add the user to the selected project
+                    // and set the permissions
+                    this.addUserToProject(userIri, this.restrictedBy);
                     /*
                     const project: string = (this.restrictedBy ? this.restrictedBy : this.selectedProject.id);
 
@@ -569,7 +591,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 //                        this.addUserToProject(this.selectedUser.userData.user_id, project);
                     }
                     */
-                    this.isSubmitting = false;
+//                    this.isSubmitting = false;
                 },
                 (error: ApiServiceError) => {
                     console.log(error);
@@ -581,7 +603,7 @@ export class UserFormComponent implements OnInit, OnChanges {
             this._userService.addUserToProject(this.selectedUser.userData.user_id, this.restrictedBy).subscribe(
                 (result: ApiServiceResult) => {
                     console.log(result);
-                    this.isSubmitting = false;
+//                    this.isSubmitting = false;
                 },
                 (error: ApiServiceError) => {
                     console.log(error);
@@ -604,11 +626,17 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     }
 
-    /*
-    addUserToProject(uIri: string, pIri: string) {
 
+    addUserToProject(uIri: string, pIri?: string) {
+        console.log(uIri);
+        console.log(pIri);
+        if (pIri) {
+
+        } else {
+            // do nothing
+        }
     }
-    */
+
 
     onSubmit(value: any): void {
 
@@ -644,6 +672,8 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     getInfo() {
+
+        this.addUserToProject('http://data.knora.org/users/multiuser', this.restrictedBy);
         console.log('groupPermission?', this.groupPermission);
         console.log('adminPermission?', this.adminPermission);
         console.log('disabled by form?', !this.form.valid);
