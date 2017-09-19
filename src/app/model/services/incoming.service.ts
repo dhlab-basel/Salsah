@@ -9,7 +9,7 @@ export class IncomingService extends SearchService {
     /**
      * Returns all incoming regions for a particular resource.
      */
-    getIncomingRegions(resourceIRI: string, offset = 0): Observable<any> {
+    getIncomingRegions(resourceIRI: string, offset: number): Observable<any> {
         let sparqlQueryStr = `
       PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
 
@@ -60,7 +60,7 @@ export class IncomingService extends SearchService {
      * @param offset the offset to be used for paging. 0 is the default and is used to get the first page of results.
      * @returns {Observable<any>}
      */
-    getStillImageRepresentationsForCompoundResource(resourceIri: string, offset = 0): Observable<any> {
+    getStillImageRepresentationsForCompoundResource(resourceIri: string, offset: number): Observable<any> {
         let sparqlQueryStr = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
         
@@ -110,7 +110,7 @@ export class IncomingService extends SearchService {
      * @param {string} resourceIri the Iri of the resource whose incoming links should be returned.
      * @param offset the offset to be used for paging. 0 is the default and is used to get the first page of results.
      */
-    getIncomingLinksForResource(resourceIri: string, offset = 0): Observable<any> {
+    getIncomingLinksForResource(resourceIri: string, offset: number): Observable<any> {
         let sparqlQueryStr = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
         

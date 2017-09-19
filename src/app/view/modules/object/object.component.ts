@@ -290,6 +290,7 @@ export class ObjectComponent implements OnChanges, OnInit {
      * @param {(numberOfResources: number) => void} callback function to be called when new images have been loaded from the server. It takes the number of images returned as an argument.
      */
     private getIncomingLinks(offset: number, callback?: (numberOfResources: number) => void): void {
+
         this._incomingService.getIncomingLinksForResource(this.resource.id, offset).subscribe(
             (result: ApiServiceResult) => {
                 let promise = jsonld.promises.compact(result.body, {});
