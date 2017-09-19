@@ -183,9 +183,10 @@ export class HeaderToolbarComponent implements OnInit {
         let goToUrl: string = '/login';
 
         if (this._router.url !== '/') {
-            goToUrl += '?h=' + encodeURIComponent(this._router.url);
+            goToUrl += '/?h=' + encodeURIComponent(this._router.url);
         }
-        this._router.navigate([goToUrl]);
+        window.location.replace(goToUrl);
+//        this._router.navigate([goToUrl]);
     }
 
 }
