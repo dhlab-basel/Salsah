@@ -355,6 +355,27 @@
                         </p>
                     </md-list-item>
                 </md-list>
+                <md-list *ngIf="restrictedBy || selectedProject">
+                    <md-list-item *ngIf="restrictedBy || selectedProject">
+                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'" [status]="submitProjectStatus"></salsah-progress-indicator>
+                        <h4 md-line>
+                            {{selectedProject.longname}} ({{selectedProject.shortname}})
+                        </h4>
+                        <p md-line>
+                            {{formLabels.project.select.title}}
+                        </p>
+                    </md-list-item>
+                    <md-list-item>
+                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'" [status]="submitPermissionsStatus"></salsah-progress-indicator>
+                        <h4 md-line>
+                            <span *ngIf="groupPermission">{{formLabels.project.permissions.group}}</span>
+                            <span *ngIf="adminPermission"> / {{formLabels.project.permissions.admin}}</span>
+                        </h4>
+                        <p md-line>
+                            {{formLabels.project.permissions.title}}
+                        </p>
+                    </md-list-item>
+                </md-list>
                 <div>
 
                     <section *ngIf="selectedUser">
@@ -375,23 +396,29 @@
                         <strong>{{formLabels.project.existing.title}}:</strong><br>
                         {{selectedProject.longname}} ({{selectedProject.shortname}})
                         <br><br>
-                        <strong>{{formLabels.project.permissions.titleDone}}:</strong><br>
+                        <strong>{{formLabels.project.permissions.title}}:</strong><br>
                         <span *ngIf="groupPermission">{{formLabels.project.permissions.group}}</span>
                         <span *ngIf="adminPermission"> / {{formLabels.project.permissions.admin}}</span>
                     </section>
                 </div>
-                <salsah-progress-indicator *ngIf="isSubmitting"></salsah-progress-indicator>
 
                 <!-- footer -->
                 <md-action-row>
                     <button md-button (click)="getInfo()">Test</button>
                     <!-- two buttons for both cases and submit the data with the method -->
-                    <button md-raised-button [disabled]="(!form.valid) && (!selectedUser?.userData?.user_id)"
+                    <button md-raised-button *ngIf="!selectedUser" [disabled]="!form.valid"
                             class="navigation-button center"
                             color="primary"
                             (click)="submitData()">
                         {{formLabels.navigation.submit}}
                     </button>
+                    <button md-raised-button *ngIf="selectedUser" [disabled]="!selectedUser?.userData.user_id"
+                            class="navigation-button center"
+                            color="primary"
+                            (click)="submitData()">
+                        {{formLabels.navigation.submit}}
+                    </button>
+
                 </md-action-row>
 
             </md-expansion-panel>

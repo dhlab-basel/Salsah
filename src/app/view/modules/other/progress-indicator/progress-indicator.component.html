@@ -8,9 +8,14 @@
 
         <button md-icon-button class="spinner-done">
             <!-- bullet point before submit -->
+            <!--
             <md-icon *ngIf="status === -1">keyboard_arrow_right</md-icon>
+            -->
+            <md-icon *ngIf="status === -1">check</md-icon>
             <!-- icon 'check' when done -->
-            <md-icon *ngIf="status === 1" [color]="'primary'">check</md-icon>
+            <md-icon *ngIf="status === 1" [color]="'primary'">done</md-icon>
+            <!-- in case of an error -->
+            <md-icon *ngIf="status === 400" [color]="'warn'">failed</md-icon>
         </button>
 
 

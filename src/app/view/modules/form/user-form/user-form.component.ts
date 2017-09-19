@@ -66,7 +66,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     userIri: string = this.iri;
     // on submitting user data, activate a progress loader
     submitUserData: boolean = false;
-    submitUserStatus: number = 0;
+    submitUserStatus: number = -1;
     // on error with user data
     userErrorMessage: any = undefined;
 
@@ -78,6 +78,20 @@ export class UserFormComponent implements OnInit, OnChanges {
     // form controller for md-autocomplete
     userCtrl: FormControl;
     selectedUser: UserProfile;
+
+    // case 1b) form to create new user
+    // uf => user form control
+    form: FormGroup;
+    // email and password validator
+    emailRegexp: any = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+//    passwordRegexp: any = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i;
+    passwordRegexp: any = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/i;
+    // password visibility
+    showPassword: boolean = false;
+    // list of users to prevent duplicate entries
+    existingUserNames: [RegExp] = [
+        new RegExp('user')
+    ];
 
 
     // project data:
@@ -100,25 +114,12 @@ export class UserFormComponent implements OnInit, OnChanges {
     projectCtrl: FormControl;
     selectedProject: ProjectItem;
 
-
-    // form data and settings:
-    // case 1b) form to create new user
-    // uf => user form control
-    form: FormGroup;
-    // email and password validator
-    emailRegexp: any = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-//    passwordRegexp: any = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i;
-    passwordRegexp: any = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/i;
-    // password visibility
-    showPassword: boolean = false;
-    // list of users to prevent duplicate entries
-    existingUserNames: [RegExp] = [
-        new RegExp('user')
-    ];
-
     // case 2b) project permission
     groupPermission: boolean = true;
     adminPermission: boolean = false;
+    specialPermission: string = 'not yet implemented';
+    submitPermissionsStatus: number = -1;
+
 
     // some titles, descriptions, labels and hints
     public formLabels: any = {
@@ -167,7 +168,6 @@ export class UserFormComponent implements OnInit, OnChanges {
             },
             permissions: {
                 title: 'Project permissions',
-                titleDone: 'With the following permissions',
                 description: 'Set user\'s permissions for this project',
                 admin: 'Administrative rights',
                 adminHint: 'What are admin rights? Describe it here (TODO)',
@@ -326,7 +326,10 @@ export class UserFormComponent implements OnInit, OnChanges {
                     } else {
                         // in case of system admin:
                         // get a list of projects to add the new created user
-                        this.step = 4; // default 1
+                        this.step = 1;
+
+                        // test
+                        this.setStep(4);
 
                         let projectsList: ProjectsList;
                         this._projectsService.getAllProjects()
@@ -413,12 +416,14 @@ export class UserFormComponent implements OnInit, OnChanges {
     setStep(index: number) {
         this.step = index;
 
-        if (index === 3 && !this.selectedProject) {
+        if (!this.selectedProject) {
             this.groupPermission = false;
+            this.adminPermission = false;
         }
     }
 
     displayFn(value: any): string {
+    // do we still need this method? ...
         if (value && typeof value === 'object') {
             // the admin has selected a user
             // get the user data
@@ -561,12 +566,17 @@ export class UserFormComponent implements OnInit, OnChanges {
     submitData(): void {
 //        this.isSubmitting = true;
 
+        console.log(this.existingUserNames);
+
         let userIri: string;
 
         // 1) existing user or new user?
         // in case of new user, we have to sent those data first to receive a user iri
         if (this.form.valid && !this.selectedUser) {
+            this.submitUserStatus = 0;
             // new user: send the data to knora
+            // check if the user doesn't exist yet
+
             this._userService.createUser(this.form.value).subscribe(
                 (result: ApiServiceResult) => {
 
@@ -574,6 +584,9 @@ export class UserFormComponent implements OnInit, OnChanges {
 
                     userIri = this.selectedUser.userData.user_id;
 
+                    console.log(userIri);
+
+                    this.submitUserStatus = 1;
 
                     // next step: add the user to the selected project
                     // and set the permissions
@@ -589,6 +602,7 @@ export class UserFormComponent implements OnInit, OnChanges {
                 },
                 (error: ApiServiceError) => {
                     console.log(error);
+                    this.submitUserStatus = 400;
                     this.errorMessage = error;
                 }
             )
@@ -622,6 +636,10 @@ export class UserFormComponent implements OnInit, OnChanges {
 
 
     addUserToProject(uIri: string, pIri?: string) {
+        this.submitProjectStatus = 0;
+        // do something here
+        this.submitProjectStatus = 1;
+
         console.log(uIri);
         console.log(pIri);
         if (pIri) {
@@ -667,7 +685,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     getInfo() {
 
-        this.addUserToProject('http://data.knora.org/users/multiuser', this.restrictedBy);
+//        this.addUserToProject('http://data.knora.org/users/multiuser', this.restrictedBy);
         console.log('groupPermission?', this.groupPermission);
         console.log('adminPermission?', this.adminPermission);
         console.log('disabled by form?', !this.form.valid);
