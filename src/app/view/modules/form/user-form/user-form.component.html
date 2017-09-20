@@ -189,7 +189,7 @@
                             color="primary"
                             (click)="nextStep($event, 3)"
                             [disabled]="!form.valid">
-                        {{formLabels.navigation.submit}} / {{formLabels.navigation.next}}
+                        {{formLabels.navigation.next}}
                     </button>
                     <button md-button *ngIf="!restrictedBy"
                             class="navigation-button center"
@@ -353,7 +353,7 @@
                                 {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
                             </span>
                         </p>
-                        <p md-line *ngIf="userErrorMessage" class="salsah-error">{{userErrorMessage.statusText}}</p>
+                        <md-hint md-line *ngIf="userErrorMessage" class="salsah-error-message">{{userErrorMessage?.statusText}}</md-hint>
                     </md-list-item>
                 </md-list>
 
@@ -366,7 +366,7 @@
                         <p md-line>
                             {{selectedProject.longname}} ({{selectedProject.shortname}})
                         </p>
-                        <p md-line *ngIf="projectErrorMessage" class="salsah-error">{{projectErrorMessage.statusText}}</p>
+                        <md-hint md-line *ngIf="projectErrorMessage" class="salsah-error-message">{{projectErrorMessage?.statusText}}</md-hint>
                     </md-list-item>
                     <md-list-item>
                         <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'" [status]="submitPermissionsStatus"></salsah-progress-indicator>
@@ -377,7 +377,7 @@
                             <span *ngIf="groupPermission">{{formLabels.project.permissions.group}}</span>
                             <span *ngIf="adminPermission"> / {{formLabels.project.permissions.admin}}</span>
                         </p>
-                        <p md-line *ngIf="permissionsErrorMessage" class="salsah-error">{{permissionsErrorMessage.statusText}}</p>
+                        <md-hint md-line *ngIf="permissionsErrorMessage" class="salsah-error-message">{{permissionsErrorMessage?.statusText}}</md-hint>
                     </md-list-item>
                 </md-list>
 

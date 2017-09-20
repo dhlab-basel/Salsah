@@ -474,16 +474,19 @@ export class UserFormComponent implements OnInit, OnChanges {
     // get the user profile, if selected from the list
     setSelectedUser(iri?: string) {
 
+        this.userIri = undefined;
+        this.selectedUser = undefined;
+
         if (iri) {
             this.userIri = iri;
+
             this.selectedUser = new UserProfile();
 
             // check if the selected user isn't in the project yet
             if (this.restrictedBy) {
                 const members = sessionStorage.getItem('currentMembers');
                 if (members.indexOf(iri) > -1) {
-                    alert('The selected user (' + iri + ') has already a membership in this project (' + this.restrictedBy + ')');
-                    iri = null;
+                    alert('The selected user (' + this.userIri + ') has already a membership in this project (' + this.restrictedBy + ')');
                     this.resetSelectedUser();
                 } else {
                     this._userService.getUserByIri(this.userIri)
@@ -501,8 +504,6 @@ export class UserFormComponent implements OnInit, OnChanges {
                     }
                 }
             }
-        } else {
-            this.resetSelectedUser();
         }
     }
 
@@ -529,8 +530,8 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     resetSelectedUser() {
         this.userCtrl.reset();
-        this.userIri = null;
-        this.selectedUser = null;
+        this.userIri = undefined;
+        this.selectedUser = undefined;
     }
 
     resetSelectedProject() {
