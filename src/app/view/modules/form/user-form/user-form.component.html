@@ -196,7 +196,7 @@
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!form.valid">
-                        {{formLabels.navigation.submit}} / {{formLabels.navigation.next}}
+                        {{formLabels.navigation.next}}
                     </button>
                 </md-action-row>
 
@@ -335,88 +335,74 @@
 
                 <!-- name / email of selected user -->
                 <md-list>
-                    <md-list-item>
+                    <md-list-item *ngIf="selectedUser || form.valid">
                         <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'" [status]="submitUserStatus"></salsah-progress-indicator>
                         <h4 md-line>
-                            <span *ngIf="selectedUser">
-                                {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}, {{selectedUser.userData?.email}}
-                            </span>
-                            <span *ngIf="!selectedUser && form.valid">
-                                {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
-                            </span>
-                        </h4>
-                        <p md-line>
                             <span *ngIf="selectedUser">
                                 {{formLabels.user.select.titleDone}}
                             </span>
                             <span *ngIf="!selectedUser && form.valid">
                                 {{formLabels.user.create.projectAdmin.titleDone}}
                             </span>
+                        </h4>
+                        <p md-line>
+                            <span *ngIf="selectedUser">
+                                {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}, {{selectedUser.userData?.email}}
+                            </span>
+                            <span *ngIf="!selectedUser && form.valid">
+                                {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
+                            </span>
                         </p>
+                        <p md-line *ngIf="userErrorMessage" class="salsah-error">{{userErrorMessage.statusText}}</p>
                     </md-list-item>
                 </md-list>
+
                 <md-list *ngIf="restrictedBy || selectedProject">
                     <md-list-item *ngIf="restrictedBy || selectedProject">
                         <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'" [status]="submitProjectStatus"></salsah-progress-indicator>
                         <h4 md-line>
-                            {{selectedProject.longname}} ({{selectedProject.shortname}})
+                            {{formLabels.project.select.title}}
                         </h4>
                         <p md-line>
-                            {{formLabels.project.select.title}}
+                            {{selectedProject.longname}} ({{selectedProject.shortname}})
                         </p>
+                        <p md-line *ngIf="projectErrorMessage" class="salsah-error">{{projectErrorMessage.statusText}}</p>
                     </md-list-item>
                     <md-list-item>
                         <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'" [status]="submitPermissionsStatus"></salsah-progress-indicator>
                         <h4 md-line>
-                            <span *ngIf="groupPermission">{{formLabels.project.permissions.group}}</span>
-                            <span *ngIf="adminPermission"> / {{formLabels.project.permissions.admin}}</span>
+                            {{formLabels.project.permissions.title}}
                         </h4>
                         <p md-line>
-                            {{formLabels.project.permissions.title}}
+                            <span *ngIf="groupPermission">{{formLabels.project.permissions.group}}</span>
+                            <span *ngIf="adminPermission"> / {{formLabels.project.permissions.admin}}</span>
                         </p>
+                        <p md-line *ngIf="permissionsErrorMessage" class="salsah-error">{{permissionsErrorMessage.statusText}}</p>
                     </md-list-item>
                 </md-list>
-                <div>
-
-                    <section *ngIf="selectedUser">
-                        <strong>{{formLabels.user.select.titleDone}}:</strong><br>
-                        {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}
-                        <br>
-                        {{selectedUser.userData?.email}}
-                        <salsah-progress-indicator [type]="'submit'"></salsah-progress-indicator>
-                    </section>
-                    <!-- OR name / email of new user -->
-                    <section *ngIf="!selectedUser && form.valid">
-                        <strong>{{formLabels.user.create.projectAdmin.titleDone}}:</strong><br>
-                        {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
-                    </section>
-                    <br>
-                    <!-- selected project incl. project permissons -->
-                    <section *ngIf="restrictedBy || selectedProject">
-                        <strong>{{formLabels.project.existing.title}}:</strong><br>
-                        {{selectedProject.longname}} ({{selectedProject.shortname}})
-                        <br><br>
-                        <strong>{{formLabels.project.permissions.title}}:</strong><br>
-                        <span *ngIf="groupPermission">{{formLabels.project.permissions.group}}</span>
-                        <span *ngIf="adminPermission"> / {{formLabels.project.permissions.admin}}</span>
-                    </section>
-                </div>
 
                 <!-- footer -->
                 <md-action-row>
-                    <button md-button (click)="getInfo()">Test</button>
                     <!-- two buttons for both cases and submit the data with the method -->
-                    <button md-raised-button *ngIf="!selectedUser" [disabled]="!form.valid"
+                    <button md-raised-button *ngIf="!selectedUser && !afterSubmit" [disabled]="!form.valid"
                             class="navigation-button center"
                             color="primary"
                             (click)="submitData()">
                         {{formLabels.navigation.submit}}
                     </button>
-                    <button md-raised-button *ngIf="selectedUser" [disabled]="!selectedUser?.userData.user_id"
+                    <button md-raised-button *ngIf="selectedUser && !afterSubmit" [disabled]="!selectedUser?.userData?.user_id"
                             class="navigation-button center"
                             color="primary"
                             (click)="submitData()">
                         {{formLabels.navigation.submit}}
+                    </button>
+
+                    <button md-button md-dialog-close
+                            *ngIf="(!userErrorMessage && !projectErrorMessage && !permissionsErrorMessage) && afterSubmit"
+                            class="navigation-button-center"
+                            color="primary"
+                            (click)="updateView()">
+                        {{formLabels.navigation.close}}
                     </button>
 
                 </md-action-row>

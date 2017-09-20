@@ -78,6 +78,11 @@ a {
 //
 // general elements
 
+.salsah-error {
+  color: $warn;
+  font-size: smaller;
+}
+
 .salsah-text {
   line-height: 1.5;
 }

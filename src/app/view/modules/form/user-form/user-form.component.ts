@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {AfterViewInit, Component, ElementRef, Inject, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnChanges, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
@@ -53,6 +53,8 @@ export class UserFormComponent implements OnInit, OnChanges {
     // general stuff
     isLoading: boolean = true;
     errorMessage: any = undefined;
+    // status after submit data; needed to close the dialog box
+    afterSubmit: boolean = false;
 
     // step number in the form
     step: number = 0;
@@ -68,7 +70,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     submitUserData: boolean = false;
     submitUserStatus: number = -1;
     // on error with user data
-    userErrorMessage: any = undefined;
+    userErrorMessage: ApiServiceError = undefined;
 
     // case 1a) select user form
     // autocomplete existing users
@@ -103,7 +105,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     submitProjectData: boolean = false;
     submitProjectStatus: number = -1;
     // on error with project data
-    projectErrorMessage: any = undefined;
+    projectErrorMessage: ApiServiceError = undefined;
 
     // case 2a) form to select project form
     // autocomplete existing projects
@@ -119,6 +121,8 @@ export class UserFormComponent implements OnInit, OnChanges {
     adminPermission: boolean = false;
     specialPermission: string = 'not yet implemented';
     submitPermissionsStatus: number = -1;
+    // on error with permissions data
+    permissionsErrorMessage: ApiServiceError = undefined;
 
 
     // some titles, descriptions, labels and hints
@@ -188,7 +192,8 @@ export class UserFormComponent implements OnInit, OnChanges {
             back: 'Back',
             skip: 'Skip',
             cancel: 'Cancel',
-            submit: 'Save'
+            submit: 'Save',
+            close: 'Close'
         }
     };
 
@@ -263,18 +268,18 @@ export class UserFormComponent implements OnInit, OnChanges {
         });
 
 // test data for developing...
-/*
-        this.form = fb.group({
-            'givenName': ['hans', Validators.required],
-            'familyName': ['wurst', Validators.required],
-            'email': ['hans@wurst.bell', Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
-            'password': ['etwasKompliziertes2x', Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
-            'lang': 'en',
-            'status': true,
-            'systemAdmin': false,
-            'group': null
-        });
-*/
+        /*
+                this.form = fb.group({
+                    'givenName': ['hans', Validators.required],
+                    'familyName': ['wurst', Validators.required],
+                    'email': ['hans@wurst.bell', Validators.compose([Validators.required, Validators.pattern(this.emailRegexp)])],
+                    'password': ['etwasKompliziertes2x', Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
+                    'lang': 'en',
+                    'status': true,
+                    'systemAdmin': false,
+                    'group': null
+                });
+        */
     }
 
     ngOnInit() {
@@ -329,9 +334,6 @@ export class UserFormComponent implements OnInit, OnChanges {
                         // in case of system admin:
                         // get a list of projects to add the new created user
                         this.step = 1;
-
-                        // test
-                        this.setStep(4);
 
                         let projectsList: ProjectsList;
                         this._projectsService.getAllProjects()
@@ -425,7 +427,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     displayFn(value: any): string {
-    // do we still need this method? ...
+        // do we still need this method? ...
         if (value && typeof value === 'object') {
             // the admin has selected a user
             // get the user data
@@ -470,43 +472,46 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     // get the user profile, if selected from the list
-    setSelectedUser(iri: string) {
-        // check if the selected user isn't in the project yet
-        if (this.restrictedBy) {
-            const members = sessionStorage.getItem('currentMembers');
-            if (members.indexOf(iri) > -1) {
-                alert('The selected user (' + iri + ') has already a membership in this project (' + this.restrictedBy + ')');
-                iri = null;
-                this.resetSelectedUser();
-            }
-        }
+    setSelectedUser(iri?: string) {
 
         if (iri) {
+            this.userIri = iri;
             this.selectedUser = new UserProfile();
-            this._userService.getUserByIri(iri)
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.selectedUser = result.getBody(User).userProfile;
 
-                    },
-                    (error: ApiServiceError) => {
-                        console.log(error);
-                        this.errorMessage = error;
+            // check if the selected user isn't in the project yet
+            if (this.restrictedBy) {
+                const members = sessionStorage.getItem('currentMembers');
+                if (members.indexOf(iri) > -1) {
+                    alert('The selected user (' + iri + ') has already a membership in this project (' + this.restrictedBy + ')');
+                    iri = null;
+                    this.resetSelectedUser();
+                } else {
+                    this._userService.getUserByIri(this.userIri)
+                        .subscribe(
+                            (result: ApiServiceResult) => {
+                                this.selectedUser = result.getBody(User).userProfile;
+                            },
+                            (error: ApiServiceError) => {
+                                console.log(error);
+                                this.errorMessage = error;
+                            }
+                        );
+                    if (this.step === 0) {
+                        this.nextStep(event, 3);
                     }
-                );
-            if (this.step === 0) {
-                this.nextStep(event, 3);
+                }
             }
         } else {
-            this.selectedUser = undefined;
+            this.resetSelectedUser();
         }
     }
 
     // get the project item, if selected from the list
     setSelectedProject(iri: string) {
         if (iri) {
+            this.projectIri = iri;
             this.selectedProject = new ProjectItem();
-            this._projectsService.getProjectByIri(iri)
+            this._projectsService.getProjectByIri(this.projectIri)
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.selectedProject = result.getBody(Project).project_info;
@@ -524,12 +529,14 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     resetSelectedUser() {
         this.userCtrl.reset();
-        this.selectedUser = undefined;
+        this.userIri = null;
+        this.selectedUser = null;
     }
 
     resetSelectedProject() {
         this.projectCtrl.reset();
-        this.selectedProject = undefined;
+        this.projectIri = null;
+        this.selectedProject = null;
     }
 
 
@@ -566,89 +573,83 @@ export class UserFormComponent implements OnInit, OnChanges {
 
 
     submitData(): void {
-//        this.isSubmitting = true;
-
-        console.log(this.existingUserNames);
-
-        let userIri: string;
 
         // 1) existing user or new user?
         // in case of new user, we have to sent those data first to receive a user iri
-        if (this.form.valid && !this.selectedUser) {
-            this.submitUserStatus = 0;
-            // new user: send the data to knora
-            // check if the user doesn't exist yet
+        this.submitUserStatus = 0;
+        if (this.form.valid && !this.userIri) {
+
+            // new user: send the data from user form to knora
 
             this._userService.createUser(this.form.value).subscribe(
                 (result: ApiServiceResult) => {
 
-                    this.selectedUser = result.getBody(UserProfile);
+                    const newUser: User = result.getBody(User);
 
-                    userIri = this.selectedUser.userData.user_id;
-
-                    console.log(userIri);
+                    this.userIri = newUser.userProfile.userData.user_id;
 
                     this.submitUserStatus = 1;
 
                     // next step: add the user to the selected project
                     // and set the permissions
-                    this.addUserToProject(userIri, this.restrictedBy);
-                    /*
-                    const project: string = (this.restrictedBy ? this.restrictedBy : this.selectedProject.id);
-
-                    if (project) {
-//                        this.addUserToProject(this.selectedUser.userData.user_id, project);
+                    if (this.projectIri !== undefined) {
+                        this.addUserToProject(this.userIri, this.projectIri);
                     }
-                    */
-//                    this.isSubmitting = false;
+                    this.afterSubmit = true;
                 },
                 (error: ApiServiceError) => {
                     console.log(error);
                     this.submitUserStatus = 400;
-                    this.errorMessage = error;
+                    this.userErrorMessage = error;
                 }
             )
         } else {
-            // existing user from list; add the user to the project and set the permissions
-            this._userService.addUserToProject(this.selectedUser.userData.user_id, this.restrictedBy).subscribe(
-                (result: ApiServiceResult) => {
-                    console.log(result);
-//                    this.isSubmitting = false;
-                },
-                (error: ApiServiceError) => {
-                    console.log(error);
-                    this.errorMessage = error;
-                }
-            )
+            // add existing user to project only
+            // and set the permissions
+
+            this.submitUserStatus = 1;
+
+            if (this.projectIri !== undefined) {
+                this.addUserToProject(this.userIri, this.projectIri);
+            }
+            this.afterSubmit = true;
         }
-
-        // 2) add user to project, if project iri exists
-        // we need the user iri first!
-        console.log(this.selectedUser.userData.user_id);
-
-        if (this.selectedUser) {
-            console.log('selectedUser', this.selectedUser);
-
-            // add the selected user to the project and set the permissions
-            console.log('selectedProject', this.selectedProject);
-        }
-
 
     }
 
+    updateView() {
+        location.reload();
+    }
 
-    addUserToProject(uIri: string, pIri?: string) {
+
+    addUserToProject(uIri: string, pIri: string) {
         this.submitProjectStatus = 0;
-        // do something here
-        this.submitProjectStatus = 1;
+        this._userService.addUserToProject(uIri, pIri).subscribe(
+            (result: ApiServiceResult) => {
+                this.submitProjectStatus = 1;
+                // and set the permissions in a second step
+                if (this.adminPermission) {
+                    // set the user as project admin
+                    this._userService.addUserToProjectAdmin(uIri, pIri).subscribe(
+                        (res: ApiServiceResult) => {
+                            this.submitPermissionsStatus = 1;
+                        },
+                        (error: ApiServiceError) => {
+                            console.log(error);
+                            this.submitPermissionsStatus = 400;
+                            this.permissionsErrorMessage = error;
+                        }
+                    )
+                }
+            },
+            (error: ApiServiceError) => {
+                console.log(error);
+                this.submitProjectStatus = 400;
+                this.projectErrorMessage = error;
+            }
+        );
 
-        console.log(uIri);
-        console.log(pIri);
-        if (pIri) {
 
-        } else {
-            // do nothing
-        }
     }
 
 
