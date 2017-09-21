@@ -16,7 +16,6 @@
 -->
 
 
-
 <div class="salsah-step-by-step-form">
     <!-- form header with form stepper -->
     <!--
@@ -59,7 +58,7 @@
                     </md-icon>
                     <md-autocomplete #autoUser="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
                         <md-option *ngFor="let user of filteredUsers | async" [value]="user?.name"
-                                   (onSelectionChange)="setSelectedUser(user?.iri)">
+                                   (onSelectionChange)="setSelectedUser($event, user?.iri)">
                             {{ user?.name }}
                         </md-option>
                     </md-autocomplete>
@@ -99,7 +98,8 @@
                         <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.title}}</span>
                         <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.title}}</span>
                     </md-panel-title>
-                    <md-panel-description *ngIf="!form.controls['givenName'].value && !form.controls['familyName'].value">
+                    <md-panel-description
+                        *ngIf="!form.controls['givenName'].value && !form.controls['familyName'].value">
                         <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.description}}</span>
                         <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.description}}</span>
                         <md-icon>person_add</md-icon>
@@ -111,7 +111,7 @@
                 </md-expansion-panel-header>
 
                 <!-- step 1 form content -->
-                <form class="salsah-form new-user" [formGroup]="form" >
+                <form class="salsah-form new-user" [formGroup]="form">
                     <md-form-field class="small">
                         <input mdInput [salsahFocus]="step === 1"
                                [placeholder]="formLabels.user.create.givenName + ' *'"
@@ -136,16 +136,6 @@
                         <md-hint *ngIf="formErrors.email">
                             {{ formErrors.email }}
                         </md-hint>
-<!--
-                        <md-hint class="salsah-hint">
-                            <span [hidden]="form.controls['email'].invalid">{{formLabels.user.create.emailHint}}</span>
-                            <span
-                                [hidden]="form.controls['email'].valid && form.controls['email'].dirty || form.controls['email'].pristine"
-                                class="salsah-error">
-                                {{formLabels.user.create.emailValidation}}
-                            </span>
-                        </md-hint>
--->
                     </md-form-field>
                     <!-- password -->
                     <md-form-field class="large">
@@ -157,21 +147,10 @@
                         <md-hint *ngIf="formErrors.password">
                             {{ formErrors.password }}
                         </md-hint>
-<!--
-                        <md-hint class="salsah-hint">
-                            <!-- [hidden]="form.controls['password'].valid" [ngClass]="{'salsah-error': (form.controls['password'].invalid && form.controls['password'].dirty)}"  --
-                            <span
-                                [hidden]="form.controls['password'].valid && form.controls['password'].dirty || form.controls['password'].pristine"
-                                class="salsah-error">
-                                {{formLabels.user.create.passwordHint}}
-                            </span>
-
-                        </md-hint>
--->
                     </md-form-field>
 
                     <md-select class="large"
-                               [placeholder]="formLabels.user.language"
+                               [placeholder]="formLabels.user.create.language"
                                [formControl]="form.controls['lang']">
 
                         <md-option value="en">english</md-option>
@@ -184,6 +163,11 @@
 
                 <!-- footer -->
                 <md-action-row>
+                    <button md-button
+                            color="warn"
+                            (click)="form.reset()">
+                        {{formLabels.navigation.reset}}
+                    </button>
                     <button md-button *ngIf="restrictedBy"
                             class="navigation-button center"
                             color="primary"
@@ -230,7 +214,7 @@
                     </md-icon>
                     <md-autocomplete #autoProject="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
                         <md-option *ngFor="let project of filteredProjects | async" [value]="project?.name"
-                                   (onSelectionChange)="setSelectedProject(project?.iri)">
+                                   (onSelectionChange)="setSelectedProject($event, project?.iri)">
                             {{ project?.name }}
                         </md-option>
                     </md-autocomplete>
@@ -289,20 +273,40 @@
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
-                        {{formLabels.project.permissions.title}}
+                        {{formLabels.permissions.title}}
                     </md-panel-title>
                     <md-panel-description>
-                        <span *ngIf="selectedProject"><i>{{selectedProject?.longname}}</i></span>
-                        <span *ngIf="!selectedProject">{{formLabels.project.permissions.description}}</span>
+                        <span>{{formLabels.permissions.description}}</span>
                         <md-icon>accessibility</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
-                <md-checkbox [(ngModel)]="groupPermission" [disabled]="adminPermission">{{formLabels.project.permissions.group}}</md-checkbox><br>
-                <md-checkbox [(ngModel)]="adminPermission" [disabled]="!groupPermission">{{formLabels.project.permissions.admin}}</md-checkbox>
+                <md-list>
+                    <div>
+                        <h3 md-subheader>
+                            {{formLabels.permissions.project.title}}
+                            <span *ngIf="selectedProject"><i>{{selectedProject?.longname}}</i></span>
+                        </h3>
+                        <md-list-item>
+                            <md-slide-toggle [(ngModel)]="adminPermission"
+                                             [disabled]="!projectIri && (!selectedUser && !form.valid)"
+                                             color="primary">
+                                {{formLabels.permissions.project.description}}
+                            </md-slide-toggle>
+                        </md-list-item>
+                    </div>
+                    <div *ngIf="sysAdmin && !userIri">
+                        <h3 md-subheader>{{formLabels.permissions.system.title}}</h3>
+                        <md-list-item>
+                            <md-slide-toggle [(ngModel)]="sysAdminPermission"
+                                             [disabled]="!projectIri && (!selectedUser && !form.valid)"
+                                             color="primary">
+                                {{formLabels.permissions.system.description}}
+                            </md-slide-toggle>
+                        </md-list-item>
+                    </div>
 
 
-
-
+                </md-list>
 
                 <!-- footer -->
                 <md-action-row>
@@ -336,7 +340,8 @@
                 <!-- name / email of selected user -->
                 <md-list>
                     <md-list-item *ngIf="selectedUser || form.valid">
-                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'" [status]="submitUserStatus"></salsah-progress-indicator>
+                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'"
+                                                   [status]="submitUserStatus"></salsah-progress-indicator>
                         <h4 md-line>
                             <span *ngIf="selectedUser">
                                 {{formLabels.user.select.titleDone}}
@@ -353,31 +358,39 @@
                                 {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
                             </span>
                         </p>
-                        <md-hint md-line *ngIf="userErrorMessage" class="salsah-error-message">{{userErrorMessage?.statusText}}</md-hint>
+                        <md-hint md-line *ngIf="userErrorMessage" class="salsah-error-message">
+                            {{userErrorMessage?.statusText}}
+                        </md-hint>
                     </md-list-item>
                 </md-list>
 
                 <md-list *ngIf="restrictedBy || selectedProject">
                     <md-list-item *ngIf="restrictedBy || selectedProject">
-                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'" [status]="submitProjectStatus"></salsah-progress-indicator>
+                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'"
+                                                   [status]="submitProjectStatus"></salsah-progress-indicator>
                         <h4 md-line>
                             {{formLabels.project.select.title}}
                         </h4>
                         <p md-line>
                             {{selectedProject?.longname}} ({{selectedProject?.shortname}})
                         </p>
-                        <md-hint md-line *ngIf="projectErrorMessage" class="salsah-error-message">{{projectErrorMessage?.statusText}}</md-hint>
+                        <md-hint md-line *ngIf="projectErrorMessage" class="salsah-error-message">
+                            {{projectErrorMessage?.statusText}}
+                        </md-hint>
                     </md-list-item>
                     <md-list-item>
-                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'" [status]="submitPermissionsStatus"></salsah-progress-indicator>
+                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'"
+                                                   [status]="submitPermissionsStatus"></salsah-progress-indicator>
                         <h4 md-line>
-                            {{formLabels.project.permissions.title}}
+                            {{formLabels.permissions.title}}
                         </h4>
                         <p md-line>
-                            <span *ngIf="groupPermission">{{formLabels.project.permissions.group}}</span>
-                            <span *ngIf="adminPermission"> / {{formLabels.project.permissions.admin}}</span>
+                            <span *ngIf="adminPermission">&bull; {{formLabels.permissions.project.description}}</span>
+                            <span *ngIf="sysAdminPermission"><br>&bull; {{formLabels.permissions.system.description}}</span>
                         </p>
-                        <md-hint md-line *ngIf="permissionsErrorMessage" class="salsah-error-message">{{permissionsErrorMessage?.statusText}}</md-hint>
+                        <md-hint md-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
+                            {{permissionsErrorMessage?.statusText}}
+                        </md-hint>
                     </md-list-item>
                 </md-list>
 
@@ -411,7 +424,11 @@
                             {{formLabels.navigation.close}}
                         </button>
                     </div>
-
+                    <!--
+                    <button md-button (click)="resetForm()">
+                        TEST
+                    </button>
+                    -->
 
                 </md-action-row>
 

@@ -28,6 +28,7 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
 import {Project} from '../../../../model/webapi/knora/v1/projects/project';
 import {existingNamesValidator} from '../../other/existing-name.directive';
+import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 
 @Component({
     selector: 'salsah-user-form',
@@ -35,7 +36,7 @@ import {existingNamesValidator} from '../../other/existing-name.directive';
     styleUrls: ['./user-form.component.scss']
 })
 
-export class UserFormComponent implements OnInit, OnChanges {
+export class UserFormComponent implements OnInit {
     // the form is a step by step form
     /* the steps (depending on the usage / route) are as follow:
         1) user profile
@@ -61,6 +62,9 @@ export class UserFormComponent implements OnInit, OnChanges {
     // set the start number; this number depends on the route,
     // where the form is used: project admin or system admin
     start: number = this.step;
+
+    // who is using the form? is this user a system admin?
+    sysAdmin: boolean = false;
 
 
     // user data:
@@ -122,6 +126,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     // case 2b) project permission
     groupPermission: boolean = true;
     adminPermission: boolean = false;
+    sysAdminPermission: boolean = false;
     specialPermission: string = 'not yet implemented';
     submitPermissionsStatus: number = -1;
     // on error with permissions data
@@ -173,18 +178,22 @@ export class UserFormComponent implements OnInit, OnChanges {
                 title: 'You\'re adding the user to the project ',
                 description: ''
             },
-            permissions: {
-                title: 'Project permissions',
-                description: 'Set user\'s permissions for this project',
-                admin: 'Administrative rights',
-                adminHint: 'What are admin rights? Describe it here (TODO)',
-                group: 'Additional group rights',
-                groupHint: 'What are group rights? Describe it here (TODO)'
-            }
         },
-        system: {
-            title: 'System admin',
-            description: 'Set system admin rights for this user (only sys admin can do that)'
+        permissions: {
+            title: 'Permissions',
+            description: 'Set user\'s permissions',
+            group: {
+                title: 'Group',
+                description: 'Group permissions'
+            },
+            project: {
+                title: 'Project',
+                description: 'Administrative rights in project',
+            },
+            system: {
+                title: 'System',
+                description: 'Administrative rights in system'
+            }
         },
         overview: {
             title: 'Submit data',
@@ -197,7 +206,8 @@ export class UserFormComponent implements OnInit, OnChanges {
             cancel: 'Cancel',
             submit: 'Save',
             close: 'Close',
-            add: 'Add more users'
+            add: 'Add more users',
+            reset: 'Reset'
         }
     };
 
@@ -267,7 +277,7 @@ export class UserFormComponent implements OnInit, OnChanges {
             'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
             'lang': 'en',
             'status': true,
-            'systemAdmin': false,
+            'systemAdmin': this.sysAdminPermission,
             'group': null
         });
 
@@ -287,6 +297,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
         // for the test environment
 //        this.restrictedBy = 'http://data.knora.org/projects/77275339';
 
@@ -309,7 +320,19 @@ export class UserFormComponent implements OnInit, OnChanges {
                     if (this.restrictedBy) {
                         const members = sessionStorage.getItem('currentMembers');
 
-                        this.setSelectedProject(this.restrictedBy);
+                        // this.setSelectedProject(this.restrictedBy);
+                        this.projectIri = this.restrictedBy;
+                        this.selectedProject = new ProjectItem();
+                        this._projectsService.getProjectByIri(this.projectIri)
+                            .subscribe(
+                                (res: ApiServiceResult) => {
+                                    this.selectedProject = res.getBody(Project).project_info;
+                                },
+                                (error: ApiServiceError) => {
+                                    console.log(error);
+                                    this.projectErrorMessage = error;
+                                }
+                            );
 
                         let i: number = 1;
                         for (const u of usersList.users) {
@@ -393,14 +416,6 @@ export class UserFormComponent implements OnInit, OnChanges {
          */
     }
 
-    ngOnChanges() {
-        // still needed ????????????????????????????????
-//        console.log(this.uf.valid);
-        if (this.form.valid) {
-//            console.log(this.uf);
-        }
-    }
-
     onValueChanged(data?: any) {
 
         if (!this.form) {
@@ -477,14 +492,12 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     // get the user profile, if selected from the list
-    setSelectedUser(iri?: string) {
+    setSelectedUser(ev, iri?: string) {
 
-        this.userIri = undefined;
-        this.selectedUser = undefined;
-
-        if (iri) {
+        if (iri && ev.isUserInput) {
             this.userIri = iri;
 
+//            console.log(this.userIri);
             this.selectedUser = new UserProfile();
 
             // check if the selected user isn't in the project yet
@@ -513,8 +526,9 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     // get the project item, if selected from the list
-    setSelectedProject(iri: string) {
-        if (iri) {
+    setSelectedProject(ev, iri: string) {
+
+        if (iri && ev.isUserInput) {
             this.projectIri = iri;
             this.selectedProject = new ProjectItem();
             this._projectsService.getProjectByIri(this.projectIri)
@@ -642,6 +656,22 @@ export class UserFormComponent implements OnInit, OnChanges {
                         }
                     )
                 }
+                if (this.sysAdminPermission) {
+                    this.submitPermissionsStatus = 0;
+                    const data: any = {
+                        systemAdmin: true
+                    };
+                    this._userService.addUserToSystemAdmin(uIri, data).subscribe(
+                        (res: ApiServiceResult) => {
+                            this.submitPermissionsStatus = 1;
+                        },
+                        (error: ApiServiceError) => {
+                            console.log(error);
+                            this.submitPermissionsStatus = 400;
+                            this.permissionsErrorMessage = error;
+                        }
+                    )
+                }
             },
             (error: ApiServiceError) => {
                 console.log(error);
@@ -660,19 +690,26 @@ export class UserFormComponent implements OnInit, OnChanges {
     resetForm() {
         this.step = this.start;
         this.submitUserStatus = -1;
-        this.submitProjectStatus = -1;
-        this.submitPermissionsStatus = -1;
-
-        this.afterSubmit = false;
-
-        this.form.reset();
+        this.userErrorMessage = undefined;
         this.resetSelectedUser();
-        if (this.start === 0) {
+        this.form.reset();
+
+        this.submitProjectStatus = -1;
+        this.projectErrorMessage = undefined;
+        if (this.start === 1) {
             this.resetSelectedProject();
         }
-        // reload form component
+
+        this.submitPermissionsStatus = -1;
+        this.permissionsErrorMessage = undefined;
+        this.adminPermission = false;
+        this.sysAdminPermission = false;
+
+        this.afterSubmit = false;
     }
 
+
+    // old submit method; TODO: delete it...
     onSubmit(value: any): void {
 
         console.log('you submitted value: ', value);

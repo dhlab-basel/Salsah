@@ -31,6 +31,13 @@ describe('UserFormComponent', () => {
         'http://data.knora.org/users/multiuser'
     ];
 
+    const currentTestUser = <any>{
+        'email': 'multi.user@example.com',
+        'token': '',
+        'sysAdmin': false
+    };
+
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -67,6 +74,7 @@ describe('UserFormComponent', () => {
 
         sessionStorage.setItem('currentMembers', JSON.stringify(testMembers));
         sessionStorage.setItem('currentProject', JSON.stringify(testProject));
+        localStorage.setItem('currentUser', JSON.stringify(currentTestUser));
 
         fixture = TestBed.createComponent(UserFormComponent);
         component = fixture.componentInstance;
@@ -76,6 +84,7 @@ describe('UserFormComponent', () => {
     it('should create', () => {
         expect<any>(sessionStorage.getItem('currentMembers')).toBe(JSON.stringify(testMembers));
         expect<any>(sessionStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
+        expect<any>(localStorage.getItem('currentUser')).toBe(JSON.stringify(currentTestUser));
         expect(component).toBeTruthy();
     });
 });

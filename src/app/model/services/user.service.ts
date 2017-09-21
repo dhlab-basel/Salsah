@@ -49,9 +49,9 @@ export class UserService extends ApiService {
 
     createUser(data: any): Observable<any> {
 
-        const headers: Headers = new Headers();
-        console.log(headers);
-        console.log(data);
+//        const headers: Headers = new Headers();
+//        console.log(headers);
+//        console.log(data);
 //        headers.append("Authorization", "Basic " + btoa(email + ":" + password));
         /*
          email: String,
@@ -71,6 +71,10 @@ export class UserService extends ApiService {
 
     addUserToProjectAdmin(uIri: string, pIri: string): Observable<any> {
         return this.httpPost( '/v1/users/projects-admin/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+    }
+
+    addUserToSystemAdmin(uIri: string, data: any): Observable<any> {
+        return this.httpPut('/v1/users/' + encodeURIComponent(uIri), data, {});
     }
 
 

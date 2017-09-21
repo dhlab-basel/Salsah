@@ -28,9 +28,8 @@ export interface FormSteps {
     templateUrl: './form-dialog.component.html',
     styleUrls: ['./form-dialog.component.scss']
 })
-export class FormDialogComponent implements OnInit {
 
-//    @Input() steps?: FormSteps;
+export class FormDialogComponent implements OnInit {
 
     fullSize: boolean = false;
 
@@ -74,5 +73,10 @@ export class FormDialogComponent implements OnInit {
             this._dialogRef.updateSize('auto', 'auto');
             this._dialogRef.updatePosition();
         }
+    }
+
+    // after close form, refresh the page
+    updateView() {
+        location.reload();
     }
 }
