@@ -3,10 +3,13 @@
 <salsah-message *ngIf="errorMessage" [message]="error"></salsah-message>
 
 <div *ngIf="userProfile">
-
-    <img salsahImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image"/>
-    <h3 md-subheader>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h3>
-    <p><a [href]="'mailto:' + email">{{email}}</a></p>
+    <md-list class="main-list">
+        <md-list-item>
+            <img md-list-icon salsahImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image large"/>
+            <h4 md-line>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h4>
+            <p md-line><a [href]="'mailto:' + email">{{email}}</a></p>
+        </md-list-item>
+    </md-list>
 
     <md-divider></md-divider>
 
@@ -14,5 +17,10 @@
 
     <salsah-projects-list [restrictedBy]="iri" *ngIf="iri"></salsah-projects-list>
 
+    <md-divider></md-divider>
+
+    <button md-button color="warn" (click)="deleteUser(iri)">
+        Delete user
+    </button>
 </div>
 

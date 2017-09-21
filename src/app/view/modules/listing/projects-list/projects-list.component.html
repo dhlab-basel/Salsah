@@ -64,13 +64,20 @@
         </md-grid-tile>
     </md-grid-list>
 
+
+
     <!-- default list -->
     <md-list class="salsah-list" *ngSwitchDefault>
         <h3 md-subheader># Projects: {{num}}</h3>
-        <md-list-item *ngFor="let item of list | key" (click)="open(item.value.shortname)" class="salsah-link">
-            <img md-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
-            <h4 md-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
-            <div md-line [innerHtml]="item.value.description | slice:0:128"></div>
+        <md-list-item *ngFor="let item of list | key">
+            <div  (click)="open(item.value.shortname)" class="salsah-link">
+                <img md-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
+                <h4 md-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
+                <div md-line [innerHtml]="item.value.description | slice:0:128"></div>
+            </div>
+            <md-toolbar>
+                <button md-button *ngIf="user" (click)="removeUserFromProject(user, item.key)">Remove user from project</button>
+            </md-toolbar>
         </md-list-item>
     </md-list>
 </div>

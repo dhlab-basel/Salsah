@@ -69,12 +69,20 @@ export class UserService extends ApiService {
         return this.httpPost('/v1/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
     }
 
+    removeUserFromProject(uIri: string, pIri: string): Observable<any> {
+        return this.httpDelete('/v1/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+    }
+
     addUserToProjectAdmin(uIri: string, pIri: string): Observable<any> {
         return this.httpPost( '/v1/users/projects-admin/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
     }
 
     addUserToSystemAdmin(uIri: string, data: any): Observable<any> {
         return this.httpPut('/v1/users/' + encodeURIComponent(uIri), data, {});
+    }
+
+    deleteUser(uIri: string): Observable<any> {
+        return this.httpDelete('/v1/users/' + encodeURIComponent(uIri));
     }
 
 

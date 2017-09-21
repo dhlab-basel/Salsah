@@ -88,6 +88,7 @@ export class ProjectsListComponent implements OnInit {
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.list = result.getBody(User).userProfile.projects_info;
+                        console.log(this.list);
                         this.num = Object.keys(this.list).length;
                         this.isLoading = false;
                     },
@@ -127,6 +128,18 @@ export class ProjectsListComponent implements OnInit {
     open(id: string) {
         localStorage.removeItem('currentProject');
         this._router.navigate(['/project/', id]);
+    }
+
+    removeUserFromProject(user: string, project: string) {
+        this._userService.removeUserFromProject(user, project).subscribe(
+            (result: ApiServiceResult) => {
+                console.log(result);
+            },
+            (error: ApiServiceError) => {
+                console.log(error);
+            }
+
+        )
     }
 
 }

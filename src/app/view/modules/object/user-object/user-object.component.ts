@@ -44,7 +44,7 @@ export class UserObjectComponent implements OnChanges {
         this._userService.getUserByIri(this.id)
             .subscribe(
                 (result: ApiServiceResult) => {
-                    let user: User = result.getBody(User);
+                    const user: User = result.getBody(User);
                     this.userProfile = user.userProfile;
                     this.email = user.userProfile.userData.email;
                     this.iri = this.id;
@@ -53,6 +53,23 @@ export class UserObjectComponent implements OnChanges {
                     this.errorMessage = <any>error;
                 }
             );
+    }
+
+    deleteUser(iri: string) {
+        // open dialog box first
+
+        // if answer is true: delete the user
+        this._userService.deleteUser(iri).subscribe(
+            (result: ApiServiceResult) => {
+                console.log(result);
+            },
+            (error: ApiServiceError) => {
+                console.log(error);
+            }
+
+        )
+
+        // close dialog box and update page
     }
 
 }
