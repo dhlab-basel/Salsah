@@ -292,7 +292,7 @@
                         {{formLabels.project.permissions.title}}
                     </md-panel-title>
                     <md-panel-description>
-                        <span *ngIf="selectedProject"><i>{{selectedProject.longname}}</i></span>
+                        <span *ngIf="selectedProject"><i>{{selectedProject?.longname}}</i></span>
                         <span *ngIf="!selectedProject">{{formLabels.project.permissions.description}}</span>
                         <md-icon>accessibility</md-icon>
                     </md-panel-description>
@@ -364,7 +364,7 @@
                             {{formLabels.project.select.title}}
                         </h4>
                         <p md-line>
-                            {{selectedProject.longname}} ({{selectedProject.shortname}})
+                            {{selectedProject?.longname}} ({{selectedProject?.shortname}})
                         </p>
                         <md-hint md-line *ngIf="projectErrorMessage" class="salsah-error-message">{{projectErrorMessage?.statusText}}</md-hint>
                     </md-list-item>
@@ -383,27 +383,35 @@
 
                 <!-- footer -->
                 <md-action-row>
-                    <!-- two buttons for both cases and submit the data with the method -->
-                    <button md-raised-button *ngIf="!selectedUser && !afterSubmit" [disabled]="!form.valid"
-                            class="navigation-button center"
-                            color="primary"
-                            (click)="submitData()">
-                        {{formLabels.navigation.submit}}
-                    </button>
-                    <button md-raised-button *ngIf="selectedUser && !afterSubmit" [disabled]="!selectedUser?.userData?.user_id"
-                            class="navigation-button center"
-                            color="primary"
-                            (click)="submitData()">
-                        {{formLabels.navigation.submit}}
-                    </button>
+                    <!-- two buttons for both cases and to submit the data with the method -->
+                    <div *ngIf="!afterSubmit">
+                        <button md-raised-button *ngIf="!selectedUser" [disabled]="!form.valid"
+                                color="primary"
+                                (click)="submitData()">
+                            {{formLabels.navigation.submit}}
+                        </button>
+                        <button md-raised-button *ngIf="selectedUser" [disabled]="!selectedUser?.userData?.user_id"
+                                color="primary"
+                                (click)="submitData()">
+                            {{formLabels.navigation.submit}}
+                        </button>
+                    </div>
+                    <!-- one button to add more users and on button to close the form;
+                        both button are shown after submit -->
+                    <div *ngIf="(!userErrorMessage && !projectErrorMessage && !permissionsErrorMessage) && afterSubmit">
+                        <button md-button
+                                color="primary"
+                                (click)="resetForm()">
+                            {{formLabels.navigation.add}}
+                        </button>
+                        <button md-button md-dialog-close
+                                class="navigation-button-center"
+                                color="warn"
+                                (click)="updateView()">
+                            {{formLabels.navigation.close}}
+                        </button>
+                    </div>
 
-                    <button md-button md-dialog-close
-                            *ngIf="(!userErrorMessage && !projectErrorMessage && !permissionsErrorMessage) && afterSubmit"
-                            class="navigation-button-center"
-                            color="primary"
-                            (click)="updateView()">
-                        {{formLabels.navigation.close}}
-                    </button>
 
                 </md-action-row>
 

@@ -58,6 +58,9 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     // step number in the form
     step: number = 0;
+    // set the start number; this number depends on the route,
+    // where the form is used: project admin or system admin
+    start: number = this.step;
 
 
     // user data:
@@ -175,7 +178,7 @@ export class UserFormComponent implements OnInit, OnChanges {
                 description: 'Set user\'s permissions for this project',
                 admin: 'Administrative rights',
                 adminHint: 'What are admin rights? Describe it here (TODO)',
-                group: 'Group rights',
+                group: 'Additional group rights',
                 groupHint: 'What are group rights? Describe it here (TODO)'
             }
         },
@@ -193,7 +196,8 @@ export class UserFormComponent implements OnInit, OnChanges {
             skip: 'Skip',
             cancel: 'Cancel',
             submit: 'Save',
-            close: 'Close'
+            close: 'Close',
+            add: 'Add more users'
         }
     };
 
@@ -334,6 +338,7 @@ export class UserFormComponent implements OnInit, OnChanges {
                         // in case of system admin:
                         // get a list of projects to add the new created user
                         this.step = 1;
+                        this.start = this.step;
 
                         let projectsList: ProjectsList;
                         this._projectsService.getAllProjects()
@@ -618,11 +623,6 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     }
 
-    updateView() {
-        location.reload();
-    }
-
-
     addUserToProject(uIri: string, pIri: string) {
         this.submitProjectStatus = 0;
         this._userService.addUserToProject(uIri, pIri).subscribe(
@@ -649,10 +649,29 @@ export class UserFormComponent implements OnInit, OnChanges {
                 this.projectErrorMessage = error;
             }
         );
-
-
     }
 
+    // after close form, refresh the page
+    updateView() {
+        location.reload();
+    }
+
+    // option to add more users after added one
+    resetForm() {
+        this.step = this.start;
+        this.submitUserStatus = -1;
+        this.submitProjectStatus = -1;
+        this.submitPermissionsStatus = -1;
+
+        this.afterSubmit = false;
+
+        this.form.reset();
+        this.resetSelectedUser();
+        if (this.start === 0) {
+            this.resetSelectedProject();
+        }
+        // reload form component
+    }
 
     onSubmit(value: any): void {
 
