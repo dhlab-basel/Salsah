@@ -107,6 +107,14 @@ a {
     }
   }
 
+  &.inactive {
+    color: $mute;
+
+    img {
+      opacity: .5;
+    }
+  }
+
   .close-highlight {
     display: none;
   }

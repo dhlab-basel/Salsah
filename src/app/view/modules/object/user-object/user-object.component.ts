@@ -17,6 +17,10 @@ import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UserService} from '../../../../model/services/user.service';
 import {User, UserProfile} from '../../../../model/webapi/knora/';
+import {MdDialog, MdDialogConfig} from '@angular/material';
+import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
+import {MessageData} from '../../message/message.component';
+import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 
 @Component({
     selector: 'salsah-user-object',
@@ -35,7 +39,8 @@ export class UserObjectComponent implements OnChanges {
 
     errorMessage: any;
 
-    constructor(private _userService: UserService) {
+    constructor(private _userService: UserService,
+                public _dialog: MdDialog) {
     }
 
     ngOnChanges() {
@@ -56,20 +61,37 @@ export class UserObjectComponent implements OnChanges {
     }
 
     deleteUser(iri: string) {
-        // open dialog box first
+        const answer: boolean = false;
+        const config = new MdDialogConfig();
 
-        // if answer is true: delete the user
-        this._userService.deleteUser(iri).subscribe(
-            (result: ApiServiceResult) => {
-                console.log(result);
-            },
-            (error: ApiServiceError) => {
-                console.log(error);
+        config.data = {
+            title: 'Are you sure to delete this user?',
+            confirm: answer
+        };
+
+        // open dialog box
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRef.afterClosed().subscribe(result => {
+            if (config.data.confirm === true) {
+                // if answer is true: remove the user from the project
+                this._userService.deleteUser(iri).subscribe(
+                    (res: ApiServiceResult) => {
+                        // reload page
+                        window.location.reload();
+                    },
+                    (error: ApiServiceError) => {
+                        const message: MessageData = error;
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                            data: {
+                                message: message
+                            }
+                        });
+                    }
+                )
             }
-
-        )
-
-        // close dialog box and reload page (if answer was true)
+        });
     }
 
 }

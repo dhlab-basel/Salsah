@@ -24,6 +24,8 @@ import {MessageData} from '../../message/message.component';
 import {MdDialog, MdDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {Router} from '@angular/router';
+import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
+import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 
 @Component({
     selector: 'salsah-users-list',
@@ -62,8 +64,12 @@ export class UsersListComponent implements OnInit {
     };
 
     // the main objects in this component
-    list: UserData[] = [];
-    num: number;
+    allUsers: UserData[] = [];
+    allActiveUsers: UserData[] = [];
+    allInactiveUsers: UserData[] = [];
+    countUsers: number;
+    countActive: number;
+    countInactive: number;
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
@@ -84,6 +90,7 @@ export class UsersListComponent implements OnInit {
     ];
     sortTitle: string = 'Sort them by ';
     sortKey: string = this.sortProps[0].key;
+    sortKeyIA: string = this.sortProps[0].key;
     sortLabel: string = this.sortProps[0].label;
 
     constructor(private _router: Router,
@@ -101,16 +108,20 @@ export class UsersListComponent implements OnInit {
             this._projectsService.getProjectMembersByIri(this.project)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.list = result.getBody(ProjectMembers).members;
+                        this.allUsers = result.getBody(ProjectMembers).members;
+
+
+
+
                         // set an array of the project members in local storage
                         // it's a list of user IRIs
                         // we need it, when we want to add new members to a project
                         // in that case we see, if someone is already a member
                         const currentMembers: string[] = [];
-                        for (const m of this.list) {
+                        for (const m of this.allUsers) {
                             currentMembers.push(m.user_id);
                         }
-                        this.num = Object.keys(this.list).length;
+                        this.countUsers = Object.keys(this.allUsers).length;
                         sessionStorage.setItem('currentMembers', JSON.stringify(currentMembers));
                         this.isLoading = false;
                     },
@@ -124,8 +135,17 @@ export class UsersListComponent implements OnInit {
             this._userService.getAllUsers()
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.list = result.getBody(UsersList).users;
-                        this.num = Object.keys(this.list).length;
+                        this.allUsers = result.getBody(UsersList).users;
+                        for (const au of this.allUsers) {
+                            if (au.status === true) {
+                                this.allActiveUsers.push(au);
+                            } else {
+                                this.allInactiveUsers.push(au);
+                            }
+                        }
+                        this.countUsers = Object.keys(this.allUsers).length;
+                        this.countActive = Object.keys(this.allActiveUsers).length;
+                        this.countInactive = Object.keys(this.allInactiveUsers).length;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -181,6 +201,82 @@ export class UsersListComponent implements OnInit {
 
     open(id: string) {
         this._router.navigate(['/user/', id]);
+    }
+
+    removeFromProject(uIri: string, pIri: string) {
+        const answer: boolean = false;
+        const config = new MdDialogConfig();
+
+        config.data = {
+            title: 'Are you sure to remove this user from the project?',
+            confirm: answer
+        };
+
+        // open dialog box
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRef.afterClosed().subscribe(result => {
+
+            if (config.data.confirm === true) {
+                // if answer is true: remove the user from the project
+                this._userService.removeUserFromProject(uIri, pIri).subscribe(
+                    (res: ApiServiceResult) => {
+                        // reload page
+                        window.location.reload();
+                    },
+                    (error: ApiServiceError) => {
+                        const message: MessageData = error;
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                            data: {
+                                message: message
+                            }
+                        });
+                    }
+                )
+            }
+
+        });
+
+    }
+
+    delete(uIri: string) {
+        const answer: boolean = false;
+        const config = new MdDialogConfig();
+
+        config.data = {
+            title: 'Are you sure to delete this user?',
+            confirm: answer
+        };
+
+        // open dialog box
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRef.afterClosed().subscribe(result => {
+            this.isLoading = true;
+            if (config.data.confirm === true) {
+                // if answer is true: remove the user from the project
+                this._userService.deleteUser(uIri).subscribe(
+                    (res: ApiServiceResult) => {
+                        // reload page
+                        this.isLoading = false;
+                        window.location.reload();
+                    },
+                    (error: ApiServiceError) => {
+                        const message: MessageData = error;
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                            data: {
+                                message: message
+                            }
+                        });
+                    }
+                )
+            } else {
+                this.isLoading = false;
+            }
+
+        });
     }
 
 }

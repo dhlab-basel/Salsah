@@ -15,7 +15,6 @@
 import {Http, RequestOptionsArgs, Response, Headers} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-// import {JsonConvert} from 'json2typescript';
 import {environment} from '../../../environments/environment';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';

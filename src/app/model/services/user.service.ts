@@ -14,14 +14,11 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-
 import {ApiService} from './api.service';
-import {Headers} from '@angular/http';
 
 
 @Injectable()
 export class UserService extends ApiService {
-
 
     /**
      * returns a user profile
@@ -74,7 +71,7 @@ export class UserService extends ApiService {
     }
 
     addUserToProjectAdmin(uIri: string, pIri: string): Observable<any> {
-        return this.httpPost( '/v1/users/projects-admin/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+        return this.httpPost('/v1/users/projects-admin/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
     }
 
     addUserToSystemAdmin(uIri: string, data: any): Observable<any> {

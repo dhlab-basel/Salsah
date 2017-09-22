@@ -20,9 +20,9 @@ export class ConfirmDialogComponent implements OnInit {
     }
 
     confirmDelete() {
-        console.log(this.data);
+//        console.log(this.data);
         this.data.confirm = true;
-        console.log(this.data);
+//        console.log(this.data);
         this._dialogRef.close();
     }
 

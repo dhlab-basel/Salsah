@@ -13,8 +13,9 @@
  * */
 
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
+import {MD_DIALOG_DATA, MdDialog, MdDialogConfig, MdDialogRef} from '@angular/material';
 import {MessageData} from '../../message/message.component';
+  import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 
 /*
 export interface FormSteps {
@@ -42,7 +43,8 @@ export class FormDialogComponent implements OnInit {
     };
 
     constructor(public _dialogRef: MdDialogRef<FormDialogComponent>,
-                @Inject(MD_DIALOG_DATA) public data: any) {
+                @Inject(MD_DIALOG_DATA) public data: any,
+                public _dialog: MdDialog) {
     }
 
     ngOnInit() {
@@ -75,8 +77,27 @@ export class FormDialogComponent implements OnInit {
         }
     }
 
-    // after close form, refresh the page
-    updateView() {
-        location.reload();
+    discardChanges() {
+        const answer: boolean = false;
+        const config = new MdDialogConfig();
+
+        config.data = {
+            title: 'You\'re sure to close the form and discard all changes?',
+            confirm: answer
+        };
+
+        // open dialog box
+        const dialogRefConfirm = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRefConfirm.afterClosed().subscribe(result => {
+            if (config.data.confirm === true) {
+                // close the form dialog box
+                this._dialogRef.close();
+            } else {
+                // do not close the form dialog box
+            }
+
+        });
     }
 }
