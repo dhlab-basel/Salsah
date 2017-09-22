@@ -1,0 +1,21 @@
+
+<md-dialog-content>
+
+  {{data.title}}
+
+</md-dialog-content>
+
+<md-dialog-actions>
+  <button md-button
+          md-dialog-close
+          class="cancel-button center">
+    Cancel
+  </button>
+  <span class="fill-remaining-space"></span>
+  <button md-button
+          (click)="confirmDelete()"
+          color="warn"
+          class="cancel-button center">
+    OK
+  </button>
+</md-dialog-actions>

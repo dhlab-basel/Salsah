@@ -41,7 +41,7 @@ export class FormCreateComponent implements OnInit {
 
     open(form: string) {
         let dialogRef;
-        let restrictedBy: string = undefined;
+        const restrictedBy: string = undefined;
         switch (form) {
             case 'user':
             case 'project':

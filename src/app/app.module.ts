@@ -105,6 +105,7 @@ import {DndDirective} from './view/modules/other/dnd.directive';
 import { ResizeGridDirective } from './view/modules/other/resize-grid.directive';
 import { FormCreateComponent } from './view/test/development/form-create/form-create.component';
 import { FocusDirective } from './view/modules/other/focus.directive';
+import { ConfirmDialogComponent } from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -172,6 +173,7 @@ import { FocusDirective } from './view/modules/other/focus.directive';
         ResizeGridDirective,
         FormCreateComponent,
         FocusDirective,
+        ConfirmDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -186,9 +188,10 @@ import { FocusDirective } from './view/modules/other/focus.directive';
     ],
     // we need the entryComponents for every component inside of a md-dialog module
     entryComponents: [
+        ConfirmDialogComponent,
         FormDialogComponent,
         MessageDialogComponent,
-        ResourceClassFormComponent
+        ResourceClassFormComponent // deprecated!!
     ],
     providers: [
         ApiService,

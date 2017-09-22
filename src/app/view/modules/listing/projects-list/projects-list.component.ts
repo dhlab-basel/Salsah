@@ -22,6 +22,8 @@ import {ProjectsList, ProjectItem, User, UserProfile} from '../../../../model/we
 import {MessageData} from '../../message/message.component';
 import {MdDialog, MdDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
+import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
+import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 
 /**
  * This component has two optional attributes:
@@ -131,15 +133,42 @@ export class ProjectsListComponent implements OnInit {
     }
 
     removeUserFromProject(user: string, project: string) {
-        this._userService.removeUserFromProject(user, project).subscribe(
-            (result: ApiServiceResult) => {
-                console.log(result);
-            },
-            (error: ApiServiceError) => {
-                console.log(error);
+        let answer: boolean = false;
+        const config = new MdDialogConfig();
+
+        config.data = {
+            title: 'Are you sure to remove this user from the project?',
+            confirm: answer
+        };
+
+        // open dialog box
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed', result);
+            console.log(config.data);
+
+            if (config.data.confirm === true) {
+                // if answer is true: remove the user from the project
+                this._userService.removeUserFromProject(user, project).subscribe(
+                    (res: ApiServiceResult) => {
+                        console.log(res);
+                        // reload page
+                    },
+                    (error: ApiServiceError) => {
+                        const message: MessageData = error;
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                            data: {
+                                message: message
+                            }
+                        });
+                    }
+                )
             }
 
-        )
+        });
+
     }
 
 }

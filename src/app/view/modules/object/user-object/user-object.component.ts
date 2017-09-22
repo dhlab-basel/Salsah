@@ -69,7 +69,7 @@ export class UserObjectComponent implements OnChanges {
 
         )
 
-        // close dialog box and update page
+        // close dialog box and reload page (if answer was true)
     }
 
 }
