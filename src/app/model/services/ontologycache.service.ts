@@ -61,7 +61,7 @@ class Property {
 }
 
 /**
- * A map of peropty Iris to property definitions.
+ * A map of property Iris to property definitions.
  */
 class Properties {
     [index: string]: Property;
