@@ -13,7 +13,6 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {SessionService} from "./model/services/session.service";
 
 @Component({
     selector: 'app-root',
@@ -22,14 +21,7 @@ import {SessionService} from "./model/services/session.service";
 })
 export class AppComponent implements OnInit {
 
-    activeSession: boolean;
+    constructor() {}
 
-    constructor(
-        private _sessionService: SessionService
-    ){}
-
-    ngOnInit() {
-//        this.activeSession = this._sessionService.checkSession();
-
-    }
+    ngOnInit() {}
 }

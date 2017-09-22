@@ -12,17 +12,10 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
-import {Router, ActivatedRoute} from "@angular/router";
-import {SessionService} from "../../../../model/services/session.service";
-
-import {
-    trigger,
-    state,
-    style,
-    animate,
-    transition
-} from '@angular/animations';
+import {Component, ElementRef, HostListener, OnChanges, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {AuthenticationService} from '../../../../model/services/authentication.service';
 
 @Component({
     selector: 'salsah-header-toolbar',
@@ -49,30 +42,11 @@ export class HeaderToolbarComponent implements OnInit {
 
     userName: string = undefined;
 
-    activeSession: boolean = false;
+    activeSession = false;
 
-    focusOnUserMenu: string = 'inactive';
-    focusOnAddMenu: string = 'inactive';
+    focusOnUserMenu = 'inactive';
+    focusOnAddMenu = 'inactive';
 
-    constructor(private _eleRef: ElementRef,
-                private _route: ActivatedRoute,
-                private _router: Router,
-                private _sessionService: SessionService) {
-
-    }
-
-    // check authentication: the session (from the services) should be valid and the local storage item "auth" as well
-
-    // if a or b is not valid or if they have different session ids, then the authentication is false!
-    ngOnInit() {
-        // check if the authentication is valid:
-        // there should be a local storage item called "ownProfile", which should have the same values like the knora session response
-        this.activeSession = this._sessionService.checkSession();
-
-        if (JSON.parse(localStorage.getItem('ownProfile'))) this.userName = JSON.parse(localStorage.getItem('ownProfile')).userData.email;
-
-
-    }
 
     userMenu: any = [
         {
@@ -104,7 +78,7 @@ export class HeaderToolbarComponent implements OnInit {
      },
      */
 
-    addMenuTitle: string = "Add some new stuff";
+    addMenuTitle = 'Add some new stuff';
     addMenu: any = [
         {
             title: 'Project',
@@ -124,14 +98,35 @@ export class HeaderToolbarComponent implements OnInit {
 
     ];
 
+    constructor(private _eleRef: ElementRef,
+                private _route: ActivatedRoute,
+                private _router: Router,
+                private _authenticationService: AuthenticationService) {
+
+    }
+
+
+    ngOnInit() {
+        // check if whe are logged in
+        this.activeSession = this._authenticationService.authenticate();
+
+        if (JSON.parse(localStorage.getItem('currentUser'))) {
+            this.userName = JSON.parse(localStorage.getItem('currentUser')).email;
+        }
+    }
+
 
     @HostListener('document:click', ['$event'])
     public onClick(event) {
         if (!this._eleRef.nativeElement.contains(event.target)) {
 //            this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
 //            this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
-            if (this.focusOnUserMenu === 'active') this.focusOnUserMenu = 'inactive';
-            if (this.focusOnAddMenu === 'active') this.focusOnAddMenu = 'inactive';
+            if (this.focusOnUserMenu === 'active') {
+                this.focusOnUserMenu = 'inactive';
+            }
+            if (this.focusOnAddMenu === 'active') {
+                this.focusOnAddMenu = 'inactive';
+            }
         }
     }
 
@@ -149,11 +144,12 @@ export class HeaderToolbarComponent implements OnInit {
     }
 
     goToLoginPage() {
-        let goToUrl: string = '/login';
+        let goToUrl = '/login';
 
-        if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
-
-        window.location.replace(goToUrl);
+        if (this._router.url !== '/') {
+            goToUrl += '?h=' + encodeURIComponent(this._router.url);
+        }
+        this._router.navigate([goToUrl]);
     }
 
 }

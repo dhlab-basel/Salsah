@@ -21,16 +21,20 @@ import {DndModule} from 'ng2-dnd';
 //
 // import all needed services
 //
-import {LoginService} from './model/services/login.service';
 import {ProjectsService} from './model/services/projects.service';
 import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
 import {OntologyService} from './model/services/ontology.service';
 import {OntologyCacheService} from './model/services/ontologycache.service';
 import {SearchService} from './model/services/search.service';
-import {SessionService} from './model/services/session.service';
+
 import {IncomingService} from "./model/services/incoming.service";
 
+import {UserService} from './model/services/user.service';
+import {ApiService} from './model/services/api.service';
+import {ListsService} from './model/services/lists.service';
+import {AuthenticationService} from './model/services/authentication.service';
+import {BasicOntologyService} from './model/services/basic-ontology.service';
 //
 // import all app components
 //
@@ -51,10 +55,6 @@ import {ProjectResourcesComponent} from './view/dashboard/project/project-resour
 import {SearchComponent} from './view/modules/search/search.component';
 import {SimpleSearchComponent} from './view/modules/search/simple-search/simple-search.component';
 import {ExtendedSearchComponent} from './view/modules/search/extended-search/extended-search.component';
-import {UserService} from './model/services/user.service';
-import {ApiService} from './model/services/api.service';
-import {ListsService} from './model/services/lists.service';
-import {BasicOntologyService} from './model/services/basic-ontology.service';
 
 import {KeyPipe} from './view/modules/other/key.pipe';
 
@@ -102,6 +102,7 @@ import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geo
 import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
 import {EditResourceClassComponent} from './view/modules/form/edit-resource-class/edit-resource-class.component';
 import {AppRoutingModule} from './app-routing.module';
+// just to get the basic ontology form the json file
 // just to get the basic ontology form the json file
 //
 // import all app components
@@ -183,20 +184,18 @@ import {AppRoutingModule} from './app-routing.module';
     ],
     providers: [
         ApiService,
-        LoginService,
         ProjectsService,
         PropertiesService,
         ResourceService,
         ResourceTypesService,
         SearchService,
         IncomingService,
-        SessionService,
         BasicOntologyService,
         UserService,
-
         OntologyService,
         OntologyCacheService,
         ListsService,
+        AuthenticationService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
