@@ -33,13 +33,15 @@ export class ProjectFormComponent implements OnInit {
 
     @Input() iri?: string;
 
-    @Output() submitData = new EventEmitter<any>();
+    // @Output() submitData = new EventEmitter<any>();
 
     isLoading: boolean = true;
 
     errorMessage: any;
 
     submitted: boolean = false;
+
+    step: number = 0;
 
     project: ProjectItem = new ProjectItem();
 
@@ -54,16 +56,33 @@ export class ProjectFormComponent implements OnInit {
     descriptionMaxLength: number = 2000;
 
     formLabels = {
-        shortname: 'Project short name',
-        longname: 'Project name',
-        description: 'Description',
-        logo: {
-            upload: 'Upload a logo',
-            or: 'OR',
-            url: 'Set an URL',
-            name: 'Logo file name or URL'
+        project: {
+            title: 'Project details',
+            description: '',
+            shortname: 'Project short name',
+            longname: 'Project name',
+            logo: {
+                upload: 'Upload a logo',
+                or: 'OR',
+                url: 'Set an URL',
+                name: 'Logo file name or URL'
+            },
+            keywords: 'Keywords'
         },
-        keywords: 'Keywords'
+        user: {
+            select: 'Select user to add'
+        },
+        navigation: {
+            next: 'Next',
+            back: 'Back',
+            skip: 'Skip',
+            cancel: 'Cancel',
+            submit: 'Save',
+            close: 'Close',
+            add: 'Add more users',
+            reset: 'Reset'
+        }
+
     };
 
     formErrors = {
@@ -233,7 +252,7 @@ export class ProjectFormComponent implements OnInit {
         console.log('you submitted value: ', value);
         this.project = value;
 
-        this.submitData.emit({value, iri});
+        // this.submitData.emit({value, iri});
 
         if (!this.iri) {
             // create project
@@ -302,6 +321,11 @@ export class ProjectFormComponent implements OnInit {
     getFiles(files: any): void {
         this.logo = files[0].name;
         console.log('getFile: ', files[0].name);
+    }
+
+
+    submitData() {
+        console.log(this.form);
     }
 
 }

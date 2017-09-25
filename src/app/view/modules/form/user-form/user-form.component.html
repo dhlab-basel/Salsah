@@ -72,14 +72,14 @@
                         {{formLabels.user.select.skip}}
                     </button>
                     <button md-button *ngIf="restrictedBy"
-                            class="navigation-button center"
+                            class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 3)"
                             [disabled]="!userCtrl.valid">
                         {{formLabels.navigation.next}}
                     </button>
                     <button md-button *ngIf="!restrictedBy"
-                            class="navigation-button center"
+                            class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 2)"
                             [disabled]="!userCtrl.valid">
@@ -169,14 +169,14 @@
                         {{formLabels.navigation.reset}}
                     </button>
                     <button md-button *ngIf="restrictedBy"
-                            class="navigation-button center"
+                            class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 3)"
                             [disabled]="!form.valid">
                         {{formLabels.navigation.next}}
                     </button>
                     <button md-button *ngIf="!restrictedBy"
-                            class="navigation-button center"
+                            class="navigation-button"
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!form.valid">
@@ -228,7 +228,7 @@
                         {{formLabels.project.select.skip}}
                     </button>
                     <button md-button
-                            class="navigation-button center"
+                            class="navigation-button"
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!projectCtrl.valid">
@@ -311,7 +311,7 @@
                 <!-- footer -->
                 <md-action-row>
                     <button md-button
-                            class="navigation-button center"
+                            class="navigation-button"
                             color="primary"
                             (click)="nextStep($event)">
                         {{formLabels.navigation.next}}
