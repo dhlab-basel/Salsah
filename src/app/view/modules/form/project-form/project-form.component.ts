@@ -50,6 +50,7 @@ export class ProjectFormComponent implements OnInit {
     existingShortNames: [RegExp] = [
         new RegExp('project')
     ];
+    shortnameRegexp = /^\S*$/;
 
     form: FormGroup;
 
@@ -58,7 +59,7 @@ export class ProjectFormComponent implements OnInit {
     formLabels = {
         project: {
             title: 'Project details',
-            description: '',
+            description: 'Description',
             shortname: 'Project short name',
             longname: 'Project name',
             logo: {
@@ -97,6 +98,7 @@ export class ProjectFormComponent implements OnInit {
             'required': 'Short name is required.',
             'minlength': 'Short name must be at least 3 characters long.',
             'maxlength': 'Short name cannot be more than 16 characters long.',
+            'pattern': 'Whitespaces are not allowed.',
             'existingName': 'This short name is already taken.'
         },
         'longname': {
@@ -177,16 +179,12 @@ export class ProjectFormComponent implements OnInit {
         }
 
         this.form = this._fb.group({
-//            'shortname': new FormControl({value: proj.shortname}),
-            'shortname': new FormControl({value: proj.shortname, disabled: this.iri !== undefined}, [Validators.required, Validators.minLength(3), Validators.maxLength(16), existingNamesValidator(this.existingShortNames)]),
-//            'shortnameDeprecated': [proj.shortname, [Validators.required, Validators.minLength(3), Validators.maxLength(16), existingNamesValidator(this.existingShortNames)]],
+            'shortname': new FormControl({value: proj.shortname, disabled: this.iri !== undefined}, [Validators.required, Validators.minLength(3), Validators.maxLength(16), existingNamesValidator(this.existingShortNames), Validators.pattern(this.shortnameRegexp)]),
             'longname': [proj.longname, Validators.required],
             'description': [proj.description, Validators.maxLength(this.descriptionMaxLength)],
             'institution': [proj.institution],
             'logo': [proj.logo],
             'id': [proj.id],
-//            'dataNamedGraph': new FormControl({value: 'http://www.knora.org/data/', disabled: true}),
-//            'ontologyNamedGraph': new FormControl({value: 'http://www.knora.org/ontology/', disabled: true}),
             'status': [true],
             'selfjoin': [false],
             'keywords': [proj.keywords]

@@ -1,27 +1,16 @@
 @import '../../../../../assets/style/config';
 
-$form-width: 480;
-$gc-large: $form-width / 1.618;
-$gc-small: $form-width - $gc-large;
 
-.salsah-form-content {
-  margin-left: auto;
-  margin-right: auto;
-  width: $form-width + 80 + px;
+.headers-align .mat-expansion-panel-header-title,
+.headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
 
-  .small {
-    width: $gc-small + px;
-  }
+.headers-align .mat-expansion-panel-header-description {
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .medium {
-    width: $gc-large + px;
-  }
-
-  .large {
-    min-width: $form-width + px;
-  }
-
-  .input-icon {
-    color: $black-60-opacity;
-  }
+.no-shadow .mat-expansion-panel {
+  //  box-shadow: none;
 }

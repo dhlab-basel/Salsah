@@ -240,7 +240,7 @@ export class UsersListComponent implements OnInit {
 
     }
 
-    delete(uIri: string) {
+    setInactive(uIri: string) {
         const answer: boolean = false;
         const config = new MdDialogConfig();
 
@@ -278,6 +278,46 @@ export class UsersListComponent implements OnInit {
 
         });
     }
+
+    setActive(uIri: string) {
+        const answer: boolean = false;
+        const config = new MdDialogConfig();
+
+        config.data = {
+            title: 'Reactivate this user?',
+            confirm: answer
+        };
+
+        // open dialog box
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRef.afterClosed().subscribe(result => {
+            this.isLoading = true;
+            if (config.data.confirm === true) {
+                // if answer is true: remove the user from the project
+                this._userService.activateUser(uIri).subscribe(
+                    (res: ApiServiceResult) => {
+                        // reload page
+                        this.isLoading = false;
+                        window.location.reload();
+                    },
+                    (error: ApiServiceError) => {
+                        const message: MessageData = error;
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                            data: {
+                                message: message
+                            }
+                        });
+                    }
+                )
+            } else {
+                this.isLoading = false;
+            }
+
+        });
+    }
+
 
 }
 

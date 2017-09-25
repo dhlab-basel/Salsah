@@ -14,17 +14,18 @@
         <md-accordion class="headers-align">
 
             <md-expansion-panel [expanded]="step === 0" *ngIf="!iri"
-                                hideToggle="true">
+                                hideToggle="false">
                 <!-- header -->
                 <md-expansion-panel-header>
                     <md-panel-title>
                         {{formLabels.project.title}}
                     </md-panel-title>
                     <md-panel-description>
-                        {{formLabels.project.description}}
-                        <md-icon>clipboard</md-icon>
+                        &nbsp;
+                        <md-icon>content_paste</md-icon>
                     </md-panel-description>
                 </md-expansion-panel-header>
+
                 <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
                     <!-- short and long name -->
                     <md-form-field class="small">
