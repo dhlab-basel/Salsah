@@ -25,7 +25,7 @@
                            autofocus
                            name="email"
                            ngModel>
-                    <md-hint *ngIf="loginErrorUser" class="salsah-error">{{login.error.failed}}</md-hint>
+                    <md-hint *ngIf="loginErrorUser" class="login-error">{{login.error.failed}}</md-hint>
                 </md-input-container>
                 <br><br><br>
                 <!-- Password -->
@@ -38,7 +38,7 @@
                            required
                            name="password"
                            ngModel>
-                    <md-hint *ngIf="loginErrorPw" class="salsah-error">{{login.error.failed}}</md-hint>
+                    <md-hint *ngIf="loginErrorPw" class="login-error">{{login.error.failed}}</md-hint>
                 </md-input-container>
                 <br><br><br>
                 <!-- Button: Login -->
@@ -46,10 +46,9 @@
                     <button *ngIf="!loginErrorServer" md-raised-button type="submit" [disabled]="!lf.valid"
                             class="full-width login mat-primary">{{login.button | uppercase}}
                     </button>
-                    <span *ngIf="loginErrorServer" class="salsah-error">{{login.error.server}}</span>
-
                 </div>
             </form>
+            <span *ngIf="loginErrorServer" class="login-error">{{login.error.server}}</span>
             <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
         </md-card-content>
 

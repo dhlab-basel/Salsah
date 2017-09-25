@@ -1,0 +1,41 @@
+@import '../../../../../assets/style/config';
+
+.optimize-direction {
+  transform: scale(-1, 1);
+}
+
+.form-dialog {
+  position: relative;
+
+  .dialog-header {
+    display: flex;
+    flex-direction: row;
+//    height: 64px;
+    margin: -18px -18px 0;
+
+    .dialog-title {
+      text-align: center;
+    }
+  }
+
+  .dialog-content {
+    overflow: inherit;
+    min-height: 320px;
+  }
+
+  .dialog-footer {
+    @include border-top();
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+
+    .submit-button {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      width: 240px;
+    }
+  }
+}
+

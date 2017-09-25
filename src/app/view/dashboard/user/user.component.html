@@ -1,18 +1,30 @@
-<!-- if an error occurred (from the api), show the error message -->
-<salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
-
-<!-- variant a) -->
-<!-- if ownProfile is not defined; show the users profile defined in the route /user/[username: email] -->
-<div class="salsah-module without-header" *ngIf="!showOwnProfile && !errorMessage">
-    <salsah-user-profile [user]="userProfile"></salsah-user-profile>
+<!-- case a) -->
+<!-- if ownProfile is not defined; show user's profile only; -->
+<div class="salsah-module without-header" *ngIf="!showOwnProfile">
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+    <salsah-user-profile *ngIf="!errorMessage && !isLoading"></salsah-user-profile>
 </div>
 
-<!-- variant b) -->
+<!-- case b) -->
 <!-- show the logged in user profile incl. projects list, collections and settings -->
 <div class="salsah-module with-header" *ngIf="showOwnProfile">
+
+    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+
     <md-toolbar class="salsah-module-header">
+
+        <!-- type of the current dashboard -->
+        <h4 md-subheader>
+            Person
+        </h4>
+        <!--
+        <md-icon>person</md-icon>
+        -->
+
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
+
         <!-- Tab menu -->
         <nav class="salsah-tab-group" *ngIf="!errorMessage">
 
@@ -21,23 +33,26 @@
                     class="salsah-tab-item"
                     [routerLink]="item.route"
                     routerLinkActive="active">
-                <strong *ngIf="first">{{userProfile.userData.firstname + ' ' + userProfile.userData.lastname}}</strong>
+                <strong *ngIf="first">{{userProfile?.userData?.givenName + ' ' + userProfile?.userData?.familyName}}</strong>
                 {{item.name}}
             </button>
         </nav>
+
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
+
     </md-toolbar>
 
-    <div class="salsah-sub-module">
-        <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+    <div class="salsah-module-scroll-area" [ngSwitch]="route" *ngIf="!isLoading && userProfile.userData.user_id !== undefined">
+
+        <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
         <!-- switch view; not with a second router-outlet, because of the direct (parent) routes like
             "/settings", "/projects" and "/collections
         -->
-        <salsah-user-projects *ngIf="route === '/projects'" [user]="userProfile"></salsah-user-projects>
-        <salsah-user-collections *ngIf="route === '/collections'" [user]="userProfile"></salsah-user-collections>
-        <salsah-user-settings *ngIf="route === '/settings'" [user]="userProfile"></salsah-user-settings>
-        <salsah-user-profile *ngIf="route === '/profile'" [user]="userProfile"></salsah-user-profile>
+        <salsah-user-projects *ngSwitchCase="'/projects'"></salsah-user-projects>
+        <salsah-user-collections *ngSwitchCase="'/collections'"></salsah-user-collections>
+        <salsah-user-settings *ngSwitchCase="'/settings'"></salsah-user-settings>
+        <salsah-user-profile *ngSwitchCase="'/profile'"></salsah-user-profile>
     </div>
 </div>
 

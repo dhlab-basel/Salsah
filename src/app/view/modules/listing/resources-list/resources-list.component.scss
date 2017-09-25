@@ -1,0 +1,32 @@
+.salsah-list {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 840px;
+}
+
+.salsah-resource-logo {
+  height: 40px;
+  object-fit: contain;
+  width: 40px;
+}
+
+.salsah-resource-preview {
+  object-fit: cover;
+}
+
+
+.salsah-grid-list {
+  .salsah-resource-preview {
+    height: 128px;
+    object-fit: contain;
+    padding-bottom: 24px;
+    width: 100%;
+  }
+
+  .salsah-project-icon {
+    float: left;
+    height: 48px;
+    padding: 0 12px 36px 0;
+
+  }
+}

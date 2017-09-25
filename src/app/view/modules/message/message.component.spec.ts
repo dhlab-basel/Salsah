@@ -1,7 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from "../../../app.module";
-import {AppMaterialModule} from "../../../app-material-module";
+import {RouterTestingModule} from '@angular/router/testing';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {MessageComponent} from './message.component';
+import {AppModule} from '../../../app.module';
 
 describe('MessageComponent', () => {
     let component: MessageComponent;
@@ -11,9 +12,11 @@ describe('MessageComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule
+                RouterTestingModule
             ],
-            providers: []
+            schemas: [
+                NO_ERRORS_SCHEMA
+            ]
         })
             .compileComponents();
     }));

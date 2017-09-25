@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 
 @Component({
     selector: 'salsah-documentation',
@@ -7,11 +8,12 @@ import {Component, OnInit} from '@angular/core';
 })
 export class DocumentationComponent implements OnInit {
 
-    constructor() {
+    constructor(private _title: Title) {
     }
 
     ngOnInit() {
 
+        this._title.setTitle( 'Salsah | Documentation');
 
     }
 

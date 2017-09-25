@@ -1,9 +1,9 @@
 import {TestBed, inject} from '@angular/core/testing';
 
 import {ListsService} from './lists.service';
-import {AppModule} from "../../app.module";
-import {AppRoutingModule} from "../../app-routing.module";
-import {ApiService} from "./api.service";
+import {AppModule} from '../../app.module';
+import {AppRoutingModule} from '../../app-routing.module';
+import {ApiService} from './api.service';
 
 describe('ListsService', () => {
     beforeEach(() => {

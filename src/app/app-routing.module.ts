@@ -12,31 +12,37 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Routes, RouterModule} from "@angular/router";
-import {NgModule} from "@angular/core";
+import {Routes, RouterModule} from '@angular/router';
+import {NgModule} from '@angular/core';
 
-import {LoginComponent} from "./view/login/login.component";
-import {DashboardComponent} from "./view/dashboard/dashboard.component";
-import {UserComponent} from "./view/dashboard/user/user.component";
+import {LoginComponent} from './view/login/login.component';
+import {DashboardComponent} from './view/dashboard/dashboard.component';
+import {UserComponent} from './view/dashboard/user/user.component';
 
-import {ProjectComponent} from "./view/dashboard/project/project.component";
-import {ProjectSettingsComponent} from "./view/dashboard/project/project-settings/project-settings.component";
-import {ProjectProfileComponent} from "./view/dashboard/project/project-profile/project-profile.component";
-import {ResultsComponent} from "./view/modules/listing/results/results.component";
-import {ProjectTeamComponent} from "./view/dashboard/project/project-team/project-team.component";
-import {ProjectResourcesComponent} from "./view/dashboard/project/project-resources/project-resources.component";
-import {ProjectFormComponent} from "./view/modules/form/project-form/project-form.component";
-import {DocumentationComponent} from "./view/documentation/documentation.component";
+import {ProjectComponent} from './view/dashboard/project/project.component';
+import {ProjectSettingsComponent} from './view/dashboard/project/project-settings/project-settings.component';
+import {ProjectProfileComponent} from './view/dashboard/project/project-profile/project-profile.component';
+import {ProjectTeamComponent} from './view/dashboard/project/project-team/project-team.component';
+import {ProjectResourcesComponent} from './view/dashboard/project/project-resources/project-resources.component';
+import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
+import {DocumentationComponent} from './view/documentation/documentation.component';
 
-import {ProjectAdvancedComponent} from "./view/dashboard/project/project-advanced/project-advanced.component";
-import {ObjectComponent} from "./view/modules/object/object.component";
-import {ProgressIndicatorComponent} from "./view/modules/other/progress-indicator/progress-indicator.component";
-import {DevelopmentComponent} from "./view/test/development/development.component";
-import {ProgressStepperComponent} from "./view/modules/other/progress-stepper/progress-stepper.component";
-import {MessageComponent} from "./view/modules/message/message.component";
-import {ResourceClassFormComponent} from "./view/modules/form/resource-class-form/resource-class-form.component";
-import {NewResClassComponent} from "./view/test/development/new-res-class/new-res-class.component";
-import {NewResourceClassComponent} from "./view/modules/form/new-resource-class/new-resource-class.component";
+import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
+import {ObjectComponent} from './view/modules/object/object.component';
+import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
+import {DevelopmentComponent} from './view/test/development/development.component';
+import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
+import {MessageComponent} from './view/modules/message/message.component';
+import {NewResClassComponent} from './view/test/development/new-res-class/new-res-class.component';
+import {NewResourceClassComponent} from './view/modules/form/new-resource-class/new-resource-class.component';
+import {SystemComponent} from './view/dashboard/system/system.component';
+import {SystemUsersComponent} from './view/dashboard/system/system-users/system-users.component';
+import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
+import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
+import {SearchResultsComponent} from './view/search/search-results/search-results.component';
+import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
+import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
+import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
 
 const appRoutes: Routes = [
     {
@@ -73,7 +79,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'search/:q',
-        component: ResultsComponent
+        component: SearchResultsComponent
     },
     {
         path: 'object/:rid',
@@ -97,13 +103,32 @@ const appRoutes: Routes = [
             {
                 path: 'advanced', component: ProjectAdvancedComponent
             },
-
             {
                 path: '**',
                 component: MessageComponent,
-                data: {
-                    code: '404'
-                }
+                data: {status: 404}
+            }
+        ]
+    },
+    {
+        path: 'system', component: SystemComponent,
+        children: [
+            {
+                path: '', redirectTo: 'projects', pathMatch: 'full'
+            },
+            {
+                path: 'users', component: SystemUsersComponent
+            },
+            {
+                path: 'projects', component: SystemProjectsComponent
+            },
+            {
+                path: 'ontologies', component: SystemOntologiesComponent
+            },
+            {
+                path: '**',
+                component: MessageComponent,
+                data: {status: 404}
             }
         ]
     },
@@ -117,30 +142,56 @@ const appRoutes: Routes = [
     {
         path: 'denied',
         component: MessageComponent,
-        data: {
-            code: '401'
-        }
+        data: {status: 403}
     },
     {
         path: 'dev', component: DevelopmentComponent,
         children: [
-            {path: 'progress-indicator', component: ProgressIndicatorComponent},
-            {path: 'progress-stepper', component: ProgressStepperComponent},
-            {path: 'res-class', component: NewResClassComponent},
-            {path: 'new-res-class', component: NewResourceClassComponent},
+            {
+                path: 'progress-indicator',
+                component: ProgressIndicatorComponent
+            },
+            {
+                path: 'progress-stepper',
+                component: ProgressStepperComponent
+            },
+            {
+                path: 'form/:name', component: FormCreateComponent,
+                children: [
+                    {
+                        path: '', redirectTo: 'project', pathMatch: 'full'
+                    },
+                    {
+                        path: 'user', component: UserFormComponent
+                    }
+                ]
+            },
+            {
+                path: 'res-class',
+                component: NewResClassComponent
+            },
+            {
+                path: 'new-res-class',
+                component: NewResourceClassComponent
+            },
             {
                 path: 'message',
                 component: MessageComponent
+            },
+            {
+                path: 'uploader',
+                component: FileUploaderComponent
+            },
+            {
+                path: 'new-user',
+                component: UserFormComponent
             }
         ]
-
     },
     {
         path: '**',
         component: MessageComponent,
-        data: {
-            code: '404'
-        }
+        data: {status: 404}
     }
 ];
 

@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -13,12 +13,7 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {UserFormComponent} from "../../../modules/form/user-form/user-form.component";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {UserService} from "../../../../model/services/user.service";
-import {ProjectMembers, ProjectItem, User} from "../../../../model/webapi/knora";
+import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 
 @Component({
     selector: 'salsah-project-team',
@@ -27,71 +22,33 @@ import {ProjectMembers, ProjectItem, User} from "../../../../model/webapi/knora"
 })
 export class ProjectTeamComponent implements OnInit {
 
-    isLoading: boolean = true;
-    isLoadingSubModule: boolean = true;
-    errorMessage: string = undefined;
+    // here we can reuse the framework-for-listings component:
+    // shows a list of users and the possibility to create new users
 
-    selectedRow: number;
-
-    project: ProjectItem = new ProjectItem;
-
-    members: ProjectMembers = new ProjectMembers();
-
-    user: User;
-
-    position = {
-        preview: 'left',            // top
-        detail: 'right'             // bottom
+    // ------------------------------------------------------------------------
+    //  DATA for FrameworkForListingsComponent
+    // ------------------------------------------------------------------------
+    list: ListData = {
+        title: 'Members in this project',
+        description: '',
+        content: 'user',
+        showAs: undefined,
+        restrictedBy: ''
     };
 
-    size: string = 'large';
+    // add new users
+    add: AddData = {
+        title: 'Add new user to the team',
+        description: ''
+    };
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-
-    constructor(
-        private _projectsService: ProjectsService,
-        private _userService: UserService
-    ) {
+    constructor() {
     }
 
     ngOnInit() {
-        this.project = JSON.parse(localStorage.getItem('currentProject'));
-
-        this._projectsService.getProjectMembersByIri(this.project.id)
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.members = result.getBody(ProjectMembers);
-                    this.isLoading = false;
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
-                }
-            );
-    }
-
-
-    openUser(id: string, index: number) {
-        if (this.size === 'large') this.size = 'small';
-        this.isLoadingSubModule = true;
-
-        this._userService.getUserByIri(id)
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.user = result.getBody(User);
-                    this.selectedRow = index;
-                    this.isLoadingSubModule = false;
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
-                }
-            );
-    }
-
-    closeDetailView() {
-        this.size = 'large';
-        this.selectedRow = undefined;
-        this.user = undefined;
+        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
     }
 
 }

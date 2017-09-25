@@ -21,9 +21,9 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class ProgressStepperComponent implements OnInit {
 
-    @Input('counter') counter: number;
-    @Input('max_steps') max_steps?: number;
-    @Input('steps') steps?: string[];
+    @Input() counter: number;
+    @Input() max_steps?: number;
+    @Input() steps?: string[];
 
     errorMessage: string = undefined;
 
@@ -34,16 +34,29 @@ export class ProgressStepperComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        if (!this.steps) {
+            // just for testing it in the developer mode
+            this.counter = 0;
+            this.steps = [
+                'User',
+                'Project',
+                'Save'
+            ];
+            this.max_steps = this.steps.length;
+        }
+
         if (!this.steps && !this.max_steps) {
             // at least one of attribute steps or max_steps should be set!
-            this.errorMessage = "<p>Error in the ProgressStepperComponent.<br>One of the following attribute is missing: max_steps || steps</p>";
-        }
-        else {
-            if (this.steps !== undefined ) {
+            this.errorMessage = '<p>Error in the ProgressStepperComponent.<br>One of the following attribute is missing: max_steps || steps</p>';
+        } else {
+            if (this.steps !== undefined) {
                 this.max_steps = this.steps.length;
             }
 
-            this.progress = Array(this.max_steps * 2 - 1).fill('').map((x, i) => i);
+            this.progress = Array(this.max_steps).fill('').map((x, i) => i);
+
+            console.log(this.counter);
         }
 
     }

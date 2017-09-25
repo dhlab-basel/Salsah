@@ -10,17 +10,17 @@
     height: 48px;
     line-height: 48px;
     min-width: 160px;
-    opacity: 0.6;
+    opacity: .6;
     padding: 0 12px;
     text-align: center;
 
     &.active {
-      border-bottom: 2px solid teal;
+      border-bottom: 2px solid $primary;
     }
 
     &:active {
-      background-color: rgba(teal, 0.08);
-      border-bottom: 2px solid teal;
+      background-color: rgba($primary, .08);
+      border-bottom: 2px solid $primary;
     }
   }
 }

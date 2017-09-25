@@ -1,0 +1,22 @@
+<div class="salsah-module with-header">
+    <md-toolbar class="salsah-module-header">
+        <span>Looked for <strong>{{list.restrictedBy}} | # {{counter}}</strong></span>
+        <!-- This fills the remaining space of the current row -->
+        <span class="fill-remaining-space"></span>
+        <!-- menu to switch the view: list, grid, table -->
+        <md-button-toggle-group #group="mdButtonToggleGroup"
+                                (change)="changeView(group.value)"
+                                [(ngModel)]="selectedView">
+            <md-button-toggle *ngFor="let view of viewOptions"
+                              [value]=view.name
+                              [title]=view.title
+                              [disabled]="view.isDisabled">
+                <md-icon>{{view.icon}}</md-icon>
+            </md-button-toggle>
+        </md-button-toggle-group>
+    </md-toolbar>
+    <div class="salsah-module-scroll-area">
+        <salsah-framework-for-listings [list]="list"></salsah-framework-for-listings>
+    </div>
+
+</div>

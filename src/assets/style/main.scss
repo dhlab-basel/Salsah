@@ -13,13 +13,12 @@
 //
 @import 'mixins';
 @import 'config';
-@import 'framework';
+@import 'dialog';
 @import 'module';
 @import 'tab';
 @import 'listing';
 @import 'form';
 @import 'menu';
-
 
 //
 //  general html style
@@ -66,6 +65,7 @@ a {
   &.fullscreen {
     background-color: $bright;
     display: block;
+    position: fixed;
     z-index: 100;
   }
 }
@@ -78,8 +78,17 @@ a {
 //
 // general elements
 
+.salsah-error-message {
+  color: $warn;
+  font-size: small;
+}
+
 .salsah-text {
   line-height: 1.5;
+}
+
+.input-icon {
+  cursor: pointer;
 }
 
 .salsah-link {
@@ -92,6 +101,22 @@ a {
   &.highlight,
   &:active {
     background-color: darken($bright, 25%);
+
+    .close-highlight {
+      display: block;
+    }
+  }
+
+  &.inactive {
+    color: $mute;
+
+    img {
+      opacity: .5;
+    }
+  }
+
+  .close-highlight {
+    display: none;
   }
 }
 
@@ -101,12 +126,23 @@ a {
 
 .salsah-avatar-image {
   border-radius: 50%;
+  height: 40px;
+  width: 40px;
+}
+
+.salsah-panel {
+  display: inline-flex;
 }
 
 .fill-remaining-space {
   flex-basis: auto;
   flex-grow: 1;
   flex-shrink: 1;
+}
+
+.white-space,
+.white-space.mat-line {
+  white-space: normal;
 }
 
 .show {
@@ -160,6 +196,11 @@ a {
   float: right;
 }
 
+// position close button
+.close {
+  right: 12px;
+}
+
 .no-shadow {
   box-shadow: none;
   margin-left: auto;
@@ -172,6 +213,6 @@ a {
   width: 100%;
 }
 
-.full-height{
-  height: 100%
+.full-height {
+  height: 100%;
 }

@@ -14,8 +14,19 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ApiServiceError} from "../../../model/services/api-service-error";
+import {ActivatedRoute, Router} from '@angular/router';
+import {ApiServiceError} from '../../../model/services/api-service-error';
+import {StatusMsgServiceService} from '../../../model/services/status-msg-service.service';
+import {ApiServiceResult} from '../../../model/services/api-service-result';
+
+export interface MessageData {
+    status: number,
+    statusMsg?: string,
+    statusText?: string,
+    type?: string,
+    route?: string,
+    footnote?: string,
+}
 
 @Component({
     selector: 'salsah-message',
@@ -24,177 +35,135 @@ import {ApiServiceError} from "../../../model/services/api-service-error";
 })
 export class MessageComponent implements OnInit {
 
-    @Input('type') type: string;                // message type: error, warning, note OR a status code like 404, 500
-    @Input('note') note: any;                   // note / message content
-    @Input('error') error: ApiServiceError;     // error message from api-service-error
-    @Input('statusCode') statusCode: string;          // status code (400, 404, 500, etc.) in the case of not existing ApiServiceError
+    @Input('message') input: MessageData;
 
+    message: MessageData;
+
+    statusMsg: any;
+
+    isLoading: boolean = true;
+
+    showLinks: boolean = false;
     /**
      *
      * default link list, which will be used in message content to give a user some possibilities
      * what he can do in the case of an error
      *
      */
-    defaultLinks: any = [
-        {
-            label: 'go to the start page',
-            route: '/',
-            icon: 'keyboard_arrow_right'
-        },
-        {
-            label: 'try to login',
-            route: '/login',
-            icon: 'keyboard_arrow_right'
-        },
-        {
-            label: 'go back',
-            route: '<--',
-            icon: 'keyboard_arrow_left'
-        }
-    ];
-
-    // default footnote text
-    knoraError: string = "If you think it\'s a mistake, please " +
-        "<a href='https://github.com/dhlab-basel/knora' target='_blank'> inform the Knora team </a>";
-    salsahError: string = "If you think it\'s a mistake, please " +
-        "<a href='https://github.com/dhlab-basel/salsah' target='_blank'> inform the Salsah developers </a>";
-
-    /**
-     *
-     * message construct for every content and status info
-     *
-     * @type:
-     * type: string;       --> error || warning || note
-     * icon: string;       --> in the most cases we can use the type's name: error || warning || note
-     * status: {           --> similar to api service error
-     *   code: string;       --> (http) status code
-     *   text: string;       --> just a text
-     *   url: string;        --> url where the error occured
-     * };
-     * title: string;      --> title of the error, warning or note
-     * content: {          --> content: text and a list of links
-     *   text: string;
-     *   links: Array        --> object with label, route and icon
-     * };
-     * footnote: string;   --> (action) text in the footnote
-     *
-     */
-    message: any = {
-        type: '',
-        icon: '',
-        status: {
-            code: '',
-            text: '',
-            url: ''
-        },
-        title: '',
-        content: {
-            text: '',
-            links: []
-        },
-        footnote: ''
+    links: any = {
+        title: 'You have the following possibilities now',
+        list: [
+            {
+                label: 'go to the start page',
+                route: '/',
+                icon: 'keyboard_arrow_right'
+            },
+            {
+                label: 'try to login',
+                route: '/login',
+                icon: 'keyboard_arrow_right'
+            },
+            {
+                label: 'go back',
+                route: '<--',
+                icon: 'keyboard_arrow_left'
+            }
+        ]
     };
 
+    footnote: any = {
+        text: 'If you think it\'s a mistake, please',
+        team: {
+            knora: '<a href=\'https://github.com/dhlab-basel/knora\' target=\'_blank\'> inform the Knora team </a>',
+            salsah: '<a href=\'https://github.com/dhlab-basel/salsah\' target=\'_blank\'> inform the Salsah developers </a>'
+        }
+    };
 
-    constructor(private _router: Router,
+    constructor(private _statusMsgService: StatusMsgServiceService,
+                private _router: Router,
                 private _location: Location,
                 private _activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
-        if (!this.statusCode) {
-            // the status code is undefined; perhaps we get one from the activated route (s. app-routing.module.ts)
-            this._activatedRoute
-                .data
-                .subscribe(
-                    v => this.statusCode = v.code
+
+        // get the http status message from the statusMsg data json package (stored in assets/data)
+        // TODO: we have to implement this data in the multilingual settings
+        this._statusMsgService.getStatusMsg()
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    this.statusMsg = result.getBody();
+//                    console.log(this.input);
+                    if (this.input == null) {
+                        this._activatedRoute
+                            .data
+                            .subscribe(
+                                (v: any) => {
+                                    this.input = <MessageData>{
+                                        status: v.status
+                                    };
+                                }
+                            );
+                    }
+                    this.message = this.setMessage(this.input);
+                    this.isLoading = false;
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                }
             );
+    }
+
+    setMessage(msg: MessageData) {
+
+        let tmpMsg: MessageData = <MessageData>{};
+
+        let s: number = (msg.status == 0 ? 503 : msg.status);
+
+        tmpMsg.status = s;
+        tmpMsg.route = msg.route;
+        tmpMsg.statusMsg = msg.statusMsg;
+        tmpMsg.statusText = msg.statusText;
+        tmpMsg.route = msg.route;
+        tmpMsg.footnote = msg.footnote;
+
+        switch (true) {
+            case (s > 0 && s < 300):
+                // the message is a note
+                tmpMsg.type = 'note';
+//                console.log('the message is a note');
+                break;
+            case (s >= 300 && s < 400):
+                // the message is a warning
+                tmpMsg.type = 'warning';
+//                console.log('the message is a warning');
+
+                break;
+            case (s >= 400 && s < 500):
+                // the message is a client side (salsah-gui) error
+                // console.log('the message is a client side (salsah-gui) error');
+                tmpMsg.type = 'error';
+                tmpMsg.statusMsg = (msg.statusMsg !== undefined ? msg.statusMsg : this.statusMsg[s].message);
+                tmpMsg.statusText = (msg.statusText !== undefined ? msg.statusText : this.statusMsg[s].description);
+                tmpMsg.footnote = this.footnote.text + ' ' + this.footnote.team.salsah;
+                this.showLinks = true;
+
+                break;
+            case (s >= 500 && s < 600):
+                // the message is a server side (knora-api) error
+                // console.log('the message is a server side (knora-api) error');
+                tmpMsg.type = 'error';
+                tmpMsg.statusMsg = (msg.statusMsg !== undefined ? msg.statusMsg : this.statusMsg[s].message);
+                tmpMsg.statusText = (msg.statusText !== undefined ? msg.statusText : this.statusMsg[s].description);
+                tmpMsg.footnote = this.footnote.text + ' ' + this.footnote.team.knora;
+                this.showLinks = false;
+                break;
+            default:
+                // no default configuration?
+                break;
         }
 
-        if (this.error) {
-            // the attribute apiError is set; in that case we have a problem with the (knora) API server; = 503
-            this.statusCode = '503';
-        }
-
-        // if a status code exists and it starts with 4 or 5 (e.g. 404 or 500), then we have to show the error message
-        if (this.statusCode && (this.statusCode.substr(0, 1) == '4' || this.statusCode.substr(0, 1) == '5')) {
-
-            this.message.type = 'error';
-
-            this.message.status.code = this.statusCode;
-
-            switch (this.statusCode) {
-
-                case '400':
-                    this.message.status.text = 'Bad Request';
-                    break;
-
-                case '401':
-                case '403':
-                    // access denied
-                    this.message.status.text = 'Unauthorized';
-                    this.message.title = 'You are not allowed to see the requested page';
-                    this.message.content.text = 'You have the following possibilities now';
-                    this.message.content.links = this.defaultLinks;
-                    this.message.footnote = this.salsahError;
-                    break;
-
-                case '404':
-                    // page not found
-                    this.message.status.text = 'Not found';
-                    this.message.title = 'The requested page does not exist';
-                    this.message.content.text = 'You have the following possibilities now';
-                    this.message.content.links = this.defaultLinks;
-                    this.message.footnote = this.salsahError;
-                    break;
-
-                case '418':
-                    // easter egg
-                    this.message.status.text = 'I\'m a teapot';
-                    this.message.title = 'I\'m not able to brew coffee';
-                    this.message.content.text = 'Get you\'re coffee somewhere else';
-                    break;
-
-                case '500':
-                    // general server error
-                    // TODO: When do we need this? Error 500: internal server error
-                    this.message.status.text = 'Internal server error';
-                    this.message.title = 'There\'s something wrong with the server infrastructure at the moment';
-                    this.message.footnote = 'Please <a href="https://github.com/dhlab-basel/knora" target="_blank"> inform the Knora team!</a>';
-                    break;
-
-                case '503':
-                    // api service error
-                    this.message.status.text = 'Service unavailable';
-                    this.message.status.url = this.error.url;
-                    this.message.title = this.error.statusText;
-                    this.message.content.text = 'The request failed on:';
-                    this.message.footnote = this.knoraError;
-                    break;
-
-                default:
-                    this.message.status.text = 'I\'m a teapot';
-                    this.message.title = 'I\'m not able to brew coffee';
-                    this.message.content.text = 'You have the following possibilities now';
-                    this.message.content.links = this.defaultLinks;
-            }
-//            console.log(this.message);
-        }
-        else {
-            // no status code or it doesn't starts with 4 or 5
-            this.message.type = 'note';
-            if (!this.note) {
-                this.message.status.text = 'empty note';
-                this.message.title = 'This is a note without any content';
-            }
-            else {
-                this.message.content.text = this.note.text;
-                this.message.title = this.note.title;
-                this.message.footnote = 'Path: ' + this.note.path;
-            }
-        }
-
-
+        return tmpMsg;
     }
 
     goToLocation(route) {

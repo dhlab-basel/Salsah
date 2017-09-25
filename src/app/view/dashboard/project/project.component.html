@@ -2,20 +2,28 @@
     <!-- this component has his own toolbar header
         with tabs for navigation through the settings
     -->
+    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
 
     <md-toolbar class="salsah-module-header">
+        <!-- type of the current dashboard -->
+        <h4 md-subheader>
+            Project
+        </h4>
+        <!--
+        <md-icon>assignment</md-icon>
+        -->
 
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
 
         <!-- Tab menu -->
-        <nav class="salsah-tab-group" *ngIf="!errorMessage">
+        <nav class="salsah-tab-group" *ngIf="!errorMessage && !isLoading">
             <button md-button
                     class="salsah-tab-item"
                     [routerLink]="projectRoute"
                     [ngClass]="firstTabClass"
                     (click)="enableFirstTab()">
-                <strong>{{cur_project | uppercase}}</strong>
+                <strong>{{project.shortname | uppercase}}</strong>
             </button>
             <button *ngFor="let item of menu; let i = index; let first=first"
                     md-button
@@ -31,13 +39,11 @@
 
     </md-toolbar>
 
-    <div class="salsah-sub-module">
+    <div class="salsah-module-scroll-area">
 
-        <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+        <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
-        <salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
-
-        <router-outlet *ngIf="!errorMessage" (tabRequest)="activateTab($event)"></router-outlet>
+        <router-outlet *ngIf="!errorMessage && !isLoading" (tabRequest)="activateTab($event)"></router-outlet>
 
     </div>
 

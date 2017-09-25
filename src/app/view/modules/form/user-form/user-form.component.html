@@ -1,166 +1,540 @@
-<!-- the user form starts with a button, which will open a dialog box with the user create form -->
+<!--
+ the user form is a step by step form, which will be used in system and project admin
+ to create new user, to edit existing users or/and to add user to or remove from projects
 
-<button md-button (click)="addNewUser()">
-    <md-icon>add</md-icon>
-    <span> Add new person </span>
-</button>
+ the steps (depending on the usage / route) are as follow:
+    1) user profile
+        a) in case of project admin: select existing user OR create new user profile => b)
+        b) in case of system admin: create new user profile (or edit old one?)
+
+    2) project membership
+        a) in case of system admin: select project AND set the permissions => b)
+        b) in case of project admin: set permissions
+
+    3) special stuff like "add the user to system project" and set system permissions
+
+-->
 
 
-<!-- this form has a multi-step form interface
-    it will be displayed in dialog card box -->
+<div class="salsah-step-by-step-form">
+    <!-- form header with form stepper -->
+    <!--
+    <div class="salsah-form-stepper">
+        <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps"
+                                 [counter]="counter"></salsah-progress-stepper>
+    </div>
+    <br>
+    -->
 
-<!-- the dialog title is always the same; It stays fixed to the top of the dialog -->
-<div md-dialog-title>
-    <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
+    <div class="salsah-form-content" *ngIf="!isLoading">
+        <md-accordion class="headers-align">
+
+            <!-- 1) user profile -->
+            <!-- 1a) view: project admin: select existing user OR create new user profile => b) -->
+            <md-expansion-panel [expanded]="step === 0" *ngIf="restrictedBy && !form.valid"
+                                (opened)="setStep(0)"
+                                hideToggle="true">
+                <!-- header -->
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        <span *ngIf="!selectedUser">{{formLabels.user.select.title}}</span>
+                        <span *ngIf="selectedUser">{{formLabels.user.select.titleDone}}</span>
+                    </md-panel-title>
+                    <md-panel-description>
+                        <span *ngIf="!selectedUser">{{formLabels.user.select.description}}</span>
+                        <span *ngIf="selectedUser"><i>{{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}</i></span>
+                        <md-icon>person</md-icon>
+                    </md-panel-description>
+                </md-expansion-panel-header>
+                <md-form-field class="large">
+                    <input mdInput
+                           [placeholder]="formLabels.user.select.autoComplete"
+                           [mdAutocomplete]="autoUser"
+                           [formControl]="userCtrl">
+                    <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="resetSelectedUser()"
+                             *ngIf="userCtrl.value && userCtrl.dirty">close
+                    </md-icon>
+                    <md-autocomplete #autoUser="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
+                        <md-option *ngFor="let user of filteredUsers | async" [value]="user?.name"
+                                   (onSelectionChange)="setSelectedUser($event, user?.iri)">
+                            {{ user?.name }}
+                        </md-option>
+                    </md-autocomplete>
+                </md-form-field>
+                <!-- footer -->
+                <md-action-row>
+                    <button md-button *ngIf="!selectedUser"
+                            class="navigation-button left"
+                            color="warn"
+                            (click)="nextStep($event)">
+                        {{formLabels.user.select.skip}}
+                    </button>
+                    <button md-button *ngIf="restrictedBy"
+                            class="navigation-button"
+                            color="primary"
+                            (click)="nextStep($event, 3)"
+                            [disabled]="!userCtrl.valid">
+                        {{formLabels.navigation.next}}
+                    </button>
+                    <button md-button *ngIf="!restrictedBy"
+                            class="navigation-button"
+                            color="primary"
+                            (click)="nextStep($event, 2)"
+                            [disabled]="!userCtrl.valid">
+                        {{formLabels.navigation.next}}
+                    </button>
+                </md-action-row>
+            </md-expansion-panel>
+
+            <!-- 1b) view: project and system admin: create new user profile (or edit old one?) -->
+            <md-expansion-panel [expanded]="step === 1" *ngIf="!selectedUser && !userCtrl.value"
+                                (opened)="setStep(1)"
+                                hideToggle="true">
+                <!-- header -->
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.title}}</span>
+                        <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.title}}</span>
+                    </md-panel-title>
+                    <md-panel-description
+                        *ngIf="!form.controls['givenName'].value && !form.controls['familyName'].value">
+                        <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.description}}</span>
+                        <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.description}}</span>
+                        <md-icon>person_add</md-icon>
+                    </md-panel-description>
+                    <md-panel-description *ngIf="form.controls['givenName'].value && form.controls['familyName'].value">
+                        {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}
+                        <md-icon>person_add</md-icon>
+                    </md-panel-description>
+                </md-expansion-panel-header>
+
+                <!-- step 1 form content -->
+                <form class="salsah-form new-user" [formGroup]="form">
+                    <md-form-field class="small">
+                        <input mdInput [salsahFocus]="step === 1"
+                               [placeholder]="formLabels.user.create.givenName + ' *'"
+                               [formControl]="form.controls['givenName']">
+                        <md-hint *ngIf="formErrors.givenName">
+                            {{ formErrors.givenName }}
+                        </md-hint>
+                    </md-form-field>
+                    <md-form-field class="medium">
+                        <input mdInput
+                               [placeholder]="formLabels.user.create.familyName + ' *'"
+                               [formControl]="form.controls['familyName']">
+                        <md-hint *ngIf="formErrors.familyName">
+                            {{ formErrors.familyName }}
+                        </md-hint>
+                    </md-form-field>
+                    <!-- email = username -->
+                    <md-form-field class="large">
+                        <input mdInput type="email" class="full-width"
+                               [placeholder]="formLabels.user.create.email + ' *'"
+                               [formControl]="form.controls['email']">
+                        <md-hint *ngIf="formErrors.email">
+                            {{ formErrors.email }}
+                        </md-hint>
+                    </md-form-field>
+                    <!-- password -->
+                    <md-form-field class="large">
+                        <input mdInput [type]="showPassword ? 'text' : 'password'"
+                               [placeholder]="formLabels.user.create.password + ' *'"
+                               [formControl]="form.controls['password']">
+                        <md-icon mdSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
+                                 [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></md-icon>
+                        <md-hint *ngIf="formErrors.password">
+                            {{ formErrors.password }}
+                        </md-hint>
+                    </md-form-field>
+
+                    <md-select class="large"
+                               [placeholder]="formLabels.user.create.language"
+                               [formControl]="form.controls['lang']">
+
+                        <md-option value="en">english</md-option>
+                        <md-option value="de">deutsch</md-option>
+                        <md-option value="fr">français</md-option>
+                        <md-option value="it">italiano</md-option>
+                    </md-select>
+
+                </form>
+
+                <!-- footer -->
+                <md-action-row>
+                    <button md-button
+                            color="warn"
+                            (click)="form.reset()">
+                        {{formLabels.navigation.reset}}
+                    </button>
+                    <button md-button *ngIf="restrictedBy"
+                            class="navigation-button"
+                            color="primary"
+                            (click)="nextStep($event, 3)"
+                            [disabled]="!form.valid">
+                        {{formLabels.navigation.next}}
+                    </button>
+                    <button md-button *ngIf="!restrictedBy"
+                            class="navigation-button"
+                            color="primary"
+                            (click)="nextStep($event)"
+                            [disabled]="!form.valid">
+                        {{formLabels.navigation.next}}
+                    </button>
+                </md-action-row>
+
+            </md-expansion-panel>
+            <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+
+            <!-- 2) project membership -->
+
+            <!-- 2a) view: system admin: select project AND set the permissions => b) -->
+            <md-expansion-panel [expanded]="step === 2" *ngIf="!restrictedBy"
+                                (opened)="setStep(2)"
+                                hideToggle="true">
+                <!-- header -->
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        {{formLabels.project.select.title}}
+                    </md-panel-title>
+                    <!-- 2a) show the project short name only -->
+                    <md-panel-description>
+                        {{formLabels.project.select.description}}
+                        <md-icon>assignment</md-icon>
+                    </md-panel-description>
+                </md-expansion-panel-header>
+                <md-form-field class="large">
+                    <input mdInput
+                           [placeholder]="formLabels.project.select.autoComplete"
+                           [mdAutocomplete]="autoProject"
+                           [formControl]="projectCtrl">
+                    <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="projectCtrl.reset()"
+                             *ngIf="projectCtrl.value && projectCtrl.dirty">close
+                    </md-icon>
+                    <md-autocomplete #autoProject="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
+                        <md-option *ngFor="let project of filteredProjects | async" [value]="project?.name"
+                                   (onSelectionChange)="setSelectedProject($event, project?.iri)">
+                            {{ project?.name }}
+                        </md-option>
+                    </md-autocomplete>
+                </md-form-field>
+                <!-- footer -->
+                <md-action-row>
+                    <button md-button
+                            class="navigation-button left"
+                            color="warn"
+                            (click)="skipStep($event, 4, 'project')">
+                        {{formLabels.project.select.skip}}
+                    </button>
+                    <button md-button
+                            class="navigation-button"
+                            color="primary"
+                            (click)="nextStep($event)"
+                            [disabled]="!projectCtrl.valid">
+                        {{formLabels.navigation.next}}
+                    </button>
+                </md-action-row>
+
+
+                <!--
+
+                <md-input-container class="full-width">
+                    <input mdInput
+                           [mdAutocomplete]="users"
+                           [formControl]="userCtrl"
+                           [placeholder]="formLabels.select">
+                    <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
+                             *ngIf="userCtrl.value && userCtrl.dirty">close</md-icon>
+                </md-input-container>
+                <md-autocomplete #users="mdAutocomplete" [displayWith]="displayFn">
+                    <md-option *ngFor="let user of filteredUsers | async" [value]="user.name"
+                               (onSelectionChange)="getUser(user?.iri)">
+                        {{ user?.name }}
+                    </md-option>
+                </md-autocomplete>
+                <md-action-row>
+                    <button md-button
+                            class="navigation-button center"
+                            color="primary"
+                            (click)="nextStep($event)"
+                            [disabled]="!form.valid">
+                        {{formLabels.navigation.next}}
+                    </button>
+                </md-action-row>
+                -->
+
+            </md-expansion-panel>
+
+            <!-- 2b) view: project and system admin: set permissions -->
+            <md-expansion-panel [expanded]="step === 3"
+                                (opened)="setStep(3)"
+                                hideToggle="true">
+                <!-- header -->
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        {{formLabels.permissions.title}}
+                    </md-panel-title>
+                    <md-panel-description>
+                        <span>{{formLabels.permissions.description}}</span>
+                        <md-icon>accessibility</md-icon>
+                    </md-panel-description>
+                </md-expansion-panel-header>
+                <md-list>
+                    <div>
+                        <h3 md-subheader>
+                            {{formLabels.permissions.project.title}}
+                            <span *ngIf="selectedProject"><i>{{selectedProject?.longname}}</i></span>
+                        </h3>
+                        <md-list-item>
+                            <md-slide-toggle [(ngModel)]="adminPermission"
+                                             [disabled]="!projectIri && (!selectedUser && !form.valid)"
+                                             color="primary">
+                                {{formLabels.permissions.project.description}}
+                            </md-slide-toggle>
+                        </md-list-item>
+                    </div>
+                    <div *ngIf="sysAdmin && !userIri">
+                        <h3 md-subheader>{{formLabels.permissions.system.title}}</h3>
+                        <md-list-item>
+                            <md-slide-toggle [(ngModel)]="sysAdminPermission"
+                                             [disabled]="!projectIri && (!selectedUser && !form.valid)"
+                                             color="primary">
+                                {{formLabels.permissions.system.description}}
+                            </md-slide-toggle>
+                        </md-list-item>
+                    </div>
+
+
+                </md-list>
+
+                <!-- footer -->
+                <md-action-row>
+                    <button md-button
+                            class="navigation-button"
+                            color="primary"
+                            (click)="nextStep($event)">
+                        {{formLabels.navigation.next}}
+                    </button>
+                </md-action-row>
+
+            </md-expansion-panel>
+
+            <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+
+            <!-- 3) overview or additional form stuff -->
+            <md-expansion-panel [expanded]="step === 4"
+                                (opened)="setStep(4)"
+                                hideToggle="true">
+                <!-- header -->
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        {{formLabels.overview.title}}
+                    </md-panel-title>
+                    <md-panel-description>
+                        {{formLabels.overview.description}}
+                        <md-icon>done</md-icon>
+                    </md-panel-description>
+                </md-expansion-panel-header>
+
+                <!-- name / email of selected user -->
+                <md-list>
+                    <md-list-item *ngIf="selectedUser || form.valid">
+                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'"
+                                                   [status]="submitUserStatus"></salsah-progress-indicator>
+                        <h4 md-line>
+                            <span *ngIf="selectedUser">
+                                {{formLabels.user.select.titleDone}}
+                            </span>
+                            <span *ngIf="!selectedUser && form.valid">
+                                {{formLabels.user.create.projectAdmin.titleDone}}
+                            </span>
+                        </h4>
+                        <p md-line>
+                            <span *ngIf="selectedUser">
+                                {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}, {{selectedUser.userData?.email}}
+                            </span>
+                            <span *ngIf="!selectedUser && form.valid">
+                                {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
+                            </span>
+                        </p>
+                        <md-hint md-line *ngIf="userErrorMessage" class="salsah-error-message">
+                            {{userErrorMessage?.statusText}}
+                        </md-hint>
+                    </md-list-item>
+                </md-list>
+
+                <md-list *ngIf="restrictedBy || selectedProject">
+                    <md-list-item *ngIf="restrictedBy || selectedProject">
+                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'"
+                                                   [status]="submitProjectStatus"></salsah-progress-indicator>
+                        <h4 md-line>
+                            {{formLabels.project.select.title}}
+                        </h4>
+                        <p md-line>
+                            {{selectedProject?.longname}} ({{selectedProject?.shortname}})
+                        </p>
+                        <md-hint md-line *ngIf="projectErrorMessage" class="salsah-error-message">
+                            {{projectErrorMessage?.statusText}}
+                        </md-hint>
+                    </md-list-item>
+                    <md-list-item>
+                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'"
+                                                   [status]="submitPermissionsStatus"></salsah-progress-indicator>
+                        <h4 md-line>
+                            {{formLabels.permissions.title}}
+                        </h4>
+                        <p md-line>
+                            <span *ngIf="adminPermission">&bull; {{formLabels.permissions.project.description}}</span>
+                            <span *ngIf="sysAdminPermission"><br>&bull; {{formLabels.permissions.system.description}}</span>
+                        </p>
+                        <md-hint md-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
+                            {{permissionsErrorMessage?.statusText}}
+                        </md-hint>
+                    </md-list-item>
+                </md-list>
+
+                <!-- footer -->
+                <md-action-row>
+                    <!-- two buttons for both cases and to submit the data with the method -->
+                    <div *ngIf="!afterSubmit">
+                        <button md-raised-button *ngIf="!selectedUser" [disabled]="!form.valid"
+                                color="primary"
+                                (click)="submitData()">
+                            {{formLabels.navigation.submit}}
+                        </button>
+                        <button md-raised-button *ngIf="selectedUser" [disabled]="!selectedUser?.userData?.user_id"
+                                color="primary"
+                                (click)="submitData()">
+                            {{formLabels.navigation.submit}}
+                        </button>
+                    </div>
+                    <!-- one button to add more users and on button to close the form;
+                        both button are shown after submit -->
+                    <div *ngIf="(!userErrorMessage && !projectErrorMessage && !permissionsErrorMessage) && afterSubmit">
+                        <button md-button
+                                color="primary"
+                                (click)="resetForm()">
+                            {{formLabels.navigation.add}}
+                        </button>
+                        <button md-button md-dialog-close
+                                class="navigation-button-center"
+                                color="warn"
+                                (click)="updateView()">
+                            {{formLabels.navigation.close}}
+                        </button>
+                    </div>
+                    <!--
+                    <button md-button (click)="resetForm()">
+                        TEST
+                    </button>
+                    -->
+
+                </md-action-row>
+
+            </md-expansion-panel>
+
+
+        </md-accordion>
+    </div>
+
+
 </div>
 
-<!-- the new user form assistant starts with a user selection field (autocomplete) to look for an existing user first -->
-<div md-dialog-content>
+<!-- next section
+{{formLabels.system.admin}}
+                                    <md-slide-toggle [color]="'primary'" [formControl]="form.controls['systemAdmin']"
+                                                     [(ngModel)]="form.controls['systemAdmin'].value">
+                                    </md-slide-toggle>
+                                    -->
 
-    <!-- Step 0: Select resource type from a list of resources taken directly from the Knora base ontology
-        (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
-    <section [hidden]="counter!==0">
-
-
-        <hr>
-        <!-- form to create a new user or to edit an old one from selection above -->
-        <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
-            <md-input-container class="half-width"
-                                dividerColor="{{ uf.controls['firstName']?.invalid && uf.controls['firstName']?.touched ? 'warn' : 'primary' }}">
-                <input mdInput
-                       disabled
-                       [placeholder]="form.user.firstName + ' *'"
-                       [formControl]="uf.controls['givenName']">
-            </md-input-container>
-
-            <md-input-container class="half-width"
-                                dividerColor="{{ uf.controls['lastName']?.invalid && uf.controls['lastName']?.touched ? 'warn' : 'primary' }}">
-                <input mdInput
-                       disabled="disabled"
-                       [placeholder]="form.user.lastName + ' *'"
-                       [formControl]="uf.controls['familyName']">
-            </md-input-container>
-
-            <md-input-container class="full-width"
-                                dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
-                <input mdInput type="email"
-                       [placeholder]="form.user.email + ' *'"
-                       [formControl]="uf.controls['email']">
-                <md-hint class="salsah-hint">
-                    <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
-                    <span
-                            [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || !uf.controls['email'].touched"
-                            class="salsah-error">{{form.user.emailValidation}}
-                </span>
-                </md-hint>
-            </md-input-container>
-
-            <md-input-container class="full-width"
-                                dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
-                <input mdInput type="password"
-                       [placeholder]="form.user.password + ' *'"
-                       [formControl]="uf.controls['password']">
-                <md-hint class="salsah-hint">
-                    <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
-                    <span
-                            [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || !uf.controls['password'].touched"
-                            class="salsah-error">
-                                        {{form.user.passwordHint}}
-                                    </span>
-                </md-hint>
-            </md-input-container>
-
-            <table class="full-width form-table">
-                <tr>
-                    <td class="left">
-                        <md-select [formControl]="uf.controls['lang']" [placeholder]="form.user.language"
-                                   [(ngModel)]="uf.controls['lang'].value">
-                            <md-option value="en">english</md-option>
-                            <md-option value="de">deutsch</md-option>
-                            <md-option value="fr">français</md-option>
-                            <md-option value="it">italiano</md-option>
-                        </md-select>
-                    </td>
-
-                    <td class="right">
-                        <md-checkbox align="end">
-                            {{form.user.admin}}
-                        </md-checkbox>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </section>
-</div>
-
-
-<div md-dialog-actions>
-    <button md-button
-            md-dialog-close
-            class="cancel-button">
-        Cancel
-    </button>
-    <span class="fill-remaining-space"></span>
-
-    <span class="back">
-        <button md-button
-                *ngIf="counter < max_steps && counter > 0"
-                class="back-button"
-                (click)="prevFormSection(counter, $event)">
-                <md-icon>keyboard_arrow_left</md-icon> Back
-        </button>
-    </span>
-
-    <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
-    <span class="next">
-        <button md-raised-button
-                [disabled]="!newResource.label"
-                *ngIf="counter < (max_steps - 1) && counter > 0"
-                class="next-button"
-                [color]="'primary'"
-                (click)="nextFormSection(counter, $event)">
-            Next <md-icon>keyboard_arrow_right</md-icon>
-        </button>
-        <!-- or -->
-        <button type="submit"
-                md-raised-button
-                *ngIf="counter === (max_steps - 1)"
-                class="save-button"
-                color="primary"
-                (click)="onSubmit(rcf.value)"
-                [disabled]="!rcf.valid">
-            Save
-        </button>
-    </span>
-
-</div>
 
 <!--
-<form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)" md-card>
+                        <table class="full-width" cellspacing="0">
+                            <!-- line 1: pre and last name --
+                            <tr>
+                                <td colspan="1">
+                                    <md-input-container class="full-width"
+                                                        dividerColor="{{ form.controls['givenName']?.invalid && form.controls['givenName']?.touched ? 'warn' : 'primary' }}">
+                                        <input mdInput
+                                               [placeholder]="formLabels.user.givenName + ' *'"
+                                               [formControl]="form.controls['givenName']">
+                                    </md-input-container>
+                                </td>
+                                <td colspan="2">
+                                    <md-input-container class="full-width"
+                                                        dividerColor="{{ form.controls['familyName']?.invalid && form.controls['familyName']?.touched ? 'warn' : 'primary' }}">
+                                        <input mdInput
+                                               [placeholder]="formLabels.user.familyName + ' *'"
+                                               [formControl]="form.controls['familyName']">
+                                    </md-input-container>
+                                </td>
+                            </tr>
+                            <!-- line 2: eMail address --
+                            <tr>
+                                <td colspan="3">
+                                    <md-input-container class="full-width"
+                                                        dividerColor="{{ form.controls['email']?.invalid && form.controls['email']?.touched ? 'warn' : 'primary' }}">
+                                        <input mdInput type="email"
+                                               [placeholder]="formLabels.user.email + ' *'"
+                                               [formControl]="form.controls['email']">
+                                        <md-hint class="salsah-hint">
+                                            <span [hidden]="form.controls['email'].invalid">{{formLabels.user.emailHint}}</span>
+                                            <span
+                                                [hidden]="form.controls['email'].valid && form.controls['email'].dirty || !form.controls['email'].touched"
+                                                class="salsah-error">{{formLabels.user.emailValidation}}
+                                    </span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </td>
+                            </tr>
+                            <!-- line 3: password --
+                            <tr>
+                                <td colspan="3">
+                                    <md-input-container class="full-width"
+                                                        dividerColor="{{ !form.controls['password']?.valid ? 'warn' : 'primary' }}">
+                                        <input mdInput type="password"
+                                               [placeholder]="formLabels.user.password + ' *'"
+                                               [formControl]="form.controls['password']">
+                                        <md-hint class="salsah-hint">
+                                            <!-- [hidden]="form.controls['password'].valid" [ngClass]="{'salsah-error': (form.controls['password'].invalid && form.controls['password'].dirty)}"  --
+                                            <span
+                                                [hidden]="form.controls['password'].valid && form.controls['password'].dirty || form.controls['password'].touched"
+                                                class="salsah-error">
+                                        {{formLabels.user.passwordHint}}
+                                    </span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </td>
+                            </tr>
+                            <!-- line 4: preferred language --
+                            <tr>
+                                <td colspan="2">
+                                    <md-select [formControl]="form.controls['lang']"
+                                               [placeholder]="formLabels.user.language"
+                                               [(ngModel)]="form.controls['lang'].value">
+                                        <md-option value="en">english</md-option>
+                                        <md-option value="de">deutsch</md-option>
+                                        <md-option value="fr">français</md-option>
+                                        <md-option value="it">italiano</md-option>
+                                    </md-select>
+                                </td>
+                                <td>
+                                    {{formLabels.system.admin}}
+                                    <md-slide-toggle [color]="'primary'" [formControl]="form.controls['systemAdmin']"
+                                                     [(ngModel)]="form.controls['systemAdmin'].value">
+                                    </md-slide-toggle>
+                                </td>
+                            </tr>
+                        </table>
 
-    <div md-dialog-title>
-        {{form.user.title}}
-    </div>
-    <div md-dialog-content>
-
-    <div md-dialog-actions>
-        <span>
-            <button md-button
-                    class="cancel-button"
-                    (click)="closeForm($event)">
-                Cancel
-            </button>
-        </span>
-        <span class="fill-remaining-space"></span>
-        <span>
-            <button type="submit"
-                    [disabled]="!uf.valid || uf.errors"
-                    md-raised-button
-                    class="save-button mat-primary">
-                Save
-            </button>
-        </span>
-    </div>
-
-</form>
+                        <md-action-row>
+                            <button md-button
+                                    class="navigation-button center"
+                                    color="primary"
+                                    (click)="nextStep($event)"
+                                    [disabled]="!form.valid">
+                                Next
+                            </button>
+                        </md-action-row>
 -->

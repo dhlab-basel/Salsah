@@ -1,0 +1,26 @@
+
+.salsah-list,
+.salsah-table {
+
+  .salsah-project-logo {
+    height: 40px;
+    object-fit: contain;
+    width: 40px;
+  }
+}
+
+.salsah-grid-list {
+  .salsah-project-logo {
+    height: 128px;
+    object-fit: contain;
+    padding-bottom: 24px;
+    width: 100%;
+  }
+
+  .salsah-project-icon {
+    float: left;
+    height: 48px;
+    padding: 0 12px 36px 0;
+
+  }
+}

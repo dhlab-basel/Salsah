@@ -1,0 +1,56 @@
+<div class="salsah-module with-header">
+
+    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+
+    <md-toolbar class="salsah-module-header">
+        <span>Results: {{result.nhits}}</span>
+        <span class="fill-remaining-space"><!-- This fills the remaining space of the current row --></span>
+        <!-- menu to switch the view: list, grid, table -->
+        <md-button-toggle-group name="alignment" [(ngModel)]="selectedView">
+            <md-button-toggle *ngFor="let view of viewOptions" [value]=view.name [title]=view.title
+                              [disabled]="view.isDisabled">
+                <md-icon>{{view.icon}}</md-icon>
+            </md-button-toggle>
+        </md-button-toggle-group>
+    </md-toolbar>
+
+    <div class="salsah-sub-module">
+
+        <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+        <div class="salsah-list salsah-module-content" [ngClass]="[position.preview, size]">
+            <!-- show the deprecated-results in a simple list -->
+            <!--
+            <salsah-resources-list *ngIf="selectedView=='list' && result"
+                                  class="list-view"
+                                  [result]="result"
+                                  (openResource)="openResource($event, $event)">
+            </salsah-resources-list>
+            -->
+            <!-- show the deprecated-results in a grid list -->
+            <salsah-resource-grid-list *ngIf="selectedView=='grid' && result"
+                                       class="grid-view"
+                                       [result]="result"
+                                       [cols]="cols"
+                                       (openResource)="openResource($event)">
+            </salsah-resource-grid-list>
+        </div>
+
+        <!-- resource detail view on the right hand side -->
+
+        <div *ngIf="resource" class="salsah-module-detail" [ngClass]="position.detail">
+            <div class="salsah-module-detail-header">
+                <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
+                <button md-icon-button (click)="closeDetailView()" class="right close">
+                    <md-icon>close</md-icon>
+                </button>
+            </div>
+            <div class="salsah-module-detail-content">
+                <salsah-object [iri]="resource"></salsah-object>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+

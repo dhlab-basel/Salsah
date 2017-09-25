@@ -1,14 +1,94 @@
-<!-- progress indicator, until the data is ready -->
-<salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+<!-- progress indicator while the data is loading -->
+<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
-<md-list class="salsah-list">
-    <h3 md-subheader>{{title}}</h3>
-    <md-list-item *ngFor="let project of projectsList" (click)="openProject(project.shortname)" class="salsah-link">
-        <md-icon md-list-avatar>chrome_reader_mode</md-icon>
-        <h4 md-line>{{project.name}}</h4>
-        <div md-line [innerHtml]="project.description | slice:0:128"></div>
-    </md-list-item>
-</md-list>
+<!-- in the case of an API error: show the error message -->
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
-<!-- if there's an error with the projects list: show the error message -->
-<salsah-message *ngIf="errorMessage" [error]="errorMessage"></salsah-message>
+<!-- if we have the data: show the list-->
+<div *ngIf="num > 0; else noData" [ngSwitch]="listType">
+
+    <!-- show the list as table -->
+    <table *ngSwitchCase="'table'" class="salsah-table">
+        <tr>
+            <th># {{num}}</th>
+            <th (click)="sortKey='shortname'" class="salsah-link">Short name</th>
+            <th (click)="sortKey='longname'" class="salsah-link">Long name</th>
+            <th (click)="sortKey='institution'" class="salsah-link">Institution</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let item of list | sortBy: sortKey; let i = index;">
+            <td class="salsah-avatar-cell">
+                <img salsahImage [image]="item.logo" [type]="'project'" class="salsah-project-logo"/>
+            </td>
+            <td>{{item.shortname}}</td>
+            <td>{{item.longname}}</td>
+            <td>{{item.institution}}</td>
+            <td>
+                <button md-icon-button (click)="edit(item.id)">
+                    <md-icon>edit</md-icon>
+                </button>
+                <button md-icon-button (click)="open(item.shortname)">
+                    <md-icon>forward</md-icon>
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <!-- show the list in a grid -->
+    <md-grid-list *ngSwitchCase="'grid'"
+                  class="salsah-grid-list"
+                  salsahResizeGrid
+                  [cols]="columns"
+                  [gutterSize]="colGutter + 'px'"
+                  [rowHeight]="rowHeight + 'px'">
+        <md-grid-tile *ngFor="let item of list | sortBy: sortKey; let i = index;"
+                      class="salsah-grid-tile salsah-link"
+                      (click)="open(item.shortname)">
+            <md-card class="salsah-preview">
+                <!-- original -->
+                <!--
+                <img md-card-image [src]="project.value.logo" class="salsah-preview-image"/>
+                -->
+                <!-- fake test data -->
+                <img salsahImage [image]="item.logo" [type]="'project'"
+                     [class.salsah-preview-image]="item.logo"
+                     [class.salsah-preview-icon]="!item.logo"/>
+                <div class="salsah-preview-content">
+                    <md-card-title class="salsah-preview-title">{{item.longname}}</md-card-title>
+                    <md-card-content class="salsah-preview-text"
+                                     [innerHtml]="item.description | slice:0:150">
+                    </md-card-content>
+                </div>
+
+            </md-card>
+        </md-grid-tile>
+    </md-grid-list>
+
+
+    <!-- default list -->
+    <md-list class="salsah-list" *ngSwitchDefault>
+        <h3 md-subheader># Projects: {{num}}</h3>
+        <md-list-item *ngFor="let item of list | key">
+            <img md-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
+            <h4 md-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
+            <div md-line [innerHtml]="item.value.description | slice:0:128"></div>
+
+            <md-toolbar>
+                <button md-icon-button (click)="open(item.value.shortname)">
+                    <md-icon>forward</md-icon>
+                </button>
+                <button md-icon-button *ngIf="user"
+                        mdTooltip="Remove user from project"
+                        mdTooltipPosition="above"
+                        (click)="removeUserFromProject(user, item.key)">
+                    <md-icon>delete</md-icon>
+                </button>
+            </md-toolbar>
+        </md-list-item>
+    </md-list>
+</div>
+
+<!-- if there are any data: show a no data message -->
+<ng-template #noData>
+    <salsah-message *ngIf="!isLoading && !errorMessage" [message]="noDataMessage"></salsah-message>
+</ng-template>

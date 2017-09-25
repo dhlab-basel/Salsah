@@ -9,9 +9,9 @@
             "root": "src",
             "outDir": "dist",
             "assets": [
-                "assets",
                 "favicon.ico",
-                "test-data"
+                "assets",
+                "data"
             ],
             "index": "index.html",
             "main": "main.ts",
@@ -33,7 +33,8 @@
                 "dev": "environments/environment.ts",
                 "prod": "environments/environment.prod.ts",
                 "test": "environments/environment.test.ts",
-                "mock": "environments/environment.mock.ts"
+                "mock": "environments/environment.mock.ts",
+                "beol": "environments/environment.beol.ts"
             }
         }
     ],

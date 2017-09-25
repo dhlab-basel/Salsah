@@ -1,0 +1,16 @@
+@import '../../../../../assets/style/config';
+
+
+.headers-align .mat-expansion-panel-header-title,
+.headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.headers-align .mat-expansion-panel-header-description {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.no-shadow .mat-expansion-panel {
+  //  box-shadow: none;
+}

@@ -16,13 +16,11 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ApiServiceError} from '../../model/services/api-service-error';
 import {AuthenticationService} from '../../model/services/authentication.service';
-
+import {Title} from '@angular/platform-browser';
 
 function getDocument(): any {
     return document;
 }
-
-
 
 @Component({
     selector: 'salsah-login',
@@ -43,9 +41,6 @@ export class LoginComponent implements OnInit {
     // userProfile: UserProfile = new UserProfile();
     // sessionId: string = undefined;
 
-    /*
-     TODO: language packages: login
-     */
     login = {
         title: 'Already have an account?',
         name: 'Username',
@@ -67,12 +62,13 @@ export class LoginComponent implements OnInit {
     // end of language package for login
     //
 
-    constructor(
-        private _route: ActivatedRoute,
-        private _authenticationService: AuthenticationService) {
+    constructor(private _title: Title,
+                private _route: ActivatedRoute,
+                private _authenticationService: AuthenticationService) {
     }
 
     ngOnInit() {
+        this._title.setTitle( 'Salsah | Login');
 
     }
 
@@ -80,6 +76,8 @@ export class LoginComponent implements OnInit {
 
         this._authenticationService.login(lf.email, lf.password).subscribe(
             (result: boolean) => {
+
+                console.log(result);
 
                 /*
                 const session: Session = result.getBody(Session);

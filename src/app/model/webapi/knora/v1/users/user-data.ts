@@ -20,20 +20,25 @@ export class UserData {
     @JsonProperty('email', String, true)
     public email: string = undefined;
 
-    @JsonProperty('firstname', String, true)
-    public firstname: string = undefined;
-
-    @JsonProperty('lastname', String, true)
-    public lastname: string = undefined;
-
+    // TODO: does the following property (isActiveUser) still exist? Ask the knora team
     @JsonProperty('isActiveUser', Boolean, true)
     public isActiveUser: boolean = undefined;
+    //
+
+    @JsonProperty('firstname', String, true)
+    public givenName: string = undefined;
+
+    @JsonProperty('lastname', String, true)
+    public familyName: string = undefined;
 
     @JsonProperty('lang', String, true)
     public lang: string = undefined;
 
     @JsonProperty('password', String, true)
     public password: string = undefined;
+
+    @JsonProperty('status', Boolean, true)
+    public status: boolean = undefined;
 
     @JsonProperty('token', String, true)
     public token: string = undefined;

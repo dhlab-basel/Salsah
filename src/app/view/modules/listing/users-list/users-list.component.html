@@ -1,0 +1,116 @@
+<!-- progress indicator while the data is loading -->
+<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+
+<!-- in the case of an API error: show the error message -->
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+<!-- if we have the data: show the list-->
+<div *ngIf="countUsers > 0; else noData" [ngSwitch]="listType">
+    <!-- table if "showAsTable" is true -->
+    <div *ngSwitchCase="'table'">
+        <!-- table with all active users -->
+        <h4>Active users</h4>
+        <table *ngSwitchCase="'table'" class="salsah-table">
+            <tr>
+                <th># {{countActive}}</th>
+                <th (click)="sortKey='givenName'" class="salsah-link">Firstname</th>
+                <th (click)="sortKey='familyName'" class="salsah-link">Lastname</th>
+                <th (click)="sortKey='email'" class="salsah-link">eMail</th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let item of allActiveUsers | sortBy: sortKey; let i = index;">
+                <td class="salsah-avatar-cell">
+                    <img salsahImage [image]="item.email" [type]="'user'" class="salsah-avatar-image"/>
+                </td>
+                <td>{{item.givenName}}</td>
+                <td>{{item.familyName}}</td>
+                <td>{{item.email}}</td>
+                <td>
+                    <div class="hidden">
+                        <button md-icon-button (click)="setInactive(item.user_id)" mdTooltip="Delete user">
+                            <md-icon>delete</md-icon>
+                        </button>
+                        <button md-icon-button (click)="edit(item.user_id)" mdTooltip="Edit user">
+                            <md-icon>edit</md-icon>
+                        </button>
+                        <button md-icon-button (click)="open(item.email)" mdTooltip="Go to the user's dashboard">
+                            <md-icon>forward</md-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br><br>
+        <!-- table with all inactive users -->
+        <h4>Inactive (deleted) users</h4>
+        <table class="salsah-table">
+            <tr>
+                <th># {{countInactive}}</th>
+                <th (click)="sortKeyIA='givenName'" class="salsah-link">Firstname</th>
+                <th (click)="sortKeyIA='familyName'" class="salsah-link">Lastname</th>
+                <th (click)="sortKeyIA='email'" class="salsah-link">eMail</th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let item of allInactiveUsers | sortBy: sortKeyIA; let i = index;">
+                <td class="salsah-avatar-cell">
+                    <img salsahImage [image]="item.email" [type]="'user'" class="salsah-avatar-image"/>
+                </td>
+                <td>{{item.givenName}}</td>
+                <td>{{item.familyName}}</td>
+                <td>{{item.email}}</td>
+                <td>
+                    <div class="hidden">
+                        <button md-icon-button (click)="setActive(item.user_id)" mdTooltip="Activate user">
+                            <md-icon>refresh</md-icon>
+                        </button>
+                        <button md-icon-button (click)="edit(item.user_id)" mdTooltip="Edit user">
+                            <md-icon>edit</md-icon>
+                        </button>
+                        <button md-icon-button (click)="open(item.email)" mdTooltip="Go to the user's dashboard">
+                            <md-icon>forward</md-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <!-- default list -->
+    <md-list class="salsah-list" *ngSwitchDefault>
+        <h3 md-subheader># Users: {{countUsers}}
+            <span *ngIf="selectedRow === undefined && countUsers > 1"> | {{sortTitle}}
+            <button md-button
+                    *ngIf="selectedRow == undefined"
+                    (click)="sortBy(sortKey)"
+                    [mdTooltip]="sortTitle + sortLabel" mdTooltipPosition="above">
+                {{sortLabel}} <md-icon>sort_by_alpha</md-icon>
+            </button>
+        </span>
+        </h3>
+        <md-list-item *ngFor="let item of allUsers | sortBy: sortKey; let i = index"
+                      (click)="toggle(item.user_id, i);"
+                      [id]="item.user_id"
+                      class="salsah-link"
+                      [class.inactive]="!item.status"
+                      [class.highlight]="i == selectedRow">
+            <!--<md-list-item *ngFor="let admin of project.admins">-->
+            <md-icon md-list-avatar class="salsah-avatar">
+                <img salsahImage [image]="item?.email" [type]="'user'" class="salsah-avatar-image"/>
+            </md-icon>
+            <h4 md-line>{{item?.givenName}} {{item?.familyName}}</h4>
+            <p md-line> {{item?.email}} </p>
+            <button md-icon-button class="right close close-highlight">
+                <md-icon>close</md-icon>
+            </button>
+            <button md-icon-button class="right" (click)="removeFromProject(item.user_id, project)" mdTooltip="Remove user from project">
+                <md-icon>delete</md-icon>
+            </button>
+        </md-list-item>
+    </md-list>
+</div>
+
+<!-- if there are any data: show a no data message -->
+<ng-template #noData>
+    <salsah-message *ngIf="!isLoading && !errorMessage" [message]="noDataMessage"></salsah-message>
+</ng-template>

@@ -14,6 +14,7 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {UserProfile} from "../../../../model/webapi/knora/";
+import {MessageData} from '../../../modules/message/message.component';
 
 @Component({
     selector: 'salsah-user-settings',
@@ -22,19 +23,22 @@ import {UserProfile} from "../../../../model/webapi/knora/";
 })
 export class UserSettingsComponent implements OnInit {
 
-    @Input('user') user: UserProfile;
+    // @Input('user') user: UserProfile;
 
-    developerInfo: any = {
-        title: "User configuration form",
-        description: "Here should be a form to change user specific settings",
-        path: "dashboard/user/user-settings/"
+    user: UserProfile = new UserProfile();
+
+    developerInfo: MessageData = {
+        status: 304,
+        statusMsg: "User configuration form",
+        statusText: "TODO: Here should be a form to change user specific settings",
+        route: "dashboard/user/user-settings/"
     };
 
     constructor() {
     }
 
     ngOnInit() {
-
+        this.user = JSON.parse(sessionStorage.getItem('currentUser'));
     }
 
 }

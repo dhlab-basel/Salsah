@@ -1,0 +1,99 @@
+<div *ngIf="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
+        <table class="full-width" cellspacing="0">
+            <!-- line 1: short and long name of the project -->
+            <tr>
+                <td colspan="1">
+                    <md-input-container class="full-width">
+                        <input mdInput autofocus
+                               [placeholder]="formLabels.shortname + ' *'"
+                               formControlName="shortname">
+                        <md-hint *ngIf="formErrors.shortname">
+                            {{ formErrors.shortname }}
+                        </md-hint>
+                    </md-input-container>
+                </td>
+                <td colspan="2">
+                    <md-input-container class="full-width">
+                        <input mdInput
+                               [placeholder]="formLabels.longname + ' *'"
+                               formControlName="longname">
+                        <md-hint *ngIf="formErrors.longname">
+                            {{ formErrors.longname }}
+                        </md-hint>
+                    </md-input-container>
+                </td>
+            </tr>
+            <!-- line 2: project description -->
+            <tr>
+                <td colspan="3">
+                    <md-input-container class="full-width">
+                        <textarea mdInput rows="6"
+                                  [placeholder]="formLabels.description"
+                                  formControlName="description">
+                        </textarea>
+                        <md-hint *ngIf="formErrors.description">
+                            {{ formErrors.description }}
+                        </md-hint>
+                    </md-input-container>
+
+                </td>
+            </tr>
+
+            <!-- line 3: keywords -->
+            <!-- after uploading logo or setting url replace it with the logo -->
+            <tr>
+                <td colspan="3">
+                    <md-input-container class="full-width">
+                        <input mdInput
+                               [placeholder]="formLabels.keywords"
+                               formControlName="keywords">
+                        <md-hint *ngIf="formErrors.keywords">
+                            {{ formErrors.keywords }}
+                        </md-hint>
+                    </md-input-container>
+                </td>
+            </tr>
+
+            <!-- line 4: logo upload or url definition -->
+            <!-- after uploading logo or setting url replace it with the logo -->
+            <tr>
+                <td>
+                    add a logo
+                </td>
+                <td>
+                    {{formLabels.logo.upload}}
+                </td>
+                <td>
+                    preview here? or on the next line
+                </td>
+            </tr>
+            <!-- line 4: cancel and submit button -->
+            <!-- TODO: how do we handle this with md dialog box? -->
+            <tr>
+                <td>
+                    <button md-button
+                            class="cancel-button"
+                            (click)="form.reset()">
+                        Cancel
+                    </button>
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    <button md-raised-button
+                            class="save-button"
+                            color="primary"
+                            [disabled]="!form.valid">
+                        Save
+                    </button>
+                </td>
+            </tr>
+        </table>
+    <!-- // some outputs for developers
+        <p>Value: {{ form.value | json }}</p>
+        <p>Validation status: {{ form.status }}</p>
+    -->
+    </form>
+</div>

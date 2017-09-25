@@ -1,0 +1,66 @@
+@import '../../../../../assets/style/config';
+
+.salsah-list {
+
+  &.large {
+    width: 100%;
+  }
+
+  &.small {
+    @include border-right();
+    height: calc(100% - #{$header-height} - #{$module-header-height} - #{$footer-height});
+    overflow-y: auto;
+    position: fixed;
+    width: $sidebar-width;
+  }
+
+  &.position-left {
+    float: left;
+  }
+
+  .salsah-list-header {
+    display: inline-flex;
+
+
+    h3.has-border {
+      border-right: 2px solid $black-60-opacity;
+      padding-right: 16px;
+    }
+
+    p {
+      color: $black-60-opacity;
+      padding: 5px 12px 0 16px;
+    }
+  }
+
+  .salsah-avatar {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.salsah-module-detail {
+  height: 100%;
+  left: $sidebar-width;
+  position: absolute;
+  width: calc(100% - #{$sidebar-width});
+
+  .salsah-module-detail-header {
+    //      display: inline-flex;
+    position: fixed;
+    right: 0;
+    top: $module-header-height;
+    width: calc(100vw - #{$sidebar-width});
+    z-index: 5;
+  }
+
+  .salsah-module-detail-content {
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    outline: 0;
+    overflow-y: auto;
+    padding: 48px 24px 96px;
+    width: 100%;
+  }
+}

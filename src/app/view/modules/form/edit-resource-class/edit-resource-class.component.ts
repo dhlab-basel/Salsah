@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -15,9 +15,9 @@
 import {Component, EventEmitter, OnChanges, Input, Output} from '@angular/core';
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {Properties} from "../../../../model/webapi/knora";
 import {ResourceTypesService} from "../../../../model/services/resource-types.service";
-import {ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
+import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
+// import {ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
 import {ProjectsService} from "../../../../model/services/projects.service";
 import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
 

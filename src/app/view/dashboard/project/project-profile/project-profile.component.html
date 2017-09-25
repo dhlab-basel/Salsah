@@ -1,8 +1,9 @@
-<div class="salsah-module-content">
-    <h2 md-header>{{projectItem?.name}}</h2>
-
-    <div [innerHTML]="projectItem?.description" class="salsah-text"></div>
+<div class="salsah-module-content medium" *ngIf="project">
+    <img salsahImage [image]="project?.logo" [type]="'project'">
+    <h2 md-header>{{project.longname}}</h2>
+    <div [innerHTML]="project.description" class="salsah-text"></div>
 </div>
+
 
 
 

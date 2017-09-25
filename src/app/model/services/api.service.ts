@@ -12,15 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Injectable} from '@angular/core';
 import {Http, RequestOptionsArgs, Response, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../environments/environment';
-import {JsonConvert} from 'json2typescript';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class ApiService {
@@ -35,11 +35,11 @@ export class ApiService {
             if (!response.statusText) {
                 response.statusText = 'Connection to API endpoint failed';
             }
-            response.url = url;
+            response.route = url;
         } else {
             response.status = 0;
             response.statusText = 'Connection to API endpoint failed';
-            response.url = url;
+            response.route = url;
         }
 
         // response.status === 401 --> Unauthorized; password is wrong
@@ -52,12 +52,13 @@ export class ApiService {
 
     constructor(private _http: Http) {
 
+
         //
         // Json convert error handling
         //
         // JsonConvert.debugMode = true;
         // JsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
-        JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
+        // JsonConvert.valueCheckingMode = JsonConvert.ValueCheckingMode.ALLOW_NULL; // never allow null
     }
 
     /**
@@ -70,14 +71,18 @@ export class ApiService {
 
         options = this.appendToOptions(options);
 
+        // if the url is an external one, we have to use this one
+        // otherwise we have to use the defined api url from the environment config file
         url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
 
-        if (!environment.production && environment.type === 'mock-api') {
+        /*
+        if (!environment.production && environment.description === 'mock-api') {
             // in this case, we don't need the knora API; we're using mockup files from knora_mockups
 
             url += '.json';
             options = {withCredentials: false};
         }
+        */
 
         return this._http.get(url, options).map((response: Response) => {
             try {

@@ -91,13 +91,13 @@ $search-width: 720px;
   &.simple-search,
   &.extended-search {
     min-height: $search-height;
-    top: 12px;
+//    top: 12px;
     width: $search-width;
   }
 
   &.simple-search {
     padding-top: 60px;
-//    z-index: -1;
+    z-index: -1;
 
     .salsah-previous-search-list {
 

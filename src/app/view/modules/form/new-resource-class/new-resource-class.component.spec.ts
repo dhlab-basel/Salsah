@@ -1,10 +1,9 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {NewResourceClassComponent} from './new-resource-class.component';
-import {AppRoutingModule} from "../../../../app-routing.module";
-import {AppMaterialModule} from "../../../../app-material-module";
-import {AppModule} from "../../../../app.module";
-import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
+import {AppRoutingModule} from '../../../../app-routing.module';
+import {AppModule} from '../../../../app.module';
+import {BasicOntologyService} from '../../../../model/services/basic-ontology.service';
 
 describe('NewResourceClassComponent', () => {
     let component: NewResourceClassComponent;
@@ -14,7 +13,6 @@ describe('NewResourceClassComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule,
                 AppRoutingModule
             ],
             providers: [

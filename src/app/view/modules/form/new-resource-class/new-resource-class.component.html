@@ -227,7 +227,7 @@
                     md-raised-button
                     *ngIf="counter === (max_steps - 1)"
                     class="save-button"
-                    color="primary"
+                    [color]="'primary'"
                     (click)="onSubmit(newResourceClass)"
                     [disabled]="!newResourceClass">
                 Save

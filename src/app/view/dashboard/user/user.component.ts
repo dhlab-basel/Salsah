@@ -12,13 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {ActivatedRoute, Router, Params} from "@angular/router";
-import {ApiServiceResult} from "../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../model/services/api-service-error";
-import {UserService} from "../../../model/services/user.service";
-import {User, UserProfile} from "../../../model/webapi/knora/";
+import {ActivatedRoute, Router, Params} from '@angular/router';
+import {ApiServiceResult} from '../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../model/services/api-service-error';
+import {UserService} from '../../../model/services/user.service';
+import {User, UserProfile} from '../../../model/webapi/knora/';
+import {Title} from '@angular/platform-browser';
 
 
 @Component({
@@ -29,37 +30,30 @@ import {User, UserProfile} from "../../../model/webapi/knora/";
 export class UserComponent implements OnInit {
 
     isLoading: boolean = true;
-    errorMessage: string = undefined;
+    errorMessage: any = undefined;
 
-    // the userProfile of the logged in user
-    ownProfile: UserProfile = new UserProfile();
+    // is there a logged-in user?
+    // look at localStorage and the object currentUser with email, token and sysAdmin (?) info
+    loggedInUser: any;
 
-    // a userProfile that we get with the user id, if it's defined in the route
+    // get userProfile by eMail
+    email: string;
     userProfile: UserProfile = new UserProfile();
 
-    // showOwnProfile is a boolean; set it to true if ownProfile is the same as userProfile
+    // showOwnProfile is a boolean;
+    // set it to true if currentUser.email is the same as userProfile.email
+    // resp. the one from the route /user/[uid]
+    // if showOwnProfile is false, then the access could be denied on some special routes
+    // in that case navigate to the login page
+    // incl. the current route as a kind of history url parameter
     showOwnProfile: boolean = false;
 
-    // which route is active?
+    // which route is active? we need it for the submodule switch in the template
+    // and for the tab navigation menu
     route: string;
-
-    // access denied?
-    accessDenied: boolean = true;
-
-
-    //    user: User = new User();
-
-    //    userRoute: string = '/users/';
-
-//    user: User = new User();
-
-
-
-
     firstTabClass: string = 'active';
 
-    cur_user: string = undefined;
-
+    // tab navigation menu
     menu: any = [
         {
             name: '',
@@ -80,159 +74,73 @@ export class UserComponent implements OnInit {
 
     ];
 
-    auth: any = {
-        user: undefined,
-        session: undefined
-    };
-
-    constructor(private _router: Router,
+    constructor(private _title: Title,
+                private _router: Router,
                 private _route: ActivatedRoute,
                 private _userService: UserService) {
     }
 
     ngOnInit() {
+        sessionStorage.removeItem('currentUser');
 
-        this.route = this._router.url;
+        // we're using this user component in two cases/routes:
+        // a) /user/[uid] as a public dashboard for every user
+        // b) /profile, /projects, /collections, /settings as a dashboard with sub modules for the logged in user
+        // which case do we have? first collect some data and compare them to know the right setting
 
-        // a) do we have a logged in user? ownProfile = null || UserProfile;
-        if(JSON.parse(localStorage.getItem('ownProfile')) !== null) this.userProfile = JSON.parse(localStorage.getItem('ownProfile'));
+        this.route = this._router.url;  // could be /user/[uid], /profile, /projects, /collections or /settings
 
+        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
 
-        // we're using the user component for two routes:
-        // a) /user/[uid] as a public dashboard of a user
-        // b) /profile, /projects, /collections, /settings as dashboard sub modules for the logged in user
-        if(this.route.indexOf('user') >= 0) {
-            // the route is a case of a)!
-            // if the uid (user id = email) is the same as the one of the logged in user, go to url /profile
-            // else: get the user data by email and show the user's profile
+        if (this.route.indexOf('user') >= 0) {
+            // get the email from the user route parameter
             this._route.params.subscribe((params: Params) => {
                 if (params['uid']) {
-                    if(this.userProfile.userData !== undefined) this.showOwnProfile = params['uid'] === this.userProfile.userData.email;
-                    if(!this.showOwnProfile) {
-                        this._userService.getUserByEmail(params['uid'])
-                            .subscribe(
-                                (result: ApiServiceResult) => {
-                                    this.userProfile = result.getBody(User).userProfile;
-                                    this.isLoading = false;
-                                },
-                                (error: ApiServiceError) => {
-                                    this.errorMessage = <any>error;
-                                }
-                            );
-                    }
-                    else {
-                        // showOwnProfile is true; navigate to the logged in user profile
-                        this._router.navigateByUrl('/profile');
-                    }
-                }
-
-            });
-        }
-        else {
-            // the route is one of the variant b)
-            // if a user isn't logged in, go to the /login page
-            if(this.userProfile.userData === undefined) {
-                // there's no logged-in user and the route doesn't match a user id (uid)
-                this.showOwnProfile = false;
-
-                // go to the login page and bring the user back to this page after successful login
-                let goToUrl: string = '/login';
-                if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
-                this._router.navigateByUrl(goToUrl);
-                //                window.location.replace(goToUrl);
-            }
-            else {
-                this.showOwnProfile = true;
-                this.isLoading = false;
-            }
-        }
-
-
-
-/*
-
-
-        if(this.ownProfile !== null && this.userProfile.userData !== undefined) {
-            // an active user is logged in and the userProfile was filled in b)
-            // set the showOwnProfile to true if ownProfile is the same as the userProfile
-
-        }
-
-        console.log(this.ownProfile);
-        console.log(this.userProfile);
-
-
-        console.log(this._router);
-
-        this._route.params.subscribe((params: Params) => {
-
-        });
-
-
-        if (JSON.parse(localStorage.getItem('ownProfile')) !== null) {
-            // a user is logged in; get his user profile from localStorage
-
-
-        }
-
-
-        // which route do we have? /user/[email] --> show users profile (it can be public!)
-        this._route.params.subscribe((params: Params) => {
-            if (params['uid']) {
-                this.cur_user = params['uid'];
-            }
-            else {
-                if (this.ownProfile !== null) {
-//                    console.log(JSON.parse(localStorage.getItem('ownProfile')));
-                    this.cur_user = this.ownProfile.userData.email;
-//                    this.showOwnProfile = true;
-                }
-                else {
-                    // there's no logged-in user and the route doesn't match a user id (uid)
-                    // go to the login page and bring the user back to this page after successful login
-                    let goToUrl: string = '/login';
-                    if (this._router.url !== '/') goToUrl += '?h=' + encodeURIComponent(this._router.url);
-                    window.location.replace(goToUrl);
-//                    this._sessionService.checkAuth(true);
-                }
-            }
-/*
-            if (this.cur_user) {
-                // the current user email is defined; so get the user profile ...
-                this._userService.getUser(this.cur_user)
-                    .subscribe(
-                        (result: ApiServiceResult) => {
-                            this.user = result.getBody(User);
-                            this.isLoading = false;
-                            localStorage.setItem('userProfile', JSON.stringify(
-                                this.user
-                            ));
-                            this.menu[0].name = this.user.userProfile.userData.firstname + ' ' + this.user.userProfile.userData.lastname;
-
-                        },
-                        (error: ApiServiceError) => {
-                            this.errorMessage = <any>error;
-                            localStorage.removeItem('userProfile');
+                    // case a)
+                    this.email = params['uid'];
+                    this._title.setTitle( 'Salsah | User profile (' + this.email + ')');
+                    if (this.loggedInUser !== null) {
+                        // if the loggedInUser exists and this email is the same as
+                        // the one in the route then switch to /profile (handled in the template)
+                        if (params['uid'] === this.loggedInUser.email) {
+                            this.showOwnProfile = true;
+                            this._router.navigateByUrl('/profile');
                         }
-                    );
+                    }
+                }
+            });
+        } else {
+            // case b)
+            if (this.loggedInUser !== null) {
+                this.email = this.loggedInUser.email;
+                this.showOwnProfile = true;
+                this._title.setTitle( 'Salsah | User admin (' + this.email + ')');
+            } else {
+                // access denied! navigate to the login page
+                // and set a history parameter (?h=) with the current user
+                // to bring the user back to the current route after successful login
+                let goToUrl: string = '/login';
+                if (this._router.url !== '/') { goToUrl += '?h=' + encodeURIComponent(this._router.url); }
+                this._router.navigateByUrl(goToUrl);
             }
-*/
 
-//            this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
+        }
 
-
-//        });
-//        });
-
-
-    }
-
-    disableFirstTab() {
-        this.firstTabClass = undefined;
-    }
-
-    enableFirstTab() {
-        this.firstTabClass = 'active';
+        if (this.email) {
+            this._userService.getUserByEmail(this.email)
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        this.userProfile = result.getBody(User).userProfile;
+                        sessionStorage.setItem('currentUser', JSON.stringify(this.userProfile));
+                        this.isLoading = false;
+                    },
+                    (error: ApiServiceError) => {
+                        sessionStorage.removeItem('currentUser');
+                        this.errorMessage = <any>error;
+                        this.isLoading = false;
+                    }
+                );
+        }
     }
 
 }

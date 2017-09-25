@@ -1,91 +1,93 @@
-<!-- not a card; how can we use it in an md-dialog? same setup as in new resource class form... -->
-
-
-<div class="salsah-component-content">
-  <md-card class="salsah-project-creator fix-width no-shadow">
+<div class="salsah-step-by-step-form">
+    <!-- form header with form stepper -->
     <!--
-            <ckeditor
-                [(ngModel)]="ckeditorContent"
-                [config]="{uiColor: '#000000'}"
-                (change)="onChange($event)"
-                (ready)="onReady($event)"
-                (focus)="onFocus($event)"
-                (blur)="onBlur($event)"
-                debounce="500">
-            </ckeditor>
+    <div class="salsah-form-stepper">
+        <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps"
+                                 [counter]="counter"></salsah-progress-stepper>
+    </div>
+    <br>
     -->
-    <!-- This is the project form (pf) -->
-    <form class="new-project-form" #pf="ngForm" (ngSubmit)="onSubmit(pf.value)">
-      <md-card-header>
-        <md-card-title>
-          {{form.project.title}}
-        </md-card-title>
-      </md-card-header>
-      <md-card-content class="project">
 
-        <md-input-container class="full-width">
-          <input mdInput [placeholder]="form.project.name" autofocus required name="projectName"
-                 ngControl="projectName" ngModel>
-        </md-input-container>
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
+    <div class="salsah-form-content" *ngIf="!isLoading">
+        <md-accordion class="headers-align">
 
-        <md-input-container class="full-width">
-          <input mdInput [placeholder]="form.project.shortname" required name="projectShortName" ngModel>
-        </md-input-container>
+            <md-expansion-panel [expanded]="step === 0" *ngIf="!iri"
+                                hideToggle="false">
+                <!-- header -->
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        {{formLabels.project.title}}
+                    </md-panel-title>
+                    <md-panel-description>
+                        &nbsp;
+                        <md-icon>content_paste</md-icon>
+                    </md-panel-description>
+                </md-expansion-panel-header>
 
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
+                    <!-- short and long name -->
+                    <md-form-field class="small">
+                        <input mdInput [salsahFocus]="step === 1"
+                               [placeholder]="formLabels.project.shortname + ' *'"
+                               [formControl]="form.controls['shortname']">
+                        <md-hint *ngIf="formErrors.shortname">
+                            {{ formErrors.shortname }}
+                        </md-hint>
+                    </md-form-field>
+                    <md-form-field class="medium">
+                        <input mdInput
+                               [placeholder]="formLabels.project.longname + ' *'"
+                               [formControl]="form.controls['longname']">
+                        <md-hint *ngIf="formErrors.longname">
+                            {{ formErrors.longname }}
+                        </md-hint>
+                    </md-form-field>
 
-        <md-input-container class="full-width">
-                    <textarea mdInput [placeholder]="form.project.description" rows="8" name="projectDescription"
-                              ngModel></textarea>
-        </md-input-container>
+                    <!-- description -->
+                    <md-form-field class="large">
+                        <textarea mdInput rows="6"
+                                  [placeholder]="formLabels.project.description"
+                                  [formControl]="form.controls['description']">
+                        </textarea>
+                        <md-hint *ngIf="formErrors.description">
+                            {{ formErrors.description }}
+                        </md-hint>
+                    </md-form-field>
 
-        <div class="full-width file-upload-wrapper">
-          <p class="md-input-placeholder">{{form.project.logo}}</p>
-          <!-- app.component.html -->
-          <!--
-          <input type="file"
-                 ngFileSelect
-                 [options]="options"
-                 (onUpload)="handleUpload($event)"
-                 (beforeUpload)="beforeUpload($event)"
-                 #inputFileElement>
-          -->
-          <!-- drag & drop file example-->
-          <!--
-          <div ngFileDrop
-               [options]="options"
-               (onUpload)="handleUpload($event)"
-               [ngClass]="{'file-over': hasBaseDropZoneOver}"
-               (onFileOver)="fileOverBase($event)"
-               (beforeUpload)="beforeUpload($event)"
-               class="file-upload-zone">
-            <div>
-              <p class="file-dragndrop">Drag &amp; Drop</p>
-              <span class="file-browse" md-button (click)="inputFileElement.click()">Browse</span>
-            </div>
+                    <!-- keywords -->
+                    <md-form-field class="large">
+                        <input mdInput
+                               [placeholder]="formLabels.project.keywords"
+                               [formControl]="form.controls['keywords']">
+                        <md-hint *ngIf="formErrors.keywords">
+                            {{ formErrors.keywords }}
+                        </md-hint>
+                    </md-form-field>
 
-          </div>
-          -->
-          <div>
-            Response: {{ uploadFile | json }}
-          </div>
-        </div>
+                    <!-- upload logo -->
+                    <salsah-file-uploader [file]="logo" (setFiles)="getFiles($event)"></salsah-file-uploader>
+                    <!-- the form needs an input field for the logo name
+                        the following input will be hidden and it gets the file name from the salsah-file-uploader -->
+                    <br>
+                    <input [placeholder]="formLabels.project.logo.name"
+                           formControlName="logo">
 
+                    <!-- footer -->
+                    <md-action-row>
+                        <!-- checkbox, which activates the add user dialog form -->
+                        <button md-raised-button
+                                [disabled]="!form.valid"
+                                color="primary"
+                                (click)="submitData()">
+                            {{formLabels.navigation.submit}}
+                        </button>
+                    </md-action-row>
+                </form>
+            </md-expansion-panel>
 
-      </md-card-content>
-      <md-card-actions>
-                <span class="left">
-                    <button md-button type="reset" class="save-buttton">reset</button>
-                </span>
-        <span class="right">
-                    <button md-raised-button type="submit" [disabled]="!pf.valid" class="save-buttton md-primary">Save
-                    </button>
-                </span>
-      </md-card-actions>
-    </form>
-  </md-card>
-
+        </md-accordion>
+    </div>
 </div>
-
-
 

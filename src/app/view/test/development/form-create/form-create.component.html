@@ -1,0 +1,10 @@
+<h3>Test your form</h3>
+<p>Switch to other forms:</p>
+<ul>
+    <li *ngFor="let openForm of existingForms">
+        <a class="salsah-link" [routerLink]="'/dev/form/' + openForm" *ngIf="openForm !== form">{{openForm}}</a>
+        <a class="salsah-link" (click)="open(openForm)" *ngIf="openForm === form">{{openForm}}</a>
+    </li>
+</ul>
+
+<button md-button (click)="refresh()">Reload this page</button>

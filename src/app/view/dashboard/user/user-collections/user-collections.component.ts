@@ -14,6 +14,7 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {UserProfile} from "../../../../model/webapi/knora/";
+import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 
 @Component({
     selector: 'salsah-user-collections',
@@ -22,12 +23,35 @@ import {UserProfile} from "../../../../model/webapi/knora/";
 })
 export class UserCollectionsComponent implements OnInit {
 
-    @Input('user') user: UserProfile;
+    // here we can reuse the framework-for-listings component:
+    // shows a list of user's projects and the possibility to create new projects
+
+    // ------------------------------------------------------------------------
+    //  DATA for FrameworkForListingsComponent
+    // ------------------------------------------------------------------------
+    list: ListData = {
+        title: 'Your collections',
+        description: 'Store your favorite resources in a collection',
+        content: 'collection',
+        showAs: undefined,
+        restrictedBy: ''
+    };
+
+    // add new project
+    add: AddData = {
+        title: 'Create new collection',
+        description: ''
+    };
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
 
     constructor() {
     }
 
     ngOnInit() {
+        let user: UserProfile = JSON.parse(sessionStorage.getItem('currentUser'));
+        this.list.restrictedBy = user.userData.user_id;
     }
 
 
