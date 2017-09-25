@@ -77,7 +77,8 @@
                     <!-- footer -->
                     <md-action-row>
                         <!-- checkbox, which activates the add user dialog form -->
-                        <button md-raised-button [disabled]="!form.valid"
+                        <button md-raised-button
+                                [disabled]="!form.valid"
                                 color="primary"
                                 (click)="submitData()">
                             {{formLabels.navigation.submit}}

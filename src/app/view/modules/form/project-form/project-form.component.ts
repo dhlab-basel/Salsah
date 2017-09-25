@@ -246,8 +246,8 @@ export class ProjectFormComponent implements OnInit {
 
     onSubmit(value: any, iri?: string): void {
 
-        this.submitted = true;
-        console.log('you submitted value: ', value);
+        this.submitted = false;
+
         this.project = value;
 
         // this.submitData.emit({value, iri});
@@ -256,25 +256,28 @@ export class ProjectFormComponent implements OnInit {
             // create project
             this._projectsService.createProject(this.project).subscribe(
                 (result: ApiServiceResult) => {
-                    console.log('service: ', result);
+//                    console.log('service: ', result);
+                    this.submitted = true;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = error;
                 }
             );
-
-
         } else {
             // update project
             this._projectsService.updateProject(this.iri, this.project).subscribe(
                 (result: ApiServiceResult) => {
 
-                    console.log('service: ', result);
+//                    console.log('service: ', result);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = error;
                 }
             );
+        }
+
+        if (this.submitted) {
+            location.reload();
         }
     }
 
