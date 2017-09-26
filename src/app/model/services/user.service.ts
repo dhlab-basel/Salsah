@@ -14,14 +14,11 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-
 import {ApiService} from './api.service';
-import {Headers} from '@angular/http';
 
 
 @Injectable()
 export class UserService extends ApiService {
-
 
     /**
      * returns a user profile
@@ -49,11 +46,10 @@ export class UserService extends ApiService {
 
     createUser(data: any): Observable<any> {
 
-        const headers: Headers = new Headers();
-        console.log(headers);
-        console.log(data);
+//        const headers: Headers = new Headers();
+//        console.log(headers);
+//        console.log(data);
 //        headers.append("Authorization", "Basic " + btoa(email + ":" + password));
-
         /*
          email: String,
          givenName: String,
@@ -63,9 +59,34 @@ export class UserService extends ApiService {
          lang: String = "en",
          systemAdmin: Boolean = false
          */
-
-
         return this.httpPost('/v1/users', data, {});
+    }
+
+    addUserToProject(uIri: string, pIri: string): Observable<any> {
+        return this.httpPost('/v1/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+    }
+
+    removeUserFromProject(uIri: string, pIri: string): Observable<any> {
+        return this.httpDelete('/v1/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+    }
+
+    addUserToProjectAdmin(uIri: string, pIri: string): Observable<any> {
+        return this.httpPost('/v1/users/projects-admin/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+    }
+
+    addUserToSystemAdmin(uIri: string, data: any): Observable<any> {
+        return this.httpPut('/v1/users/' + encodeURIComponent(uIri), data, {});
+    }
+
+    deleteUser(uIri: string): Observable<any> {
+        return this.httpDelete('/v1/users/' + encodeURIComponent(uIri));
+    }
+
+    activateUser(uIri: string): Observable<any> {
+        const data: any = {
+            status: true
+        };
+        return this.httpPut('/v1/users/' + encodeURIComponent(uIri), data)
     }
 
 

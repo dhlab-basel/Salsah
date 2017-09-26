@@ -1,103 +1,107 @@
-md-list.salsah-list {
+// salsah has three types of list views
+// a) simple list
+// b) grid list
+// c) table list
 
+// a) simple list
+.salsah-list {
 
+  .salsah-list-item {
+    margin-bottom: 8px;
+    margin-top: 8px;
 
-    .mat-list-item {
-//        min-height: 112px;
-        margin-top: 8px;
-        margin-bottom: 8px;
-
-        img.mat-list-avatar, img.salsah-preview-image {
-            border-radius: 0;
-            width: 96px;
-            height: 96px;
-            object-fit: cover;
-//            margin-top: 36px;
-        }
-        .mat-list-text {
-            [md-line] {
-                overflow: hidden;
-            }
-        }
+    .salsah-preview-image {
+      border-radius: 0;
     }
+  }
+
 }
 
-md-grid-list.salsah-grid-list {
-    md-card {
-        margin: 6px;
-        width: 100%;
-        height: 88%;
-        max-width: 400px;
-        .salsah-preview-image {
-            height: 240px;
-            object-fit: cover;
-        }
-        .salsah-preview-text {
-            &:after {
-                content: '...';
-            }
-        }
-        p.prop-val {
+// b) grid list
+.salsah-grid-list {
 
-            &.second {
+  .salsah-grid-tile {
+    max-height: 308px;
+    max-width: 208px;
 
-            }
-        }
-    }
+  }
 }
 
+.mat-card.salsah-preview {
+  background: transparent;
+  height: 100%;
+  max-height: 300px;
+  max-width: 200px;
+  padding: 0 12px;
+  width: 100%;
 
-    .list-view {
+  .salsah-preview-image {
+    height: 153px;
+    margin: 6px -6px -6px;
+    object-fit: contain;
+    width: 190px;
+  }
 
+  .salsah-preview-icon {
+    display: block;
+    height: 153px;
+    margin: 0 auto;
+    object-fit: contain;
+    width: 48px;
+  }
+
+  .salsah-preview-title {
+    font-size: 14px;
+    font-weight: bolder;
+    height: 34px;
+  }
+
+  .salsah-preview-text {
+    font-size: 12px
+  }
+}
+
+// c) table list
+.salsah-table {
+  border-collapse: collapse;
+  width: 100%;
+
+  tr {
+    @include border-bottom();
+    height: 48px;
+
+    td,
+    th {
+      padding: 12px;
+      text-align: left;
     }
-    .grid-view {
+  }
 
-    }
-
-
-
+  .salsah-avatar-cell {
+    text-align: center;
+    width: 48px;
+  }
+}
 
 salsah-dashboard {
-    max-width: 960px;
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 960px;
 
-    md-card {
-        margin: 2px;
-    }
+  md-card {
+    margin: 2px;
+  }
 
-    md-grid-tile {
-        ::content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
-    }
+  .salsah-module-header {
+    position: relative;
+    top: 0;
+    width: auto;
+  }
 
-    md-list {
-//        width: 420px;
-        .mat-list-item {
-//            cursor: pointer;
-            &:hover {
-//                @include box-shadow();
-//                background-color: white;
-            }
-        }
-    }
-
-
-
-    .salsah-module-header {
-        position: relative;
-        top: 0;
-        width: auto;
-    }
-
-    img.salsah-main-logo {
-        width: 320px;
-        height: auto;
-    }
+  .salsah-main-logo {
+    height: auto;
+    width: 320px;
+  }
 }
 
 

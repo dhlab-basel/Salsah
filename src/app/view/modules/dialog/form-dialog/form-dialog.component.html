@@ -1,0 +1,53 @@
+<div class="form-dialog">
+    <!-- header with close (on the left hand side) and resize (on the right hand side) button
+        and with the title in the center -->
+    <div class="dialog-header">
+        <span class="dialog-action-button">
+            <button md-icon-button class="resize-button" (click)="toggleFullSize()">
+                <md-icon class="optimize-direction" [innerHtml]="fullSize ? 'call_received' :'call_made'"></md-icon>
+            </button>
+        </span>
+        <h3 class="fill-remaining-space dialog-title" md-dialog-title>
+            {{data.title}}
+        </h3>
+        <span class="dialog-action-button">
+            <button md-icon-button
+                    class="cancel-button"
+                    (click)="discardChanges()">
+                <md-icon>close</md-icon>
+            </button>
+        </span>
+    </div>
+
+    <!-- dialog content with the form components -->
+    <md-dialog-content [ngSwitch]="data.form" class="dialog-content">
+
+        <!-- salsah form components for projects, users, resource classes etc.
+        all handled by the switch method -->
+        <salsah-project-form *ngSwitchCase="'project'" [iri]="data.iri"></salsah-project-form>
+
+        <!-- (submitData)="submitData($event, $event)" -->
+
+        <salsah-user-form *ngSwitchCase="'user'" [iri]="data.iri" [restrictedBy]="data.restriction"></salsah-user-form>
+        <!--
+                <salsah-user-form *ngSwitchCase="'new-user'" [iri]="data.restriction" (submitData)="submitData($event, $event)"></salsah-user-form>
+        -->
+
+        <salsah-new-resource-class *ngSwitchCase="'resource-type'" [iri]="data.restriction"></salsah-new-resource-class>
+
+        <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
+    </md-dialog-content>
+
+    <!-- footer with save button -->
+    <!--
+    <md-dialog-actions class="dialog-footer">
+        <button md-raised-button
+                class="submit-button"
+                color="primary"
+                [disabled]="!formIsValid">
+            Save
+        </button>
+    </md-dialog-actions>
+    -->
+</div>
+

@@ -1,0 +1,114 @@
+<!-- error message -->
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+<!-- main module content with different sizes: large or medium (= default) -->
+<div class="salsah-module-content" [ngClass]="moduleSize" *ngIf="!errorMessage">
+
+    <!-- this module has a list with different positions: left or center (= default) -->
+    <div class="salsah-list" [ngClass]="[position, listSize]">
+        <div class="salsah-list-header">
+            <h3 md-header [class.has-border]="list.description">{{list.title}}</h3>
+            <p md-subheader>{{list.description}}</p>
+        </div>
+
+        <!-- add button? -->
+        <md-list *ngIf="add != undefined">
+            <!-- this list has an 'add button' to add new stuff;
+            it opens the form-dialog-component with the 'new-something-form'-component -->
+            <md-list-item class="salsah-link" (click)="openNew(list.content)">
+                <button md-icon-button>
+                    <md-icon>add</md-icon>
+                </button>
+                {{add.title}}
+            </md-list-item>
+            <md-divider></md-divider>
+            <!-- end of 'add button' -->
+        </md-list>
+
+        <br>
+        <br>
+        <br>
+
+        <!-- main list -->
+        <div class="salsah-module-content-list" [ngSwitch]="list.content">
+
+            <salsah-users-list *ngSwitchCase="'user'"
+                               [listType]="list.showAs"
+                               [restrictedBy]="list.restrictedBy"
+                               [index]="selectedRow"
+                               (toggleItem)="toggleDetail($event, $event)">
+            </salsah-users-list>
+            <!--
+            <div *ngSwitchCase="'user'">
+                <!-- show the users in a list with a detail (edit) view on the right hand side --
+                <salsah-users-list *ngIf="!list.showAsTable"
+                                   [restrictedBy]="list.restrictedBy"
+                                   [index]="selectedRow"
+                                   (toggleItem)="toggleDetail($event, $event)">
+                </salsah-users-list>
+                <!-- OR show the users in a table with a detail (edit) view in a dialog box --
+                <salsah-users-table *ngIf="list.showAsTable"
+                                    [restrictedBy]="list.restrictedBy">
+                </salsah-users-table>
+            </div>
+            -->
+
+
+            <salsah-projects-list *ngSwitchCase="'project'"
+                                  [listType]="list.showAs"
+                                  [restrictedBy]="list.restrictedBy">
+            </salsah-projects-list>
+
+            <salsah-resource-types-list *ngSwitchCase="'resource-type'"
+                                        [restrictedBy]="list.restrictedBy"
+                                        (toggleItem)="toggleDetail($event, $event)">
+            </salsah-resource-types-list>
+
+            <salsah-collections-list *ngSwitchCase="'collection'"></salsah-collections-list>
+
+            <div *ngSwitchCase="'resource'">
+                <salsah-resources-list *ngIf="!rerender"
+                                       [listType]="list.showAs"
+                                       [searchParam]="list.restrictedBy"
+                                       (toggleItem)="toggleDetail($event, $event)">
+                </salsah-resources-list>
+            </div>
+
+            <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
+
+        </div>
+    </div>
+    <!-- end of main list -->
+
+    <div *ngIf="detailViewIsActive" class="salsah-module-detail" [ngClass]="position.detail">
+        <!-- detail view with own header -->
+        <!-- because of an issue with the highlight of the selected object in the list,
+            we have to disable this main close button -->
+        <!-- TODO: reacitvate the main close button in detail view -->
+        <!--
+        <div class="salsah-module-detail-header">
+            <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
+            <button md-icon-button (click)="closeDetailView()" class="right close">
+                <md-icon>close</md-icon>
+            </button>
+        </div>
+        -->
+
+        <!-- detail view content -->
+        <div class="salsah-module-detail-content" [ngSwitch]="list.content">
+            <!-- a) view incl. edit and delete if the logged in user has the rights -->
+            <salsah-user-object *ngSwitchCase="'user'" [id]="id"></salsah-user-object>
+
+            <salsah-edit-resource-class *ngSwitchCase="'resource-type'" [iri]="id"></salsah-edit-resource-class>
+
+            <salsah-resource-object *ngSwitchCase="'resource'" [iri]="id"></salsah-resource-object>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+

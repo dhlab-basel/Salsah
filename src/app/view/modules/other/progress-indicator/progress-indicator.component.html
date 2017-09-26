@@ -1,12 +1,54 @@
-<div class="progress-indicator">
-  <div class="line">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-  </div>
-  <div class="line">
-    <div class="bounce3"></div>
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-  </div>
+<div [ngSwitch]="type">
+    <div *ngSwitchCase="'submit'"
+         class="submit-progress-indicator">
+        <!-- spinner while on load -->
+        <div class="on-submit" *ngIf="status === 0">
+            <div class="spinner"></div>
+        </div>
+
+        <div md-icon-button>
+            <!-- bullet point before submit -->
+            <!--
+            <md-icon *ngIf="status === -1">keyboard_arrow_right</md-icon>
+            -->
+            <md-icon *ngIf="status === -1" class="before-submit">keyboard_arrow_right</md-icon>
+            <!-- icon 'check' when done -->
+            <md-icon *ngIf="status === 1" class="after-submit">done</md-icon>
+            <!-- in case of an error -->
+            <md-icon *ngIf="status === 400" class="submit-error">not_interested</md-icon>
+        </div>
+
+
+    </div>
+    <div *ngSwitchCase="'loading'"
+         class="loading-progress-indicator">
+        <span class="text">{{text}}</span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+
+    <!-- default case: is loading -->
+    <div *ngSwitchDefault
+         class="default-progress-indicator">
+        <div class="line">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <div class="line">
+            <div class="bounce3"></div>
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+        </div>
+    </div>
+
 </div>
+
+<!-- // only for developers to test the component
+
+<button md-button (click)="toggleLoader()">Load / Done</button>
+-->

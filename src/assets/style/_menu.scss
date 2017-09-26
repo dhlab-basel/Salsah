@@ -1,11 +1,15 @@
 
 .salsah-menu {
-  @include md-box-shadow();
+  @include md-box-shadow-deep();
   background-color: $bright;
   border-radius: $border-radius;
   display: none;
   position: absolute;
-  z-index: 1;
+
+  &.add-menu,
+  &.user-menu {
+    z-index: 99;
+  }
 
   .salsah-menu-header {
     background-color: $bright;

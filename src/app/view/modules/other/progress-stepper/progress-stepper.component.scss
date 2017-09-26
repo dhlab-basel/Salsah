@@ -1,82 +1,186 @@
 @import '../../../../../assets/style/config';
 
-$bg-color: #f5f5f5;
+$background: #fff;
 
 .progress-wrapper {
+  @include box-shadow-bottom();
+  align-items: flex-start;
+  background: $background;
+  border-radius: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 0 -24px;
+  padding: 0 24px;
   width: 100%;
+}
 
-  .progress-stepper {
-    align-items: center;
-    background-color: $bg-color;
-    border-bottom: 2px solid rgba($dark, .1);
-    box-sizing: border-box;
-    flex-direction: row;
-    //        margin: -24px -24px -20px -24px;
-    padding: 0 24px;
-    white-space: nowrap;
+.progress-stepper { // ul
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  list-style: none;
+  padding: 8px;
+  width: 100%;
+//  padding: 0 24px;
+//  white-space: nowrap;
 
-    p {
-      display: inline-flex;
-      width: 100%;
+  .single-step { // li
+//    display: table;
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
 
-      span {
-
-        &:nth-child(even) {
-          flex: 1 1 auto;
-          margin-top: 6px;
-        }
-
-        &.inactive {
-          color: darken($bright, 50%);
-        }
-      }
-    }
-
-    p.step-number {
-
-      span {
-
-        &:nth-child(odd) {
-          border-radius: 50%;
-          height: 24px;
-          padding: 4px;
-          text-align: center;
-          width: 24px;
-
-          &.active {
-            background-color: $accent;
-            //                        @include md-box-shadow();
-            border: 1px solid darken($bright, 50%);
-          }
-
-          &.done {
-            background-color: $primary;
-            color: $bright;
-          }
-        }
-      }
-    }
-
-    p.step-description {
-
-      margin-top: -16px;
-
-      span label {
-        font-size: small;
-        font-weight: 400;
-        text-align: center;
-      }
-
-      span.active label {
-        font-weight: 700;
-      }
-    }
-
-    &.error {
-      background-color: indianred;
-      font-size: smaller;
-      font-weight: 400;
-      padding: 12px;
+    &.last-step {
+      flex-grow: 0;
+      flex-shrink: 0;
     }
   }
 }
+
+.single-step-wrapper {
+
+  background: $background;
+  float: left;
+  padding-right: 8px;
+
+  .stepper-circle,
+  .stepper-label {
+    line-height: 1.5;
+  }
+
+  .stepper-circle {
+    border-radius: 50%;
+    float: left;
+    height: 24px;
+    margin: 0 8px;
+    text-align: center;
+    width: 24px;
+  }
+
+  .stepper-label {
+
+  }
+
+  &.active {
+
+    .stepper-circle {
+      background-color: $accent;
+      border: 1px solid darken($bright, 50%);
+    }
+
+    .stepper-label {
+      color: $black;
+      font-weight: bolder;
+    }
+  }
+
+  &.inactive {
+
+    .stepper-circle {
+
+    }
+
+    .stepper-label {
+
+    }
+
+  }
+
+  &.done {
+    .stepper-circle {
+      background-color: $primary;
+      color: $bright;
+    }
+
+    .stepper-label {
+      color: $black-60-opacity;
+    }
+  }
+}
+
+.fill-remaining-space {
+  border: 0;
+  border-top: 1px solid $black-20-opacity;
+  display: block;
+  height: 1px;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+/*
+.step-number {
+
+  span {
+
+    &:nth-child(odd) {
+      border-radius: 50%;
+      height: 24px;
+      padding: 4px;
+      text-align: center;
+      width: 24px;
+
+      &.active {
+        background-color: $accent;
+        //                        @include md-box-shadow-deep();
+        border: 1px solid darken($bright, 50%);
+      }
+
+      &.done {
+        background-color: $primary;
+        color: $bright;
+      }
+    }
+  }
+}
+
+.step-label {
+
+  margin-top: -16px;
+
+  span label {
+    font-size: small;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  span.active label {
+    font-weight: 700;
+  }
+}
+
+&.error {
+  background-color: indianred;
+  font-size: smaller;
+  font-weight: 400;
+  padding: 12px;
+}
+
+.stepper-row {
+  display: inline-flex;
+  width: 100%;
+
+}
+
+.step-label {
+  margin-right: 8px;
+}
+
+.step-rule {
+
+}
+
+span {
+
+  &:nth-child(even) {
+    flex: 1 1 auto;
+    margin-top: 6px;
+  }
+
+  &.inactive {
+    color: darken($bright, 50%);
+  }
+}
+
+*/

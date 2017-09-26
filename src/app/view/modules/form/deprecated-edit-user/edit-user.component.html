@@ -1,0 +1,33 @@
+
+<salsah-progress-indicator *ngIf="userProfile === undefined && !errorMessage"></salsah-progress-indicator>
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+<div *ngIf="userProfile">
+    <h3 md-subheader>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h3>
+    <p><a [href]="'mailto:'+userProfile?.userData.email">{{userProfile?.userData.email}}</a></p>
+    <p>Preferred language: {{userProfile.userData.lang}}</p>
+
+    <md-divider></md-divider>
+
+    <h3 md-subheader>Member in the following projects</h3>
+
+    <md-grid-list class="salsah-grid-list" cols="2" gutterSize="12px" rowHeight="480px">
+        <md-grid-tile *ngFor="let project of userProfile?.projects_info | key; let i = index" [id]="project.key">
+            <md-card>
+                <img md-card-image [src]="project.value.logo" class="salsah-preview-image"/>
+                <md-card-title>{{project.value.name}}</md-card-title>
+                <md-card-subtitle class="salsah-preview-text" [innerHtml]="project.value.description | slice:0:200"></md-card-subtitle>
+            </md-card>
+        </md-grid-tile>
+        -->
+        <!--
+          <md-list-item *ngFor="let project of user.userProfile?.projects_info | key; let i = index">
+            <h4 md-line>{{project.value.name}}</h4>
+            <div md-line [innerHtml]="project.value.description"></div>
+            <md-divider></md-divider>
+          </md-list-item>
+          -->
+
+    </md-grid-list>
+</div>
+

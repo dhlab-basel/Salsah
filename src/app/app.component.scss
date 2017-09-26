@@ -1,0 +1,10 @@
+@import '../assets/style/config';
+
+.salsah-main {
+  bottom: $footer-height;
+  height: calc(100% - #{$header-height} - #{$footer-height});
+  overflow: hidden;
+//  position: fixed;
+  top: $header-height;
+  width: 100%;
+}

@@ -1,6 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
-import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectFormComponent} from './project-form.component';
 
@@ -12,7 +11,6 @@ describe('ProjectFormComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule,
                 AppRoutingModule
             ]
         })

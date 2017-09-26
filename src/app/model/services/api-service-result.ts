@@ -12,12 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonConvert} from "json2typescript";
+import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
 
 /**
  * Result class used as API url response in ApiService
  */
 export class ApiServiceResult {
+
+    private static jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
     /**
      * Status number
@@ -27,12 +29,12 @@ export class ApiServiceResult {
     /**
      * Status text
      */
-    statusText: string = "";
+    statusText: string = '';
 
     /**
      * API url
      */
-    url: string = "";
+    url: string = '';
 
     /**
      * Body as JSON
@@ -45,9 +47,10 @@ export class ApiServiceResult {
      * @returns {any}
      */
     getBody(classObject?: { new(): any }): any {
-        if (!classObject) return this.body;
+
+        if (!classObject) { return this.body; }
         try {
-            return JsonConvert.deserializeObject(this.body, classObject);
+            return ApiServiceResult.jsonConvert.deserializeObject(this.body, classObject);
         } catch (e) {
             console.log(e);
         }

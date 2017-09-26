@@ -15,6 +15,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../model/services/authentication.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
     selector: 'salsah-dashboard',
@@ -27,14 +28,17 @@ export class DashboardComponent implements OnInit {
     // implemented with ProjectsListComponent which can have a list title
     listTitle = 'Public projects in Knora';
 
-    constructor(
-        private _router: Router,
-        private _authenticationService: AuthenticationService
+    constructor(private _title: Title,
+                private _router: Router,
+                private _authenticationService: AuthenticationService
     ) {}
 
     ngOnInit() {
 
+        this._title.setTitle( 'Salsah | Start');
+
         if (this._router.url === '/logout') {
+            this._title.setTitle( 'Salsah | Logout');
             this.logout();
         }
 

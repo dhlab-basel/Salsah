@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
-import {UserProfile} from "../users/user-profile";
-import {UserData} from "../users/user-data";
+import {JsonObject, JsonProperty} from 'json2typescript';
+import {UserProfile} from '../users/user-profile';
+import {UserData} from '../users/user-data';
 
 @JsonObject
 export class Authenticate {

@@ -1,16 +1,16 @@
-@import '../../../node_modules/@angular/material/theming';
-
 // Include non-theme styles for core.
+@import '~@angular/material/theming';
 @include mat-core();
 
-// Define a theme.
+// Define the color palettes for the theme.
 $primary: mat-palette($mat-teal, 700, 500, 800);
 $accent: mat-palette($mat-amber, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$warning:    mat-palette($mat-red);
+$warn: mat-palette($mat-red);
 
-$theme: mat-light-theme($primary, $accent, $warning);
+// Define a theme.
+$theme: mat-light-theme($primary, $accent, $warn);
 
 // Include all theme styles for the components.
 @include angular-material-theme($theme);

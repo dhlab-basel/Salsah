@@ -1,27 +1,54 @@
 <div class="progress-wrapper">
-    <div class="progress-stepper" *ngIf="!errorMessage">
-        <p class="step-number">
-        <span *ngFor="let step of progress; let last = last; let odd=odd; let even=even; let i = index"
-              [class.inactive]="counter!==(step - (i / 2)) && even"
-              [class.active]="counter===(step - (i / 2)) && even"
-              [class.done]="counter > (step - (i / 2)) && even" >
+    <ul class="progress-stepper" *ngIf="!errorMessage">
+        <li *ngFor="let step of progress; let last = last; let odd=odd; let even=even; let i = index"
+            class="single-step"
+            [class.last-step]="last">
+            <div class="single-step-wrapper"
+                 [class.inactive]="counter < step"
+                 [class.active]="counter === step"
+                 [class.done]="counter > step">
+                <span class="stepper-circle">
+                    <!-- show a label until the step is done -->
+                    <label *ngIf="counter < (step + 1)">{{step + 1}}</label>
+                    <!-- if the step is done; replace the label with an icon and show a line to the next step number -->
+                    <md-icon *ngIf="counter > step">check</md-icon>
+                </span>
+                    <span class="stepper-label" *ngIf="steps">
+                    <label>{{steps[i]}}</label>
+                </span>
+            </div>
+            <div class="fill-remaining-space" *ngIf="!last">
 
-            <!-- show a label until the step is done -->
-            <label *ngIf="counter < (step + 1 - (i / 2)) && even">{{step + 1 - (i / 2)}}</label>
-            <!-- if the step is done; replace the label with an icon and show a line to the next step number -->
-            <md-icon *ngIf="counter > (step - (i / 2)) && even">check</md-icon>
-            <!-- the checked step is followed by a horizontal rule -->
-            <hr *ngIf="counter > (step - (i / 2)) && odd">
-        </span>
-        </p><br>
-        <p class="step-description" *ngIf="steps">
+            </div>
+
+        </li>
+    </ul>
+    <!--
+    <p class="stepper-row">
+            <span *ngFor="let step of progress; let last = last; let odd=odd; let even=even; let i = index"
+                  class="step-number"
+                  [class.inactive]="counter!==(step - (i / 2)) && even"
+                  [class.active]="counter===(step - (i / 2)) && even"
+                  [class.done]="counter > (step - (i / 2)) && even">
+-->
+
+    <!-- the checked step is followed by a horizontal rule -->
+    <!--
+    <hr *ngIf="counter > (step - (i / 2)) && odd">
+    <hr *ngIf="odd">
+
+</span>
+-->
+    <!--
+    <br>
+    <p class="step-label" *ngIf="steps">
         <span *ngFor="let step of progress; let last = last; let odd=odd; let even=even; let i = index"
               [class.inactive]="counter!==(step - (i / 2)) && even"
               [class.active]="counter===(step - (i / 2)) && even">
             <label *ngIf="even">{{steps[(step - (i / 2))]}}</label>
         </span>
-        </p>
-    </div>
+    </p>
+-->
     <div class="progress-stepper error" *ngIf="errorMessage" [innerHtml]="errorMessage"></div>
 </div>
 

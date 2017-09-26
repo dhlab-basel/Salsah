@@ -22,7 +22,7 @@
   position: fixed;
   width: 100vw;
   z-index: 100;
-  @include md-box-shadow();
+  @include md-box-shadow-deep();
 
   .mat-toolbar {
     background-color: $bright;
