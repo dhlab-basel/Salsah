@@ -77,8 +77,25 @@
     @include border-bottom();
     height: 48px;
 
+    .hidden {
+      display: none;
+    }
+
+    &:not(:first-child):hover {
+      background-color: darken($bright, 25%);
+
+      .hidden {
+        display: block;
+      }
+    }
+
     td,
     th {
+
+      &:not(:first-child) {
+        min-width: 156px;
+      }
+
       padding: 12px;
       text-align: left;
     }

@@ -5,34 +5,76 @@
 <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
 <!-- if we have the data: show the list-->
-<div *ngIf="num > 0; else noData" [ngSwitch]="listType">
+<div *ngIf="countAll > 0; else noData" [ngSwitch]="listType">
 
     <!-- show the list as table -->
-    <table *ngSwitchCase="'table'" class="salsah-table">
-        <tr>
-            <th># {{num}}</th>
-            <th (click)="sortKey='shortname'" class="salsah-link">Short name</th>
-            <th (click)="sortKey='longname'" class="salsah-link">Long name</th>
-            <th (click)="sortKey='institution'" class="salsah-link">Institution</th>
-            <th></th>
-        </tr>
-        <tr *ngFor="let item of list | sortBy: sortKey; let i = index;">
-            <td class="salsah-avatar-cell">
-                <img salsahImage [image]="item.logo" [type]="'project'" class="salsah-project-logo"/>
-            </td>
-            <td>{{item.shortname}}</td>
-            <td>{{item.longname}}</td>
-            <td>{{item.institution}}</td>
-            <td>
-                <button md-icon-button (click)="edit(item.id)">
-                    <md-icon>edit</md-icon>
-                </button>
-                <button md-icon-button (click)="open(item.shortname)">
-                    <md-icon>forward</md-icon>
-                </button>
-            </td>
-        </tr>
-    </table>
+    <div *ngSwitchCase="'table'">
+        <!-- table with all active users -->
+        <h4>Active projects</h4>
+        <table *ngSwitchCase="'table'" class="salsah-table">
+            <tr>
+                <th># {{countActive}}</th>
+                <th (click)="sortKey='shortname'" class="salsah-link">Short name</th>
+                <th (click)="sortKey='longname'" class="salsah-link">Long name</th>
+                <th (click)="sortKey='institution'" class="salsah-link">Institution</th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let item of allActive | sortBy: sortKey; let i = index;">
+                <td class="salsah-avatar-cell">
+                    <img salsahImage [image]="item.logo" [type]="'project'" class="salsah-project-logo"/>
+                </td>
+                <td>{{item.shortname}}</td>
+                <td>{{item.longname}}</td>
+                <td>{{item.institution}}</td>
+                <td>
+                    <div class="hidden">
+                        <button md-icon-button (click)="setInactive(item.id, item.shortname)" mdTooltip="Deactivate project">
+                            <md-icon>delete</md-icon>
+                        </button>
+                        <button md-icon-button (click)="edit(item.id)" mdTooltip="Edit project">
+                            <md-icon>edit</md-icon>
+                        </button>
+                        <button md-icon-button (click)="open(item.shortname)" mdTooltip="Go to the project dashboard">
+                            <md-icon>forward</md-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br><br>
+        <!-- table with all inactive users -->
+        <h4>Inactive (deleted) projects</h4>
+        <table class="salsah-table">
+            <tr>
+                <th># {{countInactive}}</th>
+                <th (click)="sortKey='shortname'" class="salsah-link">Short name</th>
+                <th (click)="sortKey='longname'" class="salsah-link">Long name</th>
+                <th (click)="sortKey='institution'" class="salsah-link">Institution</th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let item of allInactive | sortBy: sortKey; let i = index;">
+                <td class="salsah-avatar-cell">
+                    <img salsahImage [image]="item.logo" [type]="'project'" class="salsah-project-logo"/>
+                </td>
+                <td>{{item.shortname}}</td>
+                <td>{{item.longname}}</td>
+                <td>{{item.institution}}</td>
+                <td>
+                    <div class="hidden">
+                        <button md-icon-button (click)="setActive(item.id, item.shortname)" mdTooltip="Reactivate project">
+                            <md-icon>refresh</md-icon>
+                        </button>
+                        <button md-icon-button (click)="edit(item.id)" mdTooltip="Edit project">
+                            <md-icon>edit</md-icon>
+                        </button>
+                        <button md-icon-button (click)="open(item.shortname)" mdTooltip="Go to the project dashboard">
+                            <md-icon>forward</md-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <!-- show the list in a grid -->
     <md-grid-list *ngSwitchCase="'grid'"
