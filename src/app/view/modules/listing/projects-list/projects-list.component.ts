@@ -49,12 +49,10 @@ export class ProjectsListComponent implements OnInit {
     @Input('restrictedBy') user: string;
     @Input() listType?: string;
 
+    // grid list settings
     columns: number = 3;
-
     rowHeight: number = 308;
-    colGutter: number = 8;
-    colWidth: number = 208;
-    maxWidth: number = 980;
+    colGutter: number = 12;
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;

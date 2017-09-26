@@ -4,27 +4,32 @@
 <!-- in the case of an API error: show the error message -->
 <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
-<div *ngIf="num > 0; else noData"  [ngSwitch]="listType">
+<div *ngIf="num > 0; else noData" [ngSwitch]="listType">
     <!-- show as table if listType === table -->
     <table *ngSwitchCase="'table'" class="salsah-table">
     </table>
 
     <!-- show as grid-list if listType === grid -->
-    <md-grid-list *ngSwitchCase="'grid'" class="salsah-grid-list" [cols]="cols" gutterSize="12px" rowHeight="480px">
+    <md-grid-list *ngSwitchCase="'grid'"
+                  class="salsah-grid-list"
+                  salsahResizeGrid
+                  [cols]="columns"
+                  [gutterSize]="colGutter + 'px'"
+                  [rowHeight]="rowHeight + 'px'">
         <md-grid-tile *ngFor="let res of result.subjects; let i = index"
                       (click)="toggle(res.obj_id, i)"
                       [id]="res.obj_id">
 
-            <md-card [class.highlight]="i == selectedRow" class="salsah-link">
+            <md-card [class.highlight]="i == selectedRow" class="salsah-link salsah-preview">
                 <img salsahImage [image]="res.preview_path" [type]="'resource'"
                      [class.salsah-resource-preview]="res.preview_path"
                      [class.salsah-resource-icon]="!res.preview_path"/>
-
-                <md-card-content>
-                    <md-card-title>{{res.value[0] | slice:0:40}}</md-card-title>
-                    <md-card-subtitle class="salsah-preview-text">{{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}</md-card-subtitle>
-                </md-card-content>
-
+                <div class="salsah-preview-content">
+                    <md-card-title class="salsah-preview-title">{{res.value[0] | slice:0:40}}</md-card-title>
+                    <md-card-content class="salsah-preview-text">
+                        {{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}
+                    </md-card-content>
+                </div>
             </md-card>
 
         </md-grid-tile>
@@ -37,7 +42,7 @@
                       [id]="res.obj_id"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
-            <img md-list-avatar [src]="res.preview_path" class="salsah-preview-image" />
+            <img md-list-avatar [src]="res.preview_path" class="salsah-preview-image"/>
             <p md-line *ngFor="let val of res.value">
                 {{val}}
             </p>
