@@ -11,7 +11,7 @@
         <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->
         <!-- TODO: Do we have to check for subproperties of hasStillImageFileValue? -->
         <salsah-still-image-osdviewer #OSDViewer
-              *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates" [images]="resource?.stillImageRepresentationsToDisplay">
+              *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates" [images]="resource?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="0" [imageChangeInterval]="1">
         </salsah-still-image-osdviewer>
 
         <!--  single templates -->
@@ -50,7 +50,7 @@
     <!-- Check if StillImageRepresentations are pointing to the current resource -->
     <!-- Event getImages: more images are requested (previous or next set) -->
     <salsah-still-image-osdviewer #OSDViewer (getImages)="changeOffsetForStillImageRepresentations($event)"
-            *ngIf="resource?.incomingStillImageRepresentations?.length > 0;" [images]="resource?.stillImageRepresentationsToDisplay">
+            *ngIf="resource?.incomingStillImageRepresentations?.length > 0;" [images]="resource?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="4" [imageChangeInterval]="5">
     </salsah-still-image-osdviewer>
 
 </md-list>

@@ -7,5 +7,6 @@ export const environment = {
     type: 'developer',
     production: false,
     media: 'http://localhost:1024/knora',
-    api: 'http://localhost:3333'
+    api: 'http://localhost:3333',
+    pagingLimit: 25
 };

@@ -20,6 +20,7 @@ import {ReadStillImageFileValue, ReadGeomValue} from "../../../model/webapi/knor
 import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {Point2D, RegionGeometry} from "../../../model/webapi/knora/v2/read-property-item";
 import {AppConfig} from "../../../app.config"
+import {environment} from "../../../../environments/environment";
 
 // This component needs the openseadragon library itself, as well as the openseadragon plugin openseadragon-svg-overlay
 // Both libraries are installed via package.json, and loaded globally via the script tag in .angular-cli.json
@@ -98,22 +99,19 @@ export class RequestStillImageRepresentations {
 export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() images: StillImageRepresentation[];
+    @Input() imageRangeStart: number;  // index first image of this.images to be displayed
+    @Input() imageRangeEnd: number; // index of last image of this.images to be displayed.
+    @Input() imageChangeInterval: number; // the size of the interval when displaying more images of this.images
 
     @Output() getImages = new EventEmitter<RequestStillImageRepresentations>(); // sends a message to the parent component (object.component) to load the next or previous page of results (images) from the server
 
     private viewer;
-
-    private imageRangeStart: number = 0;  // index first image of this.images to be displayed
-    private imageRangeEnd: number = 4; // index of last image of this.images to be displayed.
-    private imageChangeInterval: number = 5; // the size of the interval when displaying more images of this.images
 
     constructor(private elementRef: ElementRef) {
     }
 
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
         if (changes["images"] && changes["images"].isFirstChange()) {
-            // TODO: set range appropriately
-
             this.setupViewer();
         }
         if (changes["images"]) {
@@ -129,7 +127,7 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
     ngOnDestroy() {
         if (this.viewer) {
             this.viewer.destroy();
-            this.viewer = null;
+            this.viewer = undefined;
         }
     }
 
@@ -160,19 +158,21 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
 
             this.openImages();
             this.renderRegions();
-        } else {
+        } else if (this.imageRangeStart > 0) {
+            // fewer remaining images than interval, show remaining images
+            this.imageRangeEnd -= this.imageRangeStart;
+            this.imageRangeStart = 0;
+
+            this.openImages();
+            this.renderRegions();
+        }
+        {
             // this.images cannot display more images of length interval
             // request more images from the server using a negative offset
 
+            // TODO: implement getting previous offset (also in parent component)
         }
 
-        /*let cb = () => {
-            console.log("loaded");
-        };
-
-        let msg = new RequestStillImageRepresentations(-1, cb);
-
-        this.getImages.emit(msg);*/
     }
 
     /**
@@ -180,23 +180,37 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
      */
     private gotoRight() {
 
-        console.log(this.imageRangeEnd + this.imageChangeInterval < this.images.length);
-
-        if (this.imageRangeEnd + this.imageChangeInterval < this.images.length) {
+        if (this.imageRangeEnd < this.images.length - 1) {
             // this.images has more images to display
-            this.imageRangeStart += this.imageChangeInterval;
-            this.imageRangeEnd += this.imageChangeInterval;
+
+            if (this.imageRangeEnd + this.imageChangeInterval < this.images.length) {
+                // the whole next interval can be displayed
+                console.log(`display next interval`);
+
+                this.imageRangeStart += this.imageChangeInterval;
+                this.imageRangeEnd += this.imageChangeInterval;
+            } else {
+                console.log(`display remaining images`);
+                // less than the interval can be displayed just display remaining images
+                let remainingDiff = this.images.length - this.imageRangeEnd + 1;
+
+                this.imageRangeStart += remainingDiff;
+                this.imageRangeEnd += remainingDiff;
+
+                // TODO: deactivate next button
+
+            }
 
             this.openImages();
             this.renderRegions();
-        } else {
+
+        } else if (this.images.length % environment.pagingLimit == 0) { // paging always returned full result lists, so there could be more data to fetch
+            console.log(`request more images`);
             // this.images cannot display more images of length interval
             // request more images from the server using a positive offset
 
             // function called when parent component loaded new images
             let callback = (numberOfImages: number) => {
-
-                console.log(numberOfImages);
 
                 if (numberOfImages >= this.imageChangeInterval) {
                     // more images were loaded than are actually to be displayed
@@ -206,7 +220,7 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
 
                     this.openImages();
                     this.renderRegions();
-                } else {
+                } else if (numberOfImages > 0) {
                     // the amount of new images in less than the interval, show everything that can be shown
 
                     this.imageRangeStart += numberOfImages;
@@ -214,15 +228,30 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
 
                     this.openImages();
                     this.renderRegions();
+                } else {
+                    // no new images could be returned, display remaining images (there are fewer than this.imageChangeInterval)
+                    let remainingImages: number = this.images.length - 1 - this.imageRangeEnd;
+
+                    this.imageRangeStart += remainingImages;
+                    this.imageRangeEnd += remainingImages;
+
+                    // TODO: no new images can be loaded -> deactivate control in GUI (note that perhaps sufficient permissions were missing, so we actually cannot be sure that higher offsets still deliver images)
+
+                    this.openImages();
+                    this.renderRegions();
+
                 }
 
-                // TODO: if numberOfImages is 0, no new images can be loaded -> deactivate control in GUI
 
             };
 
             let msg = new RequestStillImageRepresentations(1, callback);
 
             this.getImages.emit(msg);
+
+        } else {
+            // no more data to fetch
+            // TODO: deactivate next button
 
         }
     }
@@ -328,7 +357,7 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
             });
 
         // display only the defined range of this.images
-        let tileSources: Object[] = StillImageOSDViewerComponent.prepareTileSourcesFromFileValues(fileValues.slice(this.imageRangeStart, this.imageRangeEnd+1));
+        let tileSources: Object[] = StillImageOSDViewerComponent.prepareTileSourcesFromFileValues(fileValues.slice(this.imageRangeStart, this.imageRangeEnd + 1));
 
         this.viewer.clearOverlays();
         this.viewer.open(tileSources);
