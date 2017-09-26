@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Directive, ElementRef, Input, OnInit, Renderer} from '@angular/core';
+import {Directive, ElementRef, Input, OnInit, Renderer, Renderer2} from '@angular/core';
 
 @Directive({
     selector: '[salsahFocus]'
@@ -22,16 +22,16 @@ export class FocusDirective implements OnInit {
     @Input() salsahFocus: boolean;
 
     constructor(private hostElement: ElementRef,
-                private renderer: Renderer) {
+                private renderer: Renderer2) {
     }
 
     ngOnInit() {
         if (this.salsahFocus) {
 //          better solution, but it doesn't work because of a bug in material
-//          this.hostElement.nativeElement.focus();
+          this.hostElement.nativeElement.focus();
 
-//          old / deprecated version with renderer
-          this.renderer.invokeElementMethod(this.hostElement.nativeElement, 'focus');
+//          old / deprecated version with renderer v1
+//            this.renderer.invokeElementMethod(this.hostElement.nativeElement, 'focus');
         }
     }
 
