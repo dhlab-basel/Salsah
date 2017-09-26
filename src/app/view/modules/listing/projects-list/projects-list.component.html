@@ -83,7 +83,7 @@
                   [cols]="columns"
                   [gutterSize]="colGutter + 'px'"
                   [rowHeight]="rowHeight + 'px'">
-        <md-grid-tile *ngFor="let item of list | sortBy: sortKey; let i = index;"
+        <md-grid-tile *ngFor="let item of allProjects | sortBy: sortKey; let i = index;"
                       class="salsah-grid-tile salsah-link"
                       (click)="open(item.shortname)">
             <md-card class="salsah-preview">
@@ -109,8 +109,8 @@
 
     <!-- default list -->
     <md-list class="salsah-list" *ngSwitchDefault>
-        <h3 md-subheader># Projects: {{num}}</h3>
-        <md-list-item *ngFor="let item of list | key">
+        <h3 md-subheader># Projects: {{countAll}}</h3>
+        <md-list-item *ngFor="let item of allProjects | key">
             <img md-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
             <h4 md-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
             <div md-line [innerHtml]="item.value.description | slice:0:128"></div>
