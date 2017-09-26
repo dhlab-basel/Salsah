@@ -8,8 +8,15 @@ import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resourc
 import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 import {AppConfig} from "../../../app.config";
-import {StillImageOSDViewerComponent} from "../../properties/still-image-osdviewer/still-image-osdviewer.component";
+import {
+    ImageRegion,
+    RequestStillImageRepresentations,
+    StillImageOSDViewerComponent,
+    StillImageRepresentation
+} from "../../properties/still-image-osdviewer/still-image-osdviewer.component";
 import {OntologyCacheService, OntologyInformation} from "../../../model/services/ontologycache.service";
+import {MdDialog, MdDialogConfig} from "@angular/material";
+import {ReadStillImageFileValue} from "../../../model/webapi/knora/v2/read-property-item";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -25,35 +32,43 @@ export class ObjectComponent implements OnChanges, OnInit {
 
     @ViewChild('OSDViewer') osdViewer: StillImageOSDViewerComponent;
 
-    ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in the requested resource with Iri `iri`
-
     isLoading: boolean = true;
     errorMessage: any;
 
-    resources: ReadResource[] = [];
+    resource: ReadResource; // the resource to be displayed
+    ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in the requested resource with Iri `iri`
+
+    incomingStillImageRepresentationCurrentOffset: number; // last offset requested for `this.resource.incomingStillImageRepresentations`
+
     AppConfig = AppConfig;
 
     constructor(private _route: ActivatedRoute,
                 private _resourceService: ResourceService,
                 private _incomingService: IncomingService,
-                private _cacheService: OntologyCacheService) {
+                private _cacheService: OntologyCacheService,
+                private dialog: MdDialog) {
     }
 
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
         // prevent duplicate requests. if isFirstChange resource will be requested on ngOnInit
         if (!changes["iri"].isFirstChange()) {
-            this.requestResources(this.iri);
+            this.requestResource(this.iri);
         }
     }
 
     ngOnInit() {
         this._route.params.subscribe((params: Params) => {
             let resIri = ( params['rid'] !== undefined ? params['rid'] : this.iri );
-            this.requestResources(resIri);
+            this.requestResource(resIri);
         });
     }
 
-    private requestResources(resourceIRI: string) {
+    /**
+     * Requests a resource from Knora.
+     *
+     * @param {string} resourceIRI the Iri of the resource to be requested.
+     */
+    private requestResource(resourceIRI: string): void {
         this._resourceService.getResource(resourceIRI)
             .subscribe(
                 (result: ApiServiceResult) => {
@@ -65,23 +80,36 @@ export class ObjectComponent implements OnChanges, OnInit {
 
                         let resourceSeq: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-                        // get resource class Iris from response
-                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+                        // make sure that exactly one resource is returned
+                        if (resourceSeq.resources.length == 1) {
 
-                        // request ontology information about resource class Iris (properties are implied)
-                        this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                            (resourceClassInfos: OntologyInformation) => {
+                            // get resource class Iris from response
+                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
-                                // initialize ontology information
-                                this.ontologyInfo = resourceClassInfos;
-                                this.resources = resourceSeq.resources;
+                            // request ontology information about resource class Iris (properties are implied)
+                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                                (resourceClassInfos: OntologyInformation) => {
 
-                                this.requestIncomingResources(resourceSeq.resources);
-                            },
-                            (err) => {
+                                    // initialize ontology information
+                                    this.ontologyInfo = resourceClassInfos;
 
-                                console.log("cache request failed: " + err);
-                            });
+                                    // prepare a possibly attached image file to be displayed
+                                    ObjectComponent.collectImagesAndRegionsForResource(resourceSeq.resources[0]);
+
+                                    this.resource = resourceSeq.resources[0];
+
+                                    this.requestIncomingResources();
+                                },
+                                (err) => {
+
+                                    console.log("cache request failed: " + err);
+                                });
+                        } else {
+                            // exactly one resource was expected, but resourceSeq.resources.length != 1
+                            this.errorMessage = `Exactly one resource was expected, but ${resourceSeq.resources.length} resource(s) given.`
+
+                        }
+
                     }, function (err) {
 
                         console.log("JSONLD of full resource request could not be expanded:" + err);
@@ -96,130 +124,316 @@ export class ObjectComponent implements OnChanges, OnInit {
             );
     }
 
-    /*
-    * Requests incoming resources for the supplied ReadResource[], and adds them to the respective ReadResource.incoming array.
-    * Currently we only display the properties of this.resources[0] (see html template),
-    * therefore we also request only the incoming resources to resources[0].
-    *
-    * @param {ReadResource[]} resources - the array of resources for which incoming resources should be requested.
-    */
-    private requestIncomingResources(resources: ReadResource[]) {
-        if (resources.length > 0) {
+    /**
+     * Requests incoming resources for [[this.resource]].
+     * Incoming resources are: regions, StillImageRepresentations, and incoming links.
+     *
+     **/
+    private requestIncomingResources(): void {
 
-            // request incoming regions
-            if (resources[0].properties[AppConfig.hasStillImageFileValue]) { // TODO: check if resources[0] is a StillImageRepresentation using the ontology responder (support for subclass relations required)
-                // the resource is a StillImageRepresentation, check if there are regions pointing to it
-                this._incomingService.getIncomingRegions(resources[0].id).subscribe(
-                    (result: ApiServiceResult) => {
-                        let promise = jsonld.promises.compact(result.body, {});
-                        promise.then((compacted) => {
-                                let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+        // make sure that this.resource has been initialized correctly
+        if (this.resource === undefined) return;
 
-                                // get resource class Iris from response
-                                let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+        // request incoming regions
+        if (this.resource.properties[AppConfig.hasStillImageFileValue]) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
+            // the resource is a StillImageRepresentation, check if there are regions pointing to it
 
-                                // request ontology information about resource class Iris (properties are implied)
-                                this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                                    (resourceClassInfos: OntologyInformation) => {
-                                        // update ontology information
-                                        this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+            this.getIncomingRegions(0);
 
-                                        // Append elements of regions.resources to resources[0].incoming
-                                        Array.prototype.push.apply(resources[0].incomingRegions, regions.resources);
-                                        if (this.osdViewer) {
-                                            this.osdViewer.updateRegions();
-                                        }
-                                    },
-                                    (err) => {
+        } else {
+            // this resource is not a StillImageRepresentation
+            // check if there are StillImageRepresentations pointing to this resource
 
-                                        console.log("cache request failed: " + err);
-                                    });
+            // this gets the first page of incoming StillImageRepresentations
+            // more pages may be requested by [[this.viewer]].
+            // TODO: for now, we begin with offset 0. This may have to be changed later (beginning somewhere in a collection)
+            this.getIncomingStillImageRepresentations(0);
+        }
+
+        // check for incoming links for the current resource
+        this.getIncomingLinks(0);
+
+
+    }
+
+    /**
+     * Gets the incoming regions for [[this.resource]].
+     *
+     * @param {number} offset                                   the offset to be used (needed for paging). First request uses an offset of 0.
+     * @param {(numberOfResources: number) => void} callback    function to be called when new images have been loaded from the server. It takes the number of images returned as an argument.
+     */
+    private getIncomingRegions(offset: number, callback?: (numberOfResources: number) => void): void {
+        this._incomingService.getIncomingRegions(this.resource.id, offset).subscribe(
+            (result: ApiServiceResult) => {
+                let promise = jsonld.promises.compact(result.body, {});
+                promise.then((compacted) => {
+                        let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                        // get resource class Iris from response
+                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+                        // request ontology information about resource class Iris (properties are implied)
+                        this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                            (resourceClassInfos: OntologyInformation) => {
+                                // update ontology information
+                                this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+
+                                // Append elements of regions.resources to resource.incoming
+                                Array.prototype.push.apply(this.resource.incomingRegions, regions.resources);
+
+                                // prepare regions to be displayed
+                                ObjectComponent.collectImagesAndRegionsForResource(this.resource);
+
+                                if (this.osdViewer) {
+                                    this.osdViewer.updateRegions();
+                                }
+
+                                // if callback is given, execute function with the amount of new images as the parameter
+                                if (callback !== undefined) callback(regions.resources.length);
                             },
-                            function (err) {
-                                console.log("JSONLD of regions request could not be expanded:" + err);
+                            (err) => {
+
+                                console.log("cache request failed: " + err);
                             });
                     },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
-                        this.isLoading = false;
-                    }
-                );
+                    function (err) {
+                        console.log("JSONLD of regions request could not be expanded:" + err);
+                    });
+            },
+            (error: ApiServiceError) => {
+                this.errorMessage = <any>error;
+                this.isLoading = false;
+            }
+        );
+    }
+
+    /**
+     * Get StillImageRepresentations pointing to [[this.resource]].
+     * This method may have to called several times with an increasing offsetChange in order to get all available StillImageRepresentations.
+     *
+     * @param {number} offset                                   the offset to be used (needed for paging). First request uses an offset of 0.
+     * @param {(numberOfResources: number) => void} callback    function to be called when new images have been loaded from the server. It takes the number of images returned as an argument.
+     */
+    private getIncomingStillImageRepresentations(offset: number, callback?: (numberOfResources: number) => void): void {
+
+        // make sure that this.resource has been initialized correctly
+        if (this.resource === undefined) return;
+
+        if (offset < 0) {
+            console.log(`offset of ${offset} is invalid`);
+            return;
+        }
+
+        this._incomingService.getStillImageRepresentationsForCompoundResource(this.resource.id, offset).subscribe(
+            (result: ApiServiceResult) => {
+
+                let promise = jsonld.promises.compact(result.body, {});
+                promise.then((compacted) => {
+                        //console.log(compacted);
+
+                        let incomingImageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                        // get resource class Iris from response
+                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+                        // request ontology information about resource class Iris (properties are implied)
+                        this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                            (resourceClassInfos: OntologyInformation) => {
+
+                                if (incomingImageRepresentations.resources.length > 0) {
+                                    // update ontology information
+                                    this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+
+                                    // set current offset
+                                    this.incomingStillImageRepresentationCurrentOffset = offset;
+
+                                    // TODO: implement prepending of StillImageRepresentations when moving to the left (getting previous pages)
+                                    // TODO: append existing images to response and then assign response to `this.resource.incomingStillImageRepresentations`
+                                    // TODO: maybe we have to support non consecutive arrays (sparse arrays)
+
+                                    // append incomingImageRepresentations.resources to this.resource.incomingStillImageRepresentations
+                                    Array.prototype.push.apply(this.resource.incomingStillImageRepresentations, incomingImageRepresentations.resources);
+
+                                    // prepare attached image files to be displayed
+                                    ObjectComponent.collectImagesAndRegionsForResource(this.resource);
+                                }
+
+                                // if callback is given, execute function with the amount of new images as the parameter
+                                if (callback !== undefined) callback(incomingImageRepresentations.resources.length);
+                            },
+                            (err) => {
+
+                                console.log("cache request failed: " + err);
+                            });
+                    },
+                    function (err) {
+                        console.log("JSONLD of regions request could not be expanded:" + err);
+                    });
+
+
+            },
+            (error: ApiServiceError) => {
+                this.errorMessage = <any>error;
+                this.isLoading = false;
+            }
+        );
+
+    }
+
+    /**
+     * Get resources pointing to [[this.resource]] with properties other than knora-api:isPartOf and knora-api:isRegionOf.
+     *
+     * @param {number} offset the offset to be used (needed for paging). First request uses an offset of 0.
+     * @param {(numberOfResources: number) => void} callback function to be called when new images have been loaded from the server. It takes the number of images returned as an argument.
+     */
+    private getIncomingLinks(offset: number, callback?: (numberOfResources: number) => void): void {
+
+        this._incomingService.getIncomingLinksForResource(this.resource.id, offset).subscribe(
+            (result: ApiServiceResult) => {
+                let promise = jsonld.promises.compact(result.body, {});
+                promise.then((compacted) => {
+                        let incomingResources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                        // get resource class Iris from response
+                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+                        // request ontology information about resource class Iris (properties are implied)
+                        this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                            (resourceClassInfos: OntologyInformation) => {
+                                // update ontology information
+                                this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+
+                                // Append elements incomingResources to this.resource.incomingLinks
+                                Array.prototype.push.apply(this.resource.incomingLinks, incomingResources.resources);
+
+                                // if callback is given, execute function with the amount of incoming resources as the parameter
+                                if (callback !== undefined) callback(incomingResources.resources.length);
+
+                            },
+                            (err) => {
+
+                                console.log("cache request failed: " + err);
+                            });
+                    },
+                    function (err) {
+                        console.log("JSONLD of regions request could not be expanded:" + err);
+                    });
+            },
+            (error: ApiServiceError) => {
+                this.errorMessage = <any>error;
+                this.isLoading = false;
+            }
+        );
+    }
+
+
+    /**
+     * Creates a collection of [[StillImageRepresentation]] belonging to the given resource and assigns it to it.
+     * Each [[StillImageRepresentation]] represents an image including regions.
+     *
+     * @param {ReadResource} resource          The resource to get the images for.
+     * @returns {StillImageRepresentation[]}   A collection of images for the given resource.
+     */
+    private static collectImagesAndRegionsForResource(resource: ReadResource): void {
+
+        let imgRepresentations: StillImageRepresentation[] = [];
+
+        if (resource.properties[AppConfig.hasStillImageFileValue] !== undefined) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
+            // resource has StillImageFileValues that are directly attached to it (properties)
+
+            let fileValues: ReadStillImageFileValue[] = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
+            let imagesToDisplay: ReadStillImageFileValue[] = fileValues.filter((image) => {
+                return !image.isPreview;
+            });
+
+
+            for (let img of imagesToDisplay) {
+
+                let regions: ImageRegion[] = [];
+                for (let incomingRegion of resource.incomingRegions) {
+
+                    let region = new ImageRegion(incomingRegion);
+
+                    regions.push(region);
+
+                }
+
+                let stillImage = new StillImageRepresentation(img, regions);
+                imgRepresentations.push(stillImage);
 
             }
 
-            // check if there are StillImageRepresentations pointing to this resource
-            this._incomingService.getStillImageRepresentationsForCompoundResource(resources[0].id).subscribe(
-                (result: ApiServiceResult) => {
 
-                    let promise = jsonld.promises.compact(result.body, {});
-                    promise.then((compacted) => {
-                            let imageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+        } else if (resource.incomingStillImageRepresentations.length > 0) {
+            // there are StillImageRepresentations pointing to this resource (incoming)
 
-                            // get resource class Iris from response
-                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+            let readStillImageFileValues: ReadStillImageFileValue[] = resource.incomingStillImageRepresentations.map(
+                (stillImageRes: ReadResource) => {
+                    let fileValues = stillImageRes.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[]; // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
+                    let imagesToDisplay = fileValues.filter((image) => {
+                        return !image.isPreview;
+                    });
 
-                            // request ontology information about resource class Iris (properties are implied)
-                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                                (resourceClassInfos: OntologyInformation) => {
-                                    // update ontology information
-                                    this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
-
-                                    // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
-                                    Array.prototype.push.apply(resources[0].incomingStillImageRepresentations, imageRepresentations.resources);
-                                },
-                                (err) => {
-
-                                    console.log("cache request failed: " + err);
-                                });
-                        },
-                        function (err) {
-                            console.log("JSONLD of regions request could not be expanded:" + err);
-                        });
-
-
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
+                    return imagesToDisplay;
                 }
-            );
+            ).reduce(function (prev, curr) {
+                // transform ReadStillImageFileValue[][] to ReadStillImageFileValue[]
+                return prev.concat(curr);
+            });
 
-            // check for incoming links for the current resource
-            this._incomingService.getIncomingLinksForResource(resources[0].id).subscribe(
-                (result: ApiServiceResult) => {
-                    let promise = jsonld.promises.compact(result.body, {});
-                    promise.then((compacted) => {
-                            let incomingResources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+            for (let img of readStillImageFileValues) {
 
-                            // get resource class Iris from response
-                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+                let regions: ImageRegion[] = [];
+                for (let incomingRegion of resource.incomingRegions) {
 
-                            // request ontology information about resource class Iris (properties are implied)
-                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                                (resourceClassInfos: OntologyInformation) => {
-                                    // update ontology information
-                                    this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+                    let region = new ImageRegion(incomingRegion);
+                    regions.push(region);
 
-                                    // Append elements of regions.resources to resources[0].incomingStillImageRepresentations
-                                    Array.prototype.push.apply(resources[0].incomingLinks, incomingResources.resources);
-
-                                },
-                                (err) => {
-
-                                    console.log("cache request failed: " + err);
-                                });
-                        },
-                        function (err) {
-                            console.log("JSONLD of regions request could not be expanded:" + err);
-                        });
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
                 }
-            );
+
+                let stillImage = new StillImageRepresentation(img, regions);
+                imgRepresentations.push(stillImage);
+            }
 
         }
 
+        resource.stillImageRepresentationsToDisplay = imgRepresentations;
+
     }
+
+    /**
+     * Gets the next or previous set of StillImageRepresentations from the server.
+     *
+     * @param {RequestStillImageRepresentations} request message sent from the child component requiring the loading of more incoming StillImageRepresentations.
+     */
+    changeOffsetForStillImageRepresentations(request: RequestStillImageRepresentations) {
+
+        // TODO: implement negative offset change
+
+        if (request.offsetChange == 1) {
+            // get StillImageRepresentations for next page by increasing current offset
+            this.getIncomingStillImageRepresentations(this.incomingStillImageRepresentationCurrentOffset + 1, request.whenLoadedCB);
+
+        } else {
+            console.log(`Illegal argument for changeOffsetForStillImageRepresentations, must either be -1 or 1, but ${request.offsetChange} given.`)
+        }
+    };
+
+    /**
+     * Shows the source of an incoming link (a resource) in a dialog box.
+     *
+     * @param {string} resourceIri the Iri of the source of the incoming link.
+     */
+    showSourceOfIncomingLinkInDialog(resourceIri: string) {
+
+        let config = new MdDialogConfig();
+        config.height = '60%';
+        config.width = '60%';
+
+        let dialogRef = this.dialog.open(ObjectComponent, config);
+
+        dialogRef.componentInstance.iri = resourceIri;
+
+    }
+
 }

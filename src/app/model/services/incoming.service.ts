@@ -9,7 +9,7 @@ export class IncomingService extends SearchService {
     /**
      * Returns all incoming regions for a particular resource.
      */
-    getIncomingRegions(resourceIRI: string): Observable<any> {
+    getIncomingRegions(resourceIRI: string, offset: number): Observable<any> {
         let sparqlQueryStr = `
       PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
 
@@ -46,7 +46,7 @@ export class IncomingService extends SearchService {
           knora-api:hasColor knora-api:objectType knora-api:Color .
 
           ?color a knora-api:Color .
-      }
+      } OFFSET ${offset}
     `;
 
         return this.doExtendedSearch(sparqlQueryStr);
@@ -57,9 +57,10 @@ export class IncomingService extends SearchService {
      * StillImageRepresentations link to the given resource via knora-base:isPartOf.
      *
      * @param resourceIri the Iri of the resource whose StillImageRepresentations should be returned.
+     * @param offset the offset to be used for paging. 0 is the default and is used to get the first page of results.
      * @returns {Observable<any>}
      */
-    getStillImageRepresentationsForCompoundResource(resourceIri: string): Observable<any> {
+    getStillImageRepresentationsForCompoundResource(resourceIri: string, offset: number): Observable<any> {
         let sparqlQueryStr = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
         
@@ -92,7 +93,8 @@ export class IncomingService extends SearchService {
             
             ?file a knora-api:StillImageFile .
         
-        }
+        } ORDER BY ?seqnum 
+          OFFSET ${offset}
 `;
 
         return this.doExtendedSearch(sparqlQueryStr);
@@ -106,8 +108,9 @@ export class IncomingService extends SearchService {
      * but incoming regions and still image representations.
      *
      * @param {string} resourceIri the Iri of the resource whose incoming links should be returned.
+     * @param offset the offset to be used for paging. 0 is the default and is used to get the first page of results.
      */
-    getIncomingLinksForResource(resourceIri: string): Observable<any> {
+    getIncomingLinksForResource(resourceIri: string, offset: number): Observable<any> {
         let sparqlQueryStr = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
         
@@ -128,15 +131,18 @@ export class IncomingService extends SearchService {
             
             ?incomingProp knora-api:objectType knora-api:Resource .
             
-            #FILTER NOT EXISTS {
-            #    ?incomingRes  knora-api:isPartOf <${resourceIri}> .
-            #}
+            knora-api:isRegionOf knora-api:objectType knora-api:Resource .
+            knora-api:isPartOf knora-api:objectType knora-api:Resource .
             
-            #FILTER NOT EXISTS {
-            #    ?incomingRes  knora-api:isRegionOf <${resourceIri}> .
-            #}
+            FILTER NOT EXISTS {
+               ?incomingRes  knora-api:isRegionOf <${resourceIri}> .
+            }
+               
+            FILTER NOT EXISTS {
+               ?incomingRes  knora-api:isPartOf <${resourceIri}> .
+            }
             
-        }
+        } OFFSET ${offset}
         
         `;
 

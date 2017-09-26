@@ -12,11 +12,15 @@
 * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 * */
 
-import {Component, Input, OnInit, OnChanges, SimpleChange, ElementRef} from '@angular/core';
+import {
+    Component, Input, OnInit, OnChanges, SimpleChange, ElementRef, EventEmitter, Output,
+    OnDestroy
+} from '@angular/core';
 import {ReadStillImageFileValue, ReadGeomValue} from "../../../model/webapi/knora/v2/read-property-item";
 import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {Point2D, RegionGeometry} from "../../../model/webapi/knora/v2/read-property-item";
 import {AppConfig} from "../../../app.config"
+import {environment} from "../../../../environments/environment";
 
 // This component needs the openseadragon library itself, as well as the openseadragon plugin openseadragon-svg-overlay
 // Both libraries are installed via package.json, and loaded globally via the script tag in .angular-cli.json
@@ -24,8 +28,61 @@ import {AppConfig} from "../../../app.config"
 // OpenSeadragon does not export itself as ES6/ECMA2015 module,
 // it is loaded globally in scripts tag of angular-cli.json,
 // we still need to declare the namespace to make TypeScript compiler happy.
-declare var OpenSeadragon: any;
+declare let OpenSeadragon: any;
 
+/**
+ * Represents a region.
+ * Contains a reference to the resource representing the region and its geometries.
+ */
+export class ImageRegion {
+
+    /**
+     *
+     * @param {ReadResource} regionResource a resource of type Region
+     */
+    constructor(readonly regionResource: ReadResource) {
+
+    }
+
+    /**
+     * Get all geometry information belonging to this region.
+     *
+     * @returns {ReadGeomValue[]}
+     */
+    getGeometries() {
+        return this.regionResource.properties[AppConfig.hasGeometry] as ReadGeomValue[]
+    }
+}
+
+/**
+ * Represents an image including its regions.
+ */
+export class StillImageRepresentation {
+
+    /**
+     *
+     * @param {ReadStillImageFileValue} stillImageFileValue a [[ReadStillImageFileValue]] representing an image.
+     * @param {ImageRegion[]} regions the regions belonging to the image.
+     */
+    constructor(readonly stillImageFileValue: ReadStillImageFileValue, readonly regions: ImageRegion[]) {
+
+    }
+
+}
+
+/**
+ * Sends a requests to the parent component to load more StillImageRepresentations.
+ */
+export class RequestStillImageRepresentations {
+
+    /**
+     *
+     * @param {number} offsetChange the relative change of the offset in order to get more incoming StillImageRepresentations for the resource currently being displayed. Either 1 or -1.
+     * @param {() => void} whenLoadedCB a callback function that is called when more incoming StillImageRepresentations have been requested and the answer arrived from the server.
+     */
+    constructor(readonly offsetChange: number, readonly whenLoadedCB: (numberOfImages: number) => void) {
+    }
+}
 
 /**
  * This component creates a OpenSeadragon viewer instance.
@@ -39,9 +96,14 @@ declare var OpenSeadragon: any;
     templateUrl: './still-image-osdviewer.component.html',
     styleUrls: ['./still-image-osdviewer.component.scss']
 })
-export class StillImageOSDViewerComponent implements OnInit {
+export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestroy {
 
-    @Input() resources: ReadResource[] = [];
+    @Input() images: StillImageRepresentation[];
+    @Input() imageRangeStart: number;  // index first image of this.images to be displayed
+    @Input() imageRangeEnd: number; // index of last image of this.images to be displayed.
+    @Input() imageChangeInterval: number; // the size of the interval when displaying more images of this.images
+
+    @Output() getImages = new EventEmitter<RequestStillImageRepresentations>(); // sends a message to the parent component (object.component) to load the next or previous page of results (images) from the server
 
     private viewer;
 
@@ -49,10 +111,10 @@ export class StillImageOSDViewerComponent implements OnInit {
     }
 
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
-        if (changes["resources"] && changes["resources"].isFirstChange()) {
+        if (changes["images"] && changes["images"].isFirstChange()) {
             this.setupViewer();
         }
-        if (changes["resources"]) {
+        if (changes["images"]) {
             this.openImages();
             this.renderRegions();
         }
@@ -65,15 +127,14 @@ export class StillImageOSDViewerComponent implements OnInit {
     ngOnDestroy() {
         if (this.viewer) {
             this.viewer.destroy();
-            this.viewer = null;
+            this.viewer = undefined;
         }
     }
 
     /**
-     * Renders all ReadStillImageFileValues to be found in this.resources.
-     * ReadStillImageFileValues with isPreview == true will not be rendered.
-     * (Although this.resources is a Angular Input property, the built-in change detection of Angular does not detect changes in complex objects or arrays, only reassignment of objects/arrays.
-     * Use this method if additional ReadStillImageFileValues were added to this.resources after creation/assignment of the this.resources array.)
+     * Renders all ReadStillImageFileValues to be found in [[this.images]].
+     * (Although this.images is a Angular Input property, the built-in change detection of Angular does not detect changes in complex objects or arrays, only reassignment of objects/arrays.
+     * Use this method if additional ReadStillImageFileValues were added to this.images after creation/assignment of the this.images array.)
      */
     updateImages() {
         if (!this.viewer) {
@@ -83,9 +144,122 @@ export class StillImageOSDViewerComponent implements OnInit {
     }
 
     /**
-     * Renders all Regions to be found in the 'incomingRegions' property of the resources in this.resources.
-     * (Although this.resources is a Angular Input property, the built-in change detection of Angular does not detect changes in complex objects or arrays, only reassignment of objects/arrays.
-     * Use this method if additional regions were added to the resources.incomingRegions array of the resources in this.resources after creation/assignment of the this.resources array.)
+     * Get the more images from the server by requesting the previous page of results for the current resource (decrease offset).
+     */
+    private gotoLeft() {
+
+        // TODO: move left on this.images
+        // TODO: if necessary, request more images from the server
+
+        if (this.imageRangeStart - this.imageChangeInterval >= 0) {
+            // this.images has more images to display
+            this.imageRangeStart -= this.imageChangeInterval;
+            this.imageRangeEnd -= this.imageChangeInterval;
+
+            this.openImages();
+            this.renderRegions();
+        } else if (this.imageRangeStart > 0) {
+            // fewer remaining images than interval, show remaining images
+            this.imageRangeEnd -= this.imageRangeStart;
+            this.imageRangeStart = 0;
+
+            this.openImages();
+            this.renderRegions();
+        }
+        {
+            // this.images cannot display more images of length interval
+            // request more images from the server using a negative offset
+
+            // TODO: implement getting previous offset (also in parent component)
+        }
+
+    }
+
+    /**
+     * Get the more images from the server by requesting the next page of results for the current resource (increase offset).
+     */
+    private gotoRight() {
+
+        if (this.imageRangeEnd < this.images.length - 1) {
+            // this.images has more images to display
+
+            if (this.imageRangeEnd + this.imageChangeInterval < this.images.length) {
+                // the whole next interval can be displayed
+                console.log(`display next interval`);
+
+                this.imageRangeStart += this.imageChangeInterval;
+                this.imageRangeEnd += this.imageChangeInterval;
+            } else {
+                console.log(`display remaining images`);
+                // less than the interval can be displayed just display remaining images
+                let remainingDiff = this.images.length - this.imageRangeEnd + 1;
+
+                this.imageRangeStart += remainingDiff;
+                this.imageRangeEnd += remainingDiff;
+
+                // TODO: deactivate next button
+
+            }
+
+            this.openImages();
+            this.renderRegions();
+
+        } else if (this.images.length % environment.pagingLimit == 0) { // paging always returned full result lists, so there could be more data to fetch
+            console.log(`request more images`);
+            // this.images cannot display more images of length interval
+            // request more images from the server using a positive offset
+
+            // function called when parent component loaded new images
+            let callback = (numberOfImages: number) => {
+
+                if (numberOfImages >= this.imageChangeInterval) {
+                    // more images were loaded than are actually to be displayed
+
+                    this.imageRangeStart += this.imageChangeInterval;
+                    this.imageRangeEnd += this.imageChangeInterval;
+
+                    this.openImages();
+                    this.renderRegions();
+                } else if (numberOfImages > 0) {
+                    // the amount of new images in less than the interval, show everything that can be shown
+
+                    this.imageRangeStart += numberOfImages;
+                    this.imageRangeEnd += numberOfImages;
+
+                    this.openImages();
+                    this.renderRegions();
+                } else {
+                    // no new images could be returned, display remaining images (there are fewer than this.imageChangeInterval)
+                    let remainingImages: number = this.images.length - 1 - this.imageRangeEnd;
+
+                    this.imageRangeStart += remainingImages;
+                    this.imageRangeEnd += remainingImages;
+
+                    // TODO: no new images can be loaded -> deactivate control in GUI (note that perhaps sufficient permissions were missing, so we actually cannot be sure that higher offsets still deliver images)
+
+                    this.openImages();
+                    this.renderRegions();
+
+                }
+
+
+            };
+
+            let msg = new RequestStillImageRepresentations(1, callback);
+
+            this.getImages.emit(msg);
+
+        } else {
+            // no more data to fetch
+            // TODO: deactivate next button
+
+        }
+    }
+
+    /**
+     * Renders all regions to be found in [[this.images]].
+     * (Although this.images is a Angular Input property, the built-in change detection of Angular does not detect changes in complex objects or arrays, only reassignment of objects/arrays.
+     * Use this method if additional regions were added to the resources.images)
      */
     updateRegions() {
         if (!this.viewer) {
@@ -101,7 +275,9 @@ export class StillImageOSDViewerComponent implements OnInit {
         let viewerContainer = this.elementRef.nativeElement.getElementsByClassName("osdViewerContainer")[0];
         let osdOptions = {
             element: viewerContainer,
-            prefixUrl: "assets/icons/openseadragon/"
+            prefixUrl: "assets/icons/openseadragon/",
+            sequenceMode: false,
+            showNavigator: true
         };
         this.viewer = new OpenSeadragon.Viewer(osdOptions);
         this.viewer.addHandler('full-screen', function (args) {
@@ -114,6 +290,7 @@ export class StillImageOSDViewerComponent implements OnInit {
         this.viewer.addHandler('resize', function (args) {
             args.eventSource.svgOverlay().resize();
         });
+
     }
 
     /**
@@ -124,6 +301,7 @@ export class StillImageOSDViewerComponent implements OnInit {
      */
     private static prepareTileSourcesFromFileValues(imagesToDisplay: ReadStillImageFileValue[]): Object[] {
         let imageXOffset = 0;
+        let imageYOffset = 0;
         let tileSources = [];
 
         for (let image of imagesToDisplay) {
@@ -149,97 +327,64 @@ export class StillImageOSDViewerComponent implements OnInit {
                     }]
                 },
                 "x": imageXOffset,
-                "y": 0
+                "y": imageYOffset
             });
 
             imageXOffset++;
+
+            // 5 images per row
+            if (imageXOffset % 5 == 0) {
+                imageYOffset += 2;
+                imageXOffset = 0;
+            }
         }
 
         return tileSources;
     }
 
     /**
-     * Adds all (non-preview) images in this.resources to the viewer.
+     * Adds all (non-preview) images in this.images to the viewer.
      * Images are positioned in a horizontal row next to each other.
      */
     private openImages(): void {
         // imageXOffset controls the x coordinate of the left side of each image in the OpenSeadragon viewport coordinate system.
         // The first image has its left side at x = 0, and all images are scaled to have a width of 1 in viewport coordinates.
         // see also: https://openseadragon.github.io/examples/viewport-coordinates/
-        let tileSources = [];
-        for (let resource of this.resources) {
-            if (resource.properties[AppConfig.hasStillImageFileValue] !== undefined) {
-                // resource has StillImageFileValues
 
-                let fileValues: ReadStillImageFileValue[] = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
-                let imagesToDisplay: ReadStillImageFileValue[] = fileValues.filter((image) => {
-                    return !image.isPreview;
-                });
-                tileSources = StillImageOSDViewerComponent.prepareTileSourcesFromFileValues(imagesToDisplay);
+        let fileValues: ReadStillImageFileValue[] = this.images.map(
+            (img) => {
+                return img.stillImageFileValue
+            });
 
-            } else if (resource.incomingStillImageRepresentations.length > 0) {
-                // there are StillImageRepresentations pointing to this resource
-
-                // collect file values
-                let imagesToDisplay: ReadStillImageFileValue[] = resource.incomingStillImageRepresentations.map(
-                    (stillImageRes: ReadResource) => {
-                        let fileValues = stillImageRes.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
-                        let imagesToDisplay = fileValues.filter((image) => {
-                            return !image.isPreview;
-                        });
-
-                        return imagesToDisplay;
-                    }
-                ).reduce(function (prev, curr) {
-                    // transform ReadStillImageFileValue[][] to ReadStillImageFileValue[]
-                    return prev.concat(curr);
-                });
-
-                tileSources = StillImageOSDViewerComponent.prepareTileSourcesFromFileValues(imagesToDisplay);
-
-            }
-        }
+        // display only the defined range of this.images
+        let tileSources: Object[] = StillImageOSDViewerComponent.prepareTileSourcesFromFileValues(fileValues.slice(this.imageRangeStart, this.imageRangeEnd + 1));
 
         this.viewer.clearOverlays();
         this.viewer.open(tileSources);
     }
 
     /**
-     * Adds a ROI-overlay to the viewer for every region of every (non-preview) image in this.resources
+     * Adds a ROI-overlay to the viewer for every region of every image in this.images
      */
     private renderRegions(): void {
         this.viewer.clearOverlays();
 
         let imageXOffset = 0; // see documentation in this.openImages() for the usage of imageXOffset
-        for (let resource of this.resources) {
-            // only do this for regions belonging to this resource's StillImageRepresentation
-            // TODO: Should we display the regions also for the incoming StillImageRepresentations?
-            if (resource.properties[AppConfig.hasStillImageFileValue] !== undefined) {
-                let fileValues = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[]; // TODO: do we have to check for subproperties of hasStillImageFileValue?
-                let imagesToDisplay = fileValues.filter((image) => {
-                    return !image.isPreview;
-                });
 
-                // TODO: how to deal with subclasses of knora-base:Region? -> use the ontology responder (support for subclasses required)
-                let incomingRegions = resource.incomingRegions.filter((resource) => {
-                    return resource.type == AppConfig.Region
-                });
+        for (let image of this.images) {
+            let aspectRatio = (image.stillImageFileValue.dimY / image.stillImageFileValue.dimX);
 
-                for (let image of imagesToDisplay) {
-                    let aspectRatio = (image.dimY / image.dimX);
+            for (let region of image.regions) {
 
-                    for (let region of incomingRegions) {
-                        let geometries = region.properties[AppConfig.hasGeometry] as ReadGeomValue[];
-                        for (let geometryValue of geometries) {
-                            let geometry = geometryValue.geometry;
-                            this.createSVGOverlay(geometry, aspectRatio, imageXOffset, region.label);
-                        }
-                    }
-
-                    imageXOffset++;
+                for (let geometryValue of region.getGeometries()) {
+                    let geometry = geometryValue.geometry;
+                    this.createSVGOverlay(geometry, aspectRatio, imageXOffset, region.regionResource.label);
                 }
             }
+
+            imageXOffset++;
         }
+
     }
 
     /**

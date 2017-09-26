@@ -13,6 +13,7 @@
  * */
 
 import {ReadProperties} from "./read-properties";
+import {StillImageRepresentation} from "../../../../view/properties/still-image-osdviewer/still-image-osdviewer.component";
 
 export interface ReadResource {
 
@@ -29,5 +30,7 @@ export interface ReadResource {
     incomingStillImageRepresentations: Array<ReadResource>;
 
     incomingLinks: Array<ReadResource>;
+
+    stillImageRepresentationsToDisplay: StillImageRepresentation[];
 
 }
