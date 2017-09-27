@@ -1,9 +1,9 @@
 import {Directive, ElementRef, HostListener, Input, OnInit} from '@angular/core';
 import {MdDialog, MdDialogConfig, MdSnackBar, MdSnackBarConfig} from '@angular/material';
-import {ObjectComponent} from '../object/object.component';
 import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-item';
 import {OntologyInformation} from '../../../model/services/ontologycache.service';
 import {AppConfig} from "../../../app.config";
+import {ResourceObjectComponent} from "../object/resource-object/resource-object.component";
 
 declare var MathJax: {
     Hub: {
@@ -40,7 +40,7 @@ export class MathJaxDirective implements OnInit {
             config.height = '60%';
             config.width = '60%';
 
-            let dialogRef = this.dialog.open(ObjectComponent, config);
+            let dialogRef = this.dialog.open(ResourceObjectComponent, config);
             // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
             dialogRef.componentInstance.iri = event.toElement.href;
 

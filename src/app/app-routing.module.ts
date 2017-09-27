@@ -28,7 +28,6 @@ import {ProjectFormComponent} from './view/modules/form/project-form/project-for
 import {DocumentationComponent} from './view/documentation/documentation.component';
 
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {ObjectComponent} from './view/modules/object/object.component';
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
@@ -79,10 +78,6 @@ const appRoutes: Routes = [
     {
         path: 'search/:q',
         component: SearchResultsComponent
-    },
-    {
-        path: 'object/:rid',
-        component: ObjectComponent
     },
     {
         path: 'project/:pid', component: ProjectComponent,
