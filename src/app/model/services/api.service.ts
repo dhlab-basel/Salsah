@@ -100,7 +100,7 @@ export class ApiService {
         });
     }
 
-    httpGetV2(url: string, options?: RequestOptionsArgs): Observable<any> {
+    httpGetV2(url: string, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
 
         if (!options) options = {withCredentials: true};
 
