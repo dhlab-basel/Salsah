@@ -61,7 +61,7 @@ let resources: ReadResource[] = [
 
 @Component({
     template: `
-        <salsah-still-image-osdviewer [resources]="resourcesHost">
+        <salsah-still-image-osdviewer [images]="resourcesHost" [imageRangeStart]="0" [imageRangeEnd]="0" [imageChangeInterval]="1">
         </salsah-still-image-osdviewer>`
 })
 class TestHostComponent {
