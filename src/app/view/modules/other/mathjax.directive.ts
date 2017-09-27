@@ -31,7 +31,7 @@ export class MathJaxDirective implements OnInit {
      */
     @HostListener('click', ['$event'])
     onClick(event) {
-        //console.log("click");
+        // console.log(event);
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
         if (event.toElement.nodeName.toLowerCase() == 'a' && event.toElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
