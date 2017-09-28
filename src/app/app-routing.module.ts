@@ -28,7 +28,6 @@ import {ProjectFormComponent} from './view/modules/form/project-form/project-for
 import {DocumentationComponent} from './view/documentation/documentation.component';
 
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {ObjectComponent} from './view/modules/object/object.component';
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
@@ -42,6 +41,7 @@ import {SearchResultsComponent} from './view/search/search-results/search-result
 import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
+import {ResourceObjectComponent} from "./view/modules/object/resource-object/resource-object.component";
 
 const appRoutes: Routes = [
     {
@@ -82,7 +82,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'object/:rid',
-        component: ObjectComponent
+        component: ResourceObjectComponent
     },
     {
         path: 'project/:pid', component: ProjectComponent,

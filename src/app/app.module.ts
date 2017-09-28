@@ -68,7 +68,6 @@ import {ExtendedSearchComponent} from './view/modules/search/extended-search/ext
 import {ProjectsListComponent} from './view/modules/listing/projects-list/projects-list.component';
 import {ResourcesListComponent} from './view/modules/listing/resources-list/resources-list.component';
 import {ResourceGridListComponent} from './view/modules/listing/resource-grid-list/resource-grid-list.component';
-import {ObjectComponent} from './view/modules/object/object.component';
 import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
 import {ResourceClassFormComponent} from './view/modules/form/resource-class-form/resource-class-form.component';
 import {ResourceFormComponent} from './view/modules/form/resource-form/resource-form.component';
@@ -149,7 +148,6 @@ import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologi
         OverlayDirective,
         ResourcesListComponent,
         ResourceGridListComponent,
-        ObjectComponent,
         ProjectTeamComponent,
         ProjectResourcesComponent,
         ProjectFormComponent,

@@ -16,6 +16,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {ApiService} from './api.service';
+import {ApiServiceResult} from "./api-service-result";
 
 @Injectable()
 export class SearchService extends ApiService {
@@ -26,7 +27,7 @@ export class SearchService extends ApiService {
      * @param searchTerm the term to search for.
      * @returns {Observable<any>}
      */
-    doFulltextSearch(searchTerm: string): Observable<any> {
+    doFulltextSearch(searchTerm: string): Observable<ApiServiceResult> {
 
         if (searchTerm === undefined || searchTerm.length == 0) {
             return Observable.create(observer => observer.error("No search term given for call of SearchService.doFulltextSearch"));
@@ -41,7 +42,7 @@ export class SearchService extends ApiService {
      * @param sparqlString the Sparql query string to be sent to Knora.
      * @returns {Observable<any>}
      */
-    doExtendedSearch(sparqlString: string): Observable<any> {
+    doExtendedSearch(sparqlString: string): Observable<ApiServiceResult> {
 
         if (sparqlString === undefined || sparqlString.length == 0) {
             return Observable.create(observer => observer.error("No Sparql string given for call of SearchService.doExtendedSearch"));
