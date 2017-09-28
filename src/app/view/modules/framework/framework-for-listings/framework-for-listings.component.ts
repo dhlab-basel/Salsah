@@ -56,6 +56,8 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
     // the list can have an (optional) add button, which opens the form-dialog with a new-XYZ-form
     @Input() add?: AddData;
 
+    loggedInUser: boolean = false;
+
     // error message in the case of an api service error
     errorMessage: any = undefined;
 

@@ -20,6 +20,10 @@ import {ProjectsService} from '../../../model/services/projects.service';
 import {Project} from '../../../model/webapi/knora';
 import {ProjectItem} from '../../../model/webapi/knora/v1/projects/project-item';
 import {Title} from '@angular/platform-browser';
+import {UserService} from '../../../model/services/user.service';
+import {UserData} from '../../../model/webapi/knora/v1/users/user-data';
+import {UserProfile} from '../../../model/webapi/knora/v1/users/user-profile';
+import {PermissionData} from '../../../model/webapi/knora/v1/permissions/permission-data';
 
 @Component({
     selector: 'salsah-project',
@@ -34,6 +38,8 @@ export class ProjectComponent implements OnInit {
     project: ProjectItem = new ProjectItem();
 
     projectRoute: string = '/project/';
+
+    projectAdmin: boolean = false;
 
     firstTabClass: string = 'active';
 
@@ -62,7 +68,8 @@ export class ProjectComponent implements OnInit {
     constructor(private _title: Title,
                 private _router: Router,
                 private _route: ActivatedRoute,
-                private _projectsService: ProjectsService) {
+                private _projectsService: ProjectsService,
+                private _userService: UserService) {
     }
 
     ngOnInit() {
@@ -72,9 +79,37 @@ export class ProjectComponent implements OnInit {
             this.cur_project = params['pid'];
             this.projectRoute += this.cur_project;
 
-            this._title.setTitle( 'Salsah | Project admin (' + this.cur_project + ')');
+            this._title.setTitle( 'Salsah | Project (' + this.cur_project + ')');
 
             this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
+
+            if (localStorage.getItem('currentUser')) {
+                const loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+                const email = loggedInUser.email;
+/*
+                this._userService.getUserByEmail(email)
+                    .subscribe(
+                        (result: ApiServiceResult) => {
+                            // does this user have project admin permissions?
+                            console.log(result.getBody(UserProfile));
+//                            const permissions: UserProfile = result.getBody(UserProfile);
+//                            console.log(permissions);
+                            // then
+                            this.projectAdmin = true;
+                        },
+                        (error: ApiServiceError) => {
+                            this.projectAdmin = false;
+
+                        }
+                    );
+*/
+
+            } else {
+                // there's no logged in user
+                this.projectAdmin = false;
+            }
+
+
 
 
             // get the project information

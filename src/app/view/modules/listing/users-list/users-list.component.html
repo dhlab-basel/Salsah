@@ -78,8 +78,8 @@
 
     <!-- default list -->
     <md-list class="salsah-list" *ngSwitchDefault>
-        <h3 md-subheader># Users: {{countUsers}}
-            <span *ngIf="selectedRow === undefined && countUsers > 1"> | {{sortTitle}}
+        <h3 md-subheader># Users: {{countAll}}
+            <span *ngIf="selectedRow === undefined && countAll > 1"> | {{sortTitle}}
             <button md-button
                     *ngIf="selectedRow == undefined"
                     (click)="sortBy(sortKey)"
