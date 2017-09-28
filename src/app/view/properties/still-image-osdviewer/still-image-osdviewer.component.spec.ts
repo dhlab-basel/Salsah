@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {Component, ViewChild} from '@angular/core';
 
-import {StillImageOSDViewerComponent} from './still-image-osdviewer.component';
+import {ImageRegion, StillImageOSDViewerComponent, StillImageRepresentation} from './still-image-osdviewer.component';
 import {ReadStillImageFileValue} from "../../../model/webapi/knora/v2/read-property-item";
 import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
 import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resources-sequence";
@@ -31,30 +31,13 @@ let stillImagePreview: ReadStillImageFileValue = new ReadStillImageFileValue(
     true
 );
 
-let testRegionRectangle = createTestRegionRectangle();
-let testRegionPolygon = createTestRegionPolygon();
-let testRegionCircle = createTestRegionCircle();
-let testRegionMulti = createTestRegionMulti();
+let testRegionRectangle: ReadResource = createTestRegionRectangle();
+let testRegionPolygon: ReadResource = createTestRegionPolygon();
+let testRegionCircle: ReadResource = createTestRegionCircle();
+let testRegionMulti: ReadResource = createTestRegionMulti();
 
-let resources: ReadResource[] = [
-    {
-        id: "not used here",
-        type: "not used here",
-        label: "not used here",
-        properties: {
-            'http://api.knora.org/ontology/knora-api/v2#hasStillImageFileValue': [
-                stillImageFullSize, stillImagePreview
-            ]
-        },
-        incomingRegions: [
-            testRegionRectangle,
-            testRegionPolygon,
-            testRegionCircle,
-            testRegionMulti
-        ],
-        incomingStillImageRepresentations: [],
-        incomingLinks: []
-    }
+let images: StillImageRepresentation[] = [
+    new StillImageRepresentation(stillImageFullSize, [new ImageRegion(testRegionRectangle), new ImageRegion(testRegionPolygon), new ImageRegion(testRegionCircle), new ImageRegion(testRegionMulti)])
 ];
 
 // define and create host component
@@ -65,7 +48,7 @@ let resources: ReadResource[] = [
         </salsah-still-image-osdviewer>`
 })
 class TestHostComponent {
-    resourcesHost: ReadResource[] = [];
+    resourcesHost: StillImageRepresentation[] = [];
     @ViewChild(StillImageOSDViewerComponent) osdViewerComp: StillImageOSDViewerComponent;
 }
 
@@ -99,19 +82,19 @@ describe('StillImageOSDViewerComponent', () => {
     // this prevents TS compiler from restricting access, while still checking type safety.
 
     it('should have initialized viewer after resources change', () => {
-        host.resourcesHost = resources;
+        host.resourcesHost = images;
         fixture.detectChanges();
         expect(component["viewer"]).toBeTruthy();
     });
 
     it('should have OpenSeadragon.Viewer.isVisible() == true after resources change', () => {
-        host.resourcesHost = resources;
+        host.resourcesHost = images;
         fixture.detectChanges();
         expect(component["viewer"].isVisible()).toBeTruthy();
     });
 
     it('should have 1 image loaded after resources change with 1 full size image and 1 (ignored) preview image', () => {
-        host.resourcesHost = resources;
+        host.resourcesHost = images;
         fixture.detectChanges();
         component["viewer"].addHandler('open', function (args) {
             expect(component["viewer"].world.getItemCount()).toEqual(1);
@@ -122,7 +105,7 @@ describe('StillImageOSDViewerComponent', () => {
     });
 
     it('should have 5 test regions loaded (rect, circle, poylgon, circle_from_multiregion, rect_from_multiregion)', () => {
-        host.resourcesHost = resources;
+        host.resourcesHost = images;
         fixture.detectChanges();
         let overlay = component["viewer"].svgOverlay();
         expect(overlay.node().childElementCount).toEqual(5);
