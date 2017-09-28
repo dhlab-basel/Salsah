@@ -15,6 +15,40 @@
     <link rel="apple-touch-icon" sizes="144x144" href="assets/images/apple-touch-icon-ipad-retina-152x152.png">
     -->
 
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            showProcessingMessages: true,
+            extensions: ["tex2jax.js"],
+            tex2jax: {inlineMath: [['\\(','\\)']]},
+            jax: ["input/TeX","output/HTML-CSS"],
+            "HTML-CSS": {
+                mtextFontInherit: true,
+                preferredFont: "TeX"
+            },
+            TeX: {
+                extensions: [ 'AMSmath.js', 'AMSsymbols.js' ]
+            },
+            errorSettings: {
+                message: ["[Math Processing Error]"],
+                style: {color:"#CC0000", "font-style":"italic"}
+            }
+        });
+
+        MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+            // http://docs.mathjax.org/en/latest/api/hub.html
+            // do something with the error.  message[1] will contain the data about the error.
+            alert("Parse error: " + message[1]);
+        });
+
+        MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+            //  do something with the error.  message[2] is the Error object that records the problem.
+            alert("Processing error: " + message[1]);
+        });
+
+    </script>
+
+    <!-- https://www.mathjax.org/cdn-shutting-down/ -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
 
 </head>
 <body>

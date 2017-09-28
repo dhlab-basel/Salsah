@@ -4,5 +4,6 @@ export const environment = {
     media: 'http://localhost/sipi_mockups',
     api: 'http://localhost/salsah/v2/knora_mockups/v1',
     url: 'http://localhost:4200',
-    dataPool: 'data-pool'
+    dataPool: 'data-pool',
+    pagingLimit: 25
 };

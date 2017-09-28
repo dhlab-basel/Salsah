@@ -4,25 +4,25 @@
 <!-- in the case of an API error: show the error message -->
 <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
-<div *ngIf="num > 0; else noData"  [ngSwitch]="listType">
+<div *ngIf="result.numberOfResources > 0; else noData"  [ngSwitch]="listType">
     <!-- show as table if listType === table -->
     <table *ngSwitchCase="'table'" class="salsah-table">
     </table>
 
     <!-- show as grid-list if listType === grid -->
     <md-grid-list *ngSwitchCase="'grid'" class="salsah-grid-list" [cols]="cols" gutterSize="12px" rowHeight="480px">
-        <md-grid-tile *ngFor="let res of result.subjects; let i = index"
-                      (click)="toggle(res.obj_id, i)"
-                      [id]="res.obj_id">
+        <md-grid-tile *ngFor="let res of result.resources; let i = index"
+                      (click)="toggle(res.id, i)"
+                      [id]="res.id">
 
             <md-card [class.highlight]="i == selectedRow" class="salsah-link">
-                <img salsahImage [image]="res.preview_path" [type]="'resource'"
+                <!--<img salsahImage [image]="res.preview_path" [type]="'resource'"
                      [class.salsah-resource-preview]="res.preview_path"
-                     [class.salsah-resource-icon]="!res.preview_path"/>
+                     [class.salsah-resource-icon]="!res.preview_path"/>-->
 
                 <md-card-content>
-                    <md-card-title>{{res.value[0] | slice:0:40}}</md-card-title>
-                    <md-card-subtitle class="salsah-preview-text">{{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}</md-card-subtitle>
+                    <md-card-title>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</md-card-title>
+                    <!--<md-card-subtitle class="salsah-preview-text">{{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}</md-card-subtitle>-->
                 </md-card-content>
 
             </md-card>
@@ -32,15 +32,17 @@
 
     <!-- default list -->
     <md-list class="salsah-list" *ngSwitchDefault>
-        <md-list-item *ngFor="let res of result.subjects; let i = index"
-                      (click)="toggle(res.obj_id, i)"
-                      [id]="res.obj_id"
+        <md-list-item *ngFor="let res of result.resources; let i = index"
+                      (click)="toggle(res.id, i)"
+                      [id]="res.id"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
-            <img md-list-avatar [src]="res.preview_path" class="salsah-preview-image" />
-            <p md-line *ngFor="let val of res.value">
-                {{val}}
-            </p>
+            <!--<img md-list-avatar [src]="res.preview_path" class="salsah-preview-image" />-->
+            <h3 md-line>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</h3>
+            <div md-line *ngFor="let prop of res.properties | key">
+                <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span>
+                <ul><li *ngFor="let val of prop.value | key">{{val.value.getContent()}}</li></ul>
+            </div>
             <button md-icon-button class="right close close-highlight">
                 <md-icon>close</md-icon>
             </button>

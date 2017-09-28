@@ -33,7 +33,6 @@ export class CollectionsListComponent implements OnInit {
     }
 
     ngOnInit() {
-
     }
 
 }

@@ -18,10 +18,6 @@ import 'hammerjs';
 //
 // import other third party modules
 import {DndModule} from 'ng2-dnd';
-//
-// import all needed services
-//
-
 import {ApiService} from './model/services/api.service';
 import {ListsService} from './model/services/lists.service';
 import {AuthenticationService} from './model/services/authentication.service';
@@ -29,9 +25,13 @@ import {ProjectsService} from './model/services/projects.service';
 import {PropertiesService} from './model/services/properties.service';
 import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
+import {OntologyService} from './model/services/ontology.service';
+import {OntologyCacheService} from './model/services/ontologycache.service';
 import {SearchService} from './model/services/search.service';
-import {UserService} from './model/services/user.service';
 
+import {IncomingService} from "./model/services/incoming.service";
+
+import {UserService} from './model/services/user.service';
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -68,7 +68,6 @@ import {ExtendedSearchComponent} from './view/modules/search/extended-search/ext
 import {ProjectsListComponent} from './view/modules/listing/projects-list/projects-list.component';
 import {ResourcesListComponent} from './view/modules/listing/resources-list/resources-list.component';
 import {ResourceGridListComponent} from './view/modules/listing/resource-grid-list/resource-grid-list.component';
-import {ObjectComponent} from './view/modules/object/object.component';
 import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
 import {ResourceClassFormComponent} from './view/modules/form/resource-class-form/resource-class-form.component';
 import {ResourceFormComponent} from './view/modules/form/resource-form/resource-form.component';
@@ -82,14 +81,10 @@ import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resou
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
 import {MessageComponent} from './view/modules/message/message.component';
-import {NewResClassComponent} from './view/test/development/new-res-class/new-res-class.component';
 import {NewResourceClassComponent} from './view/modules/form/new-resource-class/new-resource-class.component';
-import {OsdViewerComponent} from './view/modules/object/osd-viewer/osd-viewer.component';
 import {EditResourceClassComponent} from './view/modules/form/edit-resource-class/edit-resource-class.component';
 import {SystemComponent} from './view/dashboard/system/system.component';
 import {SystemUsersComponent} from './view/dashboard/system/system-users/system-users.component';
-import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
-import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
 import {UsersListComponent} from './view/modules/listing/users-list/users-list.component';
 import {FrameworkForListingsComponent} from './view/modules/framework/framework-for-listings/framework-for-listings.component';
 import {UserObjectComponent} from './view/modules/object/user-object/user-object.component';
@@ -102,11 +97,33 @@ import {SearchResultsComponent} from './view/search/search-results/search-result
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
 import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {DndDirective} from './view/modules/other/dnd.directive';
-import { ResizeGridDirective } from './view/modules/other/resize-grid.directive';
-import { FormCreateComponent } from './view/test/development/form-create/form-create.component';
-import { FocusDirective } from './view/modules/other/focus.directive';
-import { ConfirmDialogComponent } from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
+import {ResizeGridDirective} from './view/modules/other/resize-grid.directive';
+import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
+import {FocusDirective} from './view/modules/other/focus.directive';
+import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
 
+
+import {MathJaxDirective} from './view/modules/other/mathjax.directive';
+import {ReadTextValueAsHtmlComponent} from './view/properties/read-text-value-as-html/read-text-value-as-html.component';
+import {ReadDateValueComponent} from './view/properties/read-date-value/read-date-value.component';
+import {ReadLinkValueComponent} from './view/properties/read-link-value/read-link-value.component';
+import {ReadTextValueAsStringComponent} from './view/properties/read-text-value-as-string/read-text-value-as-string.component';
+import {ReadTextValueAsXmlComponent} from './view/properties/read-text-value-as-xml/read-text-value-as-xml.component';
+import {ReadIntegerValueComponent} from './view/properties/read-integer-value/read-integer-value.component';
+import {ReadDecimalValueComponent} from './view/properties/read-decimal-value/read-decimal-value.component';
+import {StillImageOSDViewerComponent} from './view/properties/still-image-osdviewer/still-image-osdviewer.component';
+import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geom-value.component';
+import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
+import {SystemProjectsComponent} from "./view/dashboard/system/system-projects/system-projects.component";
+import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologies/system-ontologies.component";
+//
+// import all needed services
+//
+// just to get the basic ontology form the json file
+// just to get the basic ontology form the json file
+//
+// import all app components
+//
 
 @NgModule({
     declarations: [
@@ -131,7 +148,6 @@ import { ConfirmDialogComponent } from './view/modules/dialog/confirm-dialog/con
         OverlayDirective,
         ResourcesListComponent,
         ResourceGridListComponent,
-        ObjectComponent,
         ProjectTeamComponent,
         ProjectResourcesComponent,
         ProjectFormComponent,
@@ -147,17 +163,26 @@ import { ConfirmDialogComponent } from './view/modules/dialog/confirm-dialog/con
         ProgressIndicatorComponent,
         ProgressStepperComponent,
         AdvancedResourceClassComponent,
+        MathJaxDirective,
         DevelopmentComponent,
         MessageComponent,
-        NewResClassComponent,
+        ReadTextValueAsHtmlComponent,
+        ReadDateValueComponent,
+        ReadLinkValueComponent,
+        ReadTextValueAsStringComponent,
+        ReadTextValueAsXmlComponent,
+        ReadIntegerValueComponent,
+        ReadDecimalValueComponent,
+        StillImageOSDViewerComponent,
         NewResourceClassComponent,
-        OsdViewerComponent,
         EditResourceClassComponent,
         SortByPipe,
         SystemComponent,
         SystemUsersComponent,
         SystemProjectsComponent,
         SystemOntologiesComponent,
+        ReadGeomValueComponent,
+        ReadColorValueComponent,
         UsersListComponent,
         FrameworkForListingsComponent,
         UserObjectComponent,
@@ -200,8 +225,11 @@ import { ConfirmDialogComponent } from './view/modules/dialog/confirm-dialog/con
         ResourceService,
         ResourceTypesService,
         SearchService,
+        IncomingService,
         BasicOntologyService,
         UserService,
+        OntologyService,
+        OntologyCacheService,
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,

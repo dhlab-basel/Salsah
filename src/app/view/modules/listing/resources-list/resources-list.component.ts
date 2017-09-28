@@ -18,6 +18,12 @@ import {SearchService} from '../../../../model/services/search.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MessageData} from '../../message/message.component';
+import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
+import {OntologyCacheService, OntologyInformation} from "../../../../model/services/ontologycache.service";
+import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
+
+declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
+let jsonld = require('jsonld');
 
 @Component({
     selector: 'salsah-resources-list',
@@ -42,16 +48,15 @@ export class ResourcesListComponent implements OnInit {
         statusText: 'Sorry! I couldn\'t find what you were looking for. Try another search'
     };
 
-    // the main objects in this component
-    private result: Search = new Search();
-    num: number;
-
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
     // iri of the selected person
     iri: string;
 
-    constructor(private _searchService: SearchService) {
+    result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
+    ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
+
+    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService) {
     }
 
     ngOnInit() {
@@ -59,18 +64,50 @@ export class ResourcesListComponent implements OnInit {
             this.cols = 3;
         }
 
-        this._searchService.doSearch(this.searchParam)
+        this._searchService.doFulltextSearch(this.searchParam)
             .subscribe(
-                (result: ApiServiceResult) => {
-                    this.result = result.getBody(Search);
-                    this.num = this.result.subjects.length;
+                (resResult: ApiServiceResult) => {
+
+                    let resPromises = jsonld.promises;
+                    // compact JSON-LD using an empty context: expands all Iris
+                    let resPromise = resPromises.compact(resResult.body, {});
+
+                    resPromise.then((compacted) => {
+
+                        // get resource class Iris from response
+                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+                        // request ontology information about resource class Iris (properties are implied)
+                        this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                            (resourceClassInfos: OntologyInformation) => {
+
+                                let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                                // assign ontology information to a variable so it can be used in the component's template
+                                this.ontologyInfo = resourceClassInfos;
+                                this.result = resources;
+
+                            },
+                            (err) => {
+
+                                console.log("cache request failed: " + err);
+                            }
+                        );
+
+                    }, function (err) {
+
+                        console.log("JSONLD could not be expanded:" + err);
+                    });
+
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
+
                     this.isLoading = false;
                 }
             );
+
     }
 
     // open / close user
