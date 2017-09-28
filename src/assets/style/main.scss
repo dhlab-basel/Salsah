@@ -44,6 +44,15 @@ a {
   }
 }
 
+// beol-specific!
+a.facsimile {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  background: url('/assets/icons/beol/facsimile.png');
+  background-size: cover;
+}
+
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
