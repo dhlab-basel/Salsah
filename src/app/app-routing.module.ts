@@ -77,7 +77,7 @@ const appRoutes: Routes = [
         path: 'collections', component: UserComponent
     },
     {
-        path: 'search/:q',
+        path: 'search/:mode/:q',
         component: SearchResultsComponent
     },
     {

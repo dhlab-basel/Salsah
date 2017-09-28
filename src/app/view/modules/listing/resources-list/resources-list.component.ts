@@ -32,7 +32,8 @@ let jsonld = require('jsonld');
 })
 export class ResourcesListComponent implements OnInit {
 
-    @Input() searchParam: any;
+    @Input() searchParam: string;
+    @Input() searchMode: string;
     @Input() listType?: string;
 
     @Output() toggleItem = new EventEmitter<any>();
@@ -64,49 +65,101 @@ export class ResourcesListComponent implements OnInit {
             this.cols = 3;
         }
 
-        this._searchService.doFulltextSearch(this.searchParam)
-            .subscribe(
-                (resResult: ApiServiceResult) => {
+        if (this.searchMode == "fulltext") {
+            // fulltext search
 
-                    let resPromises = jsonld.promises;
-                    // compact JSON-LD using an empty context: expands all Iris
-                    let resPromise = resPromises.compact(resResult.body, {});
+            this._searchService.doFulltextSearch(this.searchParam)
+                .subscribe(
+                    (resResult: ApiServiceResult) => {
 
-                    resPromise.then((compacted) => {
+                        let resPromises = jsonld.promises;
+                        // compact JSON-LD using an empty context: expands all Iris
+                        let resPromise = resPromises.compact(resResult.body, {});
 
-                        // get resource class Iris from response
-                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+                        resPromise.then((compacted) => {
 
-                        // request ontology information about resource class Iris (properties are implied)
-                        this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                            (resourceClassInfos: OntologyInformation) => {
+                            // get resource class Iris from response
+                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
-                                let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                            // request ontology information about resource class Iris (properties are implied)
+                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                                (resourceClassInfos: OntologyInformation) => {
 
-                                // assign ontology information to a variable so it can be used in the component's template
-                                this.ontologyInfo = resourceClassInfos;
-                                this.result = resources;
+                                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-                            },
-                            (err) => {
+                                    // assign ontology information to a variable so it can be used in the component's template
+                                    this.ontologyInfo = resourceClassInfos;
+                                    this.result = resources;
 
-                                console.log("cache request failed: " + err);
-                            }
-                        );
+                                },
+                                (err) => {
 
-                    }, function (err) {
+                                    console.log("cache request failed: " + err);
+                                }
+                            );
 
-                        console.log("JSONLD could not be expanded:" + err);
-                    });
+                        }, function (err) {
 
-                    this.isLoading = false;
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
+                            console.log("JSONLD could not be expanded:" + err);
+                        });
 
-                    this.isLoading = false;
-                }
-            );
+                        this.isLoading = false;
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+
+                        this.isLoading = false;
+                    }
+                );
+        } else if (this.searchMode == "extended") {
+            // extended search
+
+            this._searchService.doExtendedSearch(this.searchParam)
+                .subscribe(
+                    (resResult: ApiServiceResult) => {
+
+                        let resPromises = jsonld.promises;
+                        // compact JSON-LD using an empty context: expands all Iris
+                        let resPromise = resPromises.compact(resResult.body, {});
+
+                        resPromise.then((compacted) => {
+
+                            // get resource class Iris from response
+                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+                            // request ontology information about resource class Iris (properties are implied)
+                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                                (resourceClassInfos: OntologyInformation) => {
+
+                                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                                    // assign ontology information to a variable so it can be used in the component's template
+                                    this.ontologyInfo = resourceClassInfos;
+                                    this.result = resources;
+
+                                },
+                                (err) => {
+
+                                    console.log("cache request failed: " + err);
+                                }
+                            );
+
+                        }, function (err) {
+
+                            console.log("JSONLD could not be expanded:" + err);
+                        });
+
+                        this.isLoading = false;
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+
+                        this.isLoading = false;
+                    }
+                );
+        } else {
+            this.errorMessage = `search mode invalid: ${this.searchMode}`;
+        }
 
     }
 
