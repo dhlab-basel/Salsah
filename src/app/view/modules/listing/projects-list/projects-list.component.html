@@ -28,7 +28,8 @@
                 <td>{{item.institution}}</td>
                 <td>
                     <div class="hidden">
-                        <button md-icon-button (click)="setInactive(item.id, item.shortname)" mdTooltip="Deactivate project">
+                        <button md-icon-button (click)="setInactive(item.id, item.shortname)"
+                                mdTooltip="Deactivate project">
                             <md-icon>delete</md-icon>
                         </button>
                         <button md-icon-button (click)="edit(item.id)" mdTooltip="Edit project">
@@ -61,7 +62,8 @@
                 <td>{{item.institution}}</td>
                 <td>
                     <div class="hidden">
-                        <button md-icon-button (click)="setActive(item.id, item.shortname)" mdTooltip="Reactivate project">
+                        <button md-icon-button (click)="setActive(item.id, item.shortname)"
+                                mdTooltip="Reactivate project">
                             <md-icon>refresh</md-icon>
                         </button>
                         <button md-icon-button (click)="edit(item.id)" mdTooltip="Edit project">
@@ -110,22 +112,22 @@
     <!-- default list -->
     <md-list class="salsah-list" *ngSwitchDefault>
         <h3 md-subheader># Projects: {{countAll}}</h3>
-        <md-list-item *ngFor="let item of allProjects | key">
+        <md-list-item *ngFor="let item of allProjects | key" >
             <img md-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
             <h4 md-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
             <div md-line [innerHtml]="item.value.description | slice:0:128"></div>
-
-            <md-toolbar>
-                <button md-icon-button (click)="open(item.value.shortname)">
-                    <md-icon>forward</md-icon>
-                </button>
-                <button md-icon-button *ngIf="user"
-                        mdTooltip="Remove user from project"
-                        mdTooltipPosition="above"
-                        (click)="removeUserFromProject(user, item.key)">
-                    <md-icon>delete</md-icon>
-                </button>
-            </md-toolbar>
+            <button md-icon-button
+                    mdTooltip="Go to the project dashboard"
+                    class="right action-highlight"
+                    (click)="open(item.value.shortname)">
+                <md-icon>forward</md-icon>
+            </button>
+            <button md-icon-button *ngIf="user"
+                    mdTooltip="Remove user from project"
+                    class="right action-highlight"
+                    (click)="removeUserFromProject(user, item.key)">
+                <md-icon>delete</md-icon>
+            </button>
         </md-list-item>
     </md-list>
 </div>

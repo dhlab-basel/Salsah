@@ -27,7 +27,9 @@
                 <td>{{item.email}}</td>
                 <td>
                     <div class="hidden">
-                        <button md-icon-button (click)="setInactive(item.user_id, item.givenName + ' ' + item.familyName)" mdTooltip="Delete user">
+                        <button md-icon-button
+                                (click)="setInactive(item.user_id, item.givenName + ' ' + item.familyName)"
+                                mdTooltip="Delete user">
                             <md-icon>delete</md-icon>
                         </button>
                         <button md-icon-button (click)="edit(item.user_id)" mdTooltip="Edit user">
@@ -60,7 +62,9 @@
                 <td>{{item.email}}</td>
                 <td>
                     <div class="hidden">
-                        <button md-icon-button (click)="setActive(item.user_id,  item.givenName + ' ' + item.familyName)" mdTooltip="Activate user">
+                        <button md-icon-button
+                                (click)="setActive(item.user_id,  item.givenName + ' ' + item.familyName)"
+                                mdTooltip="Activate user">
                             <md-icon>refresh</md-icon>
                         </button>
                         <button md-icon-button (click)="edit(item.user_id)" mdTooltip="Edit user">
@@ -78,15 +82,15 @@
 
     <!-- default list -->
     <md-list class="salsah-list" *ngSwitchDefault>
-        <h3 md-subheader># Users: {{countAll}}
+        <h3 md-subheader># Users: {{countActive}}
             <span *ngIf="selectedRow === undefined && countAll > 1"> | {{sortTitle}}
-            <button md-button
-                    *ngIf="selectedRow == undefined"
-                    (click)="sortBy(sortKey)"
-                    [mdTooltip]="sortTitle + sortLabel" mdTooltipPosition="above">
-                {{sortLabel}} <md-icon>sort_by_alpha</md-icon>
-            </button>
-        </span>
+                <button md-button
+                        *ngIf="selectedRow == undefined"
+                        (click)="sortBy(sortKey)"
+                        [mdTooltip]="sortTitle + sortLabel" mdTooltipPosition="above">
+                    {{sortLabel}} <md-icon>sort_by_alpha</md-icon>
+                </button>
+            </span>
         </h3>
         <md-list-item *ngFor="let item of allUsers | sortBy: sortKey; let i = index"
                       (click)="toggle(item.user_id, i);"
@@ -103,9 +107,12 @@
             <button md-icon-button class="right close close-highlight">
                 <md-icon>close</md-icon>
             </button>
-            <button md-icon-button class="right" (click)="removeFromProject(item.user_id, project)" mdTooltip="Remove user from project">
+            <!-- styling issue #81
+            <button md-icon-button class="right action-highlight" (click)="removeFromProject(item.user_id, project)"
+                    mdTooltip="Remove user from project" *ngIf="loggedInAdmin">
                 <md-icon>delete</md-icon>
             </button>
+            -->
         </md-list-item>
     </md-list>
 </div>

@@ -152,7 +152,7 @@ export class ProjectsListComponent implements OnInit {
     }
 
     removeUserFromProject(user: string, project: string) {
-        let answer: boolean = false;
+        const answer: boolean = false;
         const config = new MdDialogConfig();
 
         config.data = {

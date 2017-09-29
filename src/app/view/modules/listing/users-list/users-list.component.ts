@@ -48,6 +48,7 @@ export class UsersListComponent implements OnInit {
 
     @Output() toggleItem = new EventEmitter<any>();
 
+    loggedInAdmin: boolean = false;
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
@@ -104,11 +105,27 @@ export class UsersListComponent implements OnInit {
         this.selectedRow = this.index;
 
         if (this.project !== undefined) {
+
+            // bad hack to get the project admin information
+            this.loggedInAdmin = (sessionStorage.getItem('admin') !== null);
+            // end of bad hack. TODO: we have to find a better solution
+
             // get project members
             this._projectsService.getProjectMembersByIri(this.project)
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.allUsers = result.getBody(ProjectMembers).members;
+                        // TODO: move the following lines into a method
+                        for (const au of this.allUsers) {
+                            if (au.status === true) {
+                                this.allActiveUsers.push(au);
+                            } else {
+                                this.allInactiveUsers.push(au);
+                            }
+                        }
+                        this.countAll = Object.keys(this.allUsers).length;
+                        this.countActive = Object.keys(this.allActiveUsers).length;
+                        this.countInactive = Object.keys(this.allInactiveUsers).length;
 
                         // set an array of the project members in local storage
                         // it's a list of user IRIs
@@ -118,7 +135,6 @@ export class UsersListComponent implements OnInit {
                         for (const m of this.allUsers) {
                             currentMembers.push(m.user_id);
                         }
-                        this.countAll = Object.keys(this.allUsers).length;
                         sessionStorage.setItem('currentMembers', JSON.stringify(currentMembers));
                         this.isLoading = false;
                     },
