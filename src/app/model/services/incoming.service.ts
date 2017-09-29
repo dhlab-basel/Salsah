@@ -68,8 +68,6 @@ export class IncomingService extends SearchService {
 
             ?page knora-api:isMainResource true .
             
-            ?page knora-api:isPartOf <${resourceIri}> .
-            
             ?page knora-api:seqnum ?seqnum .
             
             ?page knora-api:hasStillImageFileValue ?file .
@@ -118,8 +116,6 @@ export class IncomingService extends SearchService {
         CONSTRUCT {
         
             ?incomingRes knora-api:isMainResource true .
-            
-            ?incomingRes ?incomingProp <${resourceIri}> .
         
         } WHERE {
         
