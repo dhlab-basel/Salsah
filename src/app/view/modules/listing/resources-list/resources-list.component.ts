@@ -70,41 +70,7 @@ export class ResourcesListComponent implements OnInit {
 
             this._searchService.doFulltextSearch(this.searchParam)
                 .subscribe(
-                    (resResult: ApiServiceResult) => {
-
-                        let resPromises = jsonld.promises;
-                        // compact JSON-LD using an empty context: expands all Iris
-                        let resPromise = resPromises.compact(resResult.body, {});
-
-                        resPromise.then((compacted) => {
-
-                            // get resource class Iris from response
-                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
-
-                            // request ontology information about resource class Iris (properties are implied)
-                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                                (resourceClassInfos: OntologyInformation) => {
-
-                                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
-
-                                    // assign ontology information to a variable so it can be used in the component's template
-                                    this.ontologyInfo = resourceClassInfos;
-                                    this.result = resources;
-
-                                },
-                                (err) => {
-
-                                    console.log("cache request failed: " + err);
-                                }
-                            );
-
-                        }, function (err) {
-
-                            console.log("JSONLD could not be expanded:" + err);
-                        });
-
-                        this.isLoading = false;
-                    },
+                    this.processSearchResults, // function pointer
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
 
@@ -116,41 +82,7 @@ export class ResourcesListComponent implements OnInit {
 
             this._searchService.doExtendedSearch(this.searchParam)
                 .subscribe(
-                    (resResult: ApiServiceResult) => {
-
-                        let resPromises = jsonld.promises;
-                        // compact JSON-LD using an empty context: expands all Iris
-                        let resPromise = resPromises.compact(resResult.body, {});
-
-                        resPromise.then((compacted) => {
-
-                            // get resource class Iris from response
-                            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
-
-                            // request ontology information about resource class Iris (properties are implied)
-                            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                                (resourceClassInfos: OntologyInformation) => {
-
-                                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
-
-                                    // assign ontology information to a variable so it can be used in the component's template
-                                    this.ontologyInfo = resourceClassInfos;
-                                    this.result = resources;
-
-                                },
-                                (err) => {
-
-                                    console.log("cache request failed: " + err);
-                                }
-                            );
-
-                        }, function (err) {
-
-                            console.log("JSONLD could not be expanded:" + err);
-                        });
-
-                        this.isLoading = false;
-                    },
+                    this.processSearchResults, // function pointer
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
 
@@ -162,6 +94,52 @@ export class ResourcesListComponent implements OnInit {
         }
 
     }
+
+    /**
+     *
+     * Converts search results from JSON-LD to a [[ReadResourcesSequence]] and requests information about ontology entities.
+     * This function is passed to `subscribe` as a pointer (instead of redundantly defining the same lambda function).
+     *
+     * Attention: this function definition makes uses of the arrow notation because the context of `this` has to be inherited from the context.
+     * See: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#No_binding_of_this>
+     *
+     * @param {ApiServiceResult} searchResult the answer to a search request.
+     */
+    private processSearchResults = (searchResult: ApiServiceResult) => {
+
+        let resPromises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        let resPromise = resPromises.compact(searchResult.body, {});
+
+        resPromise.then((compacted) => {
+
+            // get resource class Iris from response
+            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+            // request ontology information about resource class Iris (properties are implied)
+            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                (resourceClassInfos: OntologyInformation) => {
+
+                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                    // assign ontology information to a variable so it can be used in the component's template
+                    this.ontologyInfo = resourceClassInfos;
+                    this.result = resources;
+
+                },
+                (err) => {
+
+                    console.log("cache request failed: " + err);
+                }
+            );
+
+        }, function (err) {
+
+            console.log("JSONLD could not be expanded:" + err);
+        });
+
+        this.isLoading = false;
+    };
 
     // open / close user
     toggle(id: string, index: number) {

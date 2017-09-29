@@ -1,13 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {SearchService} from "../../../../model/services/search.service";
-import {OntologyCacheService, OntologyInformation} from "../../../../model/services/ontologycache.service";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
+import {OntologyInformation} from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
-
-declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
-let jsonld = require('jsonld');
 
 @Component({
     selector: 'salsah-extended-search',
@@ -16,14 +10,12 @@ let jsonld = require('jsonld');
 })
 export class ExtendedSearchComponent implements OnInit {
 
-    constructor(private _route: ActivatedRoute,
-                private _router: Router,
-                private _searchService: SearchService,
-                private _cacheService: OntologyCacheService) {
-    }
-
     result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
     ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
+
+    constructor(private _route: ActivatedRoute,
+                private _router: Router) {
+    }
 
     ngOnInit() {
 
@@ -38,10 +30,6 @@ export class ExtendedSearchComponent implements OnInit {
     
             CONSTRUCT {
                 ?letter knora-api:isMainResource true .
-            
-                ?letter ?linkingProp1  <http://rdfh.ch/beol/ZkJcQg9yTmyMY_J6nnubxA> .
-        
-                ?letter ?linkingProp2  <http://rdfh.ch/beol/_yblAQMwT2un_xN7UaVWrg> .
         
             } WHERE {
                 ?letter a knora-api:Resource .
