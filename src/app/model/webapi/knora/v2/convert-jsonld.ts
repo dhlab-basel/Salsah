@@ -30,6 +30,7 @@ import {
     ReferredResourcesByStandoffLink
 } from "./read-property-item";
 import {AppConfig} from "../../../../app.config";
+import {Utils} from "../../../../utils";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -45,37 +46,13 @@ export module ConvertJSONLD {
      */
     function constructReadResource(resourceJSONLD: Object): ReadResource {
 
-        // include information about resources referred to by standoff links
-        let standoffLinkValuesJSONLD: Object = resourceJSONLD[AppConfig.hasStandoffLinkToValue];
-
-        let standoffLinkValues: ReadLinkValue[] = [];
-
-        // convert each JSONLD object to a ReadLinkValue
-        if (standoffLinkValuesJSONLD !== undefined && Array.isArray(standoffLinkValuesJSONLD)) {
-            for (let standoffLinkJSONLD of standoffLinkValuesJSONLD) {
-                let standoffVal: ReadLinkValue = createValueSpecificProp(standoffLinkJSONLD, AppConfig.hasStandoffLinkToValue, []) as ReadLinkValue;
-
-                standoffLinkValues.push(standoffVal)
-            }
-        } else if(standoffLinkValuesJSONLD !== undefined) {
-            let standoffVal = createValueSpecificProp(standoffLinkValuesJSONLD, AppConfig.hasStandoffLinkToValue, []) as ReadLinkValue;
-
-            standoffLinkValues.push(standoffVal);
-        }
-
-        /*if (standoffLinkValuesJSONLD !== undefined) {
-            console.log(resourceJSONLD);
-            console.log(standoffLinkValues);
-        }*/
-
-        let properties: ReadProperties = constructReadProperties(resourceJSONLD, standoffLinkValues);
+        let properties: ReadProperties = constructReadProperties(resourceJSONLD);
 
         return {
             id: resourceJSONLD['@id'],
             type: resourceJSONLD['@type'],
             label: resourceJSONLD[AppConfig.schemaName],
             properties: properties,
-            standoffLinkValues: standoffLinkValues,
             incomingRegions: [],
             incomingStillImageRepresentations: [],
             incomingLinks: [],
@@ -109,11 +86,12 @@ export module ConvertJSONLD {
 
                     let referredResources: ReferredResourcesByStandoffLink = {};
 
-                        // check for standoff links
-                        for (let standoffLink of standoffLinkValues) {
-                            let referredRes: ReadResource = standoffLink.referredResource;
-                            referredResources[referredRes.id] = referredRes;
-                        }
+                    // check for standoff links and include referred resources, if any
+                    // when the user interacts with a standoff link, further information about the referred resource can be shown
+                    for (let standoffLink of standoffLinkValues) {
+                        let referredRes: ReadResource = standoffLink.referredResource;
+                        referredResources[referredRes.id] = referredRes;
+                    }
 
                     textValue = new ReadTextValueAsHtml(propValue['@id'], propIri, propValue[AppConfig.textValueAsHtml], referredResources);
                 } else if (propValue[AppConfig.textValueAsXml] !== undefined && propValue[AppConfig.textValueHasMapping] !== undefined) {
@@ -234,7 +212,27 @@ export module ConvertJSONLD {
      * @param standoffLinksValues standoff link values of the resource.
      * @returns a [[ReadProperties]].
      */
-    function constructReadProperties(resourceJSONLD: Object, standoffLinksValues: ReadLinkValue[]): ReadProperties {
+    function constructReadProperties(resourceJSONLD: Object): ReadProperties {
+
+        // JSONLD representing standoff link values
+        let standoffLinkValuesJSONLD: Object = resourceJSONLD[AppConfig.hasStandoffLinkToValue];
+
+        // to be populated with standoff link values
+        let standoffLinkValues: ReadLinkValue[] = [];
+
+        // convert each standoff link value JSONLD object to a ReadLinkValue
+        // in order populate the collection with all the standoff link values
+        if (standoffLinkValuesJSONLD !== undefined && Array.isArray(standoffLinkValuesJSONLD)) {
+            for (let standoffLinkJSONLD of standoffLinkValuesJSONLD) {
+                let standoffVal: ReadLinkValue = createValueSpecificProp(standoffLinkJSONLD, AppConfig.hasStandoffLinkToValue, []) as ReadLinkValue;
+
+                standoffLinkValues.push(standoffVal)
+            }
+        } else if (standoffLinkValuesJSONLD !== undefined) {
+            let standoffVal = createValueSpecificProp(standoffLinkValuesJSONLD, AppConfig.hasStandoffLinkToValue, []) as ReadLinkValue;
+
+            standoffLinkValues.push(standoffVal);
+        }
 
         let propNames = Object.keys(resourceJSONLD);
         // filter out everything that is not a Knora property name
@@ -255,7 +253,7 @@ export module ConvertJSONLD {
                 for (let propValue of resourceJSONLD[propName]) {
 
                     // convert a JSON-LD property value to a `ReadPropertyItem`
-                    let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(propValue, propName, standoffLinksValues);
+                    let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(propValue, propName, standoffLinkValues);
 
                     // if it is undefined, the value could not be constructed correctly
                     // add the property value to the array of property values
@@ -265,7 +263,7 @@ export module ConvertJSONLD {
             } else {
                 // only one value
 
-                let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(resourceJSONLD[propName], propName, standoffLinksValues);
+                let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(resourceJSONLD[propName], propName, standoffLinkValues);
 
                 // if it is undefined, the value could not be constructed correctly
                 // add the property value to the array of property values
@@ -388,13 +386,7 @@ export module ConvertJSONLD {
             }
 
             // filter out duplicates
-            // https://stackoverflow.com/questions/16747798/delete-duplicate-elements-from-an-array
-            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter?v=example
-            return resourceClasses.filter(function (elem, index, self) {
-                // returns true if the element's index equals the index of the leftmost element
-                // for all other elements, false is returned
-                return index == self.indexOf(elem);
-            });
+            return resourceClasses.filter(Utils.filterOutDuplicates);
 
         } else {
 
@@ -411,13 +403,7 @@ export module ConvertJSONLD {
             resourceClasses = resourceClasses.concat(referredResourceClasses);
 
             // filter out duplicates
-            // https://stackoverflow.com/questions/16747798/delete-duplicate-elements-from-an-array
-            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter?v=example
-            return resourceClasses.filter(function (elem, index, self) {
-                // returns true if the element's index equals the index of the leftmost element
-                // for all other elements, false is returned
-                return index == self.indexOf(elem);
-            });
+            return resourceClasses.filter(Utils.filterOutDuplicates);
         }
     }
 

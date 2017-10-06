@@ -26,8 +26,6 @@ export interface ReadResource {
 
     properties?: ReadProperties;
 
-    standoffLinkValues: Array<ReadPropertyItem>
-
     incomingRegions: Array<ReadResource>;
 
     incomingStillImageRepresentations: Array<ReadResource>;
