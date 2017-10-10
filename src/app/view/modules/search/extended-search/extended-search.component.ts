@@ -21,7 +21,7 @@ export class ExtendedSearchComponent implements OnInit {
 
     }
 
-    private performExtendedSearch() {
+    performExtendedSearch() {
 
         // TODO: Create this Sparql from a GUI-form
         let sparql = `
@@ -30,6 +30,8 @@ export class ExtendedSearchComponent implements OnInit {
     
             CONSTRUCT {
                 ?letter knora-api:isMainResource true .
+                
+                ?letter beol:creationDate ?date .
         
             } WHERE {
                 ?letter a knora-api:Resource .

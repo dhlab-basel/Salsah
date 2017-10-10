@@ -16,8 +16,6 @@ export class IncomingService extends SearchService {
       CONSTRUCT {
           ?region knora-api:isMainResource true .
 
-          ?region knora-api:isRegionOf <${resourceIRI}> .
-
           ?region knora-api:hasGeometry ?geom .
 
           ?region knora-api:hasComment ?comment .
@@ -116,6 +114,8 @@ export class IncomingService extends SearchService {
         CONSTRUCT {
         
             ?incomingRes knora-api:isMainResource true .
+            
+            ?incomingRes ?incomingProp <${resourceIri}> .
         
         } WHERE {
         
