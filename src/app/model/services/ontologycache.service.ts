@@ -436,22 +436,27 @@ export class OntologyCacheService {
             // get cardinalities for the properties of a resource class
             for (let curCard of curResClassFromOntoRes[AppConfig.RdfsSubclassOf]) {
 
-                let newCard;
+                // make sure it is a cardinality (it could also be an Iri of a superclass)
+                if (curCard instanceof Object && curCard['@type'] !== undefined && curCard['@type'] == AppConfig.OwlRestriction) {
 
-                // get occurrence
-                if (curCard[AppConfig.OwlMinCardinality] !== undefined) {
-                    newCard = new Cardinality(CardinalityOccurrence.minCard, curCard[AppConfig.OwlMinCardinality], curCard[AppConfig.OwlOnProperty]);
-                } else if (curCard[AppConfig.OwlCardinality] !== undefined) {
-                    newCard = new Cardinality(CardinalityOccurrence.card, curCard[AppConfig.OwlCardinality], curCard[AppConfig.OwlOnProperty]);
-                } else if (curCard[AppConfig.OwlMaxCardinality] !== undefined) {
-                    newCard = new Cardinality(CardinalityOccurrence.maxCard, curCard[AppConfig.OwlMaxCardinality], curCard[AppConfig.OwlOnProperty]);
-                } else {
-                    // no known occurrence found
-                    throw new TypeError(`cardinality type invalid for ${curResClassFromOntoRes["@id"]} ${curCard[AppConfig.OwlOnProperty]}`);
+                    let newCard;
+
+                    // get occurrence
+                    if (curCard[AppConfig.OwlMinCardinality] !== undefined) {
+                        newCard = new Cardinality(CardinalityOccurrence.minCard, curCard[AppConfig.OwlMinCardinality], curCard[AppConfig.OwlOnProperty]);
+                    } else if (curCard[AppConfig.OwlCardinality] !== undefined) {
+                        newCard = new Cardinality(CardinalityOccurrence.card, curCard[AppConfig.OwlCardinality], curCard[AppConfig.OwlOnProperty]);
+                    } else if (curCard[AppConfig.OwlMaxCardinality] !== undefined) {
+                        newCard = new Cardinality(CardinalityOccurrence.maxCard, curCard[AppConfig.OwlMaxCardinality], curCard[AppConfig.OwlOnProperty]);
+                    } else {
+                        // no known occurrence found
+                        throw new TypeError(`cardinality type invalid for ${curResClassFromOntoRes["@id"]} ${curCard[AppConfig.OwlOnProperty]}`);
+                    }
+
+                    // add cardinality
+                    cardinalities.push(newCard);
+
                 }
-
-                // add cardinality
-                cardinalities.push(newCard);
 
             }
 
@@ -596,7 +601,7 @@ export class OntologyCacheService {
                 ontRes => {
 
                     // write resource classes for named graph to cache (inlcuding resource class definitions and properties)
-                    this.convertAndWriteKnoraResourceClassesForNamedGraphsToCache(ontRes[AppConfig.hasOntologiesWithResourceClasses], ontRes[AppConfig.hasResourceClasses], ontRes[AppConfig.hasProperties]);
+                    this.convertAndWriteKnoraResourceClassesForNamedGraphsToCache(ontRes[AppConfig.hasOntologiesWithClasses], ontRes[AppConfig.hasClasses], ontRes[AppConfig.hasProperties]);
 
                     return this.getResourceClassesForNamedGraphsFromCache(namedGraphIris);
                 }
@@ -632,7 +637,7 @@ export class OntologyCacheService {
                 ontRes => {
 
                     // write resource classes to cache (including props)
-                    this.convertAndWriteKnoraResourceClassDefinitionsToCache(ontRes[AppConfig.hasResourceClasses], ontRes[AppConfig.hasProperties]);
+                    this.convertAndWriteKnoraResourceClassDefinitionsToCache(ontRes[AppConfig.hasClasses], ontRes[AppConfig.hasProperties]);
 
                     return this.getResourceClassDefinitionsFromCache(resourceClassIris);
 
