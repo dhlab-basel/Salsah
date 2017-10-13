@@ -131,8 +131,8 @@ export class ReadTextValueAsXml implements ReadPropertyItem {
 
     getContent(): string {
 
-        // return XML als plain text (escape markup)
-        return escape(this.xml);
+        // return XML als plain text
+        return this.xml;
     };
 
     getClassName(): string {
