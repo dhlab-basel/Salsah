@@ -13,7 +13,7 @@
  * */
 
 import {Component, Inject, OnInit} from '@angular/core';
-import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
     selector: 'salsah-message-dialog',
@@ -22,8 +22,8 @@ import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 })
 export class MessageDialogComponent implements OnInit {
 
-    constructor(public _dialogRef: MdDialogRef<MessageDialogComponent>,
-                @Inject(MD_DIALOG_DATA) public data: any) {
+    constructor(public _dialogRef: MatDialogRef<MessageDialogComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {

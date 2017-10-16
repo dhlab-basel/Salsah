@@ -1,23 +1,23 @@
-
-<section *ngIf="!editResource" >
+<section *ngIf="!editResource">
     <h3>{{resType.label}}</h3>
-    <p >{{resType.description}}</p>
+    <p>{{resType.description}}</p>
     <form>
-        <md-list class="list-group" mdTooltip="You can sort this list with drag and drop" dnd-sortable-container [sortableData]="resType.properties">
+        <mat-list class="list-group" matTooltip="You can sort this list with drag and drop" dnd-sortable-container
+                  [sortableData]="resType.properties">
 
             <!--TODO assign i to prop.guiorder  -->
 
-            <md-list-item *ngFor="let prop of resType.properties; let i = index"
-                          class="list-group-item"
-                          dnd-sortable [sortableIndex]="i" >
-                <h4 md-line>{{prop.label}}</h4>
-                <p md-line>{{prop.description}}</p>
-                <p md-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
-            </md-list-item>
-        </md-list>
+            <mat-list-item *ngFor="let prop of resType.properties; let i = index"
+                           class="list-group-item"
+                           dnd-sortable [sortableIndex]="i">
+                <h4 mat-line>{{prop.label}}</h4>
+                <p mat-line>{{prop.description}}</p>
+                <p mat-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
+            </mat-list-item>
+        </mat-list>
     </form>
-    <md-divider></md-divider>
-        <p class="mute">My classes:<br/>
+    <mat-divider></mat-divider>
+    <p class="mute">My classes:<br/>
         <span *ngFor="let prop of resType.properties; let i = index">{{i + 1}}) {{prop.label}}<br/></span>
 
 </section>
@@ -25,184 +25,185 @@
 <!------------------------------------------------------------------------------------------------------->
 <!------------------------------------Edit resources!    ------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------->
-<!------------------------------------Edit resources!    ------------------------------------------------>
-<!------------------------------------------------------------------------------------------------------->
 
 <section *ngIf="editResource">
     <p>Click on the arrows to expand and edit</p>
 
-<!------------------------------------------------------------------------------------------------------->
-<!-----------Here we will use cards for each resource and property, which will be collapsible------------>
-<!-----------Each card will have its own save button----------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------->
+    <!-----------Here we will use cards for each resource and property, which will be collapsible------------>
+    <!-----------Each card will have its own save button----------------------------------------------------->
 
 
-        <md-card>
-            <md-card-header>
-                <h4>Resource: {{resType.label}}</h4>
-                <span *ngIf="focusOnResourceEdit=='inactive'">
-                        <button md-icon-button (click)="toggleMenu('resEdit')">
-                            <md-icon>keyboard_arrow_down</md-icon>
+    <mat-card>
+        <mat-card-header>
+            <h4>Resource: {{resType.label}}</h4>
+            <span *ngIf="focusOnResourceEdit=='inactive'">
+                        <button mat-icon-button (click)="toggleMenu('resEdit')">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
                     </span>
-                <span *ngIf="focusOnResourceEdit=='active'">
-                        <button md-icon-button (click)="toggleMenu('resEdit')">
-                            <md-icon>keyboard_arrow_up</md-icon>
+            <span *ngIf="focusOnResourceEdit=='active'">
+                        <button mat-icon-button (click)="toggleMenu('resEdit')">
+                            <mat-icon>keyboard_arrow_up</mat-icon>
                         </button>
                     </span>
-            </md-card-header>
-                <form #editRes="ngForm" (ngSubmit)="onSubmit(editRes.value)" class="salsah-form">
-                    <!-- toggle only card content -->
-                    <div [@resEdit]="focusOnResourceEdit">
-                        <md-card-content>
-                                <p><md-input-container class = "full-width">
-                                        <input mdInput
-                                               placeholder="Resource Type"
-                                               name="name"
-                                               [(ngModel)]="resType.label"
-                                                value="{{resType.label}}">
-                                </md-input-container></p>
+        </mat-card-header>
+        <form #editRes="ngForm" (ngSubmit)="onSubmit(editRes.value)" class="salsah-form">
+            <!-- toggle only card content -->
+            <div [@resEdit]="focusOnResourceEdit">
+                <mat-card-content>
+                    <p>
+                        <mat-input-container class="full-width">
+                            <input matInput
+                                   placeholder="Resource Type"
+                                   name="name"
+                                   [(ngModel)]="resType.label"
+                                   value="{{resType.label}}">
+                        </mat-input-container>
+                    </p>
 
-                                <p><md-input-container class = "full-width">
-                                    <textarea mdInput
+                    <p>
+                        <mat-input-container class="full-width">
+                                    <textarea matInput
                                               placeholder="Resource Description"
                                               name="description"
                                               [(ngModel)]="resType.description">
                                         {{resType.description}}
                                     </textarea>
-                                </md-input-container></p>
-                        </md-card-content>
+                        </mat-input-container>
+                    </p>
+                </mat-card-content>
 
-                        <md-card-actions>
-                            <button md-raised-button
-                                    class="save-button"
-                                    [color]="'primary'"
-                                    type="submit">
-                                Save
-                            </button>
-                        </md-card-actions>
-                    </div>
-                </form>
-        </md-card>
+                <mat-card-actions>
+                    <button mat-raised-button
+                            class="save-button"
+                            [color]="'primary'"
+                            type="submit">
+                        Save
+                    </button>
+                </mat-card-actions>
+            </div>
+        </form>
+    </mat-card>
 
 
-<!------------------------------------Edit resource properties!  We use tabs  ------------------------------------------------>
-<br>
-    <md-card>
-        <md-card-header>
-           <h4>Resource properties</h4>
+    <!------------------------------------Edit resource properties!  We use tabs  ------------------------------------------------>
+    <br>
+    <mat-card>
+        <mat-card-header>
+            <h4>Resource properties</h4>
             <span *ngIf="focusOnPropertiesEdit=='inactive'">
-                        <button md-icon-button (click)="toggleMenu('propEdit')">
-                            <md-icon>keyboard_arrow_down</md-icon>
+                        <button mat-icon-button (click)="toggleMenu('propEdit')">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
                     </span>
             <span *ngIf="focusOnPropertiesEdit=='active'">
-                        <button md-icon-button (click)="toggleMenu('propEdit')">
-                            <md-icon>keyboard_arrow_up</md-icon>
+                        <button mat-icon-button (click)="toggleMenu('propEdit')">
+                            <mat-icon>keyboard_arrow_up</mat-icon>
                         </button>
                     </span>
-        </md-card-header>
+        </mat-card-header>
         <!-- toggle only card content -->
         <div [@propEdit]="focusOnPropertiesEdit">
-            <md-tab-group >
+            <mat-tab-group>
                 <!-- use tabs to go through the different properties -->
-                <md-tab *ngFor="let prop of resType.properties; let i = index" label="{{prop.label}}">
+                <mat-tab *ngFor="let prop of resType.properties; let i = index" label="{{prop.label}}">
                     <form #editProp="ngForm" (ngSubmit)="onSubmit(editProp.value)" class="salsah-form">
                         <br>
-                        <md-card-content>
+                        <mat-card-content>
                             <!-- each property can be modified (some fields are disabled since they should not be modified) -->
-                            <md-input-container class = "full-width" >
-                                <input mdInput
+                            <mat-input-container class="full-width">
+                                <input matInput
                                        placeholder="Property name"
                                        name="propertyName"
                                        [id]="prop.label"
                                        [(ngModel)]="prop.label"
                                        [value]="prop.label">
-                            </md-input-container>
-                            <md-input-container class = "full-width" >
-                                <input mdInput
+                            </mat-input-container>
+                            <mat-input-container class="full-width">
+                                <input matInput
                                        placeholder="Property description"
                                        name="propDescription"
                                        [id]="prop.description"
                                        [(ngModel)]="prop.description"
                                        [value]="prop.description">
-                            </md-input-container>
-                            <md-select class = "full-width"
-                                       placeholder="GUI type (!!!does not show original value yet)"
-                                       [(ngModel)]="prop.gui_name"
-                                       name="GUI type"
-                                       (change)="setGUI(i, $event)">
-                                <md-option *ngFor="let guiItem of guiItems" [value]="guiItem">
+                            </mat-input-container>
+                            <mat-select class="full-width"
+                                        placeholder="GUI type (!!!does not show original value yet)"
+                                        [(ngModel)]="prop.gui_name"
+                                        name="GUI type"
+                                        (change)="setGUI(i, $event)">
+                                <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
                                     {{guiItem}}
-                                </md-option>
-                            </md-select>
+                                </mat-option>
+                            </mat-select>
                             <br><br>
-                            <md-input-container class = "full-width" >
-                                <input mdInput
+                            <mat-input-container class="full-width">
+                                <input matInput
                                        placeholder="Attributes"
                                        name="attributes"
                                        [id]="prop.attributes"
                                        [(ngModel)]="prop.attributes"
                                        [value]="prop.attributes">
-                            </md-input-container>
-                            <md-input-container class = "full-width" >
-                                <input mdInput
+                            </mat-input-container>
+                            <mat-input-container class="full-width">
+                                <input matInput
                                        placeholder="Id"
                                        name="id"
                                        [id]="prop.id"
                                        [(ngModel)]="prop.id"
                                        disabled value="prop.id">
-                           </md-input-container>
-                            <md-select class = "full-width"
-                                       placeholder="Occurrence"
-                                       [(ngModel)]="prop.occurrence"
-                                       name="Occurrence"
-                                       (change)="setOcc(i, $event)">
-                                <md-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
+                            </mat-input-container>
+                            <mat-select class="full-width"
+                                        placeholder="Occurrence"
+                                        [(ngModel)]="prop.occurrence"
+                                        name="Occurrence"
+                                        (change)="setOcc(i, $event)">
+                                <mat-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
                                     {{cardinality}}
-                                </md-option>
-                            </md-select>
+                                </mat-option>
+                            </mat-select>
                             <br><br>
-                            <md-input-container class = "full-width"  >
-                                <input mdInput
+                            <mat-input-container class="full-width">
+                                <input matInput
                                        placeholder="Value type id"
                                        name="valuetype_id"
                                        [id]="prop.valuetype_id"
                                        [(ngModel)]="prop.valuetype_id"
                                        disabled value="prop.valuetype_id">
-                            </md-input-container>
-                            <md-select class = "full-width"
-                                       placeholder="Vocabulary"
-                                       [(ngModel)]="prop.vocabulary"
-                                       name="Vocabulary"
-                                       (change)="setVoc(i, $event)"
-                                       disabled>
-                                <md-option *ngFor="let project of projectsList" [value]="project.ontologyNamedGraph">
+                            </mat-input-container>
+                            <mat-select class="full-width"
+                                        placeholder="Vocabulary"
+                                        [(ngModel)]="prop.vocabulary"
+                                        name="Vocabulary"
+                                        (change)="setVoc(i, $event)"
+                                        disabled>
+                                <mat-option *ngFor="let project of projectsList" [value]="project.ontologyNamedGraph">
                                     {{project.name}}
-                                </md-option>
-                            </md-select>
+                                </mat-option>
+                            </mat-select>
                             <br><br>
-                        </md-card-content>
+                        </mat-card-content>
 
-                        <md-card-actions>
-                            <button md-raised-button
+                        <mat-card-actions>
+                            <button mat-raised-button
                                     class="save-button"
                                     [color]="'primary'"
                                     type="submit">
                                 Save
                             </button>
-                        </md-card-actions>
+                        </mat-card-actions>
                     </form>
-                </md-tab>
-            </md-tab-group>
+                </mat-tab>
+            </mat-tab-group>
         </div>
-    </md-card>
+    </mat-card>
 </section>
-
 
 
 <footer class="footer">
     <div *ngIf="!editResource" layout="row" layout-align="center center" flex>
-        <button md-raised-button
+        <button mat-raised-button
                 class="next"
                 [color]="'primary'"
                 (click)="editResources()">
@@ -210,7 +211,7 @@
         </button>
     </div>
     <div *ngIf="editResource" layout="row" layout-align="center center" flex>
-        <button md-raised-button
+        <button mat-raised-button
                 class="next"
                 [color]="'primary'"
                 (click)="closeEditView()">

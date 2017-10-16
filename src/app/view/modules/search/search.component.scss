@@ -107,12 +107,12 @@ $search-width: 720px;
         &:hover {
           background-color: $bright;
 
-          md-icon {
+          mat-icon {
             display: block;
           }
         }
 
-        md-icon {
+        mat-icon {
           display: none;
         }
       }

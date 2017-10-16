@@ -156,7 +156,7 @@ export class EditResourceClassComponent implements OnChanges {
         }
     }
 
-    //sets default values from json files on md-select
+    //sets default values from json files on mat-select
     setGUI(index: number, event) {
         if (this.editResourceClass.properties[index] !== undefined) {
             this.editResourceClass.properties[index].gui_name = event.value;

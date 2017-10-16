@@ -123,7 +123,7 @@ $background: #fff;
 
       &.active {
         background-color: $accent;
-        //                        @include md-box-shadow-deep();
+        //                        @include mat-box-shadow-deep();
         border: 1px solid darken($bright, 50%);
       }
 

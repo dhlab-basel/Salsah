@@ -1,6 +1,6 @@
 
 .salsah-menu {
-  @include md-box-shadow-deep();
+  @include mat-box-shadow-deep();
   background-color: $bright;
   border-radius: $border-radius;
   display: none;

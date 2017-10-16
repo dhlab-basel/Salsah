@@ -20,7 +20,7 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {UserService} from '../../../../model/services/user.service';
 import {ProjectsList, ProjectItem, User, UserProfile} from '../../../../model/webapi/knora/';
 import {MessageData} from '../../message/message.component';
-import {MdDialog, MdDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
@@ -81,7 +81,7 @@ export class ProjectsListComponent implements OnInit {
     constructor(private _router: Router,
                 private _projectsService: ProjectsService,
                 private _userService: UserService,
-                public _dialog: MdDialog) {
+                public _dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -138,7 +138,7 @@ export class ProjectsListComponent implements OnInit {
 
 
     edit(id: string) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
                 form: 'project'
@@ -153,7 +153,7 @@ export class ProjectsListComponent implements OnInit {
 
     removeUserFromProject(user: string, project: string) {
         const answer: boolean = false;
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
         config.data = {
             title: 'Are you sure to remove this user from the project?',
@@ -177,7 +177,7 @@ export class ProjectsListComponent implements OnInit {
                     },
                     (error: ApiServiceError) => {
                         const message: MessageData = error;
-                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                             data: {
                                 message: message
                             }
@@ -188,6 +188,85 @@ export class ProjectsListComponent implements OnInit {
 
         });
 
+    }
+
+    setInactive(iri: string, name: string) {
+        const answer: boolean = false;
+        const config = new MatDialogConfig();
+
+        config.data = {
+            title: 'Are you sure to delete this project? ' + name,
+            confirm: answer
+        };
+
+        // open dialog box
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRef.afterClosed().subscribe(result => {
+            this.isLoading = true;
+            if (config.data.confirm === true) {
+                // if answer is true: remove the user from the project
+                this._projectsService.deleteProject(iri).subscribe(
+                    (res: ApiServiceResult) => {
+                        // reload page
+                        this.isLoading = false;
+                        window.location.reload();
+                    },
+                    (error: ApiServiceError) => {
+                        const message: MessageData = error;
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
+                            data: {
+                                message: message
+                            }
+                        });
+                    }
+                )
+            } else {
+                this.isLoading = false;
+            }
+
+        });
+    }
+
+    setActive(iri: string, name: string) {
+
+        const answer: boolean = false;
+        const config = new MatDialogConfig();
+
+        config.data = {
+            title: 'Reactivate this project? ' + name,
+            confirm: answer
+        };
+
+        // open dialog box
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRef.afterClosed().subscribe(result => {
+            this.isLoading = true;
+            if (config.data.confirm === true) {
+                // if answer is true: remove the user from the project
+                this._projectsService.activateProject(iri).subscribe(
+                    (res: ApiServiceResult) => {
+                        // reload page
+                        window.location.reload();
+                        this.isLoading = false;
+                    },
+                    (error: ApiServiceError) => {
+                        const message: MessageData = error;
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
+                            data: {
+                                message: message
+                            }
+                        });
+                    }
+                )
+            } else {
+                this.isLoading = false;
+            }
+
+        });
     }
 
     setInactive(iri: string, name: string) {

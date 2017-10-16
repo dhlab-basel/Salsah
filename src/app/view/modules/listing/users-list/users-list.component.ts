@@ -21,7 +21,7 @@ import {ProjectMembers} from '../../../../model/webapi/knora/v1/projects/project
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
 import {MessageData} from '../../message/message.component';
-import {MdDialog, MdDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
@@ -97,7 +97,7 @@ export class UsersListComponent implements OnInit {
     constructor(private _router: Router,
                 public _projectsService: ProjectsService,
                 public _userService: UserService,
-                public _dialog: MdDialog) {
+                public _dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -115,6 +115,7 @@ export class UsersListComponent implements OnInit {
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.allUsers = result.getBody(ProjectMembers).members;
+
                         // TODO: move the following lines into a method
                         for (const au of this.allUsers) {
                             if (au.status === true) {
@@ -198,7 +199,7 @@ export class UsersListComponent implements OnInit {
     // in the table view, it opens an object in a dialog box
     // open / close user
     edit(id: string) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
                 form: 'user'
@@ -218,7 +219,7 @@ export class UsersListComponent implements OnInit {
 
     removeFromProject(uIri: string, pIri: string) {
         const answer: boolean = false;
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
         config.data = {
             title: 'Are you sure to remove this user from the project?',
@@ -240,7 +241,7 @@ export class UsersListComponent implements OnInit {
                     },
                     (error: ApiServiceError) => {
                         const message: MessageData = error;
-                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                             data: {
                                 message: message
                             }
@@ -255,7 +256,7 @@ export class UsersListComponent implements OnInit {
 
     setInactive(iri: string, name: string) {
         const answer: boolean = false;
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
         config.data = {
             title: 'Are you sure to delete this user? ' + name,
@@ -278,7 +279,7 @@ export class UsersListComponent implements OnInit {
                     },
                     (error: ApiServiceError) => {
                         const message: MessageData = error;
-                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                             data: {
                                 message: message
                             }
@@ -294,7 +295,7 @@ export class UsersListComponent implements OnInit {
 
     setActive(iri: string, name: string) {
         const answer: boolean = false;
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
         config.data = {
             title: 'Reactivate this user? ' + name,
@@ -317,7 +318,7 @@ export class UsersListComponent implements OnInit {
                     },
                     (error: ApiServiceError) => {
                         const message: MessageData = error;
-                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                             data: {
                                 message: message
                             }

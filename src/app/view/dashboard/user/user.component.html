@@ -10,16 +10,16 @@
 <!-- show the logged in user profile incl. projects list, collections and settings -->
 <div class="salsah-module with-header" *ngIf="showOwnProfile">
 
-    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 
-    <md-toolbar class="salsah-module-header">
+    <mat-toolbar class="salsah-module-header">
 
         <!-- type of the current dashboard -->
-        <h4 md-subheader>
+        <h4 mat-subheader>
             Person
         </h4>
         <!--
-        <md-icon>person</md-icon>
+        <mat-icon>person</mat-icon>
         -->
 
         <!-- This fills the remaining space of the current row -->
@@ -29,7 +29,7 @@
         <nav class="salsah-tab-group" *ngIf="!errorMessage">
 
             <button *ngFor="let item of menu; let i = index; let first = first"
-                    md-button
+                    mat-button
                     class="salsah-tab-item"
                     [routerLink]="item.route"
                     routerLinkActive="active">
@@ -41,7 +41,7 @@
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
 
-    </md-toolbar>
+    </mat-toolbar>
 
     <div class="salsah-module-scroll-area" [ngSwitch]="route" *ngIf="!isLoading && userProfile.userData.user_id !== undefined">
 

@@ -11,60 +11,60 @@
     <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
     <div class="salsah-form-content" *ngIf="!isLoading">
-        <md-accordion class="headers-align">
+        <mat-accordion class="headers-align">
 
-            <md-expansion-panel [expanded]="step === 0" *ngIf="!iri"
+            <mat-expansion-panel [expanded]="step === 0" *ngIf="!iri"
                                 hideToggle="false">
                 <!-- header -->
-                <md-expansion-panel-header>
-                    <md-panel-title>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         {{formLabels.project.title}}
-                    </md-panel-title>
-                    <md-panel-description>
+                    </mat-panel-title>
+                    <mat-panel-description>
                         &nbsp;
-                        <md-icon>content_paste</md-icon>
-                    </md-panel-description>
-                </md-expansion-panel-header>
+                        <mat-icon>content_paste</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
 
                 <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
                     <!-- short and long name -->
-                    <md-form-field class="small">
-                        <input mdInput [salsahFocus]="step === 1"
+                    <mat-form-field class="small">
+                        <input matInput [salsahFocus]="step === 1"
                                [placeholder]="formLabels.project.shortname + ' *'"
                                [formControl]="form.controls['shortname']">
-                        <md-hint *ngIf="formErrors.shortname">
+                        <mat-hint *ngIf="formErrors.shortname">
                             {{ formErrors.shortname }}
-                        </md-hint>
-                    </md-form-field>
-                    <md-form-field class="medium">
-                        <input mdInput
+                        </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field class="medium">
+                        <input matInput
                                [placeholder]="formLabels.project.longname + ' *'"
                                [formControl]="form.controls['longname']">
-                        <md-hint *ngIf="formErrors.longname">
+                        <mat-hint *ngIf="formErrors.longname">
                             {{ formErrors.longname }}
-                        </md-hint>
-                    </md-form-field>
+                        </mat-hint>
+                    </mat-form-field>
 
                     <!-- description -->
-                    <md-form-field class="large">
-                        <textarea mdInput rows="6"
+                    <mat-form-field class="large">
+                        <textarea matInput rows="6"
                                   [placeholder]="formLabels.project.description"
                                   [formControl]="form.controls['description']">
                         </textarea>
-                        <md-hint *ngIf="formErrors.description">
+                        <mat-hint *ngIf="formErrors.description">
                             {{ formErrors.description }}
-                        </md-hint>
-                    </md-form-field>
+                        </mat-hint>
+                    </mat-form-field>
 
                     <!-- keywords -->
-                    <md-form-field class="large">
-                        <input mdInput
+                    <mat-form-field class="large">
+                        <input matInput
                                [placeholder]="formLabels.project.keywords"
                                [formControl]="form.controls['keywords']">
-                        <md-hint *ngIf="formErrors.keywords">
+                        <mat-hint *ngIf="formErrors.keywords">
                             {{ formErrors.keywords }}
-                        </md-hint>
-                    </md-form-field>
+                        </mat-hint>
+                    </mat-form-field>
 
                     <!-- upload logo -->
                     <salsah-file-uploader [file]="logo" (setFiles)="getFiles($event)"></salsah-file-uploader>
@@ -75,19 +75,19 @@
                            formControlName="logo">
 
                     <!-- footer -->
-                    <md-action-row>
+                    <mat-action-row>
                         <!-- checkbox, which activates the add user dialog form -->
-                        <button md-raised-button
+                        <button mat-raised-button
                                 [disabled]="!form.valid"
                                 color="primary"
                                 (click)="submitData()">
                             {{formLabels.navigation.submit}}
                         </button>
-                    </md-action-row>
+                    </mat-action-row>
                 </form>
-            </md-expansion-panel>
+            </mat-expansion-panel>
 
-        </md-accordion>
+        </mat-accordion>
     </div>
 </div>
 

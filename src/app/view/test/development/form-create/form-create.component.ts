@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {MdDialog, MdDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../../modules/dialog/form-dialog/form-dialog.component';
 import {MessageData} from '../../../modules/message/message.component';
 import {MessageDialogComponent} from '../../../modules/dialog/message-dialog/message-dialog.component';
@@ -23,7 +23,7 @@ export class FormCreateComponent implements OnInit {
 
     constructor(private _title: Title,
                 private _route: ActivatedRoute,
-                private _dialog: MdDialog) {
+                private _dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -47,7 +47,7 @@ export class FormCreateComponent implements OnInit {
             case 'project':
             case 'resource-type':
 //                restrictedBy = 'http://data.knora.org/projects/77275339';
-                dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
+                dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
                     data: {
                         title: 'Test ' + form + ' form',
                         description: 'Create new',
@@ -65,7 +65,7 @@ export class FormCreateComponent implements OnInit {
                     statusText: 'TODO: add the list type "' + form + '" to the openNew method in FrameworkForListings',
                     route: 'Missing form name: ' + form
                 };
-                dialogRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                dialogRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                     data: {
                         message: message
                     }

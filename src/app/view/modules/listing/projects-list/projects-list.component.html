@@ -1,4 +1,5 @@
 <!-- progress indicator while the data is loading -->
+<script src="projects-list.component.ts"></script>
 <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
 <!-- in the case of an API error: show the error message -->
@@ -28,15 +29,15 @@
                 <td>{{item.institution}}</td>
                 <td>
                     <div class="hidden">
-                        <button md-icon-button (click)="setInactive(item.id, item.shortname)"
-                                mdTooltip="Deactivate project">
-                            <md-icon>delete</md-icon>
+                        <button mat-icon-button (click)="setInactive(item.id, item.shortname)"
+                                matTooltip="Deactivate project">
+                            <mat-icon>delete</mat-icon>
                         </button>
-                        <button md-icon-button (click)="edit(item.id)" mdTooltip="Edit project">
-                            <md-icon>edit</md-icon>
+                        <button mat-icon-button (click)="edit(item.id)" matTooltip="Edit project">
+                            <mat-icon>edit</mat-icon>
                         </button>
-                        <button md-icon-button (click)="open(item.shortname)" mdTooltip="Go to the project dashboard">
-                            <md-icon>forward</md-icon>
+                        <button mat-icon-button (click)="open(item.shortname)" matTooltip="Go to the project dashboard">
+                            <mat-icon>forward</mat-icon>
                         </button>
                     </div>
                 </td>
@@ -62,15 +63,15 @@
                 <td>{{item.institution}}</td>
                 <td>
                     <div class="hidden">
-                        <button md-icon-button (click)="setActive(item.id, item.shortname)"
-                                mdTooltip="Reactivate project">
-                            <md-icon>refresh</md-icon>
+                        <button mat-icon-button (click)="setActive(item.id, item.shortname)"
+                                matTooltip="Reactivate project">
+                            <mat-icon>refresh</mat-icon>
                         </button>
-                        <button md-icon-button (click)="edit(item.id)" mdTooltip="Edit project">
-                            <md-icon>edit</md-icon>
+                        <button mat-icon-button (click)="edit(item.id)" matTooltip="Edit project">
+                            <mat-icon>edit</mat-icon>
                         </button>
-                        <button md-icon-button (click)="open(item.shortname)" mdTooltip="Go to the project dashboard">
-                            <md-icon>forward</md-icon>
+                        <button mat-icon-button (click)="open(item.shortname)" matTooltip="Go to the project dashboard">
+                            <mat-icon>forward</mat-icon>
                         </button>
                     </div>
                 </td>
@@ -79,57 +80,58 @@
     </div>
 
     <!-- show the list in a grid -->
-    <md-grid-list *ngSwitchCase="'grid'"
+    <mat-grid-list *ngSwitchCase="'grid'"
                   class="salsah-grid-list"
                   salsahResizeGrid
                   [cols]="columns"
                   [gutterSize]="colGutter + 'px'"
                   [rowHeight]="rowHeight + 'px'">
-        <md-grid-tile *ngFor="let item of allProjects | sortBy: sortKey; let i = index;"
+        <mat-grid-tile *ngFor="let item of allProjects | sortBy: sortKey; let i = index;"
                       class="salsah-grid-tile salsah-link"
                       (click)="open(item.shortname)">
-            <md-card class="salsah-preview">
+            <mat-card class="salsah-preview">
                 <!-- original -->
                 <!--
-                <img md-card-image [src]="project.value.logo" class="salsah-preview-image"/>
+                <img mat-card-image [src]="project.value.logo" class="salsah-preview-image"/>
                 -->
                 <!-- fake test data -->
                 <img salsahImage [image]="item.logo" [type]="'project'"
                      [class.salsah-preview-image]="item.logo"
                      [class.salsah-preview-icon]="!item.logo"/>
                 <div class="salsah-preview-content">
-                    <md-card-title class="salsah-preview-title">{{item.longname}}</md-card-title>
-                    <md-card-content class="salsah-preview-text"
-                                     [innerHtml]="item.description | slice:0:150">
-                    </md-card-content>
+                    <mat-card-title class="salsah-preview-title">{{item.longname}}</mat-card-title>
+                    <mat-card-content class="salsah-preview-text"
+                                      [innerHtml]="item.description | slice:0:150">
+                    </mat-card-content>
                 </div>
 
-            </md-card>
-        </md-grid-tile>
-    </md-grid-list>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
 
 
     <!-- default list -->
-    <md-list class="salsah-list" *ngSwitchDefault>
-        <h3 md-subheader># Projects: {{countAll}}</h3>
-        <md-list-item *ngFor="let item of allProjects | key" >
-            <img md-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
-            <h4 md-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
-            <div md-line [innerHtml]="item.value.description | slice:0:128"></div>
-            <button md-icon-button
-                    mdTooltip="Go to the project dashboard"
+    <mat-list class="salsah-list" *ngSwitchDefault>
+        <h3 mat-subheader># Projects: {{countAll}}</h3>
+        <mat-list-item *ngFor="let item of allProjects | key" >
+            <img mat-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
+            <h4 mat-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
+            <div mat-line [innerHtml]="item.value.description | slice:0:128"></div>
+            <button mat-icon-button
+                    matTooltip="Go to the project dashboard"
                     class="right action-highlight"
                     (click)="open(item.value.shortname)">
-                <md-icon>forward</md-icon>
+                <mat-icon>forward</mat-icon>
             </button>
-            <button md-icon-button *ngIf="user"
-                    mdTooltip="Remove user from project"
+            <button mat-icon-button *ngIf="user"
+                    matTooltip="Remove user from project"
                     class="right action-highlight"
                     (click)="removeUserFromProject(user, item.key)">
-                <md-icon>delete</md-icon>
+                <mat-icon>delete</mat-icon>
             </button>
-        </md-list-item>
-    </md-list>
+        </mat-list-item>
+    </mat-list>
+
 </div>
 
 <!-- if there are any data: show a no data message -->

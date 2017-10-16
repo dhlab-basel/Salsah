@@ -2,15 +2,15 @@
     <!-- this component has his own toolbar header
         with tabs for navigation through the settings
     -->
-    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 
-    <md-toolbar class="salsah-module-header">
+    <mat-toolbar class="salsah-module-header">
         <!-- type of the current dashboard -->
-        <h4 md-subheader>
-            Project <span *ngIf="projectAdmin">Admin</span>
+        <h4 mat-subheader>
+            Project <span *ngIf="projectAdmin">&nbsp;admin</span>
         </h4>
         <!--
-        <md-icon>assignment</md-icon>
+        <mat-icon>assignment</mat-icon>
         -->
 
         <!-- This fills the remaining space of the current row -->
@@ -18,7 +18,7 @@
 
         <!-- Tab menu -->
         <nav class="salsah-tab-group" *ngIf="!errorMessage && !isLoading">
-            <button md-button
+            <button mat-button
                     class="salsah-tab-item"
                     [routerLink]="projectRoute"
                     [ngClass]="firstTabClass"
@@ -26,7 +26,7 @@
                 <strong>{{project.shortname | uppercase}}</strong>
             </button>
             <button *ngFor="let item of menu; let i = index; let first=first"
-                    md-button
+                    mat-button
                     class="salsah-tab-item"
                     [routerLink]="item.route"
                     routerLinkActive="active"
@@ -37,7 +37,7 @@
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
 
-    </md-toolbar>
+    </mat-toolbar>
 
     <div class="salsah-module-scroll-area">
 

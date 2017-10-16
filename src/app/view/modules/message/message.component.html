@@ -1,36 +1,36 @@
 <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
-<md-card *ngIf="!isLoading && message !== undefined" class="fix-width salsah-message" [ngClass]="'salsah-' + message?.type">
+<mat-card *ngIf="!isLoading && message !== undefined" class="fix-width salsah-message" [ngClass]="'salsah-' + message?.type">
 
-    <md-card-subtitle class="message-subtitle">
+    <mat-card-subtitle class="message-subtitle">
         <span class="left">{{message?.type | uppercase }} {{message?.status}} | {{message?.statusMsg}}</span>
-        <md-icon class="right">{{message?.type}}</md-icon>
-    </md-card-subtitle>
+        <mat-icon class="right">{{message?.type}}</mat-icon>
+    </mat-card-subtitle>
 
-    <md-card-title class="message-title" [innerHtml]="message?.statusText"></md-card-title>
+    <mat-card-title class="message-title" [innerHtml]="message?.statusText"></mat-card-title>
 
-    <md-card-content class="message-content">
-        <md-list *ngIf="message?.route">
-            <md-list-item>
+    <mat-card-content class="message-content">
+        <mat-list *ngIf="message?.route">
+            <mat-list-item>
                 <a [href]="message?.route" target="_blank">
                     &rarr; {{message?.route}}
                 </a>
-            </md-list-item>
-        </md-list>
+            </mat-list-item>
+        </mat-list>
 
-        <md-list *ngIf="showLinks">
+        <mat-list *ngIf="showLinks">
             <p>{{links.title}}</p>
-            <md-list-item *ngFor="let item of links.list" class="link" (click)="goToLocation(item.route)">
-                <md-icon md-list-icon>{{item.icon}}</md-icon>
-                <p md-line>{{item.label}}</p>
-            </md-list-item>
-        </md-list>
+            <mat-list-item *ngFor="let item of links.list" class="link" (click)="goToLocation(item.route)">
+                <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
+                <p mat-line>{{item.label}}</p>
+            </mat-list-item>
+        </mat-list>
 
 
 
-    </md-card-content>
+    </mat-card-content>
 
-    <md-card-footer class="message-footnote"
-                    [innerHtml]="message?.footnote"></md-card-footer>
+    <mat-card-footer class="message-footnote"
+                    [innerHtml]="message?.footnote"></mat-card-footer>
 
-</md-card>
+</mat-card>

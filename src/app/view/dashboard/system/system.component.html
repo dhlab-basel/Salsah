@@ -2,16 +2,16 @@
     <!-- this component has his own toolbar header
         with tabs for navigation through the settings
     -->
-    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 
     <!-- component has his own toolbar, with component specific buttons / tabs / etc. -->
-    <md-toolbar class="salsah-module-header">
+    <mat-toolbar class="salsah-module-header">
         <!-- type of the current dashboard -->
-        <h4 md-subheader>
+        <h4 mat-subheader>
             System
         </h4>
         <!--
-        <md-icon>build</md-icon>
+        <mat-icon>build</mat-icon>
         -->
 
         <!-- This fills the remaining space of the current row -->
@@ -20,7 +20,7 @@
         <!-- Tab menu -->
         <nav class="salsah-tab-group" *ngIf="!errorMessage">
             <button *ngFor="let item of menu; let i = index; let first=first"
-                    md-button
+                    mat-button
                     class="salsah-tab-item"
                     [routerLink]="item.route"
                     routerLinkActive="active">
@@ -30,7 +30,7 @@
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
 
-    </md-toolbar>
+    </mat-toolbar>
 
     <!-- and the sub module for route specific child components -->
     <div class="salsah-module-scroll-area">

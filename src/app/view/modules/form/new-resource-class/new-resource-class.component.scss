@@ -1,18 +1,18 @@
 @import '../../../../../assets/style/config';
 
-md-card {
+mat-card {
 //  height: 640px;
   margin: 24px auto;
   padding: 0;
   width: 90%;
 
-  md-card-content {
+  mat-card-content {
     min-height: 500px;
     padding-bottom: 24px;
     padding-top: 24px;
   }
 
-  md-card-footer {
+  mat-card-footer {
     box-sizing: border-box;
     display: block;
     outline: 0;
@@ -30,7 +30,7 @@ section {
 td {
   text-align: center;
 
-  md-select {
+  mat-select {
     width: 90%;
   }
 }

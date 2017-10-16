@@ -4,63 +4,67 @@
 <!-- in the case of an API error: show the error message -->
 <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
-<div *ngIf="result.numberOfResources > 0; else noData"  [ngSwitch]="listType">
+<div *ngIf="result.numberOfResources > 0; else noData" [ngSwitch]="listType">
     <!-- show as table if listType === table -->
     <table *ngSwitchCase="'table'" class="salsah-table">
     </table>
 
     <!-- show as grid-list if listType === grid -->
 
-    <md-grid-list *ngSwitchCase="'grid'"
-                  class="salsah-grid-list"
-                  salsahResizeGrid
-                  [cols]="columns"
-                  [gutterSize]="colGutter + 'px'"
-                  [rowHeight]="rowHeight + 'px'">
-        <md-grid-tile *ngFor="let res of result.resources; let i = index"
-                      (click)="toggle(res.id, i)"
-                      [id]="res.id">
 
-            <md-card [class.highlight]="i == selectedRow" class="salsah-link salsah-preview">
+    <mat-grid-list *ngSwitchCase="'grid'"
+                   class="salsah-grid-list"
+                   salsahResizeGrid
+                   [cols]="columns"
+                   [gutterSize]="colGutter + 'px'"
+                   [rowHeight]="rowHeight + 'px'">
+        <mat-grid-tile *ngFor="let res of result.resources; let i = index"
+                       (click)="toggle(res.id, i)"
+                       [id]="res.id">
+            <mat-card [class.highlight]="i == selectedRow" class="salsah-link salsah-preview">
                 <!--
                 <img salsahImage [image]="res.preview_path" [type]="'resource'"
                      [class.salsah-resource-preview]="res.preview_path"
                      [class.salsah-resource-icon]="!res.preview_path"/>
                  -->
                 <div class="salsah-preview-content">
-                    <md-card-title class="salsah-preview-title">{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type) | slice:0:40}})</md-card-title>
+                    <mat-card-title class="salsah-preview-title">{{res.label}}
+                        ({{ontologyInfo?.getLabelForResourceClass(res.type) | slice:0:40}})
+                    </mat-card-title>
                     <!--
-                    <md-card-content class="salsah-preview-text">
+                    <mat-card-content class="salsah-preview-text">
                         {{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}
-                    </md-card-content>
+                    </mat-card-content>
                     -->
                 </div>
+            </mat-card>
 
-            </md-card>
-
-        </md-grid-tile>
-    </md-grid-list>
+        </mat-grid-tile>
+    </mat-grid-list>
 
     <!-- default list -->
-    <md-list class="salsah-list" *ngSwitchDefault>
-        <md-list-item *ngFor="let res of result.resources; let i = index"
-                      (click)="toggle(res.id, i)"
-                      [id]="res.id"
-                      class="salsah-link"
-                      [class.highlight]="i == selectedRow">
+    <mat-list class="salsah-list" *ngSwitchDefault>
+        <mat-list-item *ngFor="let res of result.resources; let i = index"
+                       (click)="toggle(res.id, i)"
+                       [id]="res.id"
+                       class="salsah-link"
+                       [class.highlight]="i == selectedRow">
             <!--
-            <img md-list-avatar [src]="res.preview_path" class="salsah-preview-image"/>
+            <img mat-list-avatar [src]="res.preview_path" class="salsah-preview-image" />
             -->
-            <h3 md-line>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</h3>
-            <div md-line *ngFor="let prop of res.properties | key">
+            <h3 mat-line>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</h3>
+            <div mat-line *ngFor="let prop of res.properties | key">
+
                 <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span>
-                <ul><li *ngFor="let val of prop.value | key">{{val.value.getContent()}}</li></ul>
+                <ul>
+                    <li *ngFor="let val of prop.value | key">{{val.value.getContent()}}</li>
+                </ul>
             </div>
-            <button md-icon-button class="right close close-highlight">
-                <md-icon>close</md-icon>
+            <button mat-icon-button class="right close close-highlight">
+                <mat-icon>close</mat-icon>
             </button>
-        </md-list-item>
-    </md-list>
+        </mat-list-item>
+    </mat-list>
 </div>
 
 <!-- if there are any data: show a no data message -->

@@ -3,7 +3,7 @@
 <div class="search-panel" [class.active]="searchPanelFocus">
     <div>
         <button class="prefix" (click)="doSearch(search)">
-            <md-icon>search</md-icon>
+            <mat-icon>search</mat-icon>
         </button>
     </div>
 
@@ -23,22 +23,22 @@
     -->
     <div>
         <button class="suffix" *ngIf="focusOnSimple === 'active'" (click)="resetSearch(search)">
-            <md-icon class="md-24">close</md-icon>
+            <mat-icon class="mat-24">close</mat-icon>
         </button>
         <button class="suffix" *ngIf="focusOnSimple === 'inactive'" (click)="toggleMenu('extendedSearch')">
-            <md-icon>filter_list</md-icon>
+            <mat-icon>filter_list</mat-icon>
         </button>
     </div>
 
     <!-- the search panel has two "dropdown" menus: one for simple search and another one for the extended search -->
     <div class="salsah-menu simple-search" [@simpleSearchMenu]="focusOnSimple">
-        <button md-button class="right" (click)="resetPrevSearch()" *ngIf="prevSearch">Clear</button>
-        <md-list class="salsah-previous-search-list">
-            <md-list-item *ngFor="let item of prevSearch | reverse; let i=index">
-                <md-icon md-list-icon (click)="resetPrevSearch(item)">close</md-icon>
-                <h4 md-line *ngIf="i<10" (click)="doPrevSearch(item)">{{item}}</h4>
-            </md-list-item>
-        </md-list>
+        <button mat-button class="right" (click)="resetPrevSearch()" *ngIf="prevSearch">Clear</button>
+        <mat-list class="salsah-previous-search-list">
+            <mat-list-item *ngFor="let item of prevSearch | reverse; let i=index">
+                <mat-icon mat-list-icon (click)="resetPrevSearch(item)">close</mat-icon>
+                <h4 mat-line *ngIf="i<10" (click)="doPrevSearch(item)">{{item}}</h4>
+            </mat-list-item>
+        </mat-list>
     </div>
 
     <div class="salsah-menu extended-search" [@extendedSearchMenu]="focusOnExtended">
@@ -47,8 +47,8 @@
             Extended search
         </span>
             <span class="salsah-menu-action">
-            <button md-icon-button (click)="toggleMenu('extendedSearch')">
-                <md-icon>close</md-icon>
+            <button mat-icon-button (click)="toggleMenu('extendedSearch')">
+                <mat-icon>close</mat-icon>
             </button>
         </span>
         </div>

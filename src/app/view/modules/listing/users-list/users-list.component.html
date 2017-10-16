@@ -27,16 +27,18 @@
                 <td>{{item.email}}</td>
                 <td>
                     <div class="hidden">
-                        <button md-icon-button
+
+                        <button mat-icon-button
                                 (click)="setInactive(item.user_id, item.givenName + ' ' + item.familyName)"
-                                mdTooltip="Delete user">
-                            <md-icon>delete</md-icon>
+                                matTooltip="Delete user">
+                            <mat-icon>delete</mat-icon>
                         </button>
-                        <button md-icon-button (click)="edit(item.user_id)" mdTooltip="Edit user">
-                            <md-icon>edit</md-icon>
+
+                        <button mat-icon-button (click)="edit(item.user_id)" matTooltip="Edit user">
+                            <mat-icon>edit</mat-icon>
                         </button>
-                        <button md-icon-button (click)="open(item.email)" mdTooltip="Go to the user's dashboard">
-                            <md-icon>forward</md-icon>
+                        <button mat-icon-button (click)="open(item.email)" matTooltip="Go to the user's dashboard">
+                            <mat-icon>forward</mat-icon>
                         </button>
                     </div>
                 </td>
@@ -62,16 +64,16 @@
                 <td>{{item.email}}</td>
                 <td>
                     <div class="hidden">
-                        <button md-icon-button
+                        <button mat-icon-button
                                 (click)="setActive(item.user_id,  item.givenName + ' ' + item.familyName)"
-                                mdTooltip="Activate user">
-                            <md-icon>refresh</md-icon>
+                                matTooltip="Activate user">
+                            <mat-icon>refresh</mat-icon>
                         </button>
-                        <button md-icon-button (click)="edit(item.user_id)" mdTooltip="Edit user">
-                            <md-icon>edit</md-icon>
+                        <button mat-icon-button (click)="edit(item.user_id)" matTooltip="Edit user">
+                            <mat-icon>edit</mat-icon>
                         </button>
-                        <button md-icon-button (click)="open(item.email)" mdTooltip="Go to the user dashboard">
-                            <md-icon>forward</md-icon>
+                        <button mat-icon-button (click)="open(item.email)" matTooltip="Go to the user dashboard">
+                            <mat-icon>forward</mat-icon>
                         </button>
                     </div>
                 </td>
@@ -81,40 +83,39 @@
 
 
     <!-- default list -->
-    <md-list class="salsah-list" *ngSwitchDefault>
-        <h3 md-subheader># Users: {{countActive}}
+    <mat-list class="salsah-list" *ngSwitchDefault>
+        <h3 mat-subheader># Users: {{countActive}}
             <span *ngIf="selectedRow === undefined && countAll > 1"> | {{sortTitle}}
-                <button md-button
+                <button mat-button
                         *ngIf="selectedRow == undefined"
                         (click)="sortBy(sortKey)"
-                        [mdTooltip]="sortTitle + sortLabel" mdTooltipPosition="above">
-                    {{sortLabel}} <md-icon>sort_by_alpha</md-icon>
+                        [matTooltip]="sortTitle + sortLabel" matTooltipPosition="above">
+                    {{sortLabel}} <mat-icon>sort_by_alpha</mat-icon>
                 </button>
             </span>
         </h3>
-        <md-list-item *ngFor="let item of allUsers | sortBy: sortKey; let i = index"
-                      (click)="toggle(item.user_id, i);"
-                      [id]="item.user_id"
-                      class="salsah-link"
-                      [class.inactive]="!item.status"
-                      [class.highlight]="i == selectedRow">
-            <!--<md-list-item *ngFor="let admin of project.admins">-->
-            <md-icon md-list-avatar class="salsah-avatar">
+        <mat-list-item *ngFor="let item of allUsers | sortBy: sortKey; let i = index"
+                       (click)="toggle(item.user_id, i);"
+                       [id]="item.user_id"
+                       class="salsah-link"
+                       [class.inactive]="!item.status"
+                       [class.highlight]="i == selectedRow">
+            <!--<mat-list-item *ngFor="let admin of project.admins">-->
+            <mat-icon mat-list-avatar class="salsah-avatar">
                 <img salsahImage [image]="item?.email" [type]="'user'" class="salsah-avatar-image"/>
-            </md-icon>
-            <h4 md-line>{{item?.givenName}} {{item?.familyName}}</h4>
-            <p md-line> {{item?.email}} </p>
-            <button md-icon-button class="right close close-highlight">
-                <md-icon>close</md-icon>
+            </mat-icon>
+            <h4 mat-line>{{item?.givenName}} {{item?.familyName}}</h4>
+            <p mat-line> {{item?.email}} </p>
+            <button mat-icon-button class="right close close-highlight">
+                <mat-icon>close</mat-icon>
             </button>
             <!-- styling issue #81
-            <button md-icon-button class="right action-highlight" (click)="removeFromProject(item.user_id, project)"
-                    mdTooltip="Remove user from project" *ngIf="loggedInAdmin">
-                <md-icon>delete</md-icon>
-            </button>
-            -->
-        </md-list-item>
-    </md-list>
+                <button mat-icon-button class="right action-highlight" (click)="removeFromProject(item.user_id, project)" matTooltip="Remove user from project" *ngIf="loggedInAdmin">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                -->
+        </mat-list-item>
+    </mat-list>
 </div>
 
 <!-- if there are any data: show a no data message -->

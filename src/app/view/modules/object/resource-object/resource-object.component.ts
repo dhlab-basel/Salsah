@@ -14,23 +14,23 @@
 
 import {Component, Input, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {ResourceService} from "../../../../model/services/resource.service";
-import {IncomingService} from "../../../../model/services/incoming.service";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
-import {ReadResource} from "../../../../model/webapi/knora/v2/read-resource";
-import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
-import {AppConfig} from "../../../../app.config";
+import {ResourceService} from '../../../../model/services/resource.service';
+import {IncomingService} from '../../../../model/services/incoming.service';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
+import {ReadResource} from '../../../../model/webapi/knora/v2/read-resource';
+import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
+import {AppConfig} from '../../../../app.config';
 import {
     ImageRegion,
     RequestStillImageRepresentations,
     StillImageOSDViewerComponent,
     StillImageRepresentation
-} from "../../../properties/still-image-osdviewer/still-image-osdviewer.component";
-import {OntologyCacheService, OntologyInformation} from "../../../../model/services/ontologycache.service";
-import {MdDialog, MdDialogConfig} from "@angular/material";
-import {ReadStillImageFileValue} from "../../../../model/webapi/knora/v2/read-property-item";
+} from '../../../properties/still-image-osdviewer/still-image-osdviewer.component';
+import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {ReadStillImageFileValue} from '../../../../model/webapi/knora/v2/read-property-item';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -60,12 +60,12 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                 private _resourceService: ResourceService,
                 private _incomingService: IncomingService,
                 private _cacheService: OntologyCacheService,
-                private dialog: MdDialog) {
+                private dialog: MatDialog) {
     }
 
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
         // prevent duplicate requests. if isFirstChange resource will be requested on ngOnInit
-        if (!changes["iri"].isFirstChange()) {
+        if (!changes['iri'].isFirstChange()) {
             this.requestResource(this.iri);
         }
     }
@@ -116,7 +116,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                                 },
                                 (err) => {
 
-                                    console.log("cache request failed: " + err);
+                                    console.log('cache request failed: ' + err);
                                 });
                         } else {
                             // exactly one resource was expected, but resourceSeq.resources.length != 1
@@ -126,7 +126,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
                     }, function (err) {
 
-                        console.log("JSONLD of full resource request could not be expanded:" + err);
+                        console.log('JSONLD of full resource request could not be expanded:' + err);
                     });
 
                     this.isLoading = false;
@@ -207,11 +207,11 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                             },
                             (err) => {
 
-                                console.log("cache request failed: " + err);
+                                console.log('cache request failed: ' + err);
                             });
                     },
                     function (err) {
-                        console.log("JSONLD of regions request could not be expanded:" + err);
+                        console.log('JSONLD of regions request could not be expanded:' + err);
                     });
             },
             (error: ApiServiceError) => {
@@ -277,11 +277,11 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                             },
                             (err) => {
 
-                                console.log("cache request failed: " + err);
+                                console.log('cache request failed: ' + err);
                             });
                     },
                     function (err) {
-                        console.log("JSONLD of regions request could not be expanded:" + err);
+                        console.log('JSONLD of regions request could not be expanded:' + err);
                     });
 
 
@@ -326,11 +326,11 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                             },
                             (err) => {
 
-                                console.log("cache request failed: " + err);
+                                console.log('cache request failed: ' + err);
                             });
                     },
                     function (err) {
-                        console.log("JSONLD of regions request could not be expanded:" + err);
+                        console.log('JSONLD of regions request could not be expanded:' + err);
                     });
             },
             (error: ApiServiceError) => {
@@ -424,7 +424,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
         // TODO: implement negative offset change
 
-        if (request.offsetChange == 1) {
+        if (request.offsetChange === 1) {
             // get StillImageRepresentations for next page by increasing current offset
             this.getIncomingStillImageRepresentations(this.incomingStillImageRepresentationCurrentOffset + 1, request.whenLoadedCB);
 
@@ -440,7 +440,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
      */
     showSourceOfIncomingLinkInDialog(resourceIri: string) {
 
-        let config = new MdDialogConfig();
+        let config = new MatDialogConfig();
         config.height = '60%';
         config.width = '60%';
 

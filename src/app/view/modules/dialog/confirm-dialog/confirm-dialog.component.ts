@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
     selector: 'salsah-confirm-dialog',
@@ -10,10 +10,9 @@ export class ConfirmDialogComponent implements OnInit {
 
     values: any;
 
-    constructor(
-        @Optional() @Inject(MD_DIALOG_DATA) private data: any,
-        private _dialogRef: MdDialogRef<ConfirmDialogComponent>
-    ) {}
+    constructor(@Optional() @Inject(MAT_DIALOG_DATA) private data: any,
+                private _dialogRef: MatDialogRef<ConfirmDialogComponent>) {
+    }
 
     ngOnInit() {
         this.values = this.data;

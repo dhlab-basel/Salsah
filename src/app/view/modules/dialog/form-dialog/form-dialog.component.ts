@@ -13,7 +13,7 @@
  * */
 
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MD_DIALOG_DATA, MdDialog, MdDialogConfig, MdDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {MessageData} from '../../message/message.component';
   import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 
@@ -42,9 +42,9 @@ export class FormDialogComponent implements OnInit {
         statusText: 'TODO: add the following form component to the FormDialog component:'
     };
 
-    constructor(public _dialogRef: MdDialogRef<FormDialogComponent>,
-                @Inject(MD_DIALOG_DATA) public data: any,
-                public _dialog: MdDialog) {
+    constructor(public _dialogRef: MatDialogRef<FormDialogComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any,
+                public _dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -79,7 +79,7 @@ export class FormDialogComponent implements OnInit {
 
     discardChanges() {
         const answer: boolean = false;
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
         config.data = {
             title: 'You\'re sure to close the form and discard all changes?',

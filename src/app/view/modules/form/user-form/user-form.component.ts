@@ -81,10 +81,10 @@ export class UserFormComponent implements OnInit {
 
     // case 1a) select user form
     // autocomplete existing users
-    // users list for md-autocomplete
+    // users list for mat-autocomplete
     users: any = [];
     filteredUsers: any;
-    // form controller for md-autocomplete
+    // form controller for mat-autocomplete
     userCtrl: FormControl;
     selectedUser: UserProfile;
 
@@ -116,10 +116,10 @@ export class UserFormComponent implements OnInit {
 
     // case 2a) form to select project form
     // autocomplete existing projects
-    // project list for md-autocomplete
+    // project list for mat-autocomplete
     projects: any = [];
     filteredProjects: any;
-    // form controller for md-autocomplete
+    // form controller for mat-autocomplete
     projectCtrl: FormControl;
     selectedProject: ProjectItem;
 

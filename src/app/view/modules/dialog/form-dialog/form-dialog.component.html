@@ -3,24 +3,24 @@
         and with the title in the center -->
     <div class="dialog-header">
         <span class="dialog-action-button">
-            <button md-icon-button class="resize-button" (click)="toggleFullSize()">
-                <md-icon class="optimize-direction" [innerHtml]="fullSize ? 'call_received' :'call_made'"></md-icon>
+            <button mat-icon-button class="resize-button" (click)="toggleFullSize()">
+                <mat-icon class="optimize-direction" [innerHtml]="fullSize ? 'call_received' :'call_made'"></mat-icon>
             </button>
         </span>
-        <h3 class="fill-remaining-space dialog-title" md-dialog-title>
+        <h3 class="fill-remaining-space dialog-title" mat-dialog-title>
             {{data.title}}
         </h3>
         <span class="dialog-action-button">
-            <button md-icon-button
+            <button mat-icon-button
                     class="cancel-button"
                     (click)="discardChanges()">
-                <md-icon>close</md-icon>
+                <mat-icon>close</mat-icon>
             </button>
         </span>
     </div>
 
     <!-- dialog content with the form components -->
-    <md-dialog-content [ngSwitch]="data.form" class="dialog-content">
+    <mat-dialog-content [ngSwitch]="data.form" class="dialog-content">
 
         <!-- salsah form components for projects, users, resource classes etc.
         all handled by the switch method -->
@@ -36,18 +36,18 @@
         <salsah-new-resource-class *ngSwitchCase="'resource-type'" [iri]="data.restriction"></salsah-new-resource-class>
 
         <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
-    </md-dialog-content>
+    </mat-dialog-content>
 
     <!-- footer with save button -->
     <!--
-    <md-dialog-actions class="dialog-footer">
-        <button md-raised-button
+    <mat-dialog-actions class="dialog-footer">
+        <button mat-raised-button
                 class="submit-button"
                 color="primary"
                 [disabled]="!formIsValid">
             Save
         </button>
-    </md-dialog-actions>
+    </mat-dialog-actions>
     -->
 </div>
 

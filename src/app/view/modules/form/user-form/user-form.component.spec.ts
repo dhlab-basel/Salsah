@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {UserService} from '../../../../model/services/user.service';
-import {MdDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 import {UserFormComponent} from './user-form.component';
 import {ProjectTeamComponent} from '../../../dashboard/project/project-team/project-team.component';
 import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
@@ -46,7 +46,7 @@ describe('UserFormComponent', () => {
             providers: [
                 UserService,
                 ProjectTeamComponent,
-                {provide: MdDialogRef}
+                {provide: MatDialogRef}
             ]
         })
             .compileComponents();

@@ -2,7 +2,7 @@
 @import '../../../../../../assets/style/mixins';
 
 .salsah-main-header {
-  @include md-box-shadow-flat();
+  @include mat-box-shadow-flat();
   position: absolute;
   width: 100vw;
   z-index: 11;

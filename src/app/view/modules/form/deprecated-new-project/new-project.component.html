@@ -4,38 +4,38 @@
             <!-- line 1: short and long name of the project -->
             <tr>
                 <td colspan="1">
-                    <md-input-container class="full-width">
-                        <input mdInput autofocus
+                    <mat-input-container class="full-width">
+                        <input matInput autofocus
                                [placeholder]="formLabels.shortname + ' *'"
                                formControlName="shortname">
-                        <md-hint *ngIf="formErrors.shortname">
+                        <mat-hint *ngIf="formErrors.shortname">
                             {{ formErrors.shortname }}
-                        </md-hint>
-                    </md-input-container>
+                        </mat-hint>
+                    </mat-input-container>
                 </td>
                 <td colspan="2">
-                    <md-input-container class="full-width">
-                        <input mdInput
+                    <mat-input-container class="full-width">
+                        <input matInput
                                [placeholder]="formLabels.longname + ' *'"
                                formControlName="longname">
-                        <md-hint *ngIf="formErrors.longname">
+                        <mat-hint *ngIf="formErrors.longname">
                             {{ formErrors.longname }}
-                        </md-hint>
-                    </md-input-container>
+                        </mat-hint>
+                    </mat-input-container>
                 </td>
             </tr>
             <!-- line 2: project description -->
             <tr>
                 <td colspan="3">
-                    <md-input-container class="full-width">
-                        <textarea mdInput rows="6"
+                    <mat-input-container class="full-width">
+                        <textarea matInput rows="6"
                                   [placeholder]="formLabels.description"
                                   formControlName="description">
                         </textarea>
-                        <md-hint *ngIf="formErrors.description">
+                        <mat-hint *ngIf="formErrors.description">
                             {{ formErrors.description }}
-                        </md-hint>
-                    </md-input-container>
+                        </mat-hint>
+                    </mat-input-container>
 
                 </td>
             </tr>
@@ -44,14 +44,14 @@
             <!-- after uploading logo or setting url replace it with the logo -->
             <tr>
                 <td colspan="3">
-                    <md-input-container class="full-width">
-                        <input mdInput
+                    <mat-input-container class="full-width">
+                        <input matInput
                                [placeholder]="formLabels.keywords"
                                formControlName="keywords">
-                        <md-hint *ngIf="formErrors.keywords">
+                        <mat-hint *ngIf="formErrors.keywords">
                             {{ formErrors.keywords }}
-                        </md-hint>
-                    </md-input-container>
+                        </mat-hint>
+                    </mat-input-container>
                 </td>
             </tr>
 
@@ -69,10 +69,10 @@
                 </td>
             </tr>
             <!-- line 4: cancel and submit button -->
-            <!-- TODO: how do we handle this with md dialog box? -->
+            <!-- TODO: how do we handle this with mat dialog box? -->
             <tr>
                 <td>
-                    <button md-button
+                    <button mat-button
                             class="cancel-button"
                             (click)="form.reset()">
                         Cancel
@@ -82,7 +82,7 @@
 
                 </td>
                 <td>
-                    <button md-raised-button
+                    <button mat-raised-button
                             class="save-button"
                             color="primary"
                             [disabled]="!form.valid">

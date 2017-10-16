@@ -7,23 +7,23 @@
     <!-- this module has a list with different positions: left or center (= default) -->
     <div class="salsah-list" [ngClass]="[position, listSize]">
         <div class="salsah-list-header">
-            <h3 md-header [class.has-border]="list.description">{{list.title}}</h3>
-            <p md-subheader>{{list.description}}</p>
+            <h3 mat-header [class.has-border]="list.description">{{list.title}}</h3>
+            <p mat-subheader>{{list.description}}</p>
         </div>
 
         <!-- add button? -->
-        <md-list *ngIf="add != undefined && loggedInAdmin">
+        <mat-list *ngIf="add != undefined && loggedInAdmin">
             <!-- this list has an 'add button' to add new stuff;
             it opens the form-dialog-component with the 'new-something-form'-component -->
-            <md-list-item class="salsah-link" (click)="openNew(list.content)">
-                <button md-icon-button>
-                    <md-icon>add</md-icon>
+            <mat-list-item class="salsah-link" (click)="openNew(list.content)">
+                <button mat-icon-button>
+                    <mat-icon>add</mat-icon>
                 </button>
                 {{add.title}}
-            </md-list-item>
-            <md-divider></md-divider>
+            </mat-list-item>
+            <mat-divider></mat-divider>
             <!-- end of 'add button' -->
-        </md-list>
+        </mat-list>
 
         <br>
         <br>
@@ -87,9 +87,9 @@
         <!-- TODO: reacitvate the main close button in detail view -->
         <!--
         <div class="salsah-module-detail-header">
-            <md-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></md-progress-bar>
-            <button md-icon-button (click)="closeDetailView()" class="right close">
-                <md-icon>close</md-icon>
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></mat-progress-bar>
+            <button mat-icon-button (click)="closeDetailView()" class="right close">
+                <mat-icon>close</mat-icon>
             </button>
         </div>
         -->

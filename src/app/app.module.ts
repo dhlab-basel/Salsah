@@ -211,7 +211,7 @@ import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologi
         ReactiveFormsModule,
         DndModule.forRoot()
     ],
-    // we need the entryComponents for every component inside of a md-dialog module
+    // we need the entryComponents for every component inside of a mat-dialog module
     entryComponents: [
         ConfirmDialogComponent,
         FormDialogComponent,

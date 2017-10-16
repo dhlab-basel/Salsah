@@ -2,86 +2,86 @@
     it will be displayed in dialog card box -->
 
 <!-- the dialog title is always the same; It stays fixed to the top of the dialog -->
-<div md-dialog-title>
+<div mat-dialog-title>
     <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
 </div>
 
 
 <!-- the sub forms of the main form are in th dialog content area; the content will change, step by step -->
-<div md-dialog-content>
+<div mat-dialog-content>
 
         <!-- Step 0: Select resource type from a list of resources taken directly from the Knora base ontology
             (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
         <section [hidden]="counter!==0">
-            <p md-subheader>Select your media file type</p>
-            <md-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
-                <md-grid-tile *ngFor="let item of baseOntology?.resourceClasses | key; let i = index;">
-                    <button md-button [mdTooltip]="item.value.description" mdTooltipPosition="above"
+            <p mat-subheader>Select your media file type</p>
+            <mat-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
+                <mat-grid-tile *ngFor="let item of baseOntology?.resourceClasses | key; let i = index;">
+                    <button mat-button [matTooltip]="item.value.description" matTooltipPosition="above"
                             (click)="nextFormSection(counter, $event, item.key)">
-                        <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>
+                        <mat-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</mat-icon><br>
                         {{item.value.label}}
                     </button>
-                </md-grid-tile>
-            </md-grid-list>
+                </mat-grid-tile>
+            </mat-grid-list>
         </section>
 
         <!-- Step 1: Define your new resource: name it, describe it and set the permissions for the whole resource -->
         <section *ngIf="newResource.id" [hidden]="counter!==1">
-            <!-- <p md-header>Define your new resource object <strong>{{newResource.label}}</strong></p> -->
+            <!-- <p mat-header>Define your new resource object <strong>{{newResource.label}}</strong></p> -->
             <form #resource="ngForm" class="salsah-form">
 
                 <!-- resource label -->
-                <md-input-container class="full-width"
+                <mat-input-container class="full-width"
                                     dividerColor="{{ !newResource.label ? 'warn' : 'primary' }}">
-                    <input mdInput
+                    <input matInput
                            placeholder="Resource name *"
                            name="label"
                            [(ngModel)]="newResource.label">
-                    <md-hint class="salsah-hint">
+                    <mat-hint class="salsah-hint">
                         <span [hidden]="newResource.label" class="salsah-error">This information is required!</span>
-                    </md-hint>
-                </md-input-container>
+                    </mat-hint>
+                </mat-input-container>
 
                 <!-- resource description -->
-                <md-input-container class="full-width">
-                    <textarea mdInput
+                <mat-input-container class="full-width">
+                    <textarea matInput
                            placeholder="Resource description"
                            name="description"
                            [(ngModel)]="newResource.description"
                            cols="30" rows="5">
                     </textarea>
-                </md-input-container>
+                </mat-input-container>
 
                 <!-- resource icon; disabled at the moment -->
-                <md-input-container class="full-width"
+                <mat-input-container class="full-width"
                                     dividerColor="{{ !newResource.icon ? 'warn' : 'primary' }}">
-                    <span mdPrefix><md-icon>{{newResource.icon}}</md-icon></span>
+                    <span matPrefix><mat-icon>{{newResource.icon}}</mat-icon></span>
 
-                    <input mdInput
+                    <input matInput
                            placeholder="Resource icon *"
 
                            name="icon"
                            [(ngModel)]="newResource.icon">
-                    <md-hint class="salsah-hint">
+                    <mat-hint class="salsah-hint">
                         <span [hidden]="newResource.icon" class="salsah-error">This information is required!</span>
-                    </md-hint>
-                </md-input-container>
+                    </mat-hint>
+                </mat-input-container>
 
                 <!-- resource permission -->
-                <p md-subheader>Resource Permissions</p>
+                <p mat-subheader>Resource Permissions</p>
                 <table class="full-width">
                     <tr>
-                        <th *ngFor="let group of permissions.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
+                        <th *ngFor="let group of permissions.groups" [matTooltip]="group.description" matTooltipPosition="above" style="text-align:left">
                             {{group.label}}
                         </th>
                     </tr>
                     <tr>
                         <td *ngFor="let group of permissions.groups; let i = index">
-                            <md-select [(ngModel)]="newResource.permissions[group.id]" [name]="group.id">
-                                <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
+                            <mat-select [(ngModel)]="newResource.permissions[group.id]" [name]="group.id">
+                                <mat-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
                                     {{cat.label}}
-                                </md-option>
-                            </md-select>
+                                </mat-option>
+                            </mat-select>
                         </td>
                     </tr>
                 </table>
@@ -92,10 +92,10 @@
         <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
         <section *ngIf="newResource.id" [hidden]="counter!==2">
             <form #properties="ngForm" class="salsah-form">
-                <p md-subheader>Select properties for <i>{{newResource.label}}</i></p>
+                <p mat-subheader>Select properties for <i>{{newResource.label}}</i></p>
 
-                <md-list>
-                    <md-list-item class="link highlight">
+                <mat-list>
+                    <mat-list-item class="link highlight">
                         <div class="salsah-checkbox">
                             <input type="checkbox"
                                    id="togglePermission"
@@ -106,10 +106,10 @@
                                 <span class="checkbox-label">{{selectPropsText}}</span>
                             </label>
                         </div>
-                    </md-list-item>
+                    </mat-list-item>
                     <hr>
                     <!-- 2b) additional resource class specific properties -->
-                    <md-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
+                    <mat-list-item *ngFor="let prop of newResource.properties | key; let i = index" class="link highlight">
                         <div class="salsah-checkbox">
                             <input type="checkbox"
                                    [(ngModel)]="prop.state"
@@ -125,39 +125,39 @@
                         </div>
 
                         <!--
-                        <md-checkbox *ngIf="prop.value.cardinality === '1' || prop.value.cardinality === '1-n'"
+                        <mat-checkbox *ngIf="prop.value.cardinality === '1' || prop.value.cardinality === '1-n'"
                                      [id]="prop.key"
                                      [ngModel]="prop.key"
                                      [checked]="true"
                                      [name]="'prop_' + i">
                             <label [for]="prop.key" class="full-width">{{prop.value.label}}<span ></span></label>
-                        </md-checkbox>
+                        </mat-checkbox>
 
-                        <md-checkbox *ngIf="prop.value.cardinality === '0-1' || prop.value.cardinality === '0-n' || prop.value.cardinality === false"
+                        <mat-checkbox *ngIf="prop.value.cardinality === '0-1' || prop.value.cardinality === '0-n' || prop.value.cardinality === false"
                                      color="primary"
                                      [ngModel]="prop.key"
                                      [checked]="false"
                                      [name]="'prop_' + i">
                             {{prop.value.label}}
-                        </md-checkbox>
+                        </mat-checkbox>
                         -->
                         <!-- the properties on the left side are followed by their cardinality settings on the right side -->
 
-                        <md-select *ngIf="newResource.properties[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="newResource.properties[prop.key].cardinality">
-                            <md-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
+                        <mat-select *ngIf="newResource.properties[prop.key] !== undefined" [(ngModel)]="prop.value.cardinality" [name]="newResource.properties[prop.key].cardinality">
+                            <mat-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
                                 {{cardinality}}
-                            </md-option>
-                        </md-select>
+                            </mat-option>
+                        </mat-select>
 
-                    </md-list-item>
-                </md-list>
+                    </mat-list-item>
+                </mat-list>
             </form>
         </section>
 
         <!-- Step 3: Set permissions for each property -->
         <section [hidden]="counter!==3">
             <form #permission="ngForm" class="salsah-form">
-                <p md-subheader>Set the permissions for the selected properties</p>
+                <p mat-subheader>Set the permissions for the selected properties</p>
                 <table class="full-width form-table">
                     <thead><tr>
                         <th width="36px" class="center">n</th>
@@ -177,23 +177,23 @@
                             <td style="text-align:left"><strong>{{prop.value.label}}</strong></td>
 
                             <td *ngFor="let grp of permissions?.groups; let j = index">
-                                <md-select [ngModel]="permissions?.categories[j + 1]?.id"
+                                <mat-select [ngModel]="permissions?.categories[j + 1]?.id"
                                            (ngModel)="newResource.properties[prop.key]?.permissions[grp.id]"
                                            [name]="grp.id + '_' + i"
                                            (change)="setPerm(prop, grp, permission, $event)">
-                                    <md-option *ngFor="let cat of permissions.categories" [value]="cat.id">
+                                    <mat-option *ngFor="let cat of permissions.categories" [value]="cat.id">
                                         {{cat.label}}
-                                    </md-option>
-                                </md-select>
+                                    </mat-option>
+                                </mat-select>
                             </td>
 
                             <!--
                             <td *ngFor="let permCat of permissions.categories; let i = index">
-                                <md-select [(ngModel)]="permissions.groups[i].id" [name]="permCat.id">
-                                    <md-option *ngFor="let permGrp of permissions.groups" [value]="permGrp.id">
+                                <mat-select [(ngModel)]="permissions.groups[i].id" [name]="permCat.id">
+                                    <mat-option *ngFor="let permGrp of permissions.groups" [value]="permGrp.id">
                                         {{permGrp.label}}
-                                    </md-option>
-                                </md-select>
+                                    </mat-option>
+                                </mat-select>
                             </td>
                             -->
                         </tr>
@@ -204,7 +204,7 @@
 
         <!-- Step 4: Show a preview of the new resource -->
         <section [hidden]="counter!==4">
-            <p md-subheader>You're ontology for the resource class <strong>{{newResource.label}}</strong> looks as follow:</p>
+            <p mat-subheader>You're ontology for the resource class <strong>{{newResource.label}}</strong> looks as follow:</p>
 
             <p>{{newResource.description}}</p>
 
@@ -233,28 +233,28 @@
                                     </td>
                                     <!-- Permissions setting --
                                     <td width="150px">
-                                        <md-select class="perm-style"
+                                        <mat-select class="perm-style"
                                                    placeholder="Permissions"
                                                    required
                                                    [(ngModel)]="perms[0].label" [name]="props.label" #permis="ngModel"  selected="group 1">
-                                            <md-option *ngFor="let perm of perms; let first of first" [value]="perm.label">
+                                            <mat-option *ngFor="let perm of perms; let first of first" [value]="perm.label">
                                                 {{perm.label}}
-                                            </md-option>
-                                        </md-select>
+                                            </mat-option>
+                                        </mat-select>
                                         <div [hidden]="permis.valid" class="alert alert-danger">
                                             <small><small>Permissions are required</small></small>
                                         </div>
                                     </td>
                                     <!-- Occurrence setting --
                                     <td width="150px">
-                                        <md-select class="perm-style"
+                                        <mat-select class="perm-style"
                                                    placeholder="{{props.cardinality}}"
                                                    required
                                                    [(ngModel)]="props.card" [name]="props.id" #cardis="ngModel">
-                                            <md-option *ngFor="let card of cardinality; let first=first" [value]="card.label" selected="card.label === '1 - n' ? true : (card.label === '1' ? true : false)">
+                                            <mat-option *ngFor="let card of cardinality; let first=first" [value]="card.label" selected="card.label === '1 - n' ? true : (card.label === '1' ? true : false)">
                                                 {{card.label}}
-                                            </md-option>
-                                        </md-select>
+                                            </mat-option>
+                                        </mat-select>
                                         <div [hidden]="cardis.valid" class="alert alert-danger">
                                             <small><small>Occurrence is required</small></small>
                                         </div>
@@ -270,10 +270,10 @@
         <!-- Step 5: Make a comment and save -->
         <section [hidden]="counter!==5">
             <h3>Comments</h3>
-            <md-input-container class="full-width">
-                    <textarea mdInput placeholder="Comments" rows="8" name="userComments"
+            <mat-input-container class="full-width">
+                    <textarea matInput placeholder="Comments" rows="8" name="userComments"
                               ngModel></textarea>
-            </md-input-container>
+            </mat-input-container>
         </section>
     <form #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value, rcf.valid)" class="salsah-form">
     </form>
@@ -282,36 +282,36 @@
 
 
 <!-- the dialog actions bar is always the same; It stays fixed to the bottom of the dialog -->
-<div md-dialog-actions>
-    <button md-button
-            md-dialog-close
+<div mat-dialog-actions>
+    <button mat-button
+            mat-dialog-close
             class="cancel-button">
         Cancel
     </button>
     <span class="fill-remaining-space"></span>
 
     <span class="back">
-        <button md-button
+        <button mat-button
                 *ngIf="counter < max_steps && counter > 0"
                 class="back-button"
                 (click)="prevFormSection(counter, $event)">
-            <md-icon>keyboard_arrow_left</md-icon> Back
+            <mat-icon>keyboard_arrow_left</mat-icon> Back
         </button>
     </span>
 
     <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
     <span class="next">
-        <button md-raised-button
+        <button mat-raised-button
                 [disabled]="!newResource.label"
                 *ngIf="counter < (max_steps - 1) && counter > 0"
                 class="next-button"
                 [color]="'primary'"
                 (click)="nextFormSection(counter, $event)">
-            Next <md-icon>keyboard_arrow_right</md-icon>
+            Next <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
         <!-- or -->
         <button type="submit"
-                md-raised-button
+                mat-raised-button
                 *ngIf="counter === (max_steps - 1)"
                 class="save-button"
                 color="primary"
