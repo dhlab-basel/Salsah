@@ -5,7 +5,7 @@ import {AppRoutingModule} from '../../../../app-routing.module';
 import {FrameworkForListingsComponent} from './framework-for-listings.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {MdDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 
 describe('FrameworkForListingsComponent', () => {
     let component: FrameworkForListingsComponent;
@@ -20,7 +20,7 @@ describe('FrameworkForListingsComponent', () => {
             ],
             providers: [
                 {provide: NO_ERRORS_SCHEMA},
-                {provide: MdDialogRef}
+                {provide: MatDialogRef}
             ]
         })
             .compileComponents();
