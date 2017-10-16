@@ -64,7 +64,6 @@
                 <td>{{item.email}}</td>
                 <td>
                     <div class="hidden">
-
                         <button mat-icon-button
                                 (click)="setActive(item.user_id,  item.givenName + ' ' + item.familyName)"
                                 matTooltip="Activate user">
@@ -84,7 +83,6 @@
 
 
     <!-- default list -->
-
     <mat-list class="salsah-list" *ngSwitchDefault>
         <h3 mat-subheader># Users: {{countActive}}
             <span *ngIf="selectedRow === undefined && countAll > 1"> | {{sortTitle}}
@@ -111,7 +109,6 @@
             <button mat-icon-button class="right close close-highlight">
                 <mat-icon>close</mat-icon>
             </button>
-
             <!-- styling issue #81
                 <button mat-icon-button class="right action-highlight" (click)="removeFromProject(item.user_id, project)" matTooltip="Remove user from project" *ngIf="loggedInAdmin">
                     <mat-icon>delete</mat-icon>

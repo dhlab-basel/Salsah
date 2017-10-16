@@ -30,6 +30,7 @@ export class AppConfig {
 //    public static hasResourceClasses: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasResourceClasses';
 
     public static hasClasses: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasClasses';
+
     public static hasProperties: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasProperties';
 
     public static belongsToOntology: string = AppConfig.KnoraApiV2WithValueObjectPath + 'belongsToOntology';
@@ -41,6 +42,7 @@ export class AppConfig {
     public static OwlCardinality: string = 'http://www.w3.org/2002/07/owl#cardinality';
     public static ObjectClassConstraint = AppConfig.KnoraApiV2WithValueObjectPath + 'objectClassConstraint';
     public static OwlRestriction = 'http://www.w3.org/2002/07/owl#Restriction';
+
 
     public static Region = AppConfig.KnoraApiV2WithValueObjectPath + 'Region';
 

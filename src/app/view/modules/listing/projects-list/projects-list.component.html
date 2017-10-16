@@ -111,7 +111,6 @@
 
 
     <!-- default list -->
-
     <mat-list class="salsah-list" *ngSwitchDefault>
         <h3 mat-subheader># Projects: {{countAll}}</h3>
         <mat-list-item *ngFor="let item of allProjects | key" >
@@ -132,6 +131,7 @@
             </button>
         </mat-list-item>
     </mat-list>
+
 </div>
 
 <!-- if there are any data: show a no data message -->
