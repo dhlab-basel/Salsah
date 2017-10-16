@@ -1,49 +1,94 @@
 <!-- progress indicator while the data is loading -->
+<script src="projects-list.component.ts"></script>
 <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
 <!-- in the case of an API error: show the error message -->
 <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
 <!-- if we have the data: show the list-->
-<div *ngIf="num > 0; else noData" [ngSwitch]="listType">
+<div *ngIf="countAll > 0; else noData" [ngSwitch]="listType">
 
     <!-- show the list as table -->
-    <table *ngSwitchCase="'table'" class="salsah-table">
-        <tr>
-            <th># {{num}}</th>
-            <th (click)="sortKey='shortname'" class="salsah-link">Short name</th>
-            <th (click)="sortKey='longname'" class="salsah-link">Long name</th>
-            <th (click)="sortKey='institution'" class="salsah-link">Institution</th>
-            <th></th>
-        </tr>
-        <tr *ngFor="let item of list | sortBy: sortKey; let i = index;">
-            <td class="salsah-avatar-cell">
-                <img salsahImage [image]="item.logo" [type]="'project'" class="salsah-project-logo"/>
-            </td>
-            <td>{{item.shortname}}</td>
-            <td>{{item.longname}}</td>
-            <td>{{item.institution}}</td>
-            <td>
-                <button mat-icon-button (click)="edit(item.id)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button (click)="open(item.shortname)">
-                    <mat-icon>forward</mat-icon>
-                </button>
-            </td>
-        </tr>
-    </table>
+    <div *ngSwitchCase="'table'">
+        <!-- table with all active users -->
+        <h4>Active projects</h4>
+        <table *ngSwitchCase="'table'" class="salsah-table">
+            <tr>
+                <th># {{countActive}}</th>
+                <th (click)="sortKey='shortname'" class="salsah-link">Short name</th>
+                <th (click)="sortKey='longname'" class="salsah-link">Long name</th>
+                <th (click)="sortKey='institution'" class="salsah-link">Institution</th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let item of allActive | sortBy: sortKey; let i = index;">
+                <td class="salsah-avatar-cell">
+                    <img salsahImage [image]="item.logo" [type]="'project'" class="salsah-project-logo"/>
+                </td>
+                <td>{{item.shortname}}</td>
+                <td>{{item.longname}}</td>
+                <td>{{item.institution}}</td>
+                <td>
+                    <div class="hidden">
+                        <button mat-icon-button (click)="setInactive(item.id, item.shortname)"
+                                matTooltip="Deactivate project">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="edit(item.id)" matTooltip="Edit project">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="open(item.shortname)" matTooltip="Go to the project dashboard">
+                            <mat-icon>forward</mat-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br><br>
+        <!-- table with all inactive users -->
+        <h4>Inactive (deleted) projects</h4>
+        <table class="salsah-table">
+            <tr>
+                <th># {{countInactive}}</th>
+                <th (click)="sortKey='shortname'" class="salsah-link">Short name</th>
+                <th (click)="sortKey='longname'" class="salsah-link">Long name</th>
+                <th (click)="sortKey='institution'" class="salsah-link">Institution</th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let item of allInactive | sortBy: sortKey; let i = index;">
+                <td class="salsah-avatar-cell">
+                    <img salsahImage [image]="item.logo" [type]="'project'" class="salsah-project-logo"/>
+                </td>
+                <td>{{item.shortname}}</td>
+                <td>{{item.longname}}</td>
+                <td>{{item.institution}}</td>
+                <td>
+                    <div class="hidden">
+                        <button mat-icon-button (click)="setActive(item.id, item.shortname)"
+                                matTooltip="Reactivate project">
+                            <mat-icon>refresh</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="edit(item.id)" matTooltip="Edit project">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="open(item.shortname)" matTooltip="Go to the project dashboard">
+                            <mat-icon>forward</mat-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <!-- show the list in a grid -->
     <mat-grid-list *ngSwitchCase="'grid'"
-                   class="salsah-grid-list"
-                   salsahResizeGrid
-                   [cols]="columns"
-                   [gutterSize]="colGutter + 'px'"
-                   [rowHeight]="rowHeight + 'px'">
-        <mat-grid-tile *ngFor="let item of list | sortBy: sortKey; let i = index;"
-                       class="salsah-grid-tile salsah-link"
-                       (click)="open(item.shortname)">
+                  class="salsah-grid-list"
+                  salsahResizeGrid
+                  [cols]="columns"
+                  [gutterSize]="colGutter + 'px'"
+                  [rowHeight]="rowHeight + 'px'">
+        <mat-grid-tile *ngFor="let item of allProjects | sortBy: sortKey; let i = index;"
+                      class="salsah-grid-tile salsah-link"
+                      (click)="open(item.shortname)">
             <mat-card class="salsah-preview">
                 <!-- original -->
                 <!--
@@ -66,24 +111,25 @@
 
 
     <!-- default list -->
+
     <mat-list class="salsah-list" *ngSwitchDefault>
-        <h3 mat-subheader># Projects: {{num}}</h3>
-        <mat-list-item *ngFor="let item of list | key">
+        <h3 mat-subheader># Projects: {{countAll}}</h3>
+        <mat-list-item *ngFor="let item of allProjects | key" >
             <img mat-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
             <h4 mat-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
             <div mat-line [innerHtml]="item.value.description | slice:0:128"></div>
-
-            <mat-toolbar>
-                <button mat-icon-button (click)="open(item.value.shortname)">
-                    <mat-icon>forward</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf="user"
-                        matTooltip="Remove user from project"
-                        matTooltipPosition="above"
-                        (click)="removeUserFromProject(user, item.key)">
-                    <mat-icon>delete</mat-icon>
-                </button>
-            </mat-toolbar>
+            <button mat-icon-button
+                    matTooltip="Go to the project dashboard"
+                    class="right action-highlight"
+                    (click)="open(item.value.shortname)">
+                <mat-icon>forward</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="user"
+                    matTooltip="Remove user from project"
+                    class="right action-highlight"
+                    (click)="removeUserFromProject(user, item.key)">
+                <mat-icon>delete</mat-icon>
+            </button>
         </mat-list-item>
     </mat-list>
 </div>

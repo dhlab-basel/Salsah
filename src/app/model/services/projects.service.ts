@@ -84,5 +84,16 @@ export class ProjectsService extends ApiService {
         return this.httpPut('/v1/projects/' + encodeURIComponent(iri), data);
     }
 
+    deleteProject(iri: string): Observable<any> {
+        return this.httpDelete('/v1/projects/' + encodeURIComponent(iri));
+    }
+
+    activateProject(iri: string): Observable<any> {
+        const data: any = {
+            status: true
+        };
+        return this.httpPut('/v1/projects/' + encodeURIComponent(iri), data)
+    }
+
 
 }

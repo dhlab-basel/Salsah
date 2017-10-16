@@ -56,6 +56,8 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
     // the list can have an (optional) add button, which opens the form-dialog with a new-XYZ-form
     @Input() add?: AddData;
 
+    loggedInAdmin: boolean = false;
+
     // error message in the case of an api service error
     errorMessage: any = undefined;
 
@@ -99,6 +101,11 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        // bad hack to get the project admin information
+        this.loggedInAdmin = (sessionStorage.getItem('admin') !== null);
+        // end of bad hack. TODO: we have to find a better solution
+
+
         if (this.list === undefined || this.list === null) {
             // list is not optional! show an error message
             this.errorMessage = <any>{

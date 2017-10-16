@@ -22,7 +22,7 @@
 
   .salsah-grid-tile {
     max-height: 308px;
-    max-width: 208px;
+    //    max-width: 208px;
 
   }
 }
@@ -31,9 +31,10 @@
   background: transparent;
   height: 100%;
   max-height: 300px;
-  max-width: 200px;
+  //  max-width: 200px;
   padding: 0 12px;
-  width: 100%;
+  width: 90%;
+  word-wrap: break-word;
 
   .salsah-preview-image {
     height: 153px;
@@ -50,6 +51,12 @@
     width: 48px;
   }
 
+  .salsah-preview-title,
+  .salsah-preview-text {
+    margin: 0 -24px 0 0;
+    max-width: 100%;
+  }
+
   .salsah-preview-title {
     font-size: 14px;
     font-weight: bolder;
@@ -57,7 +64,7 @@
   }
 
   .salsah-preview-text {
-    font-size: 12px
+    font-size: 12px;
   }
 }
 
@@ -70,8 +77,25 @@
     @include border-bottom();
     height: 48px;
 
+    .hidden {
+      display: none;
+    }
+
+    &:not(:first-child):hover {
+      background-color: darken($bright, 25%);
+
+      .hidden {
+        display: block;
+      }
+    }
+
     td,
     th {
+
+      &:not(:first-child) {
+        min-width: 156px;
+      }
+
       padding: 12px;
       text-align: left;
     }
