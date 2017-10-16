@@ -70,7 +70,7 @@ export class OntologyService extends ApiService {
             resClassUriEnc = resClassUriEnc + "/" + encodeURIComponent(resClassIri.toString())
         });
 
-        return this.httpGetV2("/ontologies/resourceclasses" + resClassUriEnc);
+        return this.httpGetV2("/ontologies/classes" + resClassUriEnc);
     }
 
     /**
