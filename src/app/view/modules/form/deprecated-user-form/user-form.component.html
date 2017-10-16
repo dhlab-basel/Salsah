@@ -27,7 +27,7 @@
         <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
             <mat-input-container class="half-width"
                                 dividerColor="{{ uf.controls['firstName']?.invalid && uf.controls['firstName']?.touched ? 'warn' : 'primary' }}">
-                <input mdInput
+                <input matInput
                        disabled
                        [placeholder]="form.user.firstName + ' *'"
                        [formControl]="uf.controls['givenName']">
@@ -35,7 +35,7 @@
 
             <mat-input-container class="half-width"
                                 dividerColor="{{ uf.controls['lastName']?.invalid && uf.controls['lastName']?.touched ? 'warn' : 'primary' }}">
-                <input mdInput
+                <input matInput
                        disabled="disabled"
                        [placeholder]="form.user.lastName + ' *'"
                        [formControl]="uf.controls['familyName']">
@@ -43,7 +43,7 @@
 
             <mat-input-container class="full-width"
                                 dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
-                <input mdInput type="email"
+                <input matInput type="email"
                        [placeholder]="form.user.email + ' *'"
                        [formControl]="uf.controls['email']">
                 <mat-hint class="salsah-hint">
@@ -57,7 +57,7 @@
 
             <mat-input-container class="full-width"
                                 dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
-                <input mdInput type="password"
+                <input matInput type="password"
                        [placeholder]="form.user.password + ' *'"
                        [formControl]="uf.controls['password']">
                 <mat-hint class="salsah-hint">

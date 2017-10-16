@@ -29,7 +29,7 @@
                 <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
                     <!-- short and long name -->
                     <mat-form-field class="small">
-                        <input mdInput [salsahFocus]="step === 1"
+                        <input matInput [salsahFocus]="step === 1"
                                [placeholder]="formLabels.project.shortname + ' *'"
                                [formControl]="form.controls['shortname']">
                         <mat-hint *ngIf="formErrors.shortname">
@@ -37,7 +37,7 @@
                         </mat-hint>
                     </mat-form-field>
                     <mat-form-field class="medium">
-                        <input mdInput
+                        <input matInput
                                [placeholder]="formLabels.project.longname + ' *'"
                                [formControl]="form.controls['longname']">
                         <mat-hint *ngIf="formErrors.longname">
@@ -47,7 +47,7 @@
 
                     <!-- description -->
                     <mat-form-field class="large">
-                        <textarea mdInput rows="6"
+                        <textarea matInput rows="6"
                                   [placeholder]="formLabels.project.description"
                                   [formControl]="form.controls['description']">
                         </textarea>
@@ -58,7 +58,7 @@
 
                     <!-- keywords -->
                     <mat-form-field class="large">
-                        <input mdInput
+                        <input matInput
                                [placeholder]="formLabels.project.keywords"
                                [formControl]="form.controls['keywords']">
                         <mat-hint *ngIf="formErrors.keywords">

@@ -18,8 +18,8 @@
             <form class="login-form" #lf="ngForm" (ngSubmit)="onSubmit(lf.value)" *ngIf="!isLoading">
                 <!-- Username -->
                 <mat-input-container class="full-width login-field">
-                    <mat-icon mdPrefix>person</mat-icon>
-                    <input mdInput
+                    <mat-icon matPrefix>person</mat-icon>
+                    <input matInput
                            [placeholder]="login.name"
                            required
                            autofocus
@@ -31,8 +31,8 @@
                 <!-- Password -->
 
                 <mat-input-container class="full-width login-field">
-                    <mat-icon mdPrefix>lock</mat-icon>
-                    <input mdInput
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <input matInput
                            type="password"
                            [placeholder]="login.pw"
                            required
