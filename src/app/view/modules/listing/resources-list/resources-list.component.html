@@ -10,20 +10,31 @@
     </table>
 
     <!-- show as grid-list if listType === grid -->
-    <md-grid-list *ngSwitchCase="'grid'" class="salsah-grid-list" [cols]="cols" gutterSize="12px" rowHeight="480px">
+
+    <md-grid-list *ngSwitchCase="'grid'"
+                  class="salsah-grid-list"
+                  salsahResizeGrid
+                  [cols]="columns"
+                  [gutterSize]="colGutter + 'px'"
+                  [rowHeight]="rowHeight + 'px'">
         <md-grid-tile *ngFor="let res of result.resources; let i = index"
                       (click)="toggle(res.id, i)"
                       [id]="res.id">
 
-            <md-card [class.highlight]="i == selectedRow" class="salsah-link">
-                <!--<img salsahImage [image]="res.preview_path" [type]="'resource'"
+            <md-card [class.highlight]="i == selectedRow" class="salsah-link salsah-preview">
+                <!--
+                <img salsahImage [image]="res.preview_path" [type]="'resource'"
                      [class.salsah-resource-preview]="res.preview_path"
-                     [class.salsah-resource-icon]="!res.preview_path"/>-->
-
-                <md-card-content>
-                    <md-card-title>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</md-card-title>
-                    <!--<md-card-subtitle class="salsah-preview-text">{{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}</md-card-subtitle>-->
-                </md-card-content>
+                     [class.salsah-resource-icon]="!res.preview_path"/>
+                 -->
+                <div class="salsah-preview-content">
+                    <md-card-title class="salsah-preview-title">{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type) | slice:0:40}})</md-card-title>
+                    <!--
+                    <md-card-content class="salsah-preview-text">
+                        {{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}
+                    </md-card-content>
+                    -->
+                </div>
 
             </md-card>
 
@@ -37,7 +48,9 @@
                       [id]="res.id"
                       class="salsah-link"
                       [class.highlight]="i == selectedRow">
-            <!--<img md-list-avatar [src]="res.preview_path" class="salsah-preview-image" />-->
+            <!--
+            <img md-list-avatar [src]="res.preview_path" class="salsah-preview-image"/>
+            -->
             <h3 md-line>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</h3>
             <div md-line *ngFor="let prop of res.properties | key">
                 <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span>

@@ -125,7 +125,6 @@ export class ProjectFormComponent implements OnInit {
                     const projectsList: ProjectItem[] = result.getBody(ProjectsList).projects;
                     for (const p of projectsList) {
                         this.existingShortNames.push(new RegExp('(?:^|\W)' + p.shortname.toLowerCase() + '(?:$|\W)'));
-
                     }
                 },
                 (error: ApiServiceError) => {

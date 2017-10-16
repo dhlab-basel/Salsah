@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, Params} from '@angular/router';
 import {ApiServiceResult} from '../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../model/services/api-service-error';
@@ -34,6 +34,8 @@ export class ProjectComponent implements OnInit {
     project: ProjectItem = new ProjectItem();
 
     projectRoute: string = '/project/';
+
+    projectAdmin: boolean = false;
 
     firstTabClass: string = 'active';
 
@@ -72,24 +74,37 @@ export class ProjectComponent implements OnInit {
             this.cur_project = params['pid'];
             this.projectRoute += this.cur_project;
 
-            this._title.setTitle( 'Salsah | Project admin (' + this.cur_project + ')');
+            this._title.setTitle('Salsah | Project (' + this.cur_project + ')');
 
             this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
-
 
             // get the project information
             this._projectsService.getProjectByShortname(this.cur_project)
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.project = result.getBody(Project).project_info;
-                        sessionStorage.setItem('currentProject', JSON.stringify(
-                            this.project
-                        ));
-                        this.isLoading = false;
+                        sessionStorage.setItem('currentProject', JSON.stringify(this.project));
+
+                        if (sessionStorage.getItem('projectAdmin')) {
+                            if ( JSON.parse(sessionStorage.getItem('projectAdmin')).length > 0 ) {
+                                this.projectAdmin = (JSON.parse(sessionStorage.getItem('projectAdmin')).indexOf(this.project.id) > -1);
+                                // bad hack to get the project admin information
+                                if (this.projectAdmin ) { sessionStorage.setItem('admin', JSON.stringify(true)); }
+                                // end of bad hack. TODO: we have to find a better solution
+                                this.isLoading = false;
+                            } else {
+                                this.isLoading = false;
+                            }
+                        } else {
+                            this.isLoading = false;
+                        }
+
+
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
                         sessionStorage.removeItem('currentProject');
+                        this.isLoading = false;
                     }
                 );
 

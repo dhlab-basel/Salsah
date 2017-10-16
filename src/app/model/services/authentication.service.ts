@@ -8,6 +8,9 @@ import {UserService} from './user.service';
 import {UserProfile} from '../webapi/knora/v1/users/user-profile';
 import {User} from '../webapi/knora/v1/users/user';
 import {PermissionData} from '../webapi/knora/v1/permissions/permission-data';
+import {AppConfig} from '../../app.config';
+import {ProjectsService} from './projects.service';
+import {ProjectsList} from '../webapi/knora/v1/projects/projects-list';
 
 @Injectable()
 export class AuthenticationService extends ApiService {
@@ -16,7 +19,9 @@ export class AuthenticationService extends ApiService {
 
     public isSysAdmin: boolean;
 
-    constructor(_http: Http, private _userService: UserService) {
+    constructor(_http: Http,
+                private _userService: UserService,
+                private _projectsService: ProjectsService) {
         super(_http);
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
@@ -36,8 +41,6 @@ export class AuthenticationService extends ApiService {
         // data to check if the user has system admin (sysAdmin) rights
         let isSysAdmin: boolean = false;
         let permissions: PermissionData;
-        const sysProject = 'http://www.knora.org/ontology/knora-base#SystemProject';
-        const sysAdminGroup = 'http://www.knora.org/ontology/knora-base#SystemAdmin';
 
 
         return this.httpPost('/v2/authentication', {email: email, password: password}).map(
@@ -52,12 +55,13 @@ export class AuthenticationService extends ApiService {
                     // check if the user is sysAdmin
                     this.httpGet('/v1/users/' + encodeURIComponent(email) + '?identifier=email').subscribe(
                         (res: ApiServiceResult) => {
-                            // alert(email + ' ' + token);
                             permissions = res.body.userProfile.permissionData;
 
-                            if (permissions.groupsPerProject[sysProject]) {
-                                isSysAdmin = permissions.groupsPerProject[sysProject][0] === sysAdminGroup;
+                            if (permissions.groupsPerProject[AppConfig.SystemProject]) {
+                                isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
                             }
+
+                            this.projectPermissions(email);
 
                             // store username and jwt token in local storage to keep user logged in between page refreshes
                             // and set the system admin property to true or false
@@ -84,7 +88,8 @@ export class AuthenticationService extends ApiService {
                     );
 
                     // return true to indicate successful login
-                    if (!isLoading) {}
+                    if (!isLoading) {
+                    }
                     return true;
                 } else {
 
@@ -110,6 +115,11 @@ export class AuthenticationService extends ApiService {
         let status: number = 0;
 
         let activeSession: boolean = false;
+
+        if (!sessionStorage.getItem('projectAdmin') && localStorage.getItem('currentUser')) {
+            const user: string = JSON.parse(localStorage.getItem('currentUser')).email;
+            this.projectPermissions(user);
+        }
 
         this.httpGet('/v2/authentication').subscribe(
             (result: ApiServiceResult) => {
@@ -138,43 +148,48 @@ export class AuthenticationService extends ApiService {
         return activeSession;
     }
 
-    system(user?: string): boolean {
-
-        let isSysAdmin: boolean = false;
-        let currentUser: any;
-
-        if (!user) {
-            currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            user = currentUser.email;
-        }
-
-        let permissions: PermissionData;
-
-        const sysProject = 'http://www.knora.org/ontology/knora-base#SystemProject';
-        const sysAdminGroup = 'http://www.knora.org/ontology/knora-base#SystemAdmin';
-
+    projectPermissions(user?: string): any {
+        // check if the user is sysAdmin
         this.httpGet('/v1/users/' + encodeURIComponent(user) + '?identifier=email').subscribe(
             (result: ApiServiceResult) => {
+                const permissions: PermissionData = result.body.userProfile.permissionData;
+                const projectsList: string[] = [];
+                let isSysAdmin: boolean = false;
 
-                permissions = result.body.userProfile.permissionData;
-                isSysAdmin = permissions.groupsPerProject[sysProject][0] === sysAdminGroup;
+                if (permissions.groupsPerProject[AppConfig.SystemProject]) {
+                    isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
+                }
 
-                if (currentUser) {
-                    // reset the currentUser
-                    localStorage.setItem('currentUser', JSON.stringify({
-                        email: currentUser.email,
-                        token: currentUser.token,
-                        sysAdmin: isSysAdmin
-                    }));
+                if (isSysAdmin) {
+                    // the user is system admin and has all permission rights in every project
+                    // get all projects and set projectAdmin to true for every project
+                    this._projectsService.getAllProjects().subscribe(
+                        (res: ApiServiceResult) => {
+                            for (const p of res.getBody(ProjectsList).projects) {
+                                projectsList.push(p.id);
+                            }
+                            sessionStorage.setItem('projectAdmin', JSON.stringify(projectsList));
+                        },
+                        (error: ApiServiceError) => {
+                            console.log(error);
+                            sessionStorage.removeItem('projectAdmin');
+                        }
+                    );
+                } else {
+                    // get the projects, where the user is admin of
+                    for (let proj in permissions.groupsPerProject) {
+                        if (permissions.groupsPerProject[proj].indexOf(AppConfig.ProjectAdminGroup) > -1) {
+                            projectsList.push(proj);
+                        }
+                    }
+                    sessionStorage.setItem('projectAdmin', JSON.stringify(projectsList));
                 }
             },
             (error: ApiServiceError) => {
                 console.log(error);
-                isSysAdmin = false;
             }
         );
 
-        return isSysAdmin;
     }
 
 

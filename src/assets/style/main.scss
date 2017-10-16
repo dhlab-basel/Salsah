@@ -105,6 +105,10 @@ a.facsimile {
 
   &:hover {
     background-color: $bright;
+
+    .action-highlight {
+      display: block;
+    }
   }
 
   &.highlight,
@@ -113,6 +117,10 @@ a.facsimile {
 
     .close-highlight {
       display: block;
+    }
+
+    .action-highlight {
+      display: none;
     }
   }
 
@@ -124,6 +132,7 @@ a.facsimile {
     }
   }
 
+  .action-highlight,
   .close-highlight {
     display: none;
   }

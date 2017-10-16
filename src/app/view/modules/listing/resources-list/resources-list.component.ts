@@ -13,7 +13,7 @@
  * */
 
 import {Component, EventEmitter, OnInit, Input, Output} from '@angular/core';
-import {Search} from "../../../../model/webapi/knora/";
+import {Search} from '../../../../model/webapi/knora/';
 import {SearchService} from '../../../../model/services/search.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
@@ -37,7 +37,10 @@ export class ResourcesListComponent implements OnInit {
 
     @Output() toggleItem = new EventEmitter<any>();
 
-    cols: number = 3;
+    // grid list settings
+    columns: number = 3;
+    rowHeight: number = 308;
+    colGutter: number = 12;
 
     public isLoading: boolean = true;
     public errorMessage: any;
@@ -61,7 +64,7 @@ export class ResourcesListComponent implements OnInit {
 
     ngOnInit() {
         if (this.listType === 'grid') {
-            this.cols = 3;
+            this.columns = 3;
         }
 
         this._searchService.doFulltextSearch(this.searchParam)
@@ -115,19 +118,19 @@ export class ResourcesListComponent implements OnInit {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
-            if (this.cols > 0) {
+            if (this.columns > 0) {
                 // in the case of the grid, show the grid list after close
                 this.listType = 'grid';
-                this.cols = 3;
+                this.columns = 3;
             }
             this.toggleItem.emit({id, index});
         } else {
             // open the detail view
             this.selectedRow = index;
-            if (this.cols > 0) {
+            if (this.columns > 0) {
                 // in the case of the grid, show the default list view here
                 this.listType = 'list';
-                this.cols = 1;
+                this.columns = 1;
             }
             this.toggleItem.emit({id, index});
         }

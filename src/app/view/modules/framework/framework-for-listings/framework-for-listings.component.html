@@ -12,7 +12,7 @@
         </div>
 
         <!-- add button? -->
-        <md-list *ngIf="add != undefined">
+        <md-list *ngIf="add != undefined && loggedInAdmin">
             <!-- this list has an 'add button' to add new stuff;
             it opens the form-dialog-component with the 'new-something-form'-component -->
             <md-list-item class="salsah-link" (click)="openNew(list.content)">

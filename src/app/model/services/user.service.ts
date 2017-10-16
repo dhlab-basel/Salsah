@@ -78,15 +78,15 @@ export class UserService extends ApiService {
         return this.httpPut('/v1/users/' + encodeURIComponent(uIri), data, {});
     }
 
-    deleteUser(uIri: string): Observable<any> {
-        return this.httpDelete('/v1/users/' + encodeURIComponent(uIri));
+    deleteUser(iri: string): Observable<any> {
+        return this.httpDelete('/v1/users/' + encodeURIComponent(iri));
     }
 
-    activateUser(uIri: string): Observable<any> {
+    activateUser(iri: string): Observable<any> {
         const data: any = {
             status: true
         };
-        return this.httpPut('/v1/users/' + encodeURIComponent(uIri), data)
+        return this.httpPut('/v1/users/' + encodeURIComponent(iri), data)
     }
 
 
