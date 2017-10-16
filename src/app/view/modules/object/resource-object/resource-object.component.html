@@ -2,8 +2,8 @@
 <p>{{resource?.type}} ({{ontologyInfo?.getLabelForResourceClass(resource?.type)}})</p>
 <p>{{resource?.label}}</p>
 
-<md-list>
-    <div md-line *ngFor="let prop of resource?.properties | key">
+<mat-list>
+    <div mat-line *ngFor="let prop of resource?.properties | key">
 
         <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span>
 
@@ -40,7 +40,7 @@
         <p>Incoming Links:</p>
         <ul>
             <li *ngFor="let incomingLinkSourceRes of resource.incomingLinks">
-                <span mdTooltip="{{incomingLinkSourceRes.label}} {{ontologyInfo?.getLabelForResourceClass(incomingLinkSourceRes.type)}}" (click)="showSourceOfIncomingLinkInDialog(incomingLinkSourceRes.id)">
+                <span matTooltip="{{incomingLinkSourceRes.label}} {{ontologyInfo?.getLabelForResourceClass(incomingLinkSourceRes.type)}}" (click)="showSourceOfIncomingLinkInDialog(incomingLinkSourceRes.id)">
                     <span>{{incomingLinkSourceRes.label}}</span>
                 </span>
             </li>
@@ -53,4 +53,4 @@
                                   *ngIf="resource?.incomingStillImageRepresentations?.length > 0;" [images]="resource?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="4" [imageChangeInterval]="5">
     </salsah-still-image-osdviewer>
 
-</md-list>
+</mat-list>

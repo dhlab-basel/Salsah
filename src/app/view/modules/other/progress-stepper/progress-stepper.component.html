@@ -11,7 +11,7 @@
                     <!-- show a label until the step is done -->
                     <label *ngIf="counter < (step + 1)">{{step + 1}}</label>
                     <!-- if the step is done; replace the label with an icon and show a line to the next step number -->
-                    <md-icon *ngIf="counter > step">check</md-icon>
+                    <mat-icon *ngIf="counter > step">check</mat-icon>
                 </span>
                     <span class="stepper-label" *ngIf="steps">
                     <label>{{steps[i]}}</label>

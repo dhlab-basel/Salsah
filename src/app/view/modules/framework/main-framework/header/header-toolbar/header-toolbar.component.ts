@@ -15,7 +15,7 @@
 import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {MdDialog, MdDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../../../dialog/form-dialog/form-dialog.component';
 import {MessageData} from '../../../../message/message.component';
@@ -98,7 +98,7 @@ export class HeaderToolbarComponent implements OnInit {
     ];
 
     constructor(private _eleRef: ElementRef,
-                private _dialog: MdDialog,
+                private _dialog: MatDialog,
                 private _route: ActivatedRoute,
                 private _router: Router,
                 private _authenticationService: AuthenticationService) {
@@ -156,7 +156,7 @@ export class HeaderToolbarComponent implements OnInit {
             switch (item) {
                 case 'project':
                     title = 'Create new project';
-                    dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
+                    dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
                         data: {
                             title: title,
                             form: 'project'
@@ -171,7 +171,7 @@ export class HeaderToolbarComponent implements OnInit {
                         statusText: 'TODO: add the item type "' + item + '" to the openNew method in HeaderToolbarComponent',
                         route: 'Missing item type: ' + item
                     };
-                    dialogRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{data: {message: message}});
+                    dialogRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{data: {message: message}});
 
 
             }

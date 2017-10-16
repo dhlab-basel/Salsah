@@ -24,68 +24,68 @@
             <td>{{item.longname}}</td>
             <td>{{item.institution}}</td>
             <td>
-                <button md-icon-button (click)="edit(item.id)">
-                    <md-icon>edit</md-icon>
+                <button mat-icon-button (click)="edit(item.id)">
+                    <mat-icon>edit</mat-icon>
                 </button>
-                <button md-icon-button (click)="open(item.shortname)">
-                    <md-icon>forward</md-icon>
+                <button mat-icon-button (click)="open(item.shortname)">
+                    <mat-icon>forward</mat-icon>
                 </button>
             </td>
         </tr>
     </table>
 
     <!-- show the list in a grid -->
-    <md-grid-list *ngSwitchCase="'grid'"
-                  class="salsah-grid-list"
-                  salsahResizeGrid
-                  [cols]="columns"
-                  [gutterSize]="colGutter + 'px'"
-                  [rowHeight]="rowHeight + 'px'">
-        <md-grid-tile *ngFor="let item of list | sortBy: sortKey; let i = index;"
-                      class="salsah-grid-tile salsah-link"
-                      (click)="open(item.shortname)">
-            <md-card class="salsah-preview">
+    <mat-grid-list *ngSwitchCase="'grid'"
+                   class="salsah-grid-list"
+                   salsahResizeGrid
+                   [cols]="columns"
+                   [gutterSize]="colGutter + 'px'"
+                   [rowHeight]="rowHeight + 'px'">
+        <mat-grid-tile *ngFor="let item of list | sortBy: sortKey; let i = index;"
+                       class="salsah-grid-tile salsah-link"
+                       (click)="open(item.shortname)">
+            <mat-card class="salsah-preview">
                 <!-- original -->
                 <!--
-                <img md-card-image [src]="project.value.logo" class="salsah-preview-image"/>
+                <img mat-card-image [src]="project.value.logo" class="salsah-preview-image"/>
                 -->
                 <!-- fake test data -->
                 <img salsahImage [image]="item.logo" [type]="'project'"
                      [class.salsah-preview-image]="item.logo"
                      [class.salsah-preview-icon]="!item.logo"/>
                 <div class="salsah-preview-content">
-                    <md-card-title class="salsah-preview-title">{{item.longname}}</md-card-title>
-                    <md-card-content class="salsah-preview-text"
-                                     [innerHtml]="item.description | slice:0:150">
-                    </md-card-content>
+                    <mat-card-title class="salsah-preview-title">{{item.longname}}</mat-card-title>
+                    <mat-card-content class="salsah-preview-text"
+                                      [innerHtml]="item.description | slice:0:150">
+                    </mat-card-content>
                 </div>
 
-            </md-card>
-        </md-grid-tile>
-    </md-grid-list>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
 
 
     <!-- default list -->
-    <md-list class="salsah-list" *ngSwitchDefault>
-        <h3 md-subheader># Projects: {{num}}</h3>
-        <md-list-item *ngFor="let item of list | key">
-            <img md-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
-            <h4 md-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
-            <div md-line [innerHtml]="item.value.description | slice:0:128"></div>
+    <mat-list class="salsah-list" *ngSwitchDefault>
+        <h3 mat-subheader># Projects: {{num}}</h3>
+        <mat-list-item *ngFor="let item of list | key">
+            <img mat-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
+            <h4 mat-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
+            <div mat-line [innerHtml]="item.value.description | slice:0:128"></div>
 
-            <md-toolbar>
-                <button md-icon-button (click)="open(item.value.shortname)">
-                    <md-icon>forward</md-icon>
+            <mat-toolbar>
+                <button mat-icon-button (click)="open(item.value.shortname)">
+                    <mat-icon>forward</mat-icon>
                 </button>
-                <button md-icon-button *ngIf="user"
-                        mdTooltip="Remove user from project"
-                        mdTooltipPosition="above"
+                <button mat-icon-button *ngIf="user"
+                        matTooltip="Remove user from project"
+                        matTooltipPosition="above"
                         (click)="removeUserFromProject(user, item.key)">
-                    <md-icon>delete</md-icon>
+                    <mat-icon>delete</mat-icon>
                 </button>
-            </md-toolbar>
-        </md-list-item>
-    </md-list>
+            </mat-toolbar>
+        </mat-list-item>
+    </mat-list>
 </div>
 
 <!-- if there are any data: show a no data message -->

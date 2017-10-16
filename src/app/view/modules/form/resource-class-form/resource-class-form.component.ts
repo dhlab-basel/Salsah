@@ -13,7 +13,7 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {MdDialog} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {BasicOntologyService} from '../../../../model/services/basic-ontology.service';
@@ -115,7 +115,7 @@ export class ResourceClassFormComponent implements OnInit {
         '0-n'
     ];
 
-    constructor(public dialog: MdDialog,
+    constructor(public dialog: MatDialog,
                 private _basicOntologyService: BasicOntologyService) {
     }
 

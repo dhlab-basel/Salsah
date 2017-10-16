@@ -22,7 +22,7 @@
             "prefix": "salsah",
             "styles": [
                 "index.style.css",
-                "assets/style/md-teal-amber.scss",
+                "assets/style/mat-teal-amber.scss",
                 "assets/style/main.scss"
             ],
             "scripts": [

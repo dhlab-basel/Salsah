@@ -1,21 +1,23 @@
-<md-card>
+<mat-card>
     <div class="salsah-module-header">
-        <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
+        <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps"
+                                 [counter]="counter"></salsah-progress-stepper>
     </div>
 
-    <md-card-content>
+    <mat-card-content>
         <!-- step 0: does the new resource have a file representation? -->
         <section [hidden]="counter!==0">
-            <p md-subheader>Does the new resource have a file representation? Which one?</p>
-            <md-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
-                <md-grid-tile *ngFor="let item of basicOntology?.resourceClasses | key; let i = index;">
-                    <button md-button [mdTooltip]="item.value.description" mdTooltipPosition="above"
+            <p mat-subheader>Does the new resource have a file representation? Which one?</p>
+            <mat-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
+                <mat-grid-tile *ngFor="let item of basicOntology?.resourceClasses | key; let i = index;">
+                    <button mat-button [matTooltip]="item.value.description" matTooltipPosition="above"
                             (click)="nextFormSection(counter, $event, item.key)">
-                        <md-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</md-icon><br>
+                        <mat-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</mat-icon>
+                        <br>
                         {{item.value.label}}
                     </button>
-                </md-grid-tile>
-            </md-grid-list>
+                </mat-grid-tile>
+            </mat-grid-list>
         </section>
 
         <!-- step 1: define the new resource class:
@@ -23,64 +25,65 @@
             -->
         <section [hidden]="counter!==1">
             <form #resource="ngForm" class="salsah-form">
-                <p md-subheader>Define your new resource type</p>
+                <p mat-subheader>Define your new resource type</p>
                 <!-- resource label -->
-                <md-input-container class="full-width"
-                                    dividerColor="{{ !newResourceClass.label ? 'warn' : 'primary' }}">
-                    <input mdInput
+                <mat-input-container class="full-width"
+                                     dividerColor="{{ !newResourceClass.label ? 'warn' : 'primary' }}">
+                    <input matInput
                            placeholder="Resource name *"
                            name="label"
                            [(ngModel)]="newResourceClass.label">
-                    <md-hint class="salsah-hint">
-                        <span [hidden]="newResourceClass.label" class="salsah-error">This information is required!</span>
-                    </md-hint>
-                </md-input-container>
+                    <mat-hint class="salsah-hint">
+                        <span [hidden]="newResourceClass.label"
+                              class="salsah-error">This information is required!</span>
+                    </mat-hint>
+                </mat-input-container>
 
                 <!-- resource description -->
-                <md-input-container class="full-width">
-                            <textarea mdInput
+                <mat-input-container class="full-width">
+                            <textarea matInput
                                       placeholder="Resource description"
                                       name="description"
                                       [(ngModel)]="newResourceClass.description"
                                       cols="30" rows="5">
                             </textarea>
-                </md-input-container>
+                </mat-input-container>
 
                 <!-- resource icon; disabled at the moment -->
-                <md-input-container class="full-width"
-                                    dividerColor="{{ !newResourceClass.icon ? 'warn' : 'primary' }}">
-                    <span mdPrefix><md-icon>{{newResourceClass.icon}}</md-icon></span>
+                <mat-input-container class="full-width"
+                                     dividerColor="{{ !newResourceClass.icon ? 'warn' : 'primary' }}">
+                    <span matPrefix><mat-icon>{{newResourceClass.icon}}</mat-icon></span>
 
-                    <input mdInput
+                    <input matInput
                            placeholder="Resource icon *"
 
                            name="icon"
                            [(ngModel)]="newResourceClass.icon">
-                    <md-hint class="salsah-hint">
+                    <mat-hint class="salsah-hint">
                         <span [hidden]="newResourceClass.icon" class="salsah-error">This information is required!</span>
-                    </md-hint>
-                </md-input-container>
+                    </mat-hint>
+                </mat-input-container>
 
                 <!-- resource permission -->
                 <!-- TODO: move this selection into a separate component; set the permissions on a group level in the project advance board -->
-                <p md-subheader>Resource Permissions</p>
+                <p mat-subheader>Resource Permissions</p>
                 <p>Change the default resource permission here...in the future</p>
 
                 <!--
                 <table class="full-width">
                     <tr>
 
-                        <th *ngFor="let group of permissions?.groups" [mdTooltip]="group.description" mdTooltipPosition="above" style="text-align:left">
+                        <th *ngFor="let group of permissions?.groups" [matTooltip]="group.description" matTooltipPosition="above" style="text-align:left">
                             {{group.label}}
                         </th>
                     </tr>
                     <tr>
                         <td *ngFor="let group of permissions?.groups; let i = index">
-                            <md-select [(ngModel)]="newResourceClass?.permissions[group.id]" [name]="group.id">
-                                <md-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
+                            <mat-select [(ngModel)]="newResourceClass?.permissions[group.id]" [name]="group.id">
+                                <mat-option *ngFor="let cat of permissions?.categories" [value]="cat.id">
                                     {{cat.label}}
-                                </md-option>
-                            </md-select>
+                                </mat-option>
+                            </mat-select>
 
                         </td>
                     </tr>
@@ -92,11 +95,11 @@
         <!-- step 2: Select the properties you need that correspond to your resource -->
         <section [hidden]="counter!==2">
             <form #properties="ngForm" class="salsah-form">
-                <p md-subheader>Select properties for <i>{{newResourceClass.label}}</i></p>
+                <p mat-subheader>Select properties for <i>{{newResourceClass.label}}</i></p>
 
-                <md-list>
+                <mat-list>
                     <!--
-                    <md-list-item class="link highlight">
+                    <mat-list-item class="link highlight">
                         <div class="salsah-checkbox">
                             <input type="checkbox"
                                    id="togglePermission"
@@ -107,11 +110,11 @@
                                 <span class="checkbox-label">{{selectPropsText}}</span>
                             </label>
                         </div>
-                    </md-list-item>
+                    </mat-list-item>
                     <hr>
                     -->
                     <!-- 2b) additional resource class specific properties -->
-                    <md-list-item *ngFor="let prop of defaultProperties; let i = index" class="link highlight">
+                    <mat-list-item *ngFor="let prop of defaultProperties; let i = index" class="link highlight">
                         <div class="salsah-checkbox">
                             <input type="checkbox"
                                    [id]="i"
@@ -128,17 +131,17 @@
                         </div>
 
                         <!-- the properties on the left side are followed by their cardinality settings on the right side -->
-                        <md-select *ngIf="newResourceClass.properties[i] !== undefined"
-                                   [(ngModel)]="prop.occurrence"
-                                   [name]="'occ_' + i"
-                                   (change)="setOcc(i, $event)">
-                            <md-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
+                        <mat-select *ngIf="newResourceClass.properties[i] !== undefined"
+                                    [(ngModel)]="prop.occurrence"
+                                    [name]="'occ_' + i"
+                                    (change)="setOcc(i, $event)">
+                            <mat-option *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
                                 {{cardinality}}
-                            </md-option>
-                        </md-select>
-                    </md-list-item>
+                            </mat-option>
+                        </mat-select>
+                    </mat-list-item>
 
-                </md-list>
+                </mat-list>
             </form>
         </section>
 
@@ -146,7 +149,7 @@
         <section [hidden]="counter!==3">
             <form #permission="ngForm" class="salsah-form">
                 <!-- TODO: move this selection into a separate component; set the permissions on a group level in the project advance board -->
-                <p md-subheader>Set the permissions for the selected properties</p>
+                <p mat-subheader>Set the permissions for the selected properties</p>
                 <p>No perhaps not here..as Ivan said</p>
                 <!--
                 <table class="full-width form-table">
@@ -166,23 +169,23 @@
                         <td style="text-align:left"><strong>{{prop.label}}</strong></td>
 
                         <td *ngFor="let grp of permissions?.groups; let j = index">
-                            <md-select [ngModel]="permissions?.categories[j + 1]?.id"
+                            <mat-select [ngModel]="permissions?.categories[j + 1]?.id"
                                        (ngModel)="newResource.properties[prop.key]?.permissions[grp.id]"
                                        [name]="grp.id + '_' + i"
                                        (change)="setPerm(prop, grp.id, $event)">
-                                <md-option *ngFor="let cat of permissions.categories" [value]="cat.id">
+                                <mat-option *ngFor="let cat of permissions.categories" [value]="cat.id">
                                     {{cat.label}}
-                                </md-option>
-                            </md-select>
+                                </mat-option>
+                            </mat-select>
                         </td>
 
                         <!--
                         <td *ngFor="let permCat of permissions.categories; let i = index">
-                            <md-select [(ngModel)]="permissions.groups[i].id" [name]="permCat.id">
-                                <md-option *ngFor="let permGrp of permissions.groups" [value]="permGrp.id">
+                            <mat-select [(ngModel)]="permissions.groups[i].id" [name]="permCat.id">
+                                <mat-option *ngFor="let permGrp of permissions.groups" [value]="permGrp.id">
                                     {{permGrp.label}}
-                                </md-option>
-                            </md-select>
+                                </mat-option>
+                            </mat-select>
                         </td>
                         --
                     </tr>
@@ -197,16 +200,16 @@
             <form #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value, rcf.valid)" class="salsah-form">
             </form>
         </section>
-    </md-card-content>
+    </mat-card-content>
 
 
-    <md-card-footer>
+    <mat-card-footer>
         <span class="back">
-            <button md-button
+            <button mat-button
                     *ngIf="counter < max_steps && counter > 0"
                     class="back-button"
                     (click)="prevFormSection(counter, $event)">
-                <md-icon>keyboard_arrow_left</md-icon> Back
+                <mat-icon>keyboard_arrow_left</mat-icon> Back
             </button>
         </span>
 
@@ -214,17 +217,17 @@
 
         <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
         <span class="next">
-            <button md-raised-button
+            <button mat-raised-button
                     [disabled]="!newResourceClass.label"
                     *ngIf="counter < (max_steps - 1) && counter > 0"
                     class="next-button"
                     [color]="'primary'"
                     (click)="nextFormSection(counter, $event)">
-                Next <md-icon>keyboard_arrow_right</md-icon>
+                Next <mat-icon>keyboard_arrow_right</mat-icon>
             </button>
             <!-- or -->
             <button type="submit"
-                    md-raised-button
+                    mat-raised-button
                     *ngIf="counter === (max_steps - 1)"
                     class="save-button"
                     [color]="'primary'"
@@ -233,5 +236,5 @@
                 Save
             </button>
         </span>
-    </md-card-footer>
-</md-card>
+    </mat-card-footer>
+</mat-card>

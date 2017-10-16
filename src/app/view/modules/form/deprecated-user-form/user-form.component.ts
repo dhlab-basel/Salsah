@@ -13,16 +13,16 @@
  * */
 
 import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
-import {MdDialog, MdDialogRef} from "@angular/material";
-import {FormBuilder, Validators, FormGroup, FormControl} from "@angular/forms";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {UserService} from "../../../../model/services/user.service";
-import {ProjectItem} from "../../../../model/webapi/knora/";
-import {UsersList} from "../../../../model/webapi/knora/v1/users/users-list";
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {UserService} from '../../../../model/services/user.service';
+import {ProjectItem} from '../../../../model/webapi/knora/';
+import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
 
 import 'rxjs/add/operator/startWith';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'salsah-user-form',
@@ -71,9 +71,9 @@ export class UserFormComponent implements OnInit {
     max_steps: number = 2;
     // or define an array of steps
     steps: string[] = [
-        "Add User",
-        "Permissions",
-        "Save"
+        'Add User',
+        'Permissions',
+        'Save'
     ];
     counter: number = 0;
 
@@ -82,7 +82,7 @@ export class UserFormComponent implements OnInit {
     project: ProjectItem = new ProjectItem();
 
 
-    constructor(public dialog: MdDialog,
+    constructor(public dialog: MatDialog,
                 @Inject(FormBuilder) fb: FormBuilder,
                 public _userService: UserService) {
 
@@ -161,7 +161,6 @@ export class UserFormComponent implements OnInit {
         // show the previous section
         this.counter = cntr - 1;
     }
-
 
 
 }

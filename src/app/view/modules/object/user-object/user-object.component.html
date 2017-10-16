@@ -3,23 +3,23 @@
 <salsah-message *ngIf="errorMessage" [message]="error"></salsah-message>
 
 <div *ngIf="userProfile">
-    <md-list class="main-list">
-        <md-list-item>
-            <img md-list-icon salsahImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image large"/>
-            <h4 md-line>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h4>
-            <p md-line><a [href]="'mailto:' + email">{{email}}</a></p>
-        </md-list-item>
-    </md-list>
+    <mat-list class="main-list">
+        <mat-list-item>
+            <img mat-list-icon salsahImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image large"/>
+            <h4 mat-line>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h4>
+            <p mat-line><a [href]="'mailto:' + email">{{email}}</a></p>
+        </mat-list-item>
+    </mat-list>
 
-    <md-divider></md-divider>
+    <mat-divider></mat-divider>
 
-    <h3 md-subheader>Member in the following projects</h3>
+    <h3 mat-subheader>Member in the following projects</h3>
 
     <salsah-projects-list [restrictedBy]="iri" *ngIf="iri"></salsah-projects-list>
 
-    <md-divider></md-divider>
+    <mat-divider></mat-divider>
 
-    <button md-button color="warn" (click)="deleteUser(iri)">
+    <button mat-button color="warn" (click)="deleteUser(iri)">
         Delete user
     </button>
 </div>

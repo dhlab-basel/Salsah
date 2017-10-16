@@ -73,7 +73,7 @@ $gc-small: $form-width - $gc-large - 1;
   }
 
   &.new-user {
-    md-input-container {
+    mat-input-container {
       margin-top: 12px;
       margin-bottom: 12px;
     }
