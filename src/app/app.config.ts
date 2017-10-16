@@ -117,7 +117,6 @@ export class AppConfig {
     public static RdfsComment = 'http://www.w3.org/2000/01/rdf-schema#comment';
     public static RdfsSubclassOf = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
 
-    public static SalsahLink = 'salsah-link'
-
+    public static SalsahLink = 'salsah-link';
 
 }
