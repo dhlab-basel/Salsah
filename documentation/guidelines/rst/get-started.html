@@ -55,29 +55,31 @@
             
   <span class="target" id="index-0"></span><div class="section" id="get-started">
 <h1>Get started<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h1>
-<p>Salsah (System for Annotation and Linkage of Sources in Arts and Humanities) is a generic graphical user interface for <a class="reference external" href="http://knora.org">Knora</a>.</p>
+<p>Salsah (System for Annotation and Linkage of Sources in Arts and Humanities) is the generic graphical user interface for <a class="reference external" href="http://knora.org">Knora</a>.</p>
 <p>It is developed by the <a class="reference external" href="http://dhlab.unibas.ch">Digital Humanities Lab</a> at the <a class="reference external" href="http://unibas.ch">University of Basel</a>, and is supported by the <a class="reference external" href="http://sagw.ch`">Swiss Academy of Humanities and Social Sciences</a>.</p>
-<p>Salsah is free software, released under the <a class="reference external" href="http://www.gnu.org/licenses/agpl-3.0.en.html">GNU Affero General Public License</a>.</p>
+<p>Salsah is free software, released under the <a class="reference external" href="http://www.gnu.org/licenses/agpl-3.0.en.html">GNU Affero General Public License</a> and is available on <a class="reference external" href="https://github.com/dhlab-basel/salsah">GitHub</a></p>
 <div class="section" id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="node-and-npm">
 <h3>Node and NPM<a class="headerlink" href="#node-and-npm" title="Permalink to this headline">¶</a></h3>
-<p>We develop the Salsah app with <a class="reference external" href="http://angular.io">Angular</a> (v4), especially with <a class="reference external" href="http://cli.angular.io">Angular-cli</a>, which requires <a class="reference external" href="http://nodejs.org/en/download/">Node</a> 6 or higher and <a class="reference external" href="https://www.npmjs.com">NPM</a> 4 or higher. Update NPM to the latest version with <code class="docutils literal"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">-g</span> <span class="pre">npm&#64;latest</span></code>.</p>
-<p>We develop Salsah with <a class="reference external" href="http://cli.angular.io">Angular-cli</a> version 1.0.0 (will be updated from time to time!),, which requires <a class="reference external" href="http://nodejs.org/en/download/">Node</a> 6.9.0 or higher, together with <a class="reference external" href="https://www.npmjs.com">NPM</a> 3 or higher.</p>
+<p>We develop Salsah with <a class="reference external" href="http://angular.io">Angular</a> (v4), especially with <a class="reference external" href="http://cli.angular.io">Angular-cli</a>, which requires <a class="reference external" href="http://nodejs.org/en/download/">Node</a> 6 or higher and <a class="reference external" href="https://www.npmjs.com">NPM</a> 4 or higher. Update NPM to the latest version with <code class="docutils literal"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">-g</span> <span class="pre">npm&#64;latest</span></code>.</p>
 </div>
 <div class="section" id="id1">
 <h3>Angular-cli<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="o">-</span><span class="n">g</span> <span class="nd">@angular</span><span class="o">/</span><span class="n">cli</span>
 </pre></div>
 </div>
-<p>If there are some permission issues, try to fix them by change the rights in node with <cite>sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`</cite></p>
+<p>If there are some permission issues, try to fix them by change the rights in node with</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="salsah-app">
 <h2>Salsah app<a class="headerlink" href="#salsah-app" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
-<p>After cloning the Salsah code from <a class="reference external" href="https://github.com/dhlab-basel/salsah">GitHub</a>, install the node packages from the Salsah root directory with</p>
+<p>After cloning the Salsah code from <a class="reference external" href="https://github.com/dhlab-basel/salsah">GitHub</a>, install the node packages driectly from the Salsah root directory with</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span>
 </pre></div>
 </div>
@@ -89,8 +91,17 @@
 </pre></div>
 </div>
 <p>the Salsah app starts on <a class="reference external" href="http://localhost:4200">http://localhost:4200</a></p>
-<p>It could happen, that ng can&#8217;t resolve some specific packages and the app doesn&#8217;t start. In that case the install process did not install the developer packages. Install them with</p>
+<p>It could happen, that ng can&#8217;t resolve some specific packages. In that case the install process did not install the developer packages; install them with</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="o">--</span><span class="n">only</span><span class="o">=</span><span class="n">dev</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-node-packages">
+<h3>Update node packages<a class="headerlink" href="#update-node-packages" title="Permalink to this headline">¶</a></h3>
+<p>From time to time we grab the latest npm package versions for Salsah. To update them, we recommend to reinstall the packages with the following commands.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">node_modules</span> <span class="n">dist</span> <span class="n">tmp</span>
+<span class="n">npm</span> <span class="n">install</span> <span class="o">--</span><span class="n">only</span><span class="o">=</span><span class="n">dev</span>
+<span class="n">npm</span> <span class="n">install</span>
 </pre></div>
 </div>
 </div>
@@ -115,6 +126,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#salsah-app">Salsah app</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#start">Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-node-packages">Update node packages</a></li>
 </ul>
 </li>
 </ul>
