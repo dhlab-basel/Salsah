@@ -1,8 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {Project} from '../../../../model/webapi/knora/v1/projects/project';
+import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 
 @Component({
@@ -14,7 +12,7 @@ export class EditProjectComponent implements OnInit {
 
     @Input() iri: string;
 
-    project: ProjectItem;
+    project: Project;
     errorMessage: any = undefined;
 
     constructor(private _projectsService: ProjectsService) {
@@ -23,8 +21,8 @@ export class EditProjectComponent implements OnInit {
     ngOnInit() {
         this._projectsService.getProjectByIri(this.iri)
             .subscribe(
-                (result: ApiServiceResult) => {
-                    this.project = result.getBody(Project).project_info;
+                (result: Project) => {
+                    this.project = result;
                     console.log(this.project);
                 },
                 (error: ApiServiceError) => {

@@ -19,20 +19,19 @@ import 'hammerjs';
 // import other third party modules
 import {DndModule} from 'ng2-dnd';
 import {ApiService} from './model/services/api.service';
-import {ListsService} from './model/services/lists.service';
 import {AuthenticationService} from './model/services/authentication.service';
 import {ProjectsService} from './model/services/projects.service';
 import {PropertiesService} from './model/services/properties.service';
 import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
+import {ListsService} from './model/services/lists.service';
 import {OntologyService} from './model/services/ontology.service';
 import {OntologyCacheService} from './model/services/ontologycache.service';
 import {SearchService} from './model/services/search.service';
 
-import {IncomingService} from "./model/services/incoming.service";
+import {IncomingService} from './model/services/incoming.service';
 
 import {UserService} from './model/services/user.service';
-import {ListsService} from './model/services/lists.service';
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -104,10 +103,9 @@ import {FocusDirective} from './view/modules/other/focus.directive';
 import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
 
 
-import { OsdViewerComponent } from './view/modules/object/osd-viewer/osd-viewer.component';
-import { ProjectListsAdminComponent } from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
-import { ListNodeFormComponent } from './view/modules/form/list-node-form/list-node-form.component';
-import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
+import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
+import {ListNodeFormComponent} from './view/modules/form/list-node-form/list-node-form.component';
+import {ListFormComponent} from './view/modules/form/list-form/list-form.component';
 import {MathJaxDirective} from './view/modules/other/mathjax.directive';
 import {ReadTextValueAsHtmlComponent} from './view/properties/read-text-value-as-html/read-text-value-as-html.component';
 import {ReadDateValueComponent} from './view/properties/read-date-value/read-date-value.component';
@@ -119,8 +117,9 @@ import {ReadDecimalValueComponent} from './view/properties/read-decimal-value/re
 import {StillImageOSDViewerComponent} from './view/properties/still-image-osdviewer/still-image-osdviewer.component';
 import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geom-value.component';
 import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
-import {SystemProjectsComponent} from "./view/dashboard/system/system-projects/system-projects.component";
-import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologies/system-ontologies.component";
+import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
+import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
+import {TreeModule} from 'angular-tree-component';
 //
 // import all needed services
 //
@@ -180,10 +179,9 @@ import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologi
         ReadDecimalValueComponent,
         StillImageOSDViewerComponent,
         NewResourceClassComponent,
-        OsdViewerComponent,
         ProjectListsAdminComponent,
         ListNodeFormComponent,
-        ListFormComponent
+        ListFormComponent,
         EditResourceClassComponent,
         SortByPipe,
         SystemComponent,
@@ -218,12 +216,12 @@ import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologi
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
-        DndModule.forRoot(),
-        TreeModule
+        TreeModule,
+        DndModule.forRoot()
     ],
     // we need the entryComponents for every component inside of a mat-dialog module
     entryComponents: [
-    ListNodeFormComponent
+        ListNodeFormComponent,
         ConfirmDialogComponent,
         FormDialogComponent,
         MessageDialogComponent,

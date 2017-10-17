@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Inject, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
@@ -23,12 +23,9 @@ import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UserProfile} from '../../../../model/webapi/knora/';
 import {User} from '../../../../model/webapi/knora/v1/users/user';
-import {ProjectsList} from '../../../../model/webapi/knora/v1/projects/projects-list';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
 import {Project} from '../../../../model/webapi/knora/v1/projects/project';
 import {existingNamesValidator} from '../../other/existing-name.directive';
-import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 
 @Component({
     selector: 'salsah-user-form',
@@ -121,7 +118,7 @@ export class UserFormComponent implements OnInit {
     filteredProjects: any;
     // form controller for mat-autocomplete
     projectCtrl: FormControl;
-    selectedProject: ProjectItem;
+    selectedProject: Project;
 
     // case 2b) project permission
     groupPermission: boolean = true;
@@ -322,11 +319,11 @@ export class UserFormComponent implements OnInit {
 
                         // this.setSelectedProject(this.restrictedBy);
                         this.projectIri = this.restrictedBy;
-                        this.selectedProject = new ProjectItem();
+                        this.selectedProject = new Project();
                         this._projectsService.getProjectByIri(this.projectIri)
                             .subscribe(
-                                (res: ApiServiceResult) => {
-                                    this.selectedProject = res.getBody(Project).project_info;
+                                (res: Project) => {
+                                    this.selectedProject = res;
                                 },
                                 (error: ApiServiceError) => {
                                     console.log(error);
@@ -363,17 +360,17 @@ export class UserFormComponent implements OnInit {
                         this.step = 1;
                         this.start = this.step;
 
-                        let projectsList: ProjectsList;
+                        let projectsList: Project[];
                         this._projectsService.getAllProjects()
                             .subscribe(
-                                (res: ApiServiceResult) => {
-                                    projectsList = res.getBody(ProjectsList);
+                                (res: Project[]) => {
+                                    projectsList = res;
 
                                     let i: number = 1;
-                                    for (const p of projectsList.projects) {
+                                    for (const p of projectsList) {
                                         this.projects[i] = {
                                             iri: p.id,
-                                            name: p.longname + ' (' + p.shortname + ')'
+                                            name: p.name + ' (' + p.shortname + ')'
                                         };
                                         i++;
                                     }
@@ -530,11 +527,11 @@ export class UserFormComponent implements OnInit {
 
         if (iri && ev.isUserInput) {
             this.projectIri = iri;
-            this.selectedProject = new ProjectItem();
+            this.selectedProject = new Project();
             this._projectsService.getProjectByIri(this.projectIri)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.selectedProject = result.getBody(Project).project_info;
+                    (result: Project) => {
+                        this.selectedProject = result;
                     },
                     (error: ApiServiceError) => {
                         console.log(error);

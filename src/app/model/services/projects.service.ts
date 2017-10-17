@@ -142,6 +142,13 @@ export class ProjectsService extends ApiService {
         )
     }
 
+    createProject(data: any): Observable<any> {
+        const headers: Headers = new Headers();
+        console.log(headers);
+        console.log(data);
+        return this.httpPost('/v1/projects', data);
+    }
+
     updateProject(iri: string, data: any): Observable<any> {
         const headers: Headers = new Headers();
         console.log(headers);

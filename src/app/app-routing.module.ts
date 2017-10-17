@@ -42,7 +42,7 @@ import {SearchResultsComponent} from './view/search/search-results/search-result
 import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
-import {ResourceObjectComponent} from "./view/modules/object/resource-object/resource-object.component";
+import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
 
 const appRoutes: Routes = [
     {

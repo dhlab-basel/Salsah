@@ -13,12 +13,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {ListsService} from '../../../../model/services/lists.service';
 import {ListNodeInfo} from '../../../../model/webapi/knora/v2';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'salsah-list-node-form',
@@ -38,9 +38,9 @@ export class ListNodeFormComponent implements OnInit {
     public comments: FormArray = undefined;
 
     constructor(private _listsService: ListsService,
-                public dialogRef: MdDialogRef<ListNodeFormComponent>,
+                public dialogRef: MatDialogRef<ListNodeFormComponent>,
                 private _fb: FormBuilder,
-                @Inject(MD_DIALOG_DATA) public data: string) {
+                @Inject(MAT_DIALOG_DATA) public data: string) {
 
 
         // build form
@@ -83,13 +83,13 @@ export class ListNodeFormComponent implements OnInit {
     }
 
     addNeededNumberOfLabels() {
-        for (let i in this.currentListNodeInfo.labels) {
+        for (const i of Object.keys(this.currentListNodeInfo.labels)) {
             this.addLabel();
         }
     }
 
     addNeededNumberOfComments() {
-        for (let i in this.currentListNodeInfo.comments) {
+        for (const i of Object.keys(this.currentListNodeInfo.comments)) {
             this.addComment();
         }
     }

@@ -15,7 +15,7 @@
 
 import {Component, Input, OnChanges} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MdDialog, MdDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ListsService} from '../../../../model/services/lists.service';
 import {ListNode} from '../../../../model/webapi/knora/v1';
@@ -47,7 +47,7 @@ export class ListFormComponent implements OnChanges {
     public submitted: boolean; // keep track on whether form is submitted
 
     constructor(private _listsService: ListsService,
-                private _dialog: MdDialog,
+                private _dialog: MatDialog,
                 private _fb: FormBuilder) {
 
         // build form
@@ -117,7 +117,7 @@ export class ListFormComponent implements OnChanges {
     }
 
     viewDetails(nodeIri: string) {
-        const dialogRef = this._dialog.open(ListNodeFormComponent, <MdDialogConfig>{
+        const dialogRef = this._dialog.open(ListNodeFormComponent, <MatDialogConfig>{
             height: '500px',
             width: '600px',
             data: nodeIri

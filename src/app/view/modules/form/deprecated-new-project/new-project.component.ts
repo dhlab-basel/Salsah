@@ -17,9 +17,8 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ProjectItem} from '../../../../model/webapi/knora/';
+import {Project} from '../../../../model/webapi/knora/';
 import {forbiddenNamesValidator} from '../../other/forbidden-name.directive';
-import {ProjectsList} from '../../../../model/webapi/knora/v1/projects/projects-list';
 
 @Component({
     selector: 'salsah-new-project',
@@ -32,7 +31,7 @@ export class NewProjectComponent implements OnInit {
 
     submitted: boolean = false;
 
-    newProject: ProjectItem = new ProjectItem();
+    newProject: Project = new Project();
 
     existingProjects: [RegExp] = [
         new RegExp('project')
@@ -54,9 +53,9 @@ export class NewProjectComponent implements OnInit {
         // prevent to have the same short name; proof it with the ForbiddenName directive
         this._projectsService.getAllProjects()
             .subscribe(
-                (result: ApiServiceResult) => {
-                    let projectsList: ProjectItem[] = result.getBody(ProjectsList).projects;
-                    for(let p of projectsList) {
+                (result: Project[]) => {
+                    const projects: Project[] = result;
+                    for(const p of projects) {
                         this.existingProjects.push(new RegExp(p.shortname.toLowerCase()));
                     }
                 },
@@ -173,7 +172,7 @@ export class NewProjectComponent implements OnInit {
         this._projectsService.createProject(this.newProject).subscribe(
             (result: ApiServiceResult) => {
 
-                console.log("service: ", result);
+                console.log('service: ', result);
 
                 // result.body.userProfile.userData.user_id
                 // this.project.id

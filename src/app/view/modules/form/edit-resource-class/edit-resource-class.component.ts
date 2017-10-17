@@ -13,13 +13,14 @@
  * */
 
 import {Component, EventEmitter, OnChanges, Input, Output} from '@angular/core';
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ResourceTypesService} from "../../../../model/services/resource-types.service";
-import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import {Properties, ResourceType, ResourceTypeInfo} from '../../../../model/webapi/knora/';
 // import {ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {Project} from '../../../../model/webapi/knora/';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 // animations are used to create collapsible cards content
 @Component({
@@ -119,10 +120,10 @@ export class EditResourceClassComponent implements OnChanges {
 
     }
 
-    editResources(){
+    editResources() {
         this.editResource = true;
     }
-    closeEditView(){
+    closeEditView() {
         this.editResource = false;
     }
 
@@ -148,7 +149,7 @@ export class EditResourceClassComponent implements OnChanges {
         }
     }
 
-    //sets default values from json files on mat-select
+    // sets default values from json files on mat-select
     setGUI(index: number, event) {
         if (this.editResourceClass.properties[index] !== undefined) {
             this.editResourceClass.properties[index].gui_name = event.value;

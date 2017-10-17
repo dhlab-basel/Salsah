@@ -27,8 +27,7 @@ import {ApiServiceError} from '../../../../model/services/api-service-error';
 })
 export class ProjectListsAdminComponent implements OnInit {
 
-    @Input('projects') projects: Project[];
-    @Input('listTitle') title: string;
+    @Input() projects: Project[];
 
     isLoading = true;
     isLoadingSubModule = true;

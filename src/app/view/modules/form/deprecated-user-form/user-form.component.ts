@@ -12,17 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material';
-import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {UserService} from '../../../../model/services/user.service';
-import {ProjectItem} from '../../../../model/webapi/knora/';
-import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
+import {Project} from '../../../../model/webapi/knora/';
 
 import 'rxjs/add/operator/startWith';
-import {Observable} from 'rxjs';
 
 @Component({
     selector: 'salsah-user-form',
@@ -79,7 +77,7 @@ export class UserFormComponent implements OnInit {
 
 
     // Do we need a project variable?
-    project: ProjectItem = new ProjectItem();
+    project: Project = new Project();
 
 
     constructor(public dialog: MatDialog,

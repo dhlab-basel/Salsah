@@ -13,12 +13,10 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, Params} from '@angular/router';
-import {ApiServiceResult} from '../../../model/services/api-service-result';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ApiServiceError} from '../../../model/services/api-service-error';
 import {ProjectsService} from '../../../model/services/projects.service';
 import {Project} from '../../../model/webapi/knora';
-import {ProjectItem} from '../../../model/webapi/knora/v1/projects/project-item';
 import {Title} from '@angular/platform-browser';
 
 @Component({
@@ -31,7 +29,7 @@ export class ProjectComponent implements OnInit {
     isLoading = true;
 
     errorMessage: any = undefined;
-    project: ProjectItem = new ProjectItem();
+    project: Project = new Project();
 
     projectRoute = '/project/';
 
@@ -85,8 +83,8 @@ export class ProjectComponent implements OnInit {
             // get the project information
             this._projectsService.getProjectByShortname(this.cur_project)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.project = result.getBody(Project).project_info;
+                    (result: Project) => {
+                        this.project = result;
                         sessionStorage.setItem('currentProject', JSON.stringify(this.project));
 
                         if (sessionStorage.getItem('projectAdmin')) {

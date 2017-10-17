@@ -17,7 +17,6 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {UserService} from '../../../../model/services/user.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
-import {ProjectMembers} from '../../../../model/webapi/knora/v1/projects/project-members';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
 import {MessageData} from '../../message/message.component';
@@ -113,8 +112,8 @@ export class UsersListComponent implements OnInit {
             // get project members
             this._projectsService.getProjectMembersByIri(this.project)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.allUsers = result.getBody(ProjectMembers).members;
+                    (result: UserData[]) => {
+                        this.allUsers = result;
 
                         // TODO: move the following lines into a method
                         for (const au of this.allUsers) {
