@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
-import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {UserProjectsComponent} from './user-projects.component';
-import {Project, UserProfile} from '../../../../model/webapi/knora/';
+import {UserProfile} from '../../../../model/webapi/knora/';
 
 describe('UserProjectsComponent', () => {
     let component: UserProjectsComponent;
     let fixture: ComponentFixture<UserProjectsComponent>;
 
-    const testProfile: UserProfile = {
+    const testProfile: UserProfile = <UserProfile>{
         'userData': {
             'email': 'multi.user@example.com',
-            'firstname': 'Multi',
-            'lastname': 'User',
+            'givenName': 'Multi',
+            'familyName': 'User',
             'isActiveUser': true,
+            'status': true,
             'lang': 'de',
             'password': null,
             'token': null,
@@ -30,7 +30,7 @@ describe('UserProjectsComponent', () => {
             'id': 'http://data.knora.org/projects/images',
             'status': true,
             'keywords': 'images, collection',
-            'name': 'Image Collection Demo',
+            'longname': 'Image Collection Demo',
             'ontologyNamedGraph': 'http://www.knora.org/ontology/images',
             'selfjoin': false
         }],
@@ -38,7 +38,10 @@ describe('UserProjectsComponent', () => {
         'isSystemUser': false,
         'permissionData': {
             'groupsPerProject': {
-                'http://data.knora.org/projects/77275339': ['http://www.knora.org/ontology/knora-base#ProjectMember', 'http://www.knora.org/ontology/knora-base#ProjectAdmin']
+                'http://data.knora.org/projects/77275339': [
+                    'http://www.knora.org/ontology/knora-base#ProjectMember',
+                    'http://www.knora.org/ontology/knora-base#ProjectAdmin'
+                ]
             },
             'administrativePermissionsPerProject': {
                 'http://data.knora.org/projects/images': [{
@@ -55,11 +58,16 @@ describe('UserProjectsComponent', () => {
         }
     };
 
+    const currentTestUser = <any>{
+        'email': 'multi.user@example.com',
+        'token': '',
+        'sysAdmin': false
+    };
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule,
                 AppRoutingModule
             ]
         })
@@ -70,32 +78,31 @@ describe('UserProjectsComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(localStorage, 'getItem').and.callFake( (key: string): String => {
+        spyOn(sessionStorage, 'getItem').and.callFake((key: string): String => {
             return store[key] || null;
         });
-        spyOn(localStorage, 'removeItem').and.callFake((key: string): void =>  {
+        spyOn(sessionStorage, 'removeItem').and.callFake((key: string): void => {
             delete store[key];
         });
-        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string =>  {
+        spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => {
             return store[key] = <any>value;
         });
-        spyOn(localStorage, 'clear').and.callFake(() =>  {
+        spyOn(sessionStorage, 'clear').and.callFake(() => {
             store = {};
         });
     });
 
     beforeEach(() => {
 
-        localStorage.setItem('ownProfile', JSON.stringify(testProfile));
+        sessionStorage.setItem('currentUser', JSON.stringify(testProfile));
 
         fixture = TestBed.createComponent(UserProjectsComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-
-    it('should get the user data', () => {
-        expect<any>(localStorage.getItem('ownProfile')).toBe(JSON.stringify(testProfile));
+    it('should be created', () => {
+        expect<any>(sessionStorage.getItem('currentUser')).toBe(JSON.stringify(testProfile));
         expect(component).toBeTruthy();
     });
 });

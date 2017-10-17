@@ -9,9 +9,9 @@
             "root": "src",
             "outDir": "dist",
             "assets": [
-                "assets",
                 "favicon.ico",
-                "test-data"
+                "assets",
+                "data"
             ],
             "index": "index.html",
             "main": "main.ts",
@@ -22,15 +22,20 @@
             "prefix": "salsah",
             "styles": [
                 "index.style.css",
-                "assets/style/md-teal-amber.scss",
+                "assets/style/mat-teal-amber.scss",
                 "assets/style/main.scss"
+            ],
+            "scripts": [
+                "../node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
+                "../node_modules/svg-overlay/openseadragon-svg-overlay.js"
             ],
             "environmentSource": "environments/environment.ts",
             "environments": {
-                "integration": "environments/environment.integration.ts",
-                "mock": "environments/environment.mock.ts",
+                "dev": "environments/environment.ts",
                 "prod": "environments/environment.prod.ts",
-                "dev": "environments/environment.ts"
+                "test": "environments/environment.test.ts",
+                "mock": "environments/environment.mock.ts",
+                "beol": "environments/environment.beol.ts"
             }
         }
     ],

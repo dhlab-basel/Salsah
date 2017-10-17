@@ -1,54 +1,81 @@
 // a main salsah module can have a header and a footer (both are optional) plus a content
 .salsah-module {
-  bottom: 0;
   box-sizing: border-box;
   display: block;
+  height: 100%;
+  margin-top: $header-height;
   overflow: hidden;
-  position: fixed;
-  top: $header-height;
-  transform: translate3d(0, 0, 0);
   width: 100%;
 
   &.without-header {
-//    height: calc(100vh - #{$header-height});
+    .salsah-module-scroll-area {
+      height: calc(100vh - #{$header-height});
+    }
   }
 
   &.with-header {
-//    height: calc(100vh - (#{$header-height} + #{$module-header-height}));
-
-    .salsah-module-header {
-      @include border-bottom();
-      top: $header-height;
-//      width: 100vw;
-      z-index: 9;
-      //            @include box-shadow-bottom();
+    .salsah-module-scroll-area {
+      height: calc(100vh - (#{$header-height} + #{$module-header-height}));
     }
+  }
+}
 
-    .salsah-module-content,
-    .salsah-module-detail {
-      top: $header-height;
+//
+// (optional) salsah module header
+// for a sub menu with tabs or for information of search results
+
+.salsah-module-header.mat-toolbar {
+  @include border-bottom();
+  height: $module-header-height;
+  max-height: $module-header-height;
+  min-height: $module-header-height;
+  z-index: 9;
+
+  .mat-toolbar-row {
+    height: $module-header-height;
+
+    nav {
+      margin: 0;
     }
+  }
+}
+
+//
+// important: fixed scroll area
+
+.salsah-module-scroll-area {
+  bottom: $footer-height;
+  box-sizing: border-box;
+  outline: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed;
+  width: 100%;
+
+  .salsah-module-content {
+    padding: 48px 24px 96px;
   }
 
   .salsah-module-content,
   .salsah-module-detail {
-    bottom: 0;
-    box-sizing: border-box;
-    display: block;
-    outline: 0;
-    overflow-y: auto;
-    padding: 48px;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 3;
+    margin-left: auto;
+    margin-right: auto;
 
     &.small {
-      border-right: 1px solid #c1c1c1;
+      @include border-right();
       left: 0;
       padding: 0;
       position: absolute;
       width: $sidebar-width;
+    }
+
+    &.medium {
+      max-width: 900px;
+    }
+
+    &.large {
+      padding: 0;
+      width: 100%;
     }
 
     h2,
@@ -58,30 +85,34 @@
 
   }
 
-  .salsah-module-detail {
-    left: $sidebar-width;
-    overflow-y: hidden;
+}
+
+
+
+.salsah-module-detail {
+  left: $sidebar-width;
+  overflow-y: hidden;
+//    width: calc(100vw - #{$sidebar-width});
+
+  .salsah-module-detail-header {
+    //      display: inline-flex;
+    position: fixed;
+    right: 0;
+    //      right: 12px;
+    top: $module-header-height;
     width: calc(100vw - #{$sidebar-width});
-
-    .salsah-module-detail-header {
-      display: inline-flex;
-      position: fixed;
-      right: 12px;
-      top: 48px;
-      width: auto;
-      z-index: 5;
-    }
-
-    .salsah-module-detail-content {
-      box-sizing: border-box;
-      display: block;
-      outline: 0;
-      overflow-y: auto;
-      position: absolute;
-      width: calc(100vw - #{$sidebar-width} - (2*48px));
-    }
+    z-index: 5;
   }
 
+  .salsah-module-detail-content {
+    box-sizing: border-box;
+    display: block;
+    outline: 0;
+    overflow-y: auto;
+    padding: 48px;
+    position: absolute;
+    width: calc(100vw - #{$sidebar-width} - (2 * 48px));
+  }
 }
 
 .salsah-module-footer {
@@ -90,7 +121,5 @@
 
 }
 
-// a salsah module content can contain sub modules
-.salsah-sub-module {
 
-}
+

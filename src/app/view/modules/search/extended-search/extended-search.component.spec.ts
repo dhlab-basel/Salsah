@@ -1,6 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
-import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {ExtendedSearchComponent} from './extended-search.component';
 
@@ -12,7 +11,6 @@ describe('AdvancedSearchComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule,
                 AppRoutingModule
             ]
         })

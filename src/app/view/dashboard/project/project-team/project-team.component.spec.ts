@@ -1,19 +1,16 @@
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
-import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectTeamComponent} from './project-team.component';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {UserService} from '../../../../model/services/user.service';
-import {Project} from '../../../../model/webapi/knora';
-import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
+import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
 
 describe('ProjectTeamComponent', () => {
     let component: ProjectTeamComponent;
     let fixture: ComponentFixture<ProjectTeamComponent>;
 
-    const testProject: Project = {
+    const testProject: ProjectItem = {
         'shortname': 'images',
         'description': 'A demo project of a collection of images',
         'institution': null,
@@ -22,7 +19,7 @@ describe('ProjectTeamComponent', () => {
         'id': 'http://data.knora.org/projects/images',
         'status': true,
         'keywords': 'images, collection',
-        'name': 'Image Collection Demo',
+        'longname': 'Image Collection Demo',
         'ontologyNamedGraph': 'http://www.knora.org/ontology/images',
         'selfjoin': false
     };
@@ -31,9 +28,7 @@ describe('ProjectTeamComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule,
-                AppRoutingModule,
-                HttpModule
+                AppRoutingModule
             ],
             providers: [
                 ProjectsService,
@@ -54,23 +49,23 @@ describe('ProjectTeamComponent', () => {
     beforeEach(() => {
         let store = {};
 
-        spyOn(localStorage, 'getItem').and.callFake( (key: string): String => {
+        spyOn(sessionStorage, 'getItem').and.callFake((key: string): String => {
             return store[key] || null;
         });
-        spyOn(localStorage, 'removeItem').and.callFake((key: string): void =>  {
+        spyOn(sessionStorage, 'removeItem').and.callFake((key: string): void => {
             delete store[key];
         });
-        spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string =>  {
+        spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => {
             return store[key] = <any>value;
         });
-        spyOn(localStorage, 'clear').and.callFake(() =>  {
+        spyOn(sessionStorage, 'clear').and.callFake(() => {
             store = {};
         });
     });
 
     beforeEach(() => {
 
-        localStorage.setItem('currentProject', JSON.stringify(testProject));
+        sessionStorage.setItem('currentProject', JSON.stringify(testProject));
 
         fixture = TestBed.createComponent(ProjectTeamComponent);
         component = fixture.componentInstance;
@@ -92,6 +87,7 @@ describe('ProjectTeamComponent', () => {
         })));
 
     it('should get the project data', () => {
-        expect<any>(localStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
+        expect<any>(sessionStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
+        expect(component).toBeTruthy();
     });
 });

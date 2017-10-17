@@ -1,6 +1,5 @@
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
-import {AppMaterialModule} from '../../../../app-material-module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectsListComponent} from './projects-list.component';
 import {ProjectsService} from '../../../../model/services/projects.service';
@@ -15,9 +14,7 @@ describe('ProjectsListComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule,
-                AppMaterialModule,
-                AppRoutingModule,
-                HttpModule
+                AppRoutingModule
             ],
             providers: [
                 ProjectsService,

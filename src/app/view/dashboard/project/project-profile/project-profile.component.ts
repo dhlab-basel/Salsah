@@ -13,10 +13,11 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {Project} from '../../../../model/webapi/knora';
+import {Params, ActivatedRoute} from '@angular/router';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {Project, ProjectItem} from '../../../../model/webapi/knora';
 
 
 @Component({
@@ -26,39 +27,37 @@ import {ApiServiceError} from '../../../../model/services/api-service-error';
 })
 export class ProjectProfileComponent implements OnInit {
 
-
     errorMessage: string = undefined;
-    projectItem: Project = new Project();
+    project: ProjectItem = new ProjectItem();
 
-    project: Project = new Project();
-    description: any = undefined;
+    projectLogoPath: string = '/data-pool/projects/';
 
     constructor(private _route: ActivatedRoute,
-                private _projectsService: ProjectsService
-    ) {}
+                private _projectsService: ProjectsService) {
+
+    }
 
     ngOnInit() {
-
-        if (JSON.parse(localStorage.getItem('currentProject')) === null) {
-            // the local storage is not ready yet; or something went wrong
-            // get the project from the services with the shortname from the route parameter "project"
-            this._route.params.subscribe((params: Params) => {
-
-                this._projectsService.getProjectByShortname(params['pid']).subscribe(
-                    (project: Project) => {
-                        this.projectItem = project;
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
-                        localStorage.removeItem('currentProject');
-                    }
-                );
-
-            });
-
-        } else {
-            this.projectItem = JSON.parse(localStorage.getItem('currentProject'));
-        }
+        this._route.params.subscribe((params: Params) => {
+            let projectFromRoute: string = params['pid'];
+            let projectFromSession: string;
+            if (sessionStorage.getItem('currentProject') !== null) {
+                projectFromSession = JSON.parse(sessionStorage.getItem('currentProject')).shortname;
+            }
+            if(projectFromSession === projectFromRoute) {
+                this.project = JSON.parse(sessionStorage.getItem('currentProject'));
+            } else {
+                this._projectsService.getProjectByShortname(params['pid'])
+                    .subscribe((result: ApiServiceResult) => {
+                            this.project = result.getBody(Project).project_info;
+                        },
+                        (error: ApiServiceError) => {
+                            this.errorMessage = <any>error;
+                            sessionStorage.removeItem('currentProject');
+                        }
+                    )
+            }
+        });
 
     }
 

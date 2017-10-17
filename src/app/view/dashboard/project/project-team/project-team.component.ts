@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -13,13 +13,7 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {UserService} from '../../../../model/services/user.service';
-import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
-import {Project} from '../../../../model/webapi/knora/v1/projects/project';
-import {User} from '../../../../model/webapi/knora/v1/users/user';
+import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 
 @Component({
     selector: 'salsah-project-team',
@@ -28,73 +22,33 @@ import {User} from '../../../../model/webapi/knora/v1/users/user';
 })
 export class ProjectTeamComponent implements OnInit {
 
-    isLoading = true;
-    isLoadingSubModule = true;
-    errorMessage: string = undefined;
+    // here we can reuse the framework-for-listings component:
+    // shows a list of users and the possibility to create new users
 
-    selectedRow: number;
-
-    project: Project = new Project;
-
-    members: UserData[] = [];
-
-    user: User;
-
-    position = {
-        preview: 'left',            // top
-        detail: 'right'             // bottom
+    // ------------------------------------------------------------------------
+    //  DATA for FrameworkForListingsComponent
+    // ------------------------------------------------------------------------
+    list: ListData = {
+        title: 'Members in this project',
+        description: '',
+        content: 'user',
+        showAs: 'list',
+        restrictedBy: ''
     };
 
-    size = 'large';
+    // add new users
+    add: AddData = {
+        title: 'Add new user to the team',
+        description: ''
+    };
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-
-    constructor(
-        private _projectsService: ProjectsService,
-        private _userService: UserService
-    ) {
+    constructor() {
     }
 
     ngOnInit() {
-        this.project = JSON.parse(localStorage.getItem('currentProject'));
-
-        this._projectsService.getProjectMembersByIri(this.project.id)
-            .subscribe(
-                (members: UserData[]) => {
-                    this.members = members;
-                    this.isLoading = false;
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
-                }
-            );
-    }
-
-
-    openUser(id: string, index: number) {
-        if (this.size === 'large') {
-            this.size = 'small';
-        }
-        this.isLoadingSubModule = true;
-
-        this._userService.getUserByIri(id)
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.user = result.getBody(User);
-                    this.selectedRow = index;
-                    this.isLoadingSubModule = false;
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
-                }
-            );
-    }
-
-    closeDetailView() {
-        this.size = 'large';
-        this.selectedRow = undefined;
-        this.user = undefined;
+        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
     }
 
 }

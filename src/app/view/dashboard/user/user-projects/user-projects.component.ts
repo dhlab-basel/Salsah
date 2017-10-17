@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -13,10 +13,10 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
+import {UserProfile} from '../../../../model/webapi/knora/';
+import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
+import {User} from '../../../../model/webapi/knora/v1/users/user';
 
-import {UserProfile} from "../../../../model/webapi/knora/";
-import {ProjectFormComponent} from "../../../modules/form/project-form/project-form.component";
-import {MdDialog} from "@angular/material";
 
 @Component({
     selector: 'salsah-user-projects',
@@ -25,24 +25,36 @@ import {MdDialog} from "@angular/material";
 })
 export class UserProjectsComponent implements OnInit {
 
-    @Input('user') user: UserProfile;
+    // here we can reuse the framework-for-listings component:
+    // shows a list of user's projects and the possibility to create new projects
 
-    ownProfile: UserProfile = JSON.parse(localStorage.getItem('ownProfile'));
+    // ------------------------------------------------------------------------
+    //  DATA for FrameworkForListingsComponent
+    // ------------------------------------------------------------------------
+    list: ListData = {
+        title: 'Your projects or projects where you\'re member of',
+        description: 'a kind of subtitle',
+        content: 'project',
+        showAs: undefined,
+        restrictedBy: ''
+    };
 
-    constructor(public dialog: MdDialog) {
+    // add new project
+    add: AddData = {
+        title: 'Create new project',
+        description: ''
+    };
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    constructor() {
     }
 
     ngOnInit() {
-//        this.ownProfile = JSON.parse(localStorage.getItem('ownProfile'));
-
+        let user: UserProfile = JSON.parse(sessionStorage.getItem('currentUser'));
+        this.list.restrictedBy = user.userData.user_id;
     }
 
-    addNewProject() {
-        let dialogRef = this.dialog.open(ProjectFormComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
-        });
-    }
 
 }
 

@@ -4,9 +4,13 @@
 // two lines with three bouncing squares each
 //
 
-.progress-indicator {
+.default-progress-indicator {
   height: 56px;
-  padding: 24px 36px 24px 36px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 24px 36px;
+  top: 60px;
+  //  position: relative;
   width: 96px;
 
   &.page-center {
@@ -30,7 +34,7 @@
     width: 70px;
 
     > div {
-      animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+      animation: bounce-keyframes 1.4s infinite ease-in-out both;
       background-color: $primary;
       border-radius: 6px;
       display: inline-block;
@@ -52,13 +56,124 @@
   //        40% { -webkit-transform: scale(1.0) }
   //    }
 
-  @keyframes sk-bouncedelay {
+  @keyframes bounce-keyframes {
 
     0%, 80%, 100% {
       transform: scale(0);
     }
+
     40% {
       transform: scale(1);
     }
   }
 }
+
+//
+// submit data has a different progress indicator
+//
+.submit-progress-indicator {
+  height: 32px;
+  width: 32px;
+
+  .on-submit {
+    animation: spinner-keyframes .7s linear infinite;
+    height: 32px;
+//    margin: 2px;
+    width: 32px;
+
+    .spinner {
+      border: 2px solid $primary;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      border-right-color: transparent;
+      height: 28px;
+      width: 28px;
+//      background: yellow;
+    }
+  }
+
+  .before-submit {
+    color: $mute;
+  }
+
+  .after-submit {
+    color: $primary;
+  }
+
+  .submit-error {
+    color: $warn;
+  }
+
+  @keyframes spinner-keyframes {
+    0%   { transform: rotate(0deg);   transform: rotate(0deg); }
+    100% { transform: rotate(360deg); transform: rotate(360deg); }
+  }
+
+  .spinner-done {
+//    background-color: red;
+  }
+}
+
+//
+// loader element
+//
+.loading-progress-indicator {
+  text-align: center;
+  width: 100%;
+
+  .text {
+    color: $primary;
+    font-size: 12pt;
+  }
+
+  .dot {
+    animation: dot-keyframes 1.4s infinite ease-in-out;
+    background-color: $primary;
+    border-radius: 2px;
+    display: inline-block;
+    height: 6px;
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-top: 3px;
+    margin-bottom: 2px;
+    width: 6px;
+
+    &:nth-child(2) {
+      animation-delay: .16s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: .32s;
+    }
+
+    &:nth-child(4) {
+      animation-delay: .48s;
+    }
+
+    &:nth-child(5) {
+      animation-delay: .64s;
+    }
+
+    &:nth-child(6) {
+      animation-delay: .8s;
+    }
+  }
+}
+
+@keyframes dot-keyframes {
+  0% {
+    opacity: .4;
+    transform: scale(1, 1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2, 1.2);
+  }
+
+  100% {
+    opacity: .4;
+    transform: scale(1, 1);
+  }
+}
+

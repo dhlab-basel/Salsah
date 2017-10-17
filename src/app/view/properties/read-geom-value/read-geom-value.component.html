@@ -1,0 +1,12 @@
+<div>Status: {{valueObject?.geometry.status}}</div>
+<div>LineColor: {{valueObject?.geometry.lineColor}}</div>
+<div>LineWidth: {{valueObject?.geometry.lineWidth}}</div>
+<div>Type: {{valueObject?.geometry.type}}</div>
+<div>Points:
+ <ul>
+     <li *ngFor="let point of valueObject?.geometry.points">
+       <span>x: {{point.x}} y: {{point.y}}</span>
+     </li>
+ </ul>
+</div>
+<div *ngIf="valueObject?.geometry.radius">Radius: x: {{valueObject?.geometry.radius.x}}, y: {{valueObject?.geometry.radius.y}}</div>

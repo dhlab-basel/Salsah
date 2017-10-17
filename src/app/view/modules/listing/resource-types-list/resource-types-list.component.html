@@ -1,0 +1,35 @@
+<!-- progress indicator while the data is loading -->
+<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+
+<!-- in the case of an API error: show the error message -->
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+<!-- if we have the data: show the list-->
+<mat-list class="salsah-list" *ngIf="num > 0; else noData">
+    <h3 mat-subheader ># Resource types: {{num}}</h3>
+    <mat-list-item *ngFor="let item of list | sortBy: 'label'; let i = index"
+                  (click)="toggle(item.id, i);"
+                  [id]="item.id"
+                  class="salsah-link"
+                  [class.highlight]="i == selectedRow">
+        <!--<mat-list-item *ngFor="let admin of project.admins">-->
+        <mat-icon mat-list-avatar class="salsah-avatar">
+            {{item.label}}
+        </mat-icon>
+        <h4 mat-line>{{item?.label}}</h4>
+        <p mat-line [class.white-space]="!selectedRow">
+            <span *ngFor="let prop of item.properties; let last=last">
+                {{prop.label}} <span *ngIf="!last">/</span>
+            </span>
+        </p>
+        <button mat-icon-button class="right close close-highlight">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-list-item>
+
+</mat-list>
+
+<!-- if there are any data: show a no data message -->
+<ng-template #noData>
+    <salsah-message *ngIf="!isLoading && !errorMessage" [message]="noDataMessage"></salsah-message>
+</ng-template>

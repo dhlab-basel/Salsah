@@ -20,7 +20,7 @@ import {Observable} from 'rxjs/Observable';
 export class ResourceService extends ApiService {
 
     getResource(iri): Observable<any> {
-        return this.httpGet('/v1/resources/' + encodeURIComponent(iri) );
+        return this.httpGetV2("/resources/" + encodeURIComponent(iri) );
     }
 
 }

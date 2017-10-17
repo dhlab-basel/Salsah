@@ -1,0 +1,21 @@
+
+<mat-dialog-content>
+
+  {{data.title}}
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button
+          mat-dialog-close
+          class="cancel-button center">
+    Cancel
+  </button>
+  <span class="fill-remaining-space"></span>
+  <button mat-button
+          (click)="confirmDelete()"
+          color="warn"
+          class="cancel-button center">
+    OK
+  </button>
+</mat-dialog-actions>
