@@ -67,9 +67,10 @@ The new Salsah
 ==============
 
 For SALSAH version 2 we're planning a different structure: The admin and the workspace interface would be on the same
-app route. The access to the admin area (projectSettings) depends on the user's rights. The project publication page
+app route. The access to the admin area (project setting) depends on the user's rights. The project publication page
 can reuse the existing modules from SALSAH. But at the moment it's not clear how the URL structure will look like.
 http://dasch.org/[project]/[uuid] or http://project.knora.org/[uuid]
+
 
 The Data and Service Center for the Humanities (DaSCH) will use the SALSAH user interface. The DaSCH is implementing a
 distributed architecture with local or domain specific nodes which form a distributed peer-to-peer network. Resources
