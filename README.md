@@ -33,7 +33,7 @@ We develop the Salsah app with Angular (v4), especially with Angular-cli, which 
 
 **Install [angular-cli](https://github.com/angular/angular-cli) globally**
 
-`npm install -g @angular/cli@1.2.0`
+`npm install -g @angular/cli@1.4.7`
 
 If there are some permission issues, try to fix the writing rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`
 
