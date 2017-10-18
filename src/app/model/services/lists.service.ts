@@ -19,7 +19,10 @@ import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 import {ApiService} from './api.service';
 import {List, ListInfo, ListNodeInfo, ListsResponse} from '../webapi/knora/v2';
-import {ListNode} from '../webapi/knora/v1';
+import {ReadListSequenceJsonLDConverter} from '../webapi/knora/v2/lists/read-lists-seq-jsonld-converter';
+
+declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
+const jsonld = require('jsonld');
 
 @Injectable()
 export class ListsService extends ApiService {
@@ -40,15 +43,39 @@ export class ListsService extends ApiService {
         return this.httpGet('/v2/lists?projectIri=' + encodeURIComponent(projectIri)).map(
             (result: ApiServiceResult) => {
 
+                const listPromises = jsonld.promises;
+                // compact JSON-LD using an empty context: expands all Iris
+                const listPromise = listPromises.compact(result.body, {});
+
+                listPromise.then((compacted) => {
+
+                    // get resource class Iris from response
+                    const listInfos: ListInfo[] = ReadListSequenceJsonLDConverter.toListInfos(compacted);
+
+
+                    // assign ontology information to a variable so it can be used in the component's template
+                    this.ontologyInfo = resourceClassInfos;
+                    this.result = resources;
+
+                }, function (err) {
+
+                    console.log('JSONLD could not be expanded:' + err);
+                };
+
                 const received: ListInfo[] = result.getBody(ListsResponse).lists;
-
                 console.log('ListsService - getLists - projectIri: ' + projectIri +  ' , lists: ',  received);
-
                 if (received.length > 0) {
                     return received;
                 } else {
                     return empty;
                 }
+
+
+
+
+
+
+
             },
             (error: ApiServiceError) => {
                 const errorMessage = <any>error;
@@ -60,18 +87,25 @@ export class ListsService extends ApiService {
 
 
     /**
-     * Retrieves the complete list.
+     * Retrieves the complete list given the list's IRI.
      *
      * @param listIri
      * @returns {Observable<List>}
      * @throws {ApiServiceError}
      */
     getList(listIri: string): Observable<List> {
+
+        const empty: ListInfo[] = [];
+
         return this.httpGet('/v2/lists/' + encodeURIComponent(listIri)).map(
             (result: ApiServiceResult) => {
-                const received: List = result.getBody(List);
+                const received: List = result.getBody(ListsResponse);
                 console.log('ListsService - getLists - listIri: ' + listIri +  ' , list: ', received);
-                return received
+                if (received.length > 0) {
+                    return received;
+                } else {
+                    return empty;
+                }
             },
             (error: ApiServiceError) => {
                 const errorMessage = <any>error;

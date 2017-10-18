@@ -76,7 +76,7 @@ export class ProjectsListComponent implements OnInit {
     countActive: number;
     countInactive: number;
 
-    sortKey: string = 'longname';
+    sortKey: string = 'name';
 
     constructor(private _router: Router,
                 private _projectsService: ProjectsService,
@@ -108,6 +108,8 @@ export class ProjectsListComponent implements OnInit {
                 .subscribe(
                     (result: Project[]) => {
                         this.allProjects = result;
+                        console.log('projects: ', result);
+
 
                         this.filter(this.allProjects);
 
