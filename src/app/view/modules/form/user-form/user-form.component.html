@@ -29,320 +29,320 @@
     <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
     <div class="salsah-form-content" *ngIf="!isLoading">
-        <md-accordion class="headers-align">
+        <mat-accordion class="headers-align">
 
             <!-- 1) user profile -->
             <!-- 1a) view: project admin: select existing user OR create new user profile => b) -->
-            <md-expansion-panel [expanded]="step === 0" *ngIf="restrictedBy && !form.valid"
+            <mat-expansion-panel [expanded]="step === 0" *ngIf="restrictedBy && !form.valid"
                                 (opened)="setStep(0)"
                                 hideToggle="true">
                 <!-- header -->
-                <md-expansion-panel-header>
-                    <md-panel-title>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         <span *ngIf="!selectedUser">{{formLabels.user.select.title}}</span>
                         <span *ngIf="selectedUser">{{formLabels.user.select.titleDone}}</span>
-                    </md-panel-title>
-                    <md-panel-description>
+                    </mat-panel-title>
+                    <mat-panel-description>
                         <span *ngIf="!selectedUser">{{formLabels.user.select.description}}</span>
                         <span *ngIf="selectedUser"><i>{{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}</i></span>
-                        <md-icon>person</md-icon>
-                    </md-panel-description>
-                </md-expansion-panel-header>
-                <md-form-field class="large">
-                    <input mdInput
+                        <mat-icon>person</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-form-field class="large">
+                    <input matInput
                            [placeholder]="formLabels.user.select.autoComplete"
-                           [mdAutocomplete]="autoUser"
+                           [matAutocomplete]="autoUser"
                            [formControl]="userCtrl">
-                    <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="resetSelectedUser()"
+                    <mat-icon matSuffix class="input-icon icon-for-autocomplete" (click)="resetSelectedUser()"
                              *ngIf="userCtrl.value && userCtrl.dirty">close
-                    </md-icon>
-                    <md-autocomplete #autoUser="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
-                        <md-option *ngFor="let user of filteredUsers | async" [value]="user?.name"
+                    </mat-icon>
+                    <mat-autocomplete #autoUser="matAutocomplete"> <!-- [displayWith]="displayFn"> -->
+                        <mat-option *ngFor="let user of filteredUsers | async" [value]="user?.name"
                                    (onSelectionChange)="setSelectedUser($event, user?.iri)">
                             {{ user?.name }}
-                        </md-option>
-                    </md-autocomplete>
-                </md-form-field>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
                 <!-- footer -->
-                <md-action-row>
-                    <button md-button *ngIf="!selectedUser"
+                <mat-action-row>
+                    <button mat-button *ngIf="!selectedUser"
                             class="navigation-button left"
                             color="warn"
                             (click)="nextStep($event)">
                         {{formLabels.user.select.skip}}
                     </button>
-                    <button md-button *ngIf="restrictedBy"
+                    <button mat-button *ngIf="restrictedBy"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 3)"
                             [disabled]="!userCtrl.valid">
                         {{formLabels.navigation.next}}
                     </button>
-                    <button md-button *ngIf="!restrictedBy"
+                    <button mat-button *ngIf="!restrictedBy"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 2)"
                             [disabled]="!userCtrl.valid">
                         {{formLabels.navigation.next}}
                     </button>
-                </md-action-row>
-            </md-expansion-panel>
+                </mat-action-row>
+            </mat-expansion-panel>
 
             <!-- 1b) view: project and system admin: create new user profile (or edit old one?) -->
-            <md-expansion-panel [expanded]="step === 1" *ngIf="!selectedUser && !userCtrl.value"
+            <mat-expansion-panel [expanded]="step === 1" *ngIf="!selectedUser && !userCtrl.value"
                                 (opened)="setStep(1)"
                                 hideToggle="true">
                 <!-- header -->
-                <md-expansion-panel-header>
-                    <md-panel-title>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.title}}</span>
                         <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.title}}</span>
-                    </md-panel-title>
-                    <md-panel-description
+                    </mat-panel-title>
+                    <mat-panel-description
                         *ngIf="!form.controls['givenName'].value && !form.controls['familyName'].value">
                         <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.description}}</span>
                         <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.description}}</span>
-                        <md-icon>person_add</md-icon>
-                    </md-panel-description>
-                    <md-panel-description *ngIf="form.controls['givenName'].value && form.controls['familyName'].value">
+                        <mat-icon>person_add</mat-icon>
+                    </mat-panel-description>
+                    <mat-panel-description *ngIf="form.controls['givenName'].value && form.controls['familyName'].value">
                         {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}
-                        <md-icon>person_add</md-icon>
-                    </md-panel-description>
-                </md-expansion-panel-header>
+                        <mat-icon>person_add</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
 
                 <!-- step 1 form content -->
                 <form class="salsah-form new-user" [formGroup]="form">
-                    <md-form-field class="small">
-                        <input mdInput [salsahFocus]="step === 1"
+                    <mat-form-field class="small">
+                        <input matInput [salsahFocus]="step === 1"
                                [placeholder]="formLabels.user.create.givenName + ' *'"
                                [formControl]="form.controls['givenName']">
-                        <md-hint *ngIf="formErrors.givenName">
+                        <mat-hint *ngIf="formErrors.givenName">
                             {{ formErrors.givenName }}
-                        </md-hint>
-                    </md-form-field>
-                    <md-form-field class="medium">
-                        <input mdInput
+                        </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field class="medium">
+                        <input matInput
                                [placeholder]="formLabels.user.create.familyName + ' *'"
                                [formControl]="form.controls['familyName']">
-                        <md-hint *ngIf="formErrors.familyName">
+                        <mat-hint *ngIf="formErrors.familyName">
                             {{ formErrors.familyName }}
-                        </md-hint>
-                    </md-form-field>
+                        </mat-hint>
+                    </mat-form-field>
                     <!-- email = username -->
-                    <md-form-field class="large">
-                        <input mdInput type="email" class="full-width"
+                    <mat-form-field class="large">
+                        <input matInput type="email" class="full-width"
                                [placeholder]="formLabels.user.create.email + ' *'"
                                [formControl]="form.controls['email']">
-                        <md-hint *ngIf="formErrors.email">
+                        <mat-hint *ngIf="formErrors.email">
                             {{ formErrors.email }}
-                        </md-hint>
-                    </md-form-field>
+                        </mat-hint>
+                    </mat-form-field>
                     <!-- password -->
-                    <md-form-field class="large">
-                        <input mdInput [type]="showPassword ? 'text' : 'password'"
+                    <mat-form-field class="large">
+                        <input matInput [type]="showPassword ? 'text' : 'password'"
                                [placeholder]="formLabels.user.create.password + ' *'"
                                [formControl]="form.controls['password']">
-                        <md-icon mdSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
-                                 [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></md-icon>
-                        <md-hint *ngIf="formErrors.password">
+                        <mat-icon matSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
+                                 [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></mat-icon>
+                        <mat-hint *ngIf="formErrors.password">
                             {{ formErrors.password }}
-                        </md-hint>
-                    </md-form-field>
+                        </mat-hint>
+                    </mat-form-field>
 
-                    <md-select class="large"
+                    <mat-select class="large"
                                [placeholder]="formLabels.user.create.language"
                                [formControl]="form.controls['lang']">
 
-                        <md-option value="en">english</md-option>
-                        <md-option value="de">deutsch</md-option>
-                        <md-option value="fr">français</md-option>
-                        <md-option value="it">italiano</md-option>
-                    </md-select>
+                        <mat-option value="en">english</mat-option>
+                        <mat-option value="de">deutsch</mat-option>
+                        <mat-option value="fr">français</mat-option>
+                        <mat-option value="it">italiano</mat-option>
+                    </mat-select>
 
                 </form>
 
                 <!-- footer -->
-                <md-action-row>
-                    <button md-button
+                <mat-action-row>
+                    <button mat-button
                             color="warn"
                             (click)="form.reset()">
                         {{formLabels.navigation.reset}}
                     </button>
-                    <button md-button *ngIf="restrictedBy"
+                    <button mat-button *ngIf="restrictedBy"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 3)"
                             [disabled]="!form.valid">
                         {{formLabels.navigation.next}}
                     </button>
-                    <button md-button *ngIf="!restrictedBy"
+                    <button mat-button *ngIf="!restrictedBy"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!form.valid">
                         {{formLabels.navigation.next}}
                     </button>
-                </md-action-row>
+                </mat-action-row>
 
-            </md-expansion-panel>
+            </mat-expansion-panel>
             <!-- ////////////////////////////////////////////////////////////////////////////////// -->
 
             <!-- 2) project membership -->
 
             <!-- 2a) view: system admin: select project AND set the permissions => b) -->
-            <md-expansion-panel [expanded]="step === 2" *ngIf="!restrictedBy"
+            <mat-expansion-panel [expanded]="step === 2" *ngIf="!restrictedBy"
                                 (opened)="setStep(2)"
                                 hideToggle="true">
                 <!-- header -->
-                <md-expansion-panel-header>
-                    <md-panel-title>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         {{formLabels.project.select.title}}
-                    </md-panel-title>
+                    </mat-panel-title>
                     <!-- 2a) show the project short name only -->
-                    <md-panel-description>
+                    <mat-panel-description>
                         {{formLabels.project.select.description}}
-                        <md-icon>assignment</md-icon>
-                    </md-panel-description>
-                </md-expansion-panel-header>
-                <md-form-field class="large">
-                    <input mdInput
+                        <mat-icon>assignment</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-form-field class="large">
+                    <input matInput
                            [placeholder]="formLabels.project.select.autoComplete"
-                           [mdAutocomplete]="autoProject"
+                           [matAutocomplete]="autoProject"
                            [formControl]="projectCtrl">
-                    <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="projectCtrl.reset()"
+                    <mat-icon matSuffix class="input-icon icon-for-autocomplete" (click)="projectCtrl.reset()"
                              *ngIf="projectCtrl.value && projectCtrl.dirty">close
-                    </md-icon>
-                    <md-autocomplete #autoProject="mdAutocomplete"> <!-- [displayWith]="displayFn"> -->
-                        <md-option *ngFor="let project of filteredProjects | async" [value]="project?.name"
+                    </mat-icon>
+                    <mat-autocomplete #autoProject="matAutocomplete"> <!-- [displayWith]="displayFn"> -->
+                        <mat-option *ngFor="let project of filteredProjects | async" [value]="project?.name"
                                    (onSelectionChange)="setSelectedProject($event, project?.iri)">
                             {{ project?.name }}
-                        </md-option>
-                    </md-autocomplete>
-                </md-form-field>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
                 <!-- footer -->
-                <md-action-row>
-                    <button md-button
+                <mat-action-row>
+                    <button mat-button
                             class="navigation-button left"
                             color="warn"
                             (click)="skipStep($event, 4, 'project')">
                         {{formLabels.project.select.skip}}
                     </button>
-                    <button md-button
+                    <button mat-button
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!projectCtrl.valid">
                         {{formLabels.navigation.next}}
                     </button>
-                </md-action-row>
+                </mat-action-row>
 
 
                 <!--
 
-                <md-input-container class="full-width">
-                    <input mdInput
-                           [mdAutocomplete]="users"
+                <mat-input-container class="full-width">
+                    <input matInput
+                           [matAutocomplete]="users"
                            [formControl]="userCtrl"
                            [placeholder]="formLabels.select">
-                    <md-icon mdSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
-                             *ngIf="userCtrl.value && userCtrl.dirty">close</md-icon>
-                </md-input-container>
-                <md-autocomplete #users="mdAutocomplete" [displayWith]="displayFn">
-                    <md-option *ngFor="let user of filteredUsers | async" [value]="user.name"
+                    <mat-icon matSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
+                             *ngIf="userCtrl.value && userCtrl.dirty">close</mat-icon>
+                </mat-input-container>
+                <mat-autocomplete #users="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let user of filteredUsers | async" [value]="user.name"
                                (onSelectionChange)="getUser(user?.iri)">
                         {{ user?.name }}
-                    </md-option>
-                </md-autocomplete>
-                <md-action-row>
-                    <button md-button
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-action-row>
+                    <button mat-button
                             class="navigation-button center"
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!form.valid">
                         {{formLabels.navigation.next}}
                     </button>
-                </md-action-row>
+                </mat-action-row>
                 -->
 
-            </md-expansion-panel>
+            </mat-expansion-panel>
 
             <!-- 2b) view: project and system admin: set permissions -->
-            <md-expansion-panel [expanded]="step === 3"
+            <mat-expansion-panel [expanded]="step === 3"
                                 (opened)="setStep(3)"
                                 hideToggle="true">
                 <!-- header -->
-                <md-expansion-panel-header>
-                    <md-panel-title>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         {{formLabels.permissions.title}}
-                    </md-panel-title>
-                    <md-panel-description>
+                    </mat-panel-title>
+                    <mat-panel-description>
                         <span>{{formLabels.permissions.description}}</span>
-                        <md-icon>accessibility</md-icon>
-                    </md-panel-description>
-                </md-expansion-panel-header>
-                <md-list>
+                        <mat-icon>accessibility</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-list>
                     <div>
-                        <h3 md-subheader>
+                        <h3 mat-subheader>
                             {{formLabels.permissions.project.title}}
                             <span *ngIf="selectedProject"><i>{{selectedProject?.longname}}</i></span>
                         </h3>
-                        <md-list-item>
-                            <md-slide-toggle [(ngModel)]="adminPermission"
+                        <mat-list-item>
+                            <mat-slide-toggle [(ngModel)]="adminPermission"
                                              [disabled]="!projectIri && (!selectedUser && !form.valid)"
                                              color="primary">
                                 {{formLabels.permissions.project.description}}
-                            </md-slide-toggle>
-                        </md-list-item>
+                            </mat-slide-toggle>
+                        </mat-list-item>
                     </div>
                     <div *ngIf="sysAdmin && !userIri">
-                        <h3 md-subheader>{{formLabels.permissions.system.title}}</h3>
-                        <md-list-item>
-                            <md-slide-toggle [(ngModel)]="sysAdminPermission"
+                        <h3 mat-subheader>{{formLabels.permissions.system.title}}</h3>
+                        <mat-list-item>
+                            <mat-slide-toggle [(ngModel)]="sysAdminPermission"
                                              [disabled]="!projectIri && (!selectedUser && !form.valid)"
                                              color="primary">
                                 {{formLabels.permissions.system.description}}
-                            </md-slide-toggle>
-                        </md-list-item>
+                            </mat-slide-toggle>
+                        </mat-list-item>
                     </div>
 
 
-                </md-list>
+                </mat-list>
 
                 <!-- footer -->
-                <md-action-row>
-                    <button md-button
+                <mat-action-row>
+                    <button mat-button
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event)">
                         {{formLabels.navigation.next}}
                     </button>
-                </md-action-row>
+                </mat-action-row>
 
-            </md-expansion-panel>
+            </mat-expansion-panel>
 
             <!-- ////////////////////////////////////////////////////////////////////////////////// -->
 
             <!-- 3) overview or additional form stuff -->
-            <md-expansion-panel [expanded]="step === 4"
+            <mat-expansion-panel [expanded]="step === 4"
                                 (opened)="setStep(4)"
                                 hideToggle="true">
                 <!-- header -->
-                <md-expansion-panel-header>
-                    <md-panel-title>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         {{formLabels.overview.title}}
-                    </md-panel-title>
-                    <md-panel-description>
+                    </mat-panel-title>
+                    <mat-panel-description>
                         {{formLabels.overview.description}}
-                        <md-icon>done</md-icon>
-                    </md-panel-description>
-                </md-expansion-panel-header>
+                        <mat-icon>done</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
 
                 <!-- name / email of selected user -->
-                <md-list>
-                    <md-list-item *ngIf="selectedUser || form.valid">
-                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'"
+                <mat-list>
+                    <mat-list-item *ngIf="selectedUser || form.valid">
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [type]="'submit'"
                                                    [status]="submitUserStatus"></salsah-progress-indicator>
-                        <h4 md-line>
+                        <h4 mat-line>
                             <span *ngIf="selectedUser">
                                 {{formLabels.user.select.titleDone}}
                             </span>
@@ -350,7 +350,7 @@
                                 {{formLabels.user.create.projectAdmin.titleDone}}
                             </span>
                         </h4>
-                        <p md-line>
+                        <p mat-line>
                             <span *ngIf="selectedUser">
                                 {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}, {{selectedUser.userData?.email}}
                             </span>
@@ -358,52 +358,52 @@
                                 {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
                             </span>
                         </p>
-                        <md-hint md-line *ngIf="userErrorMessage" class="salsah-error-message">
+                        <mat-hint mat-line *ngIf="userErrorMessage" class="salsah-error-message">
                             {{userErrorMessage?.statusText}}
-                        </md-hint>
-                    </md-list-item>
-                </md-list>
+                        </mat-hint>
+                    </mat-list-item>
+                </mat-list>
 
-                <md-list *ngIf="restrictedBy || selectedProject">
-                    <md-list-item *ngIf="restrictedBy || selectedProject">
-                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'"
+                <mat-list *ngIf="restrictedBy || selectedProject">
+                    <mat-list-item *ngIf="restrictedBy || selectedProject">
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [type]="'submit'"
                                                    [status]="submitProjectStatus"></salsah-progress-indicator>
-                        <h4 md-line>
+                        <h4 mat-line>
                             {{formLabels.project.select.title}}
                         </h4>
-                        <p md-line>
+                        <p mat-line>
                             {{selectedProject?.longname}} ({{selectedProject?.shortname}})
                         </p>
-                        <md-hint md-line *ngIf="projectErrorMessage" class="salsah-error-message">
+                        <mat-hint mat-line *ngIf="projectErrorMessage" class="salsah-error-message">
                             {{projectErrorMessage?.statusText}}
-                        </md-hint>
-                    </md-list-item>
-                    <md-list-item>
-                        <salsah-progress-indicator md-list-avatar class="salsah-avatar" [type]="'submit'"
+                        </mat-hint>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [type]="'submit'"
                                                    [status]="submitPermissionsStatus"></salsah-progress-indicator>
-                        <h4 md-line>
+                        <h4 mat-line>
                             {{formLabels.permissions.title}}
                         </h4>
-                        <p md-line>
+                        <p mat-line>
                             <span *ngIf="adminPermission">&bull; {{formLabels.permissions.project.description}}</span>
                             <span *ngIf="sysAdminPermission"><br>&bull; {{formLabels.permissions.system.description}}</span>
                         </p>
-                        <md-hint md-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
+                        <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
                             {{permissionsErrorMessage?.statusText}}
-                        </md-hint>
-                    </md-list-item>
-                </md-list>
+                        </mat-hint>
+                    </mat-list-item>
+                </mat-list>
 
                 <!-- footer -->
-                <md-action-row>
+                <mat-action-row>
                     <!-- two buttons for both cases and to submit the data with the method -->
                     <div *ngIf="!afterSubmit">
-                        <button md-raised-button *ngIf="!selectedUser" [disabled]="!form.valid"
+                        <button mat-raised-button *ngIf="!selectedUser" [disabled]="!form.valid"
                                 color="primary"
                                 (click)="submitData()">
                             {{formLabels.navigation.submit}}
                         </button>
-                        <button md-raised-button *ngIf="selectedUser" [disabled]="!selectedUser?.userData?.user_id"
+                        <button mat-raised-button *ngIf="selectedUser" [disabled]="!selectedUser?.userData?.user_id"
                                 color="primary"
                                 (click)="submitData()">
                             {{formLabels.navigation.submit}}
@@ -412,12 +412,12 @@
                     <!-- one button to add more users and on button to close the form;
                         both button are shown after submit -->
                     <div *ngIf="(!userErrorMessage && !projectErrorMessage && !permissionsErrorMessage) && afterSubmit">
-                        <button md-button
+                        <button mat-button
                                 color="primary"
                                 (click)="resetForm()">
                             {{formLabels.navigation.add}}
                         </button>
-                        <button md-button md-dialog-close
+                        <button mat-button mat-dialog-close
                                 class="navigation-button-center"
                                 color="warn"
                                 (click)="updateView()">
@@ -425,17 +425,17 @@
                         </button>
                     </div>
                     <!--
-                    <button md-button (click)="resetForm()">
+                    <button mat-button (click)="resetForm()">
                         TEST
                     </button>
                     -->
 
-                </md-action-row>
+                </mat-action-row>
 
-            </md-expansion-panel>
+            </mat-expansion-panel>
 
 
-        </md-accordion>
+        </mat-accordion>
     </div>
 
 
@@ -443,9 +443,9 @@
 
 <!-- next section
 {{formLabels.system.admin}}
-                                    <md-slide-toggle [color]="'primary'" [formControl]="form.controls['systemAdmin']"
+                                    <mat-slide-toggle [color]="'primary'" [formControl]="form.controls['systemAdmin']"
                                                      [(ngModel)]="form.controls['systemAdmin'].value">
-                                    </md-slide-toggle>
+                                    </mat-slide-toggle>
                                     -->
 
 
@@ -454,87 +454,87 @@
                             <!-- line 1: pre and last name --
                             <tr>
                                 <td colspan="1">
-                                    <md-input-container class="full-width"
+                                    <mat-input-container class="full-width"
                                                         dividerColor="{{ form.controls['givenName']?.invalid && form.controls['givenName']?.touched ? 'warn' : 'primary' }}">
-                                        <input mdInput
+                                        <input matInput
                                                [placeholder]="formLabels.user.givenName + ' *'"
                                                [formControl]="form.controls['givenName']">
-                                    </md-input-container>
+                                    </mat-input-container>
                                 </td>
                                 <td colspan="2">
-                                    <md-input-container class="full-width"
+                                    <mat-input-container class="full-width"
                                                         dividerColor="{{ form.controls['familyName']?.invalid && form.controls['familyName']?.touched ? 'warn' : 'primary' }}">
-                                        <input mdInput
+                                        <input matInput
                                                [placeholder]="formLabels.user.familyName + ' *'"
                                                [formControl]="form.controls['familyName']">
-                                    </md-input-container>
+                                    </mat-input-container>
                                 </td>
                             </tr>
                             <!-- line 2: eMail address --
                             <tr>
                                 <td colspan="3">
-                                    <md-input-container class="full-width"
+                                    <mat-input-container class="full-width"
                                                         dividerColor="{{ form.controls['email']?.invalid && form.controls['email']?.touched ? 'warn' : 'primary' }}">
-                                        <input mdInput type="email"
+                                        <input matInput type="email"
                                                [placeholder]="formLabels.user.email + ' *'"
                                                [formControl]="form.controls['email']">
-                                        <md-hint class="salsah-hint">
+                                        <mat-hint class="salsah-hint">
                                             <span [hidden]="form.controls['email'].invalid">{{formLabels.user.emailHint}}</span>
                                             <span
                                                 [hidden]="form.controls['email'].valid && form.controls['email'].dirty || !form.controls['email'].touched"
                                                 class="salsah-error">{{formLabels.user.emailValidation}}
                                     </span>
-                                        </md-hint>
-                                    </md-input-container>
+                                        </mat-hint>
+                                    </mat-input-container>
                                 </td>
                             </tr>
                             <!-- line 3: password --
                             <tr>
                                 <td colspan="3">
-                                    <md-input-container class="full-width"
+                                    <mat-input-container class="full-width"
                                                         dividerColor="{{ !form.controls['password']?.valid ? 'warn' : 'primary' }}">
-                                        <input mdInput type="password"
+                                        <input matInput type="password"
                                                [placeholder]="formLabels.user.password + ' *'"
                                                [formControl]="form.controls['password']">
-                                        <md-hint class="salsah-hint">
+                                        <mat-hint class="salsah-hint">
                                             <!-- [hidden]="form.controls['password'].valid" [ngClass]="{'salsah-error': (form.controls['password'].invalid && form.controls['password'].dirty)}"  --
                                             <span
                                                 [hidden]="form.controls['password'].valid && form.controls['password'].dirty || form.controls['password'].touched"
                                                 class="salsah-error">
                                         {{formLabels.user.passwordHint}}
                                     </span>
-                                        </md-hint>
-                                    </md-input-container>
+                                        </mat-hint>
+                                    </mat-input-container>
                                 </td>
                             </tr>
                             <!-- line 4: preferred language --
                             <tr>
                                 <td colspan="2">
-                                    <md-select [formControl]="form.controls['lang']"
+                                    <mat-select [formControl]="form.controls['lang']"
                                                [placeholder]="formLabels.user.language"
                                                [(ngModel)]="form.controls['lang'].value">
-                                        <md-option value="en">english</md-option>
-                                        <md-option value="de">deutsch</md-option>
-                                        <md-option value="fr">français</md-option>
-                                        <md-option value="it">italiano</md-option>
-                                    </md-select>
+                                        <mat-option value="en">english</mat-option>
+                                        <mat-option value="de">deutsch</mat-option>
+                                        <mat-option value="fr">français</mat-option>
+                                        <mat-option value="it">italiano</mat-option>
+                                    </mat-select>
                                 </td>
                                 <td>
                                     {{formLabels.system.admin}}
-                                    <md-slide-toggle [color]="'primary'" [formControl]="form.controls['systemAdmin']"
+                                    <mat-slide-toggle [color]="'primary'" [formControl]="form.controls['systemAdmin']"
                                                      [(ngModel)]="form.controls['systemAdmin'].value">
-                                    </md-slide-toggle>
+                                    </mat-slide-toggle>
                                 </td>
                             </tr>
                         </table>
 
-                        <md-action-row>
-                            <button md-button
+                        <mat-action-row>
+                            <button mat-button
                                     class="navigation-button center"
                                     color="primary"
                                     (click)="nextStep($event)"
                                     [disabled]="!form.valid">
                                 Next
                             </button>
-                        </md-action-row>
+                        </mat-action-row>
 -->

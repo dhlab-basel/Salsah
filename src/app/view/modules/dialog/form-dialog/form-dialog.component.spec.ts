@@ -1,11 +1,11 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
-import {MD_DIALOG_DATA, MdDialog, MdDialogModule, MdDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef} from '@angular/material';
 import {FormDialogComponent} from './form-dialog.component';
 
 describe('FormDialogComponent', () => {
     let component: FormDialogComponent;
-    let dialog: MdDialog;
+    let dialog: MatDialog;
     let fixture: ComponentFixture<FormDialogComponent>;
 
     beforeEach(async(() => {
@@ -14,15 +14,15 @@ describe('FormDialogComponent', () => {
                 AppModule,
             ],
             providers: [
-                {provide: MD_DIALOG_DATA, useValue: {}},
-                {provide: MdDialogRef}
+                {provide: MAT_DIALOG_DATA, useValue: {}},
+                {provide: MatDialogRef}
             ]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        dialog = TestBed.get(MdDialog);
+        dialog = TestBed.get(MatDialog);
         fixture = TestBed.createComponent(FormDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();

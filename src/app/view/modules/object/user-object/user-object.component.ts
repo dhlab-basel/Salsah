@@ -17,7 +17,7 @@ import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UserService} from '../../../../model/services/user.service';
 import {User, UserProfile} from '../../../../model/webapi/knora/';
-import {MdDialog, MdDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageData} from '../../message/message.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
@@ -40,7 +40,7 @@ export class UserObjectComponent implements OnChanges {
     errorMessage: any;
 
     constructor(private _userService: UserService,
-                public _dialog: MdDialog) {
+                public _dialog: MatDialog) {
     }
 
     ngOnChanges() {
@@ -62,7 +62,7 @@ export class UserObjectComponent implements OnChanges {
 
     deleteUser(iri: string) {
         const answer: boolean = false;
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
         config.data = {
             title: 'Are you sure to delete this user?',
@@ -83,7 +83,7 @@ export class UserObjectComponent implements OnChanges {
                     },
                     (error: ApiServiceError) => {
                         const message: MessageData = error;
-                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                             data: {
                                 message: message
                             }

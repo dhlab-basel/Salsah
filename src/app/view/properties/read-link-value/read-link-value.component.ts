@@ -14,9 +14,9 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {ReadLinkValue} from '../../../model/webapi/knora/v2/read-property-item';
-import {MdDialog, MdDialogConfig} from '@angular/material';
-import {OntologyInformation} from "../../../model/services/ontologycache.service";
-import {ResourceObjectComponent} from "../../modules/object/resource-object/resource-object.component";
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {OntologyInformation} from '../../../model/services/ontologycache.service';
+import {ResourceObjectComponent} from '../../modules/object/resource-object/resource-object.component';
 
 @Component({
     selector: 'read-link-value',
@@ -28,14 +28,14 @@ export class ReadLinkValueComponent implements OnInit {
     @Input() valueObject: ReadLinkValue;
     @Input() ontologyInfo: OntologyInformation;
 
-    constructor(private dialog: MdDialog) {
+    constructor(private dialog: MatDialog) {
     }
 
     ngOnInit() {
     }
 
     showReferredResourceInDialog() {
-        let config = new MdDialogConfig();
+        let config = new MatDialogConfig();
         config.height = '60%';
         config.width = '60%';
 

@@ -6,16 +6,16 @@
             <div class="spinner"></div>
         </div>
 
-        <div md-icon-button>
+        <div mat-icon-button>
             <!-- bullet point before submit -->
             <!--
-            <md-icon *ngIf="status === -1">keyboard_arrow_right</md-icon>
+            <mat-icon *ngIf="status === -1">keyboard_arrow_right</mat-icon>
             -->
-            <md-icon *ngIf="status === -1" class="before-submit">keyboard_arrow_right</md-icon>
+            <mat-icon *ngIf="status === -1" class="before-submit">keyboard_arrow_right</mat-icon>
             <!-- icon 'check' when done -->
-            <md-icon *ngIf="status === 1" class="after-submit">done</md-icon>
+            <mat-icon *ngIf="status === 1" class="after-submit">done</mat-icon>
             <!-- in case of an error -->
-            <md-icon *ngIf="status === 400" class="submit-error">not_interested</md-icon>
+            <mat-icon *ngIf="status === 400" class="submit-error">not_interested</mat-icon>
         </div>
 
 
@@ -50,5 +50,5 @@
 
 <!-- // only for developers to test the component
 
-<button md-button (click)="toggleLoader()">Load / Done</button>
+<button mat-button (click)="toggleLoader()">Load / Done</button>
 -->

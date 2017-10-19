@@ -25,7 +25,7 @@
         <div class="file-url-zone" *ngSwitchCase="'url'">
             <form class="url-form">
                 <input class="x-file-url" placeholder="http://">
-                <button class="x-file-url-submit" md-raised-button [color]="'primary'">Save</button>
+                <button class="x-file-url-submit" mat-raised-button [color]="'primary'">Save</button>
             </form>
         </div>
         <!-- AND after upload: 3) show the file (in the case of an image) -->
@@ -35,17 +35,17 @@
 
         <!-- some buttons to switch the different kind of views above -->
         <!-- position: in the bottom left corner -->
-        <button class="switch-uploader" md-icon-button *ngIf="viewType !== 'preview'" (click)="switchUploader()">
+        <button class="switch-uploader" mat-icon-button *ngIf="viewType !== 'preview'" (click)="switchUploader()">
             <!-- 1) switch to file-url-zone -->
-            <md-icon *ngIf="viewType === 'upload'">link</md-icon>
+            <mat-icon *ngIf="viewType === 'upload'">link</mat-icon>
             <!-- OR 2) switch to file-upload-zone -->
-            <md-icon *ngIf="viewType === 'url'">attach_file</md-icon>
+            <mat-icon *ngIf="viewType === 'url'">attach_file</mat-icon>
         </button>
 
         <!-- AND after upload: 3) cancel button to delete the uploaded file -->
         <!-- position: in the top right corner -->
-        <button class="cancel-uploader" md-icon-button *ngIf="viewType === 'preview'" (click)="deleteFile($event)">
-            <md-icon>delete</md-icon>
+        <button class="cancel-uploader" mat-icon-button *ngIf="viewType === 'preview'" (click)="deleteFile($event)">
+            <mat-icon>delete</mat-icon>
         </button>
 
     </section>
@@ -119,7 +119,7 @@
                     </a>
                     <!-- /button --
 
-                    <button md-raised-button (click)="upload()"></button>
+                    <button mat-raised-button (click)="upload()"></button>
 
                 </section>
             </div>

@@ -13,7 +13,7 @@
  * */
 
 import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChange} from '@angular/core';
-import {MdDialog, MdDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MessageData} from '../../message/message.component';
@@ -56,6 +56,8 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
     // the list can have an (optional) add button, which opens the form-dialog with a new-XYZ-form
     @Input() add?: AddData;
 
+    loggedInAdmin: boolean = false;
+
     // error message in the case of an api service error
     errorMessage: any = undefined;
 
@@ -93,12 +95,17 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
     id: string;
 
 //    constructor(@Inject(ElementRef) elementRef: ElementRef, @Inject(Injector) injector: Injector)
-    constructor(private _dialog: MdDialog,
+    constructor(private _dialog: MatDialog,
                 private _route: ActivatedRoute,
                 private _cdRef: ChangeDetectorRef) {
     }
 
     ngOnInit() {
+        // bad hack to get the project admin information
+        this.loggedInAdmin = (sessionStorage.getItem('admin') !== null);
+        // end of bad hack. TODO: we have to find a better solution
+
+
         if (this.list === undefined || this.list === null) {
             // list is not optional! show an error message
             this.errorMessage = <any>{
@@ -166,7 +173,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
             case 'user':
             case 'project':
             case 'resource-type':
-                dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
+                dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
                     data: {
                         title: this.add.title,
                         description: this.add.description,
@@ -183,7 +190,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
                     statusText: 'TODO: add the list type "' + form + '" to the openNew method in FrameworkForListings',
                     route: 'Missing list type: ' + form
                 };
-                dialogRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                dialogRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                     data: {
                         message: message
                     }

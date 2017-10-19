@@ -1,7 +1,7 @@
 <!-- the user form starts with a button, which will open a dialog box with the user create form -->
 
-<button md-button (click)="addNewUser()">
-    <md-icon>add</md-icon>
+<button mat-button (click)="addNewUser()">
+    <mat-icon>add</mat-icon>
     <span> Add new person </span>
 </button>
 
@@ -10,12 +10,12 @@
     it will be displayed in dialog card box -->
 
 <!-- the dialog title is always the same; It stays fixed to the top of the dialog -->
-<div md-dialog-title>
+<div mat-dialog-title>
     <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps" [counter]="counter"></salsah-progress-stepper>
 </div>
 
 <!-- the new user form assistant starts with a user selection field (autocomplete) to look for an existing user first -->
-<div md-dialog-content>
+<div mat-dialog-content>
 
     <!-- Step 0: Select resource type from a list of resources taken directly from the Knora base ontology
         (How do we include other ontologies / other properties? Do we simply read all possible resources within all ontologies?) -->
@@ -25,67 +25,67 @@
         <hr>
         <!-- form to create a new user or to edit an old one from selection above -->
         <form class="salsah-form new-user" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)">
-            <md-input-container class="half-width"
+            <mat-input-container class="half-width"
                                 dividerColor="{{ uf.controls['firstName']?.invalid && uf.controls['firstName']?.touched ? 'warn' : 'primary' }}">
-                <input mdInput
+                <input matInput
                        disabled
                        [placeholder]="form.user.firstName + ' *'"
                        [formControl]="uf.controls['givenName']">
-            </md-input-container>
+            </mat-input-container>
 
-            <md-input-container class="half-width"
+            <mat-input-container class="half-width"
                                 dividerColor="{{ uf.controls['lastName']?.invalid && uf.controls['lastName']?.touched ? 'warn' : 'primary' }}">
-                <input mdInput
+                <input matInput
                        disabled="disabled"
                        [placeholder]="form.user.lastName + ' *'"
                        [formControl]="uf.controls['familyName']">
-            </md-input-container>
+            </mat-input-container>
 
-            <md-input-container class="full-width"
+            <mat-input-container class="full-width"
                                 dividerColor="{{ uf.controls['email']?.invalid && uf.controls['email']?.touched ? 'warn' : 'primary' }}">
-                <input mdInput type="email"
+                <input matInput type="email"
                        [placeholder]="form.user.email + ' *'"
                        [formControl]="uf.controls['email']">
-                <md-hint class="salsah-hint">
+                <mat-hint class="salsah-hint">
                     <span [hidden]="uf.controls['email'].invalid">{{form.user.emailHint}}</span>
                     <span
                             [hidden]="uf.controls['email'].valid && uf.controls['email'].dirty || !uf.controls['email'].touched"
                             class="salsah-error">{{form.user.emailValidation}}
                 </span>
-                </md-hint>
-            </md-input-container>
+                </mat-hint>
+            </mat-input-container>
 
-            <md-input-container class="full-width"
+            <mat-input-container class="full-width"
                                 dividerColor="{{ !uf.controls['password']?.valid ? 'warn' : 'primary' }}">
-                <input mdInput type="password"
+                <input matInput type="password"
                        [placeholder]="form.user.password + ' *'"
                        [formControl]="uf.controls['password']">
-                <md-hint class="salsah-hint">
+                <mat-hint class="salsah-hint">
                     <!-- [hidden]="uf.controls['password'].valid" [ngClass]="{'salsah-error': (uf.controls['password'].invalid && uf.controls['password'].dirty)}"  -->
                     <span
                             [hidden]="uf.controls['password'].valid && uf.controls['password'].dirty || !uf.controls['password'].touched"
                             class="salsah-error">
                                         {{form.user.passwordHint}}
                                     </span>
-                </md-hint>
-            </md-input-container>
+                </mat-hint>
+            </mat-input-container>
 
             <table class="full-width form-table">
                 <tr>
                     <td class="left">
-                        <md-select [formControl]="uf.controls['lang']" [placeholder]="form.user.language"
+                        <mat-select [formControl]="uf.controls['lang']" [placeholder]="form.user.language"
                                    [(ngModel)]="uf.controls['lang'].value">
-                            <md-option value="en">english</md-option>
-                            <md-option value="de">deutsch</md-option>
-                            <md-option value="fr">français</md-option>
-                            <md-option value="it">italiano</md-option>
-                        </md-select>
+                            <mat-option value="en">english</mat-option>
+                            <mat-option value="de">deutsch</mat-option>
+                            <mat-option value="fr">français</mat-option>
+                            <mat-option value="it">italiano</mat-option>
+                        </mat-select>
                     </td>
 
                     <td class="right">
-                        <md-checkbox align="end">
+                        <mat-checkbox align="end">
                             {{form.user.admin}}
-                        </md-checkbox>
+                        </mat-checkbox>
                     </td>
                 </tr>
             </table>
@@ -94,36 +94,36 @@
 </div>
 
 
-<div md-dialog-actions>
-    <button md-button
-            md-dialog-close
+<div mat-dialog-actions>
+    <button mat-button
+            mat-dialog-close
             class="cancel-button">
         Cancel
     </button>
     <span class="fill-remaining-space"></span>
 
     <span class="back">
-        <button md-button
+        <button mat-button
                 *ngIf="counter < max_steps && counter > 0"
                 class="back-button"
                 (click)="prevFormSection(counter, $event)">
-                <md-icon>keyboard_arrow_left</md-icon> Back
+                <mat-icon>keyboard_arrow_left</mat-icon> Back
         </button>
     </span>
 
     <!-- a button to go forward is on the right side; at the end it will be replaced with the submit button -->
     <span class="next">
-        <button md-raised-button
+        <button mat-raised-button
                 [disabled]="!newResource.label"
                 *ngIf="counter < (max_steps - 1) && counter > 0"
                 class="next-button"
                 [color]="'primary'"
                 (click)="nextFormSection(counter, $event)">
-            Next <md-icon>keyboard_arrow_right</md-icon>
+            Next <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
         <!-- or -->
         <button type="submit"
-                md-raised-button
+                mat-raised-button
                 *ngIf="counter === (max_steps - 1)"
                 class="save-button"
                 color="primary"
@@ -136,16 +136,16 @@
 </div>
 
 <!--
-<form class="salsah-form user-form" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)" md-card>
+<form class="salsah-form user-form" [formGroup]="uf" (ngSubmit)="onSubmit(uf.value, uf.valid)" mat-card>
 
-    <div md-dialog-title>
+    <div mat-dialog-title>
         {{form.user.title}}
     </div>
-    <div md-dialog-content>
+    <div mat-dialog-content>
 
-    <div md-dialog-actions>
+    <div mat-dialog-actions>
         <span>
-            <button md-button
+            <button mat-button
                     class="cancel-button"
                     (click)="closeForm($event)">
                 Cancel
@@ -155,7 +155,7 @@
         <span>
             <button type="submit"
                     [disabled]="!uf.valid || uf.errors"
-                    md-raised-button
+                    mat-raised-button
                     class="save-button mat-primary">
                 Save
             </button>
