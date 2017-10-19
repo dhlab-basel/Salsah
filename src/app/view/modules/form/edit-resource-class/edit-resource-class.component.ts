@@ -20,6 +20,7 @@ import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/weba
 // import {ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
 import {ProjectsService} from "../../../../model/services/projects.service";
 import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
+import {MatSelectModule} from '@angular/material';
 
 import {
     trigger,
@@ -34,22 +35,6 @@ import {
     selector: 'salsah-edit-resource-class',
     templateUrl: './edit-resource-class.component.html',
     styleUrls: ['./edit-resource-class.component.scss'],
-    animations: [
-        trigger('resEdit',
-            [
-                state('inactive', style({display: 'none'})),
-                state('active', style({display: 'block'})),
-                transition('inactive => true', animate('100ms ease-in')),
-                transition('true => inactive', animate('100ms ease-out'))
-            ]),
-        trigger('propEdit',
-            [
-                state('inactive', style({display: 'none'})),
-                state('active', style({display: 'block'})),
-                transition('inactive => true', animate('100ms ease-in')),
-                transition('true => inactive', animate('100ms ease-out'))
-            ])
-    ]
 })
 
 
@@ -143,18 +128,6 @@ export class EditResourceClassComponent implements OnChanges {
     resEdit: any;
     propEdit: any;
 
-    toggleMenu(name: string) {
-        switch (name) {
-            case 'resEdit':
-                this.focusOnPropertiesEdit = 'inactive';
-                this.focusOnResourceEdit = (this.focusOnResourceEdit === 'active' ? 'inactive' : 'active');
-                break;
-            case 'propEdit':
-                this.focusOnResourceEdit = 'inactive';
-                this.focusOnPropertiesEdit = (this.focusOnPropertiesEdit === 'active' ? 'inactive' : 'active');
-                break;
-        }
-    }
 
     //sets default values from json files on mat-select
     setGUI(index: number, event) {

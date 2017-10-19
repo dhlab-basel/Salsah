@@ -12,3 +12,19 @@
 .full-width{
   width: 100%
 }
+
+
+
+.headers-align .mat-expansion-panel-header-title,
+.headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.headers-align .mat-expansion-panel-header-description {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.placeholder-text-colour {
+  color: #a9a9a9;
+}
