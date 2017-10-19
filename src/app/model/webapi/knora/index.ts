@@ -65,7 +65,7 @@ export * from './v1/lists/list-node';
 /**
  * Interface for lists V2
  */
-export * from './v2/lists/list';
+export * from './v2/lists/list-node';
 export * from './v2/lists/list-info';
 export * from './v2/lists/list-node-info';
 export * from './v2/lists/lists-response';

@@ -13,15 +13,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {JsonObject, JsonProperty} from 'json2typescript';
 
+export class StringV2 {
 
-@JsonObject
-export class StringWithOptionalLang {
+    value: string;
+    lang: string = undefined;
 
-    @JsonProperty('value', String, false)
-    public value: string = undefined;
-
-    @JsonProperty('lang', String, true)
-    public lang: string = undefined;
+    constructor (value: string, lang?: string) {
+        this.value = value;
+        this.lang = lang;
+    }
 }

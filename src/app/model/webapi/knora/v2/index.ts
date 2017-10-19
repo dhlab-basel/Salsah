@@ -16,7 +16,7 @@
 /**
  * Interface for lists
  */
-export * from './lists/list';
+export * from './lists/list-node';
 export * from './lists/list-info';
 export * from './lists/list-node-info';
 export * from './lists/lists-response';

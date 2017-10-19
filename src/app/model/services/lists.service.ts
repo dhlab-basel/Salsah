@@ -43,24 +43,10 @@ export class ListsService extends ApiService {
         return this.httpGet('/v2/lists?projectIri=' + encodeURIComponent(projectIri)).map(
             (result: ApiServiceResult) => {
 
-                const listPromises = jsonld.promises;
-                // compact JSON-LD using an empty context: expands all Iris
-                const listPromise = listPromises.compact(result.body, {});
 
-                listPromise.then((compacted) => {
-
-                    // get resource class Iris from response
-                    const listInfos: ListInfo[] = ReadListSequenceJsonLDConverter.toListInfos(compacted);
+                const listInfos: ListInfo[] = ReadListSequenceJsonLDConverter.toListInfos(result.body);
 
 
-                    // assign ontology information to a variable so it can be used in the component's template
-                    this.ontologyInfo = resourceClassInfos;
-                    this.result = resources;
-
-                }, function (err) {
-
-                    console.log('JSONLD could not be expanded:' + err);
-                };
 
                 const received: ListInfo[] = result.getBody(ListsResponse).lists;
                 console.log('ListsService - getLists - projectIri: ' + projectIri +  ' , lists: ',  received);
