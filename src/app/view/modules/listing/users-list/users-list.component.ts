@@ -21,7 +21,7 @@ import {ProjectMembers} from '../../../../model/webapi/knora/v1/projects/project
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
 import {MessageData} from '../../message/message.component';
-import {MdDialog, MdDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
@@ -48,6 +48,7 @@ export class UsersListComponent implements OnInit {
 
     @Output() toggleItem = new EventEmitter<any>();
 
+    loggedInAdmin: boolean = false;
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
@@ -67,7 +68,7 @@ export class UsersListComponent implements OnInit {
     allUsers: UserData[] = [];
     allActiveUsers: UserData[] = [];
     allInactiveUsers: UserData[] = [];
-    countUsers: number;
+    countAll: number;
     countActive: number;
     countInactive: number;
 
@@ -96,7 +97,7 @@ export class UsersListComponent implements OnInit {
     constructor(private _router: Router,
                 public _projectsService: ProjectsService,
                 public _userService: UserService,
-                public _dialog: MdDialog) {
+                public _dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -104,14 +105,28 @@ export class UsersListComponent implements OnInit {
         this.selectedRow = this.index;
 
         if (this.project !== undefined) {
+
+            // bad hack to get the project admin information
+            this.loggedInAdmin = (sessionStorage.getItem('admin') !== null);
+            // end of bad hack. TODO: we have to find a better solution
+
             // get project members
             this._projectsService.getProjectMembersByIri(this.project)
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.allUsers = result.getBody(ProjectMembers).members;
 
-
-
+                        // TODO: move the following lines into a method
+                        for (const au of this.allUsers) {
+                            if (au.status === true) {
+                                this.allActiveUsers.push(au);
+                            } else {
+                                this.allInactiveUsers.push(au);
+                            }
+                        }
+                        this.countAll = Object.keys(this.allUsers).length;
+                        this.countActive = Object.keys(this.allActiveUsers).length;
+                        this.countInactive = Object.keys(this.allInactiveUsers).length;
 
                         // set an array of the project members in local storage
                         // it's a list of user IRIs
@@ -121,7 +136,6 @@ export class UsersListComponent implements OnInit {
                         for (const m of this.allUsers) {
                             currentMembers.push(m.user_id);
                         }
-                        this.countUsers = Object.keys(this.allUsers).length;
                         sessionStorage.setItem('currentMembers', JSON.stringify(currentMembers));
                         this.isLoading = false;
                     },
@@ -143,7 +157,7 @@ export class UsersListComponent implements OnInit {
                                 this.allInactiveUsers.push(au);
                             }
                         }
-                        this.countUsers = Object.keys(this.allUsers).length;
+                        this.countAll = Object.keys(this.allUsers).length;
                         this.countActive = Object.keys(this.allActiveUsers).length;
                         this.countInactive = Object.keys(this.allInactiveUsers).length;
                         this.isLoading = false;
@@ -185,7 +199,7 @@ export class UsersListComponent implements OnInit {
     // in the table view, it opens an object in a dialog box
     // open / close user
     edit(id: string) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
                 form: 'user'
@@ -205,7 +219,7 @@ export class UsersListComponent implements OnInit {
 
     removeFromProject(uIri: string, pIri: string) {
         const answer: boolean = false;
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
         config.data = {
             title: 'Are you sure to remove this user from the project?',
@@ -227,7 +241,7 @@ export class UsersListComponent implements OnInit {
                     },
                     (error: ApiServiceError) => {
                         const message: MessageData = error;
-                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                             data: {
                                 message: message
                             }
@@ -240,12 +254,12 @@ export class UsersListComponent implements OnInit {
 
     }
 
-    setInactive(uIri: string) {
+    setInactive(iri: string, name: string) {
         const answer: boolean = false;
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
         config.data = {
-            title: 'Are you sure to delete this user?',
+            title: 'Are you sure to delete this user? ' + name,
             confirm: answer
         };
 
@@ -257,7 +271,7 @@ export class UsersListComponent implements OnInit {
             this.isLoading = true;
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
-                this._userService.deleteUser(uIri).subscribe(
+                this._userService.deleteUser(iri).subscribe(
                     (res: ApiServiceResult) => {
                         // reload page
                         this.isLoading = false;
@@ -265,7 +279,7 @@ export class UsersListComponent implements OnInit {
                     },
                     (error: ApiServiceError) => {
                         const message: MessageData = error;
-                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                             data: {
                                 message: message
                             }
@@ -279,12 +293,12 @@ export class UsersListComponent implements OnInit {
         });
     }
 
-    setActive(uIri: string) {
+    setActive(iri: string, name: string) {
         const answer: boolean = false;
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
         config.data = {
-            title: 'Reactivate this user?',
+            title: 'Reactivate this user? ' + name,
             confirm: answer
         };
 
@@ -296,7 +310,7 @@ export class UsersListComponent implements OnInit {
             this.isLoading = true;
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
-                this._userService.activateUser(uIri).subscribe(
+                this._userService.activateUser(iri).subscribe(
                     (res: ApiServiceResult) => {
                         // reload page
                         this.isLoading = false;
@@ -304,7 +318,7 @@ export class UsersListComponent implements OnInit {
                     },
                     (error: ApiServiceError) => {
                         const message: MessageData = error;
-                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                             data: {
                                 message: message
                             }

@@ -41,11 +41,11 @@
 Get started
 ***********
 
-Salsah (System for Annotation and Linkage of Sources in Arts and Humanities) is a generic graphical user interface for Knora_.
+Salsah (System for Annotation and Linkage of Sources in Arts and Humanities) is the generic graphical user interface for Knora_.
 
 It is developed by the `Digital Humanities Lab`_ at the `University of Basel`_, and is supported by the `Swiss Academy of Humanities and Social Sciences`_.
 
-Salsah is free software, released under the `GNU Affero General Public License`_.
+Salsah is free software, released under the `GNU Affero General Public License`_ and is available on GitHub_
 
 
 
@@ -55,9 +55,8 @@ Prerequisites
 Node and NPM
 ------------
 
-We develop the Salsah app with Angular_ (v4), especially with Angular-cli_, which requires Node_ 6 or higher and NPM_ 4 or higher. Update NPM to the latest version with ``npm install -g npm@latest``.
+We develop Salsah with Angular_ (v4), especially with Angular-cli_, which requires Node_ 6 or higher and NPM_ 4 or higher. Update NPM to the latest version with ``npm install -g npm@latest``.
 
-We develop Salsah with Angular-cli_ version 1.0.0 (will be updated from time to time!),, which requires Node_ 6.9.0 or higher, together with NPM_ 3 or higher.
 
 Angular-cli
 -----------
@@ -65,7 +64,12 @@ Angular-cli
 
     npm install -g @angular/cli
 
-If there are some permission issues, try to fix them by change the rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}``
+If there are some permission issues, try to fix them by change the rights in node with
+
+::
+
+    sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
+
 
 Salsah app
 ==========
@@ -73,7 +77,7 @@ Salsah app
 Installation
 ------------
 
-After cloning the Salsah code from GitHub_, install the node packages from the Salsah root directory with
+After cloning the Salsah code from GitHub_, install the node packages driectly from the Salsah root directory with
 
 ::
 
@@ -91,11 +95,22 @@ With
 
 the Salsah app starts on http://localhost:4200
 
-It could happen, that ng can't resolve some specific packages and the app doesn't start. In that case the install process did not install the developer packages. Install them with
+It could happen, that ng can't resolve some specific packages. In that case the install process did not install the developer packages; install them with
 
 ::
 
     npm install --only=dev
 
+
+Update node packages
+--------------------
+
+From time to time we grab the latest npm package versions for Salsah. To update them, we recommend to reinstall the packages with the following commands.
+
+::
+
+    rm -rf node_modules dist tmp
+    npm install --only=dev
+    npm install
 
 

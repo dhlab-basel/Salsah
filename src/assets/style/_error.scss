@@ -1,20 +1,20 @@
 .salsah-error, .salsah-warning, .salsah-note {
     margin: 100px auto;
-    md-card-subtitle {
+    mat-card-subtitle {
 
     }
-    md-card-title {
+    mat-card-title {
 
     }
-    md-card-content {
+    mat-card-content {
         margin-top: 48px;
         margin-bottom: 48px;
 
-        md-list-item {
+        mat-list-item {
 
         }
     }
-    md-card-actions {
+    mat-card-actions {
         text-align: center;
     }
 }
@@ -34,13 +34,13 @@
 
 
 
-md-card.salsah-api-error {
+mat-card.salsah-api-error {
 
     //  box-shadow: none;
 
 }
 
-md-card.salsah-api-warning {
+mat-card.salsah-api-warning {
 
     //  box-shadow: none;
     max-width: 640px;
@@ -48,12 +48,12 @@ md-card.salsah-api-warning {
     margin-bottom: 100px;
     margin-left: auto;
     margin-right: auto;
-    md-icon {
+    mat-icon {
         float: right;
     }
 }
 
-md-card.salsah-page-error {
+mat-card.salsah-page-error {
     box-shadow: none;
     max-width: 640px;
     margin-top: 60px;
@@ -67,27 +67,27 @@ md-card.salsah-page-error {
     width: 100%;
 }
 
-md-card.salsah-hint {
+mat-card.salsah-hint {
 
     max-width: 640px;
     margin-top: 60px;
     margin-bottom: 60px;
     margin-left: auto;
     margin-right: auto;
-    md-icon {
+    mat-icon {
         float: right;
     }
 
 }
 
-md-card.salsah-developer-hint {
+mat-card.salsah-developer-hint {
     background-color: lightgoldenrodyellow;
     max-width: 640px;
     margin-top: 60px;
     margin-bottom: 60px;
     margin-left: auto;
     margin-right: auto;
-    md-icon {
+    mat-icon {
         float: right;
     }
 }

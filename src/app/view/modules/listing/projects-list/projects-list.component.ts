@@ -20,7 +20,7 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {UserService} from '../../../../model/services/user.service';
 import {ProjectsList, ProjectItem, User, UserProfile} from '../../../../model/webapi/knora/';
 import {MessageData} from '../../message/message.component';
-import {MdDialog, MdDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
@@ -49,12 +49,10 @@ export class ProjectsListComponent implements OnInit {
     @Input('restrictedBy') user: string;
     @Input() listType?: string;
 
+    // grid list settings
     columns: number = 3;
-
     rowHeight: number = 308;
-    colGutter: number = 8;
-    colWidth: number = 208;
-    maxWidth: number = 980;
+    colGutter: number = 12;
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
@@ -71,15 +69,19 @@ export class ProjectsListComponent implements OnInit {
     };
 
     // the http get request will fill an array called projects
-    list: ProjectItem[] = [];
-    num: number;
+    allProjects: ProjectItem[] = [];
+    allActive: ProjectItem[] = [];
+    allInactive: ProjectItem[] = [];
+    countAll: number;
+    countActive: number;
+    countInactive: number;
 
     sortKey: string = 'longname';
 
     constructor(private _router: Router,
                 private _projectsService: ProjectsService,
                 private _userService: UserService,
-                public _dialog: MdDialog) {
+                public _dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -89,9 +91,10 @@ export class ProjectsListComponent implements OnInit {
             this._userService.getUserByIri(this.user)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.list = result.getBody(User).userProfile.projects_info;
-                        console.log(this.list);
-                        this.num = Object.keys(this.list).length;
+                        this.allProjects = result.getBody(User).userProfile.projects_info;
+
+                        this.filter(this.allProjects);
+
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -104,8 +107,10 @@ export class ProjectsListComponent implements OnInit {
             this._projectsService.getAllProjects()
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.list = result.getBody(ProjectsList).projects;
-                        this.num = this.list.length;
+                        this.allProjects = result.getBody(ProjectsList).projects;
+
+                        this.filter(this.allProjects);
+
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -118,8 +123,22 @@ export class ProjectsListComponent implements OnInit {
     }
 
 
+    filter(list: ProjectItem[]) {
+        for (const item of list) {
+            if (item.status === true) {
+                this.allActive.push(item);
+            } else {
+                this.allInactive.push(item);
+            }
+        }
+        this.countAll = Object.keys(list).length;
+        this.countActive = Object.keys(this.allActive).length;
+        this.countInactive = Object.keys(this.allInactive).length;
+    }
+
+
     edit(id: string) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MdDialogConfig>{
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
                 form: 'project'
@@ -133,8 +152,8 @@ export class ProjectsListComponent implements OnInit {
     }
 
     removeUserFromProject(user: string, project: string) {
-        let answer: boolean = false;
-        const config = new MdDialogConfig();
+        const answer: boolean = false;
+        const config = new MatDialogConfig();
 
         config.data = {
             title: 'Are you sure to remove this user from the project?',
@@ -158,7 +177,7 @@ export class ProjectsListComponent implements OnInit {
                     },
                     (error: ApiServiceError) => {
                         const message: MessageData = error;
-                        const errorRef = this._dialog.open(MessageDialogComponent, <MdDialogConfig>{
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
                             data: {
                                 message: message
                             }
@@ -169,6 +188,85 @@ export class ProjectsListComponent implements OnInit {
 
         });
 
+    }
+
+    setInactive(iri: string, name: string) {
+        const answer: boolean = false;
+        const config = new MatDialogConfig();
+
+        config.data = {
+            title: 'Are you sure to delete this project? ' + name,
+            confirm: answer
+        };
+
+        // open dialog box
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRef.afterClosed().subscribe(result => {
+            this.isLoading = true;
+            if (config.data.confirm === true) {
+                // if answer is true: remove the user from the project
+                this._projectsService.deleteProject(iri).subscribe(
+                    (res: ApiServiceResult) => {
+                        // reload page
+                        this.isLoading = false;
+                        window.location.reload();
+                    },
+                    (error: ApiServiceError) => {
+                        const message: MessageData = error;
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
+                            data: {
+                                message: message
+                            }
+                        });
+                    }
+                )
+            } else {
+                this.isLoading = false;
+            }
+
+        });
+    }
+
+    setActive(iri: string, name: string) {
+
+        const answer: boolean = false;
+        const config = new MatDialogConfig();
+
+        config.data = {
+            title: 'Reactivate this project? ' + name,
+            confirm: answer
+        };
+
+        // open dialog box
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRef.afterClosed().subscribe(result => {
+            this.isLoading = true;
+            if (config.data.confirm === true) {
+                // if answer is true: remove the user from the project
+                this._projectsService.activateProject(iri).subscribe(
+                    (res: ApiServiceResult) => {
+                        // reload page
+                        window.location.reload();
+                        this.isLoading = false;
+                    },
+                    (error: ApiServiceError) => {
+                        const message: MessageData = error;
+                        const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
+                            data: {
+                                message: message
+                            }
+                        });
+                    }
+                )
+            } else {
+                this.isLoading = false;
+            }
+
+        });
     }
 
 }

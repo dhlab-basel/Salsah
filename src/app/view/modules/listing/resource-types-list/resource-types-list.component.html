@@ -5,29 +5,29 @@
 <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
 <!-- if we have the data: show the list-->
-<md-list class="salsah-list" *ngIf="num > 0; else noData">
-    <h3 md-subheader ># Resource types: {{num}}</h3>
-    <md-list-item *ngFor="let item of list | sortBy: 'label'; let i = index"
+<mat-list class="salsah-list" *ngIf="num > 0; else noData">
+    <h3 mat-subheader ># Resource types: {{num}}</h3>
+    <mat-list-item *ngFor="let item of list | sortBy: 'label'; let i = index"
                   (click)="toggle(item.id, i);"
                   [id]="item.id"
                   class="salsah-link"
                   [class.highlight]="i == selectedRow">
-        <!--<md-list-item *ngFor="let admin of project.admins">-->
-        <md-icon md-list-avatar class="salsah-avatar">
+        <!--<mat-list-item *ngFor="let admin of project.admins">-->
+        <mat-icon mat-list-avatar class="salsah-avatar">
             {{item.label}}
-        </md-icon>
-        <h4 md-line>{{item?.label}}</h4>
-        <p md-line [class.white-space]="!selectedRow">
+        </mat-icon>
+        <h4 mat-line>{{item?.label}}</h4>
+        <p mat-line [class.white-space]="!selectedRow">
             <span *ngFor="let prop of item.properties; let last=last">
                 {{prop.label}} <span *ngIf="!last">/</span>
             </span>
         </p>
-        <button md-icon-button class="right close close-highlight">
-            <md-icon>close</md-icon>
+        <button mat-icon-button class="right close close-highlight">
+            <mat-icon>close</mat-icon>
         </button>
-    </md-list-item>
+    </mat-list-item>
 
-</md-list>
+</mat-list>
 
 <!-- if there are any data: show a no data message -->
 <ng-template #noData>

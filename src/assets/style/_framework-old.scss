@@ -22,7 +22,7 @@
   position: fixed;
   width: 100vw;
   z-index: 100;
-  @include md-box-shadow-deep();
+  @include mat-box-shadow-deep();
 
   .mat-toolbar {
     background-color: $bright;
@@ -60,7 +60,7 @@
                 left: 360px;
                 position: absolute;
                 z-index: 1000;
-                md-icon {
+                mat-icon {
                     margin-left: auto;
                     margin-right: auto;
                 }
@@ -97,7 +97,7 @@ $width-sidebar: 400px;
 
       }
 
-      md-toolbar.salsah-module-header {
+      mat-toolbar.salsah-module-header {
 
         .salsah-tab-group {
           margin-bottom: -20px;
@@ -132,7 +132,7 @@ $width-sidebar: 400px;
           height: calc(100vh - 112px - 24px);
         }
 
-        md-toolbar.salsah-module-header {
+        mat-toolbar.salsah-module-header {
           .salsah-tab-group {
             margin-bottom: 0;
           }
@@ -192,7 +192,7 @@ $width-sidebar: 400px;
         position: fixed;
         right: 24px;
       }
-      md-progress-bar {
+      mat-progress-bar {
         padding: 0;
         //        width: calc(100vw - 400px);
         //        margin-left: -24px;

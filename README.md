@@ -19,9 +19,8 @@ You find more information about Salsah on:
 ## Developer Environment
 
 ```
-WARNING (2017/07/04): we updated the angular-cli and other packages to the latest version.
-If you have already installed Salsah 2, please follow the update instructions here: 
-https://github.com/angular/angular-cli#updating-angular-cli
+WARNING (2017/10/16): we updated the npm packages to the latest version.
+There were big changes in the @angular/material. Please be sure to update your node_modules with npm install
 ```
 
 If you're a developer and you want to improve the app, please have a look at the developer guideline first:
@@ -34,7 +33,7 @@ We develop the Salsah app with Angular (v4), especially with Angular-cli, which 
 
 **Install [angular-cli](https://github.com/angular/angular-cli) globally**
 
-`npm install -g @angular/cli@1.2.0`
+`npm install -g @angular/cli@1.4.7`
 
 If there are some permission issues, try to fix the writing rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`
 

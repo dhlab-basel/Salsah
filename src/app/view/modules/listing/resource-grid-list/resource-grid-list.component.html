@@ -1,18 +1,18 @@
-<md-grid-list class="salsah-grid-list" [cols]="cols" gutterSize="12px" rowHeight="480px">
-    <md-grid-tile *ngFor="let res of result.subjects; let i = index"
+<mat-grid-list class="salsah-grid-list" [cols]="cols" gutterSize="12px" rowHeight="480px">
+    <mat-grid-tile *ngFor="let res of result.subjects; let i = index"
                   (click)="open(res.obj_id, i)"
                   [id]="res.obj_id">
 
-        <md-card [class.highlight]="i == selectedRow"
+        <mat-card [class.highlight]="i == selectedRow"
                  class="salsah-link">
-            <img md-card-image [src]="res.preview_path" class="salsah-preview-image" />
+            <img mat-card-image [src]="res.preview_path" class="salsah-preview-image" />
 
-            <md-card-content>
-                <md-card-title>{{res.value[0] | slice:0:40}}</md-card-title>
-                <md-card-subtitle class="salsah-preview-text">{{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}</md-card-subtitle>
-            </md-card-content>
+            <mat-card-content>
+                <mat-card-title>{{res.value[0] | slice:0:40}}</mat-card-title>
+                <mat-card-subtitle class="salsah-preview-text">{{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}</mat-card-subtitle>
+            </mat-card-content>
 
-        </md-card>
+        </mat-card>
 
-    </md-grid-tile>
-</md-grid-list>
+    </mat-grid-tile>
+</mat-grid-list>
