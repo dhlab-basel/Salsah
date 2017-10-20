@@ -25,7 +25,7 @@ export class ExtendedSearchComponent implements OnInit {
 
         // TODO: Create this Sparql from a GUI-form
         let sparql = `
-            PREFIX beol: <http://api.knora.org/ontology/beol/simple/v2#>
+            PREFIX beol: <http://0.0.0.0:3333/ontology/beol/simple/v2#>
             PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
     
             CONSTRUCT {
