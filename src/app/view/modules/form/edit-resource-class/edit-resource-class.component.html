@@ -31,196 +31,175 @@
     <!-----------Here we will use cards for each resource and property, which will be collapsible------------>
     <!-----------Each card will have its own save button----------------------------------------------------->
 
+        <mat-accordion class="headers-align">
+            <mat-expansion-panel hideToggle="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <span>Resource: {{resType.label}}</span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <span>Click to edit the resource name</span>
+                            <mat-icon>{{resType.icon}}</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-form-field>
+                    <input matInput
+                           placeholder="Resource Type"
+                           name="name"
+                           [(ngModel)]="resType.label"
+                           value="{{resType.label}}">
+                </mat-form-field>
+                <mat-form-field>
+                    <textarea matInput
+                           placeholder="Resource description"
+                           name="resDescription"
+                           [id]="resType.description"
+                           [(ngModel)]="resType.description"
+                           [value]="resType.description"></textarea>
+                </mat-form-field>
+                <mat-action-row>
+                    <button mat-button color="warn" >Cancel</button>
+                    <button mat-raised-button
+                            class="save-button"
+                            [color]="'primary'"
+                            type="submit">
+                        Save
+                    </button>
+                </mat-action-row>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <h5>Properties</h5>
+        <mat-accordion class="headers-align">
+            <mat-expansion-panel *ngFor="let prop of resType.properties; let i = index">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <span>{{prop.label}}</span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <span>Click to edit the property "{{prop.label}}"</span>
+                        {{prop.icon}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-form-field class="full-width">
+                    <input matInput
+                           placeholder="Property name"
+                           name="propertyName"
+                           [id]="prop.label"
+                           [(ngModel)]="prop.label"
+                           [value]="prop.label">
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <textarea matInput
+                           placeholder="Property description"
+                           name="propDescription"
+                           [id]="prop.description"
+                           [(ngModel)]="prop.description"
+                           [value]="prop.description"></textarea>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-select     placeholder="GUI element"
+                                    [(ngModel)]="prop.gui_name"
+                                    name="GUI type"
+                                    (change)="setGUI(i, $event)">
+                        <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
+                            {{guiItem}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input matInput
+                           placeholder="Attributes"
+                           name="attributes"
+                           [id]="prop.attributes"
+                           [(ngModel)]="prop.attributes"
+                           [value]="prop.attributes">
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input matInput
+                           placeholder="Id"
+                           name="id"
+                           [id]="prop.id"
+                           [(ngModel)]="prop.id"
+                           disabled value="prop.id">
+                </mat-form-field>
+                <div class="full-width">
+                    <div class="salsah-placeholder">
+                        Occurrence </div>
+                <mat-button-toggle-group #group="matButtonToggleGroup"
+                                         [(ngModel)]="prop.occurrence"
+                                         name="Occurrence"
+                                         (change)="setOcc(i, $event)">
+                    <mat-button-toggle *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
+                            {{cardinality}}
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+                <div class="mat-caption">Selected value: {{group.value}}</div>
+                </div>
+                <br>
+                <mat-form-field class="full-width">
+                    <input matInput
+                           placeholder="Value type id"
+                           name="valuetype_id"
+                           [id]="prop.valuetype_id"
+                           [(ngModel)]="prop.valuetype_id"
+                           disabled value="prop.valuetype_id">
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-select class="full-width"
+                                placeholder="Vocabulary"
+                                [(ngModel)]="prop.vocabulary"
+                                name="Vocabulary"
+                                (change)="setVoc(i, $event)"
+                                disabled>
+                        <mat-option *ngFor="let project of projectsList" [value]="project.ontologyNamedGraph">
+                            {{project.description}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-action-row>
+                    <button mat-button color="warn" >Cancel</button>
+                    <button mat-raised-button
+                            class="save-button"
+                            [color]="'primary'"
+                            type="submit">
+                        Save
+                    </button>
+                </mat-action-row>
+            </mat-expansion-panel>
+            <mat-expansion-panel hideToggle="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <span>Add new property</span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <span>Add new or create a custom property</span>
+                        <mat-icon>add</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-action-row>
+                    <button mat-button color="warn" >Cancel</button>
+                    <button mat-raised-button
+                            class="save-button"
+                            [color]="'primary'"
+                            type="submit">
+                        Save
+                    </button>
+                </mat-action-row>
+            </mat-expansion-panel>
+        </mat-accordion>
 
-    <mat-accordion class="headers-align">
-        <mat-expansion-panel hideToggle="true">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <span>Resource: {{resType.label}}</span>
-                </mat-panel-title>
-                <mat-panel-description>
-                    <span>Click to edit the resource name</span>
-                        <mat-icon>{{resType.icon}}</mat-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <mat-form-field>
-                <input matInput
-                       placeholder="Resource Type"
-                       name="name"
-                       [(ngModel)]="resType.label"
-                       value="{{resType.label}}">
-            </mat-form-field>
-            <mat-form-field>
-                <textarea matInput
-                       placeholder="Resource description"
-                       name="resDescription"
-                       [id]="resType.description"
-                       [(ngModel)]="resType.description"
-                       [value]="resType.description"></textarea>
-            </mat-form-field>
-            <mat-action-row>
-                <button mat-button color="warn" >Cancel</button>
-                <button mat-button color="primary" >Save</button>
-            </mat-action-row>
-        </mat-expansion-panel>
-    </mat-accordion>
-    <h5>Properties</h5>
-    <mat-accordion class="headers-align">
-        <mat-expansion-panel *ngFor="let prop of resType.properties; let i = index">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <span>{{prop.label}}</span>
-                </mat-panel-title>
-                <mat-panel-description>
-                    <span>Click to edit the property "{{prop.label}}"</span>
-                    {{prop.icon}}
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <mat-form-field>
-                <input matInput
-                       placeholder="Property name"
-                       name="propertyName"
-                       [id]="prop.label"
-                       [(ngModel)]="prop.label"
-                       [value]="prop.label">
-            </mat-form-field>
-            <mat-form-field>
-                <textarea matInput
-                       placeholder="Property description"
-                       name="propDescription"
-                       [id]="prop.description"
-                       [(ngModel)]="prop.description"
-                       [value]="prop.description"></textarea>
-
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput
-                       placeholder="Attributes"
-                       name="attributes"
-                       [id]="prop.attributes"
-                       [(ngModel)]="prop.attributes"
-                       [value]="prop.attributes">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-select     [placeholder]="prop.gui_name"
-                                [(ngModel)]="prop.gui_name"
-                                name="GUI type"
-                                (change)="setGUI(i, $event)">
-                    <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
-                        {{guiItem}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput
-                       placeholder="Id"
-                       name="id"
-                       [id]="prop.id"
-                       [(ngModel)]="prop.id"
-                       disabled value="prop.id">
-            </mat-form-field>
-            <div class="caption">
-            Occurence <br>
-            <mat-button-toggle-group #group="matButtonToggleGroup"
-                                     placeholder="Occurrence"
-                                     [(ngModel)]="prop.occurrence"
-                                     name="Occurrence"
-                                     (change)="setOcc(i, $event)"
-                                     (selected)="setOcc(i, $event)">
-                <mat-button-toggle *ngFor="let cardinality of cardinalityList;" [value]="cardinality">
-                        {{cardinality}}
-                </mat-button-toggle>
-            </mat-button-toggle-group>
-            <div class="caption">Selected value: {{group.value}}</div>
-            </div>
-            <br>
-            <mat-form-field class="full-width">
-                <input matInput
-                       placeholder="Value type id"
-                       name="valuetype_id"
-                       [id]="prop.valuetype_id"
-                       [(ngModel)]="prop.valuetype_id"
-                       disabled value="prop.valuetype_id">
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <mat-select class="full-width"
-                            placeholder="Vocabulary"
-                            [(ngModel)]="prop.vocabulary"
-                            name="Vocabulary"
-                            (change)="setVoc(i, $event)"
-                            disabled>
-                    <mat-option *ngFor="let project of projectsList" [value]="project.ontologyNamedGraph">
-                        {{project.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-action-row>
-                <button mat-button color="warn" >Cancel</button>
-                <button mat-button color="primary" >Save</button>
-            </mat-action-row>
-        </mat-expansion-panel>
-        <mat-expansion-panel hideToggle="true">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <span>Add new property</span>
-                </mat-panel-title>
-                <mat-panel-description>
-                    <span>Add new or create a custom property</span>
-                    <mat-icon>add</mat-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <mat-action-row>
-                <button mat-button color="warn" >Cancel</button>
-                <button mat-button color="primary" >Save</button>
-            </mat-action-row>
-        </mat-expansion-panel>
-    </mat-accordion>
-
-
-
-
-
-
-
-
-
-
-
-
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-
-
-
-    <!------------------------------------Edit resource properties!  We use cards  ------------------------------------------------>
-    <br>
-    <section>
-    <mat-card  *ngFor="let prop of resType.properties; let i = index">
-        <mat-card-header>
-            <h4>{{prop.label}}</h4>
-
-        </mat-card-header>
-        <!-- toggle only card content -->
-        <div>
-                    <form #editProp="ngForm" (ngSubmit)="onSubmit(editProp.value)" class="salsah-form">
-                        <br>
-                        <mat-card-content>
-                        </mat-card-content>
-
-                        <mat-card-actions>
-                            <button mat-raised-button
-                                    class="save-button"
-                                    [color]="'primary'"
-                                    type="submit">
-                                Save
-                            </button>
-                        </mat-card-actions>
-                    </form>
-        </div>
-    </mat-card>
-        <br><br><br>
-    </section>
 </section>
+
+
+
+
+
+
+
+
+
+
+
 
 
 <footer class="footer">

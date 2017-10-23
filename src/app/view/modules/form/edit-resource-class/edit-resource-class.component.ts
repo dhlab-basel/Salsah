@@ -53,9 +53,6 @@ export class EditResourceClassComponent implements OnChanges {
 
     editResource: boolean;
 
-    focusOnResourceEdit: string = 'inactive';
-    focusOnPropertiesEdit: string = 'inactive';
-
     editResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
 
     guiItems: string[] = [
@@ -66,7 +63,9 @@ export class EditResourceClassComponent implements OnChanges {
         "number field",
         "date field",
         "searchbox",
-        "file upload"
+        "file upload",
+        "date",
+        "radio"
     ];
 
     cardinalityList: string[] = [
@@ -108,7 +107,7 @@ export class EditResourceClassComponent implements OnChanges {
                 (result: ApiServiceResult) => {
                     this.projectsList = result.getBody(ProjectsList).projects;
                 }
-            )
+    )
 
     }
 
