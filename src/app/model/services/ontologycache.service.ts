@@ -8,6 +8,17 @@ declare let require: any; // http://stackoverflow.com/questions/34730010/angular
 let jsonld = require('jsonld');
 
 /**
+ * Represents an error occurred in OntologyCacheService.
+ */
+class OntologyCacheError extends Error {
+
+    constructor(readonly message: string) {
+        super(message)
+    }
+
+}
+
+/**
  * Occurrence of a property for resource class.
  */
 enum CardinalityOccurrence {
@@ -234,6 +245,10 @@ export class OntologyCacheService {
     constructor(private _ontologyService: OntologyService) {
     }
 
+    // properties that Knora is not responsible for and
+    // that have to be ignored because they cannot be resolved at the moment
+    private excludedProperties: Array<string> = [AppConfig.schemaName];
+
     private cacheOntology: OntologyCache = new OntologyCache();
 
     /**
@@ -399,6 +414,8 @@ export class OntologyCacheService {
 
         for (let namedGraphIri of namedGraphIris) {
 
+            if (this.cacheOntology.resourceClassesForNamedGraph[namedGraphIri] === undefined) throw new OntologyCacheError(`getResourceClassesForNamedGraphsFromCache: named graph not found in cache: ${namedGraphIri}`);
+
             // add information for the given named graph
             resourceClassesForNamedGraphs[namedGraphIri] = this.cacheOntology.resourceClassesForNamedGraph[namedGraphIri];
 
@@ -494,13 +511,17 @@ export class OntologyCacheService {
 
         resClassIris.forEach(
             resClassIri => {
+
+                if (this.cacheOntology.resourceClasses[resClassIri] === undefined) throw new OntologyCacheError(`getResourceClassDefinitionsFromCache: resource class not found in cache: ${resClassIri}`);
+
                 // add resource class definition to answer
                 resClassDefs[resClassIri] = this.cacheOntology.resourceClasses[resClassIri];
 
                 // get properties for the current resource class
                 this.cacheOntology.resourceClasses[resClassIri].cardinalities.forEach(
-                    card =>
+                    card => {
                         propertyIris.push(card.property)
+                    }
                 )
             }
         );
@@ -552,8 +573,15 @@ export class OntologyCacheService {
         let propertyDefs = new Properties();
 
         propertyIris.forEach(
-            propIri =>
-                propertyDefs[propIri] = this.cacheOntology.properties[propIri]
+            propIri => {
+
+                // ignore non Knora props: if propIri is contained in excludedProperties, skip this propIri
+                if (this.excludedProperties.indexOf(propIri) > -1) return;
+
+                if (this.cacheOntology.properties[propIri] === undefined) throw new OntologyCacheError(`getPropertyDefinitionsFromCache: property not found in cache: ${propIri}`);
+
+                if (this.cacheOntology.properties[propIri] !== undefined) propertyDefs[propIri] = this.cacheOntology.properties[propIri];
+            }
         );
 
         return new OntologyInformation(new ResourceClassesForNamedGraph(), new ResourceClasses(), propertyDefs);

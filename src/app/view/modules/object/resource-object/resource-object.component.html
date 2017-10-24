@@ -41,7 +41,7 @@
         <ul>
             <li *ngFor="let incomingLinkSourceRes of resource.incomingLinks">
                 <span matTooltip="{{incomingLinkSourceRes.label}} {{ontologyInfo?.getLabelForResourceClass(incomingLinkSourceRes.type)}}" (click)="showSourceOfIncomingLinkInDialog(incomingLinkSourceRes.id)">
-                    <span>{{incomingLinkSourceRes.label}}</span>
+                    {{incomingLinkSourceRes.label}} {{getIncomingPropertiesFromIncomingResource(incomingLinkSourceRes)}}
                 </span>
             </li>
         </ul>

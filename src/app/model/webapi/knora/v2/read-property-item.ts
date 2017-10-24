@@ -108,7 +108,7 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
 
             return this.referredResources[resourceIri].label + ` (${resClassLabel})`;
         } else {
-            return "no information found"
+            return "no information found about referred resource (target of standoff link)"
         }
     }
 
@@ -131,8 +131,8 @@ export class ReadTextValueAsXml implements ReadPropertyItem {
 
     getContent(): string {
 
-        // return XML als plain text (escape markup)
-        return escape(this.xml);
+        // return XML als plain text
+        return this.xml;
     };
 
     getClassName(): string {
