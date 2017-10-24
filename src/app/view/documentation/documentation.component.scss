@@ -1,4 +1,8 @@
+@import '../../../assets/style/config';
+
 iframe {
-  height: 100vh;
+  border: none;
+  margin-bottom: -4px;
+  height: calc(100vh - #{$header-height} - (#{$footer-height} + 0px));
   width: 100%;
 }
