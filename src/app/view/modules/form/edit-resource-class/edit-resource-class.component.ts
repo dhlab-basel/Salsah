@@ -53,7 +53,30 @@ export class EditResourceClassComponent implements OnChanges {
 
     editResource: boolean;
 
-    editResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
+    public editResFormLabels: any = {
+        label: 'Resource',
+        description:'Click to edit the resource name',
+        resource: {
+            label: 'Resource label',
+            description: 'Resource description',
+            properties: {
+                formLabel: 'Properties',
+                formDescription: 'Click to edit the property',
+                label: 'Property name',
+                description: 'Property description',
+                gui: 'GUI element',
+                attributes: 'GUI attributes',
+                id: 'Property ID',
+                occurence: 'Occurrence',
+                valuetype_id: 'Value type ID',
+                vocabulary: 'Vocabulary'
+            }
+        },
+        addProp:{
+            label: 'Add new property',
+            description: 'Add new or create a custom property'
+        }
+};
 
     guiItems: string[] = [
         "text",
@@ -66,15 +89,13 @@ export class EditResourceClassComponent implements OnChanges {
         "file upload",
         "date",
         "radio"
-    ];
-
+        ];
     cardinalityList: string[] = [
         "1",
         "1-n",
         "0-1",
         "0-n"
-    ];
-
+        ];
 
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _projectsService: ProjectsService) {
@@ -90,7 +111,6 @@ export class EditResourceClassComponent implements OnChanges {
                     this.resType = result.getBody(ResourceType).restype_info;
 //                    let tmpResTypeInfo: ResourceTypeInfo = result.getBody(ResourceTypeInfo);
                     this.selectedRow = this.index;
-                    this.editResourceClass.properties= this.resType.properties;
 
                     // disable the progress loader of the submodule
 //                    this.loadingSubmodule.emit(this.isLoadingSubModule);
@@ -119,29 +139,39 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
     //form functions
-    onSubmit(data: any): void {
-        console.log('your new resource is:', this.resType);
-//        this.dialog.closeAll();
+
+    submitResEdit(): void {
+        if (this.resType !== undefined) {
+            console.log('Your submitted data is: Resource label:', this.resType.label, ' Resource description: ' ,this.resType.description);
+        }
     }
 
-    resEdit: any;
-    propEdit: any;
+    submitPropEdit(index: number, event): void {
+        if (this.resType.properties[index] !== undefined) {
+            console.log('Your submitted property is:', this.resType.properties[index]);
+        }
+    }
+
+    onSubmit(data: any): void {
+        console.log('you submitted value:', data);
+    }
+
 
 
     //sets default values from json files on mat-select
     setGUI(index: number, event) {
-        if (this.editResourceClass.properties[index] !== undefined) {
-            this.editResourceClass.properties[index].gui_name = event.value;
+        if (this.resType.properties[index] !== undefined) {
+            this.resType.properties[index].gui_name = event.value;
         }
     }
     setOcc(index: number, event) {
-        if (this.editResourceClass.properties[index] !== undefined) {
-            this.editResourceClass.properties[index].occurrence = event.value;
+        if (this.resType.properties[index] !== undefined) {
+            this.resType.properties[index].occurrence = event.value;
         }
     }
     setVoc(index: number, event) {
-        if (this.editResourceClass.properties[index] !== undefined) {
-            this.editResourceClass.properties[index].vocabulary = event.value;
+        if (this.resType.properties[index] !== undefined) {
+            this.resType.properties[index].vocabulary = event.value;
         }
     }
 
