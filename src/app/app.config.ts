@@ -24,6 +24,7 @@ export class AppConfig {
     public static KnoraApiV2WithValueObjectPath: string = 'http://api.knora.org/ontology/knora-api/v2#';
 
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
+    public static hasShortname = AppConfig.KnoraApiV2WithValueObjectPath + 'hasShortname';
     public static hasOntologiesWithClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithClasses';
 
 //    public static hasOntologiesWithResourceClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithResourceClasses';

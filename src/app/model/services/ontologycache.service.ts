@@ -19,6 +19,18 @@ class OntologyCacheError extends Error {
 }
 
 /**
+ * Represents a named graph.
+ */
+export class NamedGraph {
+
+    constructor(readonly id: string,
+                readonly shortname: string) {
+
+    }
+
+}
+
+/**
  * Occurrence of a property for resource class.
  */
 enum CardinalityOccurrence {
@@ -101,9 +113,9 @@ class OntologyCache {
     }
 
     /**
-     * An Array of all named graph Iris.
+     * An Array of all named graphs (ontologies).
      */
-    namedGraphs: Array<string>;
+    namedGraphs: Array<NamedGraph>;
 
     /**
      * A list of all resource class Iris for a named graph.
@@ -256,7 +268,7 @@ export class OntologyCacheService {
      *
      @returns {Observable<any>} an Observable representing the required information.
      */
-    private getNamedGraphIrisFromKnora(): Observable<any> {
+    private getNamedGraphIrisFromKnora(): Observable<object> {
         let ontResponse = this._ontologyService.getNamedGraphIris().flatMap(
             // this would return an Observable of a PromiseObservable -> combine them into one Observable
             // http://reactivex.io/documentation/operators/flatmap.html
@@ -358,12 +370,17 @@ export class OntologyCacheService {
     }
 
     /**
-     * Writes all the named graph Iris returned by Knora to the cache.
+     * Writes all the named graphs returned by Knora to the cache.
      *
-     * @param {string[]} namedGraphIris all named graph Iris.
+     * @param {string[]} namedGraphs all named graph Iris.
      */
-    private convertAndWriteKnoraAllNamedGraphIrisToCache(namedGraphIris: string[]) {
-        this.cacheOntology.namedGraphs = namedGraphIris;
+    private convertAndWriteKnoraAllNamedGraphIrisToCache(namedGraphs: object[]) {
+
+        this.cacheOntology.namedGraphs = namedGraphs.map(
+            namedGraph => {
+                return new NamedGraph(namedGraph['@id'], namedGraph[AppConfig.hasShortname]);
+            }
+        );
     }
 
     /**
@@ -371,7 +388,7 @@ export class OntologyCacheService {
      *
      * @returns {Array<string>}
      */
-    private getAllNamedGraphsFromCache(): Array<string> {
+    private getAllNamedGraphsFromCache(): Array<NamedGraph> {
 
         return this.cacheOntology.namedGraphs;
 
@@ -593,7 +610,7 @@ export class OntologyCacheService {
      *
      * @returns {Observable<Array<string>>}
      */
-    public getAllNamedGraphIris(): Observable<Array<string>> {
+    public getAllNamedGraphIris(): Observable<Array<NamedGraph>> {
 
         if (this.cacheOntology.namedGraphs.length == 0) {
             return this.getNamedGraphIrisFromKnora().map(
@@ -613,7 +630,7 @@ export class OntologyCacheService {
     /**
      * Get the entity definitions fro the given named graph Iris (ontologies).
      *
-     * @param {string[]} namedGraphIri the given named graph Iris.
+     * @param {string[]} namedGraphIris the given named graph Iris.
      */
     public getResourceClassesForNamedGraphs(namedGraphIris: string[]): Observable<OntologyInformation> {
 

@@ -1,4 +1,11 @@
 <div>
-    <button md-button (click)="performExtendedSearch()">Do Search</button>
+    Extended Search Form:
+    <div>
+        <mat-form-field *ngIf="namedGraphs !== undefined">
+            <mat-select placeholder="Ontology">
+                <mat-option *ngFor="let namedGraph of namedGraphs" [value]="namedGraph.id">{{ namedGraph.shortname }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
 </div>
 
