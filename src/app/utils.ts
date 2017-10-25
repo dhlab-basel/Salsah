@@ -12,6 +12,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+import {AppConfig} from "./app.config";
+
 /**
  * Collection of useful utility functions.
  */
@@ -34,6 +36,23 @@ export class Utils {
         // -> this means that there is no identical element before this index, hence it is not a duplicate
         // for all other elements, false is returned
         return index == self.indexOf(elem);
+    }
+
+    /**
+     * Given a Knora entity IRI, gets the ontology Iri.
+     *
+     * @param {string} entityIri an entity Iri.
+     * @return {string} the ontology IRI
+     */
+    public static getOntologyIriFromClass(entityIri: string) {
+
+        // split class Iri on "#"
+        let segments: string[] = entityIri.split(AppConfig.PathSeparator);
+
+        if (segments.length != 2) console.log(`Error: ${entityIri} is not a valid entity IRI.`)
+
+        return segments[0];
+
     }
 
 

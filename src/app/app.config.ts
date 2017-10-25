@@ -21,7 +21,9 @@ export class AppConfig {
     public static ProjectAdminGroup: string = AppConfig.KnoraBase + '#ProjectAdmin';
     public static ProjectMemberGroup: string = AppConfig.KnoraBase + '#ProjectMember';
 
-    public static KnoraApiV2WithValueObjectPath: string = 'http://api.knora.org/ontology/knora-api/v2#';
+    public static PathSeparator = "#";
+
+    public static KnoraApiV2WithValueObjectPath: string = 'http://api.knora.org/ontology/knora-api/v2' + AppConfig.PathSeparator;
 
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
     public static hasShortname = AppConfig.KnoraApiV2WithValueObjectPath + 'hasShortname';
