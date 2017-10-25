@@ -1,8 +1,8 @@
 <div>
     Extended Search Form:
     <div>
-        <mat-form-field *ngIf="namedGraphs !== undefined">
-            <mat-select placeholder="Ontology">
+        <mat-form-field *ngIf="namedGraphs.length > 0">
+            <mat-select placeholder="Ontology" (change)="getClassesForOntology($event)">
                 <mat-option *ngFor="let namedGraph of namedGraphs" [value]="namedGraph.id">{{ namedGraph.shortname }}</mat-option>
             </mat-select>
         </mat-form-field>

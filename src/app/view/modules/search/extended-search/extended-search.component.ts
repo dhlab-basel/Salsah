@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {OntologyCacheService, OntologyInformation, NamedGraph} from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
+import {MatSelectChange} from "@angular/material";
 
 
 @Component({
@@ -11,7 +12,7 @@ import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-reso
 })
 export class ExtendedSearchComponent implements OnInit {
 
-    namedGraphs: Array<NamedGraph>;
+    namedGraphs: Array<NamedGraph> = [];
 
     result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
     ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
@@ -37,6 +38,20 @@ export class ExtendedSearchComponent implements OnInit {
                 this.namedGraphs = namedGraphs;
 
             });
+    }
+
+    getClassesForOntology(change: MatSelectChange) {
+
+        let ontologyIri: string = change.value;
+
+        this._cacheService.getResourceClassesForNamedGraphs([ontologyIri]).subscribe(
+            (ontoInfo: OntologyInformation) => {
+
+                console.log(ontoInfo);
+
+            }
+        );
+
     }
 
     /**

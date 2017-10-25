@@ -27,9 +27,6 @@ export class AppConfig {
     public static hasShortname = AppConfig.KnoraApiV2WithValueObjectPath + 'hasShortname';
     public static hasOntologiesWithClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithClasses';
 
-//    public static hasOntologiesWithResourceClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithResourceClasses';
-//    public static hasResourceClasses: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasResourceClasses';
-
     public static hasClasses: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasClasses';
 
     public static hasProperties: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasProperties';
@@ -44,6 +41,8 @@ export class AppConfig {
     public static ObjectClassConstraint = AppConfig.KnoraApiV2WithValueObjectPath + 'objectClassConstraint';
     public static OwlRestriction = 'http://www.w3.org/2002/07/owl#Restriction';
 
+    public static creationDate = AppConfig.KnoraApiV2WithValueObjectPath + 'creationDate';
+    public static hasPermissions = AppConfig.KnoraApiV2WithValueObjectPath + 'hasPermissions';
 
     public static Region = AppConfig.KnoraApiV2WithValueObjectPath + 'Region';
 

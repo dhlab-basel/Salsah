@@ -259,7 +259,7 @@ export class OntologyCacheService {
 
     // properties that Knora is not responsible for and
     // that have to be ignored because they cannot be resolved at the moment
-    private excludedProperties: Array<string> = [AppConfig.schemaName];
+    private excludedProperties: Array<string> = [ AppConfig.schemaName ];
 
     private cacheOntology: OntologyCache = new OntologyCache();
 
@@ -645,7 +645,7 @@ export class OntologyCacheService {
             return this.getResourceClassDefinitionsForNamedGraphsFromKnora(namedGraphIrisToQuery).map(
                 ontRes => {
 
-                    // write resource classes for named graph to cache (inlcuding resource class definitions and properties)
+                    // write resource classes for named graph to cache (including resource class definitions and properties)
                     this.convertAndWriteKnoraResourceClassesForNamedGraphsToCache(ontRes[AppConfig.hasOntologiesWithClasses], ontRes[AppConfig.hasClasses], ontRes[AppConfig.hasProperties]);
 
                     return this.getResourceClassesForNamedGraphsFromCache(namedGraphIris);
