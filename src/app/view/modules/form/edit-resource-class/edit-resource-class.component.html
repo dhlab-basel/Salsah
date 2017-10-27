@@ -2,14 +2,11 @@
     <h3>{{resType.label}}</h3>
     <p>{{resType.description}}</p>
     <form>
-        <mat-list class="list-group" matTooltip="You can sort this list with drag and drop" dnd-sortable-container
-                  [sortableData]="resType.properties">
+        <mat-list class="list-group" >
 
-            <!--TODO assign i to prop.guiorder  -->
 
             <mat-list-item *ngFor="let prop of resType.properties; let i = index"
-                           class="list-group-item"
-                           dnd-sortable [sortableIndex]="i">
+                           class="list-group-item">
                 <h4 mat-line>{{prop.label}}</h4>
                 <p mat-line>{{prop.description}}</p>
                 <p mat-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
@@ -17,9 +14,6 @@
         </mat-list>
     </form>
     <mat-divider></mat-divider>
-    <p class="mute">My classes:<br/>
-        <span *ngFor="let prop of resType.properties; let i = index">{{i + 1}}) {{prop.label}}<br/></span>
-
 </section>
 
 <!------------------------------------------------------------------------------------------------------->
@@ -32,7 +26,7 @@
     <!-----------Each card will have its own save button----------------------------------------------------->
 
         <mat-accordion class="headers-align">
-            <mat-expansion-panel hideToggle="true">
+            <mat-expansion-panel hideToggle="true" >
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         <span>{{editResFormLabels.label}}: {{resType.label}}</span>
@@ -58,7 +52,11 @@
                            [value]="resType.description"></textarea>
                 </mat-form-field>
                 <mat-action-row>
-                    <button mat-button color="warn" >Cancel</button>
+                    <button mat-button
+                            color="warn"
+                            (click)="updateView()">
+                        Cancel
+                    </button>
                     <button mat-raised-button
                             class="save-button"
                             [color]="'primary'"
@@ -71,9 +69,13 @@
 
     <!Edit properties -->
     <h5>{{editResFormLabels.resource.properties.formLabel}}</h5>
-        <mat-accordion class="headers-align">
-            <mat-expansion-panel *ngFor="let prop of resType.properties; let i = index">
-                <mat-expansion-panel-header>
+        <mat-accordion class="headers-align"
+                       matTooltip="You can sort this list with drag and drop"
+                       dnd-sortable-container
+                       [sortableData]="resType.properties">
+            <mat-expansion-panel *ngFor="let prop of resType.properties; let i = index"  >
+                <mat-expansion-panel-header dnd-sortable [sortableIndex]="i">
+                    <!--TODO assign i to prop.guiorder  -->
                     <mat-panel-title>
                         <span>{{prop.label}}</span>
                     </mat-panel-title>
@@ -114,7 +116,6 @@
                            name="attributes"
                            [id]="prop.attributes"
                            [(ngModel)]="prop.attributes"
-
                            [value]="prop.attributes">
                 </mat-form-field>
                 <mat-form-field class="full-width">
@@ -160,7 +161,11 @@
                     </mat-select>
                 </mat-form-field>
                 <mat-action-row>
-                    <button mat-button color="warn" >Cancel</button>
+                    <button mat-button
+                            color="warn"
+                            >
+                        Reset
+                    </button>
                     <button mat-raised-button
                             class="save-button"
                             [color]="'primary'"
@@ -168,9 +173,11 @@
                         Save
                     </button>
                 </mat-action-row>
-            </mat-expansion-panel>
+                </mat-expansion-panel>
 
-            <!Add new property -->
+<!------------------------------------------------------------------------------------------------------->
+<!------------------------------------Add new property   ------------------------------------------------>
+<!------------------------------------------------------------------------------------------------------->
             <mat-expansion-panel hideToggle="true" >
                 <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -256,8 +263,12 @@
                     </mat-select>
                 </mat-form-field>
                     <mat-action-row>
-                    <button mat-button color="warn" >Cancel</button>
-                    <button mat-raised-button
+                        <button mat-button
+                                color="warn"
+                                (click)="updateView()">
+                            Reset
+                        </button>
+                        <button mat-raised-button
                             class="save-button"
                             [color]="'primary'"
                             type="submit">

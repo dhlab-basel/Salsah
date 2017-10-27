@@ -13,6 +13,7 @@
  * */
 
 import {Component, EventEmitter, OnChanges, Input, Output} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ResourceTypesService} from "../../../../model/services/resource-types.service";
@@ -52,6 +53,9 @@ export class EditResourceClassComponent implements OnChanges {
     selectedRow: number;
 
     editResource: boolean;
+
+    propCtrl: FormControl;
+
 
     public editResFormLabels: any = {
         label: 'Resource',
@@ -154,6 +158,11 @@ export class EditResourceClassComponent implements OnChanges {
 
     onSubmit(data: any): void {
         console.log('you submitted value:', data);
+    }
+
+    //reset to original values
+    reset(): void {
+        this.propCtrl.reset();
     }
 
 
