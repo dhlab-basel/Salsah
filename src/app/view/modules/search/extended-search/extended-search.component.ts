@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {OntologyCacheService, OntologyInformation, NamedGraph} from "../../../../model/services/ontologycache.service";
+import {OntologyCacheService, OntologyInformation, ResourceClass, Property, NamedGraph} from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
-import {MatSelectChange} from "@angular/material";
 
 
 @Component({
@@ -13,9 +12,10 @@ import {MatSelectChange} from "@angular/material";
 export class ExtendedSearchComponent implements OnInit {
 
     namedGraphs: Array<NamedGraph> = [];
+    resourceClasses: Array<ResourceClass> = [];
+    properties: Array<Property> = [];
 
     result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
-    ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
@@ -24,7 +24,7 @@ export class ExtendedSearchComponent implements OnInit {
 
     ngOnInit() {
 
-        // initialize ontologies to be sued for search form
+        // initialize ontologies to be used for search form
         this.initializeOntologies();
     }
 
@@ -40,17 +40,34 @@ export class ExtendedSearchComponent implements OnInit {
             });
     }
 
-    getClassesForOntology(change: MatSelectChange) {
-
-        let ontologyIri: string = change.value;
+    getClassesForOntology(ontologyIri: string) {
 
         this._cacheService.getResourceClassesForNamedGraphs([ontologyIri]).subscribe(
             (ontoInfo: OntologyInformation) => {
 
-                console.log(ontoInfo);
+                this.resourceClasses = ontoInfo.getResourceClassesAsArray();
+
+                this.properties = ontoInfo.getPropertiesAsArray();
+
 
             }
         );
+
+    }
+
+    getPropertiesForClass(resourceClassIri: string) {
+
+        this._cacheService.getResourceClassDefinitions([resourceClassIri]).subscribe(
+            (ontoInfo) => {
+                this.properties = ontoInfo.getPropertiesAsArray();
+            }
+        );
+
+    }
+
+    chooseProperty(propertyIri) {
+
+        console.log(propertyIri);
 
     }
 

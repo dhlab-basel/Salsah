@@ -1,0 +1,5 @@
+<mat-form-field *ngIf="properties.length > 0">
+    <mat-select placeholder="Properties" (change)="propertyChosen($event)">
+        <mat-option *ngFor="let prop of properties" [value]="prop.id">{{ prop.label }}</mat-option>
+    </mat-select>
+</mat-form-field>

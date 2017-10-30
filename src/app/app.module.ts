@@ -116,6 +116,9 @@ import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geo
 import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
 import {SystemProjectsComponent} from "./view/dashboard/system/system-projects/system-projects.component";
 import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologies/system-ontologies.component";
+import { SelectPropertyComponent } from './view/modules/search/extended-search/select-property/select-property.component';
+import { SelectClassComponent } from './view/modules/search/extended-search/select-class/select-class.component';
+import { SelectGraphComponent } from './view/modules/search/extended-search/select-graph/select-graph.component';
 //
 // import all needed services
 //
@@ -199,6 +202,9 @@ import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologi
         FormCreateComponent,
         FocusDirective,
         ConfirmDialogComponent,
+        SelectPropertyComponent,
+        SelectClassComponent,
+        SelectGraphComponent,
     ],
     imports: [
         BrowserModule,

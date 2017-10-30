@@ -1,0 +1,5 @@
+<mat-form-field *ngIf="namedGraphs.length > 0">
+    <mat-select placeholder="Ontology" (change)="namedGraphChosen($event)">
+        <mat-option *ngFor="let namedGraph of namedGraphs" [value]="namedGraph.id">{{ namedGraph.shortname }}</mat-option>
+    </mat-select>
+</mat-form-field>

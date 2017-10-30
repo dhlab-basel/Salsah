@@ -53,7 +53,7 @@ class Cardinality {
 /**
  * A resource class definition.
  */
-class ResourceClass {
+export class ResourceClass {
     constructor(readonly id: string,
                 readonly ontology: string,
                 readonly icon: string,
@@ -74,7 +74,7 @@ class ResourceClasses {
 /**
  * A property definition.
  */
-class Property {
+export class Property {
     constructor(readonly id: string,
                 readonly ontology: string,
                 readonly objectClassConstraint: string,
@@ -180,17 +180,35 @@ export class OntologyInformation {
      *
      * @returns {ResourceClassesForNamedGraph}
      */
-    getResourceClassForNamedGraph() {
+    getResourceClassForNamedGraph(): ResourceClassesForNamedGraph {
         return this.resourceClassesForNamedGraph;
     }
 
     /**
-     * Get all resource classes.
+     * Get all resource classes as an object.
      *
      * @returns {ResourceClasses}
      */
-    getResourceClasses() {
+    getResourceClasses(): ResourceClasses {
         return this.resourceClasses;
+    }
+
+    /**
+     * Gets all resource classes as an Array.
+     *
+     * @returns {Array<ResourceClass>}
+     */
+    getResourceClassesAsArray(): Array<ResourceClass> {
+
+        let resClasses: Array<ResourceClass> = [];
+
+        for (let resClassIri in this.resourceClasses) {
+            let resClass: ResourceClass = this.resourceClasses[resClassIri];
+            resClasses.push(resClass);
+        }
+
+        return resClasses;
+
     }
 
     /**
@@ -216,12 +234,30 @@ export class OntologyInformation {
     }
 
     /**
-     * Get all properties.
+     * Get all properties as an object.
      *
      * @returns {Properties}
      */
     getProperties() {
         return this.properties;
+    }
+
+    /**
+     * Gets all properties as an Array.
+     *
+     * @returns {Array<Property>}
+     */
+    getPropertiesAsArray() {
+
+        let properties: Array<Property> = [];
+
+        for (let propIri in this.properties) {
+            let prop: Property = this.properties[propIri];
+            properties.push(prop);
+        }
+
+        return properties;
+        
     }
 
     /**
@@ -348,6 +384,7 @@ export class OntologyCacheService {
      * @param propertyIris the property Iris to query for.
      * @returns {Observable<any>}
      */
+
     /*private getPropertyDefinitionsFromKnora(propertyIris: string[]): Observable<object> {
 
         let ontResponse = this._ontologyService.getProperties(propertyIris).flatMap(
