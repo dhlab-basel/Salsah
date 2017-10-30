@@ -85,15 +85,22 @@ export class EditResourceClassComponent implements OnChanges {
     guiItems: string[] = [
         "text",
         "richtext",
-        "text area",
-        "dropdown menu",
-        "number field",
-        "date field",
+        "textarea",
+        "number",
         "searchbox",
-        "file upload",
+        "fileupload",
         "date",
-        "radio"
+        "radio",
+        "hlist",
+        "pulldown",
+        "spinbox",
+        "richtext",
+        "checkbox",
+        "interval",
+        "colorpicker",
+        "geometry"
         ];
+
     cardinalityList: string[] = [
         "1",
         "1-n",
