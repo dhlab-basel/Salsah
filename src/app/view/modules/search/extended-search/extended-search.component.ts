@@ -47,8 +47,13 @@ export class ExtendedSearchComponent implements OnInit {
 
                 this.resourceClasses = ontoInfo.getResourceClassesAsArray();
 
-                this.properties = ontoInfo.getPropertiesAsArray();
+                //console.log(ontoInfo);
 
+                this.properties = ontoInfo.getPropertiesAsArray().filter(prop => {
+                    return prop.isEditable
+                });
+
+                // console.log(this.properties)
 
             }
         );
@@ -59,7 +64,14 @@ export class ExtendedSearchComponent implements OnInit {
 
         this._cacheService.getResourceClassDefinitions([resourceClassIri]).subscribe(
             (ontoInfo) => {
-                this.properties = ontoInfo.getPropertiesAsArray();
+
+                //console.log(ontoInfo);
+
+                this.properties = ontoInfo.getPropertiesAsArray().filter(prop => {
+                    return prop.isEditable
+                });
+
+                // console.log(this.properties)
             }
         );
 
@@ -67,7 +79,7 @@ export class ExtendedSearchComponent implements OnInit {
 
     chooseProperty(propertyIri) {
 
-        console.log(propertyIri);
+        //console.log(propertyIri);
 
     }
 

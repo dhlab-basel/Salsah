@@ -34,13 +34,15 @@ export class AppConfig {
     public static hasProperties: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasProperties';
 
     public static belongsToOntology: string = AppConfig.KnoraApiV2WithValueObjectPath + 'belongsToOntology';
+    public static isEditable: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isEditable';
+
     public static ResourceIcon: string = AppConfig.KnoraApiV2WithValueObjectPath + 'resourceIcon';
 
     public static OwlOnProperty: string = 'http://www.w3.org/2002/07/owl#onProperty';
     public static OwlMaxCardinality: string = 'http://www.w3.org/2002/07/owl#maxCardinality';
     public static OwlMinCardinality: string = 'http://www.w3.org/2002/07/owl#minCardinality';
     public static OwlCardinality: string = 'http://www.w3.org/2002/07/owl#cardinality';
-    public static ObjectClassConstraint = AppConfig.KnoraApiV2WithValueObjectPath + 'objectClassConstraint';
+    public static ObjectType = AppConfig.KnoraApiV2WithValueObjectPath + 'objectType';
     public static OwlRestriction = 'http://www.w3.org/2002/07/owl#Restriction';
 
     public static creationDate = AppConfig.KnoraApiV2WithValueObjectPath + 'creationDate';
@@ -124,6 +126,7 @@ export class AppConfig {
     public static RdfsLabel = 'http://www.w3.org/2000/01/rdf-schema#label';
     public static RdfsComment = 'http://www.w3.org/2000/01/rdf-schema#comment';
     public static RdfsSubclassOf = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
+    public static subPropertyOf: string = 'http://www.w3.org/2000/01/rdf-schema#subPropertyOf';
 
     public static SalsahLink = 'salsah-link';
 

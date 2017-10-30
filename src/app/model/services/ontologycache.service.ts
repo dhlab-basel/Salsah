@@ -77,9 +77,11 @@ class ResourceClasses {
 export class Property {
     constructor(readonly id: string,
                 readonly ontology: string,
-                readonly objectClassConstraint: string,
+                readonly objectType: string,
                 readonly comment: string,
-                readonly label: string) {
+                readonly label: string,
+                readonly subPropertyOf: Array<string>,
+                readonly isEditable: Boolean) {
 
     }
 }
@@ -257,7 +259,7 @@ export class OntologyInformation {
         }
 
         return properties;
-        
+
     }
 
     /**
@@ -610,13 +612,27 @@ export class OntologyCacheService {
             // current property definition
             let curPropDefFromKnora = propertyDefinitionsFromKnora[propDefIri];
 
+            let isEditable = false;
+            if (curPropDefFromKnora[AppConfig.isEditable] !== undefined && curPropDefFromKnora[AppConfig.isEditable] === true) {
+                isEditable = true;
+            }
+
+            let subPropertyOf = [];
+            if (curPropDefFromKnora[AppConfig.subPropertyOf] !== undefined && Array.isArray(curPropDefFromKnora[AppConfig.subPropertyOf])) {
+                subPropertyOf = curPropDefFromKnora[AppConfig.subPropertyOf];
+            } else if (curPropDefFromKnora[AppConfig.subPropertyOf] !== undefined) {
+                subPropertyOf.push(curPropDefFromKnora[AppConfig.subPropertyOf]);
+            }
+
             // create an instance of Property
             let newPropDef = new Property(
                 curPropDefFromKnora['@id'],
                 curPropDefFromKnora[AppConfig.belongsToOntology],
-                curPropDefFromKnora[AppConfig.ObjectClassConstraint],
+                curPropDefFromKnora[AppConfig.ObjectType],
                 curPropDefFromKnora[AppConfig.RdfsComment],
-                curPropDefFromKnora[AppConfig.RdfsLabel]
+                curPropDefFromKnora[AppConfig.RdfsLabel],
+                subPropertyOf,
+                isEditable
             );
 
             // cache property definition
