@@ -18,7 +18,6 @@ import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ResourceTypesService} from "../../../../model/services/resource-types.service";
 import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
-// import {ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
 import {ProjectsService} from "../../../../model/services/projects.service";
 import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
 import {MatSelectModule} from '@angular/material';
@@ -54,7 +53,9 @@ export class EditResourceClassComponent implements OnChanges {
 
     editResource: boolean;
 
-    propCtrl: FormControl;
+    // propCtrl: FormControl;
+     propCtrl = new FormControl('some value');
+
 
 
     public editResFormLabels: any = {
@@ -79,6 +80,12 @@ export class EditResourceClassComponent implements OnChanges {
         addProp:{
             label: 'Add new property',
             description: 'Add new or create a custom property'
+        },
+        buttons:{
+            save: "Save",
+            reset: "Reset",
+            close: "Close",
+            edit: "Edit",
         }
 };
 
@@ -114,7 +121,6 @@ export class EditResourceClassComponent implements OnChanges {
 
 
     ngOnChanges() {
-
         // get the resource class data by res class iri
         this._resourceTypesService.getResourceType(this.iri)
             .subscribe(
@@ -132,14 +138,12 @@ export class EditResourceClassComponent implements OnChanges {
 //                    this.loadingSubmodule.emit(false);
                 }
             );
-
         this._projectsService.getAllProjects()
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.projectsList = result.getBody(ProjectsList).projects;
                 }
-    )
-
+            )
     }
 
     editResources(){
@@ -167,12 +171,41 @@ export class EditResourceClassComponent implements OnChanges {
         console.log('you submitted value:', data);
     }
 
-    //reset to original values
+    //clear values
     reset(): void {
         this.propCtrl.reset();
     }
 
+    resetDefaultRes(): void{
+//        this.resCtrl.reset();
+        this._resourceTypesService.getResourceType(this.iri)
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    this.resType.label = result.getBody(ResourceType).restype_info.label;
+                    this.resType.description = result.getBody(ResourceType).restype_info.description;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                }
+            );
+    }
 
+    // At this moment there is a mix-up when reordering the properties with drag and drop and then resetting: the property resets to the one with the respective index
+    // (i.e. if I move a prop[6] from position 6 to position 3, it will reset to prop[3]). This should be fixed when we actually submit the data to Knora, since then
+    // we will get the updated list every time after saving.
+    resetDefaultProp(index: number): void{
+        if (this.resType.properties[index] !== undefined) {
+            this._resourceTypesService.getResourceType(this.iri)
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        this.resType.properties[index] = result.getBody(ResourceType).restype_info.properties[index];
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+                    }
+                );
+        }
+    }
 
     //sets default values from json files on mat-select
     setGUI(index: number, event) {
