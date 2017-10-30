@@ -186,23 +186,25 @@
             <form #addPropForm="ngForm" (ngSubmit)="onSubmit(addPropForm.value, addPropForm.valid)" >
                 <mat-form-field class="full-width">
                     <input matInput
-                           placeholder={{editResFormLabels.resource.properties.label}}
+                           [placeholder]="editResFormLabels.resource.properties.label"
                            name="propertyName"
                            [id]="label"
                            [(ngModel)]="label"
-                           [value]="label">
+                           [value]="label"
+                           required>
                 </mat-form-field>
                 <mat-form-field class="full-width">
                     <textarea matInput
-                              placeholder={{editResFormLabels.resource.properties.description}}
+                              [placeholder]="editResFormLabels.resource.properties.description"
                               name="propDescription"
                               [(ngModel)]="description"
                               [value]="description"></textarea>
                 </mat-form-field>
                 <mat-form-field class="full-width">
-                    <mat-select     placeholder={{editResFormLabels.resource.properties.gui}}
+                    <mat-select     [placeholder]="editResFormLabels.resource.properties.gui"
                                     [(ngModel)]="gui_name"
-                                    name="GUI type">
+                                    name="GUI type"
+                                    required>
                         <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
                             {{guiItem}}
                         </mat-option>
@@ -224,10 +226,11 @@
                 </mat-form-field>
                 <div class="full-width">
                     <div class="salsah-placeholder">
-                        {{editResFormLabels.resource.properties.occurrence}} </div>
+                        {{editResFormLabels.resource.properties.occurrence}} * </div>
                     <mat-button-toggle-group #group="matButtonToggleGroup"
                                              [(ngModel)]="occurrence"
-                                             name="Occurrence">
+                                             name="Occurrence"
+                                             required>
                         <mat-button-toggle *ngFor="let cardinality of cardinalityList" [value]="cardinality">
                             {{cardinality}}
                         </mat-button-toggle>
@@ -244,9 +247,10 @@
                 </mat-form-field>
                 <mat-form-field class="full-width">
                     <mat-select class="full-width"
-                                placeholder={{editResFormLabels.resource.properties.vocabulary}}
+                                [placeholder]="editResFormLabels.resource.properties.vocabulary"
                                 [(ngModel)]="vocabulary"
-                                name="Vocabulary">
+                                name="Vocabulary"
+                                required>
                         <!--TODO: allow selection only of the current project's ontology (or only of ontologies that can be altered)) -->
                         <mat-option *ngFor="let project of projectsList" [value]="project.ontologyNamedGraph">
                             {{project.description}}
@@ -262,7 +266,8 @@
                     <button mat-raised-button
                             class="save-button"
                             [color]="'primary'"
-                            type="submit">
+                            type="submit"
+                            [disabled]="!addPropForm.valid">
                         {{editResFormLabels.buttons.save}}
                     </button>
                 </mat-action-row>

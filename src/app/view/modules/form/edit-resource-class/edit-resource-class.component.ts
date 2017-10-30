@@ -72,7 +72,7 @@ export class EditResourceClassComponent implements OnChanges {
                 gui: 'GUI element',
                 attributes: 'GUI attributes',
                 id: 'Property ID',
-                occurence: 'Occurrence',
+                occurrence: 'Occurrence',
                 valuetype_id: 'Value type ID',
                 vocabulary: 'Vocabulary'
             }
@@ -172,9 +172,9 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
     //clear values
-    reset(): void {
-        this.propCtrl.reset();
-    }
+    // reset(): void {
+    //     this.propCtrl.reset();
+    // }
 
     resetDefaultRes(): void{
 //        this.resCtrl.reset();
