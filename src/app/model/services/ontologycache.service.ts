@@ -89,7 +89,7 @@ export class Property {
 /**
  * A map of property Iris to property definitions.
  */
-class Properties {
+export class Properties {
     [index: string]: Property;
 }
 

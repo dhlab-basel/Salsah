@@ -1,15 +1,15 @@
 <div>
     Extended Search Form:
     <div>
-        <select-graph *ngIf="namedGraphs.length > 0" [namedGraphs]="namedGraphs" (namedGraph)="getClassesForOntology($event)"></select-graph>
+        <select-graph *ngIf="namedGraphs.length > 0" [namedGraphs]="namedGraphs" (namedGraphSelected)="getClassesAndPropertiesForOntology($event)"></select-graph>
     </div>
 
     <div *ngIf="resourceClasses.length > 0">
         <select-class [resourceClasses]="resourceClasses" (resourceClass)="getPropertiesForClass($event)"></select-class>
     </div>
 
-    <div *ngIf="properties.length > 0">
-        <select-property [properties]="properties" (property)="chooseProperty($event)"></select-property>
+    <div *ngIf="properties !== undefined">
+        <select-property [properties]="properties"></select-property>
     </div>
 </div>
 

@@ -5,32 +5,34 @@ import {EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'select-graph',
-  templateUrl: './select-graph.component.html',
-  styleUrls: ['./select-graph.component.scss']
+    selector: 'select-graph',
+    templateUrl: './select-graph.component.html',
+    styleUrls: ['./select-graph.component.scss']
 })
 export class SelectGraphComponent implements OnInit {
 
-  @Input() namedGraphs: Array<NamedGraph>;
+    @Input() namedGraphs: Array<NamedGraph>;
 
-  @Output() namedGraph = new EventEmitter<string>();
+    @Output() namedGraphSelected = new EventEmitter<string>();
 
-  form: FormGroup;
+    form: FormGroup;
 
-  constructor(@Inject(FormBuilder) fb: FormBuilder) {
-      this.form = fb.group({
-          namedGraph: [null, Validators.required]
-      });
-  }
+    constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
-  ngOnInit() {
+        // build a form for the named graph selection
+        this.form = fb.group({
+            namedGraph: [null, Validators.required]
+        });
 
-  }
+        // emit Iri of named graph when selected
+        this.form.valueChanges.subscribe((data) => {
+            this.namedGraphSelected.emit(data.namedGraph);
+        })
 
-  namedGraphChosen(change: MatSelectChange) {
+    }
 
-      this.namedGraph.emit(change.value);
+    ngOnInit() {
 
-  }
+    }
 
 }

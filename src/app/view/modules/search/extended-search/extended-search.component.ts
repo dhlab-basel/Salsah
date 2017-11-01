@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {OntologyCacheService, OntologyInformation, ResourceClass, Property, NamedGraph} from "../../../../model/services/ontologycache.service";
+import {OntologyCacheService, OntologyInformation, ResourceClass, Property, Properties, NamedGraph} from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 
 
@@ -13,7 +13,7 @@ export class ExtendedSearchComponent implements OnInit {
 
     namedGraphs: Array<NamedGraph> = [];
     resourceClasses: Array<ResourceClass> = [];
-    properties: Array<Property> = [];
+    properties: Properties;
 
     result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
 
@@ -40,20 +40,20 @@ export class ExtendedSearchComponent implements OnInit {
             });
     }
 
-    getClassesForOntology(ontologyIri: string) {
+    /**
+     * Once an ontology has been selected, get its classes and properties.
+     * The classes and properties will be made available to the user for selection.
+     *
+     * @param {string} ontologyIri ontology chosen by the user.
+     */
+    getClassesAndPropertiesForOntology(ontologyIri: string) {
 
         this._cacheService.getResourceClassesForNamedGraphs([ontologyIri]).subscribe(
             (ontoInfo: OntologyInformation) => {
 
                 this.resourceClasses = ontoInfo.getResourceClassesAsArray();
 
-                //console.log(ontoInfo);
-
-                this.properties = ontoInfo.getPropertiesAsArray().filter(prop => {
-                    return prop.isEditable
-                });
-
-                // console.log(this.properties)
+                this.properties = ontoInfo.getProperties();
 
             }
         );
@@ -67,19 +67,11 @@ export class ExtendedSearchComponent implements OnInit {
 
                 //console.log(ontoInfo);
 
-                this.properties = ontoInfo.getPropertiesAsArray().filter(prop => {
-                    return prop.isEditable
-                });
+                this.properties = ontoInfo.getProperties();
 
                 // console.log(this.properties)
             }
         );
-
-    }
-
-    chooseProperty(propertyIri) {
-
-        //console.log(propertyIri);
 
     }
 

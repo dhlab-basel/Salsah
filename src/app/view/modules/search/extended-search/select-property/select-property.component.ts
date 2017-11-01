@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Property} from "../../../../../model/services/ontologycache.service";
+import {Properties, Property} from "../../../../../model/services/ontologycache.service";
 import {MatSelectChange} from "@angular/material";
 
 @Component({
@@ -8,18 +8,40 @@ import {MatSelectChange} from "@angular/material";
     styleUrls: ['./select-property.component.scss']
 })
 export class SelectPropertyComponent implements OnInit {
-    @Input() properties: Array<Property>;
+    @Input() properties: Properties;
 
-    @Output() property = new EventEmitter<string>();
+    propertiesAsArray: Array<Property>;
+
+    //@Output() property = new EventEmitter<string>();
+
+    selectedProperty: Property;
 
     constructor() {
     }
 
     ngOnInit() {
+        this.propsArray();
+    }
+
+    ngOnChange() {
+        this.propsArray();
+    }
+
+    propsArray() {
+        let propsArray = [];
+
+        for (let propIri in this.properties) {
+            propsArray.push(this.properties[propIri]);
+        }
+
+        this.propertiesAsArray = propsArray;
     }
 
     propertyChosen(change: MatSelectChange) {
-        this.property.emit(change.value);
+        //this.property.emit(change.value);
+
+        let propIri = change.value;
+        console.log(propIri);
 
     }
 
