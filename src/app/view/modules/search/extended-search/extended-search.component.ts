@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {OntologyCacheService, OntologyInformation, ResourceClass, Property, Properties, NamedGraph} from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
@@ -52,7 +52,6 @@ export class ExtendedSearchComponent implements OnInit {
             (ontoInfo: OntologyInformation) => {
 
                 this.resourceClasses = ontoInfo.getResourceClassesAsArray();
-
                 this.properties = ontoInfo.getProperties();
 
             }
@@ -65,11 +64,8 @@ export class ExtendedSearchComponent implements OnInit {
         this._cacheService.getResourceClassDefinitions([resourceClassIri]).subscribe(
             (ontoInfo) => {
 
-                //console.log(ontoInfo);
-
                 this.properties = ontoInfo.getProperties();
 
-                // console.log(this.properties)
             }
         );
 

@@ -4,12 +4,12 @@
         <select-graph *ngIf="namedGraphs.length > 0" [namedGraphs]="namedGraphs" (namedGraphSelected)="getClassesAndPropertiesForOntology($event)"></select-graph>
     </div>
 
-    <div *ngIf="resourceClasses.length > 0">
-        <select-class [resourceClasses]="resourceClasses" (resourceClass)="getPropertiesForClass($event)"></select-class>
+    <div *ngIf="resourceClasses?.length > 0">
+        <select-class [setResourceClasses]="resourceClasses" (resourceClass)="getPropertiesForClass($event)"></select-class>
     </div>
 
     <div *ngIf="properties !== undefined">
-        <select-property [properties]="properties"></select-property>
+        <select-property [setProperties]="properties"></select-property>
     </div>
 </div>
 

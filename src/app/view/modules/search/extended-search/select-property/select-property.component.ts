@@ -8,26 +8,25 @@ import {MatSelectChange} from "@angular/material";
     styleUrls: ['./select-property.component.scss']
 })
 export class SelectPropertyComponent implements OnInit {
-    @Input() properties: Properties;
+    @Input() set setProperties(value: Properties) {
+
+        this.properties = value;
+        this.initProperties();
+    }
+
+    properties: Properties;
 
     propertiesAsArray: Array<Property>;
-
-    //@Output() property = new EventEmitter<string>();
-
-    selectedProperty: Property;
 
     constructor() {
     }
 
     ngOnInit() {
-        this.propsArray();
+
     }
 
-    ngOnChange() {
-        this.propsArray();
-    }
+    initProperties() {
 
-    propsArray() {
         let propsArray = [];
 
         for (let propIri in this.properties) {
@@ -38,11 +37,9 @@ export class SelectPropertyComponent implements OnInit {
     }
 
     propertyChosen(change: MatSelectChange) {
-        //this.property.emit(change.value);
-
         let propIri = change.value;
-        console.log(propIri);
 
+        console.log(this.properties[propIri]);
     }
 
 }

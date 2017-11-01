@@ -9,7 +9,11 @@ import {ResourceClass} from "../../../../../model/services/ontologycache.service
     styleUrls: ['./select-class.component.scss']
 })
 export class SelectClassComponent implements OnInit {
-    @Input() resourceClasses: Array<ResourceClass>;
+    @Input() set setResourceClasses(value: Array<ResourceClass>) {
+        this.resourceClasses = value;
+    };
+
+    resourceClasses: Array<ResourceClass>;
 
     @Output() resourceClass = new EventEmitter<string>();
 
