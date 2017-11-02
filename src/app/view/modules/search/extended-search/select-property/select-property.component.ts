@@ -30,7 +30,11 @@ export class SelectPropertyComponent implements OnInit {
         let propsArray = [];
 
         for (let propIri in this.properties) {
-            propsArray.push(this.properties[propIri]);
+
+            let prop = this.properties[propIri];
+
+            // only list editable props that are not link value props
+            if (prop.isEditable && !prop.isLinkValueProperty) propsArray.push(this.properties[propIri]);
         }
 
         this.propertiesAsArray = propsArray;

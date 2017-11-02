@@ -35,6 +35,8 @@ export class AppConfig {
 
     public static belongsToOntology: string = AppConfig.KnoraApiV2WithValueObjectPath + 'belongsToOntology';
     public static isEditable: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isEditable';
+    public static isLinkValueProperty: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isLinkValueProperty';
+
 
     public static ResourceIcon: string = AppConfig.KnoraApiV2WithValueObjectPath + 'resourceIcon';
 

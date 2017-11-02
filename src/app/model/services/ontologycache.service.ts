@@ -81,7 +81,8 @@ export class Property {
                 readonly comment: string,
                 readonly label: string,
                 readonly subPropertyOf: Array<string>,
-                readonly isEditable: Boolean) {
+                readonly isEditable: Boolean,
+                readonly isLinkValueProperty: Boolean) {
 
     }
 }
@@ -617,6 +618,11 @@ export class OntologyCacheService {
                 isEditable = true;
             }
 
+            let isLinkValueProperty = false;
+            if (curPropDefFromKnora[AppConfig.isLinkValueProperty] !== undefined && curPropDefFromKnora[AppConfig.isLinkValueProperty] === true) {
+                isLinkValueProperty = true;
+            }
+
             let subPropertyOf = [];
             if (curPropDefFromKnora[AppConfig.subPropertyOf] !== undefined && Array.isArray(curPropDefFromKnora[AppConfig.subPropertyOf])) {
                 subPropertyOf = curPropDefFromKnora[AppConfig.subPropertyOf];
@@ -632,7 +638,8 @@ export class OntologyCacheService {
                 curPropDefFromKnora[AppConfig.RdfsComment],
                 curPropDefFromKnora[AppConfig.RdfsLabel],
                 subPropertyOf,
-                isEditable
+                isEditable,
+                isLinkValueProperty
             );
 
             // cache property definition
