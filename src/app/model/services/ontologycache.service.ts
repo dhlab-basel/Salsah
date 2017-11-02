@@ -82,6 +82,7 @@ export class Property {
                 readonly label: string,
                 readonly subPropertyOf: Array<string>,
                 readonly isEditable: Boolean,
+                readonly isLinkProperty: Boolean,
                 readonly isLinkValueProperty: Boolean) {
 
     }
@@ -618,6 +619,11 @@ export class OntologyCacheService {
                 isEditable = true;
             }
 
+            let isLinkProperty = false;
+            if (curPropDefFromKnora[AppConfig.isLinkProperty] !== undefined && curPropDefFromKnora[AppConfig.isLinkProperty] === true) {
+                isLinkProperty = true;
+            }
+
             let isLinkValueProperty = false;
             if (curPropDefFromKnora[AppConfig.isLinkValueProperty] !== undefined && curPropDefFromKnora[AppConfig.isLinkValueProperty] === true) {
                 isLinkValueProperty = true;
@@ -639,6 +645,7 @@ export class OntologyCacheService {
                 curPropDefFromKnora[AppConfig.RdfsLabel],
                 subPropertyOf,
                 isEditable,
+                isLinkProperty,
                 isLinkValueProperty
             );
 

@@ -43,7 +43,9 @@ export class SelectPropertyComponent implements OnInit {
     propertyChosen(change: MatSelectChange) {
         let propIri = change.value;
 
-        console.log(this.properties[propIri]);
+        let prop: Property = this.properties[propIri];
+
+        console.log(prop);
     }
 
 }
