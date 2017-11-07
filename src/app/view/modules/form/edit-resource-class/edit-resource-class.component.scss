@@ -29,3 +29,12 @@
   color: rgba(0,0,0,.54);
   font-size: 12px;
 }
+
+.text-inside-grid{
+  position: absolute;
+  left: 5px;
+}
+
+mat-grid-tile {
+  background: rgba(0,0,0,.0);
+}

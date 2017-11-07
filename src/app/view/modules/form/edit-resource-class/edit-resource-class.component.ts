@@ -123,7 +123,6 @@ export class EditResourceClassComponent implements OnChanges {
     validationMessages = {
         'resLabel': {
             'required': 'Resource label is required'
-//TODO       'exists': 'This resource label already exists. Please chose a different name for your resource'
         }
     };
 

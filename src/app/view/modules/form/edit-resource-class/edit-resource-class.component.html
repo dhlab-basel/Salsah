@@ -1,17 +1,20 @@
 <section *ngIf="!editResource">
-    <h3>{{resType.label}}</h3>
-    <p>{{resType.description}}</p>
-        <mat-list class="list-group" >
-
-
-            <mat-list-item *ngFor="let prop of resType.properties; let i = index"
-                           class="list-group-item">
-                <h4 mat-line>{{prop.label}}</h4>
-                <p mat-line>{{prop.description}}</p>
-                <p mat-line>{{prop.occurrence}} | {{prop.gui_name}}</p>
-            </mat-list-item>
-        </mat-list>
+    <span mat-line><b>{{resType.label}}</b></span> | <span>{{resType.description}}</span>
     <mat-divider></mat-divider>
+
+    <mat-grid-list cols="1" rowHeight="80px" gutterSize="5px">
+        <mat-grid-tile *ngFor="let prop of resType.properties; let i = index"
+                       class="list-group-item">
+            <div class="text-inside-grid">
+                <div mat-line>{{prop.label}}</div>
+                <div class="salsah-placeholder">
+                    {{prop.description}}<br>
+                    {{prop.occurrence}} | {{prop.gui_name}}
+                </div>
+            </div>
+        </mat-grid-tile>
+        <mat-divider></mat-divider>
+    </mat-grid-list>
 </section>
 
 <!------------------------------------------------------------------------------------------------------->
