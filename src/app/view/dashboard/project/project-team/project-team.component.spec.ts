@@ -10,7 +10,7 @@ describe('ProjectTeamComponent', () => {
     let component: ProjectTeamComponent;
     let fixture: ComponentFixture<ProjectTeamComponent>;
 
-    const testProject: ProjectItem = {
+    const testProject: ProjectItem = <ProjectItem>{
         'shortname': 'images',
         'description': 'A demo project of a collection of images',
         'institution': null,

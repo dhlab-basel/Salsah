@@ -8,7 +8,7 @@ describe('ResourceTypesListComponent', () => {
     let component: ResourceTypesListComponent;
     let fixture: ComponentFixture<ResourceTypesListComponent>;
 
-    let testProject: ProjectItem = {
+    let testProject: ProjectItem = <ProjectItem>{
         'shortname': 'images',
         'description': 'A demo project of a collection of images',
         'institution': null,
