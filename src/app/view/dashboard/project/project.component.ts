@@ -45,12 +45,12 @@ export class ProjectComponent implements OnInit {
             route: 'team'
         },
         {
-            name: 'Resources',
-            route: 'resources'
+            name: 'Ontologies',
+            route: 'ontologies'
         },
         {
-            name: 'Advanced',
-            route: 'advanced'
+            name: 'Resources',
+            route: 'resources'
         }
     ];
 
