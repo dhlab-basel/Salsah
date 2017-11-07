@@ -100,14 +100,14 @@ const appRoutes: Routes = [
             {
                 path: 'ontologies', component: ProjectOntologiesComponent,
             },
-            {
-                path: 'ontology/:oid',
-                children: [
-                    {
-                        path: '', component: ProjectOntologiesComponent
-                    }
-                ]
-            },
+            // {
+            //     path: 'ontology/:oid',
+            //     children: [
+            //         {
+            //             path: '', component: ProjectOntologiesComponent
+            //         }
+            //     ]
+            // },
             {
                 path: 'resources', component: ProjectResourcesComponent
             },

@@ -46,6 +46,7 @@ import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog
 
 export class ProjectsListComponent implements OnInit {
 
+    // restrictedBy can be a user; to show a list of the user's projects
     @Input('restrictedBy') user: string;
     @Input() listType?: string;
 

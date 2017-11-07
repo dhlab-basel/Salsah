@@ -117,6 +117,7 @@ import {ReadColorValueComponent} from './view/properties/read-color-value/read-c
 import {SystemProjectsComponent} from "./view/dashboard/system/system-projects/system-projects.component";
 import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologies/system-ontologies.component";
 import { ProjectOntologiesComponent } from './view/dashboard/project/project-ontologies/project-ontologies.component';
+import { OntologiesListComponent } from './view/modules/listing/ontologies-list/ontologies-list.component';
 //
 // import all needed services
 //
@@ -201,6 +202,7 @@ import { ProjectOntologiesComponent } from './view/dashboard/project/project-ont
         FocusDirective,
         ConfirmDialogComponent,
         ProjectOntologiesComponent,
+        OntologiesListComponent,
     ],
     imports: [
         BrowserModule,

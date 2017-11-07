@@ -59,6 +59,11 @@
                                   [restrictedBy]="list.restrictedBy">
             </salsah-projects-list>
 
+            <salsah-ontologies-list *ngSwitchCase="'ontology'"
+                                    [restrictedBy]="list.restrictedBy"
+                                    (toggleItem)="toggleDetail($event, $event)">
+            </salsah-ontologies-list>
+
             <salsah-resource-types-list *ngSwitchCase="'resource-type'"
                                         [restrictedBy]="list.restrictedBy"
                                         (toggleItem)="toggleDetail($event, $event)">
