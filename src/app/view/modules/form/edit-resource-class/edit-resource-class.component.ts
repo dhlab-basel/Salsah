@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, OnChanges, Input, Output} from '@angular/core';
+import {Component, EventEmitter, OnChanges, Inject, Input, Output, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
@@ -20,7 +20,6 @@ import {ResourceTypesService} from "../../../../model/services/resource-types.se
 import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
 import {ProjectsService} from "../../../../model/services/projects.service";
 import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
-import {MatSelectModule} from '@angular/material';
 
 import {
     trigger,
@@ -45,17 +44,16 @@ export class EditResourceClassComponent implements OnChanges {
     @Input('projects') projectsList: ProjectItem[];
 
 
+
     resType: ResourceTypeInfo = new ResourceTypeInfo;
 
     properties: Properties;
     errorMessage: string = undefined;
-    selectedRow: number;
+    resIcon: string = undefined;
 
     editResource: boolean;
 
-    // propCtrl: FormControl;
-     propCtrl = new FormControl('some value');
-
+    eRForm4class: FormGroup;
 
 
     public editResFormLabels: any = {
@@ -64,17 +62,19 @@ export class EditResourceClassComponent implements OnChanges {
         resource: {
             label: 'Resource label',
             description: 'Resource description',
+            icon: 'Icon',
             properties: {
                 formLabel: 'Properties',
                 formDescription: 'Click to edit the property',
-                label: 'Property name',
+                label: 'Property label',
                 description: 'Property description',
                 gui: 'GUI element',
                 attributes: 'GUI attributes',
                 id: 'Property ID',
                 occurrence: 'Occurrence',
                 valuetype_id: 'Value type ID',
-                vocabulary: 'Vocabulary'
+                vocabulary: 'Vocabulary',
+                icon: 'Icon'
             }
         },
         addProp:{
@@ -115,36 +115,77 @@ export class EditResourceClassComponent implements OnChanges {
         "0-n"
         ];
 
+    // the following form fields would have an error check
+    formErrors = {
+        'resLabel': ''
+    };
+    // ...with the following messages
+    validationMessages = {
+        'resLabel': {
+            'required': 'Resource label is required'
+//TODO       'exists': 'This resource label already exists. Please chose a different name for your resource'
+        }
+    };
+
     constructor(private _resourceTypesService: ResourceTypesService,
-                private _projectsService: ProjectsService) {
+                private _projectsService: ProjectsService,
+                private _fb: FormBuilder) {
     }
 
 
     ngOnChanges() {
+
         // get the resource class data by res class iri
         this._resourceTypesService.getResourceType(this.iri)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.resType = result.getBody(ResourceType).restype_info;
-//                    let tmpResTypeInfo: ResourceTypeInfo = result.getBody(ResourceTypeInfo);
-                    this.selectedRow = this.index;
+                    this.resIcon = this.resType.icon;
 
-                    // disable the progress loader of the submodule
-//                    this.loadingSubmodule.emit(this.isLoadingSubModule);
+                    //    resource form validation configuration
+                    this.eRForm4class = this._fb.group({
+                        'resLabel': [this.resType.label, Validators.required],
+                        'resIcon' : this.resType.icon,
+                        'resDescription': this.resType.description
+                    });
+                    this.eRForm4class.valueChanges
+                        .subscribe(data => this.onResValueChanged(data));
                 },
+
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                     // disable the progress loader of the submodule
 //                    this.loadingSubmodule.emit(false);
                 }
             );
+
         this._projectsService.getAllProjects()
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.projectsList = result.getBody(ProjectsList).projects;
                 }
-            )
+            );
     }
+
+    onResValueChanged(data?: any) {
+
+        if (!this.eRForm4class ) {
+            return;
+        }
+
+        const form = this.eRForm4class;
+        Object.keys(this.formErrors).map(field => {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                Object.keys(control.errors).map(key => {
+                    this.formErrors[field] += messages[key] + ' ';
+                });
+            }
+        });
+    }
+
 
     editResources(){
         this.editResource = true;
@@ -154,10 +195,12 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
     //form functions
-
     submitResEdit(): void {
-        if (this.resType !== undefined) {
-            console.log('Your submitted data is: Resource label:', this.resType.label, ' Resource description: ' ,this.resType.description);
+        if (this.eRForm4class.valid && this.resType !== undefined) {
+            console.log('Your submitted data is: ', this.eRForm4class.value);
+        }
+        else {
+            console.log('Form not valid');
         }
     }
 
@@ -171,18 +214,20 @@ export class EditResourceClassComponent implements OnChanges {
         console.log('you submitted value:', data);
     }
 
-    //clear values
-    // reset(): void {
-    //     this.propCtrl.reset();
-    // }
-
     resetDefaultRes(): void{
-//        this.resCtrl.reset();
+        // this.eRForm4class.reset();
         this._resourceTypesService.getResourceType(this.iri)
             .subscribe(
                 (result: ApiServiceResult) => {
-                    this.resType.label = result.getBody(ResourceType).restype_info.label;
-                    this.resType.description = result.getBody(ResourceType).restype_info.description;
+                    this.resType = result.getBody(ResourceType).restype_info;
+                    this.resIcon = this.resType.icon;
+
+                    //    resource form validation configuration
+                    this.eRForm4class = this._fb.group({
+                        'resLabel': [this.resType.label, Validators.required],
+                        'resIcon' : this.resType.icon,
+                        'resDescription': this.resType.description
+                    });
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -206,6 +251,7 @@ export class EditResourceClassComponent implements OnChanges {
                 );
         }
     }
+
 
     //sets default values from json files on mat-select
     setGUI(index: number, event) {

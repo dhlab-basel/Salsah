@@ -24,30 +24,45 @@
 <!-----------Here we will use cards for each resource and property, which will be collapsible------------>
 <!-----------Each card will have its own save button----------------------------------------------------->
     <mat-accordion class="headers-align">
-        <mat-expansion-panel hideToggle="true" >
-            <mat-expansion-panel-header>
+        <mat-expansion-panel hideToggle="true">
+            <mat-expansion-panel-header [formGroup]="eRForm4class">
                 <mat-panel-title>
-                    <span>{{editResFormLabels.label}}: {{resType.label}}</span>
+                    <span>{{editResFormLabels.label}}: {{eRForm4class.get('resLabel').value}}</span>
                 </mat-panel-title>
                 <mat-panel-description>
                     <span>{{editResFormLabels.description}}</span>
-                        <mat-icon>{{resType.icon}}</mat-icon>
+                        <mat-icon>{{eRForm4class.get('resIcon').value}}</mat-icon>
                 </mat-panel-description>
             </mat-expansion-panel-header>
+            <form class="salsah-form new-user" [formGroup]="eRForm4class">
+            <mat-form-field dividerColor="{{ !resType.label ? 'warn' : 'primary' }}">
+                    <input matInput
+                           class="form-control"
+                           placeholder={{editResFormLabels.resource.label}}
+                           id="resLabel"
+                           formControlName="resLabel"
+                           required>
+                    <mat-hint *ngIf="formErrors.resLabel">
+                        {{ formErrors.resLabel }}
+                    </mat-hint>
+                </mat-form-field>
             <mat-form-field>
-                <input matInput
-                       placeholder={{editResFormLabels.resource.label}}
-                       name="name"
-                       [(ngModel)]="resType.label"
-                       value="{{resType.label}}">
+                <!--TODO icon should not show the extension-->
+                    <span matPrefix><mat-icon>{{eRForm4class.get('resIcon').value}}</mat-icon></span>
+                    <input matInput
+                           class="form-control"
+                           placeholder={{editResFormLabels.resource.icon}}
+                           id="resIcon"
+                           formControlName="resIcon">
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="full-width">
                 <textarea matInput
-                       placeholder={{editResFormLabels.resource.description}}
-                       name="resDescription"
-                       [(ngModel)]="resType.description"
-                       [value]="resType.description"></textarea>
+                          class="form-control"
+                          placeholder={{editResFormLabels.resource.description}}
+                          id="resDescription"
+                          formControlName="resDescription"></textarea>
             </mat-form-field>
+            </form>
             <mat-action-row>
                 <button mat-button
                         color="warn"
@@ -57,13 +72,13 @@
                 <button mat-raised-button
                         class="save-button"
                         [color]="'primary'"
+                        [disabled]="!eRForm4class.valid"
                         (click)="submitResEdit()">
                     {{editResFormLabels.buttons.save}}
                 </button>
             </mat-action-row>
         </mat-expansion-panel>
     </mat-accordion>
-
 <!------------------------------------------------------------------------------------------------------->
 <!------------------------------------Edit properties   ------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------->
@@ -93,10 +108,10 @@
             </mat-form-field>
             <mat-form-field class="full-width">
                 <textarea matInput
-                       placeholder={{editResFormLabels.resource.properties.description}}
-                       name="propDescription"
-                       [(ngModel)]="prop.description"
-                       [value]="prop.description"></textarea>
+                          placeholder={{editResFormLabels.resource.properties.description}}
+                          name="propDescription"
+                          [(ngModel)]="prop.description"
+                          [value]="prop.description"></textarea>
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-select     placeholder={{editResFormLabels.resource.properties.gui}}
@@ -125,15 +140,15 @@
             <div class="full-width">
                 <div class="salsah-placeholder">
                     {{editResFormLabels.resource.properties.occurrence}} </div>
-            <mat-button-toggle-group #group="matButtonToggleGroup"
-                                     [(ngModel)]="prop.occurrence"
-                                     name="Occurrence"
-                                     (change)="setOcc(i, $event)">
-                <mat-button-toggle *ngFor="let cardinality of cardinalityList" [value]="cardinality">
+                <mat-button-toggle-group #group="matButtonToggleGroup"
+                                         [(ngModel)]="prop.occurrence"
+                                         name="Occurrence"
+                                         (change)="setOcc(i, $event)">
+                    <mat-button-toggle *ngFor="let cardinality of cardinalityList" [value]="cardinality">
                         {{cardinality}}
-                </mat-button-toggle>
-            </mat-button-toggle-group>
-            <div class="mat-caption">Selected value: {{group.value}}</div>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+                <div class="mat-caption">Selected value: {{group.value}}</div>
             </div>
             <br>
             <mat-form-field class="full-width">
@@ -168,7 +183,7 @@
                     {{editResFormLabels.buttons.save}}
                 </button>
             </mat-action-row>
-            </mat-expansion-panel>
+        </mat-expansion-panel>
 
 <!------------------------------------------------------------------------------------------------------->
 <!------------------------------------Add new property   ------------------------------------------------>
