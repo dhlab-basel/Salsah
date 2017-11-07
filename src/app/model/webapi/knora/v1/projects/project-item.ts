@@ -32,7 +32,7 @@ export class ProjectItem {
     @JsonProperty('logo', String)
     public logo: string = undefined;
 
-    @JsonProperty('dataNamedGraph', String)
+    @JsonProperty('dataNamedGraph', String, true)
     public dataNamedGraph: string = undefined;
 
     @JsonProperty('id', String)
@@ -47,10 +47,13 @@ export class ProjectItem {
     @JsonProperty('longname', String)
     public longname: string = undefined;
 
-    @JsonProperty('ontologyNamedGraph', String)
+    @JsonProperty('ontologyNamedGraph', String, true)
     public ontologyNamedGraph: string = undefined;
 
     @JsonProperty('selfjoin', Boolean)
     public selfjoin: boolean = undefined;
+
+    @JsonProperty('ontologies', [String], true)
+    public ontologies: string[] = undefined;
 
 }
