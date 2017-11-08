@@ -102,7 +102,10 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         // bad hack to get the project admin information
-        this.loggedInAdmin = (sessionStorage.getItem('admin') !== null);
+        if (localStorage.getItem('currentUser') !== null) {
+            this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+        }
+//        this.loggedInAdmin = (sessionStorage.getItem('admin') !== null);
         // end of bad hack. TODO: we have to find a better solution
 
 

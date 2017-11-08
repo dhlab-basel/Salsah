@@ -71,12 +71,16 @@ export class ProjectComponent implements OnInit {
         sessionStorage.removeItem('currentProject');
 
         this._route.params.subscribe((params: Params) => {
+            // get the project shortname from the route
             this.cur_project = params['pid'];
+            // set the root of the project route
             this.projectRoute += this.cur_project;
 
+            // set the metadata page title
             this._title.setTitle('Salsah | Project (' + this.cur_project + ')');
 
-            this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
+
+            // this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
 
             // get the project information
             this._projectsService.getProjectByShortname(this.cur_project)
@@ -98,7 +102,6 @@ export class ProjectComponent implements OnInit {
                         } else {
                             this.isLoading = false;
                         }
-
 
                     },
                     (error: ApiServiceError) => {

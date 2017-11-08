@@ -106,9 +106,11 @@ export class UsersListComponent implements OnInit {
 
         if (this.project !== undefined) {
 
-            // bad hack to get the project admin information
-            this.loggedInAdmin = (sessionStorage.getItem('admin') !== null);
-            // end of bad hack. TODO: we have to find a better solution
+            // hack to get the project admin information
+            if (localStorage.getItem('currentUser') !== null) {
+                this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+            }
+
 
             // get project members
             this._projectsService.getProjectMembersByIri(this.project)
