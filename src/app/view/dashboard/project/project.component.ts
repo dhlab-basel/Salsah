@@ -54,7 +54,7 @@ export class ProjectComponent implements OnInit {
         }
     ];
 
-    public cur_project: string = undefined;
+    public currentProject: string = undefined;
 
     auth: any = {
         user: undefined,
@@ -72,18 +72,18 @@ export class ProjectComponent implements OnInit {
 
         this._route.params.subscribe((params: Params) => {
             // get the project shortname from the route
-            this.cur_project = params['pid'];
+            this.currentProject = params['pid'];
             // set the root of the project route
-            this.projectRoute += this.cur_project;
+            this.projectRoute += this.currentProject;
 
             // set the metadata page title
-            this._title.setTitle('Salsah | Project (' + this.cur_project + ')');
+            this._title.setTitle('Salsah | Project (' + this.currentProject + ')');
 
 
             // this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
 
             // get the project information
-            this._projectsService.getProjectByShortname(this.cur_project)
+            this._projectsService.getProjectByShortname(this.currentProject)
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.project = result.getBody(Project).project_info;
@@ -114,7 +114,7 @@ export class ProjectComponent implements OnInit {
         });
 //        this.auth = SessionService.checkAuth();
 
-        if (this.cur_project === 'new') {
+        if (this.currentProject === 'new') {
             alert('Create a new project!?');
         }
 

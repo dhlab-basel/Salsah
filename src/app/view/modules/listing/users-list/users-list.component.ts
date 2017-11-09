@@ -94,6 +94,12 @@ export class UsersListComponent implements OnInit {
     sortKeyIA: string = this.sortProps[0].key;
     sortLabel: string = this.sortProps[0].label;
 
+    step = 0;
+
+    setStep(index: number) {
+        this.step = index;
+    }
+
     constructor(private _router: Router,
                 public _projectsService: ProjectsService,
                 public _userService: UserService,

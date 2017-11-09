@@ -32,7 +32,7 @@ export class ProjectTeamComponent implements OnInit {
         title: 'Members in this project',
         description: '',
         content: 'user',
-        showAs: 'list',
+        showAs: 'expansion',
         restrictedBy: ''
     };
 

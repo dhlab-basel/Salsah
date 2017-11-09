@@ -10,12 +10,19 @@
             <p mat-line><a [href]="'mailto:' + email">{{email}}</a></p>
         </mat-list-item>
     </mat-list>
+    <div class="salsah-groups" >
+        <mat-chip-list>
+            <mat-chip *ngFor="let group of userProfile.permissionData.groupsPerProject[currentProject.id]">
+                {{group}}
+            </mat-chip>
+        </mat-chip-list>
+    </div>
 
     <mat-divider></mat-divider>
 
     <h3 mat-subheader>Member in the following projects</h3>
 
-    <salsah-projects-list [restrictedBy]="iri" *ngIf="iri"></salsah-projects-list>
+    <salsah-projects-list *ngIf="iri" [restrictedBy]="iri"></salsah-projects-list>
 
     <mat-divider></mat-divider>
 

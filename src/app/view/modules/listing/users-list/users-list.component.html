@@ -81,6 +81,37 @@
         </table>
     </div>
 
+    <div *ngSwitchCase="'expansion'">
+        <h3 mat-subheader># Users: {{countActive}}
+            <span *ngIf="selectedRow === undefined && countAll > 1"> | {{sortTitle}}
+                <button mat-button
+                        *ngIf="selectedRow == undefined"
+                        (click)="sortBy(sortKey)"
+                        [matTooltip]="sortTitle + sortLabel" matTooltipPosition="above">
+                    {{sortLabel}} <mat-icon>sort_by_alpha</mat-icon>
+                </button>
+            </span>
+        </h3>
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel *ngFor="let item of allUsers | sortBy: sortKey; let i = index"
+                                 [expanded]="step === i" (opened)="setStep(i)" hideToggle="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{item?.givenName}} {{item?.familyName}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        admin or not
+                        <mat-icon>person</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-action-row>
+                    <button mat-button color="primary">edit</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
 
     <!-- default list -->
     <mat-list class="salsah-list" *ngSwitchDefault>
