@@ -8,18 +8,20 @@ describe('ResourceTypesListComponent', () => {
     let component: ResourceTypesListComponent;
     let fixture: ComponentFixture<ResourceTypesListComponent>;
 
-    let testProject: ProjectItem = {
+    const testProject: ProjectItem = {
+        'ontologies': [
+            'http://www.knora.org/ontology/00FF/images'
+        ],
         'shortname': 'images',
         'description': 'A demo project of a collection of images',
         'institution': null,
+        'shortcode': '00FF',
         'logo': null,
-        'dataNamedGraph': 'http://www.knora.org/data/images',
-        'id': 'http://data.knora.org/projects/images',
+        'id': 'http://rdfh.ch/projects/00FF',
         'status': true,
+        'selfjoin': false,
         'keywords': 'images, collection',
-        'longname': 'Image Collection Demo',
-        'ontologyNamedGraph': 'http://www.knora.org/ontology/images',
-        'selfjoin': false
+        'longname': 'Image Collection Demo'
     };
 
     beforeEach(async(() => {
