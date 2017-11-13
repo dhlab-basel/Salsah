@@ -12,3 +12,29 @@
 .full-width{
   width: 100%
 }
+
+
+
+.headers-align .mat-expansion-panel-header-title,
+.headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.headers-align .mat-expansion-panel-header-description {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.salsah-placeholder {
+  color: rgba(0,0,0,.54);
+  font-size: 12px;
+}
+
+.text-inside-grid{
+  position: absolute;
+  left: 5px;
+}
+
+mat-grid-tile {
+  background: rgba(0,0,0,.0);
+}
