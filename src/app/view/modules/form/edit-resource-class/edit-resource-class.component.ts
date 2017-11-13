@@ -13,7 +13,7 @@
  * */
 
 import {Component, EventEmitter, OnChanges, Inject, Input, Output, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiServiceResult} from "../../../../model/services/api-service-result";
 import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ResourceTypesService} from "../../../../model/services/resource-types.service";
@@ -28,6 +28,8 @@ import {
     animate,
     transition
 } from '@angular/animations';
+import {ResourceTypeProperty} from "../../../../model/webapi/knora/v1/resource-types/resource-type-property";
+import {PropertyItem} from "../../../../model/webapi/knora/v1/properties/property-item";
 
 //animations are used to create collapsible cards content
 @Component({
@@ -47,13 +49,14 @@ export class EditResourceClassComponent implements OnChanges {
 
     resType: ResourceTypeInfo = new ResourceTypeInfo;
 
-    properties: Properties;
+    props: PropertyItem[];
     errorMessage: string = undefined;
     resIcon: string = undefined;
 
     editResource: boolean;
 
     eRForm4class: FormGroup;
+    eRForm4prop: FormGroup;
 
 
     public editResFormLabels: any = {
@@ -63,7 +66,7 @@ export class EditResourceClassComponent implements OnChanges {
             label: 'Resource label',
             description: 'Resource description',
             icon: 'Icon',
-            properties: {
+            prps: {
                 formLabel: 'Properties',
                 formDescription: 'Click to edit the property',
                 label: 'Property label',
@@ -87,7 +90,7 @@ export class EditResourceClassComponent implements OnChanges {
             close: "Close",
             edit: "Edit",
         }
-};
+    };
 
     guiItems: string[] = [
         "text",
@@ -106,29 +109,63 @@ export class EditResourceClassComponent implements OnChanges {
         "interval",
         "colorpicker",
         "geometry"
-        ];
+    ];
 
     cardinalityList: string[] = [
         "1",
         "1-n",
         "0-1",
         "0-n"
-        ];
+    ];
 
     // the following form fields would have an error check
     formErrors = {
-        'resLabel': ''
+        'resLabel': '',
+        'prps': {
+            'label':'',
+            'gui_name':'',
+            'occurrence':'',
+            'vocabulary':'',
+        }
     };
     // ...with the following messages
     validationMessages = {
         'resLabel': {
             'required': 'Resource label is required'
+        },
+        'prps': {
+            'label': {
+                'required': 'Property label is required'
+            },
+            'gui_name': {
+                'required': 'Property gui name is required'
+            },
+            'occurrence': {
+                'required': 'Property occurrence is required'
+            },
+            'vocabulary': {
+                'required': 'Vocabulary is required'
+            },
         }
     };
 
+    // the following form fields would have an error check
+    formPropErrors = {
+        'propLabel': ''
+    };
+    // ...with the following messages
+    propValidationMessages = {
+        'propLabel': {
+            'required': 'Property label is required'
+        }
+    };
+
+    k: any = 0;
+
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _projectsService: ProjectsService,
-                private _fb: FormBuilder) {
+                private _fb: FormBuilder,
+                private _fb4p: FormBuilder) {
     }
 
 
@@ -140,21 +177,41 @@ export class EditResourceClassComponent implements OnChanges {
                 (result: ApiServiceResult) => {
                     this.resType = result.getBody(ResourceType).restype_info;
                     this.resIcon = this.resType.icon;
+                    this.props = this.resType.properties;
 
                     //    resource form validation configuration
                     this.eRForm4class = this._fb.group({
-                        'resLabel': [this.resType.label, Validators.required],
+                        'resLabel': this.resType.label,
                         'resIcon' : this.resType.icon,
-                        'resDescription': this.resType.description
+                        'resDescription': this.resType.description,
+                        'prps': this._fb.array([
+                            this._fb.group({
+                                // 'name': '',
+                                // 'guiorder': '',
+                                // 'description': '',
+                                // 'valuetype_id': '',
+                                // 'label': '',
+                                // 'vocabulary': '',
+                                // 'attributes': '',
+                                // 'occurrence': '',
+                                // 'id': '',
+                                // 'gui_name': ''
+                            })
+                        ])
                     });
+
+                    this.setProps(this.resType.properties);
+
                     this.eRForm4class.valueChanges
                         .subscribe(data => this.onResValueChanged(data));
+
+                    console.log(this.eRForm4class.value);
+                    console.log(this.eRForm4class.get('prps.label'));
+
                 },
 
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
-                    // disable the progress loader of the submodule
-//                    this.loadingSubmodule.emit(false);
                 }
             );
 
@@ -164,14 +221,24 @@ export class EditResourceClassComponent implements OnChanges {
                     this.projectsList = result.getBody(ProjectsList).projects;
                 }
             );
+
+    }
+
+
+    get prps(): FormArray {
+        return this.eRForm4class.get('prps') as FormArray;
+    };
+
+    setProps(props: PropertyItem[]){
+        const propsFGs = props.map(aprop => this._fb.group(aprop))
+        const propArray = this._fb.array(propsFGs);
+        this.eRForm4class.setControl('prps', propArray);
     }
 
     onResValueChanged(data?: any) {
-
         if (!this.eRForm4class ) {
             return;
         }
-
         const form = this.eRForm4class;
         Object.keys(this.formErrors).map(field => {
             this.formErrors[field] = '';
@@ -180,6 +247,24 @@ export class EditResourceClassComponent implements OnChanges {
                 const messages = this.validationMessages[field];
                 Object.keys(control.errors).map(key => {
                     this.formErrors[field] += messages[key] + ' ';
+                });
+            }
+        });
+    }
+    onPropValueChanged(data?: any) {
+
+        if (!this.eRForm4prop ) {
+            return;
+        }
+
+        const form = this.eRForm4prop;
+        Object.keys(this.formPropErrors).map(field => {
+            this.formPropErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.propValidationMessages[field];
+                Object.keys(control.errors).map(key => {
+                    this.formPropErrors[field] += messages[key] + ' ';
                 });
             }
         });
@@ -195,7 +280,7 @@ export class EditResourceClassComponent implements OnChanges {
 
     //form functions
     submitResEdit(): void {
-        if (this.eRForm4class.valid && this.resType !== undefined) {
+        if (this.resType !== undefined) {
             console.log('Your submitted data is: ', this.eRForm4class.value);
         }
         else {
@@ -242,7 +327,7 @@ export class EditResourceClassComponent implements OnChanges {
             this._resourceTypesService.getResourceType(this.iri)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.resType.properties[index] = result.getBody(ResourceType).restype_info.properties[index];
+                        this.resType.properties[index] = result.getBody(ResourceType).restype_infoproperties[index];
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
@@ -271,3 +356,4 @@ export class EditResourceClassComponent implements OnChanges {
 
 
 }
+
