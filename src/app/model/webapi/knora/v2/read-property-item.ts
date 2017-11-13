@@ -413,3 +413,21 @@ export class ReadUriValue implements ReadPropertyItem {
     }
 
 }
+
+export class ReadBooleanValue implements ReadPropertyItem {
+
+    constructor(readonly id: string, readonly propIri: string, readonly bool: boolean) {
+
+    }
+
+    readonly type = AppConfig.BooleanValue;
+
+    getContent(): string {
+        return String(this.bool);
+    }
+
+    getClassName():string {
+        return this.constructor.name;
+    }
+
+}

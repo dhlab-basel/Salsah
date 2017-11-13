@@ -29,6 +29,7 @@
                 <salsah-read-geom-value *ngSwitchCase="AppConfig.ReadGeomValue" [valueObject]="val.value"></salsah-read-geom-value>
                 <salsah-read-color-value *ngSwitchCase="AppConfig.ReadColorValue" [valueObject]="val.value"></salsah-read-color-value>
                 <read-uri-value *ngSwitchCase="AppConfig.ReadUriValue" [valueObject]="val.value"></read-uri-value>
+                <read-boolean-value *ngSwitchCase="AppConfig.ReadBooleanValue" [valueObject]="val.value"></read-boolean-value>
                 <span *ngSwitchDefault="">Not supported {{val.value.getClassName()}}</span>
             </span>
             </li></ul>

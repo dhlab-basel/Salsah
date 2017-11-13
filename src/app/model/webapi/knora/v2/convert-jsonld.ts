@@ -16,6 +16,7 @@ import {ReadResourcesSequence} from "./read-resources-sequence";
 import {ReadResource} from "./read-resource";
 import {ReadProperties} from "./read-properties";
 import {
+    ReadBooleanValue,
     ReadColorValue,
     ReadDateValue,
     ReadDecimalValue,
@@ -204,6 +205,18 @@ export module ConvertJSONLD {
                 );
 
                 valueSpecificProp = uriValue;
+
+                break;
+
+            case AppConfig.BooleanValue:
+
+                let boolValue: ReadBooleanValue = new ReadBooleanValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.booleanValueAsBoolean]
+                );
+
+                valueSpecificProp = boolValue;
 
                 break;
 

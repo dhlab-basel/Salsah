@@ -120,6 +120,7 @@ import { SelectPropertyComponent } from './view/modules/search/extended-search/s
 import { SelectClassComponent } from './view/modules/search/extended-search/select-class/select-class.component';
 import { SelectGraphComponent } from './view/modules/search/extended-search/select-graph/select-graph.component';
 import { ReadUriValueComponent } from './view/properties/read-uri-value/read-uri-value.component';
+import { ReadBooleanValueComponent } from './view/properties/read-boolean-value/read-boolean-value.component';
 //
 // import all needed services
 //
@@ -207,6 +208,7 @@ import { ReadUriValueComponent } from './view/properties/read-uri-value/read-uri
         SelectClassComponent,
         SelectGraphComponent,
         ReadUriValueComponent,
+        ReadBooleanValueComponent,
     ],
     imports: [
         BrowserModule,

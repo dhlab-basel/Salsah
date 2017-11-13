@@ -84,6 +84,7 @@ export class AppConfig {
     public static ReadGeomValue: string = 'ReadGeomValue';
     public static ReadColorValue: string = 'ReadColorValue';
     public static ReadUriValue: string = 'ReadUriValue';
+    public static ReadBooleanValue: string = 'ReadBooleanValue';
 
     public static valueAsString: string = AppConfig.KnoraApiV2WithValueObjectPath + 'valueAsString';
 
@@ -121,6 +122,7 @@ export class AppConfig {
     public static colorValueAsColor = AppConfig.KnoraApiV2WithValueObjectPath + 'colorValueAsColor';
     public static geometryValueAsGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'GeometryValueAsGeometry';
     public static uriValueAsUri = AppConfig.KnoraApiV2WithValueObjectPath + 'uriValueAsUri';
+    public static booleanValueAsBoolean = AppConfig.KnoraApiV2WithValueObjectPath + 'booleanValueAsBoolean';
 
     public static hasGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'hasGeometry';
 
