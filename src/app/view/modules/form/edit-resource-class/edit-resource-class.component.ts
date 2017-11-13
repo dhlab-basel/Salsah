@@ -139,12 +139,12 @@ export class EditResourceClassComponent implements OnChanges {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.resType = result.getBody(ResourceType).restype_info;
-                    this.resIcon = this.resType.icon;
+                    this.resIcon = this.resType.icon.slice(0, -4);
 
                     //    resource form validation configuration
                     this.eRForm4class = this._fb.group({
                         'resLabel': [this.resType.label, Validators.required],
-                        'resIcon' : this.resType.icon,
+                        'resIcon' : this.resType.icon.slice(0, -4),
                         'resDescription': this.resType.description
                     });
                     this.eRForm4class.valueChanges
@@ -219,12 +219,12 @@ export class EditResourceClassComponent implements OnChanges {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.resType = result.getBody(ResourceType).restype_info;
-                    this.resIcon = this.resType.icon;
+                    this.resIcon = this.resType.icon.slice(0, -4);
 
                     //    resource form validation configuration
                     this.eRForm4class = this._fb.group({
                         'resLabel': [this.resType.label, Validators.required],
-                        'resIcon' : this.resType.icon,
+                        'resIcon' : this.resType.icon.slice(0, -4),
                         'resDescription': this.resType.description
                     });
                 },

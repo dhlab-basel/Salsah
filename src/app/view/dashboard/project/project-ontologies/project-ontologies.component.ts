@@ -32,7 +32,7 @@ export class ProjectOntologiesComponent implements OnInit {
         title: 'Ontologies in this project',
         description: '',
         content: 'ontology',
-        showAs: 'list',
+        showAs: 'expansion',
         restrictedBy: ''
     };
 
@@ -48,7 +48,7 @@ export class ProjectOntologiesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).ontologyNamedGraph;
+        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
     }
 
 }

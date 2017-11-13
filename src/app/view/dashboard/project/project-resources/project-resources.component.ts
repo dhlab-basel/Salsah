@@ -31,7 +31,7 @@ export class ProjectResourcesComponent implements OnInit {
     // ------------------------------------------------------------------------
     list: ListData = {
         title: 'Resource types in this project',
-        description: 'a kind of subtitle',
+        description: '',
         content: 'resource-type',
         showAs: undefined,
         restrictedBy: ''
