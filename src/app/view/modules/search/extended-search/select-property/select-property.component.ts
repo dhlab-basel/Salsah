@@ -2,13 +2,19 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Properties, Property} from "../../../../../model/services/ontologycache.service";
 import {MatSelectChange} from "@angular/material";
 
+enum ValueTypes {
+    TextValue = 0,
+    DateValue = 1
+}
+
 @Component({
     selector: 'select-property',
     templateUrl: './select-property.component.html',
     styleUrls: ['./select-property.component.scss']
 })
 export class SelectPropertyComponent implements OnInit {
-    @Input() set setProperties(value: Properties) {
+    @Input()
+    set setProperties(value: Properties) {
 
         this.properties = value;
         this.initProperties();
@@ -44,7 +50,7 @@ export class SelectPropertyComponent implements OnInit {
         let propIri = change.value;
 
         let prop: Property = this.properties[propIri];
-
+        
         console.log(prop);
     }
 
