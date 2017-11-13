@@ -26,7 +26,7 @@ import {
     ReadStillImageFileValue,
     ReadTextValueAsHtml,
     ReadTextValueAsString,
-    ReadTextValueAsXml,
+    ReadTextValueAsXml, ReadUriValue,
     ReferredResourcesByStandoffLink
 } from "./read-property-item";
 import {AppConfig} from "../../../../app.config";
@@ -192,6 +192,18 @@ export module ConvertJSONLD {
                 );
 
                 valueSpecificProp = readGeomValue;
+
+                break;
+
+            case AppConfig.UriValue:
+
+                let uriValue: ReadUriValue = new ReadUriValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.uriValueAsUri]
+                );
+
+                valueSpecificProp = uriValue;
 
                 break;
 

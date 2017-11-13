@@ -4,7 +4,13 @@ import {MatSelectChange} from "@angular/material";
 
 enum ValueTypes {
     TextValue = 0,
-    DateValue = 1
+    DateValue = 1,
+    LinkValue = 2,
+    IntegerValue = 3,
+    DecimalValue = 4,
+    StillImageFileValue = 5,
+    ColorValue = 6,
+    GeometryValue = 7
 }
 
 @Component({
@@ -50,7 +56,7 @@ export class SelectPropertyComponent implements OnInit {
         let propIri = change.value;
 
         let prop: Property = this.properties[propIri];
-        
+
         console.log(prop);
     }
 

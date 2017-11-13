@@ -355,7 +355,7 @@ export class RegionGeometry {
  */
 export class ReadGeomValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly geometryString:string) {
+    constructor(readonly id:string, readonly propIri: string, readonly geometryString:string) {
 
       let geometryJSON = JSON.parse(geometryString);
 
@@ -391,4 +391,25 @@ export class ReadGeomValue implements ReadPropertyItem {
     getClassName():string {
         return this.constructor.name;
     }
+}
+
+/**
+ * Represents a URI value object.
+ */
+export class ReadUriValue implements ReadPropertyItem {
+
+    constructor(readonly id: string, readonly propIri: string, readonly uri: string) {
+
+    }
+
+    readonly type = AppConfig.UriValue;
+
+    getContent(): string {
+        return `<a href="${this.uri}" target="_blank">${this.uri}</a>`;
+    };
+
+    getClassName():string {
+        return this.constructor.name;
+    }
+
 }
