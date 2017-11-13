@@ -117,7 +117,6 @@ export class UsersListComponent implements OnInit {
                 this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
             }
 
-
             // get project members
             this._projectsService.getProjectMembersByIri(this.project)
                 .subscribe(
@@ -126,8 +125,12 @@ export class UsersListComponent implements OnInit {
 
                         // TODO: move the following lines into a method
                         for (const au of this.allUsers) {
+                            // TODO: get all user profiles here
+                            // ...
+
                             if (au.status === true) {
                                 this.allActiveUsers.push(au);
+
                             } else {
                                 this.allInactiveUsers.push(au);
                             }

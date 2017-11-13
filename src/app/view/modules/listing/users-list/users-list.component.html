@@ -83,7 +83,7 @@
 
     <div *ngSwitchCase="'expansion'">
         <h3 mat-subheader># Users: {{countActive}}
-            <span *ngIf="selectedRow === undefined && countAll > 1"> | {{sortTitle}}
+            <span *ngIf="selectedRow === undefined && countAll > 1">&nbsp;| {{sortTitle}}
                 <button mat-button
                         *ngIf="selectedRow == undefined"
                         (click)="sortBy(sortKey)"
@@ -112,9 +112,8 @@
         </mat-accordion>
     </div>
 
-
     <!-- default list -->
-    <mat-list class="salsah-list" *ngSwitchDefault>
+    <mat-list *ngSwitchDefault class="salsah-list" >
         <h3 mat-subheader># Users: {{countActive}}
             <span *ngIf="selectedRow === undefined && countAll > 1"> | {{sortTitle}}
                 <button mat-button
