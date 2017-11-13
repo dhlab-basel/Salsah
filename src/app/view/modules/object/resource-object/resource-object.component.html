@@ -28,6 +28,7 @@
                 <read-decimal-value *ngSwitchCase="AppConfig.ReadDecimalValue" [valueObject]="val.value"></read-decimal-value>
                 <salsah-read-geom-value *ngSwitchCase="AppConfig.ReadGeomValue" [valueObject]="val.value"></salsah-read-geom-value>
                 <salsah-read-color-value *ngSwitchCase="AppConfig.ReadColorValue" [valueObject]="val.value"></salsah-read-color-value>
+                <read-uri-value *ngSwitchCase="AppConfig.ReadUriValue" [valueObject]="val.value"></read-uri-value>
                 <span *ngSwitchDefault="">Not supported {{val.value.getClassName()}}</span>
             </span>
             </li></ul>
