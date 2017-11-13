@@ -414,6 +414,9 @@ export class ReadUriValue implements ReadPropertyItem {
 
 }
 
+/**
+ * Represents a Boolean value object.
+ */
 export class ReadBooleanValue implements ReadPropertyItem {
 
     constructor(readonly id: string, readonly propIri: string, readonly bool: boolean) {
@@ -424,6 +427,27 @@ export class ReadBooleanValue implements ReadPropertyItem {
 
     getContent(): string {
         return String(this.bool);
+    }
+
+    getClassName():string {
+        return this.constructor.name;
+    }
+
+}
+
+/**
+ * Represents an interval value object.
+ */
+export class ReadIntervalValue implements ReadPropertyItem {
+
+    constructor(readonly id: string, readonly propIri: string, readonly intervalStart: number, readonly intervalEnd: number) {
+
+    }
+
+    readonly type = AppConfig.IntervalValue;
+
+    getContent(): string {
+        return String(this.intervalStart) + "-" + String(this.intervalEnd);
     }
 
     getClassName():string {

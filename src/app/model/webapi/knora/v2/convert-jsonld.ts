@@ -21,7 +21,7 @@ import {
     ReadDateValue,
     ReadDecimalValue,
     ReadGeomValue,
-    ReadIntegerValue,
+    ReadIntegerValue, ReadIntervalValue,
     ReadLinkValue,
     ReadPropertyItem,
     ReadStillImageFileValue,
@@ -217,6 +217,20 @@ export module ConvertJSONLD {
                 );
 
                 valueSpecificProp = boolValue;
+
+                break;
+
+
+            case AppConfig.IntervalValue:
+
+                let intervalValue: ReadIntervalValue = new ReadIntervalValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.intervalValueHasStart],
+                    propValue[AppConfig.intervalValueHasEnd]
+                );
+
+                valueSpecificProp = intervalValue;
 
                 break;
 
