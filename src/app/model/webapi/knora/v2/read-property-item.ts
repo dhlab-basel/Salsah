@@ -455,3 +455,24 @@ export class ReadIntervalValue implements ReadPropertyItem {
     }
 
 }
+
+/**
+ * Represents an interval value object.
+ */
+export class ReadListValue implements ReadPropertyItem {
+
+    constructor(readonly id: string, readonly propIri: string, readonly listNodeIri: string) {
+
+    }
+
+    readonly type = AppConfig.ListValue;
+
+    getContent(): string {
+        return this.listNodeIri;
+    }
+
+    getClassName():string {
+        return this.constructor.name;
+    }
+
+}

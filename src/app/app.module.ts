@@ -122,6 +122,7 @@ import { SelectGraphComponent } from './view/modules/search/extended-search/sele
 import { ReadUriValueComponent } from './view/properties/read-uri-value/read-uri-value.component';
 import { ReadBooleanValueComponent } from './view/properties/read-boolean-value/read-boolean-value.component';
 import { ReadIntervalValueComponent } from './view/properties/read-interval-value/read-interval-value.component';
+import { ReadListValueComponent } from './view/properties/read-list-value/read-list-value.component';
 //
 // import all needed services
 //
@@ -211,6 +212,7 @@ import { ReadIntervalValueComponent } from './view/properties/read-interval-valu
         ReadUriValueComponent,
         ReadBooleanValueComponent,
         ReadIntervalValueComponent,
+        ReadListValueComponent,
     ],
     imports: [
         BrowserModule,

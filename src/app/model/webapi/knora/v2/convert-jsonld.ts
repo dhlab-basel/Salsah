@@ -22,7 +22,7 @@ import {
     ReadDecimalValue,
     ReadGeomValue,
     ReadIntegerValue, ReadIntervalValue,
-    ReadLinkValue,
+    ReadLinkValue, ReadListValue,
     ReadPropertyItem,
     ReadStillImageFileValue,
     ReadTextValueAsHtml,
@@ -231,6 +231,18 @@ export module ConvertJSONLD {
                 );
 
                 valueSpecificProp = intervalValue;
+
+                break;
+
+            case AppConfig.ListValue:
+
+                let listValue: ReadListValue = new ReadListValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.hierarchicalListValueAsListNode]
+                );
+
+                valueSpecificProp = listValue;
 
                 break;
 

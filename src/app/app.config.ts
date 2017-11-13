@@ -86,6 +86,7 @@ export class AppConfig {
     public static ReadUriValue: string = 'ReadUriValue';
     public static ReadBooleanValue: string = 'ReadBooleanValue';
     public static ReadIntervalValue: string = 'ReadIntervalValue';
+    public static ReadListValue: string = 'ReadListValue';
 
     public static valueAsString: string = AppConfig.KnoraApiV2WithValueObjectPath + 'valueAsString';
 
@@ -127,6 +128,8 @@ export class AppConfig {
 
     public static intervalValueHasStart = AppConfig.KnoraApiV2WithValueObjectPath + 'intervalValueHasStart';
     public static intervalValueHasEnd = AppConfig.KnoraApiV2WithValueObjectPath + 'intervalValueHasEnd';
+
+    public static hierarchicalListValueAsListNode = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNode';
 
     public static hasGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'hasGeometry';
 
