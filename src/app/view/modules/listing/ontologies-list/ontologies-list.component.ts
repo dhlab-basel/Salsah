@@ -23,9 +23,11 @@ import {ResourceTypeItem} from '../../../../model/webapi/knora/v1/resource-types
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
 import {ResourceTypes} from '../../../../model/webapi/knora/v1/resource-types/resource-types';
 
-export interface OntologiesHack {
-    [key: string]: ResourceTypeItem[]
+
+export class OntologiesHack {
+    [id: string]: ResourceTypeItem[];
 }
+
 
 @Component({
     selector: 'salsah-ontologies-list',
@@ -53,7 +55,7 @@ export class OntologiesListComponent implements OnInit {
     };
 
     // the main object in this component
-    allOntologies = {};
+    allOntologies: [OntologiesHack] = [new OntologiesHack()];
     allActive: string[] = [];
     allInactive: string[] = [];
     countAll: number;
@@ -78,6 +80,9 @@ export class OntologiesListComponent implements OnInit {
             // get project ontologies
             const ontologiesList: string[] = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
 
+            console.log(ontologiesList);
+
+            let i = 0;
             for (const item of ontologiesList) {
                 // make a request for each ontology and store the detailed information in allOntologies
 
@@ -87,15 +92,14 @@ export class OntologiesListComponent implements OnInit {
                             this.allOntologies[item] = result.getBody(ResourceTypes);
 //                            this.allOntologies.push(result.getBody(ResourceTypes));
                             this.isLoading = false;
-                            console.log(this.allOntologies[item]);
+                            console.log(this.allOntologies);
                         },
                         (error: ApiServiceError) => {
                             this.errorMessage = <any>error;
                             this.isLoading = false;
                         }
-
-                    )
-
+                    );
+                i++;
             }
 
 

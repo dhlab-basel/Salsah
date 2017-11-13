@@ -1,3 +1,6 @@
-<ul>
-    <li *ngFor="let item of allOntologies | key">{{item.key}}</li>
-</ul>
+<div *ngFor="let item of allOntologies | key">
+    <h3>{{item.key}}</h3>
+    <ul>
+        <li *ngFor="let restype of item.value.resourcetypes">{{restype.label}}</li>
+    </ul>
+</div>
