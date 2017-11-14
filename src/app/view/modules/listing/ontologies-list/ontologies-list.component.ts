@@ -23,9 +23,17 @@ import {ResourceTypeItem} from '../../../../model/webapi/knora/v1/resource-types
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
 import {ResourceTypes} from '../../../../model/webapi/knora/v1/resource-types/resource-types';
 
+import {JsonObject, JsonProperty} from 'json2typescript';
+import {ResourceType} from '../../../../model/webapi/knora/v1/resource-types/resource-type';
 
+@JsonObject
 export class OntologiesHack {
-    [id: string]: ResourceTypeItem[];
+
+    @JsonProperty('iri', String)
+    public iri: string = undefined;
+
+    @JsonProperty('resourcetypes', [ResourceTypeItem])
+    public resourcetypes: ResourceTypeItem[] = undefined;
 }
 
 
@@ -55,7 +63,7 @@ export class OntologiesListComponent implements OnInit {
     };
 
     // the main object in this component
-    allOntologies: [OntologiesHack] = [new OntologiesHack()];
+    allOntologies: OntologiesHack[] = [];
     allActive: string[] = [];
     allInactive: string[] = [];
     countAll: number;
@@ -83,15 +91,34 @@ export class OntologiesListComponent implements OnInit {
             console.log(ontologiesList);
 
             let i = 0;
-            for (const item of ontologiesList) {
+            for (const onto of ontologiesList) {
                 // make a request for each ontology and store the detailed information in allOntologies
 
-                this._resourceTypesService.getResourceTypesByVoc(item)
+                this._resourceTypesService.getResourceTypesByVoc(onto)
                     .subscribe(
                         (result: ApiServiceResult) => {
-                            this.allOntologies[item] = result.getBody(ResourceTypes);
+
+                            for (const restype of result.getBody(ResourceTypes).resourcetypes) {
+                                console.log(restype.id);
+                                this._resourceTypesService.getResourceType(restype.id)
+                                    .subscribe(
+                                        (res: ApiServiceResult) => {
+                                            console.log(res.getBody(ResourceType).restype_info);
+                                        },
+                                        (err: ApiServiceError) => {
+                                            console.log(err);
+                                        }
+                                    )
+                            }
+                            const temp_onto: any = {
+                                iri: onto,
+                                resourcetypes: result.getBody(ResourceTypes).resourcetypes
+                            };
+                            this.allOntologies.push(temp_onto);
+//                            this.allOntologies[item] = result.getBody(ResourceTypes);
 //                            this.allOntologies.push(result.getBody(ResourceTypes));
                             this.isLoading = false;
+                            console.log(i);
                             console.log(this.allOntologies);
                         },
                         (error: ApiServiceError) => {

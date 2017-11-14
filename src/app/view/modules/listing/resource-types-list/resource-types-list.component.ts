@@ -26,7 +26,7 @@ import {MessageData} from '../../message/message.component';
 })
 export class ResourceTypesListComponent implements OnInit {
 
-    @Input('restrictedBy') project: string;
+    @Input('restrictedBy') project: string; // TODO: we have to change the restrcitedBy value from project iri to the ontology iri
     @Input() index: number;
 
     @Output() toggleItem = new EventEmitter<any>();
@@ -83,8 +83,7 @@ export class ResourceTypesListComponent implements OnInit {
             // close the detail view
             this.selectedRow = undefined;
             this.toggleItem.emit({id, index});
-        }
-        else {
+        } else {
             // open the detail view
             this.selectedRow = index;
             this.toggleItem.emit({id, index});
