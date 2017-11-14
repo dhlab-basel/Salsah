@@ -20,24 +20,25 @@
             </tr>
             <tr *ngFor="let item of allActiveUsers | sortBy: sortKey; let i = index;">
                 <td class="salsah-avatar-cell">
-                    <img salsahImage [image]="item.email" [type]="'user'" class="salsah-avatar-image"/>
+                    <img salsahImage [image]="item?.userData.email" [type]="'user'" class="salsah-avatar-image"/>
                 </td>
-                <td>{{item.givenName}}</td>
-                <td>{{item.familyName}}</td>
-                <td>{{item.email}}</td>
+                <td>{{item?.userData.givenName}}</td>
+                <td>{{item?.userData.familyName}}</td>
+                <td>{{item?.userData.email}}</td>
                 <td>
                     <div class="hidden">
 
                         <button mat-icon-button
-                                (click)="setInactive(item.user_id, item.givenName + ' ' + item.familyName)"
+                                (click)="setInactive(item?.userData.user_id, item?.userData.givenName + ' ' + item?.userData.familyName)"
                                 matTooltip="Delete user">
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <button mat-icon-button (click)="edit(item.user_id)" matTooltip="Edit user">
+                        <button mat-icon-button (click)="edit(item?.userData.user_id)" matTooltip="Edit user">
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="open(item.email)" matTooltip="Go to the user's dashboard">
+                        <button mat-icon-button (click)="open(item?.userData.email)"
+                                matTooltip="Go to the user's dashboard">
                             <mat-icon>forward</mat-icon>
                         </button>
                     </div>
@@ -57,22 +58,23 @@
             </tr>
             <tr *ngFor="let item of allInactiveUsers | sortBy: sortKeyIA; let i = index;">
                 <td class="salsah-avatar-cell">
-                    <img salsahImage [image]="item.email" [type]="'user'" class="salsah-avatar-image"/>
+                    <img salsahImage [image]="item?.userData.email" [type]="'user'" class="salsah-avatar-image"/>
                 </td>
-                <td>{{item.givenName}}</td>
-                <td>{{item.familyName}}</td>
-                <td>{{item.email}}</td>
+                <td>{{item?.userData.givenName}}</td>
+                <td>{{item?.userData.familyName}}</td>
+                <td>{{item?.userData.email}}</td>
                 <td>
                     <div class="hidden">
                         <button mat-icon-button
-                                (click)="setActive(item.user_id,  item.givenName + ' ' + item.familyName)"
+                                (click)="setActive(item?.userData.user_id,  item?.userData.givenName + ' ' + item?.userData.familyName)"
                                 matTooltip="Activate user">
                             <mat-icon>refresh</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="edit(item.user_id)" matTooltip="Edit user">
+                        <button mat-icon-button (click)="edit(item?.userData.user_id)" matTooltip="Edit user">
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="open(item.email)" matTooltip="Go to the user dashboard">
+                        <button mat-icon-button (click)="open(item?.userData.email)"
+                                matTooltip="Go to the user dashboard">
                             <mat-icon>forward</mat-icon>
                         </button>
                     </div>
@@ -93,14 +95,22 @@
             </span>
         </h3>
         <mat-accordion class="example-headers-align">
-            <mat-expansion-panel *ngFor="let item of allUsers | sortBy: sortKey; let i = index"
+            <mat-expansion-panel *ngFor="let item of allActiveUsers | sortBy: sortKey; let i = index"
                                  [expanded]="step === i" (opened)="setStep(i)" hideToggle="true">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        {{item?.givenName}} {{item?.familyName}}
+                        {{item?.userData.givenName}} {{item?.userData.familyName}}
                     </mat-panel-title>
                     <mat-panel-description>
-                        admin or not
+                        <mat-chip-list *ngIf="item?.permissionData.groupsPerProject[project]">
+                            <span *ngFor="let iri of item?.permissionData.groupsPerProject[project]">
+                                <mat-chip color="primary" selected="true" *ngIf="iri === 'http://www.knora.org/ontology/knora-base#ProjectAdmin'">admin</mat-chip>
+                                <!--
+                                <mat-chip *ngIf="iri === 'http://www.knora.org/ontology/knora-base#ProjectMember'">member</mat-chip>
+                                -->
+                            </span>
+
+                        </mat-chip-list>
                         <mat-icon>person</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
@@ -113,7 +123,7 @@
     </div>
 
     <!-- default list -->
-    <mat-list *ngSwitchDefault class="salsah-list" >
+    <mat-list *ngSwitchDefault class="salsah-list">
         <h3 mat-subheader># Users: {{countActive}}
             <span *ngIf="selectedRow === undefined && countAll > 1"> | {{sortTitle}}
                 <button mat-button

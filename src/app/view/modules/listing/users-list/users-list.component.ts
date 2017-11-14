@@ -26,6 +26,8 @@ import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.componen
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
+import {User} from '../../../../model/webapi/knora/v1/users/user';
+import {UserProfile} from '../../../../model/webapi/knora/v1/users/user-profile';
 
 @Component({
     selector: 'salsah-users-list',
@@ -66,8 +68,8 @@ export class UsersListComponent implements OnInit {
 
     // the main objects in this component
     allUsers: UserData[] = [];
-    allActiveUsers: UserData[] = [];
-    allInactiveUsers: UserData[] = [];
+    allActiveUsers: UserProfile[] = [];
+    allInactiveUsers: UserProfile[] = [];
     countAll: number;
     countActive: number;
     countInactive: number;
@@ -127,18 +129,26 @@ export class UsersListComponent implements OnInit {
                         for (const au of this.allUsers) {
                             // TODO: get all user profiles here
                             // ...
+                            this._userService.getUserByIri(au.user_id)
+                                .subscribe(
+                                    (userResult: ApiServiceResult) => {
+                                        const user: UserProfile = userResult.getBody(User).userProfile;
+                                        if (user.userData.status === true) {
+                                            this.allActiveUsers.push(user);
+                                            this.countActive = this.allActiveUsers.length;
 
-                            if (au.status === true) {
-                                this.allActiveUsers.push(au);
+                                        } else {
+                                            this.allInactiveUsers.push(user);
+                                            this.countInactive = this.allInactiveUsers.length;
+                                        }
+                                    },
+                                    (userError: ApiServiceError) => {
+                                        this.errorMessage = <any>userError;
+                                    }
+                                );
 
-                            } else {
-                                this.allInactiveUsers.push(au);
-                            }
                         }
                         this.countAll = Object.keys(this.allUsers).length;
-                        this.countActive = Object.keys(this.allActiveUsers).length;
-                        this.countInactive = Object.keys(this.allInactiveUsers).length;
-
                         // set an array of the project members in local storage
                         // it's a list of user IRIs
                         // we need it, when we want to add new members to a project
@@ -162,16 +172,28 @@ export class UsersListComponent implements OnInit {
                     (result: ApiServiceResult) => {
                         this.allUsers = result.getBody(UsersList).users;
                         for (const au of this.allUsers) {
-                            if (au.status === true) {
-                                this.allActiveUsers.push(au);
-                            } else {
-                                this.allInactiveUsers.push(au);
-                            }
+                            this._userService.getUserByIri(au.user_id)
+                                .subscribe(
+                                    (userResult: ApiServiceResult) => {
+                                        const user: UserProfile = userResult.getBody(User).userProfile;
+                                        if (user.userData.status === true) {
+                                            this.allActiveUsers.push(user);
+                                            this.countActive = this.allActiveUsers.length;
+
+                                        } else {
+                                            this.allInactiveUsers.push(user);
+                                            this.countInactive = this.allInactiveUsers.length;
+                                        }
+                                    },
+                                    (userError: ApiServiceError) => {
+                                        this.errorMessage = <any>userError;
+                                    }
+                                );
+
                         }
                         this.countAll = Object.keys(this.allUsers).length;
-                        this.countActive = Object.keys(this.allActiveUsers).length;
-                        this.countInactive = Object.keys(this.allInactiveUsers).length;
                         this.isLoading = false;
+
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
