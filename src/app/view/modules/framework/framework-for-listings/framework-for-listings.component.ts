@@ -12,12 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MessageData} from '../../message/message.component';
 import {ActivatedRoute, Params} from '@angular/router';
+import {OntologiesListComponent} from '../../listing/ontologies-list/ontologies-list.component';
+import {UsersListComponent} from '../../listing/users-list/users-list.component';
 
 export interface ListData {
     title: string,
@@ -48,7 +50,7 @@ export interface AddData {
  *
  * Both input type objects are defined in framework-for-listings.component.ts
  */
-export class FrameworkForListingsComponent implements OnInit, OnChanges {
+export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterViewInit {
 
     // get the list data
     @Input() list: ListData;
@@ -94,6 +96,10 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
     // id (almost the iri) of the selected person
     id: string;
 
+    // using a counter variable to show the number of items direct in the header
+    @ViewChild(UsersListComponent) child;
+    counter: number;
+
 //    constructor(@Inject(ElementRef) elementRef: ElementRef, @Inject(Injector) injector: Injector)
     constructor(private _dialog: MatDialog,
                 private _route: ActivatedRoute,
@@ -133,6 +139,11 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
 
     ngOnChanges() {
 //        console.log(this.list);
+    }
+
+    ngAfterViewInit() {
+        console.log(this.child.countActive);
+        this.counter = this.child.countActive;
     }
 
     //

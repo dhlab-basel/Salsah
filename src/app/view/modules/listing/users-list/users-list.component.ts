@@ -49,6 +49,7 @@ export class UsersListComponent implements OnInit {
     @Input() listType?: string;
 
     @Output() toggleItem = new EventEmitter<any>();
+    @Output() counter: EventEmitter<number> = new EventEmitter<number>();
 
     loggedInAdmin: boolean = false;
 
@@ -136,7 +137,6 @@ export class UsersListComponent implements OnInit {
                                         if (user.userData.status === true) {
                                             this.allActiveUsers.push(user);
                                             this.countActive = this.allActiveUsers.length;
-
                                         } else {
                                             this.allInactiveUsers.push(user);
                                             this.countInactive = this.allInactiveUsers.length;

@@ -94,7 +94,7 @@
                 </button>
             </span>
         </h3>
-        <mat-accordion class="example-headers-align">
+        <mat-accordion class="example-headers-align" hideToggle="false">
             <mat-expansion-panel *ngFor="let item of allActiveUsers | sortBy: sortKey; let i = index"
                                  [expanded]="step === i" (opened)="setStep(i)" hideToggle="true">
                 <mat-expansion-panel-header>

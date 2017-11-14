@@ -7,7 +7,7 @@
     <!-- this module has a list with different positions: left or center (= default) -->
     <div class="salsah-list" [ngClass]="[position, listSize]">
         <div class="salsah-list-header">
-            <h3 mat-header [class.has-border]="list.description">{{list.title}}</h3>
+            <h3 mat-header [class.has-border]="list.description"><span >{{counter}}</span> {{list.title}}</h3>
             <p mat-subheader>{{list.description}}</p>
         </div>
 
