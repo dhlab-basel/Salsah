@@ -132,29 +132,26 @@ export class EditResourceClassComponent implements OnChanges {
 
     // the following form fields would have an error check
     formPropErrors = {
-        'prps': {
+        prps: {
             'label': '',
             'gui_name': '',
             'occurrence': '',
             'vocabulary': ''
         }
-
     };
     // ...with the following messages
     propValidationMessages = {
-        'prps': {
-            'label': {
-                'required': 'Property label is required'
-            },
-            'gui_name': {
-                'required': 'Property gui name is required'
-            },
-            'occurrence': {
-                'required': 'Property occurrence is required'
-            },
-            'vocabulary': {
-                'required': 'Vocabulary is required'
-            }
+        'label': {
+            'required': 'Property label is required'
+        },
+        'gui_name': {
+            'required': 'Property gui name is required'
+        },
+        'occurrence': {
+            'required': 'Property occurrence is required'
+        },
+        'vocabulary': {
+            'required': 'Vocabulary is required'
         }
     };
 
@@ -178,7 +175,7 @@ export class EditResourceClassComponent implements OnChanges {
 
                     // -------------resource edit validation configuration-------------------
                     this.eRForm4class = this._fb.group({
-                        'resLabel': this.resType.label,
+                        'resLabel': [this.resType.label, Validators.required],
                         'resIcon': this.resType.icon,
                         'resDescription': this.resType.description,
                     });
@@ -193,7 +190,6 @@ export class EditResourceClassComponent implements OnChanges {
 
                     // -------------properties edit validation configuration-------------------
                     this.eRForm4prop = this._fb4p.group({
-
                         'prps': this._fb.array([
                             this._fb.group({
                                 'name': '',
@@ -260,20 +256,53 @@ export class EditResourceClassComponent implements OnChanges {
         });
     }
 
-    onPropValueChanged(data?: any) {
-
+    onPropValueChanged(data: any) {
+            // if (!this.eRForm4prop) { return; }
+            // const form = this.eRForm4prop;
+            //
+            // // iterate toplevel of formPropErrors
+            // for (const field in this.formPropErrors) {
+            //     // check if the field corresponds a formgroup (controls is present)
+            //     if(form.get(field).controls ) {
+            //         // if yes, iterate the inner formfields
+            //         for(const subfield in form.get(field).controls) {
+            //             // in this example corresponds = "child", reset the error messages
+            //             this.formPropErrors[field][subfield] = '';
+            //             // now access the actual formfield
+            //             const control = form.get(field).controls(subfield);
+            //             // validate and show appropriate error message
+            //             if (control && control.dirty && !control.valid) {
+            //                 const messages = this.propValidationMessages[subfield];
+            //                 for (const key in control.errors) {
+            //                     this.formPropErrors[field][subfield] += messages[key] + ' ';
+            //                 }
+            //             }
+            //         }
+            //     }
+            //     // does not contain a nested formgroup, so just iterate like before making changes to this method
+            //     else {
+            //         const control = form.get(field);
+            //         this.formPropErrors[field] = '';
+            //         if (control && control.dirty && !control.valid) {
+            //             const messages = this.propValidationMessages[field];
+            //             for (const key in control.errors) {
+            //                 this.formPropErrors[field] += messages[key] + ' ';
+            //             }
+            //         }
+            //     }
+            // }
         if (!this.eRForm4prop) {
             return;
         }
-
         const form = this.eRForm4prop;
-        Object.keys(this.formPropErrors.prps).map(field => {
-            this.formPropErrors.prps[field] = '';
+        Object.keys(this.formPropErrors).map(field => {
+            this.formPropErrors[field] = '';
             const control = form.get(field);
+            console.log(field);
             if (control && control.dirty && !control.valid) {
-                const messages = this.propValidationMessages.prps[field];
+                const messages = this.propValidationMessages[field];
                 Object.keys(control.errors).map(key => {
-                    this.formPropErrors.prps[field] += messages[key] + ' ';
+                    this.formPropErrors[field] += messages[key] + ' ';
                 });
             }
         });

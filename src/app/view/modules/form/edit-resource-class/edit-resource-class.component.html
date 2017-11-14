@@ -43,8 +43,7 @@
                            class="form-control"
                            placeholder={{editResFormLabels.resource.label}}
                            id="resLabel"
-                           formControlName="resLabel"
-                           required>
+                           formControlName="resLabel">
                     <mat-hint *ngIf="formErrors.resLabel">
                         {{ formErrors.resLabel }}
                     </mat-hint>
@@ -110,8 +109,8 @@
                            class="form-control"
                            placeholder={{editResFormLabels.resource.prps.label}}
                            formControlName="label">
-                    <mat-hint *ngIf="propValidationMessages.label">
-                    {{ propValidationMessages.label }}
+                    <mat-hint *ngIf="formPropErrors.label ">
+                    {{ formPropErrors.label }}
                     </mat-hint>
                 </mat-form-field>
                 <mat-form-field class="full-width">
