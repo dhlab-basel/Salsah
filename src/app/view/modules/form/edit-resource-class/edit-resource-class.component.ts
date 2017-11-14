@@ -14,12 +14,12 @@
 
 import {Component, EventEmitter, OnChanges, Inject, Input, Output, OnInit} from '@angular/core';
 import {FormBuilder, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ResourceTypesService} from "../../../../model/services/resource-types.service";
-import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import {Properties, ResourceType, ResourceTypeInfo} from '../../../../model/webapi/knora/';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {ProjectsList, ProjectItem} from '../../../../model/webapi/knora/';
 
 import {
     trigger,
@@ -28,8 +28,8 @@ import {
     animate,
     transition
 } from '@angular/animations';
-import {ResourceTypeProperty} from "../../../../model/webapi/knora/v1/resource-types/resource-type-property";
-import {PropertyItem} from "../../../../model/webapi/knora/v1/properties/property-item";
+import {ResourceTypeProperty} from '../../../../model/webapi/knora/v1/resource-types/resource-type-property';
+import {PropertyItem} from '../../../../model/webapi/knora/v1/properties/property-item';
 
 //animations are used to create collapsible cards content
 @Component({
@@ -46,7 +46,6 @@ export class EditResourceClassComponent implements OnChanges {
     @Input('projects') projectsList: ProjectItem[];
 
 
-
     resType: ResourceTypeInfo = new ResourceTypeInfo;
 
     props: PropertyItem[];
@@ -61,7 +60,7 @@ export class EditResourceClassComponent implements OnChanges {
 
     public editResFormLabels: any = {
         label: 'Resource',
-        description:'Click to edit the resource name',
+        description: 'Click to edit the resource name',
         resource: {
             label: 'Resource label',
             description: 'Resource description',
@@ -80,42 +79,42 @@ export class EditResourceClassComponent implements OnChanges {
                 icon: 'Icon'
             }
         },
-        addProp:{
+        addProp: {
             label: 'Add new property',
             description: 'Add new or create a custom property'
         },
-        buttons:{
-            save: "Save",
-            reset: "Reset",
-            close: "Close",
-            edit: "Edit",
+        buttons: {
+            save: 'Save',
+            reset: 'Reset',
+            close: 'Close',
+            edit: 'Edit',
         }
     };
 
     guiItems: string[] = [
-        "text",
-        "richtext",
-        "textarea",
-        "number",
-        "searchbox",
-        "fileupload",
-        "date",
-        "radio",
-        "hlist",
-        "pulldown",
-        "spinbox",
-        "richtext",
-        "checkbox",
-        "interval",
-        "colorpicker",
-        "geometry"
+        'text',
+        'richtext',
+        'textarea',
+        'number',
+        'searchbox',
+        'fileupload',
+        'date',
+        'radio',
+        'hlist',
+        'pulldown',
+        'spinbox',
+        'richtext',
+        'checkbox',
+        'interval',
+        'colorpicker',
+        'geometry'
     ];
 
     cardinalityList: string[] = [
-        "1",
-        "1-n",
-        "0-1",
-        "0-n"
+        '1',
+        '1-n',
+        '0-1',
+        '0-n'
     ];
 
     // the following form fields would have an error check
@@ -134,15 +133,16 @@ export class EditResourceClassComponent implements OnChanges {
     // the following form fields would have an error check
     formPropErrors = {
         'prps': {
-            'label':'',
-            'gui_name':'',
-            'occurrence':'',
-            'vocabulary':'',
+            'label': '',
+            'gui_name': '',
+            'occurrence': '',
+            'vocabulary': ''
         }
+
     };
     // ...with the following messages
     propValidationMessages = {
-        'prps':{
+        'prps': {
             'label': {
                 'required': 'Property label is required'
             },
@@ -154,7 +154,7 @@ export class EditResourceClassComponent implements OnChanges {
             },
             'vocabulary': {
                 'required': 'Vocabulary is required'
-            },
+            }
         }
     };
 
@@ -176,10 +176,10 @@ export class EditResourceClassComponent implements OnChanges {
                     this.resIcon = this.resType.icon;
                     this.props = this.resType.properties;
 
-                //-------------resource edit validation configuration-------------------
+                    // -------------resource edit validation configuration-------------------
                     this.eRForm4class = this._fb.group({
                         'resLabel': this.resType.label,
-                        'resIcon' : this.resType.icon,
+                        'resIcon': this.resType.icon,
                         'resDescription': this.resType.description,
                     });
 
@@ -191,21 +191,22 @@ export class EditResourceClassComponent implements OnChanges {
                     // console.log(this.eRForm4class.get('prps.label'));
 
 
-                //-------------properties edit validation configuration-------------------
+                    // -------------properties edit validation configuration-------------------
                     this.eRForm4prop = this._fb4p.group({
+
                         'prps': this._fb.array([
-                            // this._fb.group({
-                                // 'name': '',
-                                // 'guiorder': '',
-                                // 'description': '',
-                                // 'valuetype_id': '',
-                                // 'label': '',
-                                // 'vocabulary': '',
-                                // 'attributes': '',
-                                // 'occurrence': '',
-                                // 'id': '',
-                                // 'gui_name': ''
-                            // })
+                            this._fb.group({
+                                'name': '',
+                                'guiorder': '',
+                                'description': '',
+                                'valuetype_id': '',
+                                'label': ['', Validators.required],
+                                'vocabulary': '',
+                                'attributes': '',
+                                'occurrence': '',
+                                'id': '',
+                                'gui_name': ''
+                            })
                         ])
                     });
 
@@ -236,14 +237,14 @@ export class EditResourceClassComponent implements OnChanges {
         return this.eRForm4prop.get('prps') as FormArray;
     };
 
-    setProps(props: PropertyItem[]){
-        const propsFGs = props.map(aprop => this._fb4p.group(aprop))
+    setProps(props: PropertyItem[]) {
+        const propsFGs = props.map(aprop => this._fb4p.group(aprop));
         const propArray = this._fb.array(propsFGs);
         this.eRForm4prop.setControl('prps', propArray);
     }
 
     onResValueChanged(data?: any) {
-        if (!this.eRForm4class ) {
+        if (!this.eRForm4class) {
             return;
         }
         const form = this.eRForm4class;
@@ -258,34 +259,36 @@ export class EditResourceClassComponent implements OnChanges {
             }
         });
     }
+
     onPropValueChanged(data?: any) {
 
-        if (!this.eRForm4prop ) {
+        if (!this.eRForm4prop) {
             return;
         }
 
         const form = this.eRForm4prop;
-        Object.keys(this.formPropErrors).map(field => {
-            this.formPropErrors[field] = '';
+        Object.keys(this.formPropErrors.prps).map(field => {
+            this.formPropErrors.prps[field] = '';
             const control = form.get(field);
             if (control && control.dirty && !control.valid) {
-                const messages = this.propValidationMessages[field];
+                const messages = this.propValidationMessages.prps[field];
                 Object.keys(control.errors).map(key => {
-                    this.formPropErrors[field] += messages[key] + ' ';
+                    this.formPropErrors.prps[field] += messages[key] + ' ';
                 });
             }
         });
     }
 
 
-    editResources(){
+    editResources() {
         this.editResource = true;
     }
-    closeEditView(){
+
+    closeEditView() {
         this.editResource = false;
     }
 
-    //form functions
+    // form functions
     submitResEdit(): void {
         if (this.resType !== undefined) {
             console.log('Your submitted data is: ', this.eRForm4class.value);
@@ -305,7 +308,7 @@ export class EditResourceClassComponent implements OnChanges {
         console.log('you submitted value:', data);
     }
 
-    resetDefaultRes(): void{
+    resetDefaultRes(): void {
         // this.eRForm4class.reset();
         this._resourceTypesService.getResourceType(this.iri)
             .subscribe(
@@ -316,7 +319,7 @@ export class EditResourceClassComponent implements OnChanges {
                     //    resource form validation configuration
                     this.eRForm4class = this._fb.group({
                         'resLabel': [this.resType.label, Validators.required],
-                        'resIcon' : this.resType.icon,
+                        'resIcon': this.resType.icon,
                         'resDescription': this.resType.description
                     });
                 },
@@ -329,7 +332,7 @@ export class EditResourceClassComponent implements OnChanges {
     // At this moment there is a mix-up when reordering the properties with drag and drop and then resetting: the property resets to the one with the respective index
     // (i.e. if I move a prop[6] from position 6 to position 3, it will reset to prop[3]). This should be fixed when we actually submit the data to Knora, since then
     // we will get the updated list every time after saving.
-    resetDefaultProp(index: number): void{
+    resetDefaultProp(index: number): void {
         if (this.resType.properties[index] !== undefined) {
             this._resourceTypesService.getResourceType(this.iri)
                 .subscribe(
@@ -344,17 +347,19 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
 
-    //sets default values from json files on mat-select
+    // sets default values from json files on mat-select
     setGUI(index: number, event) {
         if (this.resType.properties[index] !== undefined) {
             this.resType.properties[index].gui_name = event.value;
         }
     }
+
     setOcc(index: number, event) {
         if (this.resType.properties[index] !== undefined) {
             this.resType.properties[index].occurrence = event.value;
         }
     }
+
     setVoc(index: number, event) {
         if (this.resType.properties[index] !== undefined) {
             this.resType.properties[index].vocabulary = event.value;
