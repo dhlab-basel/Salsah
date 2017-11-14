@@ -120,7 +120,19 @@ export class EditResourceClassComponent implements OnChanges {
 
     // the following form fields would have an error check
     formErrors = {
-        'resLabel': '',
+        'resLabel': ''
+    };
+    // ...with the following messages
+    validationMessages = {
+        'resLabel': {
+            'required': 'Resource label is required'
+        },
+
+
+    };
+
+    // the following form fields would have an error check
+    formPropErrors = {
         'prps': {
             'label':'',
             'gui_name':'',
@@ -129,11 +141,8 @@ export class EditResourceClassComponent implements OnChanges {
         }
     };
     // ...with the following messages
-    validationMessages = {
-        'resLabel': {
-            'required': 'Resource label is required'
-        },
-        'prps': {
+    propValidationMessages = {
+        'prps':{
             'label': {
                 'required': 'Property label is required'
             },
@@ -149,18 +158,6 @@ export class EditResourceClassComponent implements OnChanges {
         }
     };
 
-    // the following form fields would have an error check
-    formPropErrors = {
-        'propLabel': ''
-    };
-    // ...with the following messages
-    propValidationMessages = {
-        'propLabel': {
-            'required': 'Property label is required'
-        }
-    };
-
-    k: any = 0;
 
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _projectsService: ProjectsService,
@@ -179,13 +176,25 @@ export class EditResourceClassComponent implements OnChanges {
                     this.resIcon = this.resType.icon;
                     this.props = this.resType.properties;
 
-                    //    resource form validation configuration
+                //-------------resource edit validation configuration-------------------
                     this.eRForm4class = this._fb.group({
                         'resLabel': this.resType.label,
                         'resIcon' : this.resType.icon,
                         'resDescription': this.resType.description,
+                    });
+
+                    // validation messages
+                    this.eRForm4class.valueChanges
+                        .subscribe(data => this.onResValueChanged(data));
+
+                    // console.log(this.eRForm4class.value);
+                    // console.log(this.eRForm4class.get('prps.label'));
+
+
+                //-------------properties edit validation configuration-------------------
+                    this.eRForm4prop = this._fb4p.group({
                         'prps': this._fb.array([
-                            this._fb.group({
+                            // this._fb.group({
                                 // 'name': '',
                                 // 'guiorder': '',
                                 // 'description': '',
@@ -196,17 +205,15 @@ export class EditResourceClassComponent implements OnChanges {
                                 // 'occurrence': '',
                                 // 'id': '',
                                 // 'gui_name': ''
-                            })
+                            // })
                         ])
                     });
 
                     this.setProps(this.resType.properties);
 
-                    this.eRForm4class.valueChanges
-                        .subscribe(data => this.onResValueChanged(data));
-
-                    console.log(this.eRForm4class.value);
-                    console.log(this.eRForm4class.get('prps.label'));
+                    // validation messages
+                    this.eRForm4prop.valueChanges
+                        .subscribe(data => this.onPropValueChanged(data));
 
                 },
 
@@ -226,13 +233,13 @@ export class EditResourceClassComponent implements OnChanges {
 
 
     get prps(): FormArray {
-        return this.eRForm4class.get('prps') as FormArray;
+        return this.eRForm4prop.get('prps') as FormArray;
     };
 
     setProps(props: PropertyItem[]){
-        const propsFGs = props.map(aprop => this._fb.group(aprop))
+        const propsFGs = props.map(aprop => this._fb4p.group(aprop))
         const propArray = this._fb.array(propsFGs);
-        this.eRForm4class.setControl('prps', propArray);
+        this.eRForm4prop.setControl('prps', propArray);
     }
 
     onResValueChanged(data?: any) {
@@ -290,7 +297,7 @@ export class EditResourceClassComponent implements OnChanges {
 
     submitPropEdit(index: number, event): void {
         if (this.resType.properties[index] !== undefined) {
-            console.log('Your submitted property is:', this.resType.properties[index]);
+            console.log('Your submitted property is:', this.eRForm4prop.value);
         }
     }
 
