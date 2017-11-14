@@ -96,10 +96,10 @@
         </h3>
         <mat-accordion class="example-headers-align" hideToggle="false">
             <mat-expansion-panel *ngFor="let item of allActiveUsers | sortBy: sortKey; let i = index"
-                                 [expanded]="step === i" (opened)="setStep(i)" hideToggle="true">
+                                 hideToggle="false">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        {{item?.userData.givenName}} {{item?.userData.familyName}}
+                        <h4>{{item?.userData.givenName}} {{item?.userData.familyName}}</h4>
                     </mat-panel-title>
                     <mat-panel-description>
                         <mat-chip-list *ngIf="item?.permissionData.groupsPerProject[project]">
@@ -114,7 +114,13 @@
                         <mat-icon>person</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-
+                <div>
+                    <img salsahImage [image]="item?.userData.email" [type]="'user'" class="salsah-avatar-image"/>
+                    <a href="mailto:{{item?.userData.email}}">{{item?.userData.email}}</a>
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let proj of item?.projects_info | key">{{proj.value.shortname}}</mat-chip>
+                    </mat-chip-list>
+                </div>
                 <mat-action-row>
                     <button mat-button color="primary">edit</button>
                 </mat-action-row>
