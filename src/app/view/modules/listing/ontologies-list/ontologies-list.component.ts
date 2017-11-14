@@ -27,13 +27,20 @@ import {JsonObject, JsonProperty} from 'json2typescript';
 import {ResourceType} from '../../../../model/webapi/knora/v1/resource-types/resource-type';
 
 @JsonObject
-export class OntologiesHack {
+export class OntologyInfo {
 
     @JsonProperty('iri', String)
     public iri: string = undefined;
 
     @JsonProperty('resourcetypes', [ResourceTypeItem])
     public resourcetypes: ResourceTypeItem[] = undefined;
+}
+
+@JsonObject
+export class Ontologies {
+
+    @JsonProperty('ontologies', [OntologyInfo])
+    public ontologies: OntologyInfo[] = undefined;
 }
 
 
@@ -63,7 +70,7 @@ export class OntologiesListComponent implements OnInit {
     };
 
     // the main object in this component
-    allOntologies: OntologiesHack[] = [];
+    allOntologies: OntologyInfo[] = [new OntologyInfo()];
     allActive: string[] = [];
     allInactive: string[] = [];
     countAll: number;
@@ -88,8 +95,6 @@ export class OntologiesListComponent implements OnInit {
             // get project ontologies
             const ontologiesList: string[] = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
 
-            console.log(ontologiesList);
-
             let i = 0;
             for (const onto of ontologiesList) {
                 // make a request for each ontology and store the detailed information in allOntologies
@@ -99,10 +104,12 @@ export class OntologiesListComponent implements OnInit {
                         (result: ApiServiceResult) => {
 
                             for (const restype of result.getBody(ResourceTypes).resourcetypes) {
-                                console.log(restype.id);
+
                                 this._resourceTypesService.getResourceType(restype.id)
                                     .subscribe(
                                         (res: ApiServiceResult) => {
+
+
                                             console.log(res.getBody(ResourceType).restype_info);
                                         },
                                         (err: ApiServiceError) => {
@@ -110,15 +117,15 @@ export class OntologiesListComponent implements OnInit {
                                         }
                                     )
                             }
-                            const temp_onto: any = {
+                            const temp_onto: OntologyInfo = {
                                 iri: onto,
                                 resourcetypes: result.getBody(ResourceTypes).resourcetypes
                             };
+
                             this.allOntologies.push(temp_onto);
 //                            this.allOntologies[item] = result.getBody(ResourceTypes);
 //                            this.allOntologies.push(result.getBody(ResourceTypes));
                             this.isLoading = false;
-                            console.log(i);
                             console.log(this.allOntologies);
                         },
                         (error: ApiServiceError) => {
