@@ -16,17 +16,18 @@ import {ReadResourcesSequence} from "./read-resources-sequence";
 import {ReadResource} from "./read-resource";
 import {ReadProperties} from "./read-properties";
 import {
+    ReadBooleanValue,
     ReadColorValue,
     ReadDateValue,
     ReadDecimalValue,
     ReadGeomValue,
-    ReadIntegerValue,
-    ReadLinkValue,
+    ReadIntegerValue, ReadIntervalValue,
+    ReadLinkValue, ReadListValue,
     ReadPropertyItem,
     ReadStillImageFileValue,
     ReadTextValueAsHtml,
     ReadTextValueAsString,
-    ReadTextValueAsXml,
+    ReadTextValueAsXml, ReadUriValue,
     ReferredResourcesByStandoffLink
 } from "./read-property-item";
 import {AppConfig} from "../../../../app.config";
@@ -192,6 +193,56 @@ export module ConvertJSONLD {
                 );
 
                 valueSpecificProp = readGeomValue;
+
+                break;
+
+            case AppConfig.UriValue:
+
+                let uriValue: ReadUriValue = new ReadUriValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.uriValueAsUri]
+                );
+
+                valueSpecificProp = uriValue;
+
+                break;
+
+            case AppConfig.BooleanValue:
+
+                let boolValue: ReadBooleanValue = new ReadBooleanValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.booleanValueAsBoolean]
+                );
+
+                valueSpecificProp = boolValue;
+
+                break;
+
+
+            case AppConfig.IntervalValue:
+
+                let intervalValue: ReadIntervalValue = new ReadIntervalValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.intervalValueHasStart],
+                    propValue[AppConfig.intervalValueHasEnd]
+                );
+
+                valueSpecificProp = intervalValue;
+
+                break;
+
+            case AppConfig.ListValue:
+
+                let listValue: ReadListValue = new ReadListValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.hierarchicalListValueAsListNode]
+                );
+
+                valueSpecificProp = listValue;
 
                 break;
 
