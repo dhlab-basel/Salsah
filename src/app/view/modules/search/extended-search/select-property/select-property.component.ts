@@ -21,6 +21,8 @@ export class SelectPropertyComponent implements OnInit {
 
     propertiesAsArray: Array<Property>;
 
+    propertySelected: Property;
+
     form: FormGroup;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
@@ -58,7 +60,9 @@ export class SelectPropertyComponent implements OnInit {
 
         let prop: Property = this.properties[propertyIri];
 
-        console.log(prop);
+        // TODO: build a form that allows the user to specify a comparison operator and a value for the chosen property
+
+        this.propertySelected = prop;
 
     }
 

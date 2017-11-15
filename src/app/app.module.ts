@@ -123,6 +123,7 @@ import { ReadUriValueComponent } from './view/properties/read-uri-value/read-uri
 import { ReadBooleanValueComponent } from './view/properties/read-boolean-value/read-boolean-value.component';
 import { ReadIntervalValueComponent } from './view/properties/read-interval-value/read-interval-value.component';
 import { ReadListValueComponent } from './view/properties/read-list-value/read-list-value.component';
+import { SpecifyPropertyValueComponent } from './view/modules/search/extended-search/specify-property-value/specify-property-value.component';
 //
 // import all needed services
 //
@@ -213,6 +214,7 @@ import { ReadListValueComponent } from './view/properties/read-list-value/read-l
         ReadBooleanValueComponent,
         ReadIntervalValueComponent,
         ReadListValueComponent,
+        SpecifyPropertyValueComponent,
     ],
     imports: [
         BrowserModule,
