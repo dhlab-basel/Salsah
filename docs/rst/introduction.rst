@@ -35,8 +35,6 @@ Introduction
 Salsah is a virtual research platform for the humanities. The name is an acronym which stands for System for Annotation and Linkage of Sources in Arts and Humanities. It is developed by the Digital_Humanities_Lab_ at the University_of_Basel_.
 In Salsah it should be possible to work with different kind of data and media -- it doesn't matter which kind of data a researcher is working with: it could be a book, a photograph, but also audio or video files.
 
- It helps researches to handle their projects and their resources
-
 The idea of SALSAH -- as a virtual research platform -- is to help researchers to handle a project, to organize the
 team and to work with digital sources. At the end it should be possible to present the data and the results on an own
 web publication platform.
