@@ -4,6 +4,7 @@ import {AuthenticationService} from './authentication.service';
 import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {UserService} from './user.service';
+import {ProjectsService} from './projects.service';
 
 describe('AuthenticationService', () => {
     beforeEach(() => {
@@ -14,6 +15,7 @@ describe('AuthenticationService', () => {
             providers: [
                 AuthenticationService,
                 UserService,
+                ProjectsService,
                 MockBackend,
                 BaseRequestOptions,
                 {
