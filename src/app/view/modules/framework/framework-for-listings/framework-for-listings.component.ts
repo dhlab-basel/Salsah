@@ -12,7 +12,16 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnChanges,
+    OnInit,
+    SimpleChange,
+    ViewChild
+} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
@@ -97,7 +106,8 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     id: string;
 
     // using a counter variable to show the number of items direct in the header
-    @ViewChild(UsersListComponent) child;
+    @ViewChild(UsersListComponent) users;
+    @ViewChild(OntologiesListComponent) ontologies;
     counter: number;
 
 //    constructor(@Inject(ElementRef) elementRef: ElementRef, @Inject(Injector) injector: Injector)
@@ -107,6 +117,17 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     }
 
     ngOnInit() {
+
+    }
+
+    ngOnChanges() {
+//        console.log(this.list);
+    }
+
+    ngAfterViewInit() {
+
+        console.log(this.list);
+
         // bad hack to get the project admin information
         if (localStorage.getItem('currentUser') !== null) {
             this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
@@ -135,15 +156,11 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
                 });
             }
         }
-    }
 
-    ngOnChanges() {
-//        console.log(this.list);
-    }
+        if (this.users) {
+            this.counter = this.users.countAll;
+        }
 
-    ngAfterViewInit() {
-        console.log(this.child.countActive);
-        this.counter = this.child.countActive;
     }
 
     //

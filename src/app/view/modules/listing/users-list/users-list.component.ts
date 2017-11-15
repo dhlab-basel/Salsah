@@ -49,6 +49,7 @@ export class UsersListComponent implements OnInit {
     @Input() listType?: string;
 
     @Output() toggleItem = new EventEmitter<any>();
+    // send the number of entries to the parent component (framework-for-listings) to us it there in the title
     @Output() counter: EventEmitter<number> = new EventEmitter<number>();
 
     loggedInAdmin: boolean = false;

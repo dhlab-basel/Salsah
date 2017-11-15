@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material';
 import {MessageData} from '../../message/message.component';
@@ -52,6 +52,9 @@ export class Ontologies {
 export class OntologiesListComponent implements OnInit {
 
     @Input('restrictedBy') project: string;
+
+    // send the number of entries to the parent component (framework-for-listings) to us it there in the title
+    @Output() counter: EventEmitter<number> = new EventEmitter<number>();
 
     loggedInAdmin: boolean = false;
 

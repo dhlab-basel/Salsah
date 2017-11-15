@@ -7,7 +7,7 @@
     <!-- this module has a list with different positions: left or center (= default) -->
     <div class="salsah-list" [ngClass]="[position, listSize]">
         <div class="salsah-list-header">
-            <h3 mat-header [class.has-border]="list.description"><span >{{counter}}</span> {{list.title}}</h3>
+            <h3 mat-header [class.has-border]="list.description"><span *ngIf="users || ontologies">{{counter}}</span> {{list.title}}</h3>
             <p mat-subheader>{{list.description}}</p>
         </div>
 
@@ -38,20 +38,6 @@
                                [index]="selectedRow"
                                (toggleItem)="toggleDetail($event, $event)">
             </salsah-users-list>
-            <!--
-            <div *ngSwitchCase="'user'">
-                <!-- show the users in a list with a detail (edit) view on the right hand side --
-                <salsah-users-list *ngIf="!list.showAsTable"
-                                   [restrictedBy]="list.restrictedBy"
-                                   [index]="selectedRow"
-                                   (toggleItem)="toggleDetail($event, $event)">
-                </salsah-users-list>
-                <!-- OR show the users in a table with a detail (edit) view in a dialog box --
-                <salsah-users-table *ngIf="list.showAsTable"
-                                    [restrictedBy]="list.restrictedBy">
-                </salsah-users-table>
-            </div>
-            -->
 
 
             <salsah-projects-list *ngSwitchCase="'project'"

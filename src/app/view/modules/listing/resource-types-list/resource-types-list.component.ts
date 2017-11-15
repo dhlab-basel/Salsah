@@ -30,6 +30,8 @@ export class ResourceTypesListComponent implements OnInit {
     @Input() index: number;
 
     @Output() toggleItem = new EventEmitter<any>();
+    // send the number of entries to the parent component (framework-for-listings) to us it there in the title
+    @Output() counter: EventEmitter<number> = new EventEmitter<number>();
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
