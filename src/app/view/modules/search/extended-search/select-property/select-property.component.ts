@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {Properties, Property} from "../../../../../model/services/ontologycache.service";
 import {MatSelectChange} from "@angular/material";
 import {AppConfig} from "../../../../../app.config";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
     selector: 'select-property',
@@ -20,7 +21,18 @@ export class SelectPropertyComponent implements OnInit {
 
     propertiesAsArray: Array<Property>;
 
-    constructor() {
+    form: FormGroup;
+
+    constructor(@Inject(FormBuilder) private fb: FormBuilder) {
+        // build a form for the named graph selection
+        this.form = fb.group({
+            property: [null, Validators.required]
+        });
+
+        // emit Iri of named graph when selected
+        this.form.valueChanges.subscribe((data) => {
+            this.propertyChosen(data.property);
+        })
     }
 
     ngOnInit() {
@@ -42,14 +54,11 @@ export class SelectPropertyComponent implements OnInit {
         this.propertiesAsArray = propsArray;
     }
 
-    propertyChosen(change: MatSelectChange) {
-        let propIri = change.value;
+    propertyChosen(propertyIri: string) {
 
-        let prop: Property = this.properties[propIri];
+        let prop: Property = this.properties[propertyIri];
 
-        //console.log(prop);
-
-
+        console.log(prop);
 
     }
 
