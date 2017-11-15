@@ -5,7 +5,7 @@
     </div>
 
     <div *ngIf="resourceClasses?.length > 0">
-        <select-class [setResourceClasses]="resourceClasses" (resourceClass)="getPropertiesForClass($event)"></select-class>
+        <select-class [setResourceClasses]="resourceClasses" (resourceClassSelected)="getPropertiesForClass($event)"></select-class>
     </div>
 
     <div *ngIf="properties !== undefined">

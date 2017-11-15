@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-
-import {MatSelectChange} from "@angular/material";
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {ResourceClass} from "../../../../../model/services/ontologycache.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
     selector: 'select-class',
@@ -13,19 +12,26 @@ export class SelectClassComponent implements OnInit {
         this.resourceClasses = value;
     };
 
+    @Output() resourceClassSelected = new EventEmitter<string>();
+
     resourceClasses: Array<ResourceClass>;
 
-    @Output() resourceClass = new EventEmitter<string>();
+    form: FormGroup;
 
-    constructor() {
+    constructor(@Inject(FormBuilder) private fb: FormBuilder) {
+
+        // build a form for the named graph selection
+        this.form = fb.group({
+            resourceClass: [null, Validators.required]
+        });
+
+        // emit Iri of named graph when selected
+        this.form.valueChanges.subscribe((data) => {
+            this.resourceClassSelected.emit(data.resourceClass);
+        })
     }
 
     ngOnInit() {
-    }
-
-    resourceClassChosen(change: MatSelectChange) {
-        this.resourceClass.emit(change.value);
-
     }
 
 }

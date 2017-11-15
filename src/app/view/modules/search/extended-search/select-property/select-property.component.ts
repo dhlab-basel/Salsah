@@ -1,17 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Properties, Property} from "../../../../../model/services/ontologycache.service";
 import {MatSelectChange} from "@angular/material";
-
-enum ValueTypes {
-    TextValue = 0,
-    DateValue = 1,
-    LinkValue = 2,
-    IntegerValue = 3,
-    DecimalValue = 4,
-    StillImageFileValue = 5,
-    ColorValue = 6,
-    GeometryValue = 7
-}
+import {AppConfig} from "../../../../../app.config";
 
 @Component({
     selector: 'select-property',
@@ -57,7 +47,10 @@ export class SelectPropertyComponent implements OnInit {
 
         let prop: Property = this.properties[propIri];
 
-        console.log(prop);
+        //console.log(prop);
+
+
+
     }
 
 }
