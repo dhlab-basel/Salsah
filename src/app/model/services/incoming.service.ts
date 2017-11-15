@@ -16,8 +16,6 @@ export class IncomingService extends SearchService {
       CONSTRUCT {
           ?region knora-api:isMainResource true .
 
-          ?region knora-api:isRegionOf <${resourceIRI}> .
-
           ?region knora-api:hasGeometry ?geom .
 
           ?region knora-api:hasComment ?comment .
@@ -49,7 +47,7 @@ export class IncomingService extends SearchService {
       } OFFSET ${offset}
     `;
 
-        return this.doExtendedSearch(sparqlQueryStr);
+        return this.doExtendedSearch(encodeURIComponent(sparqlQueryStr));
     }
 
     /**
@@ -67,8 +65,6 @@ export class IncomingService extends SearchService {
         CONSTRUCT {
 
             ?page knora-api:isMainResource true .
-            
-            ?page knora-api:isPartOf <${resourceIri}> .
             
             ?page knora-api:seqnum ?seqnum .
             
@@ -97,7 +93,7 @@ export class IncomingService extends SearchService {
           OFFSET ${offset}
 `;
 
-        return this.doExtendedSearch(sparqlQueryStr);
+        return this.doExtendedSearch(encodeURIComponent(sparqlQueryStr));
 
     }
 
@@ -146,7 +142,7 @@ export class IncomingService extends SearchService {
         
         `;
 
-        return this.doExtendedSearch(sparqlQueryStr);
+        return this.doExtendedSearch(encodeURIComponent(sparqlQueryStr));
     }
 
 }

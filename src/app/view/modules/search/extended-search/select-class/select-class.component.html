@@ -1,0 +1,5 @@
+<mat-form-field *ngIf="resourceClasses.length > 0">
+    <mat-select placeholder="Resource Class" [formControl]="form.controls['resourceClass']">
+        <mat-option *ngFor="let resourceClass of resourceClasses" [value]="resourceClass.id">{{ resourceClass.label }}</mat-option>
+    </mat-select>
+</mat-form-field>

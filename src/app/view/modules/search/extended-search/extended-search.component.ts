@@ -1,13 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {SearchService} from "../../../../model/services/search.service";
-import {OntologyCacheService} from "../../../../model/services/ontologycache.service";
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {OntologyCacheService, OntologyInformation, ResourceClass, Property, Properties, NamedGraph} from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 
-declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
-let jsonld = require('jsonld');
 
 @Component({
     selector: 'salsah-extended-search',
@@ -16,32 +11,74 @@ let jsonld = require('jsonld');
 })
 export class ExtendedSearchComponent implements OnInit {
 
+    namedGraphs: Array<NamedGraph> = [];
+    resourceClasses: Array<ResourceClass> = [];
+    properties: Properties;
+
+    result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
+
     constructor(private _route: ActivatedRoute,
-                private _searchService: SearchService,
+                private _router: Router,
                 private _cacheService: OntologyCacheService) {
     }
 
     ngOnInit() {
 
-        /*this._searchService.doExtendedSearch()
-            .subscribe(
-                (resResult: ApiServiceResult) => {
-                    let resPromises = jsonld.promises;
-                    // compact JSON-LD using an empty context: expands all Iris
-                    let resPromise = resPromises.compact(resResult.body, {});
+        // initialize ontologies to be used for search form
+        this.initializeOntologies();
+    }
 
-                    resPromise.then((resCompacted) => {
-                        let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(resCompacted);
+    /**
+     * Gets all available ontologies for the search form.
+     */
+    initializeOntologies() {
+        this._cacheService.getAllNamedGraphIris().subscribe(
+            (namedGraphs) => {
 
-                        //console.log(resources);
+                this.namedGraphs = namedGraphs;
 
-                    }, function (err) {
+            });
+    }
 
-                        console.log("JSONLD could not be expanded:" + err);
-                    });
-                }
-            )*/
+    /**
+     * Once an ontology has been selected, get its classes and properties.
+     * The classes and properties will be made available to the user for selection.
+     *
+     * @param {string} ontologyIri ontology chosen by the user.
+     */
+    getClassesAndPropertiesForOntology(ontologyIri: string) {
 
+        this._cacheService.getResourceClassesForNamedGraphs([ontologyIri]).subscribe(
+            (ontoInfo: OntologyInformation) => {
+
+                this.resourceClasses = ontoInfo.getResourceClassesAsArray();
+                this.properties = ontoInfo.getProperties();
+
+            }
+        );
+
+    }
+
+    getPropertiesForClass(resourceClassIri: string) {
+
+        this._cacheService.getResourceClassDefinitions([resourceClassIri]).subscribe(
+            (ontoInfo) => {
+
+                this.properties = ontoInfo.getProperties();
+
+            }
+        );
+
+    }
+
+    /**
+     * Perform an extended search with the given SPARQL.
+     *
+     * @param {string} sparql the SPARQL query to be sent to Knora's extended search route.
+     */
+    performExtendedSearch(sparql: string) {
+
+        this._router.navigate(['/search/extended/' + encodeURIComponent(sparql)], {relativeTo: this._route});
     }
 
 }

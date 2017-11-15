@@ -26,8 +26,12 @@
                 <read-link-value *ngSwitchCase="AppConfig.ReadLinkValue" [valueObject]="val.value" [ontologyInfo]="ontologyInfo"></read-link-value>
                 <read-integer-value *ngSwitchCase="AppConfig.ReadIntegerValue" [valueObject]="val.value"></read-integer-value>
                 <read-decimal-value *ngSwitchCase="AppConfig.ReadDecimalValue" [valueObject]="val.value"></read-decimal-value>
-                <salsah-read-geom-value *ngSwitchCase="AppConfig.ReadGeomValue" [valueObject]="val.value"></salsah-read-geom-value>
-                <salsah-read-color-value *ngSwitchCase="AppConfig.ReadColorValue" [valueObject]="val.value"></salsah-read-color-value>
+                <read-geom-value *ngSwitchCase="AppConfig.ReadGeomValue" [valueObject]="val.value"></read-geom-value>
+                <read-color-value *ngSwitchCase="AppConfig.ReadColorValue" [valueObject]="val.value"></read-color-value>
+                <read-uri-value *ngSwitchCase="AppConfig.ReadUriValue" [valueObject]="val.value"></read-uri-value>
+                <read-boolean-value *ngSwitchCase="AppConfig.ReadBooleanValue" [valueObject]="val.value"></read-boolean-value>
+                <read-interval-value *ngSwitchCase="AppConfig.ReadIntervalValue" [valueObject]="val.value"></read-interval-value>
+                <read-list-value *ngSwitchCase="AppConfig.ReadListValue" [valueObject]="val.value"></read-list-value>
                 <span *ngSwitchDefault="">Not supported {{val.value.getClassName()}}</span>
             </span>
             </li></ul>
@@ -41,7 +45,7 @@
         <ul>
             <li *ngFor="let incomingLinkSourceRes of resource.incomingLinks">
                 <span matTooltip="{{incomingLinkSourceRes.label}} {{ontologyInfo?.getLabelForResourceClass(incomingLinkSourceRes.type)}}" (click)="showSourceOfIncomingLinkInDialog(incomingLinkSourceRes.id)">
-                    <span>{{incomingLinkSourceRes.label}}</span>
+                    {{incomingLinkSourceRes.label}} {{getIncomingPropertiesFromIncomingResource(incomingLinkSourceRes)}}
                 </span>
             </li>
         </ul>

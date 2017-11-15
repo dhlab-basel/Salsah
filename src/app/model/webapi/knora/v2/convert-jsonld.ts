@@ -16,20 +16,22 @@ import {ReadResourcesSequence} from "./read-resources-sequence";
 import {ReadResource} from "./read-resource";
 import {ReadProperties} from "./read-properties";
 import {
+    ReadBooleanValue,
     ReadColorValue,
     ReadDateValue,
     ReadDecimalValue,
     ReadGeomValue,
-    ReadIntegerValue,
-    ReadLinkValue,
+    ReadIntegerValue, ReadIntervalValue,
+    ReadLinkValue, ReadListValue,
     ReadPropertyItem,
     ReadStillImageFileValue,
     ReadTextValueAsHtml,
     ReadTextValueAsString,
-    ReadTextValueAsXml,
+    ReadTextValueAsXml, ReadUriValue,
     ReferredResourcesByStandoffLink
 } from "./read-property-item";
 import {AppConfig} from "../../../../app.config";
+import {Utils} from "../../../../utils";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -47,9 +49,6 @@ export module ConvertJSONLD {
 
         let properties: ReadProperties = constructReadProperties(resourceJSONLD);
 
-        // check for resource class information
-        let resourceClassAsName: string;
-
         return {
             id: resourceJSONLD['@id'],
             type: resourceJSONLD['@type'],
@@ -66,9 +65,11 @@ export module ConvertJSONLD {
      * Constructs a [[ReadPropertyItem]] from JSON-LD.
      *
      * @param propValue the value serialized as JSON-LD.
+     * @param propIri the Iri of the property.
+     * @param standoffLinkValues standoffLinkValues of the resource.
      * @returns a [[ReadPropertyItem]] or `undefined` in case the value could not be processed correctly.
      */
-    function createValueSpecificProp(propValue: Object, propIri: string, standoffLinks?: object[]): ReadPropertyItem | undefined {
+    function createValueSpecificProp(propValue: Object, propIri: string, standoffLinkValues: ReadLinkValue[]): ReadPropertyItem | undefined {
 
         // convert a JSON-LD property value to a `ReadPropertyItem`
 
@@ -86,14 +87,11 @@ export module ConvertJSONLD {
 
                     let referredResources: ReferredResourcesByStandoffLink = {};
 
-                    if (standoffLinks !== undefined) {
-                        // check for standoff links
-
-                        for (let res of standoffLinks) {
-                            // console.log(res);
-                            let referredRes: ReadResource = constructReadResource(res[AppConfig.linkValueHasTarget]);
-                            referredResources[referredRes.id] = referredRes;
-                        }
+                    // check for standoff links and include referred resources, if any
+                    // when the user interacts with a standoff link, further information about the referred resource can be shown
+                    for (let standoffLink of standoffLinkValues) {
+                        let referredRes: ReadResource = standoffLink.referredResource;
+                        referredResources[referredRes.id] = referredRes;
                     }
 
                     textValue = new ReadTextValueAsHtml(propValue['@id'], propIri, propValue[AppConfig.textValueAsHtml], referredResources);
@@ -102,7 +100,6 @@ export module ConvertJSONLD {
                 } else {
                     // expected text value members not defined
                     console.log("ERROR: Invalid text value: " + JSON.stringify(propValue))
-
                 }
 
                 valueSpecificProp = textValue;
@@ -199,6 +196,56 @@ export module ConvertJSONLD {
 
                 break;
 
+            case AppConfig.UriValue:
+
+                let uriValue: ReadUriValue = new ReadUriValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.uriValueAsUri]
+                );
+
+                valueSpecificProp = uriValue;
+
+                break;
+
+            case AppConfig.BooleanValue:
+
+                let boolValue: ReadBooleanValue = new ReadBooleanValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.booleanValueAsBoolean]
+                );
+
+                valueSpecificProp = boolValue;
+
+                break;
+
+
+            case AppConfig.IntervalValue:
+
+                let intervalValue: ReadIntervalValue = new ReadIntervalValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.intervalValueHasStart],
+                    propValue[AppConfig.intervalValueHasEnd]
+                );
+
+                valueSpecificProp = intervalValue;
+
+                break;
+
+            case AppConfig.ListValue:
+
+                let listValue: ReadListValue = new ReadListValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.hierarchicalListValueAsListNode]
+                );
+
+                valueSpecificProp = listValue;
+
+                break;
+
             default:
                 // unsupported value type
                 console.log("ERROR: value type not implemented yet: " + propValue['@type']);
@@ -213,9 +260,30 @@ export module ConvertJSONLD {
      * Construct a [[ReadProperties]] from JSON-LD.
      *
      * @param resourceJSONLD an object describing the resource and its properties.
+     * @param standoffLinksValues standoff link values of the resource.
      * @returns a [[ReadProperties]].
      */
     function constructReadProperties(resourceJSONLD: Object): ReadProperties {
+
+        // JSONLD representing standoff link values
+        let standoffLinkValuesJSONLD: Object = resourceJSONLD[AppConfig.hasStandoffLinkToValue];
+
+        // to be populated with standoff link values
+        let standoffLinkValues: ReadLinkValue[] = [];
+
+        // convert each standoff link value JSONLD object to a ReadLinkValue
+        // in order populate the collection with all the standoff link values
+        if (standoffLinkValuesJSONLD !== undefined && Array.isArray(standoffLinkValuesJSONLD)) {
+            for (let standoffLinkJSONLD of standoffLinkValuesJSONLD) {
+                let standoffVal: ReadLinkValue = createValueSpecificProp(standoffLinkJSONLD, AppConfig.hasStandoffLinkToValue, []) as ReadLinkValue;
+
+                standoffLinkValues.push(standoffVal)
+            }
+        } else if (standoffLinkValuesJSONLD !== undefined) {
+            let standoffVal = createValueSpecificProp(standoffLinkValuesJSONLD, AppConfig.hasStandoffLinkToValue, []) as ReadLinkValue;
+
+            standoffLinkValues.push(standoffVal);
+        }
 
         let propNames = Object.keys(resourceJSONLD);
         // filter out everything that is not a Knora property name
@@ -228,14 +296,6 @@ export module ConvertJSONLD {
 
             let propValues: Array<ReadPropertyItem> = [];
 
-            // include information about resources referred to by standoff links
-            let standoffLinks = resourceJSONLD[AppConfig.hasStandoffLinkToValue];
-
-            // make it an array there is only one standoff link
-            if (standoffLinks !== undefined && !Array.isArray(standoffLinks)) {
-                standoffLinks = [standoffLinks]
-            }
-
             // either an array of values or just one value is given
             if (Array.isArray(resourceJSONLD[propName])) {
                 // array of values
@@ -244,9 +304,7 @@ export module ConvertJSONLD {
                 for (let propValue of resourceJSONLD[propName]) {
 
                     // convert a JSON-LD property value to a `ReadPropertyItem`
-
-
-                    let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(propValue, propName, standoffLinks);
+                    let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(propValue, propName, standoffLinkValues);
 
                     // if it is undefined, the value could not be constructed correctly
                     // add the property value to the array of property values
@@ -256,7 +314,7 @@ export module ConvertJSONLD {
             } else {
                 // only one value
 
-                let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(resourceJSONLD[propName], propName, standoffLinks);
+                let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(resourceJSONLD[propName], propName, standoffLinkValues);
 
                 // if it is undefined, the value could not be constructed correctly
                 // add the property value to the array of property values
@@ -379,13 +437,7 @@ export module ConvertJSONLD {
             }
 
             // filter out duplicates
-            // https://stackoverflow.com/questions/16747798/delete-duplicate-elements-from-an-array
-            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter?v=example
-            return resourceClasses.filter(function (elem, index, self) {
-                // returns true if the element's index equals the index of the leftmost element
-                // for all other elements, false is returned
-                return index == self.indexOf(elem);
-            });
+            return resourceClasses.filter(Utils.filterOutDuplicates);
 
         } else {
 
@@ -402,13 +454,7 @@ export module ConvertJSONLD {
             resourceClasses = resourceClasses.concat(referredResourceClasses);
 
             // filter out duplicates
-            // https://stackoverflow.com/questions/16747798/delete-duplicate-elements-from-an-array
-            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter?v=example
-            return resourceClasses.filter(function (elem, index, self) {
-                // returns true if the element's index equals the index of the leftmost element
-                // for all other elements, false is returned
-                return index == self.indexOf(elem);
-            });
+            return resourceClasses.filter(Utils.filterOutDuplicates);
         }
     }
 
