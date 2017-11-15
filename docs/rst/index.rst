@@ -21,6 +21,7 @@ SALSAH 2
 
     introduction
     get-started
+    dev-guidelines
     app/index
 
 
@@ -29,4 +30,3 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-
