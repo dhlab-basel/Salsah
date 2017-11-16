@@ -146,8 +146,8 @@ export class SpecifyPropertyValueComponent implements OnInit {
         // emit Iri of named graph when selected
         this.form.valueChanges.subscribe((data) => {
             // TODO: implement callback
-            console.log(this._property);
-            console.log(data);
+            //console.log(this._property);
+            //console.log(data);
         });
 
         // TODO: depending on the given value type, init a value form field
