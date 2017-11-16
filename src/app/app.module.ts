@@ -124,6 +124,7 @@ import { ReadBooleanValueComponent } from './view/properties/read-boolean-value/
 import { ReadIntervalValueComponent } from './view/properties/read-interval-value/read-interval-value.component';
 import { ReadListValueComponent } from './view/properties/read-list-value/read-list-value.component';
 import { SpecifyPropertyValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component';
+import { IntegerValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/integer-value/integer-value.component';
 //
 // import all needed services
 //
@@ -215,6 +216,7 @@ import { SpecifyPropertyValueComponent } from './view/modules/search/extended-se
         ReadIntervalValueComponent,
         ReadListValueComponent,
         SpecifyPropertyValueComponent,
+        IntegerValueComponent,
     ],
     imports: [
         BrowserModule,
