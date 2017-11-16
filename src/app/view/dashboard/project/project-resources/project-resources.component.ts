@@ -49,7 +49,7 @@ export class ProjectResourcesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).ontologyNamedGraph;
+        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).ontologies[0];
     }
 
 }

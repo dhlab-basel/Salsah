@@ -208,12 +208,6 @@ export class ProjectFormComponent implements OnInit {
         }
         const form = this.form;
 
-        /*
-        if(data && data.shortname) {
-            this.newProject.ontologyNamedGraph = 'http://www.knora.org/ontology/' + data.shortname;
-            this.newProject.dataNamedGraph = 'http://www.knora.org/data/' + data.shortname;
-        }
-        */
 
         Object.keys(this.formErrors).map(field => {
             this.formErrors[field] = '';
