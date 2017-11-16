@@ -284,13 +284,13 @@
                     <div>
                         <h3 mat-subheader>
                             {{formLabels.permissions.project.title}}
-                            <span *ngIf="selectedProject"><i>{{selectedProject?.longname}}</i></span>
                         </h3>
                         <mat-list-item>
                             <mat-slide-toggle [(ngModel)]="adminPermission"
                                              [disabled]="!projectIri && (!selectedUser && !form.valid)"
                                              color="primary">
                                 {{formLabels.permissions.project.description}}
+                                <span *ngIf="selectedProject"><i>&nbsp;{{selectedProject?.longname}}</i></span>
                             </mat-slide-toggle>
                         </mat-list-item>
                     </div>
@@ -385,7 +385,7 @@
                             {{formLabels.permissions.title}}
                         </h4>
                         <p mat-line>
-                            <span *ngIf="adminPermission">&bull; {{formLabels.permissions.project.description}}</span>
+                            <span *ngIf="adminPermission">&bull; {{formLabels.permissions.project.description}} <i>&nbsp;{{selectedProject?.longname}}</i></span>
                             <span *ngIf="sysAdminPermission"><br>&bull; {{formLabels.permissions.system.description}}</span>
                         </p>
                         <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">

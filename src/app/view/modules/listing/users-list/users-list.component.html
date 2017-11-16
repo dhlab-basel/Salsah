@@ -118,7 +118,10 @@
                     <img salsahImage [image]="item?.userData.email" [type]="'user'" class="salsah-avatar-image"/>
                     <a href="mailto:{{item?.userData.email}}">{{item?.userData.email}}</a>
                     <mat-chip-list>
-                        <mat-chip *ngFor="let proj of item?.projects_info | key">{{proj.value.shortname}}</mat-chip>
+                        <mat-chip *ngFor="let proj of item?.projects_info | key"
+                                  routerLink="/project/{{proj.value.shortname}}">
+                            {{proj.value.shortname}}
+                        </mat-chip>
                     </mat-chip-list>
                 </div>
                 <mat-action-row>

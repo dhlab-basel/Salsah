@@ -366,6 +366,10 @@ export class UsersListComponent implements OnInit {
         });
     }
 
+    goTo(route: string, id: string) {
+
+    }
+
 
 }
 

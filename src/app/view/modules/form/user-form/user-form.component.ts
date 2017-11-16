@@ -187,12 +187,12 @@ export class UserFormComponent implements OnInit {
                 description: 'Group permissions'
             },
             project: {
-                title: 'Project',
-                description: 'Administrative rights in project',
+                title: 'Set project permissions',
+                description: 'Administrative rights in ',
             },
             system: {
-                title: 'System',
-                description: 'Administrative rights in system'
+                title: 'Set system permissions',
+                description: 'Administrative rights in system (Knora)'
             }
         },
         overview: {

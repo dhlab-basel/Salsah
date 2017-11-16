@@ -20,7 +20,7 @@ import {
     OnChanges,
     OnInit,
     SimpleChange,
-    ViewChild
+    ViewChild, ViewChildren
 } from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';

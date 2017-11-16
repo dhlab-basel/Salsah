@@ -89,6 +89,8 @@ export class ProjectComponent implements OnInit {
                         this.project = result.getBody(Project).project_info;
                         sessionStorage.setItem('currentProject', JSON.stringify(this.project));
 
+
+                        // TODO: do we still need the following lines
                         if (sessionStorage.getItem('projectAdmin')) {
                             if ( JSON.parse(sessionStorage.getItem('projectAdmin')).length > 0 ) {
                                 this.projectAdmin = (JSON.parse(sessionStorage.getItem('projectAdmin')).indexOf(this.project.id) > -1);
