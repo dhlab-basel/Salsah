@@ -1,7 +1,7 @@
 
 import {AppConfig} from '../../../../../app.config';
-import {ListChildNodeV2, ListNodeV2, ListRootNodeV2} from '../../v2/lists/list-node';
-import {StringV2} from '../shared/strings';
+import {ListChildNodeV2, ListNodeV2, ListRootNodeV2} from './list-node-v2';
+import {StringV2} from '../../v2/shared/strings';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');

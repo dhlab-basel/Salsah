@@ -23,6 +23,9 @@ export class Project {
     @JsonProperty('shortname', String)
     public shortname: string = undefined;
 
+    @JsonProperty('shortname', String)
+    public shortcode: string = undefined;
+
     @JsonProperty('description', String)
     public description: string = undefined;
 
@@ -31,9 +34,6 @@ export class Project {
 
     @JsonProperty('logo', String)
     public logo: string = undefined;
-
-    @JsonProperty('dataNamedGraph', String)
-    public dataNamedGraph: string = undefined;
 
     @JsonProperty('id', String)
     public id: string = undefined;
@@ -47,8 +47,8 @@ export class Project {
     @JsonProperty('longname', String)
     public name: string = undefined;
 
-    @JsonProperty('ontologyNamedGraph', String)
-    public ontologyNamedGraph: string = undefined;
+    @JsonProperty('ontologies', [String])
+    public ontologyNamedGraph: string[] = undefined;
 
     @JsonProperty('selfjoin', Boolean)
     public selfjoin: boolean = undefined;

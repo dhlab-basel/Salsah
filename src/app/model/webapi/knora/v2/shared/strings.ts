@@ -17,10 +17,10 @@
 export class StringV2 {
 
     value: string;
-    lang: string = undefined;
+    language: string = undefined;
 
-    constructor (value: string, lang?: string) {
+    constructor (value: string, language?: string) {
         this.value = value;
-        this.lang = lang;
+        this.language = language;
     }
 }

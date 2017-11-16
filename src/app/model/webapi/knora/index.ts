@@ -19,14 +19,6 @@ export * from './v1/authenticate/authenticate';
 export * from './v1/authenticate/session';
 
 /**
- * Interfaces for projects
- */
-export * from './v1/projects/project';
-export * from './v1/projects/project-members-response';
-export * from './v1/projects/project-response';
-export * from './v1/projects/projects-response';
-
-/**
  * Interfaces for resource types
  */
 export * from './v1/resource-types/resource-type';
@@ -52,10 +44,18 @@ export * from './v1/search/search';
 /**
  * Interfaces for users
  */
-export * from './v1/users/users-list';
-export * from './v1/users/user-data';
-export * from './v1/users/user';
-export * from './v1/users/user-profile';
+export * from './admin/users/users-list';
+export * from './admin/users/user-data';
+export * from './admin/users/user';
+export * from './admin/users/user-profile';
+
+/**
+ * Interfaces for projects
+ */
+export * from './admin/projects/project';
+export * from './admin/projects/project-members-response';
+export * from './admin/projects/project-response';
+export * from './admin/projects/projects-response';
 
 /**
  * Interface for lists V1
@@ -65,10 +65,10 @@ export * from './v1/lists/list-node';
 /**
  * Interface for lists V2
  */
-export * from './v2/lists/list-node';
-export * from './v2/lists/list-info';
-export * from './v2/lists/list-node-info';
-export * from './v2/lists/lists-response';
+export * from './admin/lists/list-node-v2';
+export * from './admin/lists/list-info';
+export * from './admin/lists/list-node-info';
+export * from './admin/lists/lists-response';
 
 /**
  * Interface for shared

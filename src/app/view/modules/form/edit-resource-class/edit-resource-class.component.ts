@@ -19,9 +19,17 @@ import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ResourceTypesService} from "../../../../model/services/resource-types.service";
 import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
 import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
+import {Project} from '../../../../model/webapi/knora/';
 
-// animations are used to create collapsible cards content
+import {
+    trigger,
+    state,
+    style,
+    animate,
+    transition
+} from '@angular/animations';
+
+//animations are used to create collapsible cards content
 @Component({
     selector: 'salsah-edit-resource-class',
     templateUrl: './edit-resource-class.component.html',
@@ -79,7 +87,7 @@ export class EditResourceClassComponent implements OnChanges {
             close: "Close",
             edit: "Edit",
         }
-};
+    };
 
     guiItems: string[] = [
         "text",
@@ -98,14 +106,14 @@ export class EditResourceClassComponent implements OnChanges {
         "interval",
         "colorpicker",
         "geometry"
-        ];
+    ];
 
     cardinalityList: string[] = [
         "1",
         "1-n",
         "0-1",
         "0-n"
-        ];
+    ];
 
     // the following form fields would have an error check
     formErrors = {
@@ -181,7 +189,7 @@ export class EditResourceClassComponent implements OnChanges {
     editResources(){
         this.editResource = true;
     }
-    closeEditView() {
+    closeEditView(){
         this.editResource = false;
     }
 
