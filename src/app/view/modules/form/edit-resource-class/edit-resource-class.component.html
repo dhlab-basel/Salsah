@@ -20,17 +20,18 @@
 <!------------------------------------------------------------------------------------------------------->
 <!------------------------------------Edit resources!    ------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------->
-
-<section class="salsah-form-content" *ngIf="editResource">
+<salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+<section class="salsah-form-content" *ngIf="editResource && !isLoading">
 
 <!------------------------------------------------------------------------------------------------------->
 <!-----------Here we will use cards for each resource and property, which will be collapsible------------>
 <!-----------Each card will have its own save button----------------------------------------------------->
-    <mat-accordion class="headers-align">
+    <h5>{{editResFormLabels.label}}</h5>
+    <mat-accordion class="headers-align" >
         <mat-expansion-panel hideToggle="true">
-            <mat-expansion-panel-header [formGroup]="eRForm4class">
+            <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <span>{{editResFormLabels.label}}: {{eRForm4class.get('resLabel').value}}</span>
+                    <span>{{eRForm4class.get('resLabel').value}}</span>
                 </mat-panel-title>
                 <mat-panel-description>
                     <span>{{editResFormLabels.description}}</span>
@@ -38,48 +39,50 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <form class="salsah-form new-user" [formGroup]="eRForm4class">
-            <mat-form-field dividerColor="{{ !resType.label ? 'warn' : 'primary' }}">
-                    <input matInput
-                           class="form-control"
-                           placeholder={{editResFormLabels.resource.label}}
-                           id="resLabel"
-                           formControlName="resLabel"
-                           required>
-                    <mat-hint *ngIf="formErrors.resLabel">
-                        {{ formErrors.resLabel }}
-                    </mat-hint>
+                <mat-form-field dividerColor="{{ !resType.label ? 'warn' : 'primary' }}">
+                        <input matInput
+                               class="form-control"
+                               placeholder={{editResFormLabels.resource.label}}
+                               id="resLabel"
+                               formControlName="resLabel"
+                               required>
+                        <mat-hint *ngIf="formErrors.resLabel">
+                            {{ formErrors.resLabel }}
+                        </mat-hint>
+                    </mat-form-field>
+                <mat-form-field>
+                    <!--TODO icon should not show the extension-->
+                        <span matPrefix><mat-icon>{{eRForm4class.get('resIcon').value}}</mat-icon></span>
+                        <input matInput
+                               class="form-control"
+                               placeholder={{editResFormLabels.resource.icon}}
+                               id="resIcon"
+                               formControlName="resIcon">
                 </mat-form-field>
-            <mat-form-field>
-                <!--TODO icon should not show the extension-->
-                    <span matPrefix><mat-icon>{{eRForm4class.get('resIcon').value}}</mat-icon></span>
-                    <input matInput
-                           class="form-control"
-                           placeholder={{editResFormLabels.resource.icon}}
-                           id="resIcon"
-                           formControlName="resIcon">
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <textarea matInput
-                          class="form-control"
-                          placeholder={{editResFormLabels.resource.description}}
-                          id="resDescription"
-                          formControlName="resDescription"></textarea>
-            </mat-form-field>
+                <mat-form-field class="full-width">
+                    <textarea matInput
+                              class="form-control"
+                              placeholder={{editResFormLabels.resource.description}}
+                              id="resDescription"
+                              formControlName="resDescription"></textarea>
+                </mat-form-field>
+
+                <mat-action-row>
+                    <button mat-button
+                            color="warn"
+                            (click)="resetDefaultRes()">
+                        {{editResFormLabels.buttons.reset}}
+                    </button>
+                    <button mat-raised-button
+                            class="save-button"
+                            [color]="'primary'"
+                            [disabled]="!eRForm4class.valid"
+                            (click)="submitResEdit()">
+                        {{editResFormLabels.buttons.save}}
+                    </button>
+                </mat-action-row>
             </form>
-            <mat-action-row>
-                <button mat-button
-                        color="warn"
-                        (click)="resetDefaultRes()">
-                    {{editResFormLabels.buttons.reset}}
-                </button>
-                <button mat-raised-button
-                        class="save-button"
-                        [color]="'primary'"
-                        [disabled]="!eRForm4class.valid"
-                        (click)="submitResEdit()">
-                    {{editResFormLabels.buttons.save}}
-                </button>
-            </mat-action-row>
+
         </mat-expansion-panel>
     </mat-accordion>
 <!------------------------------------------------------------------------------------------------------->
@@ -97,8 +100,10 @@
                     <span>{{prop.label}}</span>
                 </mat-panel-title>
                 <mat-panel-description>
+                    <!--
                     <span>{{editResFormLabels.resource.properties.formDescription}} "{{prop.label}}"</span>
                     {{prop.icon}}
+                    -->
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <mat-form-field class="full-width">
@@ -168,7 +173,7 @@
                             name="Vocabulary"
                             (change)="setVoc(i, $event)"
                             disabled>
-                    <mat-option *ngFor="let project of editResFormLabels.projectsList" [value]="project.ontologyNamedGraph">
+                    <mat-option *ngFor="let project of editResFormLabels.projects" [value]="project.ontologies[0]">
                         {{project.description}}
                     </mat-option>
                 </mat-select>
@@ -295,6 +300,7 @@
 </section>
 
 
+<!--
 <footer class="footer">
     <div *ngIf="!editResource" layout="row" layout-align="center center" flex>
         <button mat-raised-button
@@ -313,3 +319,4 @@
         </button>
     </div>
 </footer>
+-->

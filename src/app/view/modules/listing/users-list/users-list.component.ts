@@ -28,6 +28,7 @@ import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {User} from '../../../../model/webapi/knora/v1/users/user';
 import {UserProfile} from '../../../../model/webapi/knora/v1/users/user-profile';
+import {SortData} from '../../framework/framework-for-listings/framework-for-listings.component';
 
 @Component({
     selector: 'salsah-users-list',
@@ -91,9 +92,13 @@ export class UsersListComponent implements OnInit {
         {
             key: 'givenName',
             label: 'First name'
+        },
+        {
+            key: 'eMail',
+            label: 'E-mail'
         }
     ];
-    sortTitle: string = 'Sort them by ';
+    sortTitle: string = 'Sort by ';
     sortKey: string = this.sortProps[0].key;
     sortKeyIA: string = this.sortProps[0].key;
     sortLabel: string = this.sortProps[0].label;
@@ -206,6 +211,8 @@ export class UsersListComponent implements OnInit {
     }
 
     sortBy(key: string) {
+
+
         if (key === this.sortProps[0].key) {
             this.sortKey = this.sortProps[1].key;
             this.sortLabel = this.sortProps[0].label;

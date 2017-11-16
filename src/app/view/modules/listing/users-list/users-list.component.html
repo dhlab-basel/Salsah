@@ -84,51 +84,24 @@
     </div>
 
     <div *ngSwitchCase="'expansion'">
-        <h3 mat-subheader># Users: {{countActive}}
-            <span *ngIf="selectedRow === undefined && countAll > 1">&nbsp;| {{sortTitle}}
-                <button mat-button
-                        *ngIf="selectedRow == undefined"
-                        (click)="sortBy(sortKey)"
-                        [matTooltip]="sortTitle + sortLabel" matTooltipPosition="above">
-                    {{sortLabel}} <mat-icon>sort_by_alpha</mat-icon>
-                </button>
-            </span>
-        </h3>
-        <mat-accordion class="example-headers-align" hideToggle="false">
-            <mat-expansion-panel *ngFor="let item of allActiveUsers | sortBy: sortKey; let i = index"
-                                 hideToggle="false">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <h4>{{item?.userData.givenName}} {{item?.userData.familyName}}</h4>
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        <mat-chip-list *ngIf="item?.permissionData.groupsPerProject[project]">
-                            <span *ngFor="let iri of item?.permissionData.groupsPerProject[project]">
-                                <mat-chip color="primary" selected="true" *ngIf="iri === 'http://www.knora.org/ontology/knora-base#ProjectAdmin'">admin</mat-chip>
-                                <!--
-                                <mat-chip *ngIf="iri === 'http://www.knora.org/ontology/knora-base#ProjectMember'">member</mat-chip>
-                                -->
-                            </span>
-
-                        </mat-chip-list>
-                        <mat-icon>person</mat-icon>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div>
-                    <img salsahImage [image]="item?.userData.email" [type]="'user'" class="salsah-avatar-image"/>
-                    <a href="mailto:{{item?.userData.email}}">{{item?.userData.email}}</a>
-                    <mat-chip-list>
-                        <mat-chip *ngFor="let proj of item?.projects_info | key"
-                                  routerLink="/project/{{proj.value.shortname}}">
-                            {{proj.value.shortname}}
-                        </mat-chip>
-                    </mat-chip-list>
-                </div>
-                <mat-action-row>
-                    <button mat-button color="primary">edit</button>
-                </mat-action-row>
-            </mat-expansion-panel>
-        </mat-accordion>
+        <!--
+        <mat-form-field style="margin: -12px 0 0 12px">
+            <mat-select [placeholder]="sortTitle" [(value)]="sortKey">
+                <mat-option *ngFor="let item of sortProps" [value]="item.key">
+                    {{item.label}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        -->
+        <div *ngIf="countActive > 0">
+            <h4 class="salsah-sub-header">{{countActive}} Active user<span *ngIf="countActive > 1">s</span></h4>
+            <salsah-users-list-item [listData]="allActiveUsers" [sortProp]="sortKey" [project]="project"></salsah-users-list-item>
+        </div>
+        <br><br>
+        <div *ngIf="countInactive > 0">
+            <h4 class="salsah-sub-header">{{countInactive}} Inactive user<span *ngIf="countInactive > 1">s</span></h4>
+            <salsah-users-list-item [listData]="allInactiveUsers" [sortProp]="sortKey" [project]="project"></salsah-users-list-item>
+        </div>
     </div>
 
     <!-- default list -->

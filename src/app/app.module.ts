@@ -118,6 +118,7 @@ import {SystemProjectsComponent} from "./view/dashboard/system/system-projects/s
 import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologies/system-ontologies.component";
 import { ProjectOntologiesComponent } from './view/dashboard/project/project-ontologies/project-ontologies.component';
 import { OntologiesListComponent } from './view/modules/listing/ontologies-list/ontologies-list.component';
+import { UsersListItemComponent } from './view/modules/listing/users-list/users-list-item/users-list-item.component';
 //
 // import all needed services
 //
@@ -203,6 +204,7 @@ import { OntologiesListComponent } from './view/modules/listing/ontologies-list/
         ConfirmDialogComponent,
         ProjectOntologiesComponent,
         OntologiesListComponent,
+        UsersListItemComponent,
     ],
     imports: [
         BrowserModule,

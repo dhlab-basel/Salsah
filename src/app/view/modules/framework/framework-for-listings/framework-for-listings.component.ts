@@ -43,6 +43,16 @@ export interface AddData {
     description: string
 }
 
+export interface SortItem {
+    name: string,
+    label: string
+}
+
+export interface SortData {
+    title: string,
+    sortBy: SortItem[]
+}
+
 @Component({
     selector: 'salsah-framework-for-listings',
     templateUrl: './framework-for-listings.component.html',
@@ -107,7 +117,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
 
     // using a counter variable to show the number of items direct in the header
     @ViewChild(UsersListComponent) users;
-    @ViewChild(OntologiesListComponent) ontologies;
+//    @ViewChild(OntologiesListComponent) ontologies;
     counter: number;
 
 //    constructor(@Inject(ElementRef) elementRef: ElementRef, @Inject(Injector) injector: Injector)
@@ -117,24 +127,10 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     }
 
     ngOnInit() {
-
-    }
-
-    ngOnChanges() {
-//        console.log(this.list);
-    }
-
-    ngAfterViewInit() {
-
-        console.log(this.list);
-
         // bad hack to get the project admin information
         if (localStorage.getItem('currentUser') !== null) {
             this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
         }
-//        this.loggedInAdmin = (sessionStorage.getItem('admin') !== null);
-        // end of bad hack. TODO: we have to find a better solution
-
 
         if (this.list === undefined || this.list === null) {
             // list is not optional! show an error message
@@ -156,11 +152,14 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
                 });
             }
         }
+    }
 
-        if (this.users) {
-            this.counter = this.users.countAll;
-        }
+    ngOnChanges() {
+//        console.log(this.list);
+    }
 
+    ngAfterViewInit() {
+        this._cdRef.detectChanges();
     }
 
     //
