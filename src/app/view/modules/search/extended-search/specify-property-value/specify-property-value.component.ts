@@ -9,13 +9,17 @@ import {Property} from 'app/model/services/ontologycache.service';
 })
 export class SpecifyPropertyValueComponent implements OnInit {
 
-    @Input() set setProperty(prop: Property) {
-        this.property = prop;
+    @Input() set property(prop: Property) {
+        this._property = prop;
 
         this.initForm();
     };
 
-    property: Property;
+    get property() {
+        return this._property
+    }
+
+    private _property: Property;
 
     form: FormGroup;
 

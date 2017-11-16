@@ -1,8 +1,9 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Properties, Property} from "../../../../../model/services/ontologycache.service";
 import {MatSelectChange} from "@angular/material";
 import {AppConfig} from "../../../../../app.config";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {SpecifyPropertyValueComponent} from "../specify-property-value/specify-property-value.component";
 
 @Component({
     selector: 'select-property',
@@ -16,6 +17,8 @@ export class SelectPropertyComponent implements OnInit {
         this.properties = value;
         this.initProperties();
     }
+
+    @ViewChild('specifyPropertyValue') specifyPropertyValue: SpecifyPropertyValueComponent;
 
     properties: Properties;
 

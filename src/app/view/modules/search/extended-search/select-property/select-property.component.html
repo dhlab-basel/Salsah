@@ -4,5 +4,6 @@
     </mat-select>
 </mat-form-field>
 
-<specify-property-value *ngIf="propertySelected !== undefined" [setProperty]="propertySelected"></specify-property-value>
+<specify-property-value #specifyPropertyValue *ngIf="propertySelected !== undefined" [property]="propertySelected"></specify-property-value>
+
 
