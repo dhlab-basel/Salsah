@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Properties, Property} from "../../../../../model/services/ontologycache.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {SpecifyPropertyValueComponent} from "../specify-property-value/specify-property-value.component";
+import {SpecifyPropertyValueComponent} from "./specify-property-value/specify-property-value.component";
 
 @Component({
     selector: 'select-property',
