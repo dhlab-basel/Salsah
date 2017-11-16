@@ -1,9 +1,11 @@
-<mat-form-field *ngIf="property !== undefined">
+<mat-form-field *ngIf="isReady">
     <mat-select placeholder="Comparison Operator" [formControl]="form.controls['comparisonOperator']">
-        <mat-option [value]="'EQ'">Equals</mat-option>
+        <mat-option *ngFor="let compOp of comparisonOperators" [value]="compOp">{{ compOp.label }}</mat-option>
     </mat-select>
+
+
 </mat-form-field>
 
-<mat-form-field>
+<mat-form-field *ngIf="isReady">
     <input matInput [formControl]="form.controls['propertyValue']" placeholder="Prop value" value="">
 </mat-form-field>

@@ -1,6 +1,107 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Property} from 'app/model/services/ontologycache.service';
+import {AppConfig} from "../../../../../app.config";
+
+interface ComparisonOperator {
+
+    type: string;
+    label: string;
+
+    getClassName(): string
+}
+
+class Equals implements ComparisonOperator {
+
+    constructor() {
+    }
+
+    type = AppConfig.EqualsComparisonOperator;
+    label = AppConfig.EqualsComparisonLabel;
+
+    getClassName() {
+        return this.constructor.name;
+    };
+}
+
+class NotEquals implements ComparisonOperator {
+
+    constructor() {
+    }
+
+    type = AppConfig.NotEqualsComparisonOperator;
+    label = AppConfig.NotEqualsComparisonLabel;
+
+    getClassName() {
+        return this.constructor.name;
+    };
+}
+
+class GreaterThan implements ComparisonOperator {
+
+    constructor() {
+    }
+
+    type = AppConfig.GreaterThanEqualsComparisonOperator;
+    label = AppConfig.GreaterThanEqualsComparisonLabel;
+
+    getClassName() {
+        return this.constructor.name;
+    };
+}
+
+class GreaterThanEquals implements ComparisonOperator {
+
+    constructor() {
+    }
+
+    type = AppConfig.GreaterThanComparisonOperator;
+    label = AppConfig.GreaterThanComparisonLabel;
+
+    getClassName() {
+        return this.constructor.name;
+    };
+}
+
+class LessThan implements ComparisonOperator {
+
+    constructor() {
+    }
+
+    type = AppConfig.LessThanComparisonOperator;
+    label = AppConfig.LessThanComparisonLabel;
+
+    getClassName() {
+        return this.constructor.name;
+    };
+}
+
+class LessThanEquals implements ComparisonOperator {
+
+    constructor() {
+    }
+
+    type = AppConfig.LessThanEqualsComparisonOperator;
+    label = AppConfig.LessThanQualsComparisonLabel;
+
+    getClassName() {
+        return this.constructor.name;
+    };
+}
+
+class Exists implements ComparisonOperator {
+
+    constructor() {
+    }
+
+    type = AppConfig.ExistsComparisonOperator;
+    label = AppConfig.ExistsComparisonLabel;
+
+    getClassName() {
+        return this.constructor.name;
+    };
+}
+
 
 @Component({
     selector: 'specify-property-value',
@@ -9,7 +110,8 @@ import {Property} from 'app/model/services/ontologycache.service';
 })
 export class SpecifyPropertyValueComponent implements OnInit {
 
-    @Input() set property(prop: Property) {
+    @Input()
+    set property(prop: Property) {
         this._property = prop;
 
         this.initForm();
@@ -21,12 +123,22 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
     private _property: Property;
 
-    form: FormGroup;
+    private isReady: Boolean = false;
+
+    private form: FormGroup;
+
+    private comparisonOperators: Array<ComparisonOperator> = [];
+
+    private formField;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
+    }
+
+    initForm() {
+
         // build a form for the named graph selection
-        this.form = fb.group({
+        this.form = this.fb.group({
             comparisonOperator: [null, Validators.required],
             propertyValue: [null, Validators.required]
         });
@@ -34,21 +146,68 @@ export class SpecifyPropertyValueComponent implements OnInit {
         // emit Iri of named graph when selected
         this.form.valueChanges.subscribe((data) => {
             // TODO: implement callback
+            console.log(this._property);
             console.log(data);
-        })
-
-    }
-
-    initForm() {
-        // TODO: depending on the given value type, init comparison operators
+        });
 
         // TODO: depending on the given value type, init a value form field
 
         // TODO: reset values to default in case the user chose another property
+
+        // depending on object class, set comparison operators and value entry field
+
+
+
+        let valueType;
+
+        if (this._property.isLinkProperty) {
+            valueType = AppConfig.LinkValue;
+        } else {
+            valueType = this._property.objectType;
+        }
+
+        switch (valueType) {
+
+            case AppConfig.TextValue:
+            case AppConfig.BooleanValue:
+            case AppConfig.LinkValue:
+            case AppConfig.UriValue:
+            case AppConfig.IntervalValue:
+                this.comparisonOperators = [new Equals(), new NotEquals(), new Exists()];
+                break;
+
+            case AppConfig.IntValue:
+            case AppConfig.DecimalValue:
+            case AppConfig.DateValue:
+                this.comparisonOperators = [new Equals(), new NotEquals(), new LessThan(), new GreaterThan(), new LessThanEquals(), new GreaterThanEquals(), new Exists()];
+                break;
+
+            case AppConfig.ListValue:
+            case AppConfig.GeomValue:
+            case AppConfig.FileValue:
+            case AppConfig.AudioFileValue:
+            case AppConfig.StillImageFileValue:
+            case AppConfig.DDDFileValue:
+            case AppConfig.MovingImageFileValue:
+                this.comparisonOperators = [new Exists()];
+                break;
+
+            default:
+                console.log("ERROR: Unsupported value type " + this._property.objectType)
+
+        }
+
+
+        this.isReady = true;
+
     }
 
     ngOnInit() {
         this.initForm();
+    }
+
+    getFormData() {
+        return this.form.value
     }
 
 }
