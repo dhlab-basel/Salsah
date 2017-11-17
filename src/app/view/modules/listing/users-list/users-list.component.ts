@@ -14,11 +14,10 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {UserService} from '../../../../model/services/user.service';
+import {UsersService} from '../../../../model/services/users.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
+import {UserData} from '../../../../model/webapi/knora';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
 import {MessageData} from '../../message/message.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
@@ -95,7 +94,7 @@ export class UsersListComponent implements OnInit {
 
     constructor(private _router: Router,
                 public _projectsService: ProjectsService,
-                public _userService: UserService,
+                public _userService: UsersService,
                 public _dialog: MatDialog) {
     }
 
@@ -147,8 +146,8 @@ export class UsersListComponent implements OnInit {
             // get all users from knora
             this._userService.getAllUsers()
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.allUsers = result.getBody(UsersList).users;
+                    (result: UserData[]) => {
+                        this.allUsers = result;
                         for (const au of this.allUsers) {
                             if (au.status === true) {
                                 this.allActiveUsers.push(au);

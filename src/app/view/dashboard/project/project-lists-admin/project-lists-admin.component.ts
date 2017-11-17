@@ -14,8 +14,7 @@
  */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {Project} from '../../../../model/webapi/knora/v1/projects/project';
-import {ListInfo} from '../../../../model/webapi/knora/v2';
+import {Project, ListInfo} from '../../../../model/webapi/knora';
 import {Router} from '@angular/router';
 import {ListsService} from '../../../../model/services/lists.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';

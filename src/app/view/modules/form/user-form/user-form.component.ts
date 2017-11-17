@@ -17,15 +17,14 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 
-import {UsersList} from 'app/model/webapi/knora/';
-import {UserService} from '../../../../model/services/user.service';
+import {UsersService} from '../../../../model/services/users.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {UserProfile} from '../../../../model/webapi/knora/';
-import {User} from '../../../../model/webapi/knora/v1/users/user';
+import {UserProfile, UsersResponse, UserResponse} from '../../../../model/webapi/knora/';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {Project} from '../../../../model/webapi/knora/v1/projects/project';
+import {Project} from '../../../../model/webapi/knora';
 import {existingNamesValidator} from '../../other/existing-name.directive';
+import {UserData} from '../../../../model/webapi/knora/admin/users/user-data';
 
 @Component({
     selector: 'salsah-user-form',
@@ -249,7 +248,7 @@ export class UserFormComponent implements OnInit {
     // @ViewChild(NgModel) modelDir: NgModel;
     // @ViewChild('selectUser') selectUser: ElementRef;
 
-    constructor(public _userService: UserService,
+    constructor(public _userService: UsersService,
                 public _projectsService: ProjectsService,
                 @Inject(FormBuilder) fb: FormBuilder) {
 
@@ -301,13 +300,11 @@ export class UserFormComponent implements OnInit {
         // get a list of all users and create an array of the user name ( = email address)
         // the user name should be unique and with the array list, we can
         // prevent to have the same user name twice; proof it with the ForbiddenName directive
-        let usersList: UsersList;
 
         this._userService.getAllUsers()
             .subscribe(
-                (result: ApiServiceResult) => {
-                    usersList = result.getBody(UsersList);
-                    for (const user of usersList.users) {
+                (users: UserData[]) => {
+                    for (const user of users) {
                         this.existingUserNames.push(new RegExp('(?:^|\W)' + user.email.toLowerCase() + '(?:$|\W)'));
                     }
 
@@ -332,7 +329,7 @@ export class UserFormComponent implements OnInit {
                             );
 
                         let i: number = 1;
-                        for (const u of usersList.users) {
+                        for (const u of users) {
                             let exists: string = '';
                             if (members.indexOf(u.user_id) > -1) {
                                 exists = '* ';
@@ -507,7 +504,7 @@ export class UserFormComponent implements OnInit {
                     this._userService.getUserByIri(this.userIri)
                         .subscribe(
                             (result: ApiServiceResult) => {
-                                this.selectedUser = result.getBody(User).userProfile;
+                                this.selectedUser = result.getBody(UserResponse).userProfile;
                             },
                             (error: ApiServiceError) => {
                                 console.log(error);
@@ -601,7 +598,7 @@ export class UserFormComponent implements OnInit {
             this._userService.createUser(this.form.value).subscribe(
                 (result: ApiServiceResult) => {
 
-                    const newUser: User = result.getBody(User);
+                    const newUser: UserResponse = result.getBody(UserResponse);
 
                     this.userIri = newUser.userProfile.userData.user_id;
 

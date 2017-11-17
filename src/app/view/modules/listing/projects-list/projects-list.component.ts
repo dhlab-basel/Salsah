@@ -17,8 +17,8 @@ import {Router} from '@angular/router';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {UserService} from '../../../../model/services/user.service';
-import {Project, User} from '../../../../model/webapi/knora/';
+import {UsersService} from '../../../../model/services/users.service';
+import {Project, UserResponse} from '../../../../model/webapi/knora/';
 import {MessageData} from '../../message/message.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
@@ -80,7 +80,7 @@ export class ProjectsListComponent implements OnInit {
 
     constructor(private _router: Router,
                 private _projectsService: ProjectsService,
-                private _userService: UserService,
+                private _userService: UsersService,
                 public _dialog: MatDialog) {
     }
 
@@ -91,7 +91,7 @@ export class ProjectsListComponent implements OnInit {
             this._userService.getUserByIri(this.user)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.allProjects = result.getBody(User).userProfile.projects_info;
+                        this.allProjects = result.getBody(UserResponse).userProfile.projects_info;
 
                         this.filter(this.allProjects);
 

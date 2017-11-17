@@ -3,7 +3,7 @@ import {AppModule} from '../../../../app.module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectTeamComponent} from './project-team.component';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {UserService} from '../../../../model/services/user.service';
+import {UsersService} from '../../../../model/services/users.service';
 import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
 
 describe('ProjectTeamComponent', () => {
@@ -34,7 +34,7 @@ describe('ProjectTeamComponent', () => {
             ],
             providers: [
                 ProjectsService,
-                UserService,
+                UsersService,
                 MockBackend,
                 BaseRequestOptions,
                 {

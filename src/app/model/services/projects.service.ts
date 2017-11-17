@@ -15,11 +15,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {Project} from '../webapi/knora/v1/projects/project';
-import {ProjectMembersResponse} from '../webapi/knora/v1/projects/project-members-response';
-import {ProjectResponse} from '../webapi/knora/v1/projects/project-response';
-import {ProjectsResponse} from '../webapi/knora/v1/projects/projects-response';
-import {UserData} from '../webapi/knora/v1/users/user-data';
+import {UserData, Project, ProjectMembersResponse, ProjectsResponse, ProjectResponse} from '../webapi/knora';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 

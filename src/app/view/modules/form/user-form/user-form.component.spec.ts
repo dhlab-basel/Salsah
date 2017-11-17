@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
-import {UserService} from '../../../../model/services/user.service';
+import {UsersService} from '../../../../model/services/users.service';
 import {MatDialogRef} from '@angular/material';
 import {UserFormComponent} from './user-form.component';
 import {ProjectTeamComponent} from '../../../dashboard/project/project-team/project-team.component';
@@ -46,7 +46,7 @@ describe('UserFormComponent', () => {
                 AppModule
             ],
             providers: [
-                UserService,
+                UsersService,
                 ProjectTeamComponent,
                 {provide: MatDialogRef}
             ]

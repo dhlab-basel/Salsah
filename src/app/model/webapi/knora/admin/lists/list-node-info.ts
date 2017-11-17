@@ -14,7 +14,7 @@
  */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {StringWithOptionalLang} from '../shared/strings';
+import {StringV2} from '../../v2/index';
 
 @JsonObject
 export class ListNodeInfo {
@@ -22,9 +22,9 @@ export class ListNodeInfo {
     @JsonProperty('id', String, false)
     public id: string = undefined;
 
-    @JsonProperty('labels', [StringWithOptionalLang], false)
-    public labels: StringWithOptionalLang[] = undefined;
+    @JsonProperty('labels', [StringV2], false)
+    public labels: StringV2[] = undefined;
 
-    @JsonProperty('comments', [StringWithOptionalLang], false)
-    public comments: StringWithOptionalLang[] = undefined;
+    @JsonProperty('comments', [StringV2], false)
+    public comments: StringV2[] = undefined;
 }

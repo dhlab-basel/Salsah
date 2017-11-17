@@ -18,8 +18,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ListsService} from '../../../../model/services/lists.service';
-import {ListNode} from '../../../../model/webapi/knora/v1';
-import {List, ListInfo} from '../../../../model/webapi/knora/v2';
+import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
 import {ListNodeFormComponent} from '../list-node-form/list-node-form.component';
 
 @Component({
@@ -136,8 +135,8 @@ export class ListFormComponent implements OnChanges {
         this._listsService.getList(iri)
             .subscribe(
                 (list: List) => {
-                    this.currentNodes = list.nodes;
-                    this.currentListInfo = list.info;
+                    this.currentNodes = list.children;
+                    this.currentListInfo = list.listinfo;
 
                     this.buildListInfoForm();
                     this.addNeededNumberOfLabels();

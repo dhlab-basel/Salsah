@@ -13,64 +13,22 @@
  * */
 
 /**
- * Interfaces for authentication and the session
+ * Interfaces for Admin
  */
-export * from './v1/authenticate/authenticate';
-export * from './v1/authenticate/session';
+export * from './admin/index';
+
 
 /**
- * Interfaces for resource types
+ * Interfaces for V1
  */
-export * from './v1/resource-types/resource-type';
-export * from './v1/resource-types/resource-types';
-export * from './v1/resource-types/resource-type-item';
-export * from './v1/resource-types/resource-type-info';
+export * from './v1/index';
+
 
 /**
- * Interfaces for resource objects: instances
+ * Interfaces for V2
  */
-export * from './v1/resources/resource';
+export * from './v2/index';
 
-/**
- * Interfaces for properties
- */
-export * from './v1/properties/properties';
 
-/**
- * Interfaces for search results
- */
-export * from './v1/search/search';
 
-/**
- * Interfaces for users
- */
-export * from './admin/users/users-list';
-export * from './admin/users/user-data';
-export * from './admin/users/user';
-export * from './admin/users/user-profile';
 
-/**
- * Interfaces for projects
- */
-export * from './admin/projects/project';
-export * from './admin/projects/project-members-response';
-export * from './admin/projects/project-response';
-export * from './admin/projects/projects-response';
-
-/**
- * Interface for lists V1
- */
-export * from './v1/lists/list-node';
-
-/**
- * Interface for lists V2
- */
-export * from './admin/lists/list-node-v2';
-export * from './admin/lists/list-info';
-export * from './admin/lists/list-node-info';
-export * from './admin/lists/lists-response';
-
-/**
- * Interface for shared
- */
-export * from './v2/shared/strings';

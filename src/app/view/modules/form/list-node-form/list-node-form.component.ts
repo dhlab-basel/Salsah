@@ -15,7 +15,7 @@
 
 import {Component, Inject, OnInit} from '@angular/core';
 import {ListsService} from '../../../../model/services/lists.service';
-import {ListNodeInfo} from '../../../../model/webapi/knora/v2';
+import {ListNodeInfo} from '../../../../model/webapi/knora';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';

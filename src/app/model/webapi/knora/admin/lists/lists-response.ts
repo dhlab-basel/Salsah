@@ -19,8 +19,8 @@ import {ListInfo} from './list-info';
 @JsonObject
 export class ListsResponse {
 
-    @JsonProperty('lists', [ListInfo], false)
-    public lists: ListInfo[] = undefined;
+    @JsonProperty('items', [ListInfo], false)
+    public list: ListInfo[] = undefined;
 }
 
 

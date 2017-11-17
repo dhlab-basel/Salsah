@@ -335,7 +335,7 @@ export module ConvertJSONLD {
      * @param resourcesResponseJSONLD   a sequence of resources, represented as a JSON-LD object.
      * @returns {ReadResourcesSequence} a [[ReadResourcesSequence]].
      */
-    export function f(resourcesResponseJSONLD: Object): ReadResourcesSequence {
+    export function createReadResourcesSequenceFromJsonLD(resourcesResponseJSONLD: Object): ReadResourcesSequence {
 
         let resources: Array<ReadResource> = [];
         let numberOfResources: number = resourcesResponseJSONLD[AppConfig.schemaNumberOfItems];

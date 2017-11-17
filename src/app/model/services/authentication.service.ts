@@ -4,11 +4,10 @@ import {Observable} from 'rxjs/Observable';
 import {ApiServiceResult} from './api-service-result';
 import {ApiServiceError} from './api-service-error';
 import {Http} from '@angular/http';
-import {UserService} from './user.service';
-import {PermissionData} from '../webapi/knora/v1/permissions/permission-data';
 import {AppConfig} from '../../app.config';
 import {ProjectsService} from './projects.service';
-import {Project} from '../webapi/knora/v1/projects/project';
+import {UsersService} from './users.service';
+import {Project, PermissionData} from '../webapi/knora';
 
 @Injectable()
 export class AuthenticationService extends ApiService {
@@ -18,7 +17,7 @@ export class AuthenticationService extends ApiService {
     public isSysAdmin: boolean;
 
     constructor(_http: Http,
-                private _userService: UserService,
+                private _userService: UsersService,
                 private _projectsService: ProjectsService) {
         super(_http);
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));

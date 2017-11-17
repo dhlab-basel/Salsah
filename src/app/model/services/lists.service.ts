@@ -18,11 +18,9 @@ import {Observable} from 'rxjs/Observable';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 import {ApiService} from './api.service';
-import {List, ListInfo, ListNodeInfo, ListsResponse} from '../webapi/knora/v2';
-import {ReadListSequenceJsonLDConverter} from '../webapi/knora/v2/lists/read-lists-seq-jsonld-converter';
+import {List, ListInfo, ListNodeInfo, ListsResponse} from '../webapi/knora/admin';
+import {ListNodeInfoResponse} from '../webapi/knora/admin/lists/list-node-info-response';
 
-declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
-const jsonld = require('jsonld');
 
 @Injectable()
 export class ListsService extends ApiService {
@@ -40,28 +38,15 @@ export class ListsService extends ApiService {
 
         const empty: ListInfo[] = [];
 
-        return this.httpGet('/v2/lists?projectIri=' + encodeURIComponent(projectIri)).map(
+        return this.httpGet('/admin/lists?projectIri=' + encodeURIComponent(projectIri)).map(
             (result: ApiServiceResult) => {
-
-
-                const listInfos: ListInfo[] = ReadListSequenceJsonLDConverter.toListInfos(result.body);
-
-
-
-                const received: ListInfo[] = result.getBody(ListsResponse).lists;
+                const received: ListInfo[] = result.getBody(ListsResponse).items;
                 console.log('ListsService - getLists - projectIri: ' + projectIri +  ' , lists: ',  received);
                 if (received.length > 0) {
                     return received;
                 } else {
                     return empty;
                 }
-
-
-
-
-
-
-
             },
             (error: ApiServiceError) => {
                 const errorMessage = <any>error;
@@ -81,17 +66,11 @@ export class ListsService extends ApiService {
      */
     getList(listIri: string): Observable<List> {
 
-        const empty: ListInfo[] = [];
-
         return this.httpGet('/v2/lists/' + encodeURIComponent(listIri)).map(
             (result: ApiServiceResult) => {
-                const received: List = result.getBody(ListsResponse);
+                const received: List = result.getBody(ListsResponse).list;
                 console.log('ListsService - getLists - listIri: ' + listIri +  ' , list: ', received);
-                if (received.length > 0) {
-                    return received;
-                } else {
-                    return empty;
-                }
+                return received;
             },
             (error: ApiServiceError) => {
                 const errorMessage = <any>error;
@@ -109,7 +88,7 @@ export class ListsService extends ApiService {
      * @returns {Observable<Boolean>}
      */
     updateListInfo(listInfo: ListInfo): Observable<Boolean> {
-        return this.httpPut('/v2/lists/infos' + encodeURIComponent(listInfo.id), listInfo, {}).map(
+        return this.httpPut('/admin/lists/infos' + encodeURIComponent(listInfo.id), listInfo, {}).map(
             (result: ApiServiceResult) => {
                 console.log('ListsService - updateListInfo - result:', result);
                 return true;
@@ -123,16 +102,16 @@ export class ListsService extends ApiService {
     }
 
     /**
-     * Retrieves the basic list node information.
+     * Retrieves the basic list (child) node information.
      *
      * @param nodeIri
      * @returns {Observable<ListNodeInfo>}
      * @throws {ApiServiceError}
      */
     getListNodeInfo(nodeIri: string): Observable<ListNodeInfo> {
-        return this.httpGet('/v2/lists/nodes/' + encodeURIComponent(nodeIri)).map(
+        return this.httpGet('/admin/lists/nodes/' + encodeURIComponent(nodeIri)).map(
             (result: ApiServiceResult) => {
-                const received: ListNodeInfo = result.getBody(ListNodeInfo);
+                const received: ListNodeInfo = result.getBody(ListNodeInfoResponse).nodeinfo;
                 console.log('ListsService - getLists - listIri: ' + nodeIri +  ' , list: ', received);
                 return received
             },

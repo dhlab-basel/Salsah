@@ -21,18 +21,11 @@ export * from './authenticate/session';
 
 
 /**
- * Interfaces for projects
- */
-export * from './projects/project';
-export * from './projects/project-members-response';
-export * from './projects/project-response';
-export * from './projects/projects-response';
-
-/**
  * Interfaces for resource types
  */
 export * from './resource-types/resource-type';
 export * from './resource-types/resource-types';
+export * from './resource-types/resource-type-item';
 export * from './resource-types/resource-type-info';
 
 /**
@@ -49,16 +42,4 @@ export * from './properties/properties';
  * Interfaces for search results
  */
 export * from './search/search';
-
-/**
- * Interfaces for users
- */
-export * from './users/users-list';
-export * from './users/user';
-export * from './users/user-profile';
-
-/**
- * Interface for lists
- */
-export * from './lists/list-node';
 

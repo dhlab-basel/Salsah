@@ -31,7 +31,7 @@ import {SearchService} from './model/services/search.service';
 
 import {IncomingService} from './model/services/incoming.service';
 
-import {UserService} from './model/services/user.service';
+import {UsersService} from './model/services/users.service';
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -250,7 +250,7 @@ import {TreeModule} from 'angular-tree-component';
         SearchService,
         IncomingService,
         BasicOntologyService,
-        UserService,
+        UsersService,
         OntologyService,
         OntologyCacheService,
         ListsService,
