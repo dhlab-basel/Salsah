@@ -19,7 +19,7 @@ import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 import {ProjectMembers} from '../../../../model/webapi/knora/v1/projects/project-members';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
+import {NewUserData, NewUsersList, UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
 import {MessageData} from '../../message/message.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
@@ -73,6 +73,10 @@ export class UsersListComponent implements OnInit {
     allUsers: UserData[] = [];
     allActiveUsers: UserProfile[] = [];
     allInactiveUsers: UserProfile[] = [];
+
+    newAllActiveUsers: NewUserData[] = [];
+    newAllInactiveUsers: NewUserData[] = [];
+
     countAll: number;
     countActive: number;
     countInactive: number;
@@ -94,7 +98,7 @@ export class UsersListComponent implements OnInit {
             label: 'First name'
         },
         {
-            key: 'eMail',
+            key: 'email',
             label: 'E-mail'
         }
     ];
@@ -142,10 +146,24 @@ export class UsersListComponent implements OnInit {
                                         const user: UserProfile = userResult.getBody(User).userProfile;
                                         if (user.userData.status === true) {
                                             this.allActiveUsers.push(user);
-                                            this.countActive = this.allActiveUsers.length;
+                                            const active: NewUserData = {
+                                                email: user.userData.email,
+                                                givenName: user.userData.givenName,
+                                                familyName: user.userData.familyName,
+                                                user_profile: user
+                                            };
+                                            this.newAllActiveUsers.push(active);
+                                            this.countActive = this.newAllActiveUsers.length;
                                         } else {
                                             this.allInactiveUsers.push(user);
-                                            this.countInactive = this.allInactiveUsers.length;
+                                            const inactive: NewUserData = {
+                                                email: user.userData.email,
+                                                givenName: user.userData.givenName,
+                                                familyName: user.userData.familyName,
+                                                user_profile: user
+                                            };
+                                            this.newAllInactiveUsers.push(inactive);
+                                            this.countInactive = this.newAllInactiveUsers.length;
                                         }
                                     },
                                     (userError: ApiServiceError) => {
@@ -184,11 +202,25 @@ export class UsersListComponent implements OnInit {
                                         const user: UserProfile = userResult.getBody(User).userProfile;
                                         if (user.userData.status === true) {
                                             this.allActiveUsers.push(user);
-                                            this.countActive = this.allActiveUsers.length;
+                                            const active: NewUserData = {
+                                                email: user.userData.email,
+                                                givenName: user.userData.givenName,
+                                                familyName: user.userData.familyName,
+                                                user_profile: user
+                                            };
+                                            this.newAllActiveUsers.push(active);
+                                            this.countActive = this.newAllActiveUsers.length;
 
                                         } else {
                                             this.allInactiveUsers.push(user);
-                                            this.countInactive = this.allInactiveUsers.length;
+                                            const inactive: NewUserData = {
+                                                email: user.userData.email,
+                                                givenName: user.userData.givenName,
+                                                familyName: user.userData.familyName,
+                                                user_profile: user
+                                            };
+                                            this.newAllInactiveUsers.push(inactive);
+                                            this.countInactive = this.newAllInactiveUsers.length;
                                         }
                                     },
                                     (userError: ApiServiceError) => {
