@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Property} from 'app/model/services/ontologycache.service';
 import {AppConfig} from "../../../../../../app.config";
@@ -102,6 +102,25 @@ class Exists implements ComparisonOperator {
     };
 }
 
+/**
+ * An abstract interface that represents a value.
+ * This interface has to be implemented for all value types (value component classes).
+ */
+export interface PropertyValue {
+
+    /**
+     * Type of the value.
+     */
+    type: string;
+
+    /**
+     * Gets the value (typed).
+     *
+     * @returns {any}
+     */
+    getValue(): any;
+
+}
 
 @Component({
     selector: 'specify-property-value',
@@ -109,6 +128,10 @@ class Exists implements ComparisonOperator {
     styleUrls: ['./specify-property-value.component.scss']
 })
 export class SpecifyPropertyValueComponent implements OnInit {
+
+    AppConfig = AppConfig;
+
+    @ViewChild('propertyValue') propertyValue: PropertyValue;
 
     @Input()
     set property(prop: Property) {
@@ -127,9 +150,9 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
     private form: FormGroup;
 
-    private comparisonOperators: Array<ComparisonOperator> = [];
+    comparisonOperators: Array<ComparisonOperator> = [];
 
-    private formField;
+    private propertyValueType;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
@@ -139,15 +162,12 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
         // build a form for the named graph selection
         this.form = this.fb.group({
-            comparisonOperator: [null, Validators.required],
-            propertyValue: [null, Validators.required]
+            comparisonOperator: [null, Validators.required]
         });
 
         // emit Iri of named graph when selected
         this.form.valueChanges.subscribe((data) => {
-            // TODO: implement callback
-            //console.log(this._property);
-            //console.log(data);
+            console.log(this.propertyValue);
         });
 
         // TODO: depending on the given value type, init a value form field
@@ -157,16 +177,13 @@ export class SpecifyPropertyValueComponent implements OnInit {
         // depending on object class, set comparison operators and value entry field
 
 
-
-        let valueType;
-
         if (this._property.isLinkProperty) {
-            valueType = AppConfig.LinkValue;
+            this.propertyValueType = AppConfig.LinkValue;
         } else {
-            valueType = this._property.objectType;
+            this.propertyValueType = this._property.objectType;
         }
 
-        switch (valueType) {
+        switch (this.propertyValueType) {
 
             case AppConfig.TextValue:
             case AppConfig.BooleanValue:
