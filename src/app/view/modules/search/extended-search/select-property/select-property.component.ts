@@ -61,14 +61,8 @@ export class SelectPropertyComponent implements OnInit {
 
         let prop: Property = this.properties[propertyIri];
 
-        // TODO: build a form that allows the user to specify a comparison operator and a value for the chosen property
-
         this.propertySelected = prop;
 
     }
 
-    getProp() {
-        console.log(this.propertySelected)
-        console.log(this.specifyPropertyValue.first.getFormData())
-    }
 }

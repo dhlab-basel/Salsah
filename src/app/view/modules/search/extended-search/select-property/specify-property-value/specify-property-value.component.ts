@@ -116,7 +116,7 @@ export interface PropertyValue {
     /**
      * Gets the value (typed).
      *
-     * @returns {any}
+     * @returns {any} the value.
      */
     getValue(): any;
 

@@ -126,6 +126,7 @@ import { ReadListValueComponent } from './view/properties/read-list-value/read-l
 import { SpecifyPropertyValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component';
 import { IntegerValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/integer-value/integer-value.component';
 import { DecimalValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/decimal-value/decimal-value.component';
+import { BooleanValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 //
 // import all needed services
 //
@@ -219,6 +220,7 @@ import { DecimalValueComponent } from './view/modules/search/extended-search/sel
         SpecifyPropertyValueComponent,
         IntegerValueComponent,
         DecimalValueComponent,
+        BooleanValueComponent,
     ],
     imports: [
         BrowserModule,
