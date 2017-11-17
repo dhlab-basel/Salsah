@@ -29,7 +29,7 @@ import {OntologyService} from './model/services/ontology.service';
 import {OntologyCacheService} from './model/services/ontologycache.service';
 import {SearchService} from './model/services/search.service';
 
-import {IncomingService} from "./model/services/incoming.service";
+import {IncomingService} from './model/services/incoming.service';
 
 import {UserService} from './model/services/user.service';
 // just to get the basic ontology form the json file
@@ -89,7 +89,6 @@ import {UsersListComponent} from './view/modules/listing/users-list/users-list.c
 import {FrameworkForListingsComponent} from './view/modules/framework/framework-for-listings/framework-for-listings.component';
 import {UserObjectComponent} from './view/modules/object/user-object/user-object.component';
 import {MessageDialogComponent} from './view/modules/dialog/message-dialog/message-dialog.component';
-
 import {FormDialogComponent} from './view/modules/dialog/form-dialog/form-dialog.component';
 import {ResourceTypesListComponent} from './view/modules/listing/resource-types-list/resource-types-list.component';
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
@@ -101,8 +100,6 @@ import {ResizeGridDirective} from './view/modules/other/resize-grid.directive';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
 import {FocusDirective} from './view/modules/other/focus.directive';
 import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
-
-
 import {MathJaxDirective} from './view/modules/other/mathjax.directive';
 import {ReadTextValueAsHtmlComponent} from './view/properties/read-text-value-as-html/read-text-value-as-html.component';
 import {ReadDateValueComponent} from './view/properties/read-date-value/read-date-value.component';
@@ -114,12 +111,20 @@ import {ReadDecimalValueComponent} from './view/properties/read-decimal-value/re
 import {StillImageOSDViewerComponent} from './view/properties/still-image-osdviewer/still-image-osdviewer.component';
 import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geom-value.component';
 import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
-import {SystemProjectsComponent} from "./view/dashboard/system/system-projects/system-projects.component";
-import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologies/system-ontologies.component";
-import { ProjectOntologiesComponent } from './view/dashboard/project/project-ontologies/project-ontologies.component';
-import { OntologiesListComponent } from './view/modules/listing/ontologies-list/ontologies-list.component';
-import { UsersListItemComponent } from './view/modules/listing/users-list/users-list-item/users-list-item.component';
-import { OntologyFormComponent } from './view/modules/form/ontology-form/ontology-form.component';
+import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
+import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
+import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
+import {OntologiesListComponent} from './view/modules/listing/ontologies-list/ontologies-list.component';
+import {UsersListItemComponent} from './view/modules/listing/users-list/users-list-item/users-list-item.component';
+import {OntologyFormComponent} from './view/modules/form/ontology-form/ontology-form.component';
+import {SelectPropertyComponent} from './view/modules/search/extended-search/select-property/select-property.component';
+import {SelectClassComponent} from './view/modules/search/extended-search/select-class/select-class.component';
+import {SelectGraphComponent} from './view/modules/search/extended-search/select-graph/select-graph.component';
+import {ReadUriValueComponent} from './view/properties/read-uri-value/read-uri-value.component';
+import {ReadBooleanValueComponent} from './view/properties/read-boolean-value/read-boolean-value.component';
+import {ReadIntervalValueComponent} from './view/properties/read-interval-value/read-interval-value.component';
+import {ReadListValueComponent} from './view/properties/read-list-value/read-list-value.component';
+
 //
 // import all needed services
 //
@@ -207,6 +212,13 @@ import { OntologyFormComponent } from './view/modules/form/ontology-form/ontolog
         OntologiesListComponent,
         UsersListItemComponent,
         OntologyFormComponent,
+        SelectPropertyComponent,
+        SelectClassComponent,
+        SelectGraphComponent,
+        ReadUriValueComponent,
+        ReadBooleanValueComponent,
+        ReadIntervalValueComponent,
+        ReadListValueComponent
     ],
     imports: [
         BrowserModule,

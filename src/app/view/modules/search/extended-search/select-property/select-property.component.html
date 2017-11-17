@@ -1,0 +1,9 @@
+<mat-form-field *ngIf="propertiesAsArray?.length > 0">
+    <mat-select placeholder="Properties" [formControl]="form.controls['property']">
+        <mat-option *ngFor="let prop of propertiesAsArray" [value]="prop.id">{{ prop.label }}</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<!--<mat-form-field *ngIf="selectedProperty !== undefined">
+    <input matInput placeholder="Prop value" value="{{selectedProperty?.objectType}}">
+</mat-form-field>-->

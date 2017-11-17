@@ -90,7 +90,7 @@ export class SearchComponent implements OnInit {
     doSearch(search_ele: HTMLElement) {
         if (this.searchQuery !== undefined && this.searchQuery !== null) {
             this.toggleMenu('simpleSearch');
-            this._router.navigate(['/search/' + this.searchQuery], {relativeTo: this._route});
+            this._router.navigate(['/search/fulltext/' + this.searchQuery], {relativeTo: this._route});
 
             // push the search query into the local storage prevSearch array (previous search)
             // to have a list of recent search requests
@@ -123,7 +123,7 @@ export class SearchComponent implements OnInit {
 
     doPrevSearch(query: string) {
         this.searchQuery = query;
-        this._router.navigate(['/search/' + query], {relativeTo: this._route});
+        this._router.navigate(['/search/fulltext/' + query], {relativeTo: this._route});
         this.toggleMenu('simpleSearch');
     }
 
