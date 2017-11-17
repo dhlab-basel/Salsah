@@ -32,7 +32,7 @@
         "jsonld": "^0.4.12",
         "ng2-dnd": "^4.2.0",
         "openseadragon": "^2.3.0",
-        "rxjs": "^5.4.2",
+        "rxjs": "^5.5.2",
         "svg-overlay": "github:openseadragon/svg-overlay",
         "ts-helpers": "^1.1.2",
         "ts-md5": "^1.2.2",
@@ -42,7 +42,7 @@
         "@angular/cli": "^1.5.2",
         "@angular/compiler-cli": "^4.4.6",
         "@types/jasmine": "2.8.2",
-        "@types/node": "^8.0.34",
+        "@types/node": "^8.0.53",
         "codelyzer": "~4.0.1",
         "jasmine-core": "~2.8.0",
         "jasmine-spec-reporter": "~4.2.0",
@@ -55,6 +55,6 @@
         "protractor": "~5.2.0",
         "ts-node": "~3.3.0",
         "tslint": "~5.8.0",
-        "typescript": "^2.4.0"
+        "typescript": "^2.3.4"
     }
 }
