@@ -14,13 +14,14 @@
  */
 
 
+import {JsonObject, JsonProperty} from 'json2typescript';
+
+@JsonObject
 export class StringV2 {
 
-    value: string;
-    language: string = undefined;
+    @JsonProperty('value', String, false)
+    public value: string = undefined;
 
-    constructor (value: string, language?: string) {
-        this.value = value;
-        this.language = language;
-    }
+    @JsonProperty('language', String, true)
+    public language: string = undefined;
 }

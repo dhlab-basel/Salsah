@@ -22,10 +22,10 @@ export class ListInfo {
     @JsonProperty('id', String, false)
     public id: string = undefined;
 
-    @JsonProperty('projectIri', String, true)
+    @JsonProperty('projectIri', String, false)
     public projectIri: string = undefined;
 
-    @JsonProperty('labels', [StringV2], false)
+    @JsonProperty('labels', [StringV2], true)
     public labels: StringV2[] = undefined;
 
     @JsonProperty('comments', [StringV2], true)

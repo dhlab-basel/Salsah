@@ -84,7 +84,7 @@ export class ListFormComponent implements OnChanges {
     buildValueLangGroup(): FormGroup {
         return this._fb.group({
             value: ['', Validators.required],
-            lang: ['', Validators.required]
+            language: ['']
         });
     }
 

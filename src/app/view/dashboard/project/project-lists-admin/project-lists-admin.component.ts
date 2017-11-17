@@ -34,7 +34,7 @@ export class ProjectListsAdminComponent implements OnInit {
 
     selectedRow: number;
 
-    project: Project = new Project;
+    projectIri: string = 'http://rdfh.ch/projects/00FF';
 
     projectLists: ListInfo[] = [];
     systemLists: ListInfo[] = [];
@@ -59,10 +59,10 @@ export class ProjectListsAdminComponent implements OnInit {
 
     ngOnInit() {
 
-        this.project = JSON.parse(localStorage.getItem('currentProject'));
+        // this.project = JSON.parse(localStorage.getItem('currentProject'));
 
         // get all project lists
-        this._listsService.getLists(this.project.id)
+        this._listsService.getLists(this.projectIri)
             .subscribe(
                 (lists: ListInfo[]) => {
                     this.projectLists = lists;

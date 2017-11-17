@@ -20,7 +20,7 @@ import {ListInfo} from './list-info';
 export class ListsResponse {
 
     @JsonProperty('items', [ListInfo], false)
-    public list: ListInfo[] = undefined;
+    public items: ListInfo[] = undefined;
 }
 
 
