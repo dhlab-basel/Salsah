@@ -68,7 +68,7 @@ export class OntologiesListComponent implements OnInit {
     // in the case of no data, but with a working API
     noDataMessage: MessageData = {
         status: 204,
-        statusMsg: 'No users found',
+        statusMsg: 'No ontology found',
         statusText: 'It seems there\'s no ontology yet. Add a new one with the button above &uarr;'
     };
 

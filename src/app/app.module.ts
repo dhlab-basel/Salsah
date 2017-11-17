@@ -119,6 +119,7 @@ import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologi
 import { ProjectOntologiesComponent } from './view/dashboard/project/project-ontologies/project-ontologies.component';
 import { OntologiesListComponent } from './view/modules/listing/ontologies-list/ontologies-list.component';
 import { UsersListItemComponent } from './view/modules/listing/users-list/users-list-item/users-list-item.component';
+import { OntologyFormComponent } from './view/modules/form/ontology-form/ontology-form.component';
 //
 // import all needed services
 //
@@ -205,6 +206,7 @@ import { UsersListItemComponent } from './view/modules/listing/users-list/users-
         ProjectOntologiesComponent,
         OntologiesListComponent,
         UsersListItemComponent,
+        OntologyFormComponent,
     ],
     imports: [
         BrowserModule,
