@@ -116,9 +116,18 @@ import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geo
 import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
 import {SystemProjectsComponent} from "./view/dashboard/system/system-projects/system-projects.component";
 import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologies/system-ontologies.component";
+
 import { ProjectOntologiesComponent } from './view/dashboard/project/project-ontologies/project-ontologies.component';
 import { OntologiesListComponent } from './view/modules/listing/ontologies-list/ontologies-list.component';
 import { UsersListItemComponent } from './view/modules/listing/users-list/users-list-item/users-list-item.component';
+import { SelectPropertyComponent } from './view/modules/search/extended-search/select-property/select-property.component';
+import { SelectClassComponent } from './view/modules/search/extended-search/select-class/select-class.component';
+import { SelectGraphComponent } from './view/modules/search/extended-search/select-graph/select-graph.component';
+import { ReadUriValueComponent } from './view/properties/read-uri-value/read-uri-value.component';
+import { ReadBooleanValueComponent } from './view/properties/read-boolean-value/read-boolean-value.component';
+import { ReadIntervalValueComponent } from './view/properties/read-interval-value/read-interval-value.component';
+import { ReadListValueComponent } from './view/properties/read-list-value/read-list-value.component';
+
 //
 // import all needed services
 //
@@ -205,6 +214,13 @@ import { UsersListItemComponent } from './view/modules/listing/users-list/users-
         ProjectOntologiesComponent,
         OntologiesListComponent,
         UsersListItemComponent,
+        SelectPropertyComponent,
+        SelectClassComponent,
+        SelectGraphComponent,
+        ReadUriValueComponent,
+        ReadBooleanValueComponent,
+        ReadIntervalValueComponent,
+        ReadListValueComponent,
     ],
     imports: [
         BrowserModule,

@@ -24,7 +24,7 @@ export class MathJaxDirective implements OnInit {
     }
 
     /**
-     * Bind a click event to standoff links that shows the referred resource in a dialog box.
+     * Binds a click event to standoff links that shows the referred resource in a dialog box.
      *
      * @param event the event fired on an element inserted by this directive.
      * @returns {boolean} a Boolean indicating if event propagation should be stopped.
@@ -58,16 +58,14 @@ export class MathJaxDirective implements OnInit {
     }
 
     /**
-     * Bind a mouseover event to the inserted elements.
+     * Binds a mouseover event to the inserted elements.
      *
      * @param event the event fired on an element inserted by this directive.
      * @returns {boolean} a Boolean indicating if event propagation should be stopped.
      */
     @HostListener('mouseover', ['$event'])
     onMouseEnter(event) {
-        //console.log("mouseover " + this.valueType);
-
-        //console.log(this.ontologyInfo);
+        //console.log("mouseover ");
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
         if (event.toElement.nodeName.toLowerCase() === 'a' && event.toElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {

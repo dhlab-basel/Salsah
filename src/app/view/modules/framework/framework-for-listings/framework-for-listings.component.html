@@ -60,6 +60,7 @@
             <div *ngSwitchCase="'resource'">
                 <salsah-resources-list *ngIf="!rerender"
                                        [listType]="list.showAs"
+                                       [searchMode]="list.searchMode"
                                        [searchParam]="list.restrictedBy"
                                        (toggleItem)="toggleDetail($event, $event)">
                 </salsah-resources-list>

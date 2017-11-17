@@ -35,7 +35,8 @@ export interface ListData {
     description: string,
     content: string,
     showAs: string,
-    restrictedBy: string
+    restrictedBy: string,
+    searchMode?: string
 }
 
 export interface AddData {
