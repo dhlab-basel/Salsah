@@ -25,7 +25,7 @@ export class OntologyService extends ApiService {
      * @returns {Observable<any>}
      */
     getNamedGraphIris() {
-        return this.httpGetV2("/ontologies/namedgraphs");
+        return this.httpGetV2("/ontologies/metadata");
     }
 
     /**
@@ -47,7 +47,7 @@ export class OntologyService extends ApiService {
             namedGraphUriEnc = namedGraphUriEnc + "/" + encodeURIComponent(resClassIri.toString())
         });
 
-        return this.httpGetV2("/ontologies/namedgraphs" + namedGraphUriEnc);
+        return this.httpGetV2("/ontologies/allentities" + namedGraphUriEnc);
 
     }
 

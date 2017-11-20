@@ -420,7 +420,7 @@ export class OntologyCacheService {
 
         this.cacheOntology.namedGraphs = namedGraphs.map(
             namedGraph => {
-                return new NamedGraph(namedGraph['@id'], namedGraph[AppConfig.hasShortname]);
+                return new NamedGraph(namedGraph['@id'], namedGraph[AppConfig.RdfsLabel]);
             }
         );
     }
