@@ -117,17 +117,24 @@ import {ReadDecimalValueComponent} from './view/properties/read-decimal-value/re
 import {StillImageOSDViewerComponent} from './view/properties/still-image-osdviewer/still-image-osdviewer.component';
 import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geom-value.component';
 import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
-import {SystemProjectsComponent} from "./view/dashboard/system/system-projects/system-projects.component";
-import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologies/system-ontologies.component";
-import { SelectPropertyComponent } from './view/modules/search/extended-search/select-property/select-property.component';
-import { SelectClassComponent } from './view/modules/search/extended-search/select-class/select-class.component';
-import { SelectGraphComponent } from './view/modules/search/extended-search/select-graph/select-graph.component';
-import { ReadUriValueComponent } from './view/properties/read-uri-value/read-uri-value.component';
-import { ReadBooleanValueComponent } from './view/properties/read-boolean-value/read-boolean-value.component';
-import { ReadIntervalValueComponent } from './view/properties/read-interval-value/read-interval-value.component';
-import { ReadListValueComponent } from './view/properties/read-list-value/read-list-value.component';
+import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
+import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
+import {SelectPropertyComponent} from './view/modules/search/extended-search/select-property/select-property.component';
+import {SelectClassComponent} from './view/modules/search/extended-search/select-class/select-class.component';
+import {SelectGraphComponent} from './view/modules/search/extended-search/select-graph/select-graph.component';
+import {ReadUriValueComponent} from './view/properties/read-uri-value/read-uri-value.component';
+import {ReadBooleanValueComponent} from './view/properties/read-boolean-value/read-boolean-value.component';
+import {ReadIntervalValueComponent} from './view/properties/read-interval-value/read-interval-value.component';
+import {ReadListValueComponent} from './view/properties/read-list-value/read-list-value.component';
 import {TreeModule} from 'angular-tree-component';
-import { ListsListComponent } from './view/modules/listing/lists-list/lists-list.component';
+import {ListsListComponent} from './view/modules/listing/lists-list/lists-list.component';
+import {SpecifyPropertyValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component';
+import {IntegerValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/integer-value/integer-value.component';
+import {DecimalValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/decimal-value/decimal-value.component';
+import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
+import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
+import {MatNativeDateModule} from '@angular/material';
+
 //
 // import all needed services
 //
@@ -222,6 +229,11 @@ import { ListsListComponent } from './view/modules/listing/lists-list/lists-list
         ReadIntervalValueComponent,
         ReadListValueComponent,
         ListsListComponent,
+        SpecifyPropertyValueComponent,
+        IntegerValueComponent,
+        DecimalValueComponent,
+        BooleanValueComponent,
+        DateValueComponent
     ],
     imports: [
         BrowserModule,
@@ -229,6 +241,7 @@ import { ListsListComponent } from './view/modules/listing/lists-list/lists-list
         HttpModule,
         RouterModule,
         AppMaterialModule,
+        MatNativeDateModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
