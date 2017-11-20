@@ -105,7 +105,7 @@ export class ProjectsService extends ApiService {
      */
     getProjectMembersByIri(iri: string): Observable<UserData[]> {
 
-        console.log('ProjectsService - getProjectMembersByIri - iri: ' + iri)
+//        console.log('ProjectsService - getProjectMembersByIri - iri: ' + iri);
 
         const url = '/v1/projects/members/' + encodeURIComponent(iri);
         return this.getProjectMembers(url);
@@ -133,8 +133,8 @@ export class ProjectsService extends ApiService {
     getProjectMembers(url: string): Observable<UserData[]> {
         return this.httpGet(url).map(
             (result: ApiServiceResult) => {
-                const members: UserData[] = result.getBody(ProjectMembersResponse).projectMembers;
-                console.log('ProjectsService - getProjectMembers - url: ' + JSON.stringify(members) + ' , members: ' + JSON.stringify(members));
+                const members: UserData[] = result.getBody(ProjectMembersResponse).members;
+//                console.log('ProjectsService - getProjectMembers - url: ' + JSON.stringify(url) + ' , members: ' + JSON.stringify(members));
                 return members;
             },
             (error: ApiServiceError) => {

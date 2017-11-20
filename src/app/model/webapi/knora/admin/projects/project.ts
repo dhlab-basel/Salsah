@@ -48,7 +48,7 @@ export class Project {
     public name: string = undefined;
 
     @JsonProperty('ontologies', [String])
-    public ontologyNamedGraph: string[] = undefined;
+    public ontologies: string[] = undefined;
 
     @JsonProperty('selfjoin', Boolean)
     public selfjoin: boolean = undefined;
