@@ -127,6 +127,7 @@ import { ReadBooleanValueComponent } from './view/properties/read-boolean-value/
 import { ReadIntervalValueComponent } from './view/properties/read-interval-value/read-interval-value.component';
 import { ReadListValueComponent } from './view/properties/read-list-value/read-list-value.component';
 import {TreeModule} from 'angular-tree-component';
+import { ListsListComponent } from './view/modules/listing/lists-list/lists-list.component';
 //
 // import all needed services
 //
@@ -220,6 +221,7 @@ import {TreeModule} from 'angular-tree-component';
         ReadBooleanValueComponent,
         ReadIntervalValueComponent,
         ReadListValueComponent,
+        ListsListComponent,
     ],
     imports: [
         BrowserModule,

@@ -18,6 +18,7 @@ import {Project, ListInfo} from '../../../../model/webapi/knora';
 import {Router} from '@angular/router';
 import {ListsService} from '../../../../model/services/lists.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 
 @Component({
     selector: 'salsah-project-lists-admin',
@@ -26,6 +27,28 @@ import {ApiServiceError} from '../../../../model/services/api-service-error';
 })
 export class ProjectListsAdminComponent implements OnInit {
 
+
+    // ------------------------------------------------------------------------
+    //  DATA for FrameworkForListingsComponent
+    // ------------------------------------------------------------------------
+    list: ListData = {
+        title: 'Lists in this project',
+        description: '',
+        content: 'list',
+        showAs: 'list',
+        restrictedBy: ''
+    };
+
+    // add new users
+    add: AddData = {
+        title: 'Add new list to the project',
+        description: ''
+    };
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+
+
     @Input() projects: Project[];
 
     isLoading = true;
@@ -33,8 +56,6 @@ export class ProjectListsAdminComponent implements OnInit {
     errorMessage: any = undefined;
 
     selectedRow: number;
-
-    projectIri: string = 'http://rdfh.ch/projects/00FF';
 
     projectLists: ListInfo[] = [];
     systemLists: ListInfo[] = [];
@@ -59,10 +80,10 @@ export class ProjectListsAdminComponent implements OnInit {
 
     ngOnInit() {
 
-        // this.project = JSON.parse(localStorage.getItem('currentProject'));
+        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
 
         // get all project lists
-        this._listsService.getLists(this.projectIri)
+        this._listsService.getLists(this.list.restrictedBy)
             .subscribe(
                 (lists: ListInfo[]) => {
                     this.projectLists = lists;

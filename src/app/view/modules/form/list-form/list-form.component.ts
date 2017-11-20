@@ -54,6 +54,7 @@ export class ListFormComponent implements OnChanges {
     }
 
     ngOnChanges() {
+        console.log(this.listIri);
         this.fetchDataAndUpdateForm(this.listIri);
     }
 
