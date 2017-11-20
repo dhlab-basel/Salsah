@@ -367,7 +367,7 @@ export class UserFormComponent implements OnInit {
                                     for (const p of projectsList) {
                                         this.projects[i] = {
                                             iri: p.id,
-                                            name: p.name + ' (' + p.shortname + ')'
+                                            name: p.longname + ' (' + p.shortname + ')'
                                         };
                                         i++;
                                     }

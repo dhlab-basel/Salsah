@@ -4,14 +4,14 @@ import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectResourcesComponent} from './project-resources.component';
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
 import {PropertiesService} from '../../../../model/services/properties.service';
-import {ProjectItem} from '../../../../model/webapi/knora/';
+import {Project} from '../../../../model/webapi/knora/';
 
 
 describe('ProjectResourcesComponent', () => {
     let component: ProjectResourcesComponent;
     let fixture: ComponentFixture<ProjectResourcesComponent>;
 
-    const testProject: ProjectItem = {
+    const testProject: Project = <Project>{
         'ontologies': [
             'http://www.knora.org/ontology/00FF/images'
         ],

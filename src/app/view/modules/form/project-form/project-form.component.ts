@@ -179,7 +179,7 @@ export class ProjectFormComponent implements OnInit {
 
         this.form = this._fb.group({
             'shortname': new FormControl({value: proj.shortname, disabled: this.iri !== undefined}, [Validators.required, Validators.minLength(3), Validators.maxLength(16), existingNamesValidator(this.existingShortNames), Validators.pattern(this.shortnameRegexp)]),
-            'longname': [proj.name, Validators.required],
+            'longname': [proj.longname, Validators.required],
             'description': [proj.description, Validators.maxLength(this.descriptionMaxLength)],
             'institution': [proj.institution],
             'logo': [proj.logo],

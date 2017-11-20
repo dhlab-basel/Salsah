@@ -4,13 +4,13 @@ import {UsersService} from '../../../../model/services/users.service';
 import {MatDialogRef} from '@angular/material';
 import {UserFormComponent} from './user-form.component';
 import {ProjectTeamComponent} from '../../../dashboard/project/project-team/project-team.component';
-import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
+import {Project} from '../../../../model/webapi/knora/';
 
 describe('UserFormComponent', () => {
     let component: UserFormComponent;
     let fixture: ComponentFixture<UserFormComponent>;
 
-    const testProject: ProjectItem = {
+    const testProject: Project = <Project>{
         'ontologies': [
             'http://www.knora.org/ontology/00FF/images'
         ],

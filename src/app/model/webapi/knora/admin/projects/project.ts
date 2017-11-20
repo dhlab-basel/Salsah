@@ -23,7 +23,7 @@ export class Project {
     @JsonProperty('shortname', String)
     public shortname: string = undefined;
 
-    @JsonProperty('shortname', String)
+    @JsonProperty('shortcode', String)
     public shortcode: string = undefined;
 
     @JsonProperty('description', String)
@@ -45,7 +45,7 @@ export class Project {
     public keywords: string = undefined;
 
     @JsonProperty('longname', String)
-    public name: string = undefined;
+    public longname: string = undefined;
 
     @JsonProperty('ontologies', [String])
     public ontologies: string[] = undefined;
