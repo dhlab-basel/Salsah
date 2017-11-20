@@ -86,7 +86,7 @@
                   [cols]="columns"
                   [gutterSize]="colGutter + 'px'"
                   [rowHeight]="rowHeight + 'px'">
-        <mat-grid-tile *ngFor="let item of allProjects; let i = index;"
+        <mat-grid-tile *ngFor="let item of allProjects | sortBy: sortKey; let i = index;"
                       class="salsah-grid-tile salsah-link"
                       (click)="open(item.shortname)">
             <mat-card class="salsah-preview">
