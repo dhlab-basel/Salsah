@@ -144,4 +144,25 @@ export class AppConfig {
 
     public static SalsahLink = 'salsah-link';
 
+    public static EqualsComparisonOperator = "=";
+    public static EqualsComparisonLabel = "Equals";
+
+    public static NotEqualsComparisonOperator = "!=";
+    public static NotEqualsComparisonLabel = "Not_Equals";
+
+    public static GreaterThanComparisonOperator = ">";
+    public static GreaterThanComparisonLabel = "Greater_Than";
+
+    public static GreaterThanEqualsComparisonOperator = ">";
+    public static GreaterThanEqualsComparisonLabel = "Greater_Than";
+
+    public static LessThanComparisonOperator = "<=";
+    public static LessThanComparisonLabel = "Less_Than_Equals";
+
+    public static LessThanEqualsComparisonOperator = "<=";
+    public static LessThanQualsComparisonLabel = "Less_Than_Equals";
+
+    public static ExistsComparisonOperator = "E";
+    public static ExistsComparisonLabel = "Exists";
+
 }
