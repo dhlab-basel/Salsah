@@ -23,5 +23,5 @@ export class StringV2 {
     public value: string = undefined;
 
     @JsonProperty('language', String, true)
-    public language: string = undefined;
+    public language: string = '';
 }
