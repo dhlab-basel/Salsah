@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Inject, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
@@ -28,7 +28,6 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {ProjectItem} from '../../../../model/webapi/knora/v1/projects/project-item';
 import {Project} from '../../../../model/webapi/knora/v1/projects/project';
 import {existingNamesValidator} from '../../other/existing-name.directive';
-import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
 
 @Component({
     selector: 'salsah-user-form',

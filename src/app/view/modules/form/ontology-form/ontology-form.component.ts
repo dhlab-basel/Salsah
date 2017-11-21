@@ -27,16 +27,18 @@ export class OntologyFormComponent implements OnInit {
     // otherwise the form is empty to create new ontologies
     @Input() iri?: string = undefined;
 
-
     // project data:
     // project admin case: restrictedBy is the iri of the project
     // in this case, the project admin adds a new ontology to the project
     @Input() restrictedBy?: string = undefined;
 
+    isLoading: boolean = true;
+
     constructor() {
     }
 
     ngOnInit() {
+        this.isLoading = false;
     }
 
 }
