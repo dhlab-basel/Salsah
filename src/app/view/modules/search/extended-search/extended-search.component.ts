@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {
-    NamedGraph,
+    Ontology,
     OntologyCacheService,
     OntologyInformation,
     Properties,
@@ -18,7 +18,7 @@ import {SelectPropertyComponent} from "./select-property/select-property.compone
 })
 export class ExtendedSearchComponent implements OnInit {
 
-    namedGraphs: Array<NamedGraph> = [];
+    ontologies: Array<Ontology> = [];
     resourceClasses: Array<ResourceClass> = [];
     properties: Properties;
 
@@ -42,9 +42,9 @@ export class ExtendedSearchComponent implements OnInit {
      */
     initializeOntologies() {
         this._cacheService.getAllNamedGraphIris().subscribe(
-            (namedGraphs) => {
+            (ontologies: Array<Ontology>) => {
 
-                this.namedGraphs = namedGraphs;
+                this.ontologies = ontologies;
 
             });
     }

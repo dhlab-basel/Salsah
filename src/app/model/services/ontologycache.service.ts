@@ -22,10 +22,10 @@ class OntologyCacheError extends Error {
 /**
  * Represents a named graph.
  */
-export class NamedGraph {
+export class Ontology {
 
     constructor(readonly id: string,
-                readonly shortname: string) {
+                readonly label: string) {
 
     }
 
@@ -120,7 +120,7 @@ class OntologyCache {
     /**
      * An Array of all named graphs (ontologies).
      */
-    namedGraphs: Array<NamedGraph>;
+    namedGraphs: Array<Ontology>;
 
     /**
      * A list of all resource class Iris for a named graph.
@@ -420,7 +420,7 @@ export class OntologyCacheService {
 
         this.cacheOntology.namedGraphs = namedGraphs.map(
             namedGraph => {
-                return new NamedGraph(namedGraph['@id'], namedGraph[AppConfig.RdfsLabel]);
+                return new Ontology(namedGraph['@id'], namedGraph[AppConfig.RdfsLabel]);
             }
         );
     }
@@ -430,7 +430,7 @@ export class OntologyCacheService {
      *
      * @returns {Array<string>}
      */
-    private getAllNamedGraphsFromCache(): Array<NamedGraph> {
+    private getAllNamedGraphsFromCache(): Array<Ontology> {
 
         return this.cacheOntology.namedGraphs;
 
@@ -684,9 +684,9 @@ export class OntologyCacheService {
     /**
      * Gets all named graphs.
      *
-     * @returns {Observable<Array<NamedGraph>>}
+     * @returns {Observable<Array<Ontology>>}
      */
-    public getAllNamedGraphIris(): Observable<Array<NamedGraph>> {
+    public getAllNamedGraphIris(): Observable<Array<Ontology>> {
 
         if (this.cacheOntology.namedGraphs.length == 0) {
             return this.getNamedGraphIrisFromKnora().map(
