@@ -152,6 +152,8 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
     comparisonOperators: Array<ComparisonOperator> = [];
 
+    comparisonOperatorChosen;
+
     private propertyValueType;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
@@ -167,7 +169,8 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
         // emit Iri of named graph when selected
         this.form.valueChanges.subscribe((data) => {
-            console.log(this.propertyValue);
+            //console.log(data.comparisonOperator);
+            this.comparisonOperatorChosen = data.comparisonOperator;
         });
 
         // TODO: depending on the given value type, init a value form field
