@@ -169,16 +169,10 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
         // emit Iri of named graph when selected
         this.form.valueChanges.subscribe((data) => {
-            //console.log(data.comparisonOperator);
             this.comparisonOperatorChosen = data.comparisonOperator;
         });
 
-        // TODO: depending on the given value type, init a value form field
-
-        // TODO: reset values to default in case the user chose another property
-
         // depending on object class, set comparison operators and value entry field
-
 
         if (this._property.isLinkProperty) {
             this.propertyValueType = AppConfig.LinkValue;

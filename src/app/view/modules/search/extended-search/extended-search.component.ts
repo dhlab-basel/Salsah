@@ -1,7 +1,14 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {OntologyCacheService, OntologyInformation, ResourceClass, Property, Properties, NamedGraph} from "../../../../model/services/ontologycache.service";
+import {
+    NamedGraph,
+    OntologyCacheService,
+    OntologyInformation,
+    Properties,
+    ResourceClass
+} from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
+import {SelectPropertyComponent} from "./select-property/select-property.component";
 
 
 @Component({
@@ -16,6 +23,8 @@ export class ExtendedSearchComponent implements OnInit {
     properties: Properties;
 
     result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
+
+    @ViewChild('property') property: SelectPropertyComponent;
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
@@ -76,9 +85,15 @@ export class ExtendedSearchComponent implements OnInit {
      *
      * @param {string} sparql the SPARQL query to be sent to Knora's extended search route.
      */
-    performExtendedSearch(sparql: string) {
+    performExtendedSearch() {
 
-        this._router.navigate(['/search/extended/' + encodeURIComponent(sparql)], {relativeTo: this._route});
+        // TODO: generate KnarQL from the search form
+
+        let knarql;
+
+
+
+        this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
     }
 
 }

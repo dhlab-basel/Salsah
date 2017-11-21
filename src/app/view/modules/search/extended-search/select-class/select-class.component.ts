@@ -20,9 +20,9 @@ export class SelectClassComponent implements OnInit {
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
-        // build a form for the named graph selection
+        // build a form for the resource class selection
         this.form = fb.group({
-            resourceClass: [null, Validators.required]
+            resourceClass: [null]
         });
 
         // emit Iri of named graph when selected
