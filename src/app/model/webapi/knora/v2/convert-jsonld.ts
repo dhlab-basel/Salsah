@@ -185,7 +185,7 @@ export module ConvertJSONLD {
                 break;
 
             case AppConfig.GeomValue:
-                
+
                 let readGeomValue: ReadGeomValue = new ReadGeomValue(
                     propValue['@id'],
                     propIri,
