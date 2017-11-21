@@ -121,7 +121,7 @@ export class AppConfig {
     public static stillImageFileValueHasIIIFBaseUrl = AppConfig.KnoraApiV2WithValueObjectPath + 'stillImageFileValueHasIIIFBaseUrl';
 
     public static colorValueAsColor = AppConfig.KnoraApiV2WithValueObjectPath + 'colorValueAsColor';
-    public static geometryValueAsGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'GeometryValueAsGeometry';
+    public static geometryValueAsGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'geometryValueAsGeometry';
     public static uriValueAsUri = AppConfig.KnoraApiV2WithValueObjectPath + 'uriValueAsUri';
     public static booleanValueAsBoolean = AppConfig.KnoraApiV2WithValueObjectPath + 'booleanValueAsBoolean';
 
