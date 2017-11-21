@@ -126,32 +126,42 @@ export class EditResourceClassComponent implements OnChanges {
         'resLabel': {
             'required': 'Resource label is required'
         },
-
-
     };
 
     // the following form fields would have an error check
     formPropErrors = {
         prps: {
+            'name': '',
+            'guiorder': '',
+            'description': '',
+            'valuetype_id': '',
             'label': '',
-            'gui_name': '',
+            'vocabulary': '',
+            'attributes': '',
             'occurrence': '',
-            'vocabulary': ''
+            'id': '',
+            'gui_name': ''
         }
     };
     // ...with the following messages
     propValidationMessages = {
+        'name': '',
+        'guiorder': '',
+        'description': '',
+        'valuetype_id': '',
         'label': {
             'required': 'Property label is required'
         },
-        'gui_name': {
-            'required': 'Property gui name is required'
+        'vocabulary': {
+            'required': 'Vocabulary is required'
         },
+        'attributes': '',
         'occurrence': {
             'required': 'Property occurrence is required'
         },
-        'vocabulary': {
-            'required': 'Vocabulary is required'
+        'id': '',
+        'gui_name': {
+            'required': 'Property gui name is required'
         }
     };
 
@@ -190,20 +200,19 @@ export class EditResourceClassComponent implements OnChanges {
 
                     // -------------properties edit validation configuration-------------------
                     this.eRForm4prop = this._fb4p.group({
-                        'prps': this._fb.array([
-                            this._fb.group({
-                                'name': '',
-                                'guiorder': '',
-                                'description': '',
-                                'valuetype_id': '',
-                                'label': ['', Validators.required],
-                                'vocabulary': '',
-                                'attributes': '',
-                                'occurrence': '',
-                                'id': '',
-                                'gui_name': ''
-                            })
-                        ])
+                        'prps': this._fb4p.array([])
+                        // this._fb4p.group({
+                        //     'name': '',
+                        //     'guiorder': '',
+                        //     'description': '',
+                        //     'valuetype_id': '',
+                        //     'label': ['', Validators.required],
+                        //     'vocabulary': ['', Validators.required],
+                        //     'attributes': '',
+                        //     'occurrence': ['', Validators.required],
+                        //     'id': '',
+                        //     'gui_name': ['', Validators.required]
+                        // })
                     });
 
                     this.setProps(this.resType.properties);
@@ -211,6 +220,7 @@ export class EditResourceClassComponent implements OnChanges {
                     // validation messages
                     this.eRForm4prop.valueChanges
                         .subscribe(data => this.onPropValueChanged(data));
+
 
                 },
 
@@ -235,7 +245,7 @@ export class EditResourceClassComponent implements OnChanges {
 
     setProps(props: PropertyItem[]) {
         const propsFGs = props.map(aprop => this._fb4p.group(aprop));
-        const propArray = this._fb.array(propsFGs);
+        const propArray = this._fb4p.array(propsFGs);
         this.eRForm4prop.setControl('prps', propArray);
     }
 
@@ -247,8 +257,10 @@ export class EditResourceClassComponent implements OnChanges {
         Object.keys(this.formErrors).map(field => {
             this.formErrors[field] = '';
             const control = form.get(field);
+            console.log('control res', control);
             if (control && control.dirty && !control.valid) {
                 const messages = this.validationMessages[field];
+                console.log('messages res', messages);
                 Object.keys(control.errors).map(key => {
                     this.formErrors[field] += messages[key] + ' ';
                 });
@@ -257,55 +269,58 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
     onPropValueChanged(data: any) {
-            // if (!this.eRForm4prop) { return; }
-            // const form = this.eRForm4prop;
-            //
-            // // iterate toplevel of formPropErrors
-            // for (const field in this.formPropErrors) {
-            //     // check if the field corresponds a formgroup (controls is present)
-            //     if(form.get(field).controls ) {
-            //         // if yes, iterate the inner formfields
-            //         for(const subfield in form.get(field).controls) {
-            //             // in this example corresponds = "child", reset the error messages
-            //             this.formPropErrors[field][subfield] = '';
-            //             // now access the actual formfield
-            //             const control = form.get(field).controls(subfield);
-            //             // validate and show appropriate error message
-            //             if (control && control.dirty && !control.valid) {
-            //                 const messages = this.propValidationMessages[subfield];
-            //                 for (const key in control.errors) {
-            //                     this.formPropErrors[field][subfield] += messages[key] + ' ';
-            //                 }
-            //             }
-            //         }
-            //     }
-            //     // does not contain a nested formgroup, so just iterate like before making changes to this method
-            //     else {
-            //         const control = form.get(field);
-            //         this.formPropErrors[field] = '';
-            //         if (control && control.dirty && !control.valid) {
-            //             const messages = this.propValidationMessages[field];
-            //             for (const key in control.errors) {
-            //                 this.formPropErrors[field] += messages[key] + ' ';
-            //             }
-            //         }
-            //     }
-            // }
         if (!this.eRForm4prop) {
             return;
         }
         const form = this.eRForm4prop;
-        Object.keys(this.formPropErrors).map(field => {
-            this.formPropErrors[field] = '';
-            const control = form.get(field);
-            console.log(field);
-            if (control && control.dirty && !control.valid) {
-                const messages = this.propValidationMessages[field];
-                Object.keys(control.errors).map(key => {
-                    this.formPropErrors[field] += messages[key] + ' ';
-                });
+
+        for (const field in this.formPropErrors) {
+            const formControl = form.get(field);
+            if (formControl instanceof FormArray) {
+                // check for custom validation on field group
+                const control = form.get(field);
+                console.log('control field', control);
+                // handle validation for field group
+                if (control && control.dirty && !control.valid) {
+                    console.log('I am here ');
+
+                    const messages = this.propValidationMessages[field];
+                    Object.keys(control.errors).map(key => {
+                        this.formPropErrors[field][field] += messages[key] + ' ';
+                    });
+                }
+                // handle validation for subfields
+                for (const subfield in formControl.controls) {
+                    console.log('formControl.controls:', formControl.controls);
+                    console.log('SUBFIELD', subfield, 'FIELD', field);
+                    const control = formControl.controls[subfield];
+                    console.log('control subfield', control);
+
+                    if (control && control.dirty && !control.valid) {
+                        const messages = this.propValidationMessages[subfield];
+                        console.log('messages', messages);
+
+                        Object.keys(control.errors).map(key => {
+                            this.formPropErrors[field][subfield] += messages[key] + ' ';
+                        });
+                    }
+                }
             }
-        });
+
+            // alternate validation handling for fields without subfields (AKA not in a group)
+            else {
+                console.log('I am in the else');
+                const control = form.get(field);
+                this.formPropErrors[field] = '';
+                if (control && control.dirty && !control.valid) {
+                    const messages = this.propValidationMessages[field];
+                    for (const key in control.errors) {
+                        this.formPropErrors[field] += messages[key] + ' ';
+                    }
+                }
+            }
+
+        }
     }
 
 
