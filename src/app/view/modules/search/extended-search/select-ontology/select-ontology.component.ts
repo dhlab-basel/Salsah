@@ -5,15 +5,15 @@ import {EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-    selector: 'select-graph',
-    templateUrl: './select-graph.component.html',
-    styleUrls: ['./select-graph.component.scss']
+    selector: 'select-ontology',
+    templateUrl: './select-ontology.component.html',
+    styleUrls: ['./select-ontology.component.scss']
 })
-export class SelectGraphComponent implements OnInit {
+export class SelectOntologyComponent implements OnInit {
 
-    @Input() namedGraphs: Array<Ontology>;
+    @Input() ontologies: Array<Ontology>;
 
-    @Output() namedGraphSelected = new EventEmitter<string>();
+    @Output() ontologySelected = new EventEmitter<string>();
 
     form: FormGroup;
 
@@ -21,12 +21,12 @@ export class SelectGraphComponent implements OnInit {
 
         // build a form for the named graph selection
         this.form = fb.group({
-            namedGraph: [null, Validators.required]
+            ontology: [null, Validators.required]
         });
 
-        // emit Iri of named graph when selected
+        // emit Iri of the ontology when being selected
         this.form.valueChanges.subscribe((data) => {
-            this.namedGraphSelected.emit(data.namedGraph);
+            this.ontologySelected.emit(data.ontology);
         })
 
     }

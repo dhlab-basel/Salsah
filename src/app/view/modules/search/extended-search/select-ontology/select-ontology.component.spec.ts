@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectGraphComponent } from './select-graph.component';
+import { SelectOntologyComponent } from './select-ontology.component';
 
-describe('SelectGraphComponent', () => {
-  let component: SelectGraphComponent;
-  let fixture: ComponentFixture<SelectGraphComponent>;
+describe('SelectOntologyComponent', () => {
+  let component: SelectOntologyComponent;
+  let fixture: ComponentFixture<SelectOntologyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectGraphComponent ]
+      declarations: [ SelectOntologyComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectGraphComponent);
+    fixture = TestBed.createComponent(SelectOntologyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,7 +1,7 @@
 <div>
     Extended Search Form:
     <div>
-        <select-graph *ngIf="ontologies.length > 0" [namedGraphs]="ontologies" (namedGraphSelected)="getClassesAndPropertiesForOntology($event)"></select-graph>
+        <select-ontology *ngIf="ontologies.length > 0" [ontologies]="ontologies" (ontologySelected)="getClassesAndPropertiesForOntology($event)"></select-ontology>
     </div>
 
     <div *ngIf="resourceClasses?.length > 0">
