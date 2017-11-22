@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {
     Ontology,
@@ -30,9 +30,11 @@ export class ExtendedSearchComponent implements OnInit {
 
     result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
 
+    // reference to the component that controls the resource class selection
     @ViewChild('resourceClass') resourceClassComponent: SelectResourceClassComponent;
 
-    @ViewChild('property') propertyComponent: SelectPropertyComponent;
+    // reference to the component controlling the property selection
+    @ViewChildren('property') propertyComponents: QueryList<SelectPropertyComponent>;
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
@@ -104,13 +106,15 @@ export class ExtendedSearchComponent implements OnInit {
         // check if there is a resource class selected
         let resClass = this.resourceClassComponent.getResourceClassSelected();
 
-        console.log(resClass);
+        console.log(this.resourceClassComponent);
+
+        console.log(this.propertyComponents);
 
         // TODO: generate KnarQL from the search form
 
         let knarql;
 
-        //this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
+        this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
     }
 
 }

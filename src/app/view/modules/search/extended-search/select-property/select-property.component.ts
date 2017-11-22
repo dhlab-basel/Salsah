@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {Properties, Property} from "../../../../../model/services/ontologycache.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SpecifyPropertyValueComponent} from "./specify-property-value/specify-property-value.component";
@@ -16,7 +16,7 @@ export class SelectPropertyComponent implements OnInit {
         this.initProperties();
     }
 
-    @ViewChildren('specifyPropertyValue') specifyPropertyValue: QueryList<SpecifyPropertyValueComponent>;
+    @ViewChild('specifyPropertyValue') specifyPropertyValue: SpecifyPropertyValueComponent;
 
     properties: Properties;
 

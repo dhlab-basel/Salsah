@@ -704,7 +704,7 @@ export class OntologyCacheService {
     }
 
     /**
-     * Get the entity definitions fro the given named graph Iris (ontologies).
+     * Get the entity definitions for the given named graph Iris (ontologies).
      *
      * @param {string[]} namedGraphIris the given named graph Iris.
      */
