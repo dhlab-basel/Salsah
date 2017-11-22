@@ -9,7 +9,7 @@
     </div>
 
     <div *ngIf="properties !== undefined">
-        <select-property #property [setProperties]="properties"></select-property>
+        <select-property #property [properties]="properties"></select-property>
     </div>
 
     <button (click)="performExtendedSearch()">Perform search</button>

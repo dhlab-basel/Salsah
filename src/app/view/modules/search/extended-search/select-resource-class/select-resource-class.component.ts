@@ -9,7 +9,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class SelectResourceClassComponent implements OnInit {
 
-    // setter method for resource classes when being updated
+    // setter method for resource classes when being updated by parent component
     @Input()
     set resourceClasses(value: Array<ResourceClass>) {
         this.resourceClassSelected = undefined; // reset on updates

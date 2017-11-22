@@ -9,32 +9,38 @@ import {SpecifyPropertyValueComponent} from "./specify-property-value/specify-pr
     styleUrls: ['./select-property.component.scss']
 })
 export class SelectPropertyComponent implements OnInit {
+    // setter method for properties when being updated by parent component
     @Input()
-    set setProperties(value: Properties) {
+    set properties(value: Properties) {
 
-        this.properties = value;
-        this.initProperties();
+        this._properties = value;
+        this.updatePropertiesArray();
     }
 
-    @ViewChild('specifyPropertyValue') specifyPropertyValue: SpecifyPropertyValueComponent;
+    // reference to child component: combination of comparison operator and value for chosen property
+    @ViewChild('specifyPropertyValue') private specifyPropertyValue: SpecifyPropertyValueComponent;
 
-    properties: Properties;
+    // properties that can be selected from
+    private _properties: Properties;
 
+    // properties as an Array structure (based on this.properties)
     propertiesAsArray: Array<Property>;
 
+    // represents the currently selected property
     propertySelected: Property;
 
-    form: FormGroup;
+    private form: FormGroup;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
-        // build a form for the named graph selection
+        // build a form for the property selection
         this.form = fb.group({
             property: [null, Validators.required]
         });
 
-        // emit Iri of named graph when selected
+        // update the selected property
         this.form.valueChanges.subscribe((data) => {
-            this.propertyChosen(data.property);
+            let propIri = data.property;
+            this.propertySelected = this._properties[propIri];
         })
     }
 
@@ -42,27 +48,35 @@ export class SelectPropertyComponent implements OnInit {
 
     }
 
-    initProperties() {
+    /**
+     * Updates the properties array that is accessed by the template.
+     */
+    private updatePropertiesArray() {
 
+        // represent the properties as an array to be accessed by the template
         let propsArray = [];
 
-        for (let propIri in this.properties) {
+        for (let propIri in this._properties) {
 
-            let prop = this.properties[propIri];
+            let prop = this._properties[propIri];
 
             // only list editable props that are not link value props
-            if (prop.isEditable && !prop.isLinkValueProperty) propsArray.push(this.properties[propIri]);
+            if (prop.isEditable && !prop.isLinkValueProperty) propsArray.push(this._properties[propIri]);
         }
 
         this.propertiesAsArray = propsArray;
     }
 
-    propertyChosen(propertyIri: string) {
+    /**
+     * Returns the selected property with the specified value.
+     */
+    getPropertySelectedWithValue() {
 
-        let prop: Property = this.properties[propertyIri];
+        // TODO: return the property, the comparison operator and the specified value
+        // TODO: access this.specifyPropertyValue
 
-        this.propertySelected = prop;
 
     }
+
 
 }

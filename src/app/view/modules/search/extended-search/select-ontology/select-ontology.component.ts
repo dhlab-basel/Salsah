@@ -15,7 +15,7 @@ export class SelectOntologyComponent implements OnInit {
 
     @Output() ontologySelected = new EventEmitter<string>();
 
-    form: FormGroup;
+    private form: FormGroup;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 

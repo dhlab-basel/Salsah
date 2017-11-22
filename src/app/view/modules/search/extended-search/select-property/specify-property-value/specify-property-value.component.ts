@@ -203,6 +203,7 @@ export class SpecifyPropertyValueComponent implements OnInit {
             case AppConfig.StillImageFileValue:
             case AppConfig.DDDFileValue:
             case AppConfig.MovingImageFileValue:
+            case AppConfig.ColorValue:
                 this.comparisonOperators = [new Exists()];
                 break;
 
