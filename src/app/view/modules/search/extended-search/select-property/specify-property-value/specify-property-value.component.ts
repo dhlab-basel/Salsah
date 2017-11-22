@@ -131,36 +131,37 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
     AppConfig = AppConfig;
 
-    @ViewChild('propertyValue') propertyValue: PropertyValue;
+    @ViewChild('propertyValue') private propertyValueComponent: PropertyValue;
 
+    // setter method for the property chosen by the user
     @Input()
     set property(prop: Property) {
+        this.comparisonOperatorSelected = undefined; // reset to intial state
         this._property = prop;
-
-        this.initForm();
+        this.resetComparisonOperators(); // reset comparison operators for given property (overwriting any previous selection)
     };
-
-    get property() {
-        return this._property
-    }
 
     private _property: Property;
 
-    private isReady: Boolean = false;
-
     private form: FormGroup;
 
+    // available comparison operators for the property
     comparisonOperators: Array<ComparisonOperator> = [];
 
-    comparisonOperatorChosen;
+    // comparison operator selected by the user
+    comparisonOperatorSelected;
 
-    private propertyValueType;
+    // the type of the property
+    propertyValueType;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
     }
 
-    initForm() {
+    /**
+     * Resets the comparison operators for this._property.
+     */
+    resetComparisonOperators() {
 
         // build a form for the named graph selection
         this.form = this.fb.group({
@@ -169,10 +170,11 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
         // emit Iri of named graph when selected
         this.form.valueChanges.subscribe((data) => {
-            this.comparisonOperatorChosen = data.comparisonOperator;
+            this.comparisonOperatorSelected = data.comparisonOperator;
         });
 
         // depending on object class, set comparison operators and value entry field
+
 
         if (this._property.isLinkProperty) {
             this.propertyValueType = AppConfig.LinkValue;
@@ -212,16 +214,17 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
         }
 
-
-        this.isReady = true;
-
     }
 
     ngOnInit() {
-        this.initForm();
     }
 
-    getFormData() {
+    /**
+     * Gets the specified value for the property.
+     * 
+     * @returns {any}
+     */
+    getPropertyValue() {
         return this.form.value
     }
 

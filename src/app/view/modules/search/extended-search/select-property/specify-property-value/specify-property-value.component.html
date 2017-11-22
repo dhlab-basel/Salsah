@@ -1,4 +1,4 @@
-<mat-form-field *ngIf="isReady">
+<mat-form-field *ngIf="comparisonOperators?.length > 0">
     <mat-select placeholder="Comparison Operator" [formControl]="form.controls['comparisonOperator']">
         <mat-option *ngFor="let compOp of comparisonOperators" [value]="compOp">{{ compOp.label }}</mat-option>
     </mat-select>
@@ -7,7 +7,7 @@
 </mat-form-field>
 
 <!-- select apt component for value specification using a switch case statement-->
-<span *ngIf="comparisonOperatorChosen !== undefined && comparisonOperatorChosen.getClassName() != 'Exists'" [ngSwitch]="propertyValueType">
+<span *ngIf="comparisonOperatorSelected !== undefined && comparisonOperatorSelected.getClassName() != 'Exists'" [ngSwitch]="propertyValueType">
     <integer-value #propertyValue *ngSwitchCase="AppConfig.IntValue"></integer-value>
     <decimal-value #propertyValue *ngSwitchCase="AppConfig.DecimalValue"></decimal-value>
     <boolean-value #propertyValue *ngSwitchCase="AppConfig.BooleanValue"></boolean-value>
