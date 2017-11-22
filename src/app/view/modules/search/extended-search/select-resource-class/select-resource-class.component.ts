@@ -11,21 +11,26 @@ export class SelectResourceClassComponent implements OnInit {
 
     // setter method for resource classes when being updated
     @Input()
-    set setResourceClasses(value: Array<ResourceClass>) {
+    set resourceClasses(value: Array<ResourceClass>) {
         this.resourceClassSelected = undefined; // reset on updates
-        this.resourceClasses = value;
+        this._resourceClasses = value;
     };
+
+    // getter method for resource classes (used in template)
+    get resourceClasses() {
+        return this._resourceClasses;
+    }
 
     // event emitted to parent component once a resource class is selected by the user
     @Output() resourceClassSelectedEvent = new EventEmitter<string>();
 
     // available resource classes for selection
-    resourceClasses: Array<ResourceClass>;
+    private _resourceClasses: Array<ResourceClass>;
 
     // stores the currently selected resource class
-    resourceClassSelected: string;
+    private resourceClassSelected: string;
 
-    form: FormGroup;
+    private form: FormGroup;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
