@@ -12,7 +12,7 @@ export class SelectPropertyComponent implements OnInit {
     // setter method for properties when being updated by parent component
     @Input()
     set properties(value: Properties) {
-
+        this.propertySelected = undefined; // reset selected property (overwriting any previous selection)
         this._properties = value;
         this.updatePropertiesArray();
     }
