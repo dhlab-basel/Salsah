@@ -9,6 +9,7 @@ import {
 } from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 import {SelectPropertyComponent} from "./select-property/select-property.component";
+import {SelectResourceClassComponent} from "./select-resource-class/select-resource-class.component";
 
 
 @Component({
@@ -18,13 +19,20 @@ import {SelectPropertyComponent} from "./select-property/select-property.compone
 })
 export class ExtendedSearchComponent implements OnInit {
 
+    // all available ontologies
     ontologies: Array<Ontology> = [];
+
+    // resource classes for the selected ontology
     resourceClasses: Array<ResourceClass> = [];
+
+    // properties for the selected ontology or selected resource class
     properties: Properties;
 
     result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
 
-    @ViewChild('property') property: SelectPropertyComponent;
+    @ViewChild('resourceClass') resourceClassComponent: SelectResourceClassComponent;
+
+    @ViewChild('property') propertyComponent: SelectPropertyComponent;
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
@@ -33,7 +41,7 @@ export class ExtendedSearchComponent implements OnInit {
 
     ngOnInit() {
 
-        // initialize ontologies to be used for search form
+        // initialize ontologies to be used for the ontologies selection in the search form
         this.initializeOntologies();
     }
 
@@ -50,12 +58,12 @@ export class ExtendedSearchComponent implements OnInit {
     }
 
     /**
-     * Once an ontology has been selected, get its classes and properties.
+     * Once an ontology has been selected, gets its classes and properties.
      * The classes and properties will be made available to the user for selection.
      *
-     * @param {string} ontologyIri ontology chosen by the user.
+     * @param {string} ontologyIri Iri of the ontology chosen by the user.
      */
-    getClassesAndPropertiesForOntology(ontologyIri: string) {
+    getResourceClassesAndPropertiesForOntology(ontologyIri: string) {
 
         this._cacheService.getResourceClassesForNamedGraphs([ontologyIri]).subscribe(
             (ontoInfo: OntologyInformation) => {
@@ -68,7 +76,13 @@ export class ExtendedSearchComponent implements OnInit {
 
     }
 
-    getPropertiesForClass(resourceClassIri: string) {
+    /**
+     * Once a resource class has been selected, gets its properties.
+     * The properties will be made available to the user for selection.
+     *
+     * @param {string} resourceClassIri
+     */
+    getPropertiesForResourceClass(resourceClassIri: string) {
 
         this._cacheService.getResourceClassDefinitions([resourceClassIri]).subscribe(
             (ontoInfo) => {
@@ -81,19 +95,22 @@ export class ExtendedSearchComponent implements OnInit {
     }
 
     /**
-     * Perform an extended search with the given SPARQL.
+     * Perform an extended search based on the search form.
      *
      * @param {string} sparql the SPARQL query to be sent to Knora's extended search route.
      */
     performExtendedSearch() {
 
+        // check if there is a resource class selected
+        let resClass = this.resourceClassComponent.getResourceClassSelected();
+
+        console.log(resClass);
+
         // TODO: generate KnarQL from the search form
 
         let knarql;
 
-
-
-        this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
+        //this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
     }
 
 }

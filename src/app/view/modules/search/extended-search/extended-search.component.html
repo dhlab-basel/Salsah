@@ -1,11 +1,11 @@
 <div>
     Extended Search Form:
     <div>
-        <select-ontology *ngIf="ontologies.length > 0" [ontologies]="ontologies" (ontologySelected)="getClassesAndPropertiesForOntology($event)"></select-ontology>
+        <select-ontology *ngIf="ontologies.length > 0" [ontologies]="ontologies" (ontologySelected)="getResourceClassesAndPropertiesForOntology($event)"></select-ontology>
     </div>
 
     <div *ngIf="resourceClasses?.length > 0">
-        <select-class [setResourceClasses]="resourceClasses" (resourceClassSelected)="getPropertiesForClass($event)"></select-class>
+        <select-resource-class #resourceClass [setResourceClasses]="resourceClasses" (resourceClassSelectedEvent)="getPropertiesForResourceClass($event)"></select-resource-class>
     </div>
 
     <div *ngIf="properties !== undefined">

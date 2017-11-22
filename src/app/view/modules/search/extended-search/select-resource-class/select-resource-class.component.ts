@@ -3,11 +3,11 @@ import {ResourceClass} from "../../../../../model/services/ontologycache.service
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-    selector: 'select-class',
+    selector: 'select-resource-class',
     templateUrl: './select-class.component.html',
     styleUrls: ['./select-class.component.scss']
 })
-export class SelectClassComponent implements OnInit {
+export class SelectResourceClassComponent implements OnInit {
     @Input() set setResourceClasses(value: Array<ResourceClass>) {
         this.resourceClasses = value;
     };

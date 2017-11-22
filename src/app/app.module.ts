@@ -117,7 +117,7 @@ import {ReadColorValueComponent} from './view/properties/read-color-value/read-c
 import {SystemProjectsComponent} from "./view/dashboard/system/system-projects/system-projects.component";
 import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologies/system-ontologies.component";
 import {SelectPropertyComponent} from './view/modules/search/extended-search/select-property/select-property.component';
-import {SelectClassComponent} from './view/modules/search/extended-search/select-class/select-class.component';
+import {SelectResourceClassComponent} from './view/modules/search/extended-search/select-resource-class/select-resource-class.component';
 import {SelectOntologyComponent} from './view/modules/search/extended-search/select-ontology/select-ontology.component';
 import {ReadUriValueComponent} from './view/properties/read-uri-value/read-uri-value.component';
 import {ReadBooleanValueComponent} from './view/properties/read-boolean-value/read-boolean-value.component';
@@ -213,7 +213,7 @@ import {MatNativeDateModule} from "@angular/material";
         FocusDirective,
         ConfirmDialogComponent,
         SelectPropertyComponent,
-        SelectClassComponent,
+        SelectResourceClassComponent,
         SelectOntologyComponent,
         ReadUriValueComponent,
         ReadBooleanValueComponent,
