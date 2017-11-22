@@ -722,6 +722,7 @@ export class OntologyCacheService {
                 ontRes => {
 
                     // write resource classes for named graph to cache (including resource class definitions and properties)
+                    // TODO: adapt this to new ontology route message
                     this.convertAndWriteKnoraResourceClassesForNamedGraphsToCache(ontRes[AppConfig.hasOntologiesWithClasses], ontRes[AppConfig.hasClasses], ontRes[AppConfig.hasProperties]);
 
                     return this.getResourceClassesForNamedGraphsFromCache(namedGraphIris);
