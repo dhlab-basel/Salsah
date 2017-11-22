@@ -26,7 +26,6 @@ export class AppConfig {
     public static KnoraApiV2WithValueObjectPath: string = 'http://api.knora.org/ontology/knora-api/v2' + AppConfig.PathSeparator;
 
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
-    public static hasShortname = AppConfig.KnoraApiV2WithValueObjectPath + 'hasShortname';
     public static hasOntologiesWithClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithClasses';
 
     public static hasClasses: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasClasses';
@@ -122,7 +121,7 @@ export class AppConfig {
     public static stillImageFileValueHasIIIFBaseUrl = AppConfig.KnoraApiV2WithValueObjectPath + 'stillImageFileValueHasIIIFBaseUrl';
 
     public static colorValueAsColor = AppConfig.KnoraApiV2WithValueObjectPath + 'colorValueAsColor';
-    public static geometryValueAsGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'GeometryValueAsGeometry';
+    public static geometryValueAsGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'geometryValueAsGeometry';
     public static uriValueAsUri = AppConfig.KnoraApiV2WithValueObjectPath + 'uriValueAsUri';
     public static booleanValueAsBoolean = AppConfig.KnoraApiV2WithValueObjectPath + 'booleanValueAsBoolean';
 
