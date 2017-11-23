@@ -12,18 +12,17 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, OnInit, Input, Output} from '@angular/core';
-import {Search} from '../../../../model/webapi/knora/';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SearchService} from '../../../../model/services/search.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MessageData} from '../../message/message.component';
-import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
-import {OntologyCacheService, OntologyInformation} from "../../../../model/services/ontologycache.service";
-import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
+import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
+import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
+import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
-let jsonld = require('jsonld');
+const jsonld = require('jsonld');
 
 @Component({
     selector: 'salsah-resources-list',

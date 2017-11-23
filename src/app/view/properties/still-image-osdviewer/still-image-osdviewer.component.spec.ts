@@ -135,7 +135,7 @@ function createTestRegionRectangle() {
             "http://api.knora.org/ontology/knora-api/v2#hasGeometry":{
               "@id":"http://data.knora.org/b6b64a62b006/values/ca7b1e280f27",
               "@type":"http://api.knora.org/ontology/knora-api/v2#GeomValue",
-              "http://api.knora.org/ontology/knora-api/v2#GeometryValueAsGeometry":
+              "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry":
                 "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#ff3333\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.0989010989010989,\\\"y\\\":0.18055555555555555},{\\\"x\\\":0.7252747252747253,\\\"y\\\":0.7245370370370371}],\\\"type\\\":\\\"rectangle\\\"}"
             },
             "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue":{
@@ -177,7 +177,7 @@ function createTestRegionPolygon() {
             "http://api.knora.org/ontology/knora-api/v2#hasGeometry":{
               "@id":"http://data.knora.org/f1b0bb27b006/values/fbaa7e090e27",
               "@type":"http://api.knora.org/ontology/knora-api/v2#GeomValue",
-              "http://api.knora.org/ontology/knora-api/v2#GeometryValueAsGeometry":
+              "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry":
                 "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#ff3333\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.17532467532467533,\\\"y\\\":0.18049792531120332},{\\\"x\\\":0.8051948051948052,\\\"y\\\":0.17012448132780084},{\\\"x\\\":0.8311688311688312,\\\"y\\\":0.7261410788381742},{\\\"x\\\":0.19480519480519481,\\\"y\\\":0.7323651452282157},{\\\"x\\\":0.17857142857142858,\\\"y\\\":0.17842323651452283},{\\\"x\\\":0.18506493506493507,\\\"y\\\":0.1825726141078838},{\\\"x\\\":0.17857142857142858,\\\"y\\\":0.1825726141078838}],\\\"type\\\":\\\"polygon\\\"}"
             },
             "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue":{
@@ -218,7 +218,7 @@ function createTestRegionCircle() {
             },"http://api.knora.org/ontology/knora-api/v2#hasGeometry":{
               "@id":"http://data.knora.org/2357e0d64407/values/a22d48cded2a",
               "@type":"http://api.knora.org/ontology/knora-api/v2#GeomValue",
-              "http://api.knora.org/ontology/knora-api/v2#GeometryValueAsGeometry":
+              "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry":
                 "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#3333ff\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.3400735294117647,\\\"y\\\":0.45376078914919854}],\\\"type\\\":\\\"circle\\\",\\\"radius\\\":{\\\"x\\\":0.04595588235294118,\\\"y\\\":0.03082614056720101},\\\"original_index\\\":1}"
             },
             "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue":{
@@ -261,12 +261,12 @@ function createTestRegionMulti() {
              {
                "@id": "http://data.knora.org/29c5b0b65732/values/5e4d4cde316101",
                "@type": "http://api.knora.org/ontology/knora-api/v2#GeomValue",
-               "http://api.knora.org/ontology/knora-api/v2#GeometryValueAsGeometry": "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#ff3333\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.5305232558139537,\\\"y\\\":0.3126142595978062}],\\\"type\\\":\\\"circle\\\",\\\"radius\\\":{\\\"x\\\":0.18023255813953487,\\\"y\\\":0.08957952468007313},\\\"original_index\\\":0}"
+               "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry": "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#ff3333\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.5305232558139537,\\\"y\\\":0.3126142595978062}],\\\"type\\\":\\\"circle\\\",\\\"radius\\\":{\\\"x\\\":0.18023255813953487,\\\"y\\\":0.08957952468007313},\\\"original_index\\\":0}"
              },
              {
                "@id": "http://data.knora.org/29c5b0b65732/values/21779f17326101",
                "@type": "http://api.knora.org/ontology/knora-api/v2#GeomValue",
-               "http://api.knora.org/ontology/knora-api/v2#GeometryValueAsGeometry": "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#ff3333\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.17296511627906977,\\\"y\\\":0.08226691042047532},{\\\"x\\\":0.7122093023255814,\\\"y\\\":0.16544789762340037}],\\\"type\\\":\\\"rectangle\\\",\\\"original_index\\\":1}"
+               "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry": "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#ff3333\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.17296511627906977,\\\"y\\\":0.08226691042047532},{\\\"x\\\":0.7122093023255814,\\\"y\\\":0.16544789762340037}],\\\"type\\\":\\\"rectangle\\\",\\\"original_index\\\":1}"
              }
            ],
            "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue": {

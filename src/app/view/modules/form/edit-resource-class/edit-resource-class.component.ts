@@ -19,7 +19,7 @@ import {ApiServiceError} from "../../../../model/services/api-service-error";
 import {ResourceTypesService} from "../../../../model/services/resource-types.service";
 import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
 import {ProjectsService} from "../../../../model/services/projects.service";
-import {ProjectsList, ProjectItem} from "../../../../model/webapi/knora/";
+import {Project} from '../../../../model/webapi/knora/';
 
 import {
     trigger,
@@ -41,7 +41,7 @@ export class EditResourceClassComponent implements OnChanges {
 
     @Input('iri') iri: string;
     @Input('index') index: number;
-    @Input('projects') projectsList: ProjectItem[];
+    @Input('projects') projectsList: Project[];
 
 
 
@@ -87,7 +87,7 @@ export class EditResourceClassComponent implements OnChanges {
             close: "Close",
             edit: "Edit",
         }
-};
+    };
 
     guiItems: string[] = [
         "text",
@@ -106,14 +106,14 @@ export class EditResourceClassComponent implements OnChanges {
         "interval",
         "colorpicker",
         "geometry"
-        ];
+    ];
 
     cardinalityList: string[] = [
         "1",
         "1-n",
         "0-1",
         "0-n"
-        ];
+    ];
 
     // the following form fields would have an error check
     formErrors = {
@@ -160,8 +160,8 @@ export class EditResourceClassComponent implements OnChanges {
 
         this._projectsService.getAllProjects()
             .subscribe(
-                (result: ApiServiceResult) => {
-                    this.projectsList = result.getBody(ProjectsList).projects;
+                (result: Project[]) => {
+                    this.projectsList = result;
                 }
             );
     }

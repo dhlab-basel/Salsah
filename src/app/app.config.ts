@@ -26,7 +26,6 @@ export class AppConfig {
     public static KnoraApiV2WithValueObjectPath: string = 'http://api.knora.org/ontology/knora-api/v2' + AppConfig.PathSeparator;
 
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
-    public static hasShortname = AppConfig.KnoraApiV2WithValueObjectPath + 'hasShortname';
     public static hasOntologiesWithClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithClasses';
 
     public static hasClasses: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasClasses';
@@ -122,7 +121,7 @@ export class AppConfig {
     public static stillImageFileValueHasIIIFBaseUrl = AppConfig.KnoraApiV2WithValueObjectPath + 'stillImageFileValueHasIIIFBaseUrl';
 
     public static colorValueAsColor = AppConfig.KnoraApiV2WithValueObjectPath + 'colorValueAsColor';
-    public static geometryValueAsGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'GeometryValueAsGeometry';
+    public static geometryValueAsGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'geometryValueAsGeometry';
     public static uriValueAsUri = AppConfig.KnoraApiV2WithValueObjectPath + 'uriValueAsUri';
     public static booleanValueAsBoolean = AppConfig.KnoraApiV2WithValueObjectPath + 'booleanValueAsBoolean';
 
@@ -143,5 +142,26 @@ export class AppConfig {
     public static subPropertyOf: string = 'http://www.w3.org/2000/01/rdf-schema#subPropertyOf';
 
     public static SalsahLink = 'salsah-link';
+
+    public static EqualsComparisonOperator = "=";
+    public static EqualsComparisonLabel = "Equals";
+
+    public static NotEqualsComparisonOperator = "!=";
+    public static NotEqualsComparisonLabel = "Not_Equals";
+
+    public static GreaterThanComparisonOperator = ">";
+    public static GreaterThanComparisonLabel = "Greater_Than";
+
+    public static GreaterThanEqualsComparisonOperator = ">";
+    public static GreaterThanEqualsComparisonLabel = "Greater_Than";
+
+    public static LessThanComparisonOperator = "<=";
+    public static LessThanComparisonLabel = "Less_Than_Equals";
+
+    public static LessThanEqualsComparisonOperator = "<=";
+    public static LessThanQualsComparisonLabel = "Less_Than_Equals";
+
+    public static ExistsComparisonOperator = "E";
+    public static ExistsComparisonLabel = "Exists";
 
 }
