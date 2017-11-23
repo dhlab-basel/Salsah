@@ -19,8 +19,7 @@ You find more information about Salsah on:
 ## Developer Environment
 
 ```
-WARNING (2017/10/16): we updated the npm packages to the latest version.
-There were big changes in the @angular/material. Please be sure to update your node_modules with npm install
+WARNING (2017/11/23): we updated the npm packages to the latest version. Pleas update your local installed node_modules to this version. Use [yarn](https://yarnpkg.com/en/docs/cli/install), yarn install --production=false or npm install
 ```
 
 If you're a developer and you want to improve the app, please have a look at the developer guideline first:
