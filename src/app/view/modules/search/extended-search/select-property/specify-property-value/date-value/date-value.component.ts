@@ -1,12 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {PropertyValue} from "../specify-property-value.component";
+import {PropertyValue, ValueLiteral} from "../specify-property-value.component";
 import {AppConfig} from "../../../../../../../app.config";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'date-value',
-  templateUrl: './date-value.component.html',
-  styleUrls: ['./date-value.component.scss']
+    selector: 'date-value',
+    templateUrl: './date-value.component.html',
+    styleUrls: ['./date-value.component.scss']
 })
 export class DateValueComponent implements OnInit, PropertyValue {
 
@@ -26,11 +26,11 @@ export class DateValueComponent implements OnInit, PropertyValue {
 
     }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-    getValue(): string {
+    getValue(): ValueLiteral {
         // TODO: make this a knora-api date string
-        return this.form.value.dateValue;
+        return new ValueLiteral(String(this.form.value.dateValue), AppConfig.xsdString);
     }
 }

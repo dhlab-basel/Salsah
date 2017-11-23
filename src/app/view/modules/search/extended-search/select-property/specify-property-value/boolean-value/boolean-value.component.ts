@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PropertyValue} from "../specify-property-value.component";
+import {PropertyValue, ValueLiteral} from "../specify-property-value.component";
 import {AppConfig} from "../../../../../../../app.config";
 
 @Component({
@@ -25,7 +25,7 @@ export class BooleanValueComponent implements OnInit, PropertyValue {
     ngOnInit() {
     }
 
-    getValue(): boolean {
-        return Boolean(this.form.value.booleanValue);
+    getValue(): ValueLiteral {
+        return new ValueLiteral(String(this.form.value.booleanValue), AppConfig.xsdBoolean);
     }
 }

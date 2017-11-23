@@ -164,4 +164,14 @@ export class AppConfig {
     public static ExistsComparisonOperator = "E";
     public static ExistsComparisonLabel = "Exists";
 
+    public static Xsd = "http://www.w3.org/2001/XMLSchema#";
+
+    public static xsdString = AppConfig.Xsd + "string";
+    public static xsdBoolean = AppConfig.Xsd + "boolean";
+    public static xsdInteger = AppConfig.Xsd + "integer";
+    public static xsdDecimal = AppConfig.Xsd + "decimal";
+    public static xsdUri = AppConfig.Xsd + "anyURI";
+
+
+
 }

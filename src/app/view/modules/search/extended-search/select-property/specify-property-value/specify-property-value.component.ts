@@ -3,11 +3,19 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Property} from 'app/model/services/ontologycache.service';
 import {AppConfig} from "../../../../../../app.config";
 
+/**
+ * An abstract interface representing a comparison operator.
+ * This interface is implemented for the supported comparison operators.
+ */
 interface ComparisonOperator {
 
+    // type of comparison operator
     type: string;
+
+    // the label of the comparison operator to be presented to the user.
     label: string;
 
+    // returns the class name when called on an instance
     getClassName(): string
 }
 
@@ -103,6 +111,31 @@ class Exists implements ComparisonOperator {
 }
 
 /**
+ * Combination of a comparison operator and a value literal.
+ */
+export class ComparisonOperatorAndValueLiteral {
+
+    constructor(readonly comparisonOperator: ComparisonOperator, readonly valueLiteral: ValueLiteral) {
+    };
+}
+
+/**
+ * Represents a property's value as a literal with the indication of its type.
+ */
+export class ValueLiteral {
+
+    /**
+     * Constructs a [ValueLiteral].
+     *
+     * @param {string} value the literal representation of the value.
+     * @param {string} type the type of the value (making use of xsd).
+     */
+    constructor(readonly value: string, readonly type: string) {
+    };
+
+}
+
+/**
  * An abstract interface that represents a value.
  * This interface has to be implemented for all value types (value component classes).
  */
@@ -114,11 +147,11 @@ export interface PropertyValue {
     type: string;
 
     /**
-     * Gets the value (typed).
+     * Returns the value.
      *
-     * @returns {any} the value.
+     * @returns {ValueLiteral} the value.
      */
-    getValue(): any;
+    getValue(): ValueLiteral;
 
 }
 
@@ -136,7 +169,7 @@ export class SpecifyPropertyValueComponent implements OnInit {
     // setter method for the property chosen by the user
     @Input()
     set property(prop: Property) {
-        this.comparisonOperatorSelected = undefined; // reset to intial state
+        this.comparisonOperatorSelected = undefined; // reset to initial state
         this._property = prop;
         this.resetComparisonOperators(); // reset comparison operators for given property (overwriting any previous selection)
     };
@@ -155,8 +188,7 @@ export class SpecifyPropertyValueComponent implements OnInit {
     propertyValueType;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
-
-    }
+    };
 
     /**
      * Resets the comparison operators for this._property.
@@ -174,8 +206,6 @@ export class SpecifyPropertyValueComponent implements OnInit {
         });
 
         // depending on object class, set comparison operators and value entry field
-
-
         if (this._property.isLinkProperty) {
             this.propertyValueType = AppConfig.LinkValue;
         } else {
@@ -220,12 +250,17 @@ export class SpecifyPropertyValueComponent implements OnInit {
     }
 
     /**
-     * Gets the specified value for the property.
-     * 
-     * @returns {any}
+     * Gets the specified comparison operator and value for the property.
+     *
+     * @returns {ComparisonOperatorAndValueLiteral} the comparison operator and the specified value
      */
-    getPropertyValue() {
-        return this.form.value
+    getComparisonOperatorAndValueLiteralForProperty(): ComparisonOperatorAndValueLiteral {
+        // return value literal from the child component
+        let valueLiteral: ValueLiteral = this.propertyValueComponent.getValue();
+
+        // return the comparison operator and the specified value
+        return new ComparisonOperatorAndValueLiteral(this.comparisonOperatorSelected, valueLiteral);
+
     }
 
 }

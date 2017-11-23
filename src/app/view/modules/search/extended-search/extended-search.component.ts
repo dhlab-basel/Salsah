@@ -106,15 +106,15 @@ export class ExtendedSearchComponent implements OnInit {
         // check if there is a resource class selected
         let resClass = this.resourceClassComponent.getResourceClassSelected();
 
-        console.log(this.resourceClassComponent);
+        console.log(resClass);
 
-        console.log(this.propertyComponents);
+        console.log(this.propertyComponents.first.getPropertySelectedWithValue());
 
         // TODO: generate KnarQL from the search form
 
         let knarql;
 
-        this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
+        // this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
     }
 
 }
