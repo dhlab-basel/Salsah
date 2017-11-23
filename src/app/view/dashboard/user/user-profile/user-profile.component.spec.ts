@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {UserProfileComponent} from './user-profile.component';
-import {UserService} from '../../../../model/services/user.service';
+import {UsersService} from '../../../../model/services/users.service';
 
 describe('UserProfileComponent', () => {
     let component: UserProfileComponent;
@@ -15,7 +15,7 @@ describe('UserProfileComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                UserService
+                UsersService
             ]
         })
             .compileComponents();

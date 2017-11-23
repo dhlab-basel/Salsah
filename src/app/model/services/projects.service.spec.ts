@@ -1,24 +1,34 @@
-import {TestBed, inject} from '@angular/core/testing';
-import {AppModule} from '../../app.module';
-import {AppRoutingModule} from '../../app-routing.module';
+import {async, inject, TestBed} from '@angular/core/testing';
+import {BaseRequestOptions, Http, HttpModule} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 import {ApiService} from './api.service';
 import {ProjectsService} from './projects.service';
 
-describe('ProjectsService', () => {
+describe('ProjectsService (Mocked)', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                AppModule,
-                AppRoutingModule
+                HttpModule
             ],
             providers: [
                 ApiService,
-                ProjectsService
+                ProjectsService,
+                MockBackend,
+                BaseRequestOptions,
+                {
+                    provide: Http,
+                    useFactory: (backend, options) => new Http(backend, options),
+                    deps: [MockBackend, BaseRequestOptions]
+                }
             ]
         });
     });
 
-    it('should ...', inject([ProjectsService], (service: ProjectsService) => {
-        expect(service).toBeTruthy();
-    }));
+    it('should be created', async(inject(
+        [ProjectsService, MockBackend], (service, mockBackend) => {
+            expect(service).toBeDefined();
+        }))
+    );
+
+
 });

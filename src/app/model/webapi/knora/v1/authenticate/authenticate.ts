@@ -13,8 +13,7 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {UserProfile} from '../users/user-profile';
-import {UserData} from '../users/user-data';
+import {UserProfile} from '../../admin/index';
 
 @JsonObject
 export class Authenticate {

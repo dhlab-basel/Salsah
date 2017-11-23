@@ -12,14 +12,13 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { JsonObject, JsonProperty } from 'json2typescript';
-import {ProjectItem} from "./project-item";
-
+import {JsonObject, JsonProperty} from 'json2typescript';
+import {UserData} from './user-data';
 
 @JsonObject
-export class Project {
+export class UsersResponse {
 
-    @JsonProperty('project_info', ProjectItem)
-    public project_info: ProjectItem = undefined;
+    @JsonProperty('users', [UserData])
+    public users: UserData[] = undefined;
 
 }

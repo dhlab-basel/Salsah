@@ -1,0 +1,90 @@
+<hr/>
+{{ currentListNodeInfo | json }}
+<hr/>
+
+<h2 mat-dialog-title>List Node Details</h2>
+
+<form [formGroup]="listNodeInfoForm" novalidate>
+
+    <mat-dialog-content>
+        <mat-input-container class="list-item-full-width">
+            <input matInput placeholder="Id" formControlName="id">
+        </mat-input-container>
+
+        <div>
+            <h4>Labels</h4> <button mat-button (click)="addLabel()">Add Label</button>
+        </div>
+
+        <div *ngIf="labels" formArrayName="labels">
+            <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
+                <div class="flex align-center">
+                    <mat-input-container class="list-item-full-width">
+                        <input matInput placeholder="Value" formControlName="value">
+                    </mat-input-container>
+
+                    <select formControlName="language" class="flex-one">
+                        <option value="" disabled>Select language</option>
+                        <option value="en">en</option>
+                        <option value="de">de</option>
+                        <option value="fr">fr</option>
+                        <option value="it">it</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h4>Comments</h4> <button md-button (click)="addComment()">Add Comment</button>
+        </div>
+
+        <div *ngIf="comments" formArrayName="comments">
+            <div *ngFor="let comment of comments.controls; let i=index" [formGroupName]="i">
+                <div class="flex align-center">
+                    <mat-input-container class="list-item-full-width">
+                        <input matInput placeholder="Value" formControlName="value">
+                    </mat-input-container>
+
+                    <select formControlName="lang" class="flex-one">
+                        <option value="" disabled>Select language</option>
+                        <option value="en">en</option>
+                        <option value="de">de</option>
+                        <option value="fr">fr</option>
+                        <option value="it">it</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+
+        <button mat-raised-button
+                (click)="save(listNodeInfoForm.value)"
+                [disabled]="listNodeInfoForm.pristine"
+                class="btn btn-success">
+            Save
+        </button> &nbsp;
+
+        <button mat-raised-button
+                (click)="revert()"
+                [disabled]="listNodeInfoForm.pristine"
+                class="btn btn-danger">
+            Revert
+        </button> &nbsp;
+
+        <button mat-raised-button
+                mat-dialog-close>
+            Close
+        </button> &nbsp;
+
+        <button mat-raised-button
+                [mat-dialog-close]="true">
+            Save
+        </button>
+    </mat-dialog-actions>
+
+</form>
+
+<hr/>
+{{ listNodeInfoForm.value | json }}
+<hr/>

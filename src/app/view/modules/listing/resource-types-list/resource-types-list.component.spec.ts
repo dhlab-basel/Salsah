@@ -2,13 +2,13 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {ResourceTypesListComponent} from './resource-types-list.component';
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
-import {ProjectItem} from '../../../../model/webapi/knora/';
+import {Project} from '../../../../model/webapi/knora/';
 
 describe('ResourceTypesListComponent', () => {
     let component: ResourceTypesListComponent;
     let fixture: ComponentFixture<ResourceTypesListComponent>;
 
-    const testProject: ProjectItem = {
+    const testProject: Project = <Project>{
         'ontologies': [
             'http://www.knora.org/ontology/00FF/images'
         ],

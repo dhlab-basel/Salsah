@@ -15,8 +15,8 @@
 import {Component, OnChanges, Input} from '@angular/core';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {UserService} from '../../../../model/services/user.service';
-import {User, UserProfile} from '../../../../model/webapi/knora/';
+import {UsersService} from '../../../../model/services/users.service';
+import {UserResponse, UserProfile} from '../../../../model/webapi/knora/';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageData} from '../../message/message.component';
@@ -39,7 +39,7 @@ export class UserObjectComponent implements OnChanges {
 
     errorMessage: any;
 
-    constructor(private _userService: UserService,
+    constructor(private _userService: UsersService,
                 public _dialog: MatDialog) {
     }
 
@@ -49,7 +49,7 @@ export class UserObjectComponent implements OnChanges {
         this._userService.getUserByIri(this.id)
             .subscribe(
                 (result: ApiServiceResult) => {
-                    const user: User = result.getBody(User);
+                    const user: UserResponse = result.getBody(UserResponse);
                     this.userProfile = user.userProfile;
                     this.email = user.userProfile.userData.email;
                     this.iri = this.id;

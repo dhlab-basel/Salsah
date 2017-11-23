@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {UserObjectComponent} from './user-object.component';
-import {UserService} from '../../../../model/services/user.service';
+import {UsersService} from '../../../../model/services/users.service';
 
 describe('UserObjectComponent', () => {
     let component: UserObjectComponent;
@@ -13,7 +13,7 @@ describe('UserObjectComponent', () => {
                 AppModule
             ],
             providers: [
-                UserService
+                UsersService
             ]
         })
             .compileComponents();

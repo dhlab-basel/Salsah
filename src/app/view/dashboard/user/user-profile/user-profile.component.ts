@@ -15,7 +15,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {UserProfile} from "../../../../model/webapi/knora/";
-import {UserService} from "../../../../model/services/user.service";
+import {UsersService} from "../../../../model/services/users.service";
 import {MessageData} from '../../../modules/message/message.component';
 
 @Component({
