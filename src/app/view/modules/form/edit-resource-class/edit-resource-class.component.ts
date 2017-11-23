@@ -45,6 +45,10 @@ export class EditResourceClassComponent implements OnChanges {
     @Input('index') index: number;
     @Input('projects') projectsList: ProjectItem[];
 
+    step = 0;
+
+    isLoading: boolean = true;
+    isDisabled: boolean = true;
 
     resType: ResourceTypeInfo = new ResourceTypeInfo;
 
@@ -52,7 +56,8 @@ export class EditResourceClassComponent implements OnChanges {
     errorMessage: string = undefined;
     resIcon: string = undefined;
 
-    editResource: boolean;
+    editResource: boolean = true;
+    editProp: boolean = true;
 
     eRForm4class: FormGroup;
     eRForm4prop: FormGroup;
@@ -190,6 +195,7 @@ export class EditResourceClassComponent implements OnChanges {
                         'resDescription': this.resType.description,
                     });
 
+                    this.isLoading = false;
                     // validation messages
                     this.eRForm4class.valueChanges
                         .subscribe(data => this.onResValueChanged(data));
@@ -197,30 +203,7 @@ export class EditResourceClassComponent implements OnChanges {
                     // console.log(this.eRForm4class.value);
                     // console.log(this.eRForm4class.get('prps.label'));
 
-
-                    // -------------properties edit validation configuration-------------------
-                    this.eRForm4prop = this._fb4p.group({
-                        'prps': this._fb4p.array([])
-                        // this._fb4p.group({
-                        //     'name': '',
-                        //     'guiorder': '',
-                        //     'description': '',
-                        //     'valuetype_id': '',
-                        //     'label': ['', Validators.required],
-                        //     'vocabulary': ['', Validators.required],
-                        //     'attributes': '',
-                        //     'occurrence': ['', Validators.required],
-                        //     'id': '',
-                        //     'gui_name': ['', Validators.required]
-                        // })
-                    });
-
-                    this.setProps(this.resType.properties);
-
-                    // validation messages
-                    this.eRForm4prop.valueChanges
-                        .subscribe(data => this.onPropValueChanged(data));
-
+                    this.buildPropsForm()
 
                 },
 
@@ -248,6 +231,40 @@ export class EditResourceClassComponent implements OnChanges {
         const propArray = this._fb4p.array(propsFGs);
         this.eRForm4prop.setControl('prps', propArray);
     }
+
+
+    buildPropsForm() {
+        if (this.editProp) {
+            // -------------properties edit validation configuration-------------------
+            this.eRForm4prop = this._fb4p.group({
+                'prps': this._fb4p.array([])
+                // this._fb4p.group({
+                //     'name': '',
+                //     'guiorder': '',
+                //     'description': '',
+                //     'valuetype_id': '',
+                //     'label': ['', Validators.required],
+                //     'vocabulary': ['', Validators.required],
+                //     'attributes': '',
+                //     'occurrence': ['', Validators.required],
+                //     'id': '',
+                //     'gui_name': ['', Validators.required]
+                // })
+            });
+
+            this.setProps(this.resType.properties);
+
+            // validation messages
+            this.eRForm4prop.valueChanges
+                .subscribe(data => this.onPropValueChanged(data));
+        }
+    }
+
+    setIndex(index: number) {
+        this.index = index;
+        console.log(index, 'the editable property is:', this.resType.properties[index].label);
+    }
+
 
     onResValueChanged(data?: any) {
         if (!this.eRForm4class) {
@@ -328,8 +345,20 @@ export class EditResourceClassComponent implements OnChanges {
         this.editResource = true;
     }
 
-    closeEditView() {
+    closeResEditView() {
         this.editResource = false;
+    }
+
+    editProps(index: number) {
+        if (this.resType.properties[index] !== undefined) {
+            this.editProp = true;
+        }
+    }
+
+    closePropEditViews(index: number) {
+        if (this.resType.properties[index] !== undefined) {
+            this.editProp = false;
+        }
     }
 
     // form functions

@@ -1,4 +1,4 @@
-<section *ngIf="!editResource">
+<!--<section *ngIf="!editResource">
     <span mat-line><b>{{resType.label}}</b></span> | <span>{{resType.description}}</span>
     <mat-divider></mat-divider>
 
@@ -16,28 +16,30 @@
         <mat-divider></mat-divider>
     </mat-grid-list>
 </section>
-
+-->
 <!------------------------------------------------------------------------------------------------------->
 <!------------------------------------Edit resources!    ------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------->
 
-<section class="salsah-form-content" *ngIf="editResource" [formGroup]="eRForm4class">
+<salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+<section class="salsah-form-content" *ngIf="editResource && !isLoading">
 
     <!------------------------------------------------------------------------------------------------------->
     <!-----------Here we will use cards for each resource and property, which will be collapsible------------>
     <!-----------Each card will have its own save button----------------------------------------------------->
-    <form class="salsah-form new-user" [formGroup]="eRForm4class">
-        <mat-accordion class="headers-align" >
-            <mat-expansion-panel hideToggle="true">
-                <mat-expansion-panel-header >
-                    <mat-panel-title>
-                        <span>{{editResFormLabels.label}}: {{eRForm4class.get('resLabel').value}}</span>
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        <span>{{editResFormLabels.description}}</span>
-                        <mat-icon>{{eRForm4class.get('resIcon').value}}</mat-icon>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
+    <h5>{{editResFormLabels.label}}</h5>
+    <mat-accordion class="headers-align">
+        <mat-expansion-panel hideToggle="true" >
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <span>{{editResFormLabels.label}}: {{eRForm4class.get('resLabel').value}}</span>
+                </mat-panel-title>
+                <mat-panel-description>
+                    <span>{{editResFormLabels.description}}</span>
+                    <mat-icon>{{eRForm4class.get('resIcon').value}}</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <form class="salsah-form new-user" [formGroup]="eRForm4class">
                 <mat-form-field dividerColor="{{ !resType.label ? 'warn' : 'primary' }}">
                     <input matInput
                            class="form-control"
@@ -58,11 +60,11 @@
                            formControlName="resIcon">
                 </mat-form-field>
                 <mat-form-field class="full-width">
-<textarea matInput
-          class="form-control"
-          placeholder={{editResFormLabels.resource.description}}
-          id="resDescription"
-          formControlName="resDescription"></textarea>
+                    <textarea matInput
+                              class="form-control"
+                              placeholder={{editResFormLabels.resource.description}}
+                              id="resDescription"
+                              formControlName="resDescription"></textarea>
                 </mat-form-field>
 
 
@@ -80,24 +82,24 @@
                         {{editResFormLabels.buttons.save}}
                     </button>
                 </mat-action-row>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </form>
-        <!------------------------------------------------------------------------------------------------------->
-        <!------------------------------------Edit properties   ------------------------------------------------>
-        <!------------------------------------------------------------------------------------------------------->
-        <h5>{{editResFormLabels.resource.prps.formLabel}}</h5>
-
+            </form>
+        </mat-expansion-panel>
+     </mat-accordion>
+    <!------------------------------------------------------------------------------------------------------->
+    <!------------------------------------Edit properties   ------------------------------------------------>
+    <!------------------------------------------------------------------------------------------------------->
+    <h5>{{editResFormLabels.resource.prps.formLabel}}</h5>
+<div>
     <form class="salsah-form new-user" [formGroup]="eRForm4prop">
         <mat-accordion class="headers-align"
                        formGroupName="prps"
                        matTooltip="You can sort this list with drag and drop"
                        dnd-sortable-container
                        [sortableData]="prps.controls">
-            <mat-expansion-panel *ngFor="let prop of prps.controls; let i = index" [formGroupName]="i">
+            <mat-expansion-panel *ngFor="let prop of prps.controls; let i = index" [formGroupName]="i"  (opened)="setIndex(i)">
                 <mat-expansion-panel-header dnd-sortable [sortableIndex]="i">
                     <!--TODO assign i to prop.guiorder: this needs to be posted to the ontology everytime dnd is enabled! -->
-                    <mat-panel-title >
+                    <mat-panel-title>
                         <span>{{prop.get('label').value}} </span>
                     </mat-panel-title>
                     <mat-panel-description>
@@ -111,13 +113,13 @@
                            placeholder={{editResFormLabels.resource.prps.label}}
                            formControlName="label">
                     <mat-hint *ngIf="formPropErrors.prps.label ">
-                    {{ formPropErrors.prps.label  }}
+                        {{ formPropErrors.prps.label }}
                     </mat-hint>
                 </mat-form-field>
                 <mat-form-field class="full-width">
                     <textarea matInput
-                        placeholder={{editResFormLabels.resource.prps.description}}
-                        formControlName="description"></textarea>
+                              placeholder={{editResFormLabels.resource.prps.description}}
+                              formControlName="description"></textarea>
                 </mat-form-field>
                 <mat-form-field class="full-width">
                     <mat-select
@@ -131,17 +133,18 @@
                 </mat-form-field>
                 <mat-form-field class="full-width">
                     <input matInput
-                        placeholder={{editResFormLabels.resource.prps.attributes}}
-                        formControlName="attributes">
+                           placeholder={{editResFormLabels.resource.prps.attributes}}
+                           formControlName="attributes">
                 </mat-form-field>
                 <mat-form-field class="full-width">
                     <input matInput
-                        placeholder={{editResFormLabels.resource.prps.id}}
-                        formControlName="id">
+                           placeholder={{editResFormLabels.resource.prps.id}}
+                           formControlName="id">
                 </mat-form-field>
                 <div class="full-width">
-                <div class="salsah-placeholder">
-                    {{editResFormLabels.resource.prps.occurrence}} </div>
+                    <div class="salsah-placeholder">
+                        {{editResFormLabels.resource.prps.occurrence}}
+                    </div>
                     <mat-button-toggle-group
                         #group="matButtonToggleGroup"
                         formControlName="occurrence"
@@ -150,20 +153,21 @@
                             {{cardinality}}
                         </mat-button-toggle>
                     </mat-button-toggle-group>
-                <div class="mat-caption">Selected value: {{group.value}}</div>
+                    <div class="mat-caption">Selected value: {{group.value}}</div>
                 </div>
                 <br>
                 <mat-form-field class="full-width">
                     <input matInput
-                        placeholder={{editResFormLabels.resource.prps.valuetype_id}}
+                           placeholder={{editResFormLabels.resource.prps.valuetype_id}}
                            formControlName="valuetype_id">
                 </mat-form-field>
                 <mat-form-field class="full-width">
                     <mat-select class="full-width"
-                        placeholder={{editResFormLabels.resource.prps.vocabulary}}
-                        formControlName="vocabulary"
-                        (change)="setVoc(i, $event)">
-                        <mat-option *ngFor="let project of editResFormLabels.projectsList" [value]="project.ontologyNamedGraph">
+                                placeholder={{editResFormLabels.resource.prps.vocabulary}}
+                                formControlName="vocabulary"
+                                (change)="setVoc(i, $event)">
+                        <mat-option *ngFor="let project of editResFormLabels.projectsList"
+                                    [value]="project.ontologyNamedGraph">
                             {{project.description}}
                         </mat-option>
                     </mat-select>
@@ -293,12 +297,12 @@ required>
         </mat-accordion>
 
     </form>
-
+</div>
 </section>
 
-
+<!--
 <footer class="footer">
-    <div *ngIf="!editResource" layout="row" layout-align="center center" flex>
+<div *ngIf="!editResource" layout="row" layout-align="center center" flex>
         <button mat-raised-button
                 class="next"
                 [color]="'primary'"
@@ -306,12 +310,13 @@ required>
             Edit
         </button>
     </div>
-    <div *ngIf="editResource" layout="row" layout-align="center center" flex>
-        <button mat-raised-button
-                class="next"
-                [color]="'primary'"
-                (click)="closeEditView()">
-            Close
-        </button>
-    </div>
-</footer>
+        <div *ngIf="editResource" layout="row" layout-align="center center" flex>
+            <button mat-raised-button
+                    class="next"
+                    [color]="'primary'"
+                    (click)="closeResEditView()">
+                Close
+            </button>
+        </div>
+    </footer>
+-->
