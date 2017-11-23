@@ -15,7 +15,7 @@
 import {JsonObject, JsonProperty} from 'json2typescript';
 
 @JsonObject
-export class ProjectItem {
+export class Project {
 
 //    @JsonProperty('basepath', String, true)
 //    public basepath: string = undefined;
@@ -23,10 +23,13 @@ export class ProjectItem {
     @JsonProperty('shortname', String)
     public shortname: string = undefined;
 
+    @JsonProperty('shortcode', String)
+    public shortcode: string = undefined;
+
     @JsonProperty('description', String)
     public description: string = undefined;
 
-    @JsonProperty('institution', String)
+    @JsonProperty('institution', String, true)
     public institution: string = undefined;
 
     @JsonProperty('logo', String)
@@ -34,9 +37,6 @@ export class ProjectItem {
 
     @JsonProperty('id', String)
     public id: string = undefined;
-
-    @JsonProperty('shortcode', String)
-    public shortcode: string = undefined;
 
     @JsonProperty('status', Boolean)
     public status: boolean = undefined;
@@ -47,10 +47,10 @@ export class ProjectItem {
     @JsonProperty('longname', String)
     public longname: string = undefined;
 
-    @JsonProperty('selfjoin', Boolean)
-    public selfjoin: boolean = undefined;
-
     @JsonProperty('ontologies', [String])
     public ontologies: string[] = undefined;
+
+    @JsonProperty('selfjoin', Boolean)
+    public selfjoin: boolean = undefined;
 
 }

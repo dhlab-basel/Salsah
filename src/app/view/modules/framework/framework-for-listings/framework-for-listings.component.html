@@ -64,6 +64,11 @@
                                         (toggleItem)="toggleDetail($event, $event)">
             </salsah-resource-types-list>
 
+            <salsah-lists-list *ngSwitchCase="'list'"
+                                [restrictedBy]="list.restrictedBy"
+                               (toggleItem)="toggleDetail($event, $event)">
+            </salsah-lists-list>
+
             <salsah-collections-list *ngSwitchCase="'collection'"></salsah-collections-list>
 
             <div *ngSwitchCase="'resource'">
@@ -103,6 +108,8 @@
             <salsah-edit-resource-class *ngSwitchCase="'resource-type'" [iri]="id"></salsah-edit-resource-class>
 
             <salsah-resource-object *ngSwitchCase="'resource'" [iri]="id"></salsah-resource-object>
+
+            <salsah-list-form *ngSwitchCase="'list'" [listIri]="id"></salsah-list-form>
 
         </div>
 

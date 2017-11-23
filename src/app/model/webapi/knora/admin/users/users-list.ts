@@ -13,31 +13,12 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {UserData} from "./user-data";
-import {ProjectItem} from "../projects/project-item";
-import {PermissionData} from "../permissions/permission-data";
+import {UserData} from './user-data';
 
 @JsonObject
-export class UserProfile {
+export class UsersList {
 
-    @JsonProperty('userData', UserData)
-    public userData: UserData = undefined;
+    @JsonProperty('users', [UserData])
+    public users: UserData[] = undefined;
 
-    @JsonProperty('groups', [String])
-    public groups: string[] = undefined;
-
-    @JsonProperty('projects_info', [ProjectItem])
-    public projects_info: ProjectItem[] = undefined;
-
-    @JsonProperty('sessionId', String, true)
-    public sessionId: string = undefined;
-
-//    @JsonProperty('projects', [String], true)
-//    public projects: string[] = undefined;
-
-    @JsonProperty('isSystemUser', Boolean)
-    public isSystemUser: boolean = undefined;
-
-    @JsonProperty('permissionData', PermissionData)
-    public permissionData: PermissionData = undefined;
 }

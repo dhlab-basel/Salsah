@@ -13,12 +13,10 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, Params} from '@angular/router';
-import {ApiServiceResult} from '../../../model/services/api-service-result';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ApiServiceError} from '../../../model/services/api-service-error';
 import {ProjectsService} from '../../../model/services/projects.service';
 import {Project} from '../../../model/webapi/knora';
-import {ProjectItem} from '../../../model/webapi/knora/v1/projects/project-item';
 import {Title} from '@angular/platform-browser';
 
 @Component({
@@ -28,12 +26,12 @@ import {Title} from '@angular/platform-browser';
 })
 export class ProjectComponent implements OnInit {
 
-    isLoading: boolean = true;
+    isLoading = true;
 
     errorMessage: any = undefined;
-    project: ProjectItem = new ProjectItem();
+    project: Project = new Project();
 
-    projectRoute: string = '/project/';
+    projectRoute = '/project/';
 
     projectAdmin: boolean = false;
 
@@ -47,6 +45,10 @@ export class ProjectComponent implements OnInit {
         {
             name: 'Resources',
             route: 'resources'
+        },
+        {
+            name: 'Lists',
+            route: 'lists'
         },
         {
             name: 'Advanced',
@@ -81,8 +83,8 @@ export class ProjectComponent implements OnInit {
             // get the project information
             this._projectsService.getProjectByShortname(this.cur_project)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.project = result.getBody(Project).project_info;
+                    (result: Project) => {
+                        this.project = result;
                         sessionStorage.setItem('currentProject', JSON.stringify(this.project));
 
                         if (sessionStorage.getItem('projectAdmin')) {
@@ -109,7 +111,6 @@ export class ProjectComponent implements OnInit {
                 );
 
         });
-//        this.auth = SessionService.checkAuth();
 
         if (this.cur_project === 'new') {
             alert('Create a new project!?');
