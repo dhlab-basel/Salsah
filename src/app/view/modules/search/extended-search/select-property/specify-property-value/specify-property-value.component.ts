@@ -112,10 +112,11 @@ class Exists implements ComparisonOperator {
 
 /**
  * Combination of a comparison operator and a value literal.
+ * In case the comparison operator is 'Exists', no value is given.
  */
 export class ComparisonOperatorAndValueLiteral {
 
-    constructor(readonly comparisonOperator: ComparisonOperator, readonly valueLiteral: ValueLiteral) {
+    constructor(readonly comparisonOperator: ComparisonOperator, readonly valueLiteral?: ValueLiteral) {
     };
 }
 
@@ -182,7 +183,7 @@ export class SpecifyPropertyValueComponent implements OnInit {
     comparisonOperators: Array<ComparisonOperator> = [];
 
     // comparison operator selected by the user
-    comparisonOperatorSelected;
+    comparisonOperatorSelected: ComparisonOperator;
 
     // the type of the property
     propertyValueType;
@@ -256,7 +257,12 @@ export class SpecifyPropertyValueComponent implements OnInit {
      */
     getComparisonOperatorAndValueLiteralForProperty(): ComparisonOperatorAndValueLiteral {
         // return value literal from the child component
-        let valueLiteral: ValueLiteral = this.propertyValueComponent.getValue();
+        let valueLiteral: ValueLiteral;
+
+        // comparison operator 'Exists' does not require a value
+        if (this.comparisonOperatorSelected.getClassName() != 'Exists') {
+            valueLiteral = this.propertyValueComponent.getValue();
+        }
 
         // return the comparison operator and the specified value
         return new ComparisonOperatorAndValueLiteral(this.comparisonOperatorSelected, valueLiteral);

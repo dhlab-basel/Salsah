@@ -8,7 +8,7 @@ import {
     ResourceClass
 } from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
-import {SelectPropertyComponent} from "./select-property/select-property.component";
+import {PropertyWithValue, SelectPropertyComponent} from "./select-property/select-property.component";
 import {SelectResourceClassComponent} from "./select-resource-class/select-resource-class.component";
 
 
@@ -97,24 +97,37 @@ export class ExtendedSearchComponent implements OnInit {
     }
 
     /**
-     * Perform an extended search based on the search form.
+     * Generates KnarQL from the children components [this.resourceClassComponent] and [this.propertyComponents].
      *
-     * @param {string} sparql the SPARQL query to be sent to Knora's extended search route.
      */
-    performExtendedSearch() {
+    toKnarQL() {
 
         // check if there is a resource class selected
         let resClass = this.resourceClassComponent.getResourceClassSelected();
 
+        let properties: PropertyWithValue[] = this.propertyComponents.map(
+            (propComp) => {
+                return propComp.getPropertySelectedWithValue();
+            }
+        );
+
         console.log(resClass);
 
-        console.log(this.propertyComponents.first.getPropertySelectedWithValue());
+        console.log(properties);
 
-        // TODO: generate KnarQL from the search form
+        let knarql: string;
 
-        let knarql;
+        //this.performExtendedSearch(knarql);
 
-        // this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
+    };
+
+    /**
+     * Perform an extended search based on the search form.
+     *
+     */
+    performExtendedSearch(knarql: string) {
+
+        this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
     }
 
 }
