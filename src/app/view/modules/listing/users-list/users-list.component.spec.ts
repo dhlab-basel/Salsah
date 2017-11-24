@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {UsersListComponent} from './users-list.component';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {UserService} from '../../../../model/services/user.service';
+import {UsersService} from '../../../../model/services/users.service';
 
 describe('UsersListComponent', () => {
     let component: UsersListComponent;
@@ -15,7 +15,7 @@ describe('UsersListComponent', () => {
             ],
             providers: [
                 ProjectsService,
-                UserService
+                UsersService
             ]
         })
             .compileComponents();

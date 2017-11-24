@@ -15,7 +15,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UserProfile} from '../../../../model/webapi/knora/';
 import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
-import {User} from '../../../../model/webapi/knora/v1/users/user';
 
 
 @Component({

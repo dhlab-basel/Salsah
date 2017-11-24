@@ -13,12 +13,10 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, Params} from '@angular/router';
-import {ApiServiceResult} from '../../../model/services/api-service-result';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ApiServiceError} from '../../../model/services/api-service-error';
 import {ProjectsService} from '../../../model/services/projects.service';
 import {Project} from '../../../model/webapi/knora';
-import {ProjectItem} from '../../../model/webapi/knora/v1/projects/project-item';
 import {Title} from '@angular/platform-browser';
 
 @Component({
@@ -31,9 +29,9 @@ export class ProjectComponent implements OnInit {
     isLoading: boolean = true;
 
     errorMessage: any = undefined;
-    project: ProjectItem = new ProjectItem();
+    project: Project = new Project();
 
-    projectRoute: string = '/project/';
+    projectRoute = '/project/';
 
     projectAdmin: boolean = false;
 
@@ -51,6 +49,10 @@ export class ProjectComponent implements OnInit {
         {
             name: 'Resources',
             route: 'resources'
+        },
+        {
+            name: 'Lists',
+            route: 'lists'
         }
     ];
 
@@ -85,17 +87,19 @@ export class ProjectComponent implements OnInit {
             // get the project information
             this._projectsService.getProjectByShortname(this.currentProject)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.project = result.getBody(Project).project_info;
+                    (result: Project) => {
+                        this.project = result;
                         sessionStorage.setItem('currentProject', JSON.stringify(this.project));
 
 
                         // TODO: do we still need the following lines
                         if (sessionStorage.getItem('projectAdmin')) {
-                            if ( JSON.parse(sessionStorage.getItem('projectAdmin')).length > 0 ) {
+                            if (JSON.parse(sessionStorage.getItem('projectAdmin')).length > 0) {
                                 this.projectAdmin = (JSON.parse(sessionStorage.getItem('projectAdmin')).indexOf(this.project.id) > -1);
                                 // bad hack to get the project admin information
-                                if (this.projectAdmin ) { sessionStorage.setItem('admin', JSON.stringify(true)); }
+                                if (this.projectAdmin) {
+                                    sessionStorage.setItem('admin', JSON.stringify(true));
+                                }
                                 // end of bad hack. TODO: we have to find a better solution
                                 this.isLoading = false;
                             } else {
@@ -114,7 +118,6 @@ export class ProjectComponent implements OnInit {
                 );
 
         });
-//        this.auth = SessionService.checkAuth();
 
         if (this.currentProject === 'new') {
             alert('Create a new project!?');

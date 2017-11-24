@@ -12,32 +12,37 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {UserData} from "./user-data";
-import {ProjectItem} from "../projects/project-item";
-import {PermissionData} from "../permissions/permission-data";
+import {UserData} from './user-data';
+import {UserProfile} from './user-profile';
 
 @JsonObject
-export class UserProfile {
+export class UsersList {
 
-    @JsonProperty('userData', UserData)
-    public userData: UserData = undefined;
+    @JsonProperty('users', [UserData])
+    public users: UserData[] = undefined;
 
-    @JsonProperty('groups', [String])
-    public groups: string[] = undefined;
+}
 
-    @JsonProperty('projects_info', [ProjectItem])
-    public projects_info: ProjectItem[] = undefined;
+@JsonObject
+export class NewUserData {
 
-    @JsonProperty('sessionId', String, true)
-    public sessionId: string = undefined;
+    @JsonProperty('email', String, true)
+    public email: string = undefined;
 
-//    @JsonProperty('projects', [String], true)
-//    public projects: string[] = undefined;
+    @JsonProperty('firstname', String, true)
+    public givenName: string = undefined;
 
-    @JsonProperty('isSystemUser', Boolean)
-    public isSystemUser: boolean = undefined;
+    @JsonProperty('lastname', String, true)
+    public familyName: string = undefined;
 
-    @JsonProperty('permissionData', PermissionData)
-    public permissionData: PermissionData = undefined;
+    @JsonProperty('user_profile', UserProfile, true)
+    public user_profile: UserProfile = undefined;
+}
+
+@JsonObject
+export class NewUsersList {
+    @JsonProperty('users', [NewUserData])
+    public users: NewUserData[] = undefined;
 }

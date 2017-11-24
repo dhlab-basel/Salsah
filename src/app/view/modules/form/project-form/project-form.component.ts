@@ -16,7 +16,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {Project, ProjectItem, ProjectsList} from '../../../../model/webapi/knora/';
+import {Project} from '../../../../model/webapi/knora/';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {existingNamesValidator} from '../../other/existing-name.directive';
 
@@ -43,7 +43,7 @@ export class ProjectFormComponent implements OnInit {
 
     step: number = 0;
 
-    project: ProjectItem = new ProjectItem();
+    project: Project = new Project();
 
     logo: string = null;
 
@@ -121,9 +121,9 @@ export class ProjectFormComponent implements OnInit {
         // prevent to have the same short name; proof it with the ForbiddenName directive
         this._projectsService.getAllProjects()
             .subscribe(
-                (result: ApiServiceResult) => {
-                    const projectsList: ProjectItem[] = result.getBody(ProjectsList).projects;
-                    for (const p of projectsList) {
+                (result: Project[]) => {
+                    const projects: Project[] = result;
+                    for (const p of projects) {
                         this.existingShortNames.push(new RegExp('(?:^|\W)' + p.shortname.toLowerCase() + '(?:$|\W)'));
                     }
                 },
@@ -137,8 +137,8 @@ export class ProjectFormComponent implements OnInit {
             // edit existing project; get the data first
             this._projectsService.getProjectByIri(this.iri)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.project = result.getBody(Project).project_info;
+                    (result: Project) => {
+                        this.project = result;
 
                         const short = new RegExp(this.project.shortname);
 
@@ -152,13 +152,13 @@ export class ProjectFormComponent implements OnInit {
                 );
         } else {
             // create new project
-            this.buildForm(new ProjectItem());
+            this.buildForm(new Project());
         }
 
 
     }
 
-    buildForm(proj: ProjectItem): void {
+    buildForm(proj: Project): void {
         // formControllName
         /*
         this.form = new FormGroup({

@@ -14,21 +14,19 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {UserService} from '../../../../model/services/user.service';
+import {UsersService} from '../../../../model/services/users.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {UserData} from '../../../../model/webapi/knora/v1/users/user-data';
-import {ProjectMembers} from '../../../../model/webapi/knora/v1/projects/project-members';
+import {UserData, UserProfile} from '../../../../model/webapi/knora';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {NewUserData, NewUsersList, UsersList} from '../../../../model/webapi/knora/v1/users/users-list';
+
 import {MessageData} from '../../message/message.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
-import {User} from '../../../../model/webapi/knora/v1/users/user';
-import {UserProfile} from '../../../../model/webapi/knora/v1/users/user-profile';
-import {SortData} from '../../framework/framework-for-listings/framework-for-listings.component';
+import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
+
 
 @Component({
     selector: 'salsah-users-list',
@@ -115,7 +113,7 @@ export class UsersListComponent implements OnInit {
 
     constructor(private _router: Router,
                 public _projectsService: ProjectsService,
-                public _userService: UserService,
+                public _userService: UsersService,
                 public _dialog: MatDialog) {
     }
 
@@ -133,8 +131,8 @@ export class UsersListComponent implements OnInit {
             // get project members
             this._projectsService.getProjectMembersByIri(this.project)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.allUsers = result.getBody(ProjectMembers).members;
+                    (result: UserData[]) => {
+                        this.allUsers = result;
 
                         // TODO: move the following lines into a method
                         for (const au of this.allUsers) {
@@ -143,7 +141,7 @@ export class UsersListComponent implements OnInit {
                             this._userService.getUserByIri(au.user_id)
                                 .subscribe(
                                     (userResult: ApiServiceResult) => {
-                                        const user: UserProfile = userResult.getBody(User).userProfile;
+                                        const user: UserProfile = userResult.getBody(UserProfile);
                                         if (user.userData.status === true) {
                                             this.allActiveUsers.push(user);
                                             const active: NewUserData = {
@@ -193,13 +191,13 @@ export class UsersListComponent implements OnInit {
             // get all users from knora
             this._userService.getAllUsers()
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.allUsers = result.getBody(UsersList).users;
+                    (result: UserData[]) => {
+                        this.allUsers = result;
                         for (const au of this.allUsers) {
                             this._userService.getUserByIri(au.user_id)
                                 .subscribe(
                                     (userResult: ApiServiceResult) => {
-                                        const user: UserProfile = userResult.getBody(User).userProfile;
+                                        const user: UserProfile = userResult.getBody(UserProfile);
                                         if (user.userData.status === true) {
                                             this.allActiveUsers.push(user);
                                             const active: NewUserData = {

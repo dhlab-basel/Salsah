@@ -24,6 +24,7 @@ import {ProjectSettingsComponent} from './view/dashboard/project/project-setting
 import {ProjectProfileComponent} from './view/dashboard/project/project-profile/project-profile.component';
 import {ProjectTeamComponent} from './view/dashboard/project/project-team/project-team.component';
 import {ProjectResourcesComponent} from './view/dashboard/project/project-resources/project-resources.component';
+import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
 import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
 import {DocumentationComponent} from './view/documentation/documentation.component';
 
@@ -110,6 +111,9 @@ const appRoutes: Routes = [
             // },
             {
                 path: 'resources', component: ProjectResourcesComponent
+            },
+            {
+                path: 'lists', component: ProjectListsAdminComponent
             },
             {
                 path: 'advanced', component: ProjectAdvancedComponent

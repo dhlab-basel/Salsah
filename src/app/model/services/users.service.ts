@@ -15,10 +15,13 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {ApiService} from './api.service';
+import {UsersResponse, UserData} from '../webapi/knora';
+import {ApiServiceResult} from './api-service-result';
+import {ApiServiceError} from './api-service-error';
 
 
 @Injectable()
-export class UserService extends ApiService {
+export class UsersService extends ApiService {
 
     /**
      * returns a user profile
@@ -40,9 +43,31 @@ export class UserService extends ApiService {
         return this.httpGet('/v1/users/' + encodeURIComponent(email) + '?identifier=email');
     }
 
-    getAllUsers(): Observable<any> {
-        return this.httpGet('/v1/users');
+    /**
+     * returns all users
+     *
+     * @returns {Observable<UserData[]>}
+     */
+    getAllUsers(): Observable<UserData[]> {
+
+        return this.httpGet('/v1/users').map(
+            (result: ApiServiceResult) => {
+                const users: UserData[] = result.getBody(UsersResponse).users;
+                // console.log('UsersService - getAllProjects: ' + JSON.stringify(projects));
+                return users;
+            },
+            (error: ApiServiceError) => {
+                console.error('ProjectsService - getAllProjects - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
     }
+
+
+
+
+
+
 
     createUser(data: any): Observable<any> {
 

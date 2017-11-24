@@ -12,22 +12,18 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, OnChanges, Inject, Input, Output, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, Input, OnChanges} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
-import {Properties, ResourceType, ResourceTypeInfo} from '../../../../model/webapi/knora/';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {ProjectsList, ProjectItem} from '../../../../model/webapi/knora/';
-
 import {
-    trigger,
-    state,
-    style,
-    animate,
-    transition
-} from '@angular/animations';
+    Project,
+    Properties,
+    ResourceType,
+    ResourceTypeInfo
+} from '../../../../model/webapi/knora/';
+import {ProjectsService} from '../../../../model/services/projects.service';
 
 // animations are used to create collapsible cards content
 @Component({
@@ -41,7 +37,8 @@ export class EditResourceClassComponent implements OnChanges {
 
     @Input() iri: string;
     @Input() index: number;
-    @Input() projects: ProjectItem[];
+    @Input('projects') projectsList: Project[];
+
 
     isLoading: boolean = true;
 
@@ -113,6 +110,7 @@ export class EditResourceClassComponent implements OnChanges {
         '1-n',
         '0-1',
         '0-n'
+
     ];
 
     // the following form fields would have an error check
@@ -162,8 +160,8 @@ export class EditResourceClassComponent implements OnChanges {
 
         this._projectsService.getAllProjects()
             .subscribe(
-                (result: ApiServiceResult) => {
-                    this.projects = result.getBody(ProjectsList).projects;
+                (result: Project[]) => {
+                    this.projectsList = result;
                 }
             );
     }
@@ -200,8 +198,7 @@ export class EditResourceClassComponent implements OnChanges {
     submitResEdit(): void {
         if (this.eRForm4class.valid && this.resType !== undefined) {
             console.log('Your submitted data is: ', this.eRForm4class.value);
-        }
-        else {
+        } else {
             console.log('Form not valid');
         }
     }

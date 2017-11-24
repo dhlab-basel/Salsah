@@ -16,7 +16,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ResourceTypes, ResourceTypeItem, ProjectItem} from '../../../../model/webapi/knora/';
+import {ResourceTypes, ResourceTypeItem} from '../../../../model/webapi/knora/';
 import {MessageData} from '../../message/message.component';
 
 @Component({

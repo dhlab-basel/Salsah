@@ -13,48 +13,22 @@
  * */
 
 /**
- * Interfaces for authentication and the session
+ * Interfaces for Admin
  */
-export * from './v1/authenticate/authenticate';
-export * from './v1/authenticate/session';
+export * from './admin/index';
 
 
 /**
- * Interfaces for projects
+ * Interfaces for V1
  */
-export * from './v1/projects/project';
-export * from './v1/projects/project-item';
-export * from './v1/projects/project-members';
-export * from './v1/projects/projects-list';
+export * from './v1/index';
+
 
 /**
- * Interfaces for resource types
+ * Interfaces for V2
  */
-export * from './v1/resource-types/resource-type';
-export * from './v1/resource-types/resource-types';
-export * from './v1/resource-types/resource-type-item';
-export * from './v1/resource-types/resource-type-info';
+export * from './v2/index';
 
-/**
- * Interfaces for resource objects: instances
- */
-export * from './v1/resources/resource';
 
-/**
- * Interfaces for properties
- */
-export * from './v1/properties/properties';
 
-/**
- * Interfaces for search results
- */
-export * from './v1/search/search';
-
-/**
- * Interfaces for users
- */
-export * from './v1/users/users-list';
-export * from './v1/users/user-data';
-export * from './v1/users/user';
-export * from './v1/users/user-profile';
 

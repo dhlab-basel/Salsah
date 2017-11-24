@@ -13,7 +13,7 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {UserProfile} from '../../../../../model/webapi/knora/v1/users/user-profile';
+import {UserProfile} from '../../../../../model/webapi/knora/';
 
 @Component({
     selector: 'salsah-users-list-item',
