@@ -16,7 +16,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {UsersService} from '../../../../model/services/users.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {UserData, UserProfile} from '../../../../model/webapi/knora';
+import {UserData, UserProfile, UserResponse} from '../../../../model/webapi/knora';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 
 import {MessageData} from '../../message/message.component';
@@ -26,6 +26,7 @@ import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
+
 
 
 @Component({
@@ -141,7 +142,7 @@ export class UsersListComponent implements OnInit {
                             this._userService.getUserByIri(au.user_id)
                                 .subscribe(
                                     (userResult: ApiServiceResult) => {
-                                        const user: UserProfile = userResult.getBody(UserProfile);
+                                        const user: UserProfile = userResult.getBody(UserResponse).userProfile;
                                         if (user.userData.status === true) {
                                             this.allActiveUsers.push(user);
                                             const active: NewUserData = {
@@ -197,7 +198,7 @@ export class UsersListComponent implements OnInit {
                             this._userService.getUserByIri(au.user_id)
                                 .subscribe(
                                     (userResult: ApiServiceResult) => {
-                                        const user: UserProfile = userResult.getBody(UserProfile);
+                                        const user: UserProfile = userResult.getBody(UserResponse).userProfile;
                                         if (user.userData.status === true) {
                                             this.allActiveUsers.push(user);
                                             const active: NewUserData = {

@@ -31,7 +31,7 @@ export class UsersListItemComponent implements OnInit {
 
     ngOnInit() {
 
-        console.log(this.listData);
+        // console.log(this.listData);
     }
 
 }
