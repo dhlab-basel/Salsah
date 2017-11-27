@@ -12,13 +12,13 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {UsersService} from '../../../../model/services/users.service';
 import {Project, UserResponse} from '../../../../model/webapi/knora/';
+import {UsersService} from '../../../../model/services/users.service';
 import {MessageData} from '../../message/message.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
@@ -46,8 +46,12 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 
 export class ProjectsListComponent implements OnInit {
 
+    // restrictedBy can be a user; to show a list of the user's projects
     @Input('restrictedBy') user: string;
     @Input() listType?: string;
+
+    // send the number of entries to the parent component (framework-for-listings) to us it there in the title
+    @Output() counter: EventEmitter<number> = new EventEmitter<number>();
 
     // grid list settings
     columns: number = 3;

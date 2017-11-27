@@ -43,6 +43,7 @@ import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uplo
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
+import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
 
 const appRoutes: Routes = [
     {
@@ -97,6 +98,17 @@ const appRoutes: Routes = [
             {
                 path: 'team', component: ProjectTeamComponent
             },
+            {
+                path: 'ontologies', component: ProjectOntologiesComponent,
+            },
+            // {
+            //     path: 'ontology/:oid',
+            //     children: [
+            //         {
+            //             path: '', component: ProjectOntologiesComponent
+            //         }
+            //     ]
+            // },
             {
                 path: 'resources', component: ProjectResourcesComponent
             },

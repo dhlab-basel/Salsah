@@ -146,6 +146,10 @@ a.facsimile {
   border-radius: 50%;
   height: 40px;
   width: 40px;
+
+  &.square {
+    border-radius: $border-radius;
+  }
 }
 
 .salsah-panel {

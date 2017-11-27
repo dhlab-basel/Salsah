@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
 
+        // set the metadata page title
         this._title.setTitle( 'Salsah | Start');
 
         if (this._router.url === '/logout') {

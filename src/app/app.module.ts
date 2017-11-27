@@ -89,7 +89,6 @@ import {UsersListComponent} from './view/modules/listing/users-list/users-list.c
 import {FrameworkForListingsComponent} from './view/modules/framework/framework-for-listings/framework-for-listings.component';
 import {UserObjectComponent} from './view/modules/object/user-object/user-object.component';
 import {MessageDialogComponent} from './view/modules/dialog/message-dialog/message-dialog.component';
-
 import {FormDialogComponent} from './view/modules/dialog/form-dialog/form-dialog.component';
 import {ResourceTypesListComponent} from './view/modules/listing/resource-types-list/resource-types-list.component';
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
@@ -119,6 +118,10 @@ import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geo
 import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
 import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
 import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
+import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
+import {OntologiesListComponent} from './view/modules/listing/ontologies-list/ontologies-list.component';
+import {UsersListItemComponent} from './view/modules/listing/users-list/users-list-item/users-list-item.component';
+import {OntologyFormComponent} from './view/modules/form/ontology-form/ontology-form.component';
 import {SelectPropertyComponent} from './view/modules/search/extended-search/select-property/select-property.component';
 import {SelectResourceClassComponent} from './view/modules/search/extended-search/select-resource-class/select-resource-class.component';
 import {SelectOntologyComponent} from './view/modules/search/extended-search/select-ontology/select-ontology.component';
@@ -222,6 +225,10 @@ import {KnarqlgenerationService} from "./model/services/knarqlgeneration.service
         FormCreateComponent,
         FocusDirective,
         ConfirmDialogComponent,
+        ProjectOntologiesComponent,
+        OntologiesListComponent,
+        UsersListItemComponent,
+        OntologyFormComponent,
         SelectPropertyComponent,
         SelectResourceClassComponent,
         SelectOntologyComponent,
@@ -235,6 +242,7 @@ import {KnarqlgenerationService} from "./model/services/knarqlgeneration.service
         DecimalValueComponent,
         BooleanValueComponent,
         DateValueComponent
+
     ],
     imports: [
         BrowserModule,

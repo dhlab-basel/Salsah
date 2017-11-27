@@ -31,7 +31,7 @@ export class SystemProjectsComponent implements OnInit {
     // ------------------------------------------------------------------------
     list: ListData = {
         title: 'List of projects in Knora',
-        description: 'a kind of subtitle',
+        description: '',
         content: 'project',
         showAs: 'table',
         restrictedBy: undefined

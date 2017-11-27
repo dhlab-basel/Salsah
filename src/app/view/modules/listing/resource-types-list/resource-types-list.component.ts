@@ -26,10 +26,12 @@ import {MessageData} from '../../message/message.component';
 })
 export class ResourceTypesListComponent implements OnInit {
 
-    @Input('restrictedBy') project: string;
+    @Input('restrictedBy') project: string; // TODO: we have to change the restrcitedBy value from project iri to the ontology iri
     @Input() index: number;
 
     @Output() toggleItem = new EventEmitter<any>();
+    // send the number of entries to the parent component (framework-for-listings) to us it there in the title
+    @Output() counter: EventEmitter<number> = new EventEmitter<number>();
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
@@ -83,8 +85,7 @@ export class ResourceTypesListComponent implements OnInit {
             // close the detail view
             this.selectedRow = undefined;
             this.toggleItem.emit({id, index});
-        }
-        else {
+        } else {
             // open the detail view
             this.selectedRow = index;
             this.toggleItem.emit({id, index});

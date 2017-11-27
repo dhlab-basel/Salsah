@@ -1,0 +1,1547 @@
+{
+  "@context": {
+    "dc": "http://www.knora.org/ontology/dc#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "knora-base": "http://www.knora.org/ontology/knora-base#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "salsah-gui": "http://www.knora.org/ontology/salsah-gui#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#miscHasBook",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#misc"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Verbindung mit einem Buch"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkTo"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 3
+    },
+    {
+      "@id": "_:ub45bL904C27",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#sbTitle"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#url",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "de",
+          "@value": "Uniform Resource Identifier"
+        },
+        {
+          "@language": "fr",
+          "@value": "Uniform Resource Identifier"
+        },
+        {
+          "@language": "en",
+          "@value": "Uniform Resource Identifier"
+        },
+        {
+          "@language": "it",
+          "@value": "Uniform Resource Identifier"
+        }
+      ],
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "URI"
+        },
+        {
+          "@language": "en",
+          "@value": "URI"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=200",
+        "size=60"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 7
+    },
+    {
+      "@id": "_:ub45bL778C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#pubdate"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula",
+      "@type": "owl:Ontology"
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#hasAuthor",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Erzeuger/Autor"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Creator"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "dc:creator"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=255",
+        "size=60"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 2
+    },
+    {
+      "@id": "_:ub45bL774C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#publoc"
+      }
+    },
+    {
+      "@id": "_:ub45bL928C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#miscHasColor"
+      }
+    },
+    {
+      "@id": "_:ub45bL912C27",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#sideband_comment"
+      }
+    },
+    {
+      "@id": "_:ub45bL802C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#citation"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#pubdate",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:DateValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Datum der Herausgabe"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Datum der Herausgabe"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "dc:date"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=32",
+        "size=16"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Date"
+      },
+      "salsah-gui:guiOrder": 5
+    },
+    {
+      "@id": "_:ub45bL842C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#seqnum"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#hasRightSideband",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#Sideband"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Verweis auf einen Randleistentyp"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Randleistentyp rechts"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkTo"
+      },
+      "salsah-gui:guiAttribute": "numprops=1",
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 11
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#page_comment",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Unstrukturierte Bemerkungen zu einem Objekt"
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "Commento"
+        },
+        {
+          "@language": "en",
+          "@value": "Comment"
+        },
+        {
+          "@language": "de",
+          "@value": "Kommentar"
+        },
+        {
+          "@language": "fr",
+          "@value": "Commentaire"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasComment"
+      },
+      "salsah-gui:guiAttribute": [
+        "wrap=soft",
+        "width=95%",
+        "rows=7"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Textarea"
+      },
+      "salsah-gui:guiOrder": 6
+    },
+    {
+      "@id": "_:ub45bL798C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#note"
+      }
+    },
+    {
+      "@id": "_:ub45bL838C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#partOf"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#book",
+      "@type": "owl:Class",
+      "knora-base:resourceIcon": "book.gif",
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Diese Resource-Klasse beschreibt ein Buch"
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "Libro"
+        },
+        {
+          "@language": "de",
+          "@value": "Buch"
+        },
+        {
+          "@language": "en",
+          "@value": "Book"
+        },
+        {
+          "@language": "fr",
+          "@value": "Livre"
+        }
+      ],
+      "rdfs:subClassOf": [
+        {
+          "@id": "_:ub45bL770C23"
+        },
+        {
+          "@id": "_:ub45bL790C23"
+        },
+        {
+          "@id": "_:ub45bL802C23"
+        },
+        {
+          "@id": "_:ub45bL782C23"
+        },
+        {
+          "@id": "_:ub45bL778C23"
+        },
+        {
+          "@id": "_:ub45bL794C23"
+        },
+        {
+          "@id": "knora-base:Resource"
+        },
+        {
+          "@id": "_:ub45bL798C23"
+        },
+        {
+          "@id": "_:ub45bL762C23"
+        },
+        {
+          "@id": "_:ub45bL786C23"
+        },
+        {
+          "@id": "_:ub45bL774C23"
+        },
+        {
+          "@id": "_:ub45bL806C23"
+        },
+        {
+          "@id": "_:ub45bL766C23"
+        }
+      ]
+    },
+    {
+      "@id": "_:ub45bL790C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#description"
+      }
+    },
+    {
+      "@id": "_:ub45bL830C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#pagenum"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#book_comment",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Unstrukturierte Bemerkungen zu einem Objekt"
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "Commento"
+        },
+        {
+          "@language": "fr",
+          "@value": "Commentaire"
+        },
+        {
+          "@language": "en",
+          "@value": "Comment"
+        },
+        {
+          "@language": "de",
+          "@value": "Kommentar"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasComment"
+      },
+      "salsah-gui:guiAttribute": [
+        "wrap=soft",
+        "rows=7",
+        "width=95%"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Textarea"
+      },
+      "salsah-gui:guiOrder": 12
+    },
+    {
+      "@id": "_:ub45bL870C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#hasRightSidebandValue"
+      }
+    },
+    {
+      "@id": "_:ub45bL854C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#page_comment"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#location",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Der Ort wo sich das physische Original befindet"
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "Postazione"
+        },
+        {
+          "@language": "fr",
+          "@value": "Emplacement"
+        },
+        {
+          "@language": "en",
+          "@value": "Location"
+        },
+        {
+          "@language": "de",
+          "@value": "Standort"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "rows=4",
+        "wrap=soft",
+        "cols=60"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Textarea"
+      },
+      "salsah-gui:guiOrder": 6
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#pagenum",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "de",
+          "@value": "Eine eindeutige numerische Bezeichnung einer Buchseite"
+        },
+        {
+          "@language": "en",
+          "@value": "A distinct identification of a book page"
+        }
+      ],
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Seitenbezeichnung"
+        },
+        {
+          "@language": "en",
+          "@value": "Page identifier"
+        },
+        {
+          "@language": "fr",
+          "@value": "Désignation de page"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "max=8",
+        "min=4"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 1
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#Sideband",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Randleistentyp"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Randleiste"
+      },
+      "rdfs:subClassOf": [
+        {
+          "@id": "knora-base:StillImageRepresentation"
+        },
+        {
+          "@id": "_:ub45bL908C27"
+        },
+        {
+          "@id": "_:ub45bL912C27"
+        },
+        {
+          "@id": "_:ub45bL904C27"
+        }
+      ]
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#page",
+      "@type": "owl:Class",
+      "knora-base:resourceIcon": "page.gif",
+      "rdfs:comment": [
+        {
+          "@language": "en",
+          "@value": "A page is a part of a book"
+        },
+        {
+          "@language": "fr",
+          "@value": "Une page est une partie d'un livre"
+        },
+        {
+          "@language": "de",
+          "@value": "Eine Seite ist ein Teil eines Buchs"
+        }
+      ],
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Page"
+        },
+        {
+          "@language": "de",
+          "@value": "Seite"
+        },
+        {
+          "@language": "en",
+          "@value": "Page"
+        }
+      ],
+      "rdfs:subClassOf": [
+        {
+          "@id": "_:ub45bL850C23"
+        },
+        {
+          "@id": "_:ub45bL866C23"
+        },
+        {
+          "@id": "_:ub45bL842C23"
+        },
+        {
+          "@id": "_:ub45bL858C23"
+        },
+        {
+          "@id": "_:ub45bL878C23"
+        },
+        {
+          "@id": "_:ub45bL830C23"
+        },
+        {
+          "@id": "knora-base:StillImageRepresentation"
+        },
+        {
+          "@id": "_:ub45bL846C23"
+        },
+        {
+          "@id": "_:ub45bL874C23"
+        },
+        {
+          "@id": "_:ub45bL834C23"
+        },
+        {
+          "@id": "_:ub45bL862C23"
+        },
+        {
+          "@id": "_:ub45bL870C23"
+        },
+        {
+          "@id": "_:ub45bL854C23"
+        },
+        {
+          "@id": "_:ub45bL838C23"
+        }
+      ]
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#partOf",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Diese Property bezeichnet eine Verbindung zu einer anderen Resource, in dem ausgesagt wird, dass die vorliegende Resource ein integraler Teil der anderen Resource ist. Zum Beispiel ist eine Buchseite ein integraler Bestandteil genau eines Buches."
+      },
+      "rdfs:label": [
+        {
+          "@language": "en",
+          "@value": "is a part of"
+        },
+        {
+          "@language": "it",
+          "@value": "e una parte di"
+        },
+        {
+          "@language": "fr",
+          "@value": "est un part de"
+        },
+        {
+          "@language": "de",
+          "@value": "ist ein Teil von"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:isPartOf"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 2
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#miscHasColor",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:ColorValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#misc"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Farbe"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Colorpicker"
+      },
+      "salsah-gui:guiOrder": 1
+    },
+    {
+      "@id": "_:ub45bL938C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#micsHasBook"
+      }
+    },
+    {
+      "@id": "_:ub45bL908C27",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#description"
+      }
+    },
+    {
+      "@id": "_:ub45bL806C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#book_comment"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#hasRightSidebandValue",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:LinkValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Verweis auf einen Randleistentyp"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Randleistentyp rechts"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkToValue"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 11
+    },
+    {
+      "@id": "_:ub45bL766C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#hasAuthor"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#seqnum",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:IntValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "de",
+          "@value": "Diese Property bezeichnet die Position in einer geordneten Reihenfolge"
+        },
+        {
+          "@language": "fr",
+          "@value": "Cette \"property\" dénote la position dans un séquence."
+        },
+        {
+          "@language": "en",
+          "@value": "This property stands for the position within a set of rdered items (resoucres)"
+        }
+      ],
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Sequenznummer"
+        },
+        {
+          "@language": "en",
+          "@value": "Sequence number"
+        },
+        {
+          "@language": "fr",
+          "@value": "Numéro de Séquence"
+        },
+        {
+          "@language": "it",
+          "@value": "Numero di scala"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:seqnum"
+      },
+      "salsah-gui:guiAttribute": [
+        "min=0",
+        "max=-1"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Spinbox"
+      },
+      "salsah-gui:guiOrder": 3
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#partOfValue",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:LinkValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Diese Property bezeichnet eine Verbindung zu einer anderen Resource, in dem ausgesagt wird, dass die vorliegende Resource ein integraler Teil der anderen Resource ist. Zum Beispiel ist eine Buchseite ein integraler Bestandteil genau eines Buches."
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "e una parte di"
+        },
+        {
+          "@language": "de",
+          "@value": "ist ein Teil von"
+        },
+        {
+          "@language": "fr",
+          "@value": "est un part de"
+        },
+        {
+          "@language": "en",
+          "@value": "is a part of"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:isPartOfValue"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 2
+    },
+    {
+      "@id": "_:ub45bL786C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#url"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#publoc",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Ort der Herausgabe"
+      },
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Ort der Herausgabe"
+        },
+        {
+          "@language": "en",
+          "@value": "Publication location"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=100",
+        "size=60"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 4
+    },
+    {
+      "@id": "_:ub45bL862C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#hasLeftSidebandValue"
+      }
+    },
+    {
+      "@id": "_:ub45bL858C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#origname"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#title",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Titel"
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Titre"
+        },
+        {
+          "@language": "it",
+          "@value": "Titolo"
+        },
+        {
+          "@language": "de",
+          "@value": "Titel"
+        },
+        {
+          "@language": "en",
+          "@value": "Title"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "dc:title"
+      },
+      "salsah-gui:guiAttribute": [
+        "size=80",
+        "maxlength=255"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 1
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#sbTitle",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#Sideband"
+      },
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Titel"
+        },
+        {
+          "@language": "it",
+          "@value": "Titolo"
+        },
+        {
+          "@language": "fr",
+          "@value": "Titre"
+        },
+        {
+          "@language": "en",
+          "@value": "Title"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "dc:title"
+      },
+      "salsah-gui:guiAttribute": [
+        "size=80",
+        "maxlength=255"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 1
+    },
+    {
+      "@id": "_:ub45bL874C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#hasRightSideband"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#transcription",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Transkription"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Transkription"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": "hlist=<http://data.knora.org/lists/4b6d86ce03>",
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Pulldown"
+      },
+      "salsah-gui:guiOrder": 12
+    },
+    {
+      "@id": "_:ub45bL850C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#citation"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#origname",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Der originale Dateiname"
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Nom de fichier original"
+        },
+        {
+          "@language": "de",
+          "@value": "Ursprünglicher Dateiname"
+        },
+        {
+          "@language": "en",
+          "@value": "Original filename"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "size=54",
+        "maxlength=128"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 7
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#sideband_comment",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#Sideband"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Unstrukturierte Bemerkungen zu einem Objekt"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Kommentar (Richtext)"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasComment"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Richtext"
+      },
+      "salsah-gui:guiOrder": 3
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#miscHasGeometry",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:GeomValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#misc"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Geometrie"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Geometry"
+      },
+      "salsah-gui:guiOrder": 2
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#publisher",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "de",
+          "@value": "Ein Verlag ist ein Medienunternehmen, das Werke der Literatur, Kunst, Musik oder Wissenschaft vervielfältigt und verbreitet. Der Verkauf kann über den Handel (Kunst-, Buchhandel etc.) oder durch den Verlag selbst erfolgen. Das Wort „verlegen“ bedeutet im Mittelhochdeutschen „Geld ausgeben“ oder „etwas auf seine Rechnung nehmen“. (Wikipedia http://de.wikipedia.org/wiki/Verlag)"
+        },
+        {
+          "@language": "fr",
+          "@value": "Une maison d’édition est une entreprise ou une association dont l’activité principale est la production et la diffusion de livres. L’activité est donc liée à l’édition de documents. Trois formes d'entreprise dominent la profession : SA, SARL et entreprise personnelle. (Wikipedia http://fr.wikipedia.org/wiki/Maison_d%27édition)"
+        },
+        {
+          "@language": "en",
+          "@value": "Publishing is the process of production and dissemination of literature or information – the activity of making information available for public view. In some cases authors may be their own publishers, meaning: originators and developers of content also provide media to deliver and display the content. (Wikipedia http://en.wikipedia.org/wiki/Publisher)"
+        }
+      ],
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Verleger"
+        },
+        {
+          "@language": "fr",
+          "@value": "Editions"
+        },
+        {
+          "@language": "it",
+          "@value": "Casa editrice"
+        },
+        {
+          "@language": "en",
+          "@value": "Publisher"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "dc:publisher"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=255",
+        "size=60"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 3
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#hasLeftSideband",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#Sideband"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Verweis auf einen Randleistentyp"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Randleistentyp links"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkTo"
+      },
+      "salsah-gui:guiAttribute": "numprops=1",
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 10
+    },
+    {
+      "@id": "_:ub45bL770C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#publisher"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#description",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "knora-base:Resource"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "de",
+          "@value": "Beschreibung"
+        },
+        {
+          "@language": "en",
+          "@value": "Description"
+        }
+      ],
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Beschreibung (Richtext)"
+        },
+        {
+          "@language": "en",
+          "@value": "Description"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "dc:description"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Richtext"
+      },
+      "salsah-gui:guiOrder": 2
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#misc",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "A fake resource class that only has optional properties"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Sonstiges"
+      },
+      "rdfs:subClassOf": [
+        {
+          "@id": "_:ub45bL933C23"
+        },
+        {
+          "@id": "_:ub45bL928C23"
+        },
+        {
+          "@id": "_:ub45bL938C23"
+        },
+        {
+          "@id": "knora-base:Resource"
+        }
+      ]
+    },
+    {
+      "@id": "_:ub45bL846C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#description"
+      }
+    },
+    {
+      "@id": "_:ub45bL762C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#title"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#physical_desc",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Generelle physische Beschreibung des Objektes wie Material, Grösse etc."
+      },
+      "rdfs:label": [
+        {
+          "@language": "en",
+          "@value": "Phyiscal description"
+        },
+        {
+          "@language": "de",
+          "@value": "Physische Beschreibung"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "rows=3",
+        "cols=60",
+        "wrap=soft"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Textarea"
+      },
+      "salsah-gui:guiOrder": 9
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#hasLeftSidebandValue",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:LinkValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#page"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Verweis auf einen Randleistentyp"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Randleistentyp links"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkToValue"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 10
+    },
+    {
+      "@id": "_:ub45bL782C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#location"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#citation",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "knora-base:Resource"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Stellt einen Verweis dar."
+      },
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Verweis"
+        },
+        {
+          "@language": "en",
+          "@value": "Citation/reference"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "cols=60",
+        "rows=3",
+        "wrap=soft"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Textarea"
+      },
+      "salsah-gui:guiOrder": 5
+    },
+    {
+      "@id": "_:ub45bL794C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#physical_desc"
+      }
+    },
+    {
+      "@id": "_:ub45bL834C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#partOfValue"
+      }
+    },
+    {
+      "@id": "http://www.knora.org/ontology/incunabula#note",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "http://www.knora.org/ontology/incunabula#book"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "en",
+          "@value": "A note concerning the object"
+        },
+        {
+          "@language": "de",
+          "@value": "Eine Anmerkung zum Objekt"
+        }
+      ],
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Anmerkung"
+        },
+        {
+          "@language": "en",
+          "@value": "Note"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "wrap=soft",
+        "rows=3",
+        "cols=60"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Textarea"
+      },
+      "salsah-gui:guiOrder": 10
+    },
+    {
+      "@id": "_:ub45bL933C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#miscHasGeometry"
+      }
+    },
+    {
+      "@id": "_:ub45bL866C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#hasLeftSideband"
+      }
+    },
+    {
+      "@id": "_:ub45bL878C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "http://www.knora.org/ontology/incunabula#transcription"
+      }
+    }
+  ]
+}
