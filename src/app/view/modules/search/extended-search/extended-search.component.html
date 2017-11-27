@@ -1,4 +1,4 @@
-<div>
+<form (ngSubmit)="submit()">
     Extended Search Form:
     <div>
         <select-ontology *ngIf="ontologies.length > 0" [ontologies]="ontologies" (ontologySelected)="getResourceClassesAndPropertiesForOntology($event)"></select-ontology>
@@ -12,6 +12,6 @@
         <select-property #property [properties]="properties"></select-property>
     </div>
 
-    <button (click)="toKnarQL()">Perform search</button>
-</div>
+    <button type="submit">Perform search</button>
+</form>
 

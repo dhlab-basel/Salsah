@@ -10,6 +10,7 @@ import {
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 import {PropertyWithValue, SelectPropertyComponent} from "./select-property/select-property.component";
 import {SelectResourceClassComponent} from "./select-resource-class/select-resource-class.component";
+import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
 
 
 @Component({
@@ -38,7 +39,8 @@ export class ExtendedSearchComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
-                private _cacheService: OntologyCacheService) {
+                private _cacheService: OntologyCacheService,
+                private _knarqlgenerationService: KnarqlgenerationService) {
     }
 
     ngOnInit() {
@@ -96,14 +98,19 @@ export class ExtendedSearchComponent implements OnInit {
 
     }
 
-    /**
-     * Generates KnarQL from the children components [this.resourceClassComponent] and [this.propertyComponents].
-     *
-     */
-    toKnarQL() {
+    submit() {
 
-        // check if there is a resource class selected
-        let resClass = this.resourceClassComponent.getResourceClassSelected();
+        // TODO: check validity of inputs
+
+        console.log("submit the form");
+
+        let resClassOption = this.resourceClassComponent.getResourceClassSelected();
+
+        let resClass;
+
+        if (resClassOption !== false) {
+            resClass = resClassOption;
+        }
 
         let properties: PropertyWithValue[] = this.propertyComponents.map(
             (propComp) => {
@@ -111,21 +118,19 @@ export class ExtendedSearchComponent implements OnInit {
             }
         );
 
-        console.log(resClass);
+        const knarql = this._knarqlgenerationService.createKnarQLQuery(properties, resClass);
 
-        console.log(properties);
+        this.performExtendedSearch(knarql);
 
-        let knarql: string;
-
-        //this.performExtendedSearch(knarql);
-
-    };
+    }
 
     /**
      * Perform an extended search based on the search form.
      *
      */
     performExtendedSearch(knarql: string) {
+
+        console.log(knarql);
 
         this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
     }

@@ -36,7 +36,7 @@ export class Utils {
         // -> this means that there is no identical element before this index, hence it is not a duplicate
         // for all other elements, false is returned
         return index == self.indexOf(elem);
-    }
+    };
 
     /**
      * Given a Knora entity IRI, gets the ontology Iri.
@@ -49,9 +49,27 @@ export class Utils {
         // split class Iri on "#"
         let segments: string[] = entityIri.split(AppConfig.PathSeparator);
 
-        if (segments.length != 2) console.log(`Error: ${entityIri} is not a valid entity IRI.`)
+        if (segments.length != 2) console.log(`Error: ${entityIri} is not a valid entity IRI.`);
 
         return segments[0];
+
+    }
+
+    /**
+     * Converts a complex knora-api entity Iri to a knora-api simple entity Iri.
+     *
+     * @param {string} complexEntityIri
+     * @returns {string}
+     */
+    public static convertComplexKnoraApiEntityIritoSimple(complexEntityIri: string) {
+
+        // split entity Iri on "#"
+        let segments: string[] = complexEntityIri.split('v2' + AppConfig.PathSeparator);
+
+        if (segments.length != 2) console.log(`Error: ${complexEntityIri} is not a valid entity IRI.`);
+
+        // add 'simple' to base path
+        return segments[0] + 'simple/v2' + AppConfig.PathSeparator + segments[1];
 
     }
 

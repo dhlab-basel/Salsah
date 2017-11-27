@@ -134,6 +134,7 @@ import {DecimalValueComponent} from './view/modules/search/extended-search/selec
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
 import {MatNativeDateModule} from '@angular/material';
+import {KnarqlgenerationService} from "./model/services/knarqlgeneration.service";
 
 //
 // import all needed services
@@ -271,6 +272,7 @@ import {MatNativeDateModule} from '@angular/material';
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,
+        KnarqlgenerationService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
