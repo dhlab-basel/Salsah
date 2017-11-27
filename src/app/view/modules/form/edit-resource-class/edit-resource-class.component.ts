@@ -12,24 +12,20 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, OnChanges, Inject, Input, Output, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ResourceTypesService} from "../../../../model/services/resource-types.service";
-import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {Project} from '../../../../model/webapi/knora/';
-
+import {Component, Input, OnChanges} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ResourceTypesService} from '../../../../model/services/resource-types.service';
 import {
-    trigger,
-    state,
-    style,
-    animate,
-    transition
-} from '@angular/animations';
+    Project,
+    Properties,
+    ResourceType,
+    ResourceTypeInfo
+} from '../../../../model/webapi/knora/';
+import {ProjectsService} from '../../../../model/services/projects.service';
 
-//animations are used to create collapsible cards content
+// animations are used to create collapsible cards content
 @Component({
     selector: 'salsah-edit-resource-class',
     templateUrl: './edit-resource-class.component.html',
@@ -39,11 +35,12 @@ import {
 
 export class EditResourceClassComponent implements OnChanges {
 
-    @Input('iri') iri: string;
-    @Input('index') index: number;
+    @Input() iri: string;
+    @Input() index: number;
     @Input('projects') projectsList: Project[];
 
 
+    isLoading: boolean = true;
 
     resType: ResourceTypeInfo = new ResourceTypeInfo;
 
@@ -51,20 +48,20 @@ export class EditResourceClassComponent implements OnChanges {
     errorMessage: string = undefined;
     resIcon: string = undefined;
 
-    editResource: boolean;
+    editResource: boolean = true;
 
     eRForm4class: FormGroup;
 
 
     public editResFormLabels: any = {
-        label: 'Resource',
-        description:'Click to edit the resource name',
+        label: 'Resource class',
+        description: 'Click to edit the resource name',
         resource: {
             label: 'Resource label',
             description: 'Resource description',
             icon: 'Icon',
             properties: {
-                formLabel: 'Properties',
+                formLabel: 'has properties',
                 formDescription: 'Click to edit the property',
                 label: 'Property label',
                 description: 'Property description',
@@ -77,42 +74,43 @@ export class EditResourceClassComponent implements OnChanges {
                 icon: 'Icon'
             }
         },
-        addProp:{
+        addProp: {
             label: 'Add new property',
             description: 'Add new or create a custom property'
         },
-        buttons:{
-            save: "Save",
-            reset: "Reset",
-            close: "Close",
-            edit: "Edit",
+        buttons: {
+            save: 'Save',
+            reset: 'Reset',
+            close: 'Close',
+            edit: 'Edit',
         }
     };
 
     guiItems: string[] = [
-        "text",
-        "richtext",
-        "textarea",
-        "number",
-        "searchbox",
-        "fileupload",
-        "date",
-        "radio",
-        "hlist",
-        "pulldown",
-        "spinbox",
-        "richtext",
-        "checkbox",
-        "interval",
-        "colorpicker",
-        "geometry"
+        'text',
+        'richtext',
+        'textarea',
+        'number',
+        'searchbox',
+        'fileupload',
+        'date',
+        'radio',
+        'hlist',
+        'pulldown',
+        'spinbox',
+        'richtext',
+        'checkbox',
+        'interval',
+        'colorpicker',
+        'geometry'
     ];
 
     cardinalityList: string[] = [
-        "1",
-        "1-n",
-        "0-1",
-        "0-n"
+        '1',
+        '1-n',
+        '0-1',
+        '0-n'
+
     ];
 
     // the following form fields would have an error check
@@ -139,14 +137,16 @@ export class EditResourceClassComponent implements OnChanges {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.resType = result.getBody(ResourceType).restype_info;
-                    this.resIcon = this.resType.icon;
-
+                    if (this.resType.icon !== null) {
+                        this.resIcon = this.resType.icon.slice(0, -4);
+                    }
                     //    resource form validation configuration
                     this.eRForm4class = this._fb.group({
                         'resLabel': [this.resType.label, Validators.required],
-                        'resIcon' : this.resType.icon,
+                        'resIcon': this.resIcon,
                         'resDescription': this.resType.description
                     });
+                    this.isLoading = false;
                     this.eRForm4class.valueChanges
                         .subscribe(data => this.onResValueChanged(data));
                 },
@@ -168,7 +168,7 @@ export class EditResourceClassComponent implements OnChanges {
 
     onResValueChanged(data?: any) {
 
-        if (!this.eRForm4class ) {
+        if (!this.eRForm4class) {
             return;
         }
 
@@ -186,19 +186,19 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
 
-    editResources(){
+    editResources() {
         this.editResource = true;
     }
-    closeEditView(){
+
+    closeEditView() {
         this.editResource = false;
     }
 
-    //form functions
+    // form functions
     submitResEdit(): void {
         if (this.eRForm4class.valid && this.resType !== undefined) {
             console.log('Your submitted data is: ', this.eRForm4class.value);
-        }
-        else {
+        } else {
             console.log('Form not valid');
         }
     }
@@ -213,18 +213,18 @@ export class EditResourceClassComponent implements OnChanges {
         console.log('you submitted value:', data);
     }
 
-    resetDefaultRes(): void{
+    resetDefaultRes(): void {
         // this.eRForm4class.reset();
         this._resourceTypesService.getResourceType(this.iri)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.resType = result.getBody(ResourceType).restype_info;
-                    this.resIcon = this.resType.icon;
+                    this.resIcon = this.resType.icon.slice(0, -4);
 
                     //    resource form validation configuration
                     this.eRForm4class = this._fb.group({
                         'resLabel': [this.resType.label, Validators.required],
-                        'resIcon' : this.resType.icon,
+                        'resIcon': this.resType.icon.slice(0, -4),
                         'resDescription': this.resType.description
                     });
                 },
@@ -237,7 +237,7 @@ export class EditResourceClassComponent implements OnChanges {
     // At this moment there is a mix-up when reordering the properties with drag and drop and then resetting: the property resets to the one with the respective index
     // (i.e. if I move a prop[6] from position 6 to position 3, it will reset to prop[3]). This should be fixed when we actually submit the data to Knora, since then
     // we will get the updated list every time after saving.
-    resetDefaultProp(index: number): void{
+    resetDefaultProp(index: number): void {
         if (this.resType.properties[index] !== undefined) {
             this._resourceTypesService.getResourceType(this.iri)
                 .subscribe(
@@ -252,17 +252,19 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
 
-    //sets default values from json files on mat-select
+    // sets default values from json files on mat-select
     setGUI(index: number, event) {
         if (this.resType.properties[index] !== undefined) {
             this.resType.properties[index].gui_name = event.value;
         }
     }
+
     setOcc(index: number, event) {
         if (this.resType.properties[index] !== undefined) {
             this.resType.properties[index].occurrence = event.value;
         }
     }
+
     setVoc(index: number, event) {
         if (this.resType.properties[index] !== undefined) {
             this.resType.properties[index].vocabulary = event.value;

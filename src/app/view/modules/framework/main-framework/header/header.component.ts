@@ -7,11 +7,17 @@ import {Component, OnInit} from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-    constructor( ) {
+    public currentProject: any = {};
+
+    constructor() {
     }
 
     ngOnInit() {
-
+        this.currentProject = {
+            name: 'SALSAH',
+            title: 'System for Annotation and Linkage of Sources in Arts and Humanities',
+            logo: './assets/img/salsah-logo.png'
+        };
     }
 
     //
@@ -20,10 +26,5 @@ export class HeaderComponent implements OnInit {
     // TODO: It will be overwritten, by the user's preferred language by a special language JSON file?!
     //
 
-    currentProject = {
-        name: 'SALSAH',
-        title: 'System for Annotation and Linkage of Sources in Arts and Humanities',
-        logo: './assets/img/salsah-logo.png'
-    };
 
 }

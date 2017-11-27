@@ -113,23 +113,25 @@ export class AuthenticationService extends ApiService {
 
         let activeSession: boolean = false;
 
-        if (!sessionStorage.getItem('projectAdmin') && localStorage.getItem('currentUser')) {
-            const user: string = JSON.parse(localStorage.getItem('currentUser')).email;
-            this.projectPermissions(user);
-        }
-
         this.httpGet('/v2/authentication').subscribe(
             (result: ApiServiceResult) => {
                 status = result.status;
                 if (status === 200) {
                     // the stored credentials (token) is valid and a user is authenticated by the api server
                     activeSession = true;
+                    /*
+                    if (!sessionStorage.getItem('projectAdmin') && localStorage.getItem('currentUser')) {
+                        const user: string = JSON.parse(localStorage.getItem('currentUser')).email;
+                        this.projectPermissions(user);
+                    }
+                    */
                 } else {
                     // the session is not valid!
                     activeSession = false;
                     // the session is not valid!
                     // remove the local stored user profile and return false
                     localStorage.removeItem('currentUser');
+                    sessionStorage.removeItem('admin');
                 }
             },
             (error: ApiServiceError) => {
@@ -139,6 +141,7 @@ export class AuthenticationService extends ApiService {
                 // the session is not valid!
                 // remove the local stored user profile and return false
                 localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('admin');
             }
         );
 

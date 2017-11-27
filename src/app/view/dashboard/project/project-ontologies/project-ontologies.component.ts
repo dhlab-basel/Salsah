@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -12,35 +12,33 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {UserProfile} from '../../../../model/webapi/knora/';
+import {Component, OnInit} from '@angular/core';
 import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 
-
 @Component({
-    selector: 'salsah-user-projects',
-    templateUrl: './user-projects.component.html',
-    styleUrls: ['./user-projects.component.scss']
+    selector: 'salsah-project-ontologies',
+    templateUrl: './project-ontologies.component.html',
+    styleUrls: ['./project-ontologies.component.scss']
 })
-export class UserProjectsComponent implements OnInit {
+export class ProjectOntologiesComponent implements OnInit {
 
     // here we can reuse the framework-for-listings component:
-    // shows a list of user's projects and the possibility to create new projects
+    // shows a list of ontologies and the possibility to create new ontologies
 
     // ------------------------------------------------------------------------
     //  DATA for FrameworkForListingsComponent
     // ------------------------------------------------------------------------
     list: ListData = {
-        title: 'Your projects',
+        title: 'Ontologies in this project',
         description: '',
-        content: 'project',
-        showAs: undefined,
+        content: 'ontology',
+        showAs: 'expansion',
         restrictedBy: ''
     };
 
-    // add new project
+    // add new users
     add: AddData = {
-        title: 'Create new project',
+        title: 'Create new ontology',
         description: ''
     };
     // ------------------------------------------------------------------------
@@ -50,10 +48,7 @@ export class UserProjectsComponent implements OnInit {
     }
 
     ngOnInit() {
-        let user: UserProfile = JSON.parse(sessionStorage.getItem('currentUser'));
-        this.list.restrictedBy = user.userData.user_id;
+        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
     }
 
-
 }
-

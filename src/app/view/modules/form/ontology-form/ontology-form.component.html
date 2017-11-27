@@ -1,0 +1,29 @@
+<!-- the ontology form is a really simple form
+ we have to set an ontology name — that's all.
+ When the ontology is defined, we can add resource classes to this ontology
+ and properties to each resource class
+ -->
+
+<div>
+
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
+    <div class="salsah-form-content" *ngIf="!isLoading">
+        <mat-accordion class="headers-align">
+
+            <!-- 1. create ontology name -->
+            <mat-expansion-panel *ngIf="restrictedBy"
+                                 hideToggle="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Ontology
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Settings
+                        <mat-icon>object</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>

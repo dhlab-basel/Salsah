@@ -9,6 +9,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/of';
 
+
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
 

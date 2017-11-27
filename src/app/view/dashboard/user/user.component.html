@@ -10,8 +10,6 @@
 <!-- show the logged in user profile incl. projects list, collections and settings -->
 <div class="salsah-module with-header" *ngIf="showOwnProfile">
 
-    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-
     <mat-toolbar class="salsah-module-header">
 
         <!-- type of the current dashboard -->
@@ -46,6 +44,9 @@
     <div class="salsah-module-scroll-area" [ngSwitch]="route" *ngIf="!isLoading && userProfile.userData.user_id !== undefined">
 
         <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+        <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+
         <!-- switch view; not with a second router-outlet, because of the direct (parent) routes like
             "/settings", "/projects" and "/collections
         -->
