@@ -12,13 +12,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnChanges, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {ActivatedRoute, Router, Params} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ApiServiceResult} from '../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../model/services/api-service-error';
-import {UserService} from '../../../model/services/user.service';
-import {User, UserProfile} from '../../../model/webapi/knora/';
+import {UsersService} from '../../../model/services/users.service';
+import {UserProfile, UserResponse} from '../../../model/webapi/knora/';
 import {Title} from '@angular/platform-browser';
 
 
@@ -77,7 +76,7 @@ export class UserComponent implements OnInit {
     constructor(private _title: Title,
                 private _router: Router,
                 private _route: ActivatedRoute,
-                private _userService: UserService) {
+                private _userService: UsersService) {
     }
 
     ngOnInit() {
@@ -130,7 +129,7 @@ export class UserComponent implements OnInit {
             this._userService.getUserByEmail(this.email)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.userProfile = result.getBody(User).userProfile;
+                        this.userProfile = result.getBody(UserResponse).userProfile;
                         sessionStorage.setItem('currentUser', JSON.stringify(this.userProfile));
                         this.isLoading = false;
                     },

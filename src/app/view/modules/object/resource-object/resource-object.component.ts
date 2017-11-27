@@ -27,10 +27,15 @@ import {
     RequestStillImageRepresentations,
     StillImageOSDViewerComponent,
     StillImageRepresentation
-} from '../../../properties/still-image-osdviewer/still-image-osdviewer.component';
-import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {ReadStillImageFileValue} from '../../../../model/webapi/knora/v2/read-property-item';
+} from "../../../properties/still-image-osdviewer/still-image-osdviewer.component";
+import {OntologyCacheService, OntologyInformation} from "../../../../model/services/ontologycache.service";
+import {MatDialog, MatDialogConfig} from "@angular/material";
+import {
+    ReadLinkValue,
+    ReadPropertyItem,
+    ReadStillImageFileValue
+} from "../../../../model/webapi/knora/v2/read-property-item";
+import {Utils} from "../../../../utils";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -447,6 +452,53 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
         let dialogRef = this.dialog.open(ResourceObjectComponent, config);
 
         dialogRef.componentInstance.iri = resourceIri;
+
+    }
+
+    /**
+     * Gets the link value properties pointing from the incoming resource to [[this.resource]].
+     *
+     * @param {ReadResource} incomingResource the incoming resource.
+     * @returns {string} a string containing all the labels of the link value properties.
+     */
+    getIncomingPropertiesFromIncomingResource(incomingResource: ReadResource) {
+
+        let incomingProperties = [];
+
+        // collect properties, if any
+        if (incomingResource.properties !== undefined) {
+            // get property Iris (keys)
+            let propIris = Object.keys(incomingResource.properties);
+
+            // iterate over the property Iris
+            for (let propIri of propIris) {
+
+                // get the values for the current property Iri
+                let propVals: Array<ReadPropertyItem> = incomingResource.properties[propIri];
+
+                for (let propVal of propVals) {
+                    // add the property if it is a link value property pointing to [[this.resource]]
+                    if (propVal.type == AppConfig.LinkValue) {
+                        let linkVal = propVal as ReadLinkValue;
+
+                        if (linkVal.referredResourceIri == this.resource.id) {
+                            incomingProperties.push(propIri);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        // eliminate duplicate Iris and transform to labels
+        let propLabels = incomingProperties.filter(Utils.filterOutDuplicates).map(
+            (propIri) => {
+                return this.ontologyInfo.getLabelForProperty(propIri)
+            }
+        );
+
+        // generate a string separating labels by a comma
+        return `(${propLabels.join(", ")})`;
 
     }
 

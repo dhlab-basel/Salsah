@@ -13,13 +13,15 @@
  * */
 
 import {Component, EventEmitter, OnChanges, Inject, Input, Output, OnInit} from '@angular/core';
-import {FormBuilder, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ResourceTypesService} from '../../../../model/services/resource-types.service';
-import {Properties, ResourceType, ResourceTypeInfo} from '../../../../model/webapi/knora/';
-import {ProjectsService} from '../../../../model/services/projects.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ApiServiceResult} from "../../../../model/services/api-service-result";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
+import {ResourceTypesService} from "../../../../model/services/resource-types.service";
+import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
+import {ProjectsService} from "../../../../model/services/projects.service";
+import {Project} from '../../../../model/webapi/knora/';
 import {ProjectsList, ProjectItem} from '../../../../model/webapi/knora/';
+
 
 import {
     trigger,
@@ -209,8 +211,8 @@ export class EditResourceClassComponent implements OnChanges {
 
         this._projectsService.getAllProjects()
             .subscribe(
-                (result: ApiServiceResult) => {
-                    this.projectsList = result.getBody(ProjectsList).projects;
+                (result: Project[]) => {
+                    this.projectsList = result;
                 }
             );
 

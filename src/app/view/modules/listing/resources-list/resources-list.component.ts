@@ -12,18 +12,17 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, OnInit, Input, Output} from '@angular/core';
-import {Search} from '../../../../model/webapi/knora/';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SearchService} from '../../../../model/services/search.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MessageData} from '../../message/message.component';
-import {ConvertJSONLD} from "../../../../model/webapi/knora/v2/convert-jsonld";
-import {OntologyCacheService, OntologyInformation} from "../../../../model/services/ontologycache.service";
-import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
+import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
+import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
+import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
-let jsonld = require('jsonld');
+const jsonld = require('jsonld');
 
 @Component({
     selector: 'salsah-resources-list',
@@ -32,7 +31,8 @@ let jsonld = require('jsonld');
 })
 export class ResourcesListComponent implements OnInit {
 
-    @Input() searchParam: any;
+    @Input() searchParam: string;
+    @Input() searchMode: string;
     @Input() listType?: string;
 
     @Output() toggleItem = new EventEmitter<any>();
@@ -67,51 +67,81 @@ export class ResourcesListComponent implements OnInit {
             this.columns = 3;
         }
 
-        this._searchService.doFulltextSearch(this.searchParam)
-            .subscribe(
-                (resResult: ApiServiceResult) => {
+        if (this.searchMode == "fulltext") {
+            // fulltext search
 
-                    let resPromises = jsonld.promises;
-                    // compact JSON-LD using an empty context: expands all Iris
-                    let resPromise = resPromises.compact(resResult.body, {});
+            this._searchService.doFulltextSearch(this.searchParam)
+                .subscribe(
+                    this.processSearchResults, // function pointer
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
 
-                    resPromise.then((compacted) => {
+                        this.isLoading = false;
+                    }
+                );
+        } else if (this.searchMode == "extended") {
+            // extended search
 
-                        // get resource class Iris from response
-                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+            this._searchService.doExtendedSearch(this.searchParam)
+                .subscribe(
+                    this.processSearchResults, // function pointer
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
 
-                        // request ontology information about resource class Iris (properties are implied)
-                        this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
-                            (resourceClassInfos: OntologyInformation) => {
+                        this.isLoading = false;
+                    }
+                );
+        } else {
+            this.errorMessage = `search mode invalid: ${this.searchMode}`;
+        }
 
-                                let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+    }
 
-                                // assign ontology information to a variable so it can be used in the component's template
-                                this.ontologyInfo = resourceClassInfos;
-                                this.result = resources;
+    /**
+     *
+     * Converts search results from JSON-LD to a [[ReadResourcesSequence]] and requests information about ontology entities.
+     * This function is passed to `subscribe` as a pointer (instead of redundantly defining the same lambda function).
+     *
+     * Attention: this function definition makes uses of the arrow notation because the context of `this` has to be inherited from the context.
+     * See: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#No_binding_of_this>
+     *
+     * @param {ApiServiceResult} searchResult the answer to a search request.
+     */
+    private processSearchResults = (searchResult: ApiServiceResult) => {
 
-                            },
-                            (err) => {
+        let resPromises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        let resPromise = resPromises.compact(searchResult.body, {});
 
-                                console.log("cache request failed: " + err);
-                            }
-                        );
+        resPromise.then((compacted) => {
 
-                    }, function (err) {
+            // get resource class Iris from response
+            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
-                        console.log("JSONLD could not be expanded:" + err);
-                    });
+            // request ontology information about resource class Iris (properties are implied)
+            this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
+                (resourceClassInfos: OntologyInformation) => {
 
-                    this.isLoading = false;
+                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                    // assign ontology information to a variable so it can be used in the component's template
+                    this.ontologyInfo = resourceClassInfos;
+                    this.result = resources;
+
                 },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
+                (err) => {
 
-                    this.isLoading = false;
+                    console.log("cache request failed: " + err);
                 }
             );
 
-    }
+        }, function (err) {
+
+            console.log("JSONLD could not be expanded:" + err);
+        });
+
+        this.isLoading = false;
+    };
 
     // open / close user
     toggle(id: string, index: number) {
