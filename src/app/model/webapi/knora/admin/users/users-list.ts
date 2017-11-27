@@ -12,8 +12,10 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+
 import {JsonObject, JsonProperty} from 'json2typescript';
 import {UserData} from './user-data';
+import {UserProfile} from './user-profile';
 
 @JsonObject
 export class UsersList {
@@ -21,4 +23,26 @@ export class UsersList {
     @JsonProperty('users', [UserData])
     public users: UserData[] = undefined;
 
+}
+
+@JsonObject
+export class NewUserData {
+
+    @JsonProperty('email', String, true)
+    public email: string = undefined;
+
+    @JsonProperty('firstname', String, true)
+    public givenName: string = undefined;
+
+    @JsonProperty('lastname', String, true)
+    public familyName: string = undefined;
+
+    @JsonProperty('user_profile', UserProfile, true)
+    public user_profile: UserProfile = undefined;
+}
+
+@JsonObject
+export class NewUsersList {
+    @JsonProperty('users', [NewUserData])
+    public users: NewUserData[] = undefined;
 }

@@ -20,7 +20,6 @@
 <!------------------------------------------------------------------------------------------------------->
 <!------------------------------------Edit resources!    ------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------->
-
 <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 <section class="salsah-form-content" *ngIf="editResource && !isLoading">
 
@@ -32,7 +31,7 @@
         <mat-expansion-panel hideToggle="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <span>{{editResFormLabels.label}}: {{eRForm4class.get('resLabel').value}}</span>
+                    <span>{{eRForm4class.get('resLabel').value}}</span>
                 </mat-panel-title>
                 <mat-panel-description>
                     <span>{{editResFormLabels.description}}</span>
@@ -153,7 +152,8 @@
                             #group="matButtonToggleGroup"
                             formControlName="occurrence"
                             (change)="setOcc(i, $event)">
-                            <mat-button-toggle *ngFor="let cardinality of cardinalityList" [value]="cardinality">
+                            <mat-button-toggle *ngFor="let cardinality of cardinalityList"
+                                               [value]="cardinality">
                                 {{cardinality}}
                             </mat-button-toggle>
                             <mat-hint *ngIf="formPropErrors.occurrence ">
@@ -310,23 +310,3 @@ required>
     </div>
 </section>
 
-<!--
-<footer class="footer">
-<div *ngIf="!editResource" layout="row" layout-align="center center" flex>
-        <button mat-raised-button
-                class="next"
-                [color]="'primary'"
-                (click)="editResources()">
-            Edit
-        </button>
-    </div>
-        <div *ngIf="editResource" layout="row" layout-align="center center" flex>
-            <button mat-raised-button
-                    class="next"
-                    [color]="'primary'"
-                    (click)="closeResEditView()">
-                Close
-            </button>
-        </div>
-    </footer>
--->

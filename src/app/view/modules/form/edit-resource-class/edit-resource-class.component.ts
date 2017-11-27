@@ -12,28 +12,24 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, OnChanges, Inject, Input, Output, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ResourceTypesService} from "../../../../model/services/resource-types.service";
-import {Properties, ResourceType, ResourceTypeInfo} from "../../../../model/webapi/knora/";
-import {ProjectsService} from "../../../../model/services/projects.service";
-import {Project} from '../../../../model/webapi/knora/';
-import {ProjectsList, ProjectItem} from '../../../../model/webapi/knora/';
-
-
-import {
-    trigger,
-    state,
-    style,
-    animate,
-    transition
-} from '@angular/animations';
-import {ResourceTypeProperty} from '../../../../model/webapi/knora/v1/resource-types/resource-type-property';
-import {PropertyItem} from '../../../../model/webapi/knora/v1/properties/property-item';
 
 //animations are used to create collapsible cards content
+import {Component, Input, OnChanges} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import {
+    Project,
+    Properties,
+    ResourceType,
+    ResourceTypeInfo
+} from '../../../../model/webapi/knora/';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {PropertyItem} from '../../../../model/webapi/knora/v1/properties/property-item';
+
+
+// animations are used to create collapsible cards content
 @Component({
     selector: 'salsah-edit-resource-class',
     templateUrl: './edit-resource-class.component.html',
@@ -43,15 +39,17 @@ import {PropertyItem} from '../../../../model/webapi/knora/v1/properties/propert
 
 export class EditResourceClassComponent implements OnChanges {
 
-    @Input('iri') iri: string;
-    @Input('index') index: number = 0;
-    @Input('projects') projectsList: ProjectItem[];
+
+    @Input() iri: string;
+    @Input() index: number = 0;
+    @Input('projects') projectsList: Project[];
 
     step = 0;
 
     isLoading: boolean = true;
     isDisabled: boolean = true;
     isExpanded: boolean = false;
+
 
     resType: ResourceTypeInfo = new ResourceTypeInfo;
 
@@ -67,14 +65,14 @@ export class EditResourceClassComponent implements OnChanges {
 
 
     public editResFormLabels: any = {
-        label: 'Resource',
+        label: 'Resource class',
         description: 'Click to edit the resource name',
         resource: {
             label: 'Resource label',
             description: 'Resource description',
             icon: 'Icon',
             prps: {
-                formLabel: 'Properties',
+                formLabel: ' has Properties',
                 formDescription: 'Click to edit the property',
                 label: 'Property label',
                 description: 'Property description',
@@ -244,15 +242,6 @@ export class EditResourceClassComponent implements OnChanges {
         }
     }
 
-    // get prps(): FormArray {
-    //     return this.eRForm4prop.get('prps') as FormArray;
-    // };
-    //
-    // setProp(index: number, props: PropertyItem[]) {
-    //     const propsFGs = props.map(aprop => this._fb4p.group(aprop));
-    //     const propArray = this._fb4p.array(propsFGs);
-    //     this.eRForm4prop.setControl('prps', propArray);
-    // }
 
     setIndex(index: number) {
         this.index = index;
@@ -261,6 +250,7 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
     onResValueChanged(data?: any) {
+
         if (!this.eRForm4class) {
             return;
         }
@@ -318,12 +308,12 @@ export class EditResourceClassComponent implements OnChanges {
         }
     }
 
+
     // form functions
     submitResEdit(): void {
         if (this.resType !== undefined) {
             console.log('Your submitted data is: ', this.eRForm4class.value);
-        }
-        else {
+        } else {
             console.log('Form not valid');
         }
     }
@@ -344,12 +334,12 @@ export class EditResourceClassComponent implements OnChanges {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.resType = result.getBody(ResourceType).restype_info;
-                    this.resIcon = this.resType.icon;
+                    this.resIcon = this.resType.icon.slice(0, -4);
 
                     //    resource form validation configuration
                     this.eRForm4class = this._fb.group({
                         'resLabel': [this.resType.label, Validators.required],
-                        'resIcon': this.resType.icon,
+                        'resIcon': this.resType.icon.slice(0, -4),
                         'resDescription': this.resType.description
                     });
                 },

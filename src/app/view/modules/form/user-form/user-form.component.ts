@@ -22,9 +22,9 @@ import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UserProfile, UsersResponse, UserResponse} from '../../../../model/webapi/knora/';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {Project} from '../../../../model/webapi/knora';
+import {Project, UserData} from '../../../../model/webapi/knora';
 import {existingNamesValidator} from '../../other/existing-name.directive';
-import {UserData} from '../../../../model/webapi/knora/admin/users/user-data';
+
 
 @Component({
     selector: 'salsah-user-form',
@@ -183,12 +183,12 @@ export class UserFormComponent implements OnInit {
                 description: 'Group permissions'
             },
             project: {
-                title: 'Project',
-                description: 'Administrative rights in project',
+                title: 'Set project permissions',
+                description: 'Administrative rights in ',
             },
             system: {
-                title: 'System',
-                description: 'Administrative rights in system'
+                title: 'Set system permissions',
+                description: 'Administrative rights in system (Knora)'
             }
         },
         overview: {
