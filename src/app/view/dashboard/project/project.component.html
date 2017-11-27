@@ -2,7 +2,9 @@
     <!-- this component has his own toolbar header
         with tabs for navigation through the settings
     -->
+    <!--
     <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+    -->
 
     <mat-toolbar class="salsah-module-header">
         <!-- type of the current dashboard -->
@@ -42,6 +44,8 @@
     <div class="salsah-module-scroll-area">
 
         <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+        <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
         <router-outlet *ngIf="!errorMessage && !isLoading" (tabRequest)="activateTab($event)"></router-outlet>
 

@@ -31,8 +31,8 @@ export class UserProjectsComponent implements OnInit {
     //  DATA for FrameworkForListingsComponent
     // ------------------------------------------------------------------------
     list: ListData = {
-        title: 'Your projects or projects where you\'re member of',
-        description: 'a kind of subtitle',
+        title: 'Your projects',
+        description: '',
         content: 'project',
         showAs: undefined,
         restrictedBy: ''

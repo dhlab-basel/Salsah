@@ -12,12 +12,23 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnChanges,
+    OnInit,
+    SimpleChange,
+    ViewChild, ViewChildren
+} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MessageData} from '../../message/message.component';
 import {ActivatedRoute, Params} from '@angular/router';
+import {OntologiesListComponent} from '../../listing/ontologies-list/ontologies-list.component';
+import {UsersListComponent} from '../../listing/users-list/users-list.component';
 
 export interface ListData {
     title: string,
@@ -31,6 +42,16 @@ export interface ListData {
 export interface AddData {
     title: string,
     description: string
+}
+
+export interface SortItem {
+    name: string,
+    label: string
+}
+
+export interface SortData {
+    title: string,
+    sortBy: SortItem[]
 }
 
 @Component({
@@ -49,7 +70,7 @@ export interface AddData {
  *
  * Both input type objects are defined in framework-for-listings.component.ts
  */
-export class FrameworkForListingsComponent implements OnInit, OnChanges {
+export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterViewInit {
 
     // get the list data
     @Input() list: ListData;
@@ -95,6 +116,11 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
     // id (almost the iri) of the selected person
     id: string;
 
+    // using a counter variable to show the number of items direct in the header
+    @ViewChild(UsersListComponent) users;
+//    @ViewChild(OntologiesListComponent) ontologies;
+    counter: number;
+
 //    constructor(@Inject(ElementRef) elementRef: ElementRef, @Inject(Injector) injector: Injector)
     constructor(private _dialog: MatDialog,
                 private _route: ActivatedRoute,
@@ -103,9 +129,9 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         // bad hack to get the project admin information
-        this.loggedInAdmin = (sessionStorage.getItem('admin') !== null);
-        // end of bad hack. TODO: we have to find a better solution
-
+        if (localStorage.getItem('currentUser') !== null) {
+            this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+        }
 
         if (this.list === undefined || this.list === null) {
             // list is not optional! show an error message
@@ -131,6 +157,10 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
 
     ngOnChanges() {
 //        console.log(this.list);
+    }
+
+    ngAfterViewInit() {
+        this._cdRef.detectChanges();
     }
 
     //
@@ -173,6 +203,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges {
         switch (form) {
             case 'user':
             case 'project':
+            case 'ontology':
             case 'resource-type':
                 dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
                     data: {

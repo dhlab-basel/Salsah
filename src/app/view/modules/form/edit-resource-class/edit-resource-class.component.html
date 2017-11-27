@@ -1,4 +1,4 @@
-<section *ngIf="!editResource">
+<!--<section *ngIf="!editResource">
     <span mat-line><b>{{resType.label}}</b></span> | <span>{{resType.description}}</span>
     <mat-divider></mat-divider>
 
@@ -16,300 +16,297 @@
         <mat-divider></mat-divider>
     </mat-grid-list>
 </section>
-
+-->
 <!------------------------------------------------------------------------------------------------------->
 <!------------------------------------Edit resources!    ------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------->
+<salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+<section class="salsah-form-content" *ngIf="editResource && !isLoading">
 
-<section class="salsah-form-content" *ngIf="editResource">
-
-<!------------------------------------------------------------------------------------------------------->
-<!-----------Here we will use cards for each resource and property, which will be collapsible------------>
-<!-----------Each card will have its own save button----------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------->
+    <!-----------Here we will use cards for each resource and property, which will be collapsible------------>
+    <!-----------Each card will have its own save button----------------------------------------------------->
+    <h5>{{editResFormLabels.label}}</h5>
     <mat-accordion class="headers-align">
         <mat-expansion-panel hideToggle="true">
-            <mat-expansion-panel-header [formGroup]="eRForm4class">
+            <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <span>{{editResFormLabels.label}}: {{eRForm4class.get('resLabel').value}}</span>
+                    <span>{{eRForm4class.get('resLabel').value}}</span>
                 </mat-panel-title>
                 <mat-panel-description>
                     <span>{{editResFormLabels.description}}</span>
-                        <mat-icon>{{eRForm4class.get('resIcon').value}}</mat-icon>
+                    <mat-icon>{{eRForm4class.get('resIcon').value}}</mat-icon>
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <form class="salsah-form new-user" [formGroup]="eRForm4class">
-            <mat-form-field dividerColor="{{ !resType.label ? 'warn' : 'primary' }}">
+                <mat-form-field dividerColor="{{ !resType.label ? 'warn' : 'primary' }}">
                     <input matInput
                            class="form-control"
                            placeholder={{editResFormLabels.resource.label}}
                            id="resLabel"
-                           formControlName="resLabel"
-                           required>
+                           formControlName="resLabel">
                     <mat-hint *ngIf="formErrors.resLabel">
                         {{ formErrors.resLabel }}
                     </mat-hint>
                 </mat-form-field>
-            <mat-form-field>
-                <!--TODO icon should not show the extension-->
+                <mat-form-field>
+                    <!--TODO icon should not show the extension-->
                     <span matPrefix><mat-icon>{{eRForm4class.get('resIcon').value}}</mat-icon></span>
                     <input matInput
                            class="form-control"
                            placeholder={{editResFormLabels.resource.icon}}
                            id="resIcon"
                            formControlName="resIcon">
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <textarea matInput
-                          class="form-control"
-                          placeholder={{editResFormLabels.resource.description}}
-                          id="resDescription"
-                          formControlName="resDescription"></textarea>
-            </mat-form-field>
-            </form>
-            <mat-action-row>
-                <button mat-button
-                        color="warn"
-                        (click)="resetDefaultRes()">
-                    {{editResFormLabels.buttons.reset}}
-                </button>
-                <button mat-raised-button
-                        class="save-button"
-                        [color]="'primary'"
-                        [disabled]="!eRForm4class.valid"
-                        (click)="submitResEdit()">
-                    {{editResFormLabels.buttons.save}}
-                </button>
-            </mat-action-row>
-        </mat-expansion-panel>
-    </mat-accordion>
-<!------------------------------------------------------------------------------------------------------->
-<!------------------------------------Edit properties   ------------------------------------------------>
-<!------------------------------------------------------------------------------------------------------->
-    <h5>{{editResFormLabels.resource.properties.formLabel}}</h5>
-    <mat-accordion class="headers-align"
-                   matTooltip="You can sort this list with drag and drop"
-                   dnd-sortable-container
-                   [sortableData]="resType.properties">
-        <mat-expansion-panel *ngFor="let prop of resType.properties; let i = index"  >
-            <mat-expansion-panel-header dnd-sortable [sortableIndex]="i">
-                <!--TODO assign i to prop.guiorder: this needs to be posted to the ontology everytime dnd is enabled! -->
-                <mat-panel-title>
-                    <span>{{prop.label}}</span>
-                </mat-panel-title>
-                <mat-panel-description>
-                    <span>{{editResFormLabels.resource.properties.formDescription}} "{{prop.label}}"</span>
-                    {{prop.icon}}
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <mat-form-field class="full-width">
-                <input matInput
-                       placeholder={{editResFormLabels.resource.properties.label}}
-                       name="propertyName"
-                       [id]="prop.label"
-                       [(ngModel)]="prop.label"
-                       [value]="prop.label">
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <textarea matInput
-                          placeholder={{editResFormLabels.resource.properties.description}}
-                          name="propDescription"
-                          [(ngModel)]="prop.description"
-                          [value]="prop.description"></textarea>
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <mat-select     placeholder={{editResFormLabels.resource.properties.gui}}
-                                [(ngModel)]="prop.gui_name"
-                                name="GUI type"
-                                (change)="setGUI(i, $event)">
-                    <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
-                        {{guiItem}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <input matInput
-                       placeholder={{editResFormLabels.resource.properties.attributes}}
-                       name="attributes"
-                       [(ngModel)]="prop.attributes"
-                       [value]="prop.attributes">
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <input matInput
-                       placeholder={{editResFormLabels.resource.properties.id}}
-                       name="id"
-                       [(ngModel)]="prop.id"
-                       disabled value="prop.id">
-            </mat-form-field>
-            <div class="full-width">
-                <div class="salsah-placeholder">
-                    {{editResFormLabels.resource.properties.occurrence}} </div>
-                <mat-button-toggle-group #group="matButtonToggleGroup"
-                                         [(ngModel)]="prop.occurrence"
-                                         name="Occurrence"
-                                         (change)="setOcc(i, $event)">
-                    <mat-button-toggle *ngFor="let cardinality of cardinalityList" [value]="cardinality">
-                        {{cardinality}}
-                    </mat-button-toggle>
-                </mat-button-toggle-group>
-                <div class="mat-caption">Selected value: {{group.value}}</div>
-            </div>
-            <br>
-            <mat-form-field class="full-width">
-                <input matInput
-                       placeholder={{editResFormLabels.resource.properties.valuetype_id}}
-                       name="valuetype_id"
-                       [(ngModel)]="prop.valuetype_id"
-                       disabled value="prop.valuetype_id">
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <mat-select class="full-width"
-                            placeholder={{editResFormLabels.resource.properties.vocabulary}}
-                            [(ngModel)]="prop.vocabulary"
-                            name="Vocabulary"
-                            (change)="setVoc(i, $event)"
-                            disabled>
-                    <mat-option *ngFor="let project of editResFormLabels.projectsList" [value]="project.ontologyNamedGraph">
-                        {{project.description}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-action-row>
-                <button mat-button
-                        color="warn"
-                        (click)="resetDefaultProp(i)">
-                    {{editResFormLabels.buttons.reset}}
-                </button>
-                <button mat-raised-button
-                        class="save-button"
-                        [color]="'primary'"
-                        (click)="submitPropEdit(i, $event)">
-                    {{editResFormLabels.buttons.save}}
-                </button>
-            </mat-action-row>
-        </mat-expansion-panel>
-
-<!------------------------------------------------------------------------------------------------------->
-<!------------------------------------Add new property   ------------------------------------------------>
-<!------------------------------------------------------------------------------------------------------->
-        <mat-expansion-panel hideToggle="true" >
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <span>{{editResFormLabels.addProp.label}}</span>
-                </mat-panel-title>
-                <mat-panel-description>
-                    <span>{{editResFormLabels.addProp.description}}</span>
-                    <mat-icon>add</mat-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <form #addPropForm="ngForm" (ngSubmit)="onSubmit(addPropForm.value, addPropForm.valid)" >
-                <mat-form-field class="full-width">
-                    <input matInput
-                           [placeholder]="editResFormLabels.resource.properties.label"
-                           name="propertyName"
-                           [id]="label"
-                           [(ngModel)]="label"
-                           [value]="label"
-                           required>
                 </mat-form-field>
                 <mat-form-field class="full-width">
                     <textarea matInput
-                              [placeholder]="editResFormLabels.resource.properties.description"
-                              name="propDescription"
-                              [(ngModel)]="description"
-                              [value]="description"></textarea>
+                              class="form-control"
+                              placeholder={{editResFormLabels.resource.description}}
+                              id="resDescription"
+                              formControlName="resDescription"></textarea>
                 </mat-form-field>
-                <mat-form-field class="full-width">
-                    <mat-select     [placeholder]="editResFormLabels.resource.properties.gui"
-                                    [(ngModel)]="gui_name"
-                                    name="GUI type"
-                                    required>
-                        <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
-                            {{guiItem}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field class="full-width">
-                    <input matInput
-                           placeholder={{editResFormLabels.resource.properties.attributes}}
-                           name="attributes"
-                           [(ngModel)]="attributes"
-                           [value]="attributes">
-                </mat-form-field>
-                <mat-form-field class="full-width">
-                    <input matInput
-                           placeholder={{editResFormLabels.resource.properties.id}}
-                           name="id"
-                           [(ngModel)]="id"
-                           value="id">
-                </mat-form-field>
-                <div class="full-width">
-                    <div class="salsah-placeholder">
-                        {{editResFormLabels.resource.properties.occurrence}} * </div>
-                    <mat-button-toggle-group #group="matButtonToggleGroup"
-                                             [(ngModel)]="occurrence"
-                                             name="Occurrence"
-                                             required>
-                        <mat-button-toggle *ngFor="let cardinality of cardinalityList" [value]="cardinality">
-                            {{cardinality}}
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                    <div class="mat-caption">Selected value: {{group.value}}</div>
-                </div>
-                <br>
-                <mat-form-field class="full-width">
-                    <input matInput
-                           placeholder={{editResFormLabels.resource.properties.valuetype_id}}
-                           name="valuetype_id"
-                           [(ngModel)]="valuetype_id"
-                           value="valuetype_id">
-                </mat-form-field>
-                <mat-form-field class="full-width">
-                    <mat-select class="full-width"
-                                [placeholder]="editResFormLabels.resource.properties.vocabulary"
-                                [(ngModel)]="vocabulary"
-                                name="Vocabulary"
-                                required>
-                        <!--TODO: allow selection only of the current project's ontology (or only of ontologies that can be altered)) -->
-                        <mat-option *ngFor="let project of projectsList" [value]="project.ontologyNamedGraph">
-                            {{project.description}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+
+
                 <mat-action-row>
                     <button mat-button
                             color="warn"
-                            (click)="addPropForm.reset()">
+                            (click)="resetDefaultRes()">
                         {{editResFormLabels.buttons.reset}}
                     </button>
                     <button mat-raised-button
                             class="save-button"
                             [color]="'primary'"
-                            type="submit"
-                            [disabled]="!addPropForm.valid">
+                            [disabled]="!eRForm4class.valid"
+                            (click)="submitResEdit()">
                         {{editResFormLabels.buttons.save}}
                     </button>
                 </mat-action-row>
             </form>
         </mat-expansion-panel>
     </mat-accordion>
+    <!------------------------------------------------------------------------------------------------------->
+    <!------------------------------------Edit properties   ------------------------------------------------>
+    <!------------------------------------------------------------------------------------------------------->
+    <h5>{{editResFormLabels.resource.prps.formLabel}}</h5>
+    <div>
+        <mat-accordion class="headers-align"
+                       matTooltip="You can sort this list with drag and drop"
+                       dnd-sortable-container
+                       [sortableData]="resType.properties">
+            <mat-expansion-panel *ngFor="let prop of resType.properties; let i = index"
+                                 [expanded]="isExpanded"
+                                 (opened)="setIndex(i)">
+                <mat-expansion-panel-header dnd-sortable [sortableIndex]="i">
+                    <!--TODO assign i to prop.guiorder: this needs to be posted to the ontology everytime dnd is enabled! -->
+                    <mat-panel-title>
+                        <span>{{prop.label}} </span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <span>{{editResFormLabels.resource.prps.formDescription}} "{{prop.label}}"</span>
+                        {{prop.icon}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form class="salsah-form new-user" [formGroup]="eRForm4prop">
+                    <mat-form-field class="full-width">
+                        <input matInput
+                               class="form-control"
+                               placeholder={{editResFormLabels.resource.prps.label}}
+                               formControlName="label">
+                        <mat-hint *ngIf="formPropErrors.label ">
+                            {{ formPropErrors.label }}
+                        </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                    <textarea matInput
+                              placeholder={{editResFormLabels.resource.prps.description}}
+                              formControlName="description"></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <mat-select
+                            placeholder={{editResFormLabels.resource.prps.gui}}
+                            formControlName="gui_name"
+                            (change)="setGUI(i, $event)">
+                            <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
+                                {{guiItem}}
+                            </mat-option>
+                            <mat-hint *ngIf="formPropErrors.gui_name ">
+                                {{ formPropErrors.gui_name }}
+                            </mat-hint>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input matInput
+                               placeholder={{editResFormLabels.resource.prps.attributes}}
+                               formControlName="attributes">
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input matInput
+                               placeholder={{editResFormLabels.resource.prps.id}}
+                               formControlName="id">
+                    </mat-form-field>
+                    <div class="full-width">
+                        <div class="salsah-placeholder">
+                            {{editResFormLabels.resource.prps.occurrence}}
+                        </div>
+                        <mat-button-toggle-group
+                            #group="matButtonToggleGroup"
+                            formControlName="occurrence"
+                            (change)="setOcc(i, $event)">
+                            <mat-button-toggle *ngFor="let cardinality of cardinalityList"
+                                               [value]="cardinality">
+                                {{cardinality}}
+                            </mat-button-toggle>
+                            <mat-hint *ngIf="formPropErrors.occurrence ">
+                                {{ formPropErrors.occurrence }}
+                            </mat-hint>
+                        </mat-button-toggle-group>
+                        <div class="mat-caption">Selected value: {{group.value}}</div>
+                    </div>
+                    <br>
+                    <mat-form-field class="full-width">
+                        <input matInput
+                               placeholder={{editResFormLabels.resource.prps.valuetype_id}}
+                               formControlName="valuetype_id">
+                    </mat-form-field>
+                    <!-- We do not show the ontology here
+                    <mat-form-field class="full-width">
+                        <mat-select class="full-width"
+                                    placeholder={{editResFormLabels.resource.prps.vocabulary}}
+                                    formControlName="vocabulary"
+                                    (change)="setVoc(i, $event)">
+                            <mat-option *ngFor="let project of projectsList"
+                                        [value]="project.ontologies">
+                                {{project.description}}
+                            </mat-option>
+                            <mat-hint *ngIf="formPropErrors.vocabulary ">
+                                {{ formPropErrors.vocabulary }}
+                            </mat-hint>
+                        </mat-select>
+                    </mat-form-field>
+                    -->
+                    <mat-action-row>
+                        <button mat-button
+                                color="warn"
+                                (click)="resetDefaultProp(i)">
+                            {{editResFormLabels.buttons.reset}}
+                        </button>
+                        <button mat-raised-button
+                                class="save-button"
+                                [color]="'primary'"
+                                [disabled]="!eRForm4prop.valid"
+                                (click)="submitPropEdit(i, $event)">
+                            {{editResFormLabels.buttons.save}}
+                        </button>
+                    </mat-action-row>
+                </form>
+            </mat-expansion-panel>
+
+            <!------------------------------------------------------------------------------------------------------->
+            <!------------------------------------Add new property   ------------------------------------------------>
+            <!------------------------------------------------------------------------------------------------------->
+            <!--       <mat-expansion-panel hideToggle="true" >
+                <mat-expansion-panel-header>
+<mat-panel-title>
+<span>{{editResFormLabels.addProp.label}}</span>
+</mat-panel-title>
+<mat-panel-description>
+<span>{{editResFormLabels.addProp.description}}</span>
+<mat-icon>add</mat-icon>
+</mat-panel-description>
+</mat-expansion-panel-header>
+<form #addPropForm="ngForm" (ngSubmit)="onSubmit(addPropForm.value, addPropForm.valid)" >
+<mat-form-field class="full-width">
+<input matInput
+[placeholder]="editResFormLabels.resource.properties.label"
+name="propertyName"
+[id]="label"
+[(ngModel)]="label"
+[value]="label"
+required>
+</mat-form-field>
+<mat-form-field class="full-width">
+<textarea matInput
+[placeholder]="editResFormLabels.resource.properties.description"
+name="propDescription"
+[(ngModel)]="description"
+[value]="description"></textarea>
+</mat-form-field>
+<mat-form-field class="full-width">
+<mat-select     [placeholder]="editResFormLabels.resource.properties.gui"
+[(ngModel)]="gui_name"
+name="GUI type"
+required>
+<mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
+{{guiItem}}
+</mat-option>
+</mat-select>
+</mat-form-field>
+<mat-form-field class="full-width">
+<input matInput
+placeholder={{editResFormLabels.resource.properties.attributes}}
+name="attributes"
+[(ngModel)]="attributes"
+[value]="attributes">
+</mat-form-field>
+<mat-form-field class="full-width">
+<input matInput
+placeholder={{editResFormLabels.resource.properties.id}}
+name="id"
+[(ngModel)]="id"
+value="id">
+</mat-form-field>
+<div class="full-width">
+<div class="salsah-placeholder">
+{{editResFormLabels.resource.properties.occurrence}} * </div>
+<mat-button-toggle-group #group="matButtonToggleGroup"
+[(ngModel)]="occurrence"
+name="Occurrence"
+required>
+<mat-button-toggle *ngFor="let cardinality of cardinalityList" [value]="cardinality">
+{{cardinality}}
+</mat-button-toggle>
+</mat-button-toggle-group>
+<div class="mat-caption">Selected value: {{group.value}}</div>
+</div>
+<br>
+<mat-form-field class="full-width">
+<input matInput
+placeholder={{editResFormLabels.resource.properties.valuetype_id}}
+name="valuetype_id"
+[(ngModel)]="valuetype_id"
+value="valuetype_id">
+</mat-form-field>
+<mat-form-field class="full-width">
+<mat-select class="full-width"
+[placeholder]="editResFormLabels.resource.properties.vocabulary"
+[(ngModel)]="vocabulary"
+name="Vocabulary"
+required>
+-->
+            <!--TODO: allow selection only of the current project's ontology (or only of ontologies that can be altered)) -->
+            <!--                       <mat-option *ngFor="let project of projectsList" [value]="project.ontologyNamedGraph">
+            {{project.description}}
+            </mat-option>
+            </mat-select>
+            </mat-form-field>
+            <mat-action-row>
+            <button mat-button
+            color="warn"
+            (click)="addPropForm.reset()">
+                {{editResFormLabels.buttons.reset}}
+            </button>
+            <button mat-raised-button
+            class="save-button"
+            [color]="'primary'"
+            type="submit"
+            [disabled]="!addPropForm.valid">
+            {{editResFormLabels.buttons.save}}
+            </button>
+            </mat-action-row>
+            </form>
+            </mat-expansion-panel>
+                -->
+        </mat-accordion>
+    </div>
 </section>
 
-
-<footer class="footer">
-    <div *ngIf="!editResource" layout="row" layout-align="center center" flex>
-        <button mat-raised-button
-                class="next"
-                [color]="'primary'"
-                (click)="editResources()">
-            Edit
-        </button>
-    </div>
-    <div *ngIf="editResource" layout="row" layout-align="center center" flex>
-        <button mat-raised-button
-                class="next"
-                [color]="'primary'"
-                (click)="closeEditView()">
-            Close
-        </button>
-    </div>
-</footer>

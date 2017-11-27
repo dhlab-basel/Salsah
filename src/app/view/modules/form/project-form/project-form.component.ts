@@ -250,7 +250,10 @@ export class ProjectFormComponent implements OnInit {
             this._projectsService.createProject(this.project).subscribe(
                 (result: ApiServiceResult) => {
 //                    console.log('service: ', result);
-                    this.submitted = true;
+                    this.isLoading = true;
+
+                    window.location.replace('/project/' + value.shortname);
+//                    location.reload();
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = error;
@@ -270,6 +273,7 @@ export class ProjectFormComponent implements OnInit {
         }
 
         if (this.submitted) {
+            console.log('submitted');
             location.reload();
         }
     }

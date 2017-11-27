@@ -24,14 +24,14 @@ import {AddData, ListData} from '../../../modules/framework/framework-for-listin
 export class ProjectResourcesComponent implements OnInit {
 
     // here we can reuse the framework-for-listings component:
-    // shows a list of users and the possibility to create new users
+    // shows a list of ressource classes and the possibility to create new ressource classes
 
     // ------------------------------------------------------------------------
     //  DATA for FrameworkForListingsComponent
     // ------------------------------------------------------------------------
     list: ListData = {
         title: 'Resource types in this project',
-        description: 'a kind of subtitle',
+        description: '',
         content: 'resource-type',
         showAs: 'list',
         restrictedBy: ''

@@ -1,0 +1,1971 @@
+{
+  "@context": {
+    "dc": "http://www.knora.org/ontology/dc#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "images": "http://www.knora.org/ontology/00FF/images#",
+    "knora-base": "http://www.knora.org/ontology/knora-base#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "salsah-gui": "http://www.knora.org/ontology/salsah-gui#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "images:mutationsdatum",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:DateValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Date de mutation"
+        },
+        {
+          "@language": "en",
+          "@value": "Mutation date"
+        },
+        {
+          "@language": "de",
+          "@value": "Mutationsdatum"
+        },
+        {
+          "@language": "it",
+          "@value": "Mutazione data"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "dc:date"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Date"
+      },
+      "salsah-gui:guiOrder": 10
+    },
+    {
+      "@id": "_:ub43bL1039C25",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:fax"
+      }
+    },
+    {
+      "@id": "images:zipcode",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:person"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Postleitzajl"
+      },
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Postleitzahl"
+        },
+        {
+          "@language": "en",
+          "@value": "ZIP-Code"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "size=16",
+        "maxlength=16"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 6
+    },
+    {
+      "@id": "_:ub43bL1091C29",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:zugangsart"
+      }
+    },
+    {
+      "@id": "_:ub43bL1181C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:urheber"
+      }
+    },
+    {
+      "@id": "images:lieferantValue",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:LinkValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Fournisseur"
+        },
+        {
+          "@language": "en",
+          "@value": "Supplier"
+        },
+        {
+          "@language": "de",
+          "@value": "Lieferant"
+        },
+        {
+          "@language": "it",
+          "@value": "Fornitore"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkToValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "numprops=2",
+        "restypeid=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 4
+    },
+    {
+      "@id": "_:ub43bL1035C25",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:phone"
+      }
+    },
+    {
+      "@id": "images:negativnummer",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "Numero del negativo"
+        },
+        {
+          "@language": "de",
+          "@value": "Negativnummer"
+        },
+        {
+          "@language": "fr",
+          "@value": "Nombre du négative"
+        },
+        {
+          "@language": "en",
+          "@value": "Number of negative"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=32",
+        "size=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 12
+    },
+    {
+      "@id": "images:urheberValue",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:LinkValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "An entity primarily responsible for making the resource. Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity."
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Auteur"
+        },
+        {
+          "@language": "en",
+          "@value": "Creator"
+        },
+        {
+          "@language": "de",
+          "@value": "Urheber"
+        },
+        {
+          "@language": "it",
+          "@value": "Autore"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkToValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "numprops=2",
+        "restypeid=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 13
+    },
+    {
+      "@id": "images:copyrightValue",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:LinkValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "fr",
+          "@value": "Droit d'auteur"
+        },
+        {
+          "@language": "en",
+          "@value": "Copyright"
+        },
+        {
+          "@language": "de",
+          "@value": "Copyright"
+        },
+        {
+          "@language": "it",
+          "@value": "Copyright"
+        }
+      ],
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Copyright"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkToValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "numprops=2",
+        "restypeid=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 14
+    },
+    {
+      "@id": "images:email",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:person"
+      },
+      "rdfs:label": [
+        {
+          "@language": "en",
+          "@value": "Email"
+        },
+        {
+          "@language": "de",
+          "@value": "Email"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=128",
+        "size=128"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 9
+    },
+    {
+      "@id": "_:ub43bL1189C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:copyright"
+      }
+    },
+    {
+      "@id": "_:ub43bL1023C25",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:address"
+      }
+    },
+    {
+      "@id": "_:ub43bL1149C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:jahr_exakt"
+      }
+    },
+    {
+      "@id": "images:city",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:person"
+      },
+      "rdfs:label": [
+        {
+          "@language": "en",
+          "@value": "City"
+        },
+        {
+          "@language": "de",
+          "@value": "Ort"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=64",
+        "size=64"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 5
+    },
+    {
+      "@id": "images:person",
+      "@type": "owl:Class",
+      "knora-base:resourceIcon": "person.png",
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Person"
+      },
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Person"
+        },
+        {
+          "@language": "it",
+          "@value": "Persona"
+        },
+        {
+          "@language": "fr",
+          "@value": "Personne"
+        },
+        {
+          "@language": "en",
+          "@value": "Person"
+        }
+      ],
+      "rdfs:subClassOf": [
+        {
+          "@id": "_:ub43bL1043C25"
+        },
+        {
+          "@id": "_:ub43bL1019C25"
+        },
+        {
+          "@id": "_:ub43bL1023C25"
+        },
+        {
+          "@id": "_:ub43bL1027C25"
+        },
+        {
+          "@id": "knora-base:Resource"
+        },
+        {
+          "@id": "_:ub43bL1015C25"
+        },
+        {
+          "@id": "_:ub43bL1039C25"
+        },
+        {
+          "@id": "_:ub43bL1035C25"
+        },
+        {
+          "@id": "_:ub43bL1011C25"
+        },
+        {
+          "@id": "_:ub43bL1031C25"
+        }
+      ]
+    },
+    {
+      "@id": "images:bildformat",
+      "@type": "owl:Class",
+      "knora-base:resourceIcon": "bildformat.png",
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Format d'image"
+        },
+        {
+          "@language": "de",
+          "@value": "Bildformat"
+        },
+        {
+          "@language": "en",
+          "@value": "Image format"
+        },
+        {
+          "@language": "it",
+          "@value": "Formato d'immagine"
+        }
+      ],
+      "rdfs:subClassOf": [
+        {
+          "@id": "_:ub43bL1095C29"
+        },
+        {
+          "@id": "_:ub43bL1099C29"
+        },
+        {
+          "@id": "_:ub43bL1091C29"
+        },
+        {
+          "@id": "_:ub43bL1083C29"
+        },
+        {
+          "@id": "_:ub43bL1075C29"
+        },
+        {
+          "@id": "_:ub43bL1079C29"
+        },
+        {
+          "@id": "_:ub43bL1067C29"
+        },
+        {
+          "@id": "_:ub43bL1087C29"
+        },
+        {
+          "@id": "_:ub43bL1071C29"
+        },
+        {
+          "@id": "knora-base:Resource"
+        },
+        {
+          "@id": "_:ub43bL1103C29"
+        }
+      ]
+    },
+    {
+      "@id": "_:ub43bL1169C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:bearbeiter"
+      }
+    },
+    {
+      "@id": "_:ub43bL1177C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:urheberValue"
+      }
+    },
+    {
+      "@id": "images:jahr_exakt",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "Anno"
+        },
+        {
+          "@language": "fr",
+          "@value": "Année"
+        },
+        {
+          "@language": "de",
+          "@value": "Jahr"
+        },
+        {
+          "@language": "en",
+          "@value": "Year"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=8",
+        "size=8"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 7
+    },
+    {
+      "@id": "images:institution",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:person"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Institution"
+      },
+      "rdfs:label": [
+        {
+          "@language": "en",
+          "@value": "Institution"
+        },
+        {
+          "@language": "de",
+          "@value": "Institution"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "size=64",
+        "maxlength=64"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 3
+    },
+    {
+      "@id": "images:signatur",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Die spezielle Signatur"
+      },
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Signatur"
+        },
+        {
+          "@language": "fr",
+          "@value": "Signature"
+        },
+        {
+          "@language": "en",
+          "@value": "Signature"
+        },
+        {
+          "@language": "it",
+          "@value": "Firma"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "size=16",
+        "maxlength=16"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 2
+    },
+    {
+      "@id": "images:fax",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:person"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Fax"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Fax"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "size=32",
+        "maxlength=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 8
+    },
+    {
+      "@id": "images:format",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "Formato"
+        },
+        {
+          "@language": "en",
+          "@value": "Format"
+        },
+        {
+          "@language": "fr",
+          "@value": "Format"
+        },
+        {
+          "@language": "de",
+          "@value": "Format"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=32",
+        "size=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 3
+    },
+    {
+      "@id": "_:ub43bL1011C25",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:lastname"
+      }
+    },
+    {
+      "@id": "_:ub43bL1157C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "images:hatBildformat"
+      }
+    },
+    {
+      "@id": "images:urheber",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "images:person"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "An entity primarily responsible for making the resource. Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity."
+      },
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Urheber"
+        },
+        {
+          "@language": "fr",
+          "@value": "Auteur"
+        },
+        {
+          "@language": "it",
+          "@value": "Autore"
+        },
+        {
+          "@language": "en",
+          "@value": "Creator"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkTo"
+      },
+      "salsah-gui:guiAttribute": [
+        "restypeid=32",
+        "numprops=2"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 13
+    },
+    {
+      "@id": "images:hatBildformat",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "en",
+          "@value": "Image format"
+        },
+        {
+          "@language": "de",
+          "@value": "Bildfromat"
+        },
+        {
+          "@language": "fr",
+          "@value": "Format Image"
+        },
+        {
+          "@language": "it",
+          "@value": "Formato immagine"
+        }
+      ],
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Bildformat"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkTo"
+      },
+      "salsah-gui:guiAttribute": [
+        "restypeid=33",
+        "numprops=1"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 8
+    },
+    {
+      "@id": "_:ub43bL1043C25",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:email"
+      }
+    },
+    {
+      "@id": "_:ub43bL1031C25",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:zipcode"
+      }
+    },
+    {
+      "@id": "_:ub43bL1153C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "images:hatBildformatValue"
+      }
+    },
+    {
+      "@id": "_:ub43bL1019C25",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:institution"
+      }
+    },
+    {
+      "@id": "images:eingangsdatum",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:DateValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "rdfs:label": [
+        {
+          "@language": "en",
+          "@value": "Date of receipt"
+        },
+        {
+          "@language": "fr",
+          "@value": "Date de réception"
+        },
+        {
+          "@language": "it",
+          "@value": "Data di ricevimento"
+        },
+        {
+          "@language": "de",
+          "@value": "Eingangsdatum"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "dc:date"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Date"
+      },
+      "salsah-gui:guiOrder": 8
+    },
+    {
+      "@id": "images:phone",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:person"
+      },
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Telefon"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "foaf:phone"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=32",
+        "size=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 7
+    },
+    {
+      "@id": "http://www.knora.org/ontology/00FF/images",
+      "@type": "owl:Ontology"
+    },
+    {
+      "@id": "_:ub43bL1083C29",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:lieferant"
+      }
+    },
+    {
+      "@id": "_:ub43bL1125C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:titel"
+      }
+    },
+    {
+      "@id": "images:description",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:label": [
+        {
+          "@language": "en",
+          "@value": "Description"
+        },
+        {
+          "@language": "fr",
+          "@value": "Description"
+        },
+        {
+          "@language": "de",
+          "@value": "Beschreibung"
+        },
+        {
+          "@language": "it",
+          "@value": "Descrizione"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "dc:description"
+      },
+      "salsah-gui:guiAttribute": [
+        "width=95%",
+        "wrap=soft",
+        "rows=10"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Textarea"
+      },
+      "salsah-gui:guiOrder": 4
+    },
+    {
+      "@id": "_:ub43bL1145C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:jahrzehnt"
+      }
+    },
+    {
+      "@id": "images:address",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:person"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Adresse (Strassenname, Nummer etc.)"
+      },
+      "rdfs:label": [
+        {
+          "@language": "en",
+          "@value": "Address"
+        },
+        {
+          "@language": "de",
+          "@value": "Adresse"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "size=64",
+        "maxlength=64"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 4
+    },
+    {
+      "@id": "images:firstname",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:person"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "en",
+          "@value": "First name of a person"
+        },
+        {
+          "@language": "de",
+          "@value": "Vorname einer Person"
+        }
+      ],
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Vorname"
+        },
+        {
+          "@language": "en",
+          "@value": "First name"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=32",
+        "size=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 2
+    },
+    {
+      "@id": "images:jahreszeit",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:ListValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:label": [
+        {
+          "@language": "en",
+          "@value": "Season"
+        },
+        {
+          "@language": "de",
+          "@value": "Jahreszeit"
+        },
+        {
+          "@language": "it",
+          "@value": "Stagione"
+        },
+        {
+          "@language": "fr",
+          "@value": "Saison"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": "hlist=<http://data.knora.org/lists/d19af9ab>",
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Radio"
+      },
+      "salsah-gui:guiOrder": 5
+    },
+    {
+      "@id": "images:lieferant",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "images:person"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "Fornitore"
+        },
+        {
+          "@language": "en",
+          "@value": "Supplier"
+        },
+        {
+          "@language": "de",
+          "@value": "Lieferant"
+        },
+        {
+          "@language": "fr",
+          "@value": "Fournisseur"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkTo"
+      },
+      "salsah-gui:guiAttribute": [
+        "numprops=2",
+        "restypeid=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 4
+    },
+    {
+      "@id": "_:ub43bL1161C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:erfassungsdatum"
+      }
+    },
+    {
+      "@id": "images:bild",
+      "@type": "owl:Class",
+      "knora-base:resourceIcon": "bild.png",
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "An image of the demo image collection"
+      },
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Bild"
+        },
+        {
+          "@language": "en",
+          "@value": "Image"
+        },
+        {
+          "@language": "it",
+          "@value": "Immagine"
+        },
+        {
+          "@language": "fr",
+          "@value": "Image"
+        }
+      ],
+      "rdfs:subClassOf": [
+        {
+          "@id": "_:ub43bL1165C23"
+        },
+        {
+          "@id": "_:ub43bL1153C23"
+        },
+        {
+          "@id": "_:ub43bL1149C23"
+        },
+        {
+          "@id": "_:ub43bL1161C23"
+        },
+        {
+          "@id": "_:ub43bL1169C23"
+        },
+        {
+          "@id": "_:ub43bL1189C23"
+        },
+        {
+          "@id": "_:ub43bL1137C23"
+        },
+        {
+          "@id": "knora-base:StillImageRepresentation"
+        },
+        {
+          "@id": "_:ub43bL1129C23"
+        },
+        {
+          "@id": "_:ub43bL1141C23"
+        },
+        {
+          "@id": "_:ub43bL1173C23"
+        },
+        {
+          "@id": "_:ub43bL1181C23"
+        },
+        {
+          "@id": "_:ub43bL1177C23"
+        },
+        {
+          "@id": "_:ub43bL1157C23"
+        },
+        {
+          "@id": "_:ub43bL1133C23"
+        },
+        {
+          "@id": "_:ub43bL1145C23"
+        },
+        {
+          "@id": "_:ub43bL1185C23"
+        },
+        {
+          "@id": "_:ub43bL1125C23"
+        }
+      ]
+    },
+    {
+      "@id": "_:ub43bL1075C29",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:format"
+      }
+    },
+    {
+      "@id": "_:ub43bL1027C25",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:city"
+      }
+    },
+    {
+      "@id": "images:bildnr",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "Immagine ID"
+        },
+        {
+          "@language": "fr",
+          "@value": "Image ID"
+        },
+        {
+          "@language": "en",
+          "@value": "Picture ID"
+        },
+        {
+          "@language": "de",
+          "@value": "Bildnummer"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "size=6",
+        "maxlength=6"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 3
+    },
+    {
+      "@id": "_:ub43bL1137C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:description"
+      }
+    },
+    {
+      "@id": "_:ub43bL1079C29",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:lieferantValue"
+      }
+    },
+    {
+      "@id": "images:erwerbsdatum",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:DateValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Date d'acquisition"
+        },
+        {
+          "@language": "en",
+          "@value": "Date of acquisition"
+        },
+        {
+          "@language": "it",
+          "@value": "Data di acquisizione"
+        },
+        {
+          "@language": "de",
+          "@value": "Erwerbsdatum"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "dc:date"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Date"
+      },
+      "salsah-gui:guiOrder": 2
+    },
+    {
+      "@id": "_:ub43bL1133C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:bildnr"
+      }
+    },
+    {
+      "@id": "_:ub43bL1015C25",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:firstname"
+      }
+    },
+    {
+      "@id": "images:stueckzahl",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:IntValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "rdfs:label": [
+        {
+          "@language": "it",
+          "@value": "Numero d'immagini"
+        },
+        {
+          "@language": "en",
+          "@value": "No. of items"
+        },
+        {
+          "@language": "fr",
+          "@value": "Nombre d'élements"
+        },
+        {
+          "@language": "de",
+          "@value": "Stückzahl"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "min=0",
+        "max=99"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Spinbox"
+      },
+      "salsah-gui:guiOrder": 5
+    },
+    {
+      "@id": "_:ub43bL1071C29",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:erwerbsdatum"
+      }
+    },
+    {
+      "@id": "_:ub43bL1095C29",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:preis"
+      }
+    },
+    {
+      "@id": "images:erfassungsdatum",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:DateValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Date d'acquisition"
+        },
+        {
+          "@language": "en",
+          "@value": "Date of acquisition"
+        },
+        {
+          "@language": "it",
+          "@value": "Data di acquisizione"
+        },
+        {
+          "@language": "de",
+          "@value": "Erfassungsdatum"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "dc:date"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Date"
+      },
+      "salsah-gui:guiOrder": 9
+    },
+    {
+      "@id": "_:ub43bL1129C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:signatur"
+      }
+    },
+    {
+      "@id": "_:ub43bL1185C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:copyrightValue"
+      }
+    },
+    {
+      "@id": "images:bearbeiter",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Editeur"
+        },
+        {
+          "@language": "it",
+          "@value": "Editore"
+        },
+        {
+          "@language": "en",
+          "@value": "Editor"
+        },
+        {
+          "@language": "de",
+          "@value": "Bearbeiter"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=32",
+        "size=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 11
+    },
+    {
+      "@id": "_:ub43bL1067C29",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:bildart"
+      }
+    },
+    {
+      "@id": "_:ub43bL1141C23",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:jahreszeit"
+      }
+    },
+    {
+      "@id": "images:comment",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Unstrukturierte Bemerkungen zu einem Objekt"
+      },
+      "rdfs:label": [
+        {
+          "@language": "en",
+          "@value": "Comment"
+        },
+        {
+          "@language": "fr",
+          "@value": "Commentaire"
+        },
+        {
+          "@language": "it",
+          "@value": "Commento"
+        },
+        {
+          "@language": "de",
+          "@value": "Kommentar"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "rows=7",
+        "width=95%",
+        "wrap=soft"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Textarea"
+      },
+      "salsah-gui:guiOrder": 9
+    },
+    {
+      "@id": "images:jahrzehnt",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:DateValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Décennie"
+        },
+        {
+          "@language": "en",
+          "@value": "Decade"
+        },
+        {
+          "@language": "de",
+          "@value": "Jahrzehnt"
+        },
+        {
+          "@language": "it",
+          "@value": "Decennio"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Date"
+      },
+      "salsah-gui:guiOrder": 6
+    },
+    {
+      "@id": "images:copyright",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "images:person"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "en",
+          "@value": "Copyright"
+        },
+        {
+          "@language": "de",
+          "@value": "Copyright"
+        },
+        {
+          "@language": "fr",
+          "@value": "Copyright"
+        },
+        {
+          "@language": "it",
+          "@value": "Copyright"
+        }
+      ],
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Copyright"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkTo"
+      },
+      "salsah-gui:guiAttribute": [
+        "restypeid=32",
+        "numprops=2"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 14
+    },
+    {
+      "@id": "images:titel",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:ListValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:label": [
+        {
+          "@language": "de",
+          "@value": "Titel"
+        },
+        {
+          "@language": "en",
+          "@value": "Title"
+        },
+        {
+          "@language": "fr",
+          "@value": "Titre"
+        },
+        {
+          "@language": "it",
+          "@value": "Titolo"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": "hlist=<http://data.knora.org/lists/73d0ec0302>",
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:List"
+      },
+      "salsah-gui:guiOrder": 1
+    },
+    {
+      "@id": "images:zugangsart",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:ListValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "rdfs:comment": {
+        "@language": "de",
+        "@value": "Die Art und Weise, wie ein Objekt in den Besitz gelangt ist."
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Type d'acquisition"
+        },
+        {
+          "@language": "it",
+          "@value": "Tipo d'acquisizione"
+        },
+        {
+          "@language": "en",
+          "@value": "Type of acquisition"
+        },
+        {
+          "@language": "de",
+          "@value": "Zugangsart"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": "hlist=<http://data.knora.org/lists/0702a01e01>",
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Radio"
+      },
+      "salsah-gui:guiOrder": 6
+    },
+    {
+      "@id": "_:ub43bL1087C29",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:stueckzahl"
+      }
+    },
+    {
+      "@id": "images:bildart",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:ListValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Type d'image"
+        },
+        {
+          "@language": "de",
+          "@value": "Bildart"
+        },
+        {
+          "@language": "en",
+          "@value": "Image type"
+        },
+        {
+          "@language": "it",
+          "@value": "tipo di immagine"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": "hlist=<http://data.knora.org/lists/6cce4ce5>",
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Pulldown"
+      },
+      "salsah-gui:guiOrder": 1
+    },
+    {
+      "@id": "_:ub43bL1099C29",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:eingangsdatum"
+      }
+    },
+    {
+      "@id": "_:ub43bL1165C23",
+      "@type": "owl:Restriction",
+      "owl:cardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:mutationsdatum"
+      }
+    },
+    {
+      "@id": "_:ub43bL1173C23",
+      "@type": "owl:Restriction",
+      "owl:maxCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "1"
+      },
+      "owl:onProperty": {
+        "@id": "images:negativnummer"
+      }
+    },
+    {
+      "@id": "images:lastname",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:person"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "en",
+          "@value": "Last name of a person"
+        },
+        {
+          "@language": "de",
+          "@value": "Nachname einer Person"
+        }
+      ],
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Name"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "size=32",
+        "maxlength=32"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 1
+    },
+    {
+      "@id": "_:ub43bL1103C29",
+      "@type": "owl:Restriction",
+      "owl:minCardinality": {
+        "@type": "xsd:nonNegativeInteger",
+        "@value": "0"
+      },
+      "owl:onProperty": {
+        "@id": "images:comment"
+      }
+    },
+    {
+      "@id": "images:preis",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:TextValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bildformat"
+      },
+      "rdfs:label": [
+        {
+          "@language": "fr",
+          "@value": "Prix"
+        },
+        {
+          "@language": "it",
+          "@value": "Prezzo"
+        },
+        {
+          "@language": "de",
+          "@value": "Preis"
+        },
+        {
+          "@language": "en",
+          "@value": "Price"
+        }
+      ],
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "maxlength=16",
+        "size=16"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:SimpleText"
+      },
+      "salsah-gui:guiOrder": 7
+    },
+    {
+      "@id": "images:hatBildformatValue",
+      "@type": "owl:ObjectProperty",
+      "knora-base:objectClassConstraint": {
+        "@id": "knora-base:LinkValue"
+      },
+      "knora-base:subjectClassConstraint": {
+        "@id": "images:bild"
+      },
+      "rdfs:comment": [
+        {
+          "@language": "fr",
+          "@value": "Format Image"
+        },
+        {
+          "@language": "de",
+          "@value": "Bildfromat"
+        },
+        {
+          "@language": "en",
+          "@value": "Image format"
+        },
+        {
+          "@language": "it",
+          "@value": "Formato immagine"
+        }
+      ],
+      "rdfs:label": {
+        "@language": "de",
+        "@value": "Bildformat"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "knora-base:hasLinkToValue"
+      },
+      "salsah-gui:guiAttribute": [
+        "numprops=1",
+        "restypeid=33"
+      ],
+      "salsah-gui:guiElement": {
+        "@id": "salsah-gui:Searchbox"
+      },
+      "salsah-gui:guiOrder": 8
+    }
+  ]
+}

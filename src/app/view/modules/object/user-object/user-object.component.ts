@@ -21,6 +21,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageData} from '../../message/message.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
+import {Project} from '../../../../model/webapi/knora/';
 
 @Component({
     selector: 'salsah-user-object',
@@ -38,6 +39,8 @@ export class UserObjectComponent implements OnChanges {
     selectedRow: number;
 
     errorMessage: any;
+
+    currentProject: Project;
 
     constructor(private _userService: UsersService,
                 public _dialog: MatDialog) {
@@ -58,6 +61,11 @@ export class UserObjectComponent implements OnChanges {
                     this.errorMessage = <any>error;
                 }
             );
+
+        // do we have a current project?
+        if (sessionStorage.getItem('currentProject') !== null) {
+            this.currentProject = JSON.parse(sessionStorage.getItem('currentProject'));
+        }
     }
 
     deleteUser(iri: string) {

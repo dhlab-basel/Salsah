@@ -1,0 +1,6 @@
+<div *ngFor="let item of allOntologies">
+    <h3>{{item.iri}}</h3>
+    <ul>
+        <li *ngFor="let restype of item.resourcetypes">{{restype.label}}</li>
+    </ul>
+</div>

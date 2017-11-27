@@ -22,18 +22,32 @@
     <!-- dialog content with the form components -->
     <mat-dialog-content [ngSwitch]="data.form" class="dialog-content">
 
-        <!-- salsah form components for projects, users, resource classes etc.
-        all handled by the switch method -->
-        <salsah-project-form *ngSwitchCase="'project'" [iri]="data.iri"></salsah-project-form>
+        <!-- salsah form components for projects, users, resource classes etc.;
+            - all handled by the switch method;
+            - every form should have an optional iri value: in this case the edit form will be used
+            - the restrictedBy attribute is for e.g. a project iri; it's used in the project admin -->
 
-        <!-- (submitData)="submitData($event, $event)" -->
+        <!-- create new / edit projects -->
+        <salsah-project-form *ngSwitchCase="'project'"
+                             [iri]="data.iri">
+        </salsah-project-form>
 
-        <salsah-user-form *ngSwitchCase="'user'" [iri]="data.iri" [restrictedBy]="data.restriction"></salsah-user-form>
-        <!--
-                <salsah-user-form *ngSwitchCase="'new-user'" [iri]="data.restriction" (submitData)="submitData($event, $event)"></salsah-user-form>
-        -->
+        <!-- create new / edit users -->
+        <salsah-user-form *ngSwitchCase="'user'"
+                          [iri]="data.iri"
+                          [restrictedBy]="data.restriction">
+        </salsah-user-form>
 
-        <salsah-new-resource-class *ngSwitchCase="'resource-type'" [iri]="data.restriction"></salsah-new-resource-class>
+        <!-- create new / edit ontologies -->
+        <salsah-ontology-form *ngSwitchCase="'ontology'"
+                              [iri]="data.iri"
+                              [restrictedBy]="data.restriction">
+        </salsah-ontology-form>
+
+        <!-- create new / edit resource class -->
+        <salsah-new-resource-class *ngSwitchCase="'resource-type'"
+                                   [iri]="data.restriction">
+        </salsah-new-resource-class>
 
         <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
     </mat-dialog-content>
