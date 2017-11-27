@@ -108,7 +108,7 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
 
             return this.referredResources[resourceIri].label + ` (${resClassLabel})`;
         } else {
-            return "no information found"
+            return "no information found about referred resource (target of standoff link)"
         }
     }
 
@@ -131,8 +131,8 @@ export class ReadTextValueAsXml implements ReadPropertyItem {
 
     getContent(): string {
 
-        // return XML als plain text (escape markup)
-        return escape(this.xml);
+        // return XML als plain text
+        return this.xml;
     };
 
     getClassName(): string {
@@ -355,7 +355,7 @@ export class RegionGeometry {
  */
 export class ReadGeomValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly geometryString:string) {
+    constructor(readonly id:string, readonly propIri: string, readonly geometryString:string) {
 
       let geometryJSON = JSON.parse(geometryString);
 
@@ -391,4 +391,88 @@ export class ReadGeomValue implements ReadPropertyItem {
     getClassName():string {
         return this.constructor.name;
     }
+}
+
+/**
+ * Represents a URI value object.
+ */
+export class ReadUriValue implements ReadPropertyItem {
+
+    constructor(readonly id: string, readonly propIri: string, readonly uri: string) {
+
+    }
+
+    readonly type = AppConfig.UriValue;
+
+    getContent(): string {
+        return `<a href="${this.uri}" target="_blank">${this.uri}</a>`;
+    };
+
+    getClassName():string {
+        return this.constructor.name;
+    }
+
+}
+
+/**
+ * Represents a Boolean value object.
+ */
+export class ReadBooleanValue implements ReadPropertyItem {
+
+    constructor(readonly id: string, readonly propIri: string, readonly bool: boolean) {
+
+    }
+
+    readonly type = AppConfig.BooleanValue;
+
+    getContent(): string {
+        return String(this.bool);
+    }
+
+    getClassName():string {
+        return this.constructor.name;
+    }
+
+}
+
+/**
+ * Represents an interval value object.
+ */
+export class ReadIntervalValue implements ReadPropertyItem {
+
+    constructor(readonly id: string, readonly propIri: string, readonly intervalStart: number, readonly intervalEnd: number) {
+
+    }
+
+    readonly type = AppConfig.IntervalValue;
+
+    getContent(): string {
+        return String(this.intervalStart) + "-" + String(this.intervalEnd);
+    }
+
+    getClassName():string {
+        return this.constructor.name;
+    }
+
+}
+
+/**
+ * Represents an interval value object.
+ */
+export class ReadListValue implements ReadPropertyItem {
+
+    constructor(readonly id: string, readonly propIri: string, readonly listNodeIri: string) {
+
+    }
+
+    readonly type = AppConfig.ListValue;
+
+    getContent(): string {
+        return this.listNodeIri;
+    }
+
+    getClassName():string {
+        return this.constructor.name;
+    }
+
 }

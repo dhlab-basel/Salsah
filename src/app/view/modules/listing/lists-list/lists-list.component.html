@@ -1,0 +1,67 @@
+<!-- progress indicator while the data is loading -->
+<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+
+<!-- in the case of an API error: show the error message -->
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+<!-- if we have the data: show the list-->
+<div *ngIf="listCount > 0; else noData" >
+
+    <mat-list class="salsah-list">
+        <!--
+                <mat-list-item class="salsah-link"
+                              (click)="createList()"
+                              [class.highlight]="addList">
+                    <mat-icon mat-list-avatar>add</mat-icon>
+                    <h4 mat-line>Add new list</h4>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <br/>
+        -->
+
+        <mat-list-item *ngFor="let item of lists; let i = index"
+                       (click)="toggle(item.id, i);"
+                       class="salsah-link"
+                       [id]="item.id"
+                       [class.highlight]="i == selectedRow">
+            <h4 mat-line>{{item.labels[0].value}}</h4>
+            <h6 mat-line>{{item.id}}</h6>
+        </mat-list-item>
+    </mat-list>
+
+</div>
+
+<!-- if there are any data: show a no data message -->
+<ng-template #noData>
+    <salsah-message *ngIf="!isLoading && !errorMessage" [message]="noDataMessage"></salsah-message>
+</ng-template>
+
+
+
+<!--
+<!-- single list operations --
+<div *ngIf="listOp === 'view' || listOp === 'edit' || listOp === 'create'"
+     class="salsah-module-detail"
+     [ngClass]="position.detail">
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></mat-progress-bar>
+
+    <div class="salsah-module-detail-header">
+        <!-- close button --
+        <button mat-mini-fab (click)="closeDetailView()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+</div>
+
+
+    <div class="salsah-module-detail-content">
+        <!-- if an error occurs: show the error message --
+<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+
+<!-- view selected list --
+<div class="view-list" *ngIf="!errorMessage">
+    <salsah-list-form [listIri]="selectedList.id" [listOp]="listOp"></salsah-list-form>
+</div>
+</div>
+-->
