@@ -91,7 +91,7 @@ describe('ProjectTeamComponent', () => {
                     'selfjoin': false,
                     'keywords': null,
                     'longname': 'Bibliography',
-                    'ontologyNamedGraph': 'http://www.knora.org/ontology/biblio'
+                    'ontologies': ['http://www.knora.org/ontology/biblio']
                 }, {
                     'shortname': 'beol',
                     'description': 'Bernoulli-Euler Online',
@@ -103,7 +103,7 @@ describe('ProjectTeamComponent', () => {
                     'selfjoin': false,
                     'keywords': null,
                     'longname': 'Bernoulli-Euler Online',
-                    'ontologyNamedGraph': 'http://www.knora.org/ontology/beol'
+                    'ontologies': ['http://www.knora.org/ontology/beol']
                 }, {
                     'shortname': 'incunabula',
                     'description': '<p>Das interdisziplinÃ¤re Forschungsprojekt "<b><em>Die Bilderfolgen der Basler FrÃ¼hdrucke: SpÃ¤tmittelalterliche Didaxe als Bild-Text-LektÃ¼re</em></b>" verbindet eine umfassende kunstwissenschaftliche Analyse der BezÃ¼ge zwischen den Bildern und Texten in den illustrierten Basler Inkunabeln mit der Digitalisierung der BestÃ¤nde der UniversitÃ¤tsbibliothek und der Entwicklung einer elektronischen Edition in der Form einer neuartigen Web-0.2-Applikation.\n</p>\n<p>Das Projekt wird durchgefÃ¼hrt vom <a href="http://kunsthist.unibas.ch">Kunsthistorischen Seminar</a> der UniversitÃ¤t Basel (Prof. B. Schellewald) und dem <a href="http://www.dhlab.unibas.ch">Digital Humanities Lab</a> der UniversitÃ¤t Basel (PD Dr. L. Rosenthaler).\n</p>\n<p>\nDas KernstÃ¼ck der digitalen Edition besteht aus rund zwanzig reich bebilderten FrÃ¼hdrucken aus vier verschiedenen Basler Offizinen. Viele davon sind bereits vor 1500 in mehreren Ausgaben erschienen, einige fast gleichzeitig auf Deutsch und Lateinisch. Es handelt sich um eine ausserordentlich vielfÃ¤ltige Produktion; neben dem Heilsspiegel finden sich ein Roman, die Melusine, die Reisebeschreibungen des Jean de Mandeville, einige Gebets- und ErbauungsbÃ¼chlein, theologische Schriften, Fastenpredigten, die Leben der Heiligen Fridolin und Meinrad, das berÃ¼hmte Narrenschiff sowie die Exempelsammlung des Ritters vom Thurn.\n</p>\nDie Internetpublikation macht das digitalisierte Korpus dieser FrÃ¼hdrucke durch die MÃ¶glichkeiten nichtlinearer VerknÃ¼pfung und Kommentierung der Bilder und Texte, fÃ¼r die wissenschaftliche Edition sowie fÃ¼r die Erforschung der Bilder und Texte nutzbar machen. Auch kÃ¶nnen bereits bestehende und entstehende Online-Editionen damit verknÃ¼pft werden , wodurch die Nutzung von Datenbanken anderer Institutionen im Hinblick auf unser Corpus optimiert wird.\n</p>',
@@ -115,7 +115,7 @@ describe('ProjectTeamComponent', () => {
                     'selfjoin': false,
                     'keywords': 'Basler FrÃ¼hdrucke, Inkunabel, Narrenschiff, Wiegendrucke, Sebastian Brant, Bilderfolgen, early print, incunabula, ship of fools, Kunsthistorischs Seminar UniversitÃ¤t Basel, Late Middle Ages, Letterpress Printing, Basel, Contectualisation of images',
                     'longname': 'Bilderfolgen Basler FrÃ¼hdrucke',
-                    'ontologyNamedGraph': 'http://www.knora.org/ontology/incunabula'
+                    'ontologies': ['http://www.knora.org/ontology/images']
                 }, {
                     'shortname': 'anything',
                     'description': 'Anything Project',
@@ -127,7 +127,7 @@ describe('ProjectTeamComponent', () => {
                     'selfjoin': false,
                     'keywords': null,
                     'longname': 'Anything Project',
-                    'ontologyNamedGraph': 'http://www.knora.org/ontology/anything'
+                    'ontologies': ['http://www.knora.org/ontology/anything']
                 }, {
                     'shortname': 'SystemProject',
                     'description': 'Knora System Project',
@@ -139,7 +139,7 @@ describe('ProjectTeamComponent', () => {
                     'selfjoin': false,
                     'keywords': null,
                     'longname': 'Knora System Project',
-                    'ontologyNamedGraph': 'http://www.knora.org/ontology/knora-base'
+                    'ontologies': ['http://www.knora.org/ontology/knora-base']
                 }, {
                     'shortname': 'dokubib',
                     'description': 'Dokubib',
@@ -151,7 +151,7 @@ describe('ProjectTeamComponent', () => {
                     'selfjoin': false,
                     'keywords': null,
                     'longname': 'Dokubib',
-                    'ontologyNamedGraph': 'http://www.knora.org/ontology/dokubib'
+                    'ontologies': ['http://www.knora.org/ontology/dokubib']
                 }, {
                     'shortname': 'images',
                     'description': 'A demo project of a collection of images',
@@ -163,7 +163,7 @@ describe('ProjectTeamComponent', () => {
                     'selfjoin': false,
                     'keywords': 'images, collection',
                     'longname': 'Image Collection Demo',
-                    'ontologyNamedGraph': 'http://www.knora.org/ontology/images'
+                    'ontologies': ['http://www.knora.org/ontology/images']
                 }], 'status': 0
             };
 
