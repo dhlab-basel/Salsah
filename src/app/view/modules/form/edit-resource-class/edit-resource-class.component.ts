@@ -42,13 +42,14 @@ import {PropertyItem} from '../../../../model/webapi/knora/v1/properties/propert
 export class EditResourceClassComponent implements OnChanges {
 
     @Input('iri') iri: string;
-    @Input('index') index: number;
+    @Input('index') index: number = 0;
     @Input('projects') projectsList: ProjectItem[];
 
     step = 0;
 
     isLoading: boolean = true;
     isDisabled: boolean = true;
+    isExpanded: boolean = false;
 
     resType: ResourceTypeInfo = new ResourceTypeInfo;
 
@@ -135,18 +136,16 @@ export class EditResourceClassComponent implements OnChanges {
 
     // the following form fields would have an error check
     formPropErrors = {
-        prps: {
-            'name': '',
-            'guiorder': '',
-            'description': '',
-            'valuetype_id': '',
-            'label': '',
-            'vocabulary': '',
-            'attributes': '',
-            'occurrence': '',
-            'id': '',
-            'gui_name': ''
-        }
+        'name': '',
+        'guiorder': '',
+        'description': '',
+        'valuetype_id': '',
+        'label': '',
+        'vocabulary': '',
+        'attributes': '',
+        'occurrence': '',
+        'id': '',
+        'gui_name': ''
     };
     // ...with the following messages
     propValidationMessages = {
@@ -200,11 +199,7 @@ export class EditResourceClassComponent implements OnChanges {
                     this.eRForm4class.valueChanges
                         .subscribe(data => this.onResValueChanged(data));
 
-                    // console.log(this.eRForm4class.value);
-                    // console.log(this.eRForm4class.get('prps.label'));
-
                     this.buildPropsForm()
-
                 },
 
                 (error: ApiServiceError) => {
@@ -221,38 +216,23 @@ export class EditResourceClassComponent implements OnChanges {
 
     }
 
-
-    get prps(): FormArray {
-        return this.eRForm4prop.get('prps') as FormArray;
-    };
-
-    setProps(props: PropertyItem[]) {
-        const propsFGs = props.map(aprop => this._fb4p.group(aprop));
-        const propArray = this._fb4p.array(propsFGs);
-        this.eRForm4prop.setControl('prps', propArray);
-    }
-
-
     buildPropsForm() {
+
         if (this.editProp) {
             // -------------properties edit validation configuration-------------------
             this.eRForm4prop = this._fb4p.group({
-                'prps': this._fb4p.array([])
-                // this._fb4p.group({
-                //     'name': '',
-                //     'guiorder': '',
-                //     'description': '',
-                //     'valuetype_id': '',
-                //     'label': ['', Validators.required],
-                //     'vocabulary': ['', Validators.required],
-                //     'attributes': '',
-                //     'occurrence': ['', Validators.required],
-                //     'id': '',
-                //     'gui_name': ['', Validators.required]
-                // })
+                'name': this.props[this.index].name,
+                'guiorder': this.props[this.index].guiorder,
+                'description': this.props[this.index].description,
+                'valuetype_id': this.props[this.index].valuetype_id,
+                'label': [this.props[this.index].label, Validators.required],
+                'vocabulary': [this.props[this.index].vocabulary, Validators.required],
+                'attributes': this.props[this.index].attributes,
+                'occurrence': [this.props[this.index].occurrence, Validators.required],
+                'id': this.props[this.index].id,
+                'gui_name': [this.props[this.index].gui_name, Validators.required]
             });
-
-            this.setProps(this.resType.properties);
+            console.log(this.eRForm4prop);
 
             // validation messages
             this.eRForm4prop.valueChanges
@@ -260,11 +240,21 @@ export class EditResourceClassComponent implements OnChanges {
         }
     }
 
+    // get prps(): FormArray {
+    //     return this.eRForm4prop.get('prps') as FormArray;
+    // };
+    //
+    // setProp(index: number, props: PropertyItem[]) {
+    //     const propsFGs = props.map(aprop => this._fb4p.group(aprop));
+    //     const propArray = this._fb4p.array(propsFGs);
+    //     this.eRForm4prop.setControl('prps', propArray);
+    // }
+
     setIndex(index: number) {
         this.index = index;
         console.log(index, 'the editable property is:', this.resType.properties[index].label);
+        this.buildPropsForm();
     }
-
 
     onResValueChanged(data?: any) {
         if (!this.eRForm4class) {
@@ -290,54 +280,17 @@ export class EditResourceClassComponent implements OnChanges {
             return;
         }
         const form = this.eRForm4prop;
-
-        for (const field in this.formPropErrors) {
-            const formControl = form.get(field);
-            if (formControl instanceof FormArray) {
-                // check for custom validation on field group
-                const control = form.get(field);
-                console.log('control field', control);
-                // handle validation for field group
-                if (control && control.dirty && !control.valid) {
-                    console.log('I am here ');
-
-                    const messages = this.propValidationMessages[field];
-                    Object.keys(control.errors).map(key => {
-                        this.formPropErrors[field][field] += messages[key] + ' ';
-                    });
-                }
-                // handle validation for subfields
-                for (const subfield in formControl.controls) {
-                    console.log('formControl.controls:', formControl.controls);
-                    console.log('SUBFIELD', subfield, 'FIELD', field);
-                    const control = formControl.controls[subfield];
-                    console.log('control subfield', control);
-
-                    if (control && control.dirty && !control.valid) {
-                        const messages = this.propValidationMessages[subfield];
-                        console.log('messages', messages);
-
-                        Object.keys(control.errors).map(key => {
-                            this.formPropErrors[field][subfield] += messages[key] + ' ';
-                        });
-                    }
-                }
+        Object.keys(this.formPropErrors).map(field => {
+            this.formPropErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.propValidationMessages[field];
+                console.log('messages res', messages);
+                Object.keys(control.errors).map(key => {
+                    this.formPropErrors[field] += messages[key] + ' ';
+                });
             }
-
-            // alternate validation handling for fields without subfields (AKA not in a group)
-            else {
-                console.log('I am in the else');
-                const control = form.get(field);
-                this.formPropErrors[field] = '';
-                if (control && control.dirty && !control.valid) {
-                    const messages = this.propValidationMessages[field];
-                    for (const key in control.errors) {
-                        this.formPropErrors[field] += messages[key] + ' ';
-                    }
-                }
-            }
-
-        }
+        });
     }
 
 
@@ -410,12 +363,13 @@ export class EditResourceClassComponent implements OnChanges {
             this._resourceTypesService.getResourceType(this.iri)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.resType.properties[index] = result.getBody(ResourceType).restype_infoproperties[index];
+                        this.resType.properties[index] = result.getBody(ResourceType).restype_info.properties[index];
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
                     }
                 );
+            this.isExpanded=true;
         }
     }
 
