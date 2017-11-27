@@ -214,6 +214,8 @@ export class EditResourceClassComponent implements OnChanges {
                 }
             );
 
+        this.isExpanded = false;
+
     }
 
     buildPropsForm() {
