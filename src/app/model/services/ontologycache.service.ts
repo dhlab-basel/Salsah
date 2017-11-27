@@ -1,9 +1,13 @@
-import {Injectable} from "@angular/core";
-import {OntologyService} from "./ontology.service";
-import {ApiServiceResult} from "./api-service-result";
-import {Observable} from "rxjs/Observable";
-import {AppConfig} from "../../app.config";
-import {Utils} from "../../utils";
+import {Injectable} from '@angular/core';
+import {OntologyService} from './ontology.service';
+import {ApiServiceResult} from './api-service-result';
+import {Observable} from 'rxjs/Observable';
+import {AppConfig} from '../../app.config';
+import {Utils} from '../../utils';
+
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/of';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -233,7 +237,7 @@ export class OntologyInformation {
                 console.log(`OntologyInformation: no resource class ${resClass}  found in resourceClasses`);
             }
         } else {
-            console.log("call of OntologyInformation.getLabelForResourceClass without argument resClass");
+            console.log('call of OntologyInformation.getLabelForResourceClass without argument resClass');
         }
     }
 
@@ -282,7 +286,7 @@ export class OntologyInformation {
                 console.log(`OntologyInformation: no label found for ${property} in properties`);
             }
         } else {
-            console.log("call of OntologyInformation.getLabelForProperty without argument property");
+            console.log('call of OntologyInformation.getLabelForProperty without argument property');
         }
     }
 
@@ -531,7 +535,7 @@ export class OntologyCacheService {
                             newCard = new Cardinality(CardinalityOccurrence.maxCard, curCard[AppConfig.OwlMaxCardinality], curCard[AppConfig.OwlOnProperty]);
                         } else {
                             // no known occurrence found
-                            throw new TypeError(`cardinality type invalid for ${curResClassFromOntoRes["@id"]} ${curCard[AppConfig.OwlOnProperty]}`);
+                            throw new TypeError(`cardinality type invalid for ${curResClassFromOntoRes['@id']} ${curCard[AppConfig.OwlOnProperty]}`);
                         }
 
                         // add cardinality
@@ -544,7 +548,7 @@ export class OntologyCacheService {
 
             // create an instance of ResourceClass
             let resClassDef = new ResourceClass(
-                curResClassFromOntoRes["@id"],
+                curResClassFromOntoRes['@id'],
                 curResClassFromOntoRes[AppConfig.belongsToOntology],
                 curResClassFromOntoRes[AppConfig.ResourceIcon],
                 curResClassFromOntoRes[AppConfig.RdfsComment],

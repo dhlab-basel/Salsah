@@ -19,8 +19,7 @@ You find more information about Salsah on:
 ## Developer Environment
 
 ```
-WARNING (2017/10/16): we updated the npm packages to the latest version.
-There were big changes in the @angular/material. Please be sure to update your node_modules with npm install
+WARNING (2017/11/27): we updated the node packages to the latest version. Pleas update your local installed node_modules to the new defined versions. Use [yarn](https://yarnpkg.com/en/docs/cli/install): yarn install --production=false
 ```
 
 If you're a developer and you want to improve the app, please have a look at the developer guideline first:
@@ -29,34 +28,29 @@ If you're a developer and you want to improve the app, please have a look at the
 
 ### Prerequisites
 
-We develop the Salsah app with Angular (v4), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) 6 or higher and [NPM](https://www.npmjs.com) 4 or higher. Update NPM to the latest version with `npm install -g npm@latest`.
+We develop the Salsah app with Angular (v4), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) 6.9.0 or higher and [NPM](https://www.npmjs.com) 3 or higher. Btw we're using [yarn](https://yarnpkg.com/en/docs/cli/install) to install the node dependencies. As a Salsah developer we recommend to use Yarn instead of npm!
 
 **Install [angular-cli](https://github.com/angular/angular-cli) globally**
 
-`npm install -g @angular/cli@1.4.7`
+`npm install -g @angular/cli`
 
 If there are some permission issues, try to fix the writing rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`
 
 ### Node package dependencies 
-After cloning the Salsah code, install the node packages from the Salsah root directory with
+After cloning the Salsah code, install the node packages from the Salsah root directory with Yarn
 
-`npm install`
+`yarn install --production=false`
 
 ### Start the Salsah app
 With `ng serve` the Salsah app starts on [localhost:4200](http://localhost:4200)
 
-It could happen, that ng can't resolve some specific packages. In that case the install process did not install the developer packages; install them with  
-`npm install --only=dev`
+If you have any trouble to start the Salsah app with ng, you should have a look on the [@angular/cli](https://cli.angular.io) website.
 
-#### Update Salsah packages (last Update: 6 July 2017)
-From time to time we grab the latest npm packages for Salsah. 
-We recommend to reinstall the packages with the following commands.
+#### Update Salsah packages (last Update: 27 November 2017)
+From time to time we grab the latest node packages for Salsah. 
+We recommend to update the packages with:
 
-```
-rm -rf node_modules dist tmp
-npm install --only=dev
-npm install
-```
+`yarn install --production=false`
 
 In any case of trouble, please also check the Angular-cli update process [here](https://github.com/angular/angular-cli#updating-angular-cli). Normally the global installed angular-cli package needs an update too. 
 
