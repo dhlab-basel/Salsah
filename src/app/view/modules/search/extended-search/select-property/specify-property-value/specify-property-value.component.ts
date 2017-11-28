@@ -134,6 +134,16 @@ export class ValueLiteral {
     constructor(readonly value: string, readonly type: string) {
     };
 
+
+    /**
+     * Creates a type annotated value literal to be used in a SPARQL query.
+     *
+     * @returns {string}
+     */
+    toSparql(): string {
+        return `"${this.value}"^^<${this.type}>`;
+    }
+
 }
 
 /**
@@ -175,6 +185,11 @@ export class SpecifyPropertyValueComponent implements OnInit {
         this.resetComparisonOperators(); // reset comparison operators for given property (overwriting any previous selection)
     };
 
+    // getter method for this._property
+    get property(): Property {
+        return this._property
+    }
+
     private _property: Property;
 
     private form: FormGroup;
@@ -208,7 +223,7 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
         // depending on object class, set comparison operators and value entry field
         if (this._property.isLinkProperty) {
-            this.propertyValueType = AppConfig.LinkValue;
+            this.propertyValueType = AppConfig.Resource;
         } else {
             this.propertyValueType = this._property.objectType;
         }
@@ -217,7 +232,7 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
             case AppConfig.TextValue:
             case AppConfig.BooleanValue:
-            case AppConfig.LinkValue:
+            case AppConfig.Resource:
             case AppConfig.UriValue:
             case AppConfig.IntervalValue:
                 this.comparisonOperators = [new Equals(), new NotEquals(), new Exists()];

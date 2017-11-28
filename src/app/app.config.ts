@@ -24,6 +24,8 @@ export class AppConfig {
     public static PathSeparator = "#";
 
     public static KnoraApiV2WithValueObjectPath: string = 'http://api.knora.org/ontology/knora-api/v2' + AppConfig.PathSeparator;
+    public static KnoraApiV2SimplePath: string = 'http://api.knora.org/ontology/knora-api/simple/v2' + AppConfig.PathSeparator;
+
 
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
     public static hasOntologiesWithClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithClasses';
@@ -52,6 +54,7 @@ export class AppConfig {
 
     public static Region = AppConfig.KnoraApiV2WithValueObjectPath + 'Region';
 
+    public static Resource: string = AppConfig.KnoraApiV2WithValueObjectPath + 'Resource';
     public static TextValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'TextValue';
     public static IntValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'IntValue';
     public static BooleanValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'BooleanValue';
@@ -155,8 +158,8 @@ export class AppConfig {
     public static GreaterThanEqualsComparisonOperator = ">";
     public static GreaterThanEqualsComparisonLabel = "Greater_Than";
 
-    public static LessThanComparisonOperator = "<=";
-    public static LessThanComparisonLabel = "Less_Than_Equals";
+    public static LessThanComparisonOperator = "<";
+    public static LessThanComparisonLabel = "Less_Than";
 
     public static LessThanEqualsComparisonOperator = "<=";
     public static LessThanQualsComparisonLabel = "Less_Than_Equals";
@@ -171,6 +174,14 @@ export class AppConfig {
     public static xsdInteger = AppConfig.Xsd + "integer";
     public static xsdDecimal = AppConfig.Xsd + "decimal";
     public static xsdUri = AppConfig.Xsd + "anyURI";
+
+    public static resourceSimple = AppConfig.KnoraApiV2SimplePath + 'Resource';
+    public static dateSimple = AppConfig.KnoraApiV2SimplePath + "Date";
+    public static intervalSimple = AppConfig.KnoraApiV2SimplePath + "Interval";
+    public static geomSimple = AppConfig.KnoraApiV2SimplePath + "Geom";
+    public static colorSimple = AppConfig.KnoraApiV2SimplePath + "Color";
+    public static geonameSimple = AppConfig.KnoraApiV2SimplePath + "Geoname";
+
 
 
 

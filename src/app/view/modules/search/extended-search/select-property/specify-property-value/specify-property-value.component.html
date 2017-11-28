@@ -12,5 +12,6 @@
     <decimal-value #propertyValue *ngSwitchCase="AppConfig.DecimalValue"></decimal-value>
     <boolean-value #propertyValue *ngSwitchCase="AppConfig.BooleanValue"></boolean-value>
     <date-value #propertyValue *ngSwitchCase="AppConfig.DateValue"></date-value>
+    <!-- TODO: Resource: handle linking properties with target class restriction: access property member to get objectClass via property() getter method -->
     <span *ngSwitchDefault="">Not supported {{propertyValueType}}</span>
 </span>
