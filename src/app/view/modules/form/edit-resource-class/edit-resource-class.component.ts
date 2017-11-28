@@ -62,6 +62,7 @@ export class EditResourceClassComponent implements OnChanges {
 
     eRForm4class: FormGroup;
     eRForm4prop: FormGroup;
+    eRForm4AddProp: FormGroup;
 
 
     public editResFormLabels: any = {
@@ -72,8 +73,9 @@ export class EditResourceClassComponent implements OnChanges {
             description: 'Resource description',
             icon: 'Icon',
             prps: {
-                formLabel: ' has Properties',
+                formLabel: 'has Properties',
                 formDescription: 'Click to edit the property',
+                addLabel: 'Add new property',
                 label: 'Property label',
                 description: 'Property description',
                 gui: 'GUI element',
@@ -134,7 +136,7 @@ export class EditResourceClassComponent implements OnChanges {
         },
     };
 
-    // the following form fields would have an error check
+    // the following form fields would have an error check on properties edit
     formPropErrors = {
         'name': '',
         'guiorder': '',
@@ -168,17 +170,51 @@ export class EditResourceClassComponent implements OnChanges {
             'required': 'Property gui name is required'
         }
     };
+    // the following form fields would have an error check on adding properties
+    formAddPropErrors = {
+        'name': '',
+        'guiorder': '',
+        'description': '',
+        'valuetype_id': '',
+        'label': '',
+        'vocabulary': '',
+        'attributes': '',
+        'occurrence': '',
+        'id': '',
+        'gui_name': ''
+    };
+    // ...with the following messages
+    addPropValidationMessages = {
+        'name': '',
+        'guiorder': '',
+        'description': '',
+        'valuetype_id': '',
+        'label': {
+            'required': 'Property label is required'
+        },
+        'vocabulary': {
+            'required': 'Vocabulary is required'
+        },
+        'attributes': '',
+        'occurrence': {
+            'required': 'Property occurrence is required'
+        },
+        'id': '',
+        'gui_name': {
+            'required': 'Property gui name is required'
+        }
+    };
 
 
     constructor(private _resourceTypesService: ResourceTypesService,
                 private _projectsService: ProjectsService,
                 private _fb: FormBuilder,
-                private _fb4p: FormBuilder) {
+                private _fb4p: FormBuilder,
+                private _fb4ap: FormBuilder) {
     }
 
 
     ngOnChanges() {
-
         // get the resource class data by res class iri
         this._resourceTypesService.getResourceType(this.iri)
             .subscribe(
@@ -186,22 +222,10 @@ export class EditResourceClassComponent implements OnChanges {
                     this.resType = result.getBody(ResourceType).restype_info;
                     this.resIcon = this.resType.icon;
                     this.props = this.resType.properties;
-
-                    // -------------resource edit validation configuration-------------------
-                    this.eRForm4class = this._fb.group({
-                        'resLabel': [this.resType.label, Validators.required],
-                        'resIcon': this.resType.icon,
-                        'resDescription': this.resType.description,
-                    });
-
-                    this.isLoading = false;
-                    // validation messages
-                    this.eRForm4class.valueChanges
-                        .subscribe(data => this.onResValueChanged(data));
-
-                    this.buildPropsForm()
+                    this.buildResForm();
+                    this.buildPropsForm();
+                    this.buildAddPropForm();
                 },
-
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
@@ -215,11 +239,24 @@ export class EditResourceClassComponent implements OnChanges {
             );
 
         this.isExpanded = false;
+    }
 
+    //create the forms for resource class, properties edit and property adding
+    buildResForm() {
+        // -------------resource edit validation configuration-------------------
+        this.eRForm4class = this._fb.group({
+            'resLabel': [this.resType.label, Validators.required],
+            'resIcon': this.resType.icon,
+            'resDescription': this.resType.description,
+        });
+
+        this.isLoading = false;
+        // validation messages
+        this.eRForm4class.valueChanges
+            .subscribe(data => this.onResValueChanged(data));
     }
 
     buildPropsForm() {
-
         if (this.editProp) {
             // -------------properties edit validation configuration-------------------
             this.eRForm4prop = this._fb4p.group({
@@ -242,70 +279,63 @@ export class EditResourceClassComponent implements OnChanges {
         }
     }
 
+    buildAddPropForm() {
+        if (this.editProp) {
+            // -------------properties edit validation configuration-------------------
+            this.eRForm4AddProp = this._fb4ap.group({
+                'name': '',
+                'guiorder': '',
+                'description': '',
+                'valuetype_id': '',
+                'label': ['', Validators.required],
+                'vocabulary': '',
+                'attributes': '',
+                'occurrence': ['', Validators.required],
+                'id': '',
+                'gui_name': ['', Validators.required]
+            });
+            console.log(this.eRForm4AddProp);
 
+            // validation messages
+            this.eRForm4AddProp.valueChanges
+                .subscribe(data => this.onAddPropValueChanged(data));
+        }
+    }
+
+
+    //get the index of the edited property and create the form
     setIndex(index: number) {
         this.index = index;
         console.log(index, 'the editable property is:', this.resType.properties[index].label);
         this.buildPropsForm();
     }
 
+    // build form validation messages
+    onValueChanged(form: FormGroup, fErrors: any, msg: any) {
+        if (!form) {
+            return;
+        }
+        Object.keys(fErrors).map(field => {
+            fErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = msg[field];
+                Object.keys(control.errors).map(key => {
+                    fErrors[field] += messages[key] + ' ';
+                });
+            }
+        });
+    }
+
     onResValueChanged(data?: any) {
-
-        if (!this.eRForm4class) {
-            return;
-        }
-        const form = this.eRForm4class;
-        Object.keys(this.formErrors).map(field => {
-            this.formErrors[field] = '';
-            const control = form.get(field);
-            console.log('control res', control);
-            if (control && control.dirty && !control.valid) {
-                const messages = this.validationMessages[field];
-                console.log('messages res', messages);
-                Object.keys(control.errors).map(key => {
-                    this.formErrors[field] += messages[key] + ' ';
-                });
-            }
-        });
+        this.onValueChanged(this.eRForm4class, this.formErrors, this.validationMessages);
     }
 
-    onPropValueChanged(data: any) {
-        if (!this.eRForm4prop) {
-            return;
-        }
-        const form = this.eRForm4prop;
-        Object.keys(this.formPropErrors).map(field => {
-            this.formPropErrors[field] = '';
-            const control = form.get(field);
-            if (control && control.dirty && !control.valid) {
-                const messages = this.propValidationMessages[field];
-                console.log('messages res', messages);
-                Object.keys(control.errors).map(key => {
-                    this.formPropErrors[field] += messages[key] + ' ';
-                });
-            }
-        });
+    onPropValueChanged(data?: any) {
+        this.onValueChanged(this.eRForm4prop, this.formPropErrors, this.propValidationMessages);
     }
-
-
-    editResources() {
-        this.editResource = true;
-    }
-
-    closeResEditView() {
-        this.editResource = false;
-    }
-
-    editProps(index: number) {
-        if (this.resType.properties[index] !== undefined) {
-            this.editProp = true;
-        }
-    }
-
-    closePropEditViews(index: number) {
-        if (this.resType.properties[index] !== undefined) {
-            this.editProp = false;
-        }
+    onAddPropValueChanged(data?: any) {
+        this.onValueChanged(this.eRForm4AddProp, this.formAddPropErrors, this.addPropValidationMessages);
     }
 
 
@@ -324,8 +354,8 @@ export class EditResourceClassComponent implements OnChanges {
         }
     }
 
-    onSubmit(data: any): void {
-        console.log('you submitted value:', data);
+    submitAddProp(): void {
+            console.log('Your submitted property is:', this.eRForm4AddProp.value);
     }
 
     resetDefaultRes(): void {
@@ -335,13 +365,7 @@ export class EditResourceClassComponent implements OnChanges {
                 (result: ApiServiceResult) => {
                     this.resType = result.getBody(ResourceType).restype_info;
                     this.resIcon = this.resType.icon.slice(0, -4);
-
-                    //    resource form validation configuration
-                    this.eRForm4class = this._fb.group({
-                        'resLabel': [this.resType.label, Validators.required],
-                        'resIcon': this.resType.icon.slice(0, -4),
-                        'resDescription': this.resType.description
-                    });
+                    this.buildResForm();
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -365,6 +389,10 @@ export class EditResourceClassComponent implements OnChanges {
                 );
             this.isExpanded=true;
         }
+    }
+
+    resetAddProp(){
+        this.eRForm4AddProp.reset();
     }
 
 
