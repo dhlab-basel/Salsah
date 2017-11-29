@@ -136,8 +136,8 @@ import {IntegerValueComponent} from './view/modules/search/extended-search/selec
 import {DecimalValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/decimal-value/decimal-value.component';
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
-import {MatNativeDateModule} from '@angular/material';
 import {KnarqlgenerationService} from "./model/services/knarqlgeneration.service";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
 
 //
 // import all needed services
@@ -250,7 +250,7 @@ import {KnarqlgenerationService} from "./model/services/knarqlgeneration.service
         HttpModule,
         RouterModule,
         AppMaterialModule,
-        MatNativeDateModule,
+        MatMomentDateModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
