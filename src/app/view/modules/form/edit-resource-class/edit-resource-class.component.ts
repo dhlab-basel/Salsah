@@ -23,7 +23,9 @@ import {
     Project,
     Properties,
     ResourceType,
-    ResourceTypeInfo
+    ResourceTypes,
+    ResourceTypeInfo,
+    ResourceTypeItem
 } from '../../../../model/webapi/knora/';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {PropertyItem} from '../../../../model/webapi/knora/v1/properties/property-item';
@@ -43,6 +45,8 @@ export class EditResourceClassComponent implements OnChanges {
     @Input() iri: string;
     @Input() index: number = 0;
     @Input('projects') projectsList: Project[];
+    @Input('restrictedBy') project: string; // TODO: we have to change the restrcitedBy value from project iri to the ontology iri
+
 
     step = 0;
 
@@ -52,8 +56,9 @@ export class EditResourceClassComponent implements OnChanges {
 
 
     resType: ResourceTypeInfo = new ResourceTypeInfo;
-
     props: PropertyItem[];
+    list: ResourceTypeItem[] = [];
+    num: number;
     errorMessage: string = undefined;
     resIcon: string = undefined;
 
@@ -75,7 +80,6 @@ export class EditResourceClassComponent implements OnChanges {
             prps: {
                 formLabel: 'has Properties',
                 formDescription: 'Click to edit the property',
-                addLabel: 'Add new property',
                 label: 'Property label',
                 description: 'Property description',
                 gui: 'GUI element',
@@ -88,8 +92,11 @@ export class EditResourceClassComponent implements OnChanges {
             }
         },
         addProp: {
-            label: 'Add new property',
-            description: 'Add new or create a custom property'
+            addLabel: 'Add new properties',
+            label: 'or create new property',
+            description: 'Create a custom property',
+            selectLabel: 'Select property',
+            selectDescript: 'Select an existing property to add to this resource'
         },
         buttons: {
             save: 'Save',
@@ -231,6 +238,22 @@ export class EditResourceClassComponent implements OnChanges {
                 }
             );
 
+        // get the resource classes and their properties by project ontology
+        // this._resourceTypesService.getResourceTypesByVoc(this.project)
+        //     .subscribe(
+        //         (result: ApiServiceResult) => {
+        //             this.list = result.getBody(ResourceTypes).resourcetypes;
+        //             this.num = Object.keys(this.list).length;
+        //             this.isLoading = false;
+        //         },
+        //         (error: ApiServiceError) => {
+        //             console.log('ResourceTypesListComponent', error);
+        //             this.errorMessage = <any>error;
+        //             this.isLoading = false;
+        //         }
+        //     );
+
+        //get all projects
         this._projectsService.getAllProjects()
             .subscribe(
                 (result: Project[]) => {
