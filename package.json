@@ -26,6 +26,8 @@
         "@angular/platform-browser-dynamic": "^4.4.6",
         "@angular/platform-server": "^4.4.6",
         "@angular/router": "^4.4.6",
+        "@ngx-translate/core": "^8.0.0",
+        "@ngx-translate/http-loader": "^2.0.0",
         "@uniprank/ng2-file-uploader": "^0.2.2",
         "angular-tree-component": "^3.8.0",
         "core-js": "^2.5.0",
@@ -41,8 +43,9 @@
         "zone.js": "^0.8.16"
     },
     "devDependencies": {
-        "@angular/cli": "^1.5.2",
+        "@angular/cli": "^1.5.5",
         "@angular/compiler-cli": "^4.4.6",
+        "@angular/language-service": "^5.0.0",
         "@types/jasmine": "2.8.2",
         "@types/node": "^8.0.53",
         "codelyzer": "~4.0.1",
