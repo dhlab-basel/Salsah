@@ -96,10 +96,12 @@ export class ResourceTypesListComponent implements OnInit {
 
     }
 
-    edit(id: string) {
+    // TODO: make a global edit method ... somewhere ...
+    edit(id: string, title?: string) {
         const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
+                title: 'Edit ' + id,
                 form: 'resource-type'
             }
         });
