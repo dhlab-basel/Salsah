@@ -30,13 +30,23 @@
                     <!-- short and long name -->
                     <mat-form-field class="small">
                         <input matInput [salsahFocus]="step === 1"
+                               [maxlength]="shortcodeMaxLength"
+                               [placeholder]="formLabels.project.shortcode + ' *'"
+                               [formControl]="form.controls['shortcode']">
+                        <mat-hint *ngIf="formErrors.shortcode">
+                            {{ formErrors.shortcode }}
+                        </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field class="medium">
+                        <input matInput [salsahFocus]="step === 1"
+                               [maxlength]="shortnameMaxLength"
                                [placeholder]="formLabels.project.shortname + ' *'"
                                [formControl]="form.controls['shortname']">
                         <mat-hint *ngIf="formErrors.shortname">
                             {{ formErrors.shortname }}
                         </mat-hint>
                     </mat-form-field>
-                    <mat-form-field class="medium">
+                    <mat-form-field class="large">
                         <input matInput
                                [placeholder]="formLabels.project.longname + ' *'"
                                [formControl]="form.controls['longname']">
