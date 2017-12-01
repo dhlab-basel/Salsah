@@ -203,8 +203,8 @@ export class ProjectFormComponent implements OnInit {
                 value: proj.shortname, disabled: this.iri !== undefined
             }, [
                 Validators.required,
-                Validators.minLength(this.shortcodeMinLength),
-                Validators.maxLength(this.shortcodeMaxLength),
+                Validators.minLength(this.shortnameMinLength),
+                Validators.maxLength(this.shortnameMaxLength),
                 existingNamesValidator(this.existingShortNames),
                 Validators.pattern(this.shortnameRegexp)
             ]),
