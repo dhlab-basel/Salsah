@@ -50,12 +50,12 @@ export class ProjectFormComponent implements OnInit {
     existingShortNames: [RegExp] = [
         new RegExp('project')
     ];
-    shortnameRegexp = /^[0-9]\S*$/;
+    shortnameRegexp = /^[a-zA-Z]+\S*$/;
 
     existingShortcodes: [RegExp] = [
         new RegExp('project')
     ];
-    shortcodeRegexp = /^[0-9A-F]+$/;
+    shortcodeRegexp = /^[0-9A-Fa-f]+$/;
 
     form: FormGroup;
 
@@ -107,7 +107,7 @@ export class ProjectFormComponent implements OnInit {
             'required': 'Short name is required.',
             'minlength': 'Short name must be at least 3 characters long.',
             'maxlength': 'Short name cannot be more than 16 characters long.',
-            'pattern': 'Whitespaces are not allowed.',
+            'pattern': 'Short name shouldn\'t start with a number; Spaces are not allowed.',
             'existingName': 'This short name is already taken.'
         },
         'longname': {
@@ -117,7 +117,7 @@ export class ProjectFormComponent implements OnInit {
             'required': 'Shortcode is required',
             'maxlength': 'Shortcode cannot be more than ' + this.shortcodeMaxLength + ' characters long.',
             'minlength': 'Shortcode cannot be less than ' + this.shortcodeMinLength + ' characters long.',
-            'pattern': 'This is not a hexadecimal value!',
+            'pattern': 'This is not a hexadecimal value!'
 //            'existingName': 'This shortcode is already taken.'
         },
         'description': {
