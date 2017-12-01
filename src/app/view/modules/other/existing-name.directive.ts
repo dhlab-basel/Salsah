@@ -79,3 +79,20 @@ export function existingNamesValidator(nameAr: [RegExp]): ValidatorFn {
         return no ? {'existingName': {name}} : null;
     };
 }
+
+export function notAllowed(pattern: RegExp, regType: string): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+        let name;
+
+        console.log(regType);
+
+        if (control.value) {
+            name = control.value.toLowerCase();
+        }
+
+        console.log(name);
+
+        const no = pattern.test(name);
+        return no ? {regType: {name}} : null;
+    };
+}

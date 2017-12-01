@@ -18,7 +18,7 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {Project} from '../../../../model/webapi/knora/';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {existingNamesValidator} from '../../other/existing-name.directive';
+import {existingNamesValidator, notAllowed} from '../../other/existing-name.directive';
 
 @Component({
     selector: 'salsah-project-form',
@@ -50,18 +50,23 @@ export class ProjectFormComponent implements OnInit {
     existingShortNames: [RegExp] = [
         new RegExp('project')
     ];
-    shortnameRegexp = /^[0-9]\S*$/;
+    shortnameRegexp = /^[a-zA-Z].*$/;
+    shortnameRegexpNumber = /^[a-z].*$/;
+    // shortnameRegexp = /^([0-9]{1})\S*$/;
 
     existingShortcodes: [RegExp] = [
         new RegExp('project')
     ];
-    shortcodeRegexp = /^[0-9A-F]+$/;
+    shortcodeRegexp = /^[0-9A-Fa-f]+$/;
 
     form: FormGroup;
 
     descriptionMaxLength: number = 2000;
     shortcodeMinLength: number = 4;
     shortcodeMaxLength: number = this.shortcodeMinLength;
+
+    shortnameMinLength: number = 3;
+    shortnameMaxLength: number = 16;
 
     formLabels = {
         project: {
@@ -105,9 +110,10 @@ export class ProjectFormComponent implements OnInit {
     validationMessages = {
         'shortname': {
             'required': 'Short name is required.',
-            'minlength': 'Short name must be at least 3 characters long.',
-            'maxlength': 'Short name cannot be more than 16 characters long.',
-            'pattern': 'Whitespaces are not allowed.',
+            'minlength': 'Short name must be at least ' + this.shortnameMinLength + ' characters long.',
+            'maxlength': 'Short name cannot be more than ' + this.shortnameMaxLength + ' characters long.',
+            'pattern': 'Short name shouldn\'t start with a number.', // Spaces are not allowed. ',
+            'patternFirstChar': 'Short name shouldn\'t start with a number.',
             'existingName': 'This short name is already taken.'
         },
         'longname': {
@@ -181,6 +187,7 @@ export class ProjectFormComponent implements OnInit {
         // formControllName
         this.form = new FormGroup({
             'shortname': new FormControl({value: proj.shortname}),
+            'shortcode': new FormControl({value: proj.shortcode}),
             'longname': new FormControl({value: proj.longname}),
             'description': new FormControl({value: proj.description}),
             'logo': new FormControl({value: proj.logo})
@@ -200,8 +207,8 @@ export class ProjectFormComponent implements OnInit {
                 value: proj.shortname, disabled: this.iri !== undefined
             }, [
                 Validators.required,
-                Validators.minLength(3),
-                Validators.maxLength(16),
+                Validators.minLength(this.shortnameMinLength),
+                Validators.maxLength(this.shortnameMaxLength),
                 existingNamesValidator(this.existingShortNames),
                 Validators.pattern(this.shortnameRegexp)
             ]),

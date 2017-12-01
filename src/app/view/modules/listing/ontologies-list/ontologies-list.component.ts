@@ -51,7 +51,9 @@ export class Ontologies {
 })
 export class OntologiesListComponent implements OnInit {
 
-    @Input('restrictedBy') project: string;
+    @Input() restrictedBy: string;
+
+    project: string = this.restrictedBy;
 
     // send the number of entries to the parent component (framework-for-listings) to us it there in the title
     @Output() counter: EventEmitter<number> = new EventEmitter<number>();
@@ -88,6 +90,7 @@ export class OntologiesListComponent implements OnInit {
 
     ngOnInit() {
 
+        this.project = JSON.parse(sessionStorage.getItem('currentProject')).ontologies[0];
         if (this.project !== undefined) {
 
             // hack to get the project admin information

@@ -1,6 +1,7 @@
 <div *ngFor="let item of allOntologies">
     <h3>{{item.iri}}</h3>
-    <ul>
-        <li *ngFor="let restype of item.resourcetypes">{{restype.label}}</li>
-    </ul>
+    <salsah-resource-types-list [restrictedBy]="project"></salsah-resource-types-list>
+
 </div>
+
+
