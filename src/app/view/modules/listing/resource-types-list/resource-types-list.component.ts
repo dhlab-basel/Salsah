@@ -18,6 +18,8 @@ import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ResourceTypes, ResourceTypeItem} from '../../../../model/webapi/knora/';
 import {MessageData} from '../../message/message.component';
+import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 
 @Component({
     selector: 'salsah-resource-types-list',
@@ -26,7 +28,7 @@ import {MessageData} from '../../message/message.component';
 })
 export class ResourceTypesListComponent implements OnInit {
 
-    @Input('restrictedBy') project: string; // TODO: we have to change the restrcitedBy value from project iri to the ontology iri
+    @Input() restrictedBy: string; // restricted by ontology
     @Input() index: number;
 
     @Output() toggleItem = new EventEmitter<any>();
@@ -57,14 +59,15 @@ export class ResourceTypesListComponent implements OnInit {
     // iri of the selected resource type
     iri: string;
 
-    constructor(private _resourceTypesService: ResourceTypesService) {
+    constructor(private _resourceTypesService: ResourceTypesService,
+                public _dialog: MatDialog) {
     }
 
     ngOnInit() {
 
         this.selectedRow = this.index;
 
-        this._resourceTypesService.getResourceTypesByVoc(this.project)
+        this._resourceTypesService.getResourceTypesByVoc(this.restrictedBy)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.list = result.getBody(ResourceTypes).resourcetypes;
@@ -91,6 +94,15 @@ export class ResourceTypesListComponent implements OnInit {
             this.toggleItem.emit({id, index});
         }
 
+    }
+
+    edit(id: string) {
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+            data: {
+                iri: id,
+                form: 'resource-type'
+            }
+        });
     }
 
 }
