@@ -39,6 +39,7 @@
                     </mat-form-field>
                     <mat-form-field class="medium">
                         <input matInput [salsahFocus]="step === 1"
+                               [maxlength]="shortnameMaxLength"
                                [placeholder]="formLabels.project.shortname + ' *'"
                                [formControl]="form.controls['shortname']">
                         <mat-hint *ngIf="formErrors.shortname">

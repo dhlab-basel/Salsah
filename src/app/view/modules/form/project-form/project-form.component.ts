@@ -63,6 +63,9 @@ export class ProjectFormComponent implements OnInit {
     shortcodeMinLength: number = 4;
     shortcodeMaxLength: number = this.shortcodeMinLength;
 
+    shortnameMinLength: number = 3;
+    shortnameMaxLength: number = 16;
+
     formLabels = {
         project: {
             title: 'Project details',
@@ -105,8 +108,8 @@ export class ProjectFormComponent implements OnInit {
     validationMessages = {
         'shortname': {
             'required': 'Short name is required.',
-            'minlength': 'Short name must be at least 3 characters long.',
-            'maxlength': 'Short name cannot be more than 16 characters long.',
+            'minlength': 'Short name must be at least ' + this.shortnameMinLength + ' characters long.',
+            'maxlength': 'Short name cannot be more than ' + this.shortnameMaxLength + ' characters long.',
             'pattern': 'Short name shouldn\'t start with a number; Spaces are not allowed.',
             'existingName': 'This short name is already taken.'
         },
@@ -200,8 +203,8 @@ export class ProjectFormComponent implements OnInit {
                 value: proj.shortname, disabled: this.iri !== undefined
             }, [
                 Validators.required,
-                Validators.minLength(3),
-                Validators.maxLength(16),
+                Validators.minLength(this.shortcodeMinLength),
+                Validators.maxLength(this.shortcodeMaxLength),
                 existingNamesValidator(this.existingShortNames),
                 Validators.pattern(this.shortnameRegexp)
             ]),
