@@ -43,10 +43,8 @@ export class EditResourceClassComponent implements OnChanges {
 
 
     @Input() iri: string;
-    @Input() index: number = 0;
-    @Input('projects') projectsList: Project[];
-    @Input('restrictedBy') project: string; // TODO: we have to change the restrcitedBy value from project iri to the ontology iri
-
+    @Input() index?: number = 0;
+//    @Input('projects') projectsList: Project[];
 
     step = 0;
 
@@ -257,7 +255,7 @@ export class EditResourceClassComponent implements OnChanges {
         this._projectsService.getAllProjects()
             .subscribe(
                 (result: Project[]) => {
-                    this.projectsList = result;
+                    // this.projectsList = result;
                 }
             );
 

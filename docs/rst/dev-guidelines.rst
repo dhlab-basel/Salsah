@@ -17,8 +17,6 @@
 
 .. Links
 .. _Knora: http://knora.org
-.. _Angular_CLI: http://cli.angular.io
-.. _WebStorm_editor:
 
 
 .. Main document content
@@ -33,7 +31,7 @@ Dear Developer, this guideline should help you and us to have always a similar c
 --------------
 Code structure
 --------------
-We're all developing salsah with Angular_CLI_ and the WebStorm_editor_ by JetBrains. This editor (but also many others) is able to work with the .editorconfig file in the Salsah root directory. It's a configuration definition for the typescript- and the scss-lint tools. The following recommendations are important:
+We're all developing salsah with `Angular_CLI <http://cli.angular.io>`_ and the `WebStorm editor <http://lakto.org>`_ by JetBrains. This editor (but also many others) is able to read the .editorconfig file in the Salsah root directory. It's a configuration definition for the typescript- and the scss-lint tools. The following recommendations are important:
 
 General we're using spaces instead of tabs (indent_style) with a size of 4 (indent_size). The styling files, where we're using scss (sass), have an exception of the indent size, namely 2.
 
@@ -54,18 +52,16 @@ In TS and HTML files the
 File structure
 --------------
 The file structure in the salsah app has only a few main folders.
-    src
-    |__ app
-        |__ model
-        |    |__ services
-        |    |__ webapi
-        |__ view
-                |__ dashboard
-                |__ documentation
-                |__ login
-                |__ modules
-                |__ search
-          |__ [+ all app configuration files]
+
+..  toctree::
+    :maxdepth: 3
+
+    app/index
+    app/model/index
+    app/view/index
+
+
+
 
 
 
@@ -80,10 +76,10 @@ Main components
 Modules
 *******
 
-Create own, reusable modules (Tutorial: https://medium.com/@ngl817/building-an-angular-4-component-library-with-the-angular-cli-and-ng-packagr-53b2ade0701e_ )
+Create own, reusable modules (Tutorial: `<https://medium.com/@ngl817/building-an-angular-4-component-library-with-the-angular-cli-and-ng-packagr-53b2ade0701e>`_ )
 
 Creating a feature module
-https://angular-2-training-book.rangle.io/handout/modules/feature-modules.html_
+`<https://angular-2-training-book.rangle.io/handout/modules/feature-modules.html>`_
 
 
 
@@ -91,4 +87,5 @@ https://angular-2-training-book.rangle.io/handout/modules/feature-modules.html_
 Buttons
 *******
 
-Buttons Shouldn’t Have a Hand Cursor (https://blog.marvelapp.com/buttons-shouldnt-hand-cursor/?ref=webdesignernews.com_ )
+Buttons Shouldn’t Have a Hand Cursor (`<https://blog.marvelapp.com/buttons-shouldnt-hand-cursor/?ref=webdesignernews.com>`_ )
+

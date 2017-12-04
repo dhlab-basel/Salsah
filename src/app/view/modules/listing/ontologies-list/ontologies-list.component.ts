@@ -51,12 +51,7 @@ export class Ontologies {
 })
 export class OntologiesListComponent implements OnInit {
 
-    @Input('restrictedBy') project: string;
-
-    // send the number of entries to the parent component (framework-for-listings) to us it there in the title
-    @Output() counter: EventEmitter<number> = new EventEmitter<number>();
-
-    loggedInAdmin: boolean = false;
+    @Input() restrictedBy: string;      // restricted by = project
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
@@ -73,12 +68,7 @@ export class OntologiesListComponent implements OnInit {
     };
 
     // the main object in this component
-    allOntologies: OntologyInfo[] = [new OntologyInfo()];
-    allActive: string[] = [];
-    allInactive: string[] = [];
-    countAll: number;
-    countActive: number;
-    countInactive: number;
+    ontologiesList: string[] = [];
 
     constructor(private _router: Router,
                 public _resourceTypesService: ResourceTypesService,
@@ -88,124 +78,17 @@ export class OntologiesListComponent implements OnInit {
 
     ngOnInit() {
 
-        if (this.project !== undefined) {
+        if (this.restrictedBy !== undefined) {
+            // list of ontologies in a project dashboard
+            this.ontologiesList = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
 
-            // hack to get the project admin information
-            if (localStorage.getItem('currentUser') !== null) {
-                this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-            }
-
-            // get project ontologies
-            const ontologiesList: string[] = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
-
-            let i = 0;
-            for (const onto of ontologiesList) {
-                // make a request for each ontology and store the detailed information in allOntologies
-
-                this._resourceTypesService.getResourceTypesByVoc(onto)
-                    .subscribe(
-                        (result: ApiServiceResult) => {
-
-                            for (const restype of result.getBody(ResourceTypes).resourcetypes) {
-
-                                this._resourceTypesService.getResourceType(restype.id)
-                                    .subscribe(
-                                        (res: ApiServiceResult) => {
-
-
-                                            console.log(res.getBody(ResourceType).restype_info);
-                                        },
-                                        (err: ApiServiceError) => {
-                                            console.log(err);
-                                        }
-                                    )
-                            }
-                            const temp_onto: OntologyInfo = {
-                                iri: onto,
-                                resourcetypes: result.getBody(ResourceTypes).resourcetypes
-                            };
-
-                            this.allOntologies.push(temp_onto);
-//                            this.allOntologies[item] = result.getBody(ResourceTypes);
-//                            this.allOntologies.push(result.getBody(ResourceTypes));
-                            this.isLoading = false;
-                            console.log(this.allOntologies);
-                        },
-                        (error: ApiServiceError) => {
-                            this.errorMessage = <any>error;
-                            this.isLoading = false;
-                        }
-                    );
-                i++;
-            }
-
-
-            /*
-            this._projectsService.getProjectMembersByIri(this.project)
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        console.log(result);
-//                        this.allOntologies = result.getBody(string[]).ontologies;
-
-                        // TODO: move the following lines into a method
-                        for (const item of this.allOntologies) {
-                            // TODO: get all user profiles here
-                            // ...
-/*
-                            if (item.status === true) {
-                                this.allActive.push(item);
-
-                            } else {
-                                this.allInactive.push(item);
-                            }
-
-                        }
-                        this.countAll = Object.keys(this.allOntologies).length;
-                        this.countActive = Object.keys(this.allActive).length;
-                        this.countInactive = Object.keys(this.allInactive).length;
-
-                        // set an array of the project members in local storage
-                        // it's a list of user IRIs
-                        // we need it, when we want to add new members to a project
-                        // in that case we see, if someone is already a member
-//                        const currentMembers: string[] = [];
-//                        for (const m of this.allOntologies) {
-//                            currentMembers.push(m.user_id);
-//                        }
-//                        sessionStorage.setItem('currentMembers', JSON.stringify(currentMembers));
-                        this.isLoading = false;
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
-                        this.isLoading = false;
-                    }
-                );
         } else {
-            // get all ontologies from knora (is used in the system admin/dashboard)
-            /*
-            this._userService.getAllUsers()
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.allUsers = result.getBody(UsersList).users;
-                        for (const au of this.allUsers) {
-                            if (au.status === true) {
-                                this.allActiveUsers.push(au);
-                            } else {
-                                this.allInactiveUsers.push(au);
-                            }
-                        }
-                        this.countAll = Object.keys(this.allUsers).length;
-                        this.countActive = Object.keys(this.allActiveUsers).length;
-                        this.countInactive = Object.keys(this.allInactiveUsers).length;
-                        this.isLoading = false;
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
-                    }
-                );
-                */
+            // list of ontologies in the system dashboard
 
         }
+
     }
+
+
 
 }
