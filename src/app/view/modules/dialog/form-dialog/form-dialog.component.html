@@ -45,9 +45,9 @@
         </salsah-ontology-form>
 
         <!-- create new / edit resource class -->
-        <salsah-new-resource-class *ngSwitchCase="'resource-type'"
-                                   [iri]="data.restriction">
-        </salsah-new-resource-class>
+        <salsah-edit-resource-class *ngSwitchCase="'resource-type'"
+                                   [iri]="data.iri">
+        </salsah-edit-resource-class>
 
         <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
     </mat-dialog-content>

@@ -1,5 +1,5 @@
 /* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi.
+ * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -13,23 +13,24 @@
  * */
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ResourceTypesService} from '../../../../model/services/resource-types.service';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ResourceTypes, ResourceTypeItem} from '../../../../model/webapi/knora/';
-import {MessageData} from '../../message/message.component';
-import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import {ResourceTypeItem} from '../../../../../model/webapi/knora/v1/resource-types/resource-type-item';
+import {ApiServiceResult} from '../../../../../model/services/api-service-result';
+import {ResourceTypes} from '../../../../../model/webapi/knora/v1/resource-types/resource-types';
+import {ApiServiceError} from '../../../../../model/services/api-service-error';
+import {MessageData} from '../../../message/message.component';
+import {ResourceTypesService} from '../../../../../model/services/resource-types.service';
 
 @Component({
-    selector: 'salsah-resource-types-list',
-    templateUrl: './resource-types-list.component.html',
-    styleUrls: ['./resource-types-list.component.scss']
+    selector: 'salsah-ontologies-list-item',
+    templateUrl: './ontologies-list-item.component.html',
+    styleUrls: ['./ontologies-list-item.component.scss']
 })
-export class ResourceTypesListComponent implements OnInit {
+export class OntologiesListItemComponent implements OnInit {
 
-    @Input() restrictedBy: string; // restricted by ontology
+    @Input() listData: ResourceTypeItem[] = [];
+//    @Input() sortProp: string;
     @Input() index: number;
+    @Input() project?: string;
 
     @Output() toggleItem = new EventEmitter<any>();
     // send the number of entries to the parent component (framework-for-listings) to us it there in the title
@@ -59,15 +60,14 @@ export class ResourceTypesListComponent implements OnInit {
     // iri of the selected resource type
     iri: string;
 
-    constructor(private _resourceTypesService: ResourceTypesService,
-                public _dialog: MatDialog) {
+
+    constructor(private _resourceTypesService: ResourceTypesService) {
     }
 
     ngOnInit() {
-
         this.selectedRow = this.index;
 
-        this._resourceTypesService.getResourceTypesByVoc(this.restrictedBy)
+        this._resourceTypesService.getResourceTypesByVoc(this.project)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.list = result.getBody(ResourceTypes).resourcetypes;
@@ -80,31 +80,6 @@ export class ResourceTypesListComponent implements OnInit {
                     this.isLoading = false;
                 }
             );
-    }
-
-    // open / close detail view
-    toggle(id: string, index: number) {
-        if (this.selectedRow === index) {
-            // close the detail view
-            this.selectedRow = undefined;
-            this.toggleItem.emit({id, index});
-        } else {
-            // open the detail view
-            this.selectedRow = index;
-            this.toggleItem.emit({id, index});
-        }
-
-    }
-
-    // TODO: make a global edit method ... somewhere ...
-    edit(id: string, title?: string) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-            data: {
-                iri: id,
-                title: 'Edit ' + id,
-                form: 'resource-type'
-            }
-        });
     }
 
 }

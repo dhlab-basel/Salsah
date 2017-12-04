@@ -5,6 +5,7 @@
 <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
 <!-- if we have the data: show the list-->
+<!-- // deprecated: old list
 <mat-list class="salsah-list" *ngIf="num > 0; else noData">
     <h3 mat-subheader ># Resource types: {{num}}</h3>
     <mat-list-item *ngFor="let item of list | sortBy: 'label'; let i = index"
@@ -12,9 +13,8 @@
                   [id]="item.id"
                   class="salsah-link"
                   [class.highlight]="i == selectedRow">
-        <!--<mat-list-item *ngFor="let admin of project.admins">-->
         <mat-icon mat-list-avatar class="salsah-avatar">
-            {{item.label}}
+            insert_drive_file
         </mat-icon>
         <h4 mat-line>{{item?.label}}</h4>
         <p mat-line [class.white-space]="!selectedRow">
@@ -28,6 +28,41 @@
     </mat-list-item>
 
 </mat-list>
+-->
+
+<mat-accordion>
+    <mat-expansion-panel *ngFor="let item of list | sortBy: 'label'; let i = index" [hideToggle]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <h4>{{item?.label | slice:0:36}}</h4>
+            </mat-panel-title>
+            <mat-panel-description>
+                has {{item.properties.length}} properties
+                <mat-icon>insert_drive_file</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-list>
+            <!-- <h5 mat-subheader>{{item?.label}}</h5> -->
+            <mat-list-item *ngFor="let prop of item.properties">
+                {{prop.label}}
+            </mat-list-item>
+        </mat-list>
+
+        <mat-action-row>
+            <button mat-button
+                    color="primary"
+                    (click)="edit(item?.id)">
+                edit
+            </button>
+        </mat-action-row>
+
+    </mat-expansion-panel>
+
+</mat-accordion>
+
+<!-- TODO: add resource-type button at the end -->
+
 
 <!-- if there are any data: show a no data message -->
 <ng-template #noData>

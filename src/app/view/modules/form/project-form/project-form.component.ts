@@ -18,7 +18,7 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {Project} from '../../../../model/webapi/knora/';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {existingNamesValidator} from '../../other/existing-name.directive';
+import {existingNamesValidator, notAllowed} from '../../other/existing-name.directive';
 
 @Component({
     selector: 'salsah-project-form',
@@ -184,6 +184,7 @@ export class ProjectFormComponent implements OnInit {
         // formControllName
         this.form = new FormGroup({
             'shortname': new FormControl({value: proj.shortname}),
+            'shortcode': new FormControl({value: proj.shortcode}),
             'longname': new FormControl({value: proj.longname}),
             'description': new FormControl({value: proj.description}),
             'logo': new FormControl({value: proj.logo})
