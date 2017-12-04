@@ -15,10 +15,12 @@
 
 //animations are used to create collapsible cards content
 import {Component, Input, OnChanges} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/map';
 import {
     Project,
     Properties,
@@ -52,10 +54,15 @@ export class EditResourceClassComponent implements OnChanges {
     isDisabled: boolean = true;
     isExpanded: boolean = false;
 
-
     resType: ResourceTypeInfo = new ResourceTypeInfo;
     props: PropertyItem[];
     list: ResourceTypeItem[] = [];
+
+    // autocomplete var
+    selectedProp: PropertyItem;
+    properties: any = [];
+    filteredProps: any;
+
     num: number;
     errorMessage: string = undefined;
     resIcon: string = undefined;
@@ -66,6 +73,8 @@ export class EditResourceClassComponent implements OnChanges {
     eRForm4class: FormGroup;
     eRForm4prop: FormGroup;
     eRForm4AddProp: FormGroup;
+
+    propCtrl: FormControl;
 
 
     public editResFormLabels: any = {
@@ -94,13 +103,19 @@ export class EditResourceClassComponent implements OnChanges {
             label: 'or create new property',
             description: 'Create a custom property',
             selectLabel: 'Select property',
-            selectDescript: 'Select an existing property to add to this resource'
+            selectDescript: 'Select an existing property to add to this resource',
+            autoComplete: 'Start typing a property name here',
+            skip: 'Skip and create custom property'
+
         },
         buttons: {
             save: 'Save',
             reset: 'Reset',
             close: 'Close',
             edit: 'Edit',
+            skip: 'Skip',
+            next: 'Next',
+            add: 'Add'
         }
     };
 
@@ -216,6 +231,12 @@ export class EditResourceClassComponent implements OnChanges {
                 private _fb: FormBuilder,
                 private _fb4p: FormBuilder,
                 private _fb4ap: FormBuilder) {
+
+        this.propCtrl = new FormControl('', Validators.required);
+        this.filteredProps = this.propCtrl.valueChanges
+            .startWith(this.propCtrl.value)
+            .map(name => this.filterProps(name));
+
     }
 
 
@@ -360,6 +381,18 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
 
+
+    filterProps(val: string) {
+        if (val) {
+            const filterValue = val.toLowerCase();
+            return this.props.filter(property =>
+                property.label.toLowerCase().includes(filterValue));
+        }
+        return this.props;
+    }
+
+
+
     // form functions
     submitResEdit(): void {
         if (this.resType !== undefined) {
@@ -414,6 +447,23 @@ export class EditResourceClassComponent implements OnChanges {
 
     resetAddProp(){
         this.eRForm4AddProp.reset();
+    }
+
+
+    resetSelectedProp() {
+        this.propCtrl.reset();
+        this.selectedProp = undefined;
+    }
+
+
+
+    nextStep(ev, step?: number) {
+        ev.preventDefault();
+        if (step) {
+            this.step = step;
+        } else {
+            this.step++;
+        }
     }
 
 

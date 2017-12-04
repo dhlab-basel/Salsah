@@ -217,20 +217,41 @@
                             <mat-icon>add</mat-icon>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <mat-form-field class="full-width">
-                        <mat-select class="full-width"
-                                    placeholder={{editResFormLabels.resource.prps.vocabulary}}
-                                    formControlName="vocabulary"
-                                    (change)="setVoc(i, $event)">
-                            <mat-option *ngFor="let project of projectsList"
-                                        [value]="project.ontologies">
-                                {{project.description}}
+
+
+
+                    <mat-form-field class="large">
+                        <input matInput
+                               placeholder={{editResFormLabels.addProp.autoComplete}}
+                               [matAutocomplete]="autoProp"
+                               [formControl]="propCtrl">
+                        <mat-icon matSuffix class="input-icon icon-for-autocomplete" (click)="resetSelectedProp()"
+                                  *ngIf="propCtrl.value && propCtrl.dirty">close
+                        </mat-icon>
+                        <mat-autocomplete #autoProp="matAutocomplete"> <!-- [displayWith]="displayFn"> -->
+                            <mat-option *ngFor="let prop of filteredProps | async" [value]="prop?.label">
+                                {{ prop?.label }}
                             </mat-option>
-                            <mat-hint *ngIf="formPropErrors.vocabulary ">
-                                {{ formPropErrors.vocabulary }}
-                            </mat-hint>
-                        </mat-select>
+                        </mat-autocomplete>
                     </mat-form-field>
+
+                    <mat-action-row>
+                        <button mat-button
+                                class="navigation-button left"
+                                color="warn"
+                                (click)="nextStep($event)">
+                            <!--TODO: add second step where propertie's values are shown and can be adjusted to fit this project-->
+                            {{editResFormLabels.addProp.skip}}
+                        </button>
+                        <button mat-button
+                                class="navigation-button"
+                                color="primary"
+                                (click)="submitAddProp()"
+                                [disabled]="!propCtrl.valid">
+                            {{editResFormLabels.buttons.add}}
+                        </button>
+                    </mat-action-row>
+
  <!--                   <mat-form-field class="full-width">
                         <mat-select class="full-width"
                                     placeholder={{editResFormLabels.resource.label}}
@@ -243,7 +264,7 @@
                     </mat-form-field>-->
                 </mat-expansion-panel>
                 <!--Create custom property -->
-                <mat-expansion-panel hideToggle="true">
+                <mat-expansion-panel hideToggle="true" [expanded]="step === 1">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <span>{{editResFormLabels.addProp.label}}</span>
