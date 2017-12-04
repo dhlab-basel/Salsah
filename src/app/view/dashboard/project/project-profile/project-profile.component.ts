@@ -17,6 +17,8 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {Project} from '../../../../model/webapi/knora';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {FormDialogComponent} from '../../../modules/dialog/form-dialog/form-dialog.component';
 
 
 @Component({
@@ -31,19 +33,31 @@ export class ProjectProfileComponent implements OnInit {
 
     projectLogoPath: string = '/data-pool/projects/';
 
+    loggedInAdmin: boolean;
+
+    edit: any = {
+        title: 'Edit Project'
+    };
+
     constructor(private _route: ActivatedRoute,
-                private _projectsService: ProjectsService) {
+                private _projectsService: ProjectsService,
+                public _dialog: MatDialog) {
 
     }
 
     ngOnInit() {
+        // bad hack to get the project admin information
+        if (localStorage.getItem('currentUser') !== null) {
+            this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+        }
+
         this._route.params.subscribe((params: Params) => {
             const projectFromRoute: string = params['pid'];
             let projectFromSession: string;
             if (sessionStorage.getItem('currentProject') !== null) {
                 projectFromSession = JSON.parse(sessionStorage.getItem('currentProject')).shortname;
             }
-            if(projectFromSession === projectFromRoute) {
+            if (projectFromSession === projectFromRoute) {
                 this.project = JSON.parse(sessionStorage.getItem('currentProject'));
             } else {
                 this._projectsService.getProjectByShortname(params['pid'])
@@ -58,6 +72,15 @@ export class ProjectProfileComponent implements OnInit {
             }
         });
 
+    }
+
+    editProject() {
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+            data: {
+                iri: this.project.id,
+                form: 'project'
+            }
+        });
     }
 
 }

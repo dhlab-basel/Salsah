@@ -1,4 +1,12 @@
 <div class="salsah-module-content medium" *ngIf="project">
+    <!-- edit button -->
+    <button *ngIf="loggedInAdmin"
+            (click)="editProject()"
+            mat-fab class="right"
+            color="primary">
+        <mat-icon>edit</mat-icon>
+    </button>
+
     <img salsahImage [image]="project?.logo" [type]="'project'">
     <h2 mat-header>{{project.longname}}</h2>
     <div [innerHTML]="project.description" class="salsah-text"></div>
