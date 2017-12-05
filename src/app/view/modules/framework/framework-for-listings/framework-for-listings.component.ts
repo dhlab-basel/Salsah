@@ -157,10 +157,12 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
 
     ngOnChanges() {
 //        console.log(this.list);
+        console.log('ngOnChanges');
     }
 
     ngAfterViewInit() {
         this._cdRef.detectChanges();
+        console.log('ngAfterViewInit')
     }
 
     //
@@ -199,7 +201,9 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     // if the input "add" is set, this method opens a form dialog box with the new-XYZ-form component
     // the form-dialog component handles which nex-XYZ-form to use
     openNew(form: string) {
+
         let dialogRef;
+
         switch (form) {
             case 'user':
             case 'project':
@@ -229,8 +233,9 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
                 });
         }
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
+        return dialogRef.beforeClose().subscribe(result => {
+            console.log('The dialog was closed');
+            alert(result);
         });
     }
 

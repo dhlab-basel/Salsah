@@ -12,7 +12,7 @@
 * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 * */
 
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {MessageData} from '../../message/message.component';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
@@ -32,6 +32,10 @@ export interface FormSteps {
 
 export class FormDialogComponent implements OnInit {
 
+    @Output() refreshComponent = new EventEmitter<any>();
+
+//    refreshComponent = new EventEmitter<any>();
+
     fullSize: boolean = false;
 
 //    formIsValid: boolean = false;
@@ -42,14 +46,13 @@ export class FormDialogComponent implements OnInit {
         statusText: 'TODO: add the following form component to the FormDialog component:'
     };
 
-    constructor(public _dialogRef: MatDialogRef<FormDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any,
-                public _dialog: MatDialog) {
+    constructor(public dialogRef: MatDialogRef<FormDialogComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
         // start in full size
-        if (this._dialogRef) {
+        if (this.dialogRef) {
             this.toggleFullSize();
         }
         this.notYetImplemented.route = this.data.form;
@@ -70,10 +73,10 @@ export class FormDialogComponent implements OnInit {
         this.fullSize = (!this.fullSize);
 
         if (this.fullSize) {
-            this._dialogRef.updateSize('100%', '100%');
+            this.dialogRef.updateSize('100%', '100%');
         } else {
-            this._dialogRef.updateSize('auto', 'auto');
-            this._dialogRef.updatePosition();
+            this.dialogRef.updateSize('auto', 'auto');
+            this.dialogRef.updatePosition();
         }
     }
 
@@ -86,6 +89,17 @@ export class FormDialogComponent implements OnInit {
             confirm: answer
         };
 
+        this.dialogRef.close();
+        this.dialogRef.beforeClose().subscribe(() => {
+            // update parent component
+            this.refreshComponent.emit('test');
+            console.log('dialog before close');
+        });
+        this.dialogRef.afterClosed().subscribe(() => {
+            console.log('dialog after closed');
+        });
+
+        /*
         // open dialog box
         const dialogRefConfirm = this._dialog.open(ConfirmDialogComponent, config);
 
@@ -93,11 +107,37 @@ export class FormDialogComponent implements OnInit {
         dialogRefConfirm.afterClosed().subscribe(result => {
             if (config.data.confirm === true) {
                 // close the form dialog box
-                this._dialogRef.close();
+                this.dialogRef.close();
             } else {
                 // do not close the form dialog box
             }
 
         });
+        */
     }
+
+    /**
+     * This method closes the dialog box and refresh the parent component
+     * or with the event parameter it could redirect the user to the defined route
+     * e.g. /project/[shortname] in the "create project case"
+     * @param $event
+     */
+    closeAndRefresh($event): void {
+        // do we have a value?
+        const route: string = $event;
+
+        // close the dialog box
+        this.dialogRef.close();
+
+        if (route !== undefined) {
+            // go to the defined route
+            window.location.replace(route);
+        } else {
+            // refresh the component only
+            // emit event to the parent and refresh it there?
+            this.refreshComponent.emit('test');
+
+        }
+    }
+
 }

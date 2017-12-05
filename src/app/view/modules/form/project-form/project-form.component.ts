@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
@@ -34,6 +34,8 @@ export class ProjectFormComponent implements OnInit {
     // otherwise the form is empty to create a new project
 
     @Input() iri?: string;
+
+    @Output() closeForm = new EventEmitter<any>();
 
     // @Output() submitData = new EventEmitter<any>();
 
@@ -201,8 +203,6 @@ export class ProjectFormComponent implements OnInit {
             'logo': new FormControl({value: proj.logo})
         });
 */
-        console.log(this.form);
-
 
         if (proj.logo !== undefined) {
             this.logo = proj.logo;
@@ -311,10 +311,15 @@ export class ProjectFormComponent implements OnInit {
             this._projectsService.createProject(this.project).subscribe(
                 (result: ApiServiceResult) => {
 //                    console.log('service: ', result);
-                    this.isLoading = true;
 
-                    window.location.replace('/project/' + value.shortname);
-//                    location.reload();
+                    // this.isLoading = true;
+
+                    // TODO: find a better solution: reload the component only, not the whole application; implement @Output as discussed here: https://stackoverflow.com/questions/41231557/refresh-component-in-angular-2
+
+//                    window.location.replace('/project/' + value.shortname);
+
+                    // IN PRGOGRESS:
+                    this.closeForm.emit('/project/' + value.shortname);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = error;
@@ -324,8 +329,9 @@ export class ProjectFormComponent implements OnInit {
             // update project
             this._projectsService.updateProject(this.iri, this.project).subscribe(
                 (result: ApiServiceResult) => {
-                    this.isLoading = true;
-                    window.location.reload();
+                    this.closeForm.emit();
+//                    this.isLoading = true;
+//                    window.location.reload();
 //                    console.log('service: ', result);
                 },
                 (error: ApiServiceError) => {
