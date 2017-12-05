@@ -18,8 +18,9 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {Project} from '../../../../model/webapi/knora/';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {existingNamesValidator} from '../../other/existing-name.directive';
+
 import {ActivatedRoute} from '@angular/router';
+import {existingNamesValidator, notAllowed} from '../../other/existing-name.directive';
 
 @Component({
     selector: 'salsah-project-form',
