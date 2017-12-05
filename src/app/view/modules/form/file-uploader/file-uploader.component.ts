@@ -12,7 +12,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {FileService} from '../../../../model/services/file.service';
 
 @Component({
     selector: 'salsah-file-uploader',
@@ -21,29 +22,151 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class FileUploaderComponent implements OnInit {
 
+    errors: Array<string> = [];
+    dragAreaClass: string = 'dragarea';
+
+    @Input() file: string;
+    @Input() fileExt?: string = 'JPG, GIF, PNG, JPEG';
+    @Input() maxFiles?: number = 5;
+    @Input() maxSize?: number = 5; // 5MB
+    @Output() uploadStatus = new EventEmitter();
+
+    viewType: string = 'upload';
+
+    /*
+
     @Input() file?: string;
 
     @Output() setFiles = new EventEmitter<any>();
 
-    private fileList : any = [];
-    private invalidFiles : any = [];
+    private fileList: any = [];
+    private invalidFiles: any = [];
 
-    private filesToUpload : any = [];
+    private filesToUpload: any = [];
 
-    viewType: string = 'upload';
+
     dragStatus: boolean = false;
+    */
 
-//    uploader: FileUploader;
-
-    constructor() {
-
+    constructor(private fileService: FileService) {
     }
 
     ngOnInit() {
-        if (this.file) {
-            this.viewType = 'preview';
+    }
+
+    onFileChange(event) {
+        const files = event.target.files;
+        console.log('files: ', files);
+        this.saveFiles(files);
+    }
+
+
+    // onDragOver
+    @HostListener('dragover', ['$event'])
+    onDragOver(event) {
+        this.dragAreaClass = 'droparea';
+        event.preventDefault();
+    }
+
+    // onDragEnter
+    @HostListener('dragenter', ['$event'])
+    onDragEnter(event) {
+        this.dragAreaClass = 'droparea';
+        event.preventDefault();
+    }
+
+    // onDragEnd
+    @HostListener('dragend', ['$event'])
+    onDragEnd(event) {
+        this.dragAreaClass = 'dragarea';
+        event.preventDefault();
+    }
+
+    // onDragLeave
+    @HostListener('dragleave', ['$event'])
+    onDragLeave(event) {
+        this.dragAreaClass = 'dragarea';
+        event.preventDefault();
+    }
+
+    // onDrop
+    @HostListener('drop', ['$event'])
+    onDrop(event) {
+        this.dragAreaClass = 'dragarea';
+        event.preventDefault();
+        event.stopPropagation();
+        const files = event.dataTransfer.files;
+        this.saveFiles(files);
+    }
+
+    saveFiles(files) {
+        this.errors = []; // Clear error
+        // Validate file size and allowed extensions
+        if (files.length > 0 && (!this.isValidFiles(files))) {
+            this.uploadStatus.emit(false);
+            return;
+        }
+        if (files.length > 0) {
+            const formData: FormData = new FormData();
+            for (let j = 0; j < files.length; j++) {
+                formData.append('file[]', files[j], files[j].name);
+            }
+            const parameters = {
+//        projectId: this.projectId,
+//        sectionId: this.sectionId
+            };
+            this.fileService.upload(formData, parameters)
+                .subscribe(
+                    success => {
+                        this.uploadStatus.emit(true);
+                        console.log(success);
+                        // here we get the data back from sipi
+                        // TODO: use success.path to display the uploaded image
+                    },
+                    error => {
+                        this.uploadStatus.emit(true);
+                        this.errors.push(error.ExceptionMessage);
+                    });
         }
     }
+
+    private isValidFiles(files) {
+        // Check Number of files
+        if (files.length > this.maxFiles) {
+            this.errors.push('Error: At a time you can upload only ' + this.maxFiles + ' files');
+            return;
+        }
+        this.isValidFileExtension(files);
+        return this.errors.length === 0;
+    }
+
+    private isValidFileExtension(files) {
+        // Make array of file extensions
+        const extensions = (this.fileExt.split(','))
+            .map(function (x) {
+                return x.toLocaleUpperCase().trim();
+            });
+        for (let i = 0; i < files.length; i++) {
+            // Get file extension
+            const ext = files[i].name.toUpperCase().split('.').pop() || files[i].name;
+            // Check the extension exists
+            const exists = extensions.includes(ext);
+            if (!exists) {
+                this.errors.push('Error (Extension): ' + files[i].name);
+            }
+            // Check file size
+            this.isValidFileSize(files[i]);
+        }
+    }
+
+    private isValidFileSize(file) {
+        const fileSizeinMB = file.size / (1024 * 1000);
+        const size = Math.round(fileSizeinMB * 100) / 100; // convert upto 2 decimal place
+        if (size > this.maxSize) {
+            this.errors.push('Error (File Size): ' + file.name + ': exceed file size limit of ' + this.maxSize + 'MB ( ' + size + 'MB )');
+        }
+    }
+
 
     /**
      * button to toggle the view between 'upload' (browse and drag'n'drop view) and 'url' (set an url of the (image) file)
@@ -52,61 +175,10 @@ export class FileUploaderComponent implements OnInit {
         this.viewType = (this.viewType === 'upload' ? 'url' : 'upload')
     }
 
-    onFileChanges(fileList : Array<File>){
-        this.fileList = fileList;
-    }
-
-    onFileInvalids(fileList : Array<File>){
-        this.invalidFiles = fileList;
-        this.upload();
-    }
-
-
-    // another method; source: https://www.thepolyglotdeveloper.com/2016/02/upload-files-to-node-js-using-angular-2/
-
-    upload() {
-        this.makeFileRequest('http://localhost:3000/upload', [], this.fileList).then((result) => {
-            console.log(result);
-        }, (error) => {
-            console.error(error);
-        });
-
-    }
-
-    fileChangeEvent(fileInput: any) {
-
-        this.filesToUpload = <Array<File>> fileInput.target.files;
-
-        this.setFiles.emit(this.filesToUpload);
-
-//        this.upload();
-    }
-
-    makeFileRequest(url: string, params: Array<string>, files: Array<File>) {
-        return new Promise((resolve, reject) => {
-            const formData: any = new FormData();
-            const xhr = new XMLHttpRequest();
-            for (let i = 0; i < files.length; i++) {
-                formData.append('uploads[]', files[i], files[i].name);
-            }
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        resolve(JSON.parse(xhr.response));
-                    } else {
-                        reject(xhr.response);
-                    }
-                }
-            };
-
-            xhr.open('POST', url, true);
-            xhr.send(formData);
-        });
-    }
-
     deleteFile(ev) {
         ev.preventDefault();
-        this.file = undefined;
+//        this.file = undefined;
         this.viewType = 'upload';
     }
 }
+

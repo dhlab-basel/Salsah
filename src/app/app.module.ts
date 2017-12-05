@@ -136,8 +136,9 @@ import {IntegerValueComponent} from './view/modules/search/extended-search/selec
 import {DecimalValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/decimal-value/decimal-value.component';
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
-import {MatNativeDateModule} from '@angular/material';
-import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+
+import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+import {FileService} from './model/services/file.service';
 
 //
 // import all needed services
@@ -251,7 +252,6 @@ import { OntologiesListItemComponent } from './view/modules/listing/ontologies-l
         HttpModule,
         RouterModule,
         AppMaterialModule,
-        MatNativeDateModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
@@ -281,6 +281,7 @@ import { OntologiesListItemComponent } from './view/modules/listing/ontologies-l
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,
+        FileService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

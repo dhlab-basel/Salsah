@@ -14,6 +14,7 @@ import {
     MatInputModule,
     MatListModule,
     MatMenuModule,
+    MatNativeDateModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
@@ -31,7 +32,7 @@ import {
 //    StyleModule
 } from '@angular/material';
 
-//import {CdkTableModule} from '@angular/cdk';
+// import {CdkTableModule} from '@angular/cdk';
 
 @NgModule({
     imports: [
@@ -50,6 +51,7 @@ import {
         MatInputModule,
         MatListModule,
         MatMenuModule,
+        MatNativeDateModule,
         MatPaginatorModule,
         MatProgressBarModule,
         MatProgressSpinnerModule,
@@ -83,6 +85,7 @@ import {
         MatInputModule,
         MatListModule,
         MatMenuModule,
+        MatNativeDateModule,
         MatPaginatorModule,
         MatProgressBarModule,
         MatProgressSpinnerModule,
