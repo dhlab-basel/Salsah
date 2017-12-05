@@ -25,9 +25,9 @@ export class AppConfig {
 
     public static PathSeparator = '#';
 
-    public static KnoraApiV2WithValueObjectPath: string =  AppConfig.KnoraApi + '/v2' + AppConfig.PathSeparator;
-	public static KnoraApiV2SimplePath: string =  AppConfig.KnoraApi + '/simple/v2' + AppConfig.PathSeparator;
-    
+    public static KnoraApiV2WithValueObjectPath: string = AppConfig.KnoraApi + '/v2' + AppConfig.PathSeparator;
+    public static KnoraApiV2SimplePath: string = AppConfig.KnoraApi + '/simple/v2' + AppConfig.PathSeparator;
+
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
     public static hasOntologiesWithClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithClasses';
 
@@ -182,8 +182,6 @@ export class AppConfig {
     public static geomSimple = AppConfig.KnoraApiV2SimplePath + "Geom";
     public static colorSimple = AppConfig.KnoraApiV2SimplePath + "Color";
     public static geonameSimple = AppConfig.KnoraApiV2SimplePath + "Geoname";
-
-
 
 
 }
