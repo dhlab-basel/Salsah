@@ -14,18 +14,18 @@
 
 export class AppConfig {
 
-    public static OntologyBaseURL: string = 'http://www.knora.org/ontology';
-
-    public static KnoraBase: string = AppConfig.OntologyBaseURL + '/knora-base';
+    public static KnoraBase: string = 'http://www.knora.org/ontology/knora-base';
 
     public static SystemProject: string = AppConfig.KnoraBase + '#SystemProject';
     public static SystemAdminGroup: string = AppConfig.KnoraBase + '#SystemAdmin';
     public static ProjectAdminGroup: string = AppConfig.KnoraBase + '#ProjectAdmin';
     public static ProjectMemberGroup: string = AppConfig.KnoraBase + '#ProjectMember';
 
-    public static PathSeparator = "#";
+    public static KnoraApi: string = 'http://api.knora.org/ontology/knora-api';
 
-    public static KnoraApiV2WithValueObjectPath: string = AppConfig.OntologyBaseURL + '/knora-api/v2' + AppConfig.PathSeparator;
+    public static PathSeparator = '#';
+
+    public static KnoraApiV2WithValueObjectPath: string =  AppConfig.KnoraApi + '/v2' + AppConfig.PathSeparator;
 
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
     public static hasOntologiesWithClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithClasses';
