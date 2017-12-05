@@ -16,9 +16,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {Project, ProjectItem, ProjectsList} from '../../../../model/webapi/knora/';
+import {Project} from '../../../../model/webapi/knora/';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {existingNamesValidator} from '../../other/existing-name.directive';
+import {existingNamesValidator, notAllowed} from '../../other/existing-name.directive';
 
 @Component({
     selector: 'salsah-project-form',
@@ -43,18 +43,28 @@ export class ProjectFormComponent implements OnInit {
 
     step: number = 0;
 
-    project: ProjectItem = new ProjectItem();
+    project: Project = new Project();
 
     logo: string = null;
 
     existingShortNames: [RegExp] = [
         new RegExp('project')
     ];
-    shortnameRegexp = /^\S*$/;
+    shortnameRegexp = /^[a-zA-Z]+\S*$/;
+
+    existingShortcodes: [RegExp] = [
+        new RegExp('project')
+    ];
+    shortcodeRegexp = /^[0-9A-Fa-f]+$/;
 
     form: FormGroup;
 
     descriptionMaxLength: number = 2000;
+    shortcodeMinLength: number = 4;
+    shortcodeMaxLength: number = this.shortcodeMinLength;
+
+    shortnameMinLength: number = 3;
+    shortnameMaxLength: number = 16;
 
     formLabels = {
         project: {
@@ -62,6 +72,7 @@ export class ProjectFormComponent implements OnInit {
             description: 'Description',
             shortname: 'Project short name',
             longname: 'Project name',
+            shortcode: 'Shortcode',
             logo: {
                 upload: 'Upload a logo',
                 or: 'OR',
@@ -89,6 +100,7 @@ export class ProjectFormComponent implements OnInit {
     formErrors = {
         'shortname': '',
         'longname': '',
+        'shortcode': '',
         'description': '',
         'keywords': '',
     };
@@ -96,16 +108,23 @@ export class ProjectFormComponent implements OnInit {
     validationMessages = {
         'shortname': {
             'required': 'Short name is required.',
-            'minlength': 'Short name must be at least 3 characters long.',
-            'maxlength': 'Short name cannot be more than 16 characters long.',
-            'pattern': 'Whitespaces are not allowed.',
+            'minlength': 'Short name must be at least ' + this.shortnameMinLength + ' characters long.',
+            'maxlength': 'Short name cannot be more than ' + this.shortnameMaxLength + ' characters long.',
+            'pattern': 'Short name shouldn\'t start with a number; Spaces are not allowed.',
             'existingName': 'This short name is already taken.'
         },
         'longname': {
-            'required': 'Long name is required.',
+            'required': 'Long name is required.'
+        },
+        'shortcode': {
+            'required': 'Shortcode is required',
+            'maxlength': 'Shortcode cannot be more than ' + this.shortcodeMaxLength + ' characters long.',
+            'minlength': 'Shortcode cannot be less than ' + this.shortcodeMinLength + ' characters long.',
+            'pattern': 'This is not a hexadecimal value!'
+//            'existingName': 'This shortcode is already taken.'
         },
         'description': {
-            'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.',
+            'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.'
         },
         'keywords': {}
     };
@@ -121,10 +140,11 @@ export class ProjectFormComponent implements OnInit {
         // prevent to have the same short name; proof it with the ForbiddenName directive
         this._projectsService.getAllProjects()
             .subscribe(
-                (result: ApiServiceResult) => {
-                    const projectsList: ProjectItem[] = result.getBody(ProjectsList).projects;
-                    for (const p of projectsList) {
+                (result: Project[]) => {
+                    const projects: Project[] = result;
+                    for (const p of projects) {
                         this.existingShortNames.push(new RegExp('(?:^|\W)' + p.shortname.toLowerCase() + '(?:$|\W)'));
+//                        this.existingShortcodes.push(new RegExp('(?:^|\W)' + p.shortcode.toLowerCase() + '(?:$|\W)'));
                     }
                 },
                 (error: ApiServiceError) => {
@@ -137,12 +157,14 @@ export class ProjectFormComponent implements OnInit {
             // edit existing project; get the data first
             this._projectsService.getProjectByIri(this.iri)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.project = result.getBody(Project).project_info;
+                    (result: Project) => {
+                        this.project = result;
 
                         const short = new RegExp(this.project.shortname);
-
                         this.existingShortNames.splice(this.existingShortNames.indexOf(short), 1);
+
+                        const sc = new RegExp(this.project.shortcode);
+//                        this.existingShortcodes.splice(this.existingShortcodes.indexOf(sc), 1);
 
                         this.buildForm(this.project);
                     },
@@ -152,24 +174,23 @@ export class ProjectFormComponent implements OnInit {
                 );
         } else {
             // create new project
-            this.buildForm(new ProjectItem());
+            this.buildForm(new Project());
         }
 
 
     }
 
-    buildForm(proj: ProjectItem): void {
+    buildForm(proj: Project): void {
         // formControllName
-        /*
         this.form = new FormGroup({
             'shortname': new FormControl({value: proj.shortname}),
+            'shortcode': new FormControl({value: proj.shortcode}),
             'longname': new FormControl({value: proj.longname}),
             'description': new FormControl({value: proj.description}),
             'logo': new FormControl({value: proj.logo})
         });
 
         console.log(this.form);
-        */
 
         console.log(proj.logo);
 
@@ -178,8 +199,27 @@ export class ProjectFormComponent implements OnInit {
         }
 
         this.form = this._fb.group({
-            'shortname': new FormControl({value: proj.shortname, disabled: this.iri !== undefined}, [Validators.required, Validators.minLength(3), Validators.maxLength(16), existingNamesValidator(this.existingShortNames), Validators.pattern(this.shortnameRegexp)]),
+
+            'shortname': new FormControl({
+                value: proj.shortname, disabled: this.iri !== undefined
+            }, [
+                Validators.required,
+                Validators.minLength(this.shortnameMinLength),
+                Validators.maxLength(this.shortnameMaxLength),
+                existingNamesValidator(this.existingShortNames),
+                Validators.pattern(this.shortnameRegexp)
+            ]),
+
             'longname': [proj.longname, Validators.required],
+            'shortcode': new FormControl({
+                value: proj.shortcode, disabled: this.iri !== undefined
+            }, [
+                Validators.required,
+                Validators.minLength(this.shortcodeMinLength),
+                Validators.maxLength(this.shortcodeMaxLength),
+//                existingNamesValidator(this.existingShortcodes),
+                Validators.pattern(this.shortcodeRegexp)
+            ]),
             'description': [proj.description, Validators.maxLength(this.descriptionMaxLength)],
             'institution': [proj.institution],
             'logo': [proj.logo],
@@ -189,6 +229,7 @@ export class ProjectFormComponent implements OnInit {
             'keywords': [proj.keywords]
         });
 
+        console.log(this.form);
 
         // console.log(this.form);
 
@@ -250,7 +291,10 @@ export class ProjectFormComponent implements OnInit {
             this._projectsService.createProject(this.project).subscribe(
                 (result: ApiServiceResult) => {
 //                    console.log('service: ', result);
-                    this.submitted = true;
+                    this.isLoading = true;
+
+                    window.location.replace('/project/' + value.shortname);
+//                    location.reload();
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = error;
@@ -270,6 +314,7 @@ export class ProjectFormComponent implements OnInit {
         }
 
         if (this.submitted) {
+            console.log('submitted');
             location.reload();
         }
     }

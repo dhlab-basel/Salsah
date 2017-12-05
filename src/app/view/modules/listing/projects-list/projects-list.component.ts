@@ -12,18 +12,18 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, Input, HostListener} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {UserService} from '../../../../model/services/user.service';
-import {ProjectsList, ProjectItem, User, UserProfile} from '../../../../model/webapi/knora/';
+import {Project, UserResponse} from '../../../../model/webapi/knora/';
+import {UsersService} from '../../../../model/services/users.service';
 import {MessageData} from '../../message/message.component';
-import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 
 /**
  * This component has two optional attributes:
@@ -46,8 +46,12 @@ import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog
 
 export class ProjectsListComponent implements OnInit {
 
+    // restrictedBy can be a user; to show a list of the user's projects
     @Input('restrictedBy') user: string;
     @Input() listType?: string;
+
+    // send the number of entries to the parent component (framework-for-listings) to us it there in the title
+    @Output() counter: EventEmitter<number> = new EventEmitter<number>();
 
     // grid list settings
     columns: number = 3;
@@ -55,7 +59,7 @@ export class ProjectsListComponent implements OnInit {
     colGutter: number = 12;
 
     // in the case of a http get request, we display the progress in the loading element
-    isLoading: boolean = true;
+    isLoading = true;
 
     // with the http get request, we need also a variable for error messages;
     // just in the case if something's going wrong
@@ -69,9 +73,9 @@ export class ProjectsListComponent implements OnInit {
     };
 
     // the http get request will fill an array called projects
-    allProjects: ProjectItem[] = [];
-    allActive: ProjectItem[] = [];
-    allInactive: ProjectItem[] = [];
+    allProjects: Project[] = [];
+    allActive: Project[] = [];
+    allInactive: Project[] = [];
     countAll: number;
     countActive: number;
     countInactive: number;
@@ -80,7 +84,7 @@ export class ProjectsListComponent implements OnInit {
 
     constructor(private _router: Router,
                 private _projectsService: ProjectsService,
-                private _userService: UserService,
+                private _userService: UsersService,
                 public _dialog: MatDialog) {
     }
 
@@ -91,7 +95,7 @@ export class ProjectsListComponent implements OnInit {
             this._userService.getUserByIri(this.user)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        this.allProjects = result.getBody(User).userProfile.projects_info;
+                        this.allProjects = result.getBody(UserResponse).userProfile.projects_info;
 
                         this.filter(this.allProjects);
 
@@ -106,8 +110,10 @@ export class ProjectsListComponent implements OnInit {
             // get all projects from the service
             this._projectsService.getAllProjects()
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.allProjects = result.getBody(ProjectsList).projects;
+                    (result: Project[]) => {
+                        this.allProjects = result;
+                        console.log('projects: ', result);
+
 
                         this.filter(this.allProjects);
 
@@ -123,7 +129,7 @@ export class ProjectsListComponent implements OnInit {
     }
 
 
-    filter(list: ProjectItem[]) {
+    filter(list: Project[]) {
         for (const item of list) {
             if (item.status === true) {
                 this.allActive.push(item);

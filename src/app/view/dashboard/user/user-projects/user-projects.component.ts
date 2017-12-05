@@ -15,7 +15,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UserProfile} from '../../../../model/webapi/knora/';
 import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
-import {User} from '../../../../model/webapi/knora/v1/users/user';
 
 
 @Component({
@@ -32,8 +31,8 @@ export class UserProjectsComponent implements OnInit {
     //  DATA for FrameworkForListingsComponent
     // ------------------------------------------------------------------------
     list: ListData = {
-        title: 'Your projects or projects where you\'re member of',
-        description: 'a kind of subtitle',
+        title: 'Your projects',
+        description: '',
         content: 'project',
         showAs: undefined,
         restrictedBy: ''

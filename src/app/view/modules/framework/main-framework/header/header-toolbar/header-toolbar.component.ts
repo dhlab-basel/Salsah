@@ -180,7 +180,7 @@ export class HeaderToolbarComponent implements OnInit {
 
 
     goToLoginPage() {
-        let goToUrl: string = '/login';
+        let goToUrl = '/login';
 
         if (this._router.url !== '/') {
             goToUrl += '/?h=' + encodeURIComponent(this._router.url);

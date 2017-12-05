@@ -24,6 +24,7 @@ import {ProjectSettingsComponent} from './view/dashboard/project/project-setting
 import {ProjectProfileComponent} from './view/dashboard/project/project-profile/project-profile.component';
 import {ProjectTeamComponent} from './view/dashboard/project/project-team/project-team.component';
 import {ProjectResourcesComponent} from './view/dashboard/project/project-resources/project-resources.component';
+import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
 import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
 import {DocumentationComponent} from './view/documentation/documentation.component';
 
@@ -41,7 +42,8 @@ import {SearchResultsComponent} from './view/search/search-results/search-result
 import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
-import {ResourceObjectComponent} from "./view/modules/object/resource-object/resource-object.component";
+import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
+import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
 
 const appRoutes: Routes = [
     {
@@ -97,7 +99,21 @@ const appRoutes: Routes = [
                 path: 'team', component: ProjectTeamComponent
             },
             {
+                path: 'ontologies', component: ProjectOntologiesComponent,
+            },
+            // {
+            //     path: 'ontology/:oid',
+            //     children: [
+            //         {
+            //             path: '', component: ProjectOntologiesComponent
+            //         }
+            //     ]
+            // },
+            {
                 path: 'resources', component: ProjectResourcesComponent
+            },
+            {
+                path: 'lists', component: ProjectListsAdminComponent
             },
             {
                 path: 'advanced', component: ProjectAdvancedComponent

@@ -12,8 +12,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {
+    AddData, ListData,
+    SortData
+} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
+import {UsersListComponent} from '../../../modules/listing/users-list/users-list.component';
 
 @Component({
     selector: 'salsah-project-team',
@@ -25,22 +29,24 @@ export class ProjectTeamComponent implements OnInit {
     // here we can reuse the framework-for-listings component:
     // shows a list of users and the possibility to create new users
 
-    // ------------------------------------------------------------------------
+
+    //
     //  DATA for FrameworkForListingsComponent
-    // ------------------------------------------------------------------------
+    //
     list: ListData = {
         title: 'Members in this project',
         description: '',
         content: 'user',
-        showAs: 'list',
+        showAs: 'expansion',
         restrictedBy: ''
     };
 
     // add new users
     add: AddData = {
-        title: 'Add new user to the team',
+        title: 'Add new team member',
         description: ''
     };
+
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------
 

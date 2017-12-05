@@ -13,8 +13,8 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {ApiService} from "./api.service";
-import {Observable} from "rxjs";
+import {ApiService} from './api.service';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class OntologyService extends ApiService {
@@ -25,7 +25,7 @@ export class OntologyService extends ApiService {
      * @returns {Observable<any>}
      */
     getNamedGraphIris() {
-        return this.httpGetV2("/ontologies/metadata");
+        return this.httpGetV2('/ontologies/metadata');
     }
 
     /**
@@ -36,18 +36,19 @@ export class OntologyService extends ApiService {
      */
     getResourceClassesForNamedGraphs(namedGraphIris: string[]) {
 
-        if (namedGraphIris.length == 0) {
+        if (namedGraphIris.length === 0) {
             // no resource class Iris are given to query for, return a failed Observer
-            return Observable.create(observer => observer.error("No named graph Iris given for call of OntologyService.getResourceClassesForNamedGraphs"));
+            return Observable.create(observer => observer.error('No named graph Iris given for call of OntologyService.getResourceClassesForNamedGraphs'));
         }
 
-        let namedGraphUriEnc = "";
+        let namedGraphUriEnc = '';
 
         namedGraphIris.forEach(function (resClassIri) {
-            namedGraphUriEnc = namedGraphUriEnc + "/" + encodeURIComponent(resClassIri.toString())
+            namedGraphUriEnc = namedGraphUriEnc + '/' + encodeURIComponent(resClassIri.toString())
         });
 
-        return this.httpGetV2("/ontologies/allentities" + namedGraphUriEnc);
+
+        return this.httpGetV2('/ontologies/allentities' + namedGraphUriEnc);
 
     }
 
@@ -59,18 +60,18 @@ export class OntologyService extends ApiService {
      */
     getResourceClasses(resourceClassIris: Array<string>): Observable<any> {
 
-        if (resourceClassIris.length == 0) {
+        if (resourceClassIris.length === 0) {
             // no resource class Iris are given to query for, return a failed Observer
-            return Observable.create(observer => observer.error("No resource class Iris given for call of OntologyService.getResourceClasses"));
+            return Observable.create(observer => observer.error('No resource class Iris given for call of OntologyService.getResourceClasses'));
         }
 
-        let resClassUriEnc = "";
+        let resClassUriEnc = '';
 
         resourceClassIris.forEach(function (resClassIri) {
-            resClassUriEnc = resClassUriEnc + "/" + encodeURIComponent(resClassIri.toString())
+            resClassUriEnc = resClassUriEnc + '/' + encodeURIComponent(resClassIri.toString())
         });
 
-        return this.httpGetV2("/ontologies/classes" + resClassUriEnc);
+        return this.httpGetV2('/ontologies/classes' + resClassUriEnc);
     }
 
     /**
@@ -81,18 +82,18 @@ export class OntologyService extends ApiService {
      */
     getProperties(propertyIris: string[]) {
 
-        if (propertyIris.length == 0) {
+        if (propertyIris.length === 0) {
             // no resource class Iris are given to query for, return a failed Observer
-            return Observable.create(observer => observer.error("No property Iris given for call of OntologyService.getProperties"));
+            return Observable.create(observer => observer.error('No property Iris given for call of OntologyService.getProperties'));
         }
 
-        let propertiesUriEnc = "";
+        let propertiesUriEnc = '';
 
         propertyIris.forEach(function (resClassIri) {
-            propertiesUriEnc = propertiesUriEnc + "/" + encodeURIComponent(resClassIri.toString())
+            propertiesUriEnc = propertiesUriEnc + '/' + encodeURIComponent(resClassIri.toString())
         });
 
-        return this.httpGetV2("/ontologies/properties" + propertiesUriEnc);
+        return this.httpGetV2('/ontologies/properties' + propertiesUriEnc);
 
     }
 

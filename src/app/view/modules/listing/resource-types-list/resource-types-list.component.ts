@@ -16,8 +16,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ResourceTypes, ResourceTypeItem, ProjectItem} from '../../../../model/webapi/knora/';
+import {ResourceTypes, ResourceTypeItem} from '../../../../model/webapi/knora/';
 import {MessageData} from '../../message/message.component';
+import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 
 @Component({
     selector: 'salsah-resource-types-list',
@@ -26,10 +28,12 @@ import {MessageData} from '../../message/message.component';
 })
 export class ResourceTypesListComponent implements OnInit {
 
-    @Input('restrictedBy') project: string;
+    @Input() restrictedBy: string; // restricted by ontology
     @Input() index: number;
 
     @Output() toggleItem = new EventEmitter<any>();
+    // send the number of entries to the parent component (framework-for-listings) to us it there in the title
+    @Output() counter: EventEmitter<number> = new EventEmitter<number>();
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
@@ -55,14 +59,15 @@ export class ResourceTypesListComponent implements OnInit {
     // iri of the selected resource type
     iri: string;
 
-    constructor(private _resourceTypesService: ResourceTypesService) {
+    constructor(private _resourceTypesService: ResourceTypesService,
+                public _dialog: MatDialog) {
     }
 
     ngOnInit() {
 
         this.selectedRow = this.index;
 
-        this._resourceTypesService.getResourceTypesByVoc(this.project)
+        this._resourceTypesService.getResourceTypesByVoc(this.restrictedBy)
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.list = result.getBody(ResourceTypes).resourcetypes;
@@ -83,13 +88,23 @@ export class ResourceTypesListComponent implements OnInit {
             // close the detail view
             this.selectedRow = undefined;
             this.toggleItem.emit({id, index});
-        }
-        else {
+        } else {
             // open the detail view
             this.selectedRow = index;
             this.toggleItem.emit({id, index});
         }
 
+    }
+
+    // TODO: make a global edit method ... somewhere ...
+    edit(id: string, title?: string) {
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+            data: {
+                iri: id,
+                title: 'Edit ' + id,
+                form: 'resource-type'
+            }
+        });
     }
 
 }

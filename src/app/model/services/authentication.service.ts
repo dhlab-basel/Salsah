@@ -4,13 +4,10 @@ import {Observable} from 'rxjs/Observable';
 import {ApiServiceResult} from './api-service-result';
 import {ApiServiceError} from './api-service-error';
 import {Http} from '@angular/http';
-import {UserService} from './user.service';
-import {UserProfile} from '../webapi/knora/v1/users/user-profile';
-import {User} from '../webapi/knora/v1/users/user';
-import {PermissionData} from '../webapi/knora/v1/permissions/permission-data';
 import {AppConfig} from '../../app.config';
 import {ProjectsService} from './projects.service';
-import {ProjectsList} from '../webapi/knora/v1/projects/projects-list';
+import {UsersService} from './users.service';
+import {Project, PermissionData} from '../webapi/knora';
 
 @Injectable()
 export class AuthenticationService extends ApiService {
@@ -20,7 +17,7 @@ export class AuthenticationService extends ApiService {
     public isSysAdmin: boolean;
 
     constructor(_http: Http,
-                private _userService: UserService,
+                private _userService: UsersService,
                 private _projectsService: ProjectsService) {
         super(_http);
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -116,23 +113,25 @@ export class AuthenticationService extends ApiService {
 
         let activeSession: boolean = false;
 
-        if (!sessionStorage.getItem('projectAdmin') && localStorage.getItem('currentUser')) {
-            const user: string = JSON.parse(localStorage.getItem('currentUser')).email;
-            this.projectPermissions(user);
-        }
-
         this.httpGet('/v2/authentication').subscribe(
             (result: ApiServiceResult) => {
                 status = result.status;
                 if (status === 200) {
                     // the stored credentials (token) is valid and a user is authenticated by the api server
                     activeSession = true;
+                    /*
+                    if (!sessionStorage.getItem('projectAdmin') && localStorage.getItem('currentUser')) {
+                        const user: string = JSON.parse(localStorage.getItem('currentUser')).email;
+                        this.projectPermissions(user);
+                    }
+                    */
                 } else {
                     // the session is not valid!
                     activeSession = false;
                     // the session is not valid!
                     // remove the local stored user profile and return false
                     localStorage.removeItem('currentUser');
+                    sessionStorage.removeItem('admin');
                 }
             },
             (error: ApiServiceError) => {
@@ -142,6 +141,7 @@ export class AuthenticationService extends ApiService {
                 // the session is not valid!
                 // remove the local stored user profile and return false
                 localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('admin');
             }
         );
 
@@ -164,8 +164,8 @@ export class AuthenticationService extends ApiService {
                     // the user is system admin and has all permission rights in every project
                     // get all projects and set projectAdmin to true for every project
                     this._projectsService.getAllProjects().subscribe(
-                        (res: ApiServiceResult) => {
-                            for (const p of res.getBody(ProjectsList).projects) {
+                        (projects: Project[]) => {
+                            for (const p of projects) {
                                 projectsList.push(p.id);
                             }
                             sessionStorage.setItem('projectAdmin', JSON.stringify(projectsList));
@@ -177,9 +177,9 @@ export class AuthenticationService extends ApiService {
                     );
                 } else {
                     // get the projects, where the user is admin of
-                    for (let proj in permissions.groupsPerProject) {
-                        if (permissions.groupsPerProject[proj].indexOf(AppConfig.ProjectAdminGroup) > -1) {
-                            projectsList.push(proj);
+                    for (const project in permissions.groupsPerProject) {
+                        if (permissions.groupsPerProject[project].indexOf(AppConfig.ProjectAdminGroup) > -1) {
+                            projectsList.push(project);
                         }
                     }
                     sessionStorage.setItem('projectAdmin', JSON.stringify(projectsList));

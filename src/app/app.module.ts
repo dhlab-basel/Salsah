@@ -19,19 +19,19 @@ import 'hammerjs';
 // import other third party modules
 import {DndModule} from 'ng2-dnd';
 import {ApiService} from './model/services/api.service';
-import {ListsService} from './model/services/lists.service';
 import {AuthenticationService} from './model/services/authentication.service';
 import {ProjectsService} from './model/services/projects.service';
 import {PropertiesService} from './model/services/properties.service';
 import {ResourceService} from './model/services/resource.service';
 import {ResourceTypesService} from './model/services/resource-types.service';
+import {ListsService} from './model/services/lists.service';
 import {OntologyService} from './model/services/ontology.service';
 import {OntologyCacheService} from './model/services/ontologycache.service';
 import {SearchService} from './model/services/search.service';
 
-import {IncomingService} from "./model/services/incoming.service";
+import {IncomingService} from './model/services/incoming.service';
 
-import {UserService} from './model/services/user.service';
+import {UsersService} from './model/services/users.service';
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -89,7 +89,6 @@ import {UsersListComponent} from './view/modules/listing/users-list/users-list.c
 import {FrameworkForListingsComponent} from './view/modules/framework/framework-for-listings/framework-for-listings.component';
 import {UserObjectComponent} from './view/modules/object/user-object/user-object.component';
 import {MessageDialogComponent} from './view/modules/dialog/message-dialog/message-dialog.component';
-
 import {FormDialogComponent} from './view/modules/dialog/form-dialog/form-dialog.component';
 import {ResourceTypesListComponent} from './view/modules/listing/resource-types-list/resource-types-list.component';
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
@@ -103,6 +102,9 @@ import {FocusDirective} from './view/modules/other/focus.directive';
 import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
 
 
+import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
+import {ListNodeFormComponent} from './view/modules/form/list-node-form/list-node-form.component';
+import {ListFormComponent} from './view/modules/form/list-form/list-form.component';
 import {MathJaxDirective} from './view/modules/other/mathjax.directive';
 import {ReadTextValueAsHtmlComponent} from './view/properties/read-text-value-as-html/read-text-value-as-html.component';
 import {ReadDateValueComponent} from './view/properties/read-date-value/read-date-value.component';
@@ -114,8 +116,12 @@ import {ReadDecimalValueComponent} from './view/properties/read-decimal-value/re
 import {StillImageOSDViewerComponent} from './view/properties/still-image-osdviewer/still-image-osdviewer.component';
 import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geom-value.component';
 import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
-import {SystemProjectsComponent} from "./view/dashboard/system/system-projects/system-projects.component";
-import {SystemOntologiesComponent} from "./view/dashboard/system/system-ontologies/system-ontologies.component";
+import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
+import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
+import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
+import {OntologiesListComponent} from './view/modules/listing/ontologies-list/ontologies-list.component';
+import {UsersListItemComponent} from './view/modules/listing/users-list/users-list-item/users-list-item.component';
+import {OntologyFormComponent} from './view/modules/form/ontology-form/ontology-form.component';
 import {SelectPropertyComponent} from './view/modules/search/extended-search/select-property/select-property.component';
 import {SelectClassComponent} from './view/modules/search/extended-search/select-class/select-class.component';
 import {SelectGraphComponent} from './view/modules/search/extended-search/select-graph/select-graph.component';
@@ -123,12 +129,16 @@ import {ReadUriValueComponent} from './view/properties/read-uri-value/read-uri-v
 import {ReadBooleanValueComponent} from './view/properties/read-boolean-value/read-boolean-value.component';
 import {ReadIntervalValueComponent} from './view/properties/read-interval-value/read-interval-value.component';
 import {ReadListValueComponent} from './view/properties/read-list-value/read-list-value.component';
+import {TreeModule} from 'angular-tree-component';
+import {ListsListComponent} from './view/modules/listing/lists-list/lists-list.component';
 import {SpecifyPropertyValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component';
 import {IntegerValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/integer-value/integer-value.component';
 import {DecimalValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/decimal-value/decimal-value.component';
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
-import {MatNativeDateModule} from "@angular/material";
+import {MatNativeDateModule} from '@angular/material';
+import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+
 //
 // import all needed services
 //
@@ -188,6 +198,9 @@ import {MatNativeDateModule} from "@angular/material";
         ReadDecimalValueComponent,
         StillImageOSDViewerComponent,
         NewResourceClassComponent,
+        ProjectListsAdminComponent,
+        ListNodeFormComponent,
+        ListFormComponent,
         EditResourceClassComponent,
         SortByPipe,
         SystemComponent,
@@ -212,6 +225,10 @@ import {MatNativeDateModule} from "@angular/material";
         FormCreateComponent,
         FocusDirective,
         ConfirmDialogComponent,
+        ProjectOntologiesComponent,
+        OntologiesListComponent,
+        UsersListItemComponent,
+        OntologyFormComponent,
         SelectPropertyComponent,
         SelectClassComponent,
         SelectGraphComponent,
@@ -219,11 +236,14 @@ import {MatNativeDateModule} from "@angular/material";
         ReadBooleanValueComponent,
         ReadIntervalValueComponent,
         ReadListValueComponent,
+        ListsListComponent,
         SpecifyPropertyValueComponent,
         IntegerValueComponent,
         DecimalValueComponent,
         BooleanValueComponent,
         DateValueComponent,
+        OntologiesListItemComponent
+
     ],
     imports: [
         BrowserModule,
@@ -235,10 +255,12 @@ import {MatNativeDateModule} from "@angular/material";
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
+        TreeModule,
         DndModule.forRoot()
     ],
     // we need the entryComponents for every component inside of a mat-dialog module
     entryComponents: [
+        ListNodeFormComponent,
         ConfirmDialogComponent,
         FormDialogComponent,
         MessageDialogComponent,
@@ -253,7 +275,7 @@ import {MatNativeDateModule} from "@angular/material";
         SearchService,
         IncomingService,
         BasicOntologyService,
-        UserService,
+        UsersService,
         OntologyService,
         OntologyCacheService,
         ListsService,

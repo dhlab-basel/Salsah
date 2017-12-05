@@ -1,0 +1,7 @@
+<div *ngFor="let item of ontologiesList">
+    <h3>{{item}}</h3>
+
+    <!-- an ontology has a list of resource types -->
+    <salsah-resource-types-list [restrictedBy]="item"></salsah-resource-types-list>
+
+</div>
