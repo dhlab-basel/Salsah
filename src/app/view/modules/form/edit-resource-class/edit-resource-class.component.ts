@@ -59,7 +59,7 @@ export class EditResourceClassComponent implements OnChanges {
     list: ResourceTypeItem[] = [];
 
     // autocomplete var
-    selectedProp: PropertyItem;
+    selectedProp: PropertyItem = null;
     properties: any = [];
     filteredProps: any;
 
@@ -72,6 +72,7 @@ export class EditResourceClassComponent implements OnChanges {
 
     eRForm4class: FormGroup;
     eRForm4prop: FormGroup;
+    eRForm4SelProp: FormGroup;
     eRForm4AddProp: FormGroup;
 
     propCtrl: FormControl;
@@ -103,9 +104,13 @@ export class EditResourceClassComponent implements OnChanges {
             label: 'or create new property',
             description: 'Create a custom property',
             selectLabel: 'Select property',
+            selectedLabel: 'Selected property',
             selectDescript: 'Select an existing property to add to this resource',
+            selectedDescript: 'You have selected the property:',
             autoComplete: 'Start typing a property name here',
-            skip: 'Skip and create custom property'
+            skip: 'Skip and create custom property',
+            customize: 'Customize property',
+            customizeDescript: 'Select a unique name and id for your new property'
 
         },
         buttons: {
@@ -322,7 +327,22 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
     buildAddPropForm() {
-        if (this.editProp) {
+        if (this.selectedProp) {
+            // -------------properties edit validation configuration-------------------
+            this.eRForm4AddProp = this._fb4ap.group({
+                'name': '',
+                'guiorder': '',
+                'description': this.selectedProp.description,
+                'valuetype_id': this.selectedProp.valuetype_id,
+                'label': ['', Validators.required],
+                'vocabulary': [this.selectedProp.vocabulary, Validators.required],
+                'attributes': this.selectedProp.attributes,
+                'occurrence': [this.selectedProp.occurrence, Validators.required],
+                'id': '',
+                'gui_name': [this.selectedProp.gui_name, Validators.required]
+            });
+        }
+        else {
             // -------------properties edit validation configuration-------------------
             this.eRForm4AddProp = this._fb4ap.group({
                 'name': '',
@@ -376,21 +396,21 @@ export class EditResourceClassComponent implements OnChanges {
     onPropValueChanged(data?: any) {
         this.onValueChanged(this.eRForm4prop, this.formPropErrors, this.propValidationMessages);
     }
+
     onAddPropValueChanged(data?: any) {
         this.onValueChanged(this.eRForm4AddProp, this.formAddPropErrors, this.addPropValidationMessages);
     }
 
 
-
     filterProps(val: string) {
         if (val) {
+            // this.selectedProp = true;
             const filterValue = val.toLowerCase();
             return this.props.filter(property =>
                 property.label.toLowerCase().includes(filterValue));
         }
         return this.props;
     }
-
 
 
     // form functions
@@ -409,7 +429,9 @@ export class EditResourceClassComponent implements OnChanges {
     }
 
     submitAddProp(): void {
-            console.log('Your submitted property is:', this.eRForm4AddProp.value);
+        console.log('Your submitted property is:', this.eRForm4AddProp.value);
+        this.resetAddProp();
+        this.step = 0;
     }
 
     resetDefaultRes(): void {
@@ -441,21 +463,20 @@ export class EditResourceClassComponent implements OnChanges {
                         this.errorMessage = <any>error;
                     }
                 );
-            this.isExpanded=true;
+            this.isExpanded = true;
         }
     }
 
-    resetAddProp(){
-        this.eRForm4AddProp.reset();
-    }
-
-
-    resetSelectedProp() {
+    resetAddProp() {
         this.propCtrl.reset();
+        this.eRForm4AddProp.reset();
         this.selectedProp = undefined;
+        this.step = 0;
     }
 
-
+    setSelectedProp(event, prop: PropertyItem) {
+        this.selectedProp = prop;
+    }
 
     nextStep(ev, step?: number) {
         ev.preventDefault();
@@ -464,6 +485,7 @@ export class EditResourceClassComponent implements OnChanges {
         } else {
             this.step++;
         }
+        this.buildAddPropForm();
     }
 
 
