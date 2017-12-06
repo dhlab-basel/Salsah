@@ -19,14 +19,25 @@
         <!-- add button? -->
         <!-- this list has an 'add button' to add new stuff;
             it opens the form-dialog-component with the 'new-something-form'-component -->
+
+        <button *ngIf="add !== undefined && loggedInAdmin"
+                (click)="openNew(list.content)"
+                mat-fab class="right"
+                [matTooltip]="add.title"
+                [matTooltipPosition]="'above'"
+                color="primary">
+            <mat-icon>add</mat-icon>
+        </button>
+
+        <!-- older button with label --
         <button *ngIf="add !== undefined && loggedInAdmin"
                 (click)="openNew(list.content)"
                 mat-raised-button class="right"
                 color="primary">
-<!--                style="margin-top: 60px">   -->
             <mat-icon>add</mat-icon>
             {{add.title}}
         </button>
+        -->
         <!-- end of 'add button' -->
 
         <!-- main list incl. sort button and number of items -->
