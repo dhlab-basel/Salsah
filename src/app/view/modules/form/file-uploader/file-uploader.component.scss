@@ -90,7 +90,19 @@ input[type="file"] {
   }
 }
 
+.file-preview-zone {
+
+  img {
+    max-height: 200px;
+    margin: 12px;
+    object-fit: contain;
+    width: calc(100% - 24px);
+  }
+}
+
+//
 // buttons
+//
 .switch-uploader {
   bottom: 0;
   color: $text;

@@ -91,12 +91,16 @@
                     </mat-form-field>
 
                     <!-- upload logo -->
-                    <salsah-file-uploader [file]="logo" (setFiles)="getFiles($event)"></salsah-file-uploader>
+                    <salsah-file-uploader [maxFiles]="1"
+                                          [existingFile]="this.form.controls['logo'].value"
+                                          [formType]="'project'"
+                                          (uploadStatus)="sipiUpload($event)"></salsah-file-uploader>
                     <!-- the form needs an input field for the logo name
                         the following input will be hidden and it gets the file name from the salsah-file-uploader -->
                     <br>
-                    <input [placeholder]="formLabels.project.logo.name"
-                           formControlName="logo">
+                    <input matInput [hidden]="false"
+                           [placeholder]="formLabels.project.logo.name"
+                           [formControl]="form.controls['logo']">
 
                     <!-- footer -->
                     <mat-action-row>

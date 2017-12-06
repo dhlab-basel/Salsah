@@ -202,11 +202,14 @@ export class ProjectFormComponent implements OnInit {
             'description': new FormControl({value: proj.description}),
             'logo': new FormControl({value: proj.logo})
         });
-*/
 
-        if (proj.logo !== undefined) {
+                if (proj.logo !== undefined) {
             this.logo = proj.logo;
         }
+
+*/
+
+
 
         this.form = this._fb.group({
 
@@ -226,7 +229,7 @@ export class ProjectFormComponent implements OnInit {
                 Validators.required
             ]),
             'shortcode': new FormControl({
-                value: proj.shortcode, disabled: this.iri !== undefined
+                value: proj.shortcode, disabled: (this.iri !== undefined && proj.shortcode !== null)
             }, [
                 Validators.required,
                 Validators.minLength(this.shortcodeMinLength),
@@ -242,19 +245,16 @@ export class ProjectFormComponent implements OnInit {
             'institution': new FormControl({
                 value: proj.institution, disabled: false
             }),
-            'logo': [proj.logo],
+            'logo': new FormControl({
+                value: proj.logo, disabled: false
+            }),
             'id': [proj.id],
             'status': [true],
             'selfjoin': [false],
             'keywords': [proj.keywords]
         });
 
-        console.log(this.form);
-
-        // console.log(this.form);
-
         this.isLoading = false;
-
 
         this.form.valueChanges
             .subscribe(data => this.onValueChanged(data));
@@ -347,46 +347,14 @@ export class ProjectFormComponent implements OnInit {
     }
 
 
-    /**
-     * saveProject()
-     * check validity of the data in the form
-     * if everything's fine, send the data to the api
-     * and change the view from modify project to the project admin view
-     */
-
-        //
-        // ngX file upload settings
-        //
-    uploadFile: any;
-    hasBaseDropZoneOver: boolean = false;
-    /*
-     options: NgUploaderOptions = {
-     url: 'http://localhost:10050/upload'
-     };
-     */
-    sizeLimit = 2000000;
-
-    handleUpload(data): void {
-        if (data && data.response) {
-            data = JSON.parse(data.response);
-            this.uploadFile = data;
+    sipiUpload(success: any): void {
+        if (success !== false) {
+            this.form.patchValue({'logo': success.files[0]});
+//            this.form.controls['logo'].value = success.files[0];
+        } else {
+            console.log('error on file upload');
         }
-    }
 
-    fileOverBase(e: any): void {
-        this.hasBaseDropZoneOver = e;
-    }
-
-    beforeUpload(uploadingFile): void {
-        if (uploadingFile.size > this.sizeLimit) {
-            uploadingFile.setAbort();
-            alert('File is too large');
-        }
-    }
-
-    getFiles(files: any): void {
-        this.logo = files[0].name;
-        console.log('getFile: ', files[0].name);
     }
 
 

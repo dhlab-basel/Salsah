@@ -12,7 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+import {environment} from '../environments/environment';
+
 export class AppConfig {
+
+    public static FileServer: string = environment.media;
 
     public static KnoraBase: string = 'http://www.knora.org/ontology/knora-base';
 
