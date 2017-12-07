@@ -171,6 +171,16 @@ const appRoutes: Routes = [
                 component: ProgressStepperComponent
             },
             {
+                path: 'upload',
+                component: FileUploaderComponent,
+                data: {
+                    maxFiles: 5,
+                    formType: 'project',
+                    viewType: 'url'
+
+                }
+            },
+            {
                 path: 'form/:name', component: FormCreateComponent,
                 children: [
                     {

@@ -33,9 +33,9 @@ export class FileUploaderComponent implements OnInit {
     @Input() existingFile?: string;
     @Input() formType?: string;
 
-    @Output() uploadStatus = new EventEmitter();
+    @Input() viewType?: string = 'upload';
 
-    viewType: string = 'upload';
+    @Output() uploadStatus = new EventEmitter();
 
     files: string[];
 
@@ -193,6 +193,10 @@ export class FileUploaderComponent implements OnInit {
 //        this.file = undefined;
         this.uploadStatus.emit({'status': 'Del', 'files': [null]});
         this.viewType = 'upload';
+    }
+
+    setFileByUrl() {
+
     }
 
     /*

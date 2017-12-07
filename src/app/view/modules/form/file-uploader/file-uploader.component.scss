@@ -16,7 +16,6 @@ input[type="file"] {
 */
 .salsah-file-uploader {
   flex-grow: 1;
-  padding-right: 12px;
   word-break: break-all;
 
   .upload-box {
@@ -72,20 +71,56 @@ input[type="file"] {
   width: 100%;
 
   .url-form {
-    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 
-    .x-file-url {
+    input[type="text"]::-webkit-search-decoration,
+    input[type="text"]::-webkit-search-cancel-button,
+    input[type="text"]::-webkit-search-results-button,
+    input[type="text"]::-webkit-search-results-decoration {
+      display: none;
+    }
+
+    input[type="text"] {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .x-file-url,
+    .x-file-url-submit {
       background: $bright;
       border-style: none;
       font-size: 14px;
-      margin: 0 0 10px;
-      padding: 9px 7px;
+      height: 38px;
+    }
+
+    .x-file-url {
+      border-radius: 3px 0 0 3px;
+      padding: 0 12px;
       vertical-align: middle;
-      width: 80%;
+      width: 360px;
+
+      &:focus, &:active {
+        border-style: none;
+      }
     }
 
     .x-file-url-submit {
-      width: 30%;
+      border-radius: 0 3px 3px 0;
+
+      background-color: white;
+      border-style: none;
+      color: rgba($dark, .4);
+      cursor: pointer;
+      height: 38px;
+      outline: none;
+      //        color: rgb(33,33,33);
+      position: relative;
+      width: 48px;
+
+      &:active {
+        color: rgb(81, 81, 81);
+      }
     }
   }
 }
@@ -93,7 +128,7 @@ input[type="file"] {
 .file-preview-zone {
 
   img {
-    max-height: 200px;
+    max-height: 128px;
     margin: 12px;
     object-fit: contain;
     width: calc(100% - 24px);
