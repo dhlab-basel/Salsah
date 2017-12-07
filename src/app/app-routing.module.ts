@@ -175,7 +175,7 @@ const appRoutes: Routes = [
                 component: FileUploaderComponent,
                 data: {
                     maxFiles: 5,
-                    formType: 'project',
+                    formType: 'admin',
                     viewType: 'url'
 
                 }

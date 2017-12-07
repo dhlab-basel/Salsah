@@ -4,11 +4,7 @@
              [ngClass]="dragAreaClass">
 
         <!-- 1) select file (browse or drag'n'drop) -->
-        <!--
-        <div class="file-upload-zone" *ngSwitchCase="'upload'" (filesChangeEmitter)="onFileChanges($event)" (filesInvalidEmitter)="onFileInvalids($event)" [allowed_extensions]="['png', 'jpg', 'bmp']" >
-            -->
         <div class="file-upload-zone" *ngSwitchCase="'upload'">
-
             <input id="x-file-upload"
                    class="x-file-input"
                    type="file" accept="image/gif,image/jpg,image/jpeg,image/png,image/svg+xml"
@@ -16,21 +12,19 @@
             <label for="x-file-upload" class="x-file-label">
                 Upload an image
             </label>
-            <!--
-            <div class="upload-form center">
-
-            </div>
-            <button type="button" (click)="upload()">Upload</button>
-            -->
         </div>
 
         <!-- OR 2) set file by url -->
         <div class="file-url-zone" *ngSwitchCase="'url'">
-            <form class="url-form">
-                <input class="x-file-url" placeholder="http://" autofocus="true">
-                <button class="x-file-url-submit" mat-raised-button [color]="'primary'">Save</button>
+            <form class="url-form" [formGroup]="urlForm">
+                <input class="x-file-url" placeholder="http://" autofocus="true" formControlName="url">
+                <button class="x-file-url-submit" mat-raised-button [color]="'primary'" [disabled]="!urlForm.valid">Save</button>
+                <mat-hint *ngIf="formErrors.url" class="file-error">
+                    {{ formErrors.url }}
+                </mat-hint>
             </form>
         </div>
+
         <!-- AND after upload: 3) show the file (in the case of an image) -->
         <div class="file-preview-zone" *ngSwitchCase="'preview'">
             <div *ngFor="let file of files">
@@ -42,10 +36,12 @@
         <!-- some buttons to switch the different kind of views above -->
         <!-- position: in the bottom left corner -->
         <button class="switch-uploader" mat-icon-button *ngIf="viewType !== 'preview'" (click)="switchUploader()">
-            <!-- 1) switch to file-url-zone -->
-            <mat-icon *ngIf="viewType === 'upload'">link</mat-icon>
-            <!-- OR 2) switch to file-upload-zone -->
-            <mat-icon *ngIf="viewType === 'url'">attach_file</mat-icon>
+            <mat-icon matTooltip="{{tooltipSwitchButton[viewType]}}">
+                <!-- 1) switch to file-url-zone -->
+                <span *ngIf="viewType === 'upload'">link</span>
+                <!-- OR 2) switch to file-upload-zone -->
+                <span *ngIf="viewType === 'url'">attach_file</span>
+            </mat-icon>
         </button>
 
         <!-- AND after upload: 3) cancel button to delete the uploaded file -->

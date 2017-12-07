@@ -5,7 +5,7 @@
 <div *ngIf="userProfile">
     <mat-list class="main-list">
         <mat-list-item>
-            <img mat-list-icon salsahImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image large"/>
+            <img mat-list-icon salsahImage *ngIf="email" [image]="email" [type]="'avatar'" class="salsah-avatar-image large"/>
             <h4 mat-line>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h4>
             <p mat-line><a [href]="'mailto:' + email">{{email}}</a></p>
         </mat-list-item>

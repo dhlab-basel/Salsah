@@ -20,7 +20,7 @@
             </tr>
             <tr *ngFor="let item of newAllActiveUsers | sortBy: sortKey; let i = index;">
                 <td class="salsah-avatar-cell">
-                    <img salsahImage [image]="item?.user_profile.userData.email" [type]="'user'" class="salsah-avatar-image"/>
+                    <img salsahImage [image]="item?.user_profile.userData.email" [type]="'avatar'" class="salsah-avatar-image"/>
                 </td>
                 <td>{{item?.user_profile.userData.givenName}}</td>
                 <td>{{item?.user_profile.userData.familyName}}</td>
@@ -58,7 +58,7 @@
             </tr>
             <tr *ngFor="let item of newAllInactiveUsers | sortBy: sortKeyIA; let i = index;">
                 <td class="salsah-avatar-cell">
-                    <img salsahImage [image]="item?.user_profile.userData.email" [type]="'user'" class="salsah-avatar-image"/>
+                    <img salsahImage [image]="item?.user_profile.userData.email" [type]="'avatar'" class="salsah-avatar-image"/>
                 </td>
                 <td>{{item?.user_profile.userData.givenName}}</td>
                 <td>{{item?.user_profile.userData.familyName}}</td>
@@ -124,7 +124,7 @@
                        [class.highlight]="i == selectedRow">
             <!--<mat-list-item *ngFor="let admin of project.admins">-->
             <mat-icon mat-list-avatar class="salsah-avatar">
-                <img salsahImage [image]="item?.email" [type]="'user'" class="salsah-avatar-image"/>
+                <img salsahImage [image]="item?.email" [type]="'avatar'" class="salsah-avatar-image"/>
             </mat-icon>
             <h4 mat-line>{{item?.givenName}} {{item?.familyName}}</h4>
             <p mat-line> {{item?.email}} </p>

@@ -88,39 +88,30 @@ input[type="file"] {
 
     .x-file-url,
     .x-file-url-submit {
-      background: $bright;
       border-style: none;
       font-size: 14px;
       height: 38px;
+      outline: none;
     }
 
     .x-file-url {
+      background: $bright;
       border-radius: 3px 0 0 3px;
-      padding: 0 12px;
+      padding-left: 12px;
       vertical-align: middle;
       width: 360px;
 
-      &:focus, &:active {
-        border-style: none;
+      &:active,
+      &:focus {
+        outline: none;
       }
     }
 
     .x-file-url-submit {
       border-radius: 0 3px 3px 0;
-
-      background-color: white;
-      border-style: none;
-      color: rgba($dark, .4);
-      cursor: pointer;
-      height: 38px;
-      outline: none;
-      //        color: rgb(33,33,33);
+      margin-left: -2px;
       position: relative;
       width: 48px;
-
-      &:active {
-        color: rgb(81, 81, 81);
-      }
     }
   }
 }
@@ -133,6 +124,15 @@ input[type="file"] {
     object-fit: contain;
     width: calc(100% - 24px);
   }
+}
+
+.file-error {
+  color: $warn;
+  display: inherit;
+  font-size: 75%;
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 9px;
 }
 
 //

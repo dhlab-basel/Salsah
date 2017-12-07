@@ -12,9 +12,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Directive, ElementRef, Renderer2, Input, OnInit, OnChanges} from '@angular/core';
+import {Directive, ElementRef, Input, OnChanges, Renderer2} from '@angular/core';
 import {Md5} from 'ts-md5/dist/md5';
-import {environment} from '../../../../environments/environment';
 import {AppConfig} from '../../../app.config';
 
 @Directive({
@@ -25,48 +24,51 @@ export class ImageDirective implements OnChanges {
     @Input() image: string;
     @Input() type: string;
 
-    defaultPath: string = environment.localData;
-
     source: string;
-    onError: string = this.defaultPath;
+
+    filePath: string = './assets/img';
+    onError: string = this.filePath + '/errors';
 
     constructor(private _renderer: Renderer2,
                 private _ele: ElementRef) {
     }
 
     ngOnChanges() {
-
         switch (this.type) {
 
-            case 'user':
-                this.onError += '/users/defaultUser.png';
+            case 'avatar':
+                this.onError += '/defaultUser.png';
                 this.source = 'http://www.gravatar.com/avatar/' + Md5.hashStr(this.image);
-
                 break;
 
-            case 'project':
-                this.onError += '/errors/image-not-available.png';
+            case 'admin':
+                this.onError += '/image-not-available.png';
 
                 if (this.image === null || this.image === undefined) {
-                    this.source = this.defaultPath + '/projects/defaultProject.png';
+                    this.source = this.filePath + '/errors/defaultProject.png';
                 } else {
                     // if the image is a complete url
                     if (this.image.slice(0, 4) === 'http') {
                         this.source = this.image;
                     } else {
-                        this.source = AppConfig.FileServer + this.image;
+                        this.source = AppConfig.AdminFileServer + '/' + this.image;
                     }
                 }
                 break;
 
             default:
-                this.source = this.image;
-                this.onError += '/errors/image-not-available.png';
+                this.onError += '/image-not-available.png';
+
+                // if the image is a complete url
+                if (this.image.slice(0, 4) === 'http') {
+                    this.source = this.image;
+                } else {
+                    this.source = AppConfig.AdminFileServer + '/' + this.image;
+                }
         }
 
         this._renderer.setAttribute(this._ele.nativeElement, 'src', this.source);
         this._renderer.setAttribute(this._ele.nativeElement, 'onError', 'this.src=\'' + this.onError + '\'');
-
 
     }
 }

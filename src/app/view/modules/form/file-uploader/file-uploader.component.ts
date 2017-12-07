@@ -16,6 +16,7 @@ import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@ang
 import {FileService} from '../../../../model/services/file.service';
 import {AppConfig} from '../../../../app.config';
 import {Project} from '../../../../model/webapi/knora';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'salsah-file-uploader',
@@ -23,6 +24,8 @@ import {Project} from '../../../../model/webapi/knora';
     styleUrls: ['./file-uploader.component.scss']
 })
 export class FileUploaderComponent implements OnInit {
+
+    isLoading: boolean = false;
 
     errors: Array<string> = [];
     dragAreaClass: string = 'dragarea';
@@ -39,8 +42,46 @@ export class FileUploaderComponent implements OnInit {
 
     files: string[];
 
-    fileServer: string;
+//    fileServer: string;
 
+    tooltipSwitchButton: any = {
+        'upload': 'Link an image by URL, instead of upload',
+        'url': 'Switch to the uploader'
+    };
+
+    urlForm: FormGroup;
+
+    urlRegex: any = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/i;
+
+    public formLabels: any = {
+        upload: {
+            title: 'Upload an image',
+            button: ''
+        },
+        switchButton: {
+            upload: 'Link an image by URL, instead of upload',
+            url: 'Switch to the uploader'
+        },
+        preview: {
+            button: 'Delete this image'
+        },
+        url: {
+            title: 'Set file by URL',
+            placeholder: '',
+            button: ''
+        }
+    };
+
+    formErrors = {
+        'url': ''
+    };
+
+    validationMessages = {
+        'url': {
+            'required': 'An URL address is required.',
+            'pattern': 'This doesn\'t appear to be a valid URL address.'
+        }
+    };
     /*
 
     @Input() file?: string;
@@ -56,7 +97,12 @@ export class FileUploaderComponent implements OnInit {
     dragStatus: boolean = false;
     */
 
-    constructor(private _fileService: FileService) {
+    constructor(private _fb: FormBuilder,
+                private _fileService: FileService) {
+        this.urlForm = this._fb.group({
+            url: ['', Validators.compose([Validators.required, Validators.pattern(this.urlRegex)])]
+        });
+
     }
 
     ngOnInit() {
@@ -64,11 +110,41 @@ export class FileUploaderComponent implements OnInit {
             this.files = [this.existingFile];
             this.viewType = 'preview';
         }
+        this.urlForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+
+        this.onValueChanged(); // (re)set validation messages now
+
+        /*
+         this.filteredUsers = this.userCtrl.valueChanges
+         .startWith(null)
+         .map(val => val ? this.filter(val) : this.usersList.slice())
+         */
+    }
+
+    onValueChanged(data?: any) {
+
+        if (!this.urlForm) {
+            return;
+        }
+
+        const form = this.urlForm;
+
+        Object.keys(this.formErrors).map(field => {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                Object.keys(control.errors).map(key => {
+                    this.formErrors[field] += messages[key] + ' ';
+                });
+
+            }
+        });
     }
 
     onFileChange(event) {
         const uploadFiles = event.target.files;
-        console.log('files: ', uploadFiles);
         this.saveFiles(uploadFiles);
     }
 
@@ -112,7 +188,10 @@ export class FileUploaderComponent implements OnInit {
     }
 
     saveFiles(files) {
-        this.errors = []; // Clear error
+        console.log('makeId ', this.makeId());
+        console.log('random ', Math.random().toString(36).substring(4));
+        this.isLoading = true;
+        this.errors = []; // Clear errors
         // Validate file size and allowed extensions
         if (files.length > 0 && (!this.isValidFiles(files))) {
             this.uploadStatus.emit(false);
@@ -122,17 +201,18 @@ export class FileUploaderComponent implements OnInit {
             const formData: FormData = new FormData();
             for (let j = 0; j < files.length; j++) {
                 formData.append('file[]', files[j], files[j].name);
+                console.log(files);
             }
             const parameters = {
-//        projectId: this.projectId,
-//        sectionId: this.sectionId
+                origname: ''
             };
             this._fileService.upload(formData, parameters)
                 .subscribe(
                     success => {
                         this.uploadStatus.emit(success);
                         this.files = success.files;
-                        this.fileServer = AppConfig.FileServer;
+                        console.log(this.files);
+//                        this.fileServer = AppConfig.FileServer;
                         this.viewType = 'preview';
 
                     },
@@ -163,7 +243,8 @@ export class FileUploaderComponent implements OnInit {
             // Get file extension
             const ext = files[i].name.toUpperCase().split('.').pop() || files[i].name;
             // Check the extension exists
-            const exists = extensions.includes(ext);
+//            const exists = extensions.includes(ext);
+            const exists = extensions.indexOf(ext) > -1;
             if (!exists) {
                 this.errors.push('Error (Extension): ' + files[i].name);
             }
@@ -180,6 +261,16 @@ export class FileUploaderComponent implements OnInit {
         }
     }
 
+    makeId() {
+        let text = '';
+        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+        for (let i = 0; i < 8   ; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+
+        return text;
+    }
 
     /**
      * button to toggle the view between 'upload' (browse and drag'n'drop view) and 'url' (set an url of the (image) file)

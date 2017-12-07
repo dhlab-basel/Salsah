@@ -17,6 +17,7 @@ import {environment} from '../environments/environment';
 export class AppConfig {
 
     public static FileServer: string = environment.media;
+    public static AdminFileServer: string = environment.media + '/server/admin';
 
     public static KnoraBase: string = 'http://www.knora.org/ontology/knora-base';
 
