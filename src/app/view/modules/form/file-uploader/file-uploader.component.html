@@ -16,7 +16,7 @@
 
         <!-- OR 2) set file by url -->
         <div class="file-url-zone" *ngSwitchCase="'url'">
-            <form class="url-form" [formGroup]="urlForm">
+            <form class="url-form" [formGroup]="urlForm" (ngSubmit)="setFileByUrl()">
                 <input class="x-file-url" placeholder="http://" autofocus="true" formControlName="url">
                 <button class="x-file-url-submit" mat-raised-button [color]="'primary'" [disabled]="!urlForm.valid">Save</button>
                 <mat-hint *ngIf="formErrors.url" class="file-error">

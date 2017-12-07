@@ -201,7 +201,7 @@ export class FileUploaderComponent implements OnInit {
             const formData: FormData = new FormData();
             for (let j = 0; j < files.length; j++) {
                 formData.append('file[]', files[j], files[j].name);
-                console.log(files);
+//                console.log(files);
             }
             const parameters = {
                 origname: ''
@@ -211,7 +211,7 @@ export class FileUploaderComponent implements OnInit {
                     success => {
                         this.uploadStatus.emit(success);
                         this.files = success.files;
-                        console.log(this.files);
+//                        console.log(this.files);
 //                        this.fileServer = AppConfig.FileServer;
                         this.viewType = 'preview';
 
@@ -287,6 +287,16 @@ export class FileUploaderComponent implements OnInit {
     }
 
     setFileByUrl() {
+        const filesToSet: any = {
+            status: 'OK',
+            files: [
+                this.urlForm.controls['url'].value
+            ]
+        };
+
+        this.uploadStatus.emit(filesToSet);
+        this.files = filesToSet.files;
+        this.viewType = 'preview';
 
     }
 
