@@ -1,6 +1,6 @@
 {
     "salsahLabels": {
-	    "userFormLabels": {         // from view/modules/form/user-form/user-form.component.ts
+	    "userFormLabels": {
 			"user": {
 			    "select": {
 					"title": "Select user",
@@ -100,7 +100,7 @@
 			    }
 	        }
 	    },
-	    "projectFormLabels": {				// from view/modules/form/project-form/project-form.component.ts
+	    "projectFormLabels": {
 			"project": {
 				"title": "Project details",
 				"description": "Description",
@@ -127,16 +127,16 @@
 				"add": "Add more users",
 				"reset": "Reset"
 			}
-			
+
 			},
-			
+
 			"formErrors": {
 				"shortname": "",
 				"longname": "",
 				"description": "",
 				"keywords": ""
 			},
-			
+
 			"validationMessages": {
 				"shortname": {
 				"required": "Short name is required.",
@@ -149,7 +149,7 @@
 				"required": "Long name is required."
 			},
 			"description": {
-				"maxlength_p1": "Description cannot be more than ", // + this.descriptionMaxLength +
+				"maxlength_p1": "Description cannot be more than ",
 				"maxlength_p2": " characters long."
 			},
 			"keywords": {}

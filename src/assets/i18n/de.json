@@ -1,6 +1,6 @@
 {
   "salsahLabels": {
-    "userFormLabels": {         // from view/modules/form/user-form/user-form.component.ts
+    "userFormLabels": {
       "user": {
         "select": {
           "title": "Wähle Benutzer",
@@ -100,7 +100,7 @@
         }
       }
     },
-    "projectFormLabels": {				// from view/modules/form/project-form/project-form.component.ts
+    "projectFormLabels": {
       "project": {
         "title": "Projekt Details",
         "description": "Beschreibung",
@@ -149,7 +149,7 @@
         "required": "Der Langname ist verlangt."
       },
       "description": {
-        "maxlength_p1": "Die Beschreibung darf nicht mehr als ", // + this.descriptionMaxLength +
+        "maxlength_p1": "Die Beschreibung darf nicht mehr als ",
         "maxlenght_p2": " Zeichen lang sein."
       },
       "keywords": {}
