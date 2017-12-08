@@ -27,7 +27,9 @@ export class ImageDirective implements OnChanges {
     source: string;
 
     filePath: string = './assets/img';
-    onError: string = this.filePath + '/errors';
+    errorPath: string = this.filePath + '/errors';
+
+    onError: string;
 
     constructor(private _renderer: Renderer2,
                 private _ele: ElementRef) {
@@ -37,15 +39,15 @@ export class ImageDirective implements OnChanges {
         switch (this.type) {
 
             case 'avatar':
-                this.onError += '/defaultUser.png';
+                this.onError = this.errorPath + '/defaultUser.png';
                 this.source = 'http://www.gravatar.com/avatar/' + Md5.hashStr(this.image);
                 break;
 
             case 'admin':
-                this.onError += '/image-not-available.png';
+                this.onError = this.errorPath + '/image-not-available.png';
 
                 if (this.image === null || this.image === undefined) {
-                    this.source = this.filePath + '/errors/defaultProject.png';
+                    this.source = this.errorPath + '/defaultProject.png';
                 } else {
                     // if the image is a complete url
                     if (this.image.slice(0, 4) === 'http') {
@@ -57,7 +59,7 @@ export class ImageDirective implements OnChanges {
                 break;
 
             default:
-                this.onError += '/image-not-available.png';
+                this.onError = this.errorPath + '/image-not-available.png';
 
                 // if the image is a complete url
                 if (this.image.slice(0, 4) === 'http') {

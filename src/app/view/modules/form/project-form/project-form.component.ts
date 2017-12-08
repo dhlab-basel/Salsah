@@ -54,12 +54,12 @@ export class ProjectFormComponent implements OnInit {
     existingShortNames: [RegExp] = [
         new RegExp('project')
     ];
-    shortnameRegexp = /^[a-zA-Z]+\S*$/;
+    shortnameRegex = /^[a-zA-Z]+\S*$/;
 
     existingShortcodes: [RegExp] = [
         new RegExp('project')
     ];
-    shortcodeRegexp = /^[0-9A-Fa-f]+$/;
+    shortcodeRegex = /^[0-9A-Fa-f]+$/;
 
     form: FormGroup = new FormGroup({});
 
@@ -220,7 +220,7 @@ export class ProjectFormComponent implements OnInit {
                 Validators.minLength(this.shortnameMinLength),
                 Validators.maxLength(this.shortnameMaxLength),
                 existingNamesValidator(this.existingShortNames),
-                Validators.pattern(this.shortnameRegexp)
+                Validators.pattern(this.shortnameRegex)
             ]),
 
             'longname': new FormControl({
@@ -235,7 +235,7 @@ export class ProjectFormComponent implements OnInit {
                 Validators.minLength(this.shortcodeMinLength),
                 Validators.maxLength(this.shortcodeMaxLength),
 //                existingNamesValidator(this.existingShortcodes),
-                Validators.pattern(this.shortcodeRegexp)
+                Validators.pattern(this.shortcodeRegex)
             ]),
             'description': new FormControl({
                 value: proj.description, disabled: false
@@ -281,6 +281,8 @@ export class ProjectFormComponent implements OnInit {
 
             }
         });
+
+        console.log(form);
 
         /*
                 for (const field in Object.keys(this.formErrors)) {
