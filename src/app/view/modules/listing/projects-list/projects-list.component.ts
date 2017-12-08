@@ -213,7 +213,7 @@ export class ProjectsListComponent implements OnInit {
             this.isLoading = true;
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
-                this._projectsService.deleteProject(iri).subscribe(
+                this._projectsService.deactivateProject(iri).subscribe(
                     (res: ApiServiceResult) => {
                         // reload page
                         this.isLoading = false;

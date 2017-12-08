@@ -343,7 +343,7 @@ export class UsersListComponent implements OnInit {
             this.isLoading = true;
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
-                this._userService.deleteUser(iri).subscribe(
+                this._userService.deactivateUser(iri).subscribe(
                     (res: ApiServiceResult) => {
                         // reload page
                         this.isLoading = false;

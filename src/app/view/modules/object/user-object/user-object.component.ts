@@ -68,7 +68,7 @@ export class UserObjectComponent implements OnChanges {
         }
     }
 
-    deleteUser(iri: string) {
+    deactivateUser(iri: string) {
         const answer: boolean = false;
         const config = new MatDialogConfig();
 
@@ -84,7 +84,7 @@ export class UserObjectComponent implements OnChanges {
         dialogRef.afterClosed().subscribe(result => {
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
-                this._userService.deleteUser(iri).subscribe(
+                this._userService.deactivateUser(iri).subscribe(
                     (res: ApiServiceResult) => {
                         // reload page
                         window.location.reload();

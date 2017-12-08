@@ -21,6 +21,9 @@ import {ApiServiceError} from '../../../../model/services/api-service-error';
 
 import {ActivatedRoute} from '@angular/router';
 import {existingNamesValidator, notAllowed} from '../../other/existing-name.directive';
+import {MatDialogConfig} from '@angular/material';
+import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
+import {MessageData} from '../../message/message.component';
 
 @Component({
     selector: 'salsah-project-form',
@@ -98,7 +101,9 @@ export class ProjectFormComponent implements OnInit {
             submit: 'Save',
             close: 'Close',
             add: 'Add more users',
-            reset: 'Reset'
+            reset: 'Reset',
+            activate: 'Activate',
+            deactivate: 'Deactivate'
         }
 
     };
@@ -362,6 +367,59 @@ export class ProjectFormComponent implements OnInit {
 
     submitData() {
         console.log(this.form);
+    }
+
+    deactivateProject(ev, id: string) {
+        ev.preventDefault();
+        // TODO: "are you sure?"-dialog
+
+        // if true
+        this._projectsService.deactivateProject(id).subscribe(
+            (res: ApiServiceResult) => {
+                // reload page
+                this.isLoading = false;
+                window.location.reload();
+            },
+            (error: ApiServiceError) => {
+                const message: MessageData = error;
+                console.log(message);
+                /*
+                const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
+                    data: {
+                        message: message
+                    }
+                });
+                */
+            }
+        )
+
+        // close dialog box
+
+        // else: cancel action
+    }
+
+    activateProject(ev, id: string) {
+        ev.preventDefault();
+        // TODO: "are you sure?"-dialog
+
+        this._projectsService.activateProject(id).subscribe(
+            (res: ApiServiceResult) => {
+                // reload page
+                window.location.reload();
+                this.isLoading = false;
+            },
+            (error: ApiServiceError) => {
+                const message: MessageData = error;
+                console.log(message);
+                /*
+                const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
+                    data: {
+                        message: message
+                    }
+                });
+                */
+            }
+        )
     }
 
 }

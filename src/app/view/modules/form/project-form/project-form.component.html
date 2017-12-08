@@ -104,6 +104,21 @@
 
                     <!-- footer -->
                     <mat-action-row>
+                        <div *ngIf="iri">
+                            <!-- delete project -->
+                            <button *ngIf="project.status === true"
+                                    mat-button color="warn"
+                                    (click)="deactivateProject($event, iri)">
+                                {{formLabels.navigation.deactivate}}
+                            </button>
+                            <!-- activate project -->
+                            <button *ngIf="project.status !== true"
+                                    mat-button color="warn"
+                                    (click)="activateProject($event, iri)">
+                                {{formLabels.navigation.activate}}
+                            </button>
+                        </div>
+                        <span class="fill-remaining-space"></span>
                         <!-- checkbox, which activates the add user dialog form -->
                         <button mat-raised-button
                                 [disabled]="!form.valid"
