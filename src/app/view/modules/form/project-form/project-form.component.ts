@@ -24,6 +24,7 @@ import {existingNamesValidator, notAllowed} from '../../other/existing-name.dire
 import {MatDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {MessageData} from '../../message/message.component';
+import {AppConfig} from '../../../../app.config';
 
 @Component({
     selector: 'salsah-project-form',
@@ -158,7 +159,9 @@ export class ProjectFormComponent implements OnInit {
                     const projects: Project[] = result;
                     for (const p of projects) {
                         this.existingShortNames.push(new RegExp('(?:^|\W)' + p.shortname.toLowerCase() + '(?:$|\W)'));
-//                        this.existingShortcodes.push(new RegExp('(?:^|\W)' + p.shortcode.toLowerCase() + '(?:$|\W)'));
+                        if (p.shortcode !== null) {
+                            this.existingShortcodes.push(new RegExp('(?:^|\W)' + p.shortcode.toLowerCase() + '(?:$|\W)'));
+                        }
                     }
                 },
                 (error: ApiServiceError) => {
@@ -198,22 +201,21 @@ export class ProjectFormComponent implements OnInit {
 
     buildForm(proj: Project): void {
         // formControllName
-/*
-        this.form = new FormGroup({
-            'shortname': new FormControl({value: proj.shortname}),
-            'shortcode': new FormControl({value: proj.shortcode}),
-            'longname': new FormControl({value: proj.longname}),
-            'longname': new FormControl({value: proj.institution}),
-            'description': new FormControl({value: proj.description}),
-            'logo': new FormControl({value: proj.logo})
-        });
+        /*
+                this.form = new FormGroup({
+                    'shortname': new FormControl({value: proj.shortname}),
+                    'shortcode': new FormControl({value: proj.shortcode}),
+                    'longname': new FormControl({value: proj.longname}),
+                    'longname': new FormControl({value: proj.institution}),
+                    'description': new FormControl({value: proj.description}),
+                    'logo': new FormControl({value: proj.logo})
+                });
 
-                if (proj.logo !== undefined) {
-            this.logo = proj.logo;
-        }
+                        if (proj.logo !== undefined) {
+                    this.logo = proj.logo;
+                }
 
-*/
-
+        */
 
 
         this.form = this._fb.group({
@@ -268,12 +270,12 @@ export class ProjectFormComponent implements OnInit {
     }
 
     onValueChanged(data?: any) {
+        console.log(data);
 
         if (!this.form) {
             return;
         }
         const form = this.form;
-
 
         Object.keys(this.formErrors).map(field => {
             this.formErrors[field] = '';
@@ -286,8 +288,6 @@ export class ProjectFormComponent implements OnInit {
 
             }
         });
-
-        console.log(form);
 
         /*
                 for (const field in Object.keys(this.formErrors)) {
@@ -315,23 +315,51 @@ export class ProjectFormComponent implements OnInit {
 
         if (!this.iri) {
             // create project
-            this._projectsService.createProject(this.project).subscribe(
-                (result: ApiServiceResult) => {
-//                    console.log('service: ', result);
+            this._projectsService.createProject(this.project)
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        const newProject: Project = result.getBody(Project);
 
-                    // this.isLoading = true;
+                        // create new ontology with iri of the new project and shortname;
+                        // we have to store it in the session/local storage,
+                        // because the knora api isn't ready yet for new ontology creation;
+                        // TODO: needs coordination with knora api
 
-                    // TODO: find a better solution: reload the component only, not the whole application; implement @Output as discussed here: https://stackoverflow.com/questions/41231557/refresh-component-in-angular-2
+                        const newOntology: any = {
+                            '@context': {
+                                'dc': 'http://www.knora.org/ontology/dc#',
+                                'foaf': 'http://xmlns.com/foaf/0.1/',
+                                'knora-base': 'http://www.knora.org/ontology/knora-base#',
+                                'owl': 'http://www.w3.org/2002/07/owl#',
+                                'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                                'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+                                'salsah-gui': 'http://www.knora.org/ontology/salsah-gui#',
+                                'xsd': 'http://www.w3.org/2001/XMLSchema#'
+                            },
+                            '@graph': [
+                                {
+                                    '@id': AppConfig.KnoraOntologyPath + '/' + newProject.shortcode + '/' + newProject.shortname,
+                                    '@type': 'owl:Ontology'
+                                }
+                            ]
+                        };
+
+                        console.log(newOntology);
+                        localStorage.setItem('newOntology', JSON.stringify(newOntology));
+
+                        // this.isLoading = true;
+
+                        // TODO: find a better solution: reload the component only, not the whole application; implement @Output as discussed here: https://stackoverflow.com/questions/41231557/refresh-component-in-angular-2
 
 //                    window.location.replace('/project/' + value.shortname);
 
-                    // IN PRGOGRESS:
-                    this.closeForm.emit('/project/' + value.shortname);
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = error;
-                }
-            );
+                        // IN PRGOGRESS:
+// exclude this, for test                    this.closeForm.emit('/project/' + value.shortname);
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = error;
+                    }
+                );
         } else {
             // update project
             this._projectsService.updateProject(this.iri, this.project).subscribe(

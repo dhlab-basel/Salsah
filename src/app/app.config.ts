@@ -19,7 +19,8 @@ export class AppConfig {
     public static FileServer: string = environment.media;
     public static AdminFileServer: string = environment.media + '/server/admin';
 
-    public static KnoraBase: string = 'http://www.knora.org/ontology/knora-base';
+    public static KnoraOntologyPath: string = 'http://www.knora.org/ontology';
+    public static KnoraBase: string = AppConfig.KnoraOntologyPath + '/knora-base';
 
     public static SystemProject: string = AppConfig.KnoraBase + '#SystemProject';
     public static SystemAdminGroup: string = AppConfig.KnoraBase + '#SystemAdmin';
