@@ -1,4 +1,6 @@
-<div class="salsah-module-content medium" *ngIf="project">
+<salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
+<div class="salsah-module-content medium" *ngIf="project && !isLoading">
     <!-- cover image: project logo -->
     <img salsahImage [image]="project?.logo" [type]="'admin'">
 
@@ -6,6 +8,8 @@
     <button *ngIf="loggedInAdmin"
             (click)="editProject()"
             mat-fab class="right"
+            [matTooltip]="edit.title"
+            [matTooltipPosition]="'above'"
             color="primary">
         <mat-icon>edit</mat-icon>
     </button>

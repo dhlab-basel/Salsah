@@ -133,8 +133,10 @@ export class FormDialogComponent implements OnInit {
             // go to the defined route
             window.location.replace(route);
         } else {
+
+            console.log('closeAndRefresh: refreshComponent.emit in form-dialog');
             // refresh the component only
-            // emit event to the parent and refresh it there?
+            // emit event to the parent component and refresh it there
             this.refreshComponent.emit('test');
 
         }

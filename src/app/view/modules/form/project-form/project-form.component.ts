@@ -133,10 +133,11 @@ export class ProjectFormComponent implements OnInit {
             'required': 'Shortcode is required',
             'maxlength': 'Shortcode cannot be more than ' + this.shortcodeMaxLength + ' characters long.',
             'minlength': 'Shortcode cannot be less than ' + this.shortcodeMinLength + ' characters long.',
-            'pattern': 'This is not a hexadecimal value!'
-//            'existingName': 'This shortcode is already taken.'
+            'pattern': 'This is not a hexadecimal value!',
+            'existingName': 'This shortcode is already taken.'
         },
         'description': {
+            'required': 'A description is required.',
             'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.'
         },
         'institution': {},
@@ -241,12 +242,13 @@ export class ProjectFormComponent implements OnInit {
                 Validators.required,
                 Validators.minLength(this.shortcodeMinLength),
                 Validators.maxLength(this.shortcodeMaxLength),
-//                existingNamesValidator(this.existingShortcodes),
+                existingNamesValidator(this.existingShortcodes),
                 Validators.pattern(this.shortcodeRegex)
             ]),
             'description': new FormControl({
                 value: proj.description, disabled: false
             }, [
+                Validators.required,
                 Validators.maxLength(this.descriptionMaxLength)
             ]),
             'institution': new FormControl({
@@ -270,7 +272,6 @@ export class ProjectFormComponent implements OnInit {
     }
 
     onValueChanged(data?: any) {
-        console.log(data);
 
         if (!this.form) {
             return;
@@ -314,11 +315,17 @@ export class ProjectFormComponent implements OnInit {
         // this.submitData.emit({value, iri});
 
         if (!this.iri) {
+            this.project.ontologies = [];
+            this.project.ontologies.push(AppConfig.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname);
+
+            console.log('project info before post ', this.project);
+
             // create project
             this._projectsService.createProject(this.project)
                 .subscribe(
                     (result: ApiServiceResult) => {
-                        const newProject: Project = result.getBody(Project);
+                        const newProject: Project = result.getBody();
+                        console.log('project info after post ', newProject);
 
                         // create new ontology with iri of the new project and shortname;
                         // we have to store it in the session/local storage,
@@ -338,13 +345,12 @@ export class ProjectFormComponent implements OnInit {
                             },
                             '@graph': [
                                 {
-                                    '@id': AppConfig.KnoraOntologyPath + '/' + newProject.shortcode + '/' + newProject.shortname,
+                                    '@id': this.project.ontologies[0],
                                     '@type': 'owl:Ontology'
                                 }
                             ]
                         };
 
-                        console.log(newOntology);
                         localStorage.setItem('newOntology', JSON.stringify(newOntology));
 
                         // this.isLoading = true;
@@ -354,7 +360,7 @@ export class ProjectFormComponent implements OnInit {
 //                    window.location.replace('/project/' + value.shortname);
 
                         // IN PRGOGRESS:
-// exclude this, for test                    this.closeForm.emit('/project/' + value.shortname);
+                        this.closeForm.emit('/project/' + value.shortname);
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = error;

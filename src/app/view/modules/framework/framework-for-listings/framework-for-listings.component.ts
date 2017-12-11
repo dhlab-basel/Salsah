@@ -29,6 +29,8 @@ import {MessageData} from '../../message/message.component';
 import {ActivatedRoute, Params} from '@angular/router';
 import {OntologiesListComponent} from '../../listing/ontologies-list/ontologies-list.component';
 import {UsersListComponent} from '../../listing/users-list/users-list.component';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {Project} from '../../../../model/webapi/knora';
 
 export interface ListData {
     title: string,
@@ -121,48 +123,33 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
 //    @ViewChild(OntologiesListComponent) ontologies;
     counter: number;
 
+    session: string;
+
 //    constructor(@Inject(ElementRef) elementRef: ElementRef, @Inject(Injector) injector: Injector)
     constructor(private _dialog: MatDialog,
                 private _route: ActivatedRoute,
                 private _cdRef: ChangeDetectorRef) {
+
+        _dialog.afterAllClosed
+            .subscribe(() => {
+                    // update the session storage
+                    this.updateSession();
+                }
+            );
     }
 
     ngOnInit() {
-        // bad hack to get the project admin information
-        if (localStorage.getItem('currentUser') !== null) {
-            this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-        }
-
-        if (this.list === undefined || this.list === null) {
-            // list is not optional! show an error message
-            this.errorMessage = <any>{
-                status: 424,
-                statusText: 'There\'s no specified list data in FrameworkForListings!'
-            };
-            this.list = <ListData>{};
-        } else {
-            this.notYetImplemented.route = this.list.content;
-
-            if (this.list.content === 'resource') {
-
-                // reload component when activated route changes
-                this._route.params.subscribe((params: Params) => {
-                    this.rerender = true;
-                    this._cdRef.detectChanges();
-                    this.rerender = false;
-                });
-            }
-        }
+        this.getData(this.list.restrictedBy);
     }
 
     ngOnChanges() {
 //        console.log(this.list);
-        console.log('ngOnChanges');
+//        console.log('ngOnChanges');
     }
 
     ngAfterViewInit() {
         this._cdRef.detectChanges();
-        console.log('ngAfterViewInit')
+//        console.log('ngAfterViewInit')
     }
 
     //
@@ -199,7 +186,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
 
     //
     // if the input "add" is set, this method opens a form dialog box with the new-XYZ-form component
-    // the form-dialog component handles which nex-XYZ-form to use
+    // the form-dialog component handles which new-XYZ-form to use
     openNew(form: string) {
 
         let dialogRef;
@@ -233,10 +220,61 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
                 });
         }
 
-        return dialogRef.beforeClose().subscribe(result => {
-            console.log('The dialog was closed');
-            alert(result);
+        dialogRef.beforeClose().subscribe(result => {
+            this.isLoading = true;
         });
+
+    }
+
+    getData(id?: string) {
+        // bad hack to get the project admin information
+        if (localStorage.getItem('currentUser') !== null) {
+            this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+        }
+
+        if (this.list === undefined || this.list === null) {
+            // list is not optional! show an error message
+            this.errorMessage = <any>{
+                status: 424,
+                statusText: 'There\'s no specified list data in FrameworkForListings!'
+            };
+            this.list = <ListData>{};
+        } else {
+            this.notYetImplemented.route = this.list.content;
+
+            if (this.list.content === 'resource') {
+
+                // reload component when activated route changes
+                this._route.params.subscribe((params: Params) => {
+                    this.rerender = true;
+                    this._cdRef.detectChanges();
+                    this.rerender = false;
+                });
+            }
+        }
+
+
+    }
+
+    updateSession() {
+
+
+
+        /*
+
+        sessionStorage.removeItem(this.session);
+        this._projectsService.getProjectByShortname(id)
+            .subscribe((result: Project) => {
+                    this.project = result;
+                    sessionStorage.setItem(this.session, JSON.stringify(this.project));
+                    this.isLoading = false;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                    sessionStorage.removeItem(this.session);
+                }
+            )
+            */
     }
 
 }
