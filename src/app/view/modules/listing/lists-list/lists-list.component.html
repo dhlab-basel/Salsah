@@ -5,11 +5,12 @@
 <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
 <!-- if we have the data: show the list-->
-<div *ngIf="listCount > 0; else noData" >
+<div *ngIf="listCount > 0; else noData">
 
 
     <mat-accordion>
-        <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true" (opened)="fetchListData(item.id)">
+        <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
+                             (opened)="fetchListData(item.id)">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h4>{{item.labels[0].value}}</h4>
@@ -20,12 +21,38 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <mat-list>
-                <!-- <h5 mat-subheader>{{item?.label}}</h5> -->
-                <mat-list-item  *ngFor="let node of currentNodes">
-                    {{node.name}}
-                </mat-list-item>
-            </mat-list>
+            <h4>Nodes</h4>
+            <!--TODO: this has to be programmed into a loop that goes on continually until there are no more subnodes...-->
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let node of currentNodes" [hideToggle]="node.children.length === 0">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{node.name}}
+                        </mat-panel-title>
+                        <mat-panel-description *ngIf="node.children.length != 0">
+                            Number of sub-nodes: {{node.children.length}}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-accordion>
+                        <mat-expansion-panel *ngFor="let subnode of node.children"
+                                             [hideToggle]="subnode.children.length === 0">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    {{subnode.name}}
+                                </mat-panel-title>
+                                <mat-panel-description *ngIf="subnode.children.length != 0">
+                                    Number of sub-nodes: {{subnode.children.length}}
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <mat-list>
+                                <mat-list-item *ngFor="let subnode2 of subnode.children">
+                                    {{subnode2.name}}
+                                </mat-list-item>
+                            </mat-list>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </mat-expansion-panel>
+            </mat-accordion>
 
             <mat-action-row>
                 <button mat-button
@@ -34,14 +61,14 @@
                     edit
                 </button>
             </mat-action-row>
-<!--            <mat-action-row>
-                <button mat-button
-                        color="primary"
-                        (click)="edit(item?.id)">
-                    edit
-                </button>
-            </mat-action-row>
--->
+            <!--            <mat-action-row>
+                            <button mat-button
+                                    color="primary"
+                                    (click)="edit(item?.id)">
+                                edit
+                            </button>
+                        </mat-action-row>
+            -->
         </mat-expansion-panel>
 
     </mat-accordion>
@@ -53,7 +80,6 @@
 <ng-template #noData>
     <salsah-message *ngIf="!isLoading && !errorMessage" [message]="noDataMessage"></salsah-message>
 </ng-template>
-
 
 
 <!--
