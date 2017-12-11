@@ -33,6 +33,7 @@ export class ListsListComponent implements OnInit {
     @Output() toggleItem = new EventEmitter<any>();
 
     isLoading: boolean = true;
+    isLoadingNodes: boolean = true;
     errorMessage: any;
 
     // in the case of no data, but with a working API
@@ -99,6 +100,7 @@ export class ListsListComponent implements OnInit {
                 (list: List) => {
                     this.currentNodes = list.children;
                     this.currentListInfo = list.listinfo;
+                    this.isLoadingNodes = false;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;

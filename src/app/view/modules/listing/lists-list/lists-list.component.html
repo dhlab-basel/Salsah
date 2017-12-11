@@ -7,7 +7,6 @@
 <!-- if we have the data: show the list-->
 <div *ngIf="listCount > 0; else noData">
 
-
     <mat-accordion>
         <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
                              (opened)="fetchListData(item.id)">
@@ -22,6 +21,7 @@
             </mat-expansion-panel-header>
 
             <h4>Nodes</h4>
+            <salsah-progress-indicator *ngIf="isLoadingNodes"></salsah-progress-indicator>
             <!--TODO: this has to be programmed into a loop that goes on continually until there are no more subnodes...-->
             <mat-accordion>
                 <mat-expansion-panel *ngFor="let node of currentNodes" [hideToggle]="node.children.length === 0">
