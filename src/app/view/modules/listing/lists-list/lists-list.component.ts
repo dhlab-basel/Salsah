@@ -14,9 +14,12 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ListsService} from '../../../../model/services/lists.service';
-import {ListInfo} from '../../../../model/webapi/knora/admin/lists/list-info';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MessageData} from '../../message/message.component';
+import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
+import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+
 
 @Component({
     selector: 'salsah-lists-list',
@@ -43,19 +46,24 @@ export class ListsListComponent implements OnInit {
     lists: ListInfo[] = [];
     listCount: number;
 
+    currentNodes: ListNode[];
+    currentListInfo: ListInfo;
+
+
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
     // iri of the selected list
     iri: string;
 
-    constructor(private _listsService: ListsService) {
+    constructor(private _listsService: ListsService,
+                public _dialog: MatDialog) {
     }
 
     ngOnInit() {
 
         if (this.restrictedBy) {
-            // get all project lists
+        //     get all project lists
             this._listsService.getLists(this.restrictedBy)
                 .subscribe(
                     (lists: ListInfo[]) => {
@@ -68,7 +76,8 @@ export class ListsListComponent implements OnInit {
                         this.isLoading = false;
                     }
                 );
-        } else {
+        }
+        else {
             // get all system lists
             this._listsService.getLists()
                 .subscribe(
@@ -82,7 +91,20 @@ export class ListsListComponent implements OnInit {
                     }
                 );
         }
+    }
 
+    fetchListData(iri: string) {
+        this._listsService.getList(iri)
+            .subscribe(
+                (list: List) => {
+                    this.currentNodes = list.children;
+                    this.currentListInfo = list.listinfo;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                }
+            );
+        console.log(this.currentNodes);
 
     }
 
@@ -100,5 +122,16 @@ export class ListsListComponent implements OnInit {
         }
 
     }
+
+    edit(id: string, title?: string) {
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+            data: {
+                iri: id,
+                title: 'Edit ' + id,
+                form: 'list'
+            }
+        });
+    }
+
 
 }

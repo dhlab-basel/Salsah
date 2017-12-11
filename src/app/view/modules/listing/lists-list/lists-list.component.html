@@ -7,27 +7,38 @@
 <!-- if we have the data: show the list-->
 <div *ngIf="listCount > 0; else noData" >
 
-    <mat-list class="salsah-list">
-        <!--
-                <mat-list-item class="salsah-link"
-                              (click)="createList()"
-                              [class.highlight]="addList">
-                    <mat-icon mat-list-avatar>add</mat-icon>
-                    <h4 mat-line>Add new list</h4>
-                </mat-list-item>
-                <mat-divider></mat-divider>
-                <br/>
-        -->
 
-        <mat-list-item *ngFor="let item of lists; let i = index"
-                       (click)="toggle(item.id, i);"
-                       class="salsah-link"
-                       [id]="item.id"
-                       [class.highlight]="i == selectedRow">
-            <h4 mat-line>{{item.labels[0].value}}</h4>
-            <h6 mat-line>{{item.id}}</h6>
-        </mat-list-item>
-    </mat-list>
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true" (opened)="fetchListData(item.id)">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <h4>{{item.labels[0].value}}</h4>
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{item.id}}
+                    <mat-icon>list</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-list>
+                <!-- <h5 mat-subheader>{{item?.label}}</h5> -->
+                <mat-list-item  *ngFor="let node of currentNodes">
+                    {{node.name}}
+                </mat-list-item>
+            </mat-list>
+
+            <mat-action-row>
+                <button mat-button
+                        color="primary"
+                        (click)="edit(item?.id)">
+                    edit
+                </button>
+            </mat-action-row>
+
+        </mat-expansion-panel>
+
+    </mat-accordion>
+
 
 </div>
 
