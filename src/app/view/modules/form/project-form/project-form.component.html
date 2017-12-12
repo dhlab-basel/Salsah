@@ -18,7 +18,7 @@
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        {{formLabels.project.title}}
+                        {{ 'salsahLabels.projectFormLabels.project.title' | translate }}
                     </mat-panel-title>
                     <mat-panel-description>
                         &nbsp;
@@ -30,7 +30,7 @@
                     <!-- short and long name -->
                     <mat-form-field class="small">
                         <input matInput [salsahFocus]="step === 1"
-                               [placeholder]="formLabels.project.shortname + ' *'"
+                               [placeholder]=" 'salsahLabels.projectFormLabels.project.shortname' | translate "
                                [formControl]="form.controls['shortname']">
                         <mat-hint *ngIf="formErrors.shortname">
                             {{ formErrors.shortname }}
@@ -38,7 +38,7 @@
                     </mat-form-field>
                     <mat-form-field class="medium">
                         <input matInput
-                               [placeholder]="formLabels.project.longname + ' *'"
+                               [placeholder]=" 'salsahLabels.projectFormLabels.project.longname' | translate "
                                [formControl]="form.controls['longname']">
                         <mat-hint *ngIf="formErrors.longname">
                             {{ formErrors.longname }}
@@ -48,7 +48,7 @@
                     <!-- description -->
                     <mat-form-field class="large">
                         <textarea matInput rows="6"
-                                  [placeholder]="formLabels.project.description"
+                                  [placeholder]=" 'salsahLabels.projectFormLabels.project.description' | translate "
                                   [formControl]="form.controls['description']">
                         </textarea>
                         <mat-hint *ngIf="formErrors.description">
@@ -59,7 +59,7 @@
                     <!-- keywords -->
                     <mat-form-field class="large">
                         <input matInput
-                               [placeholder]="formLabels.project.keywords"
+                               [placeholder]=" 'salsahLabels.projectFormLabels.project.keywords' | translate "
                                [formControl]="form.controls['keywords']">
                         <mat-hint *ngIf="formErrors.keywords">
                             {{ formErrors.keywords }}
@@ -71,7 +71,7 @@
                     <!-- the form needs an input field for the logo name
                         the following input will be hidden and it gets the file name from the salsah-file-uploader -->
                     <br>
-                    <input [placeholder]="formLabels.project.logo.name"
+                    <input [placeholder]=" 'salsahLabels.projectFormLabels.project.logo.name' | translate "
                            formControlName="logo">
 
                     <!-- footer -->
@@ -81,7 +81,7 @@
                                 [disabled]="!form.valid"
                                 color="primary"
                                 (click)="submitData()">
-                            {{formLabels.navigation.submit}}
+                            {{ 'salsahLabels.projectFormLabels.navigation.submit' | translate }}
                         </button>
                     </mat-action-row>
                 </form>

@@ -1,6 +1,29 @@
 {
     "salsahLabels": {
-	    "userFormLabels": {         // from view/modules/form/user-form/user-form.component.ts
+        "frameworkForListings": {
+            "list":{
+                "title": "",
+                "description": "",
+                "content": "user",
+                "showAs": "expansion",
+                "restrictedBy": ""
+            },
+            "add": {
+                "title": "",
+                "description": ""
+            }
+        },
+        "usersList": {
+            "sortProps": {
+                "familyName": "",
+                "givenName": "",
+                "sortTitle": ""
+            }
+        },
+        "formDialog": {
+            "discard": ""
+        },
+	    "userFormLabels": {
 			"user": {
 			    "select": {
 					"title": "",
@@ -11,96 +34,96 @@
 					"skip": ""
 			    },
 			    "create": {
-			        "projectAdmin": {
-				        "title": "",
-			            "titleDone": "",
-			            "description": ""
-			    },
-			        "systemAdmin": {
-			            "title": "",
-			            "titleDone": "",
-			            "description": ""
-			    },
-			    "givenName": "",
-			    "familyName": "",
-			    "email": "",
-			    "emailHint": "",
-			    "emailValidation": "",
-			    "password": "",
-			    "passwordHint": "",
-			    "avatar": "",
-			    "language": ""
-			    },
-			    "project": {
-					"select": {
-					    "title": "",
-					    "description": "",
-					    "autoComplete": "",
-					    "autoCompleteHint": "",
-					    "skip": ""
-					},
-					"existing": {
-					    "title": "",
-					    "description": ""
-					}
-			    },
-			    "permissions": {
-					"title": "",
-					"description": "",
-					"group": {
-						"title": "",
-						"description": ""
-					},
-					"project": {
-						"title": "",
-						"description": ""
-					},
-					"system": {
-						"title": "",
-						"description": ""
-					}
-			    },
-			    "overview": {
-			        "title": "",
-			        "description": ""
-			    },
-			    "navigation": {
-				    "next": "",
-			        "back": "",
-			        "skip": "",
-			        "cancel": "",
-			        "submit": "",
-			        "close": "",
-			        "add": "",
-			        "reset": ""
-			    },
-				"formErrors": {
-					"givenName": "",
-			        "familyName": "",
-			        "email": "",
-			        "password": ""
-				},
-			    "validationMessages": {
-				    "givenName": {
-					    "required": ""
-				    },
-				    "familyName": {
-					    "required": ""
-				    },
-				    "email": {
-					    "required": "",
-					    "pattern": "",
-					    "existingName": ""
-				    },
-				    "password": {
-					    "required": "",
-					    "minlength": "",
-					    "pattern": ""
-				    }
-			    }
-	        }
+                    "projectAdmin": {
+                        "title": "",
+                        "titleDone": "",
+                        "description": ""
+                    },
+                    "systemAdmin": {
+                        "title": "",
+                        "titleDone": "",
+                        "description": ""
+                    },
+                    "givenName": "",
+                    "familyName": "",
+                    "email": "",
+                    "emailHint": "",
+                    "emailValidation": "",
+                    "password": "",
+                    "passwordHint": "",
+                    "avatar": "",
+                    "language": ""
+                }
+            },
+            "project": {
+                "select": {
+                    "title": "",
+                    "description": "",
+                    "autoComplete": "",
+                    "autoCompleteHint": "",
+                    "skip": ""
+                },
+                "existing": {
+                    "title": "",
+                    "description": ""
+                }
+            },
+            "permissions": {
+                "title": "",
+                "description": "",
+                "group": {
+                    "title": "",
+                    "description": ""
+                },
+                "project": {
+                    "title": "",
+                    "description": ""
+                },
+                "system": {
+                    "title": "",
+                    "description": ""
+                }
+            },
+            "overview": {
+                "title": "",
+                "description": ""
+            },
+            "navigation": {
+                "next": "",
+                "back": "",
+                "skip": "",
+                "cancel": "",
+                "submit": "",
+                "close": "",
+                "add": "",
+                "reset": ""
+            },
+            "formErrors": {
+                "givenName": "",
+                "familyName": "",
+                "email": "",
+                "password": ""
+            },
+            "validationMessages": {
+                "givenName": {
+                    "required": ""
+                },
+                "familyName": {
+                    "required": ""
+                },
+                "email": {
+                    "required": "",
+                    "pattern": "",
+                    "existingName": ""
+                },
+                "password": {
+                    "required": "",
+                    "minlength": "",
+                    "pattern": ""
+                }
+            }
 	    },
-	    "projectFormLabels": {				// from view/modules/form/project-form/project-form.component.ts
+	    "projectFormLabels": {
 			"project": {
 				"title": "",
 				"description": "",
@@ -126,33 +149,31 @@
 				"close": "",
 				"add": "",
 				"reset": ""
-			}
-			
 			},
-			
 			"formErrors": {
 				"shortname": "",
 				"longname": "",
 				"description": "",
 				"keywords": ""
 			},
-			
 			"validationMessages": {
 				"shortname": {
-				"required": "",
-				"minlength": "",
-				"maxlength": "",
-				"pattern": "",
-				"existingName": ""
-			},
-			"longname": {
-				"required": ""
-			},
-			"description": {
-				"maxlength_p1": "", // + this.descriptionMaxLength +
-				"maxlenght_p2": ""
-			},
-			"keywords": {}
+                    "required": "",
+                    "minlength": "",
+                    "maxlength": "",
+                    "pattern": "",
+                    "existingName": ""
+			    },
+			    "longname": {
+				    "required": ""
+			    },
+                "description": {
+                    "maxlength_p1": "", // + this.descriptionMaxLength +
+                    "maxlenght_p2": ""
+                },
+			    "keywords": {
+                }
+            }
 		}
     }
 }

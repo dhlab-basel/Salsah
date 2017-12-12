@@ -86,7 +86,7 @@
     <div *ngSwitchCase="'expansion'">
 
         <mat-form-field style="margin: -12px 0 0 12px">
-            <mat-select [placeholder]="sortTitle" [(value)]="sortKey">
+            <mat-select [placeholder]="'salsahLabels.usersList.sortProps.sortTitle' | translate " [(value)]="sortKey">
                 <mat-option *ngFor="let item of sortProps" [value]="item.key">
                     {{item.label}}
                 </mat-option>

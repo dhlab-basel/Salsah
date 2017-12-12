@@ -1,111 +1,134 @@
 {
     "salsahLabels": {
+        "frameworkForListings": {
+            "list":{
+                "title": "Members in this project",
+                "description": "",
+                "content": "user",
+                "showAs": "expansion",
+                "restrictedBy": ""
+            },
+            "add": {
+                "title": "Add a new team member",
+                "description": ""
+            }
+        },
+        "usersList": {
+            "sortProps": {
+                "familyName": "Last name",
+                "givenName": "First name",
+                "sortTitle": "Sort by "
+            }
+        },
+        "formDialog": {
+            "discard": "You're sure to close the form and discard all changes?"
+        },
 	    "userFormLabels": {
-			"user": {
-			    "select": {
-					"title": "Select user",
-					"titleDone": "Selected user",
-					"description": "Add an existing one",
-					"autoComplete": "just type a name here",
-					"autoCompleteHint": "",
-					"skip": "Skip and create new user instead"
-			    },
-			    "create": {
-			        "projectAdmin": {
-				        "title": "Or create new user",
-			            "titleDone": "New user",
-			            "description": "If the user doesn't exist, create a new one"
-			    },
-			        "systemAdmin": {
-			            "title": "Add user",
-			            "titleDone": "New user",
-			            "description": "Create new user profile"
-			    },
-			    "givenName": "First name",
-			    "familyName": "Last name",
-			    "email": "Email address (will be your login name)",
-			    "emailHint": "This will be your login name",
-			    "emailValidation": "This does not appear to be a valid email address.",
-			    "password": "Password",
-			    "passwordHint": "Use at least 8 characters with one uppercase letter and one number.",
-			    "avatar": "Upload a profile pic",
-			    "language": "Default language"
-			    },
-			    "project": {
-					"select": {
-					    "title": "Project membership",
-					    "description": "Add this user to a project",
-					    "autoComplete": "Just type a project name here",
-					    "autoCompleteHint": "",
-					    "skip": "Skip this step"
-					},
-					"existing": {
-					    "title": "You are adding the user to the project ",
-					    "description": ""
-					}
-			    },
-			    "permissions": {
-					"title": "Permissions",
-					"description": "Set user's permissions",
-					"group": {
-						"title": "Group",
-						"description": "Group permissions"
-					},
-					"project": {
-						"title": "Project",
-						"description": "Administrative rights in project"
-					},
-					"system": {
-						"title": "System",
-						"description": "Administrative rights in system"
-					}
-			    },
-			    "overview": {
-			        "title": "Submit data",
-			        "description": "The following user data will be sent to Knora"
-			    },
-			    "navigation": {
-				    "next": "Next",
-			        "back": "Back",
-			        "skip": "Skip",
-			        "cancel": "Cancel",
-			        "submit": "Save",
-			        "close": "Close",
-			        "add": "Add more users",
-			        "reset": "Reset"
-			    },
-				"formErrors": {
-					"givenName": "",
-			        "familyName": "",
-			        "email": "",
-			        "password": ""
-				},
-			    "validationMessages": {
-				    "givenName": {
-					    "required": "First name is required."
-				    },
-				    "familyName": {
-					    "required": "Last name is required."
-				    },
-				    "email": {
-					    "required": "Email address is required.",
-					    "pattern": "This does not appear to be a valid email address.",
-					    "existingName": "This email address exists already."
-				    },
-				    "password": {
-					    "required": "A password is required.",
-					    "minlength": "Use at least 8 characters.",
-					    "pattern": "The password should have at least one uppercase letter and one number."
-				    }
-			    }
-	        }
-	    },
+            "user": {
+                "select": {
+                    "title": "Select user",
+                    "titleDone": "Selected user",
+                    "description": "Add an existing one",
+                    "autoComplete": "just type a name here",
+                    "autoCompleteHint": "",
+                    "skip": "Skip and create new user instead"
+                },
+                "create": {
+                    "projectAdmin": {
+                        "title": "Or create new user",
+                        "titleDone": "New user",
+                        "description": "If the user doesn't exist, create a new one"
+                    },
+                    "systemAdmin": {
+                        "title": "Add user",
+                        "titleDone": "New user",
+                        "description": "Create new user profile"
+                    },
+                    "givenName": "First name *",
+                    "familyName": "Last  *",
+                    "email": "Email address (will be your login name) *",
+                    "emailHint": "This will be your login name",
+                    "emailValidation": "This does not appear to be a valid email address.",
+                    "password": "Password *",
+                    "passwordHint": "Use at least 8 characters with one uppercase letter and one number.",
+                    "avatar": "Upload a profile pic",
+                    "language": "Default language"
+                }
+            },
+            "project": {
+                "select": {
+                    "title": "Project membership",
+                    "description": "Add this user to a project",
+                    "autoComplete": "Just type a project name here",
+                    "autoCompleteHint": "",
+                    "skip": "Skip this step"
+                },
+                "existing": {
+                    "title": "You are adding the user to the project ",
+                    "description": ""
+                }
+            },
+            "permissions": {
+                "title": "Permissions",
+                "description": "Set user's permissions",
+                "group": {
+                    "title": "Group",
+                    "description": "Group permissions"
+                },
+                "project": {
+                    "title": "Project",
+                    "description": "Administrative rights in project"
+                },
+                "system": {
+                    "title": "System",
+                    "description": "Administrative rights in system"
+                }
+            },
+            "overview": {
+                "title": "Submit data",
+                "description": "The following user data will be sent to Knora"
+            },
+            "navigation": {
+                "next": "Next",
+                "back": "Back",
+                "skip": "Skip",
+                "cancel": "Cancel",
+                "submit": "Save",
+                "close": "Close",
+                "add": "Add more users",
+                "reset": "Reset"
+            },
+            "formErrors": {
+                "givenName": "",
+                "familyName": "ups",
+                "email": "",
+                "password": ""
+            },
+            "validationMessages": {
+                "givenName": {
+                    "required": "First name is required."
+                },
+                "familyName": {
+                    "required": "Last name is required."
+                },
+                "email": {
+                    "required": "Email address is required.",
+                    "pattern": "This does not appear to be a valid email address.",
+                    "existingName": "This email address exists already."
+                },
+                "password": {
+                    "required": "A password is required.",
+                    "minlength": "Use at least 8 characters.",
+                    "pattern": "The password should have at least one uppercase letter and one number."
+                }
+            }
+        },
 	    "projectFormLabels": {
 			"project": {
 				"title": "Project details",
 				"description": "Description",
-				"shortname": "Project short name",
-				"longname": "Project name",
+				"shortname": "Project short name *",
+				"longname": "Project name *",
 				"logo": {
 					"upload": "Upload a logo",
 					"or": "OR",
@@ -126,33 +149,31 @@
 				"close": "Close",
 				"add": "Add more users",
 				"reset": "Reset"
-			}
-
 			},
-
 			"formErrors": {
 				"shortname": "",
 				"longname": "",
 				"description": "",
 				"keywords": ""
 			},
-
 			"validationMessages": {
-				"shortname": {
-				"required": "Short name is required.",
-				"minlength": "Short name must be at least 3 characters long.",
-				"maxlength": "Short name cannot be more than 16 characters long.",
-				"pattern": "Whitespaces are not allowed.",
-				"existingName": "This short name is already taken."
-			},
-			"longname": {
-				"required": "Long name is required."
-			},
-			"description": {
-				"maxlength_p1": "Description cannot be more than ",
-				"maxlength_p2": " characters long."
-			},
-			"keywords": {}
+                "shortname": {
+                    "required": "Short name is required.",
+                    "minlength": "Short name must be at least 3 characters long.",
+                    "maxlength": "Short name cannot be more than 16 characters long.",
+                    "pattern": "Whitespaces are not allowed.",
+                    "existingName": "This short name is already taken."
+                },
+                "longname": {
+                    "required": "Long name is required."
+                },
+                "description": {
+                    "maxlength_p1": "Description cannot be more than ",
+                    "maxlength_p2": " characters long."
+                },
+                "keywords": {
+                }
+            }
 		}
     }
 }
