@@ -28,7 +28,6 @@ import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog
 import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
 
 
-
 @Component({
     selector: 'salsah-users-list',
     templateUrl: './users-list.component.html',
@@ -116,6 +115,12 @@ export class UsersListComponent implements OnInit {
                 public _projectsService: ProjectsService,
                 public _userService: UsersService,
                 public _dialog: MatDialog) {
+        _dialog.afterAllClosed
+            .subscribe(() => {
+                    // update the session storage
+                    console.log('update the view');
+                }
+            );
     }
 
     ngOnInit() {
