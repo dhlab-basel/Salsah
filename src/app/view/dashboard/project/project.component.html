@@ -1,53 +1,50 @@
-<div class="salsah-module with-header" *ngIf="auth">
+<div class="salsah-module with-header">
+
     <!-- this component has his own toolbar header
         with tabs for navigation through the settings
     -->
-    <!--
-    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-    -->
 
     <mat-toolbar class="salsah-module-header">
-        <!-- type of the current dashboard -->
+        <!-- current dashboard type -->
         <h4 mat-subheader>
-            Project <span *ngIf="projectAdmin">&nbsp;admin</span>
+            Project
         </h4>
-        <!--
-        <mat-icon>assignment</mat-icon>
-        -->
 
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
 
         <!-- Tab menu -->
-        <nav class="salsah-tab-group" *ngIf="!errorMessage && !isLoading">
-            <button mat-button
-                    class="salsah-tab-item"
+        <nav mat-tab-nav-bar class="salsah-tab-group" *ngIf="!errorMessage && !isLoading">
+            <!-- the first tab is for the root of the project dashboard -->
+            <a mat-tab-link
                     [routerLink]="projectRoute"
-                    [ngClass]="firstTabClass"
-                    (click)="enableFirstTab()">
+                    [active]="firstTab"
+                    (click)="toggleFirstTab(true)">
                 <strong>{{project.shortname | uppercase}}</strong>
-            </button>
-            <button *ngFor="let item of menu; let i = index; let first=first"
-                    mat-button
-                    class="salsah-tab-item"
+            </a>
+            <!-- the remaining tabs contains the project admin navigation -->
+            <a mat-tab-link *ngFor="let item of menu;"
                     [routerLink]="item.route"
-                    routerLinkActive="active"
-                    (click)="disableFirstTab()">
+                    routerLinkActive
+                    #rla="routerLinkActive"
+                    [active]="rla.isActive && !firstTab"
+                    (click)="toggleFirstTab(false)">
                 {{item.name}}
-            </button>
+            </a>
         </nav>
+
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
 
     </mat-toolbar>
 
-    <div class="salsah-module-scroll-area">
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+    <div class="salsah-module-scroll-area" *ngIf="!isLoading">
 
         <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
-        <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
-
-        <router-outlet *ngIf="!errorMessage && !isLoading" (tabRequest)="activateTab($event)"></router-outlet>
+        <router-outlet *ngIf="!errorMessage"></router-outlet>
 
     </div>
 

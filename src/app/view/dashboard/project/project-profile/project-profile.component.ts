@@ -49,7 +49,7 @@ export class ProjectProfileComponent implements OnInit {
                     // update a variable or call a function when the dialog closes
                     // get the project information
                     _route.params.subscribe((params: Params) => {
-                        this.updateSession(params['pid']);
+                        this.updateSession(params['shortname']);
                     });
                 }
             );
@@ -58,7 +58,7 @@ export class ProjectProfileComponent implements OnInit {
     ngOnInit() {
         // get the project information
         this._route.params.subscribe((params: Params) => {
-            this.getProject(params['pid']);
+            this.getProject(params['shortname']);
         });
 
     }

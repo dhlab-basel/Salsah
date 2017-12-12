@@ -87,7 +87,7 @@ const appRoutes: Routes = [
         component: ResourceObjectComponent
     },
     {
-        path: 'project/:pid', component: ProjectComponent,
+        path: 'project/:shortname', component: ProjectComponent,
         children: [
             {
                 path: '', component: ProjectProfileComponent
