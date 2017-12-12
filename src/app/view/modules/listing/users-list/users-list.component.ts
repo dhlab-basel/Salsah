@@ -117,50 +117,16 @@ export class UsersListComponent implements OnInit {
     ngOnInit() {
 
         if (this.restrictedBy !== undefined) {
-
-            // get project members
+            // the list is restricted by a project, so
+            // get project all members and prepare them into two lists:
+            // active users and inactive (deleted) users
             this._projectsService.getProjectMembersByIri(this.restrictedBy)
                 .subscribe(
                     (result: UserData[]) => {
                         this.allUsers = result;
-
-                        // TODO: move the following lines into a method
-                        for (const au of this.allUsers) {
-                            // TODO: get all user profiles here
-                            // ...
-                            this._userService.getUserByIri(au.user_id)
-                                .subscribe(
-                                    (userResult: ApiServiceResult) => {
-                                        const user: UserProfile = userResult.getBody(UserResponse).userProfile;
-                                        if (user.userData.status === true) {
-                                            this.allActiveUsers.push(user);
-                                            const active: NewUserData = {
-                                                email: user.userData.email,
-                                                givenName: user.userData.givenName,
-                                                familyName: user.userData.familyName,
-                                                user_profile: user
-                                            };
-                                            this.newAllActiveUsers.push(active);
-                                            this.countActive = this.newAllActiveUsers.length;
-                                        } else {
-                                            this.allInactiveUsers.push(user);
-                                            const inactive: NewUserData = {
-                                                email: user.userData.email,
-                                                givenName: user.userData.givenName,
-                                                familyName: user.userData.familyName,
-                                                user_profile: user
-                                            };
-                                            this.newAllInactiveUsers.push(inactive);
-                                            this.countInactive = this.newAllInactiveUsers.length;
-                                        }
-                                    },
-                                    (userError: ApiServiceError) => {
-                                        this.errorMessage = <any>userError;
-                                    }
-                                );
-
-                        }
                         this.countAll = Object.keys(this.allUsers).length;
+
+                        this.listOfActiveAndInactiveUsers();
                         // set an array of the project members in local storage
                         // it's a list of user IRIs
                         // we need it, when we want to add new members to a project
@@ -183,41 +149,9 @@ export class UsersListComponent implements OnInit {
                 .subscribe(
                     (result: UserData[]) => {
                         this.allUsers = result;
-                        for (const au of this.allUsers) {
-                            this._userService.getUserByIri(au.user_id)
-                                .subscribe(
-                                    (userResult: ApiServiceResult) => {
-                                        const user: UserProfile = userResult.getBody(UserResponse).userProfile;
-                                        if (user.userData.status === true) {
-                                            this.allActiveUsers.push(user);
-                                            const active: NewUserData = {
-                                                email: user.userData.email,
-                                                givenName: user.userData.givenName,
-                                                familyName: user.userData.familyName,
-                                                user_profile: user
-                                            };
-                                            this.newAllActiveUsers.push(active);
-                                            this.countActive = this.newAllActiveUsers.length;
-
-                                        } else {
-                                            this.allInactiveUsers.push(user);
-                                            const inactive: NewUserData = {
-                                                email: user.userData.email,
-                                                givenName: user.userData.givenName,
-                                                familyName: user.userData.familyName,
-                                                user_profile: user
-                                            };
-                                            this.newAllInactiveUsers.push(inactive);
-                                            this.countInactive = this.newAllInactiveUsers.length;
-                                        }
-                                    },
-                                    (userError: ApiServiceError) => {
-                                        this.errorMessage = <any>userError;
-                                    }
-                                );
-
-                        }
                         this.countAll = Object.keys(this.allUsers).length;
+
+                        this.listOfActiveAndInactiveUsers();
                         this.isLoading = false;
 
                     },
@@ -228,6 +162,43 @@ export class UsersListComponent implements OnInit {
 
         }
 
+    }
+
+    listOfActiveAndInactiveUsers() {
+        for (const au of this.allUsers) {
+            // at the end, we need an array of user profiles
+            this._userService.getUserByIri(au.user_id)
+                .subscribe(
+                    (userResult: ApiServiceResult) => {
+                        const user: UserProfile = userResult.getBody(UserResponse).userProfile;
+                        if (user.userData.status === true) {
+                            this.allActiveUsers.push(user);
+                            const active: NewUserData = {
+                                email: user.userData.email,
+                                givenName: user.userData.givenName,
+                                familyName: user.userData.familyName,
+                                user_profile: user
+                            };
+                            this.newAllActiveUsers.push(active);
+                            this.countActive = this.newAllActiveUsers.length;
+                        } else {
+                            this.allInactiveUsers.push(user);
+                            const inactive: NewUserData = {
+                                email: user.userData.email,
+                                givenName: user.userData.givenName,
+                                familyName: user.userData.familyName,
+                                user_profile: user
+                            };
+                            this.newAllInactiveUsers.push(inactive);
+                            this.countInactive = this.newAllInactiveUsers.length;
+                        }
+                    },
+                    (userError: ApiServiceError) => {
+                        this.errorMessage = <any>userError;
+                    }
+                );
+
+        }
     }
 
     sortBy(key: string) {
