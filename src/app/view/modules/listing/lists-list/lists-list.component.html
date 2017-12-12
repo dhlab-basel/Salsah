@@ -23,37 +23,49 @@
             <h4>Nodes</h4>
             <salsah-progress-indicator *ngIf="isLoadingNodes"></salsah-progress-indicator>
             <!--TODO: this has to be programmed into a loop that goes on continually until there are no more subnodes...-->
-            <mat-accordion>
-                <mat-expansion-panel *ngFor="let node of currentNodes" [hideToggle]="node.children.length === 0">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            {{node.name}}
-                        </mat-panel-title>
-                        <mat-panel-description *ngIf="node.children.length != 0">
-                            Number of sub-nodes: {{node.children.length}}
-                        </mat-panel-description>
-                    </mat-expansion-panel-header>
-                    <mat-accordion>
-                        <mat-expansion-panel *ngFor="let subnode of node.children"
-                                             [hideToggle]="subnode.children.length === 0">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    {{subnode.name}}
-                                </mat-panel-title>
-                                <mat-panel-description *ngIf="subnode.children.length != 0">
-                                    Number of sub-nodes: {{subnode.children.length}}
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-                            <mat-list>
-                                <mat-list-item *ngFor="let subnode2 of subnode.children">
-                                    {{subnode2.name}}
-                                </mat-list-item>
-                            </mat-list>
-                        </mat-expansion-panel>
-                    </mat-accordion>
-                </mat-expansion-panel>
-            </mat-accordion>
+            <div *ngIf="currentListInfo">
+                <tree-root [nodes]="currentNodes">
+                    <ng-template #treeNodeTemplate let-node let-index="index">
+                        <span>{{ node.data.label }}</span>
+                        <button>{{node.data.name}}</button>
+                        <!--<button (click)="viewDetails(node.data.id)">Node Name</button>-->
+                    </ng-template>
+                </tree-root>
+            </div>
 
+
+            <!--  <mat-accordion>
+                 <mat-expansion-panel *ngFor="let node of currentNodes" [hideToggle]="node.children.length === 0">
+                     <mat-expansion-panel-header>
+                         <mat-panel-title>
+                             {{node.name}}
+                         </mat-panel-title>
+                         <mat-panel-description *ngIf="node.children.length != 0">
+                             Number of sub-nodes: {{node.children.length}}
+                         </mat-panel-description>
+                     </mat-expansion-panel-header>
+                    <mat-accordion>
+                         <mat-expansion-panel *ngFor="let subnode of node.children"
+                                              [hideToggle]="subnode.children.length === 0">
+                             <mat-expansion-panel-header>
+                                 <mat-panel-title>
+                                     {{subnode.name}}
+                                 </mat-panel-title>
+                                 <mat-panel-description *ngIf="subnode.children.length != 0">
+                                     Number of sub-nodes: {{subnode.children.length}}
+                                 </mat-panel-description>
+                             </mat-expansion-panel-header>
+                             <mat-list>
+                                 <mat-list-item *ngFor="let subnode2 of subnode.children">
+                                     {{subnode2.name}}
+                                 </mat-list-item>
+                             </mat-list>
+                         </mat-expansion-panel>
+                     </mat-accordion>
+
+                           </mat-expansion-panel>
+                       </mat-accordion>
+-->
             <mat-action-row>
                 <button mat-button
                         color="primary"

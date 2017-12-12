@@ -48,6 +48,7 @@ export class ListsListComponent implements OnInit {
     listCount: number;
 
     currentNodes: ListNode[];
+    nodeChildren: number;
     currentListInfo: ListInfo;
 
 
@@ -99,6 +100,7 @@ export class ListsListComponent implements OnInit {
             .subscribe(
                 (list: List) => {
                     this.currentNodes = list.children;
+                    this.nodeChildren = list.children.length;
                     this.currentListInfo = list.listinfo;
                     this.isLoadingNodes = false;
                 },
@@ -106,7 +108,13 @@ export class ListsListComponent implements OnInit {
                     this.errorMessage = <any>error;
                 }
             );
-        console.log(this.currentNodes);
+        // if(this.currentNodes){}
+
+        console.log('current Nodes', this.currentNodes);
+
+    }
+
+    getAllChildren(){
 
     }
 
