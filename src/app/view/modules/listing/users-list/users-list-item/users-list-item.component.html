@@ -40,7 +40,7 @@
                     <p>Member in the following projects</p>
                     <mat-chip-list>
                         <mat-chip *ngFor="let proj of item?.user_profile.projects_info | key"
-                                  routerLink="/project/{{proj.value.shortname}}"
+                                  [routerLink]="'/project/' + proj.value.shortname"
                                   class="salsah-link">
                             {{proj.value.shortname}}
                         </mat-chip>
@@ -52,7 +52,9 @@
 
 
         <mat-action-row>
-            <button mat-button color="primary">edit</button>
+            <button *ngIf="admin"
+                    mat-button color="primary"
+                    (click)="editUser.emit(item?.user_profile.userData.user_id)">edit</button>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>

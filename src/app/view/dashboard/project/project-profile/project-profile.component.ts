@@ -32,7 +32,7 @@ export class ProjectProfileComponent implements OnInit {
     isLoading: boolean = true;
 
     project: Project = new Project();
-    session: string = 'currenProject';
+    session: string = 'currentProject';
 
     loggedInAdmin: boolean;
 

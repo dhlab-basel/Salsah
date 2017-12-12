@@ -43,15 +43,9 @@ import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list
  */
 export class UsersListComponent implements OnInit {
 
-    @Input('restrictedBy') project: string;
-    @Input() index: number;
+    @Input() restrictedBy?: string;      // restrictedBy: project iri
     @Input() listType?: string;
-
-    @Output() toggleItem = new EventEmitter<any>();
-    // send the number of entries to the parent component (framework-for-listings) to us it there in the title
-    @Output() counter: EventEmitter<number> = new EventEmitter<number>();
-
-    loggedInAdmin: boolean = false;
+    @Input() admin?: boolean = false;
 
     // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
@@ -107,9 +101,6 @@ export class UsersListComponent implements OnInit {
 
     step = 0;
 
-    setStep(index: number) {
-        this.step = index;
-    }
 
     constructor(private _router: Router,
                 public _projectsService: ProjectsService,
@@ -125,17 +116,10 @@ export class UsersListComponent implements OnInit {
 
     ngOnInit() {
 
-        this.selectedRow = this.index;
-
-        if (this.project !== undefined) {
-
-            // hack to get the project admin information
-            if (localStorage.getItem('currentUser') !== null) {
-                this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-            }
+        if (this.restrictedBy !== undefined) {
 
             // get project members
-            this._projectsService.getProjectMembersByIri(this.project)
+            this._projectsService.getProjectMembersByIri(this.restrictedBy)
                 .subscribe(
                     (result: UserData[]) => {
                         this.allUsers = result;
@@ -264,11 +248,11 @@ export class UsersListComponent implements OnInit {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
-            this.toggleItem.emit({id, index});
+//            this.toggleItem.emit({id, index});
         } else {
             // open the detail view
             this.selectedRow = index;
-            this.toggleItem.emit({id, index});
+//            this.toggleItem.emit({id, index});
         }
 
     }

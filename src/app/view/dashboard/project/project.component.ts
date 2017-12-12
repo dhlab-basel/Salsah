@@ -31,7 +31,7 @@ export class ProjectComponent implements OnInit {
     errorMessage: any = undefined;
     project: Project = new Project();
 
-    projectRoute = '/project/';
+    projectRoute: string;
 
     projectAdmin: boolean = false;
 
@@ -73,7 +73,7 @@ export class ProjectComponent implements OnInit {
             this.currentProject = params['shortname'];
 
             // set the root of the project route; it's needed for the first tab
-            this.projectRoute += this.currentProject;
+            this.projectRoute = '/project/' + this.currentProject;
             this.firstTab = (this._router.url === this.projectRoute);
 
             // set the metadata page title

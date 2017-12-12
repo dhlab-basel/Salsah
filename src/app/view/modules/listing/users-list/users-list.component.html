@@ -83,8 +83,10 @@
         </table>
     </div>
 
+    <!-- accordion view with expansion card -->
     <div *ngSwitchCase="'expansion'">
 
+        <!-- sort label selection -->
         <mat-form-field style="margin: -12px 0 0 12px">
             <mat-select [placeholder]="sortTitle" [(value)]="sortKey">
                 <mat-option *ngFor="let item of sortProps" [value]="item.key">
@@ -93,16 +95,25 @@
             </mat-select>
         </mat-form-field>
 
+        <!-- list of active users -->
         <div *ngIf="countActive > 0">
             <h4 class="salsah-sub-header">{{countActive}} Active user<span *ngIf="countActive > 1">s</span></h4>
-            <salsah-users-list-item [listData]="newAllActiveUsers" [sortProp]="sortKey" [project]="project"></salsah-users-list-item>
+            <salsah-users-list-item
+                [listData]="newAllActiveUsers"
+                [sortProp]="sortKey"
+                [project]="restrictedBy"
+                [admin]="admin"
+                (editUser)="edit($event)">
+            </salsah-users-list-item>
         </div>
         <br><br>
+        <!-- list of inactive users -->
         <div *ngIf="countInactive > 0">
             <h4 class="salsah-sub-header">{{countInactive}} Inactive user<span *ngIf="countInactive > 1">s</span></h4>
-            <salsah-users-list-item [listData]="newAllInactiveUsers" [sortProp]="sortKey" [project]="project"></salsah-users-list-item>
+            <salsah-users-list-item [listData]="newAllInactiveUsers" [sortProp]="sortKey" [project]="restrictedBy"></salsah-users-list-item>
         </div>
     </div>
+    <!-- / accordion view -->
 
     <!-- default list -->
     <mat-list *ngSwitchDefault class="salsah-list">
@@ -131,11 +142,6 @@
             <button mat-icon-button class="right close close-highlight">
                 <mat-icon>close</mat-icon>
             </button>
-            <!-- styling issue #81
-                <button mat-icon-button class="right action-highlight" (click)="removeFromProject(item.user_id, project)" matTooltip="Remove user from project" *ngIf="loggedInAdmin">
-                    <mat-icon>delete</mat-icon>
-                </button>
-                -->
         </mat-list-item>
     </mat-list>
 </div>

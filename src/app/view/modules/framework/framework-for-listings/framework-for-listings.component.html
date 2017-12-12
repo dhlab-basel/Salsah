@@ -11,6 +11,7 @@
                 <!--
                 <span *ngIf="users">{{users?.countAll}}</span>
                 -->
+
                 {{list.title}}
             </h3>
             <p mat-subheader>{{list.description}}</p>
@@ -46,8 +47,7 @@
             <salsah-users-list *ngSwitchCase="'user'"
                                [listType]="list.showAs"
                                [restrictedBy]="list.restrictedBy"
-                               [index]="selectedRow"
-                               (toggleItem)="toggleDetail($event, $event)">
+                               [admin]="loggedInAdmin">
             </salsah-users-list>
 
 
@@ -67,7 +67,7 @@
             </salsah-resource-types-list>
 
             <salsah-lists-list *ngSwitchCase="'list'"
-                                [restrictedBy]="list.restrictedBy"
+                               [restrictedBy]="list.restrictedBy"
                                (toggleItem)="toggleDetail($event, $event)">
             </salsah-lists-list>
 
