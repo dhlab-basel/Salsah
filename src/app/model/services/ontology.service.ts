@@ -97,4 +97,20 @@ export class OntologyService extends ApiService {
 
     }
 
+    newOntology() {
+        /*
+
+        // post route: /v2/ontologies/
+
+        // the knora api needs the following data:
+        {
+            "knora-api:ontologyName": "example",
+            "knora-api:projectIri": "$projectWithProjectID",
+            "@context": {
+                "knora-api": "${OntologyConstants.KnoraApiV2WithValueObjects.KnoraApiV2PrefixExpansion}"    // e.g. knora-api url incl. #
+            }
+        }
+         */
+    }
+
 }

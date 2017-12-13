@@ -29,13 +29,15 @@
                 <td>{{item.institution}}</td>
                 <td>
                     <div class="hidden">
-                        <button mat-icon-button (click)="setInactive(item.id, item.shortname)"
-                                matTooltip="Deactivate project">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                        <button mat-icon-button (click)="edit(item.id)" matTooltip="Edit project">
-                            <mat-icon>edit</mat-icon>
-                        </button>
+                        <span *ngIf="admin">
+                            <button mat-icon-button (click)="setInactive(item.id, item.shortname)"
+                                    matTooltip="Deactivate project">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="edit(item.id)" matTooltip="Edit project">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </span>
                         <button mat-icon-button (click)="open(item.shortname)" matTooltip="Go to the project dashboard">
                             <mat-icon>forward</mat-icon>
                         </button>
@@ -63,13 +65,15 @@
                 <td>{{item.institution}}</td>
                 <td>
                     <div class="hidden">
-                        <button mat-icon-button (click)="setActive(item.id, item.shortname)"
-                                matTooltip="Reactivate project">
-                            <mat-icon>refresh</mat-icon>
-                        </button>
-                        <button mat-icon-button (click)="edit(item.id)" matTooltip="Edit project">
-                            <mat-icon>edit</mat-icon>
-                        </button>
+                        <span *ngIf="admin">
+                            <button mat-icon-button (click)="setActive(item.id, item.shortname)"
+                                    matTooltip="Reactivate project">
+                                <mat-icon>refresh</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="edit(item.id)" matTooltip="Edit project">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </span>
                         <button mat-icon-button (click)="open(item.shortname)" matTooltip="Go to the project dashboard">
                             <mat-icon>forward</mat-icon>
                         </button>
@@ -123,10 +127,10 @@
                     (click)="open(item.value.shortname)">
                 <mat-icon>forward</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="user"
+            <button mat-icon-button *ngIf="restrictedBy"
                     matTooltip="Remove user from project"
                     class="right action-highlight"
-                    (click)="removeUserFromProject(user, item.key)">
+                    (click)="removeUserFromProject(restrictedBy, item.key)">
                 <mat-icon>delete</mat-icon>
             </button>
         </mat-list-item>

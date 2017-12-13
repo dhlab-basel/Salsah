@@ -51,10 +51,13 @@
             </salsah-users-list>
 
 
-            <salsah-projects-list *ngSwitchCase="'project'"
-                                  [listType]="list.showAs"
-                                  [restrictedBy]="list.restrictedBy">
-            </salsah-projects-list>
+            <div *ngSwitchCase="'project'">
+                <salsah-projects-list *ngIf="!rerender"
+                                      [listType]="list.showAs"
+                                      [restrictedBy]="list.restrictedBy"
+                                      [admin]="loggedInAdmin">
+                </salsah-projects-list>
+            </div>
 
             <salsah-ontologies-list *ngSwitchCase="'ontology'"
                                     [restrictedBy]="list.restrictedBy"

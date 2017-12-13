@@ -12,25 +12,13 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {
-    AfterViewInit,
-    ChangeDetectorRef,
-    Component,
-    Input,
-    OnChanges,
-    OnInit,
-    SimpleChange,
-    ViewChild, ViewChildren
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MessageData} from '../../message/message.component';
 import {ActivatedRoute, Params} from '@angular/router';
-import {OntologiesListComponent} from '../../listing/ontologies-list/ontologies-list.component';
 import {UsersListComponent} from '../../listing/users-list/users-list.component';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {Project} from '../../../../model/webapi/knora';
 
 export interface ListData {
     title: string,
@@ -94,6 +82,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     // two progress loader:
     // 1) for the main module
     isLoading: boolean = true;
+
     // 2) for the sub module: detail view
     isLoadingSubModule: boolean = true;
 
@@ -133,7 +122,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
         _dialog.afterAllClosed
             .subscribe(() => {
                     // update the session storage
-                    this.updateSession();
+//                    this.updateSession();
                 }
             );
     }
@@ -227,7 +216,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     }
 
     getData(id?: string) {
-        // bad hack to get the project admin information
+        // get the logged-in user information and check if the user has (system) admin rights
         if (localStorage.getItem('currentUser') !== null) {
             this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
         }
@@ -257,8 +246,12 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     }
 
     updateSession() {
-
-
+        this.rerender = true;
+        console.log('update session ', this.list);
+        if (this.list) {
+            this.getData(this.list.restrictedBy);
+            this.rerender = false;
+        }
 
         /*
 
