@@ -29,7 +29,6 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 export class ListsListComponent implements OnInit {
 
     @Input() restrictedBy?: string;
-
     @Output() toggleItem = new EventEmitter<any>();
 
     isLoading: boolean = true;
@@ -51,12 +50,19 @@ export class ListsListComponent implements OnInit {
     nodeChildren: number;
     currentListInfo: ListInfo;
 
-
+    isExpanded: boolean = false;
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
     // iri of the selected list
     iri: string;
+
+    options = {
+        useVirtualScroll: false,
+        nodeHeight: 22,
+        allowDrag: true,
+        allowDrop: true,
+    }
 
     constructor(private _listsService: ListsService,
                 public _dialog: MatDialog) {
@@ -65,7 +71,7 @@ export class ListsListComponent implements OnInit {
     ngOnInit() {
 
         if (this.restrictedBy) {
-        //     get all project lists
+            //     get all project lists
             this._listsService.getLists(this.restrictedBy)
                 .subscribe(
                     (lists: ListInfo[]) => {
@@ -96,6 +102,7 @@ export class ListsListComponent implements OnInit {
     }
 
     fetchListData(iri: string) {
+        //get the specific list data once the list expansion panel is opened
         this._listsService.getList(iri)
             .subscribe(
                 (list: List) => {
@@ -108,15 +115,19 @@ export class ListsListComponent implements OnInit {
                     this.errorMessage = <any>error;
                 }
             );
-        // if(this.currentNodes){}
-
-        console.log('current Nodes', this.currentNodes);
-
     }
 
-    getAllChildren(){
-
+    //Methods to expand/collapse list
+    expandAll(tree) {
+        tree.treeModel.expandAll();
+        this.isExpanded = true;
     }
+
+    collapseAll(tree) {
+        tree.treeModel.collapseAll();
+        this.isExpanded = false;
+    }
+
 
     // in the list view, it opens an object on the right hand side detail view
     // open / close user
@@ -133,6 +144,7 @@ export class ListsListComponent implements OnInit {
 
     }
 
+    //TODO: implement proper edit method/component
     edit(id: string, title?: string) {
         const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
