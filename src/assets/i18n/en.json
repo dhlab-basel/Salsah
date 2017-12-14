@@ -1,17 +1,29 @@
 {
     "salsahLabels": {
         "frameworkForListings": {
-            "list":{
-                "title": "Members in this project",
-                "description": "",
-                "content": "user",
-                "showAs": "expansion",
-                "restrictedBy": ""
+            "project": {
+                "list":{
+                    "title": "Projects",
+                    "description": ""
+
+                },
+                "add": {
+                    "title": "Add a new team member",
+                    "description": ""
+                }
             },
-            "add": {
-                "title": "Add a new team member",
-                "description": ""
+            "user": {
+                "list":{
+                    "title": "Members in this project",
+                    "description": ""
+
+                },
+                "add": {
+                    "title": "Add a new team member",
+                    "description": ""
+                }
             }
+
         },
         "usersList": {
             "sortProps": {
