@@ -1,5 +1,6 @@
 <mat-accordion>
     <mat-expansion-panel *ngFor="let item of listData | sortBy: sortProp; let i = index"
+                         [expanded]="index === i"
                          [hideToggle]="true">
         <mat-expansion-panel-header>
             <mat-panel-title>
@@ -54,7 +55,7 @@
         <mat-action-row>
             <button *ngIf="admin"
                     mat-button color="primary"
-                    (click)="editUser.emit(item?.user_profile.userData.user_id)">edit</button>
+                    (click)="editUser.emit({id: item.user_profile.userData.user_id, index: i})">edit</button>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>

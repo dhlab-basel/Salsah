@@ -92,10 +92,11 @@ export class FormDialogComponent implements OnInit {
         this.dialogRef.close();
         this.dialogRef.beforeClose().subscribe(() => {
             // update parent component
-            this.refreshComponent.emit('test');
+//            this.refreshComponent.emit();
             console.log('dialog before close');
         });
         this.dialogRef.afterClosed().subscribe(() => {
+//            this.refreshComponent.emit();
             console.log('dialog after closed');
         });
 
@@ -137,7 +138,7 @@ export class FormDialogComponent implements OnInit {
             console.log('closeAndRefresh: refreshComponent.emit in form-dialog');
             // refresh the component only
             // emit event to the parent component and refresh it there
-            this.refreshComponent.emit('test');
+            this.refreshComponent.emit();
 
         }
     }

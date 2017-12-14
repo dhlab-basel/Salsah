@@ -207,10 +207,19 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
                         message: message
                     }
                 });
+                const sub = dialogRef.componentInstance.refreshComponent.subscribe(() => {
+                    // do something
+                    console.log('framework-for-listing: dialogRef refreshComponent');
+                });
+                dialogRef.afterClosed().subscribe(() => {
+                    // unsubscribe onAdd
+                    console.log('framework-for-listing: dialogRef afterClosed');
+                });
         }
 
-        dialogRef.beforeClose().subscribe(result => {
-            this.isLoading = true;
+        dialogRef.afterClosed().subscribe(() => {
+            console.log('afterClosed');
+            this.getData(this.list.restrictedBy);
         });
 
     }

@@ -26,6 +26,7 @@ export class UsersListItemComponent implements OnInit {
     @Input() sortProp: string;
     @Input() project?: string;
     @Input() admin?: boolean;
+    @Input() index?: number;
 
     @Output() editUser = new EventEmitter<any>();
 

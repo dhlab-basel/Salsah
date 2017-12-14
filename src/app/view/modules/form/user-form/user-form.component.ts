@@ -685,7 +685,7 @@ export class UserFormComponent implements OnInit {
 
     // after close form, refresh the page
     updateView() {
-        location.reload();
+//        location.reload();
     }
 
     // option to add more users after added one
