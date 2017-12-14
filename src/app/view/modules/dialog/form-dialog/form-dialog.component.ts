@@ -70,7 +70,7 @@ export class FormDialogComponent implements OnInit {
         this.fullSize = (!this.fullSize);
 
         if (this.fullSize) {
-            this._dialogRef.updateSize('100%', '100%');
+            this._dialogRef.updateSize('100vw', '100vw');
         } else {
             this._dialogRef.updateSize('auto', 'auto');
             this._dialogRef.updatePosition();
