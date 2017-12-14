@@ -21,7 +21,7 @@ export class DateValueComponent implements OnInit, PropertyValue {
         });
 
         this.form.valueChanges.subscribe((data) => {
-            console.log(data);
+            //console.log(data);
         });
 
     }

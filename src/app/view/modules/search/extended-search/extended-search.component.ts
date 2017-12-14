@@ -100,9 +100,9 @@ export class ExtendedSearchComponent implements OnInit {
 
     submit() {
 
-        // TODO: check validity of inputs
-
-        console.log("submit the form");
+        // TODO: check validity of inputs: there is problem when combining FormGroup validators of parent and child components: ExpressionChangedAfterItHasBeenCheckedError
+        // https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
+        // https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
 
         let resClassOption = this.resourceClassComponent.getResourceClassSelected();
 
