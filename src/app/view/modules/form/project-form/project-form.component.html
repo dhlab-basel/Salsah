@@ -29,9 +29,7 @@
                     <!-- short and long name -->
                     <mat-form-field class="small">
                         <input matInput [salsahFocus]="step === 1"
-<<<<<<< HEAD
                                [placeholder]=" 'salsahLabels.projectFormLabels.project.shortname' | translate "
-=======
                                [maxlength]="shortcodeMaxLength"
                                [placeholder]="formLabels.project.shortcode + ' *'"
                                [formControl]="form.controls['shortcode']">
@@ -43,7 +41,6 @@
                         <input matInput [salsahFocus]="step === 1"
                                [maxlength]="shortnameMaxLength"
                                [placeholder]="formLabels.project.shortname + ' *'"
->>>>>>> develop
                                [formControl]="form.controls['shortname']">
                         <mat-hint *ngIf="formErrors.shortname">
                             {{ formErrors.shortname }}
