@@ -137,7 +137,8 @@ import {DecimalValueComponent} from './view/modules/search/extended-search/selec
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
 import {MatNativeDateModule} from '@angular/material';
-import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 //
 // import all needed services
@@ -256,7 +257,8 @@ import { OntologiesListItemComponent } from './view/modules/listing/ontologies-l
         BrowserAnimationsModule,
         ReactiveFormsModule,
         TreeModule,
-        DndModule.forRoot()
+        DndModule.forRoot(),
+        TranslateModule.forRoot()
     ],
     // we need the entryComponents for every component inside of a mat-dialog module
     entryComponents: [
