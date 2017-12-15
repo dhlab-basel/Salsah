@@ -23,5 +23,12 @@ export class AppComponent implements OnInit {
 
     constructor() {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        // TODO get the language from browser here...
+        const browserLang: string = 'en';
+        if (localStorage.getItem('lang') === null) {
+            localStorage.setItem('lang', browserLang);
+        }
+
+    }
 }
