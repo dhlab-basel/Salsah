@@ -139,6 +139,7 @@ import {DateValueComponent} from './view/modules/search/extended-search/select-p
 import {KnarqlgenerationService} from "./model/services/knarqlgeneration.service";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+import { TextValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
 
 
 //
@@ -244,7 +245,8 @@ import {OntologiesListItemComponent} from './view/modules/listing/ontologies-lis
         DecimalValueComponent,
         BooleanValueComponent,
         DateValueComponent,
-        OntologiesListItemComponent
+        OntologiesListItemComponent,
+        TextValueComponent
 
     ],
     imports: [
