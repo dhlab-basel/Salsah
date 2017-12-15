@@ -140,8 +140,12 @@ import {DecimalValueComponent} from './view/modules/search/extended-search/selec
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
 import {MatNativeDateModule} from '@angular/material';
+<<<<<<< HEAD
 import { InternationalizationComponent } from './view/modules/framework/main-framework/internationalization/internationalization.component';
 
+=======
+import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+>>>>>>> develop
 
 //
 // import all needed services
@@ -251,8 +255,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         DecimalValueComponent,
         BooleanValueComponent,
         DateValueComponent,
+<<<<<<< HEAD
         InternationalizationComponent
 
+=======
+        OntologiesListItemComponent
+>>>>>>> develop
 
     ],
     imports: [
