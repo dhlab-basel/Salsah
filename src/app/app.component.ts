@@ -13,6 +13,7 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-root',
@@ -21,7 +22,20 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-    constructor() {}
+    constructor(private _translate: TranslateService) {
+        _translate.addLangs(['en', 'de']);
+        _translate.setDefaultLang('en');
 
-    ngOnInit() {}
+        const browserLang = _translate.getBrowserLang();
+        _translate.use(browserLang.match(/en|de/) ? browserLang : 'en');
+
+        if (localStorage.getItem('lang') === null) {
+            localStorage.setItem('lang', browserLang);
+        }
+
+    }
+
+    ngOnInit() {
+
+    }
 }

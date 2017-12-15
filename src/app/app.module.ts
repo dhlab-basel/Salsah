@@ -143,10 +143,10 @@ import {MatNativeDateModule} from '@angular/material';
 import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
 import { InternationalizationComponent } from './view/modules/framework/main-framework/internationalization/internationalization.component';
 
+
 //
 // import all needed services
 //
-// just to get the basic ontology form the json file
 // just to get the basic ontology form the json file
 //
 // import all app components
