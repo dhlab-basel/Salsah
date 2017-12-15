@@ -251,12 +251,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         DecimalValueComponent,
         BooleanValueComponent,
         DateValueComponent,
-<<<<<<< HEAD
+        OntologiesListItemComponent,
         InternationalizationComponent
 
-=======
-        OntologiesListItemComponent
->>>>>>> develop
 
     ],
     imports: [
