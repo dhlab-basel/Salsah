@@ -44,13 +44,41 @@ export class SearchService extends ApiService {
      */
     doExtendedSearch(sparqlString: string): Observable<ApiServiceResult> {
 
-        // TODO: check that the sparqString is already URL encoded
+        // TODO: check that the sparqlString is already URL encoded
 
         if (sparqlString === undefined || sparqlString.length == 0) {
             return Observable.create(observer => observer.error("No Sparql string given for call of SearchService.doExtendedSearch"));
         }
 
         return this.httpGetV2("/searchextended/" + sparqlString);
+
+    }
+
+    /**
+     * Perform a search by a resource's rdfs:label.
+     *
+     * @param {string} searchTerm the term to search for.
+     * @param resourceClassIRI restrict search to given resource class.
+     * @param projectIri restrict search to given project.
+     * @returns {Observable<ApiServiceResult>}
+     */
+    searchByLabel(searchTerm: string, resourceClassIRI?: string, projectIri?: string): Observable<ApiServiceResult> {
+
+        if (searchTerm === undefined || searchTerm.length == 0) {
+            return Observable.create(observer => observer.error("No search term given for call of SearchService.doFulltextSearch"));
+        }
+
+        let params = {};
+
+        if (resourceClassIRI !== undefined) {
+            params['limitToResourceClass'] = resourceClassIRI;
+        }
+
+        if (projectIri !== undefined) {
+            params['limitToProject'] = projectIri;
+        }
+
+        return this.httpGetV2("/searchbylabel/" + encodeURIComponent(searchTerm), {params: params});
 
     }
 

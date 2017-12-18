@@ -74,6 +74,7 @@ export class KnarqlgenerationService {
                 // generate filter if comparison operator is not Exists
                 let filter: string = '';
 
+                // TODO: do not make a linkValue literal a FILTER, but a statement (use FILTER NOT EXISTS for negation)
                 if (propWithVal.valueLiteral.comparisonOperator.getClassName() != 'Exists') {
                     filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.valueLiteral.toSparql()})`;
                 }
