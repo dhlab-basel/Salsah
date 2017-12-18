@@ -14,9 +14,12 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ListsService} from '../../../../model/services/lists.service';
-import {ListInfo} from '../../../../model/webapi/knora/admin/lists/list-info';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MessageData} from '../../message/message.component';
+import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
+import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+
 
 @Component({
     selector: 'salsah-lists-list',
@@ -26,10 +29,10 @@ import {MessageData} from '../../message/message.component';
 export class ListsListComponent implements OnInit {
 
     @Input() restrictedBy?: string;
-
     @Output() toggleItem = new EventEmitter<any>();
 
     isLoading: boolean = true;
+    isLoadingNodes: boolean = true;
     errorMessage: any;
 
     // in the case of no data, but with a working API
@@ -43,19 +46,32 @@ export class ListsListComponent implements OnInit {
     lists: ListInfo[] = [];
     listCount: number;
 
+    currentNodes: ListNode[];
+    nodeChildren: number;
+    currentListInfo: ListInfo;
+
+    isExpanded: boolean = false;
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
     // iri of the selected list
     iri: string;
 
-    constructor(private _listsService: ListsService) {
+    options = {
+        useVirtualScroll: false,
+        nodeHeight: 22,
+        allowDrag: true,
+        allowDrop: true,
+    }
+
+    constructor(private _listsService: ListsService,
+                public _dialog: MatDialog) {
     }
 
     ngOnInit() {
 
         if (this.restrictedBy) {
-            // get all project lists
+            //     get all project lists
             this._listsService.getLists(this.restrictedBy)
                 .subscribe(
                     (lists: ListInfo[]) => {
@@ -68,7 +84,8 @@ export class ListsListComponent implements OnInit {
                         this.isLoading = false;
                     }
                 );
-        } else {
+        }
+        else {
             // get all system lists
             this._listsService.getLists()
                 .subscribe(
@@ -82,9 +99,35 @@ export class ListsListComponent implements OnInit {
                     }
                 );
         }
-
-
     }
+
+    fetchListData(iri: string) {
+        //get the specific list data once the list expansion panel is opened
+        this._listsService.getList(iri)
+            .subscribe(
+                (list: List) => {
+                    this.currentNodes = list.children;
+                    this.nodeChildren = list.children.length;
+                    this.currentListInfo = list.listinfo;
+                    this.isLoadingNodes = false;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                }
+            );
+    }
+
+    //Methods to expand/collapse list
+    expandAll(tree) {
+        tree.treeModel.expandAll();
+        this.isExpanded = true;
+    }
+
+    collapseAll(tree) {
+        tree.treeModel.collapseAll();
+        this.isExpanded = false;
+    }
+
 
     // in the list view, it opens an object on the right hand side detail view
     // open / close user
@@ -100,5 +143,17 @@ export class ListsListComponent implements OnInit {
         }
 
     }
+
+    //TODO: implement proper edit method/component
+    edit(id: string, title?: string) {
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+            data: {
+                iri: id,
+                title: 'Edit ' + id,
+                form: 'list'
+            }
+        });
+    }
+
 
 }
