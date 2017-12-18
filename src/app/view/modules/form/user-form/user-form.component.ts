@@ -140,16 +140,21 @@ export class UserFormComponent implements OnInit {
                 autoCompleteHint: '',
                 skip: 'Skip and create new user instead'
             },
-            create: {
+            form: {
                 projectAdmin: {
                     title: 'Or create new user',
                     titleDone: 'New user',
-                    description: 'If the user doesn\'t exist, create a new one',
+                    description: 'If the user doesn\'t exist, create a new one'
                 },
                 systemAdmin: {
                     title: 'Add user',
                     titleDone: 'New user',
-                    description: 'Create new user profile',
+                    description: 'Create new user profile'
+                },
+                edit: {
+                    title: 'Edit user',
+                    titleDone: 'Done',
+                    description: 'Edit this user profile'
                 },
                 givenName: 'First name',
                 familyName: 'Last name',
@@ -305,8 +310,11 @@ export class UserFormComponent implements OnInit {
         if (this.iri !== undefined) {
 
             this.step = 1;
+            this.formLabels.user.form.systemAdmin.title = 'Edit user';
+            this.formLabels.user.form.projectAdmin.title = 'Edit user';
             // TODO: edit user profile: issue #128
-            // this.setSelectedUser(null, this.iri);
+            this.setSelectedUser(event, this.iri);
+
         }
 
         this._userService.getAllUsers()

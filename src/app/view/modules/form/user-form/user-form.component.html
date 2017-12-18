@@ -87,13 +87,13 @@
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.title}}</span>
-                        <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.title}}</span>
+                        <span *ngIf="restrictedBy">{{formLabels.user.form.projectAdmin.title}}</span>
+                        <span *ngIf="!restrictedBy">{{formLabels.user.form.systemAdmin.title}}</span>
                     </mat-panel-title>
                     <mat-panel-description
                         *ngIf="!form.controls['givenName'].value && !form.controls['familyName'].value">
-                        <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.description}}</span>
-                        <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.description}}</span>
+                        <span *ngIf="restrictedBy">{{formLabels.user.form.projectAdmin.description}}</span>
+                        <span *ngIf="!restrictedBy">{{formLabels.user.form.systemAdmin.description}}</span>
                         <mat-icon>person_add</mat-icon>
                     </mat-panel-description>
                     <mat-panel-description *ngIf="form.controls['givenName'].value && form.controls['familyName'].value">
@@ -106,7 +106,7 @@
                 <form class="salsah-form new-user" [formGroup]="form">
                     <mat-form-field class="small">
                         <input matInput [salsahFocus]="step === 1"
-                               [placeholder]="formLabels.user.create.givenName + ' *'"
+                               [placeholder]="formLabels.user.form.givenName + ' *'"
                                [formControl]="form.controls['givenName']">
                         <mat-hint *ngIf="formErrors.givenName">
                             {{ formErrors.givenName }}
@@ -114,7 +114,7 @@
                     </mat-form-field>
                     <mat-form-field class="medium">
                         <input matInput
-                               [placeholder]="formLabels.user.create.familyName + ' *'"
+                               [placeholder]="formLabels.user.form.familyName + ' *'"
                                [formControl]="form.controls['familyName']">
                         <mat-hint *ngIf="formErrors.familyName">
                             {{ formErrors.familyName }}
@@ -123,7 +123,7 @@
                     <!-- email = username -->
                     <mat-form-field class="large">
                         <input matInput type="email" class="full-width"
-                               [placeholder]="formLabels.user.create.email + ' *'"
+                               [placeholder]="formLabels.user.form.email + ' *'"
                                [formControl]="form.controls['email']">
                         <mat-hint *ngIf="formErrors.email">
                             {{ formErrors.email }}
@@ -132,7 +132,7 @@
                     <!-- password -->
                     <mat-form-field class="large">
                         <input matInput [type]="showPassword ? 'text' : 'password'"
-                               [placeholder]="formLabels.user.create.password + ' *'"
+                               [placeholder]="formLabels.user.form.password + ' *'"
                                [formControl]="form.controls['password']">
                         <mat-icon matSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
                                  [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></mat-icon>
@@ -142,7 +142,7 @@
                     </mat-form-field>
 
                     <mat-select class="large"
-                               [placeholder]="formLabels.user.create.language"
+                               [placeholder]="formLabels.user.form.language"
                                [formControl]="form.controls['lang']">
 
                         <mat-option value="en">english</mat-option>
@@ -339,7 +339,7 @@
                                 {{formLabels.user.select.titleDone}}
                             </span>
                             <span *ngIf="!selectedUser && form.valid">
-                                {{formLabels.user.create.projectAdmin.titleDone}}
+                                {{formLabels.user.form.projectAdmin.titleDone}}
                             </span>
                         </h4>
                         <p mat-line>
