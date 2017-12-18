@@ -39,6 +39,59 @@ export class ListFormComponent implements OnChanges {
 
     editListInfo: boolean;
 
+    isLoading: boolean = true;
+    labelsLoading: boolean = true;
+
+    editList: boolean = true;
+
+
+    public editLists: any = {
+        label: 'List',
+        description: 'Click to edit the list data',
+        list: {
+            label: 'List label',
+            description: 'List description',
+            icon: 'Icon',
+            nodes: {
+                formLabel: 'has Nodes',
+                formDescription: 'Click to edit the node',
+                label: 'Node label',
+                description: 'Node description',
+                gui: 'GUI element',
+                attributes: 'GUI attributes',
+                id: 'Property ID',
+                occurrence: 'Occurrence',
+                valuetype_id: 'Value type ID',
+                vocabulary: 'Vocabulary',
+                icon: 'Icon'
+            }
+        },
+        addNode: {
+            addLabel: 'Add new properties',
+            label: 'or create new property',
+            description: 'Create a custom property',
+            selectLabel: 'Select node',
+            selectedLabel: 'Selected node',
+            selectDescript: 'Select an existing node to add to this resource',
+            selectedDescript: 'You have selected the node:',
+            autoComplete: 'Start typing a node name here',
+            skip: 'Skip and create custom node',
+            customize: 'Customize node',
+            customizeDescript: 'Select a unique name and id for your new node'
+
+        },
+        buttons: {
+            save: 'Save',
+            reset: 'Reset',
+            close: 'Close',
+            edit: 'Edit',
+            skip: 'Skip',
+            next: 'Next',
+            add: 'Add'
+        }
+    };
+
+
     public listInfoForm: FormGroup; // our model driven form
     public labels: FormArray = undefined;
     public comments: FormArray = undefined;
@@ -54,8 +107,9 @@ export class ListFormComponent implements OnChanges {
     }
 
     ngOnChanges() {
-        console.log(this.listIri);
         this.fetchDataAndUpdateForm(this.listIri);
+        // this.isLoading = false;
+
     }
 
     buildListInfoForm() {
@@ -66,18 +120,16 @@ export class ListFormComponent implements OnChanges {
             comments: this.buildCommentsArray()
         });
 
+
         // this.listInfoForm.controls['id'].disable();
         // this.listInfoForm.controls['projectIri'].disable();
     }
 
     buildLabelsArray(): FormArray {
-
-        this.labels = this._fb.array([]);
-        return this.labels;
+        this.labels = this._fb.array([]);return this.labels;
     }
 
     buildCommentsArray(): FormArray {
-
         this.comments = this._fb.array([]);
         return this.comments;
     }
@@ -114,6 +166,7 @@ export class ListFormComponent implements OnChanges {
             (<FormGroup>this.listInfoForm)
                 .setValue(this.currentListInfo, { onlySelf: true });
         }
+        this.isLoading=false;
     }
 
     viewDetails(nodeIri: string) {
@@ -130,6 +183,7 @@ export class ListFormComponent implements OnChanges {
                 this.fetchDataAndUpdateForm(this.listIri);
             }
         });
+
     }
 
     fetchDataAndUpdateForm(iri: string) {
@@ -148,6 +202,7 @@ export class ListFormComponent implements OnChanges {
                     this.errorMessage = <any>error;
                 }
             );
+
     }
 
     revert() {
