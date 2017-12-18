@@ -73,5 +73,10 @@ export class Utils {
 
     }
 
+    /**
+     * A regex to validate URLs.
+     */
+    public static readonly urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/i;
+
 
 }

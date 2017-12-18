@@ -22,7 +22,8 @@ export class KnarqlgenerationService {
         [AppConfig.IntervalValue]: AppConfig.intervalSimple,
         [AppConfig.GeomValue]: AppConfig.geomSimple,
         [AppConfig.ColorValue]: AppConfig.colorSimple,
-        [AppConfig.GeonameValue]: AppConfig.geonameSimple
+        [AppConfig.GeonameValue]: AppConfig.geonameSimple,
+        [AppConfig.UriValue]: AppConfig.xsdUri
     };
 
 
