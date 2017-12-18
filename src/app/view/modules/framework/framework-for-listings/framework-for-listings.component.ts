@@ -218,7 +218,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
         }
 
         dialogRef.afterClosed().subscribe(() => {
-            console.log('afterClosed');
+            console.log('afterClosed: ', this.list.restrictedBy);
             this.getData(this.list.restrictedBy);
         });
 

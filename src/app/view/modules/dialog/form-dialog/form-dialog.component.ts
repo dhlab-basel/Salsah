@@ -46,13 +46,13 @@ export class FormDialogComponent implements OnInit {
         statusText: 'TODO: add the following form component to the FormDialog component:'
     };
 
-    constructor(public dialogRef: MatDialogRef<FormDialogComponent>,
+    constructor(public _dialogRef: MatDialogRef<FormDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
         // start in full size
-        if (this.dialogRef) {
+        if (this._dialogRef) {
             this.toggleFullSize();
         }
         this.notYetImplemented.route = this.data.form;
@@ -75,8 +75,8 @@ export class FormDialogComponent implements OnInit {
         if (this.fullSize) {
             this._dialogRef.updateSize('100vw', '100vw');
         } else {
-            this.dialogRef.updateSize('auto', 'auto');
-            this.dialogRef.updatePosition();
+            this._dialogRef.updateSize('auto', 'auto');
+            this._dialogRef.updatePosition();
         }
     }
 
@@ -89,13 +89,13 @@ export class FormDialogComponent implements OnInit {
             confirm: answer
         };
 
-        this.dialogRef.close();
-        this.dialogRef.beforeClose().subscribe(() => {
+        this._dialogRef.close();
+        this._dialogRef.beforeClose().subscribe(() => {
             // update parent component
 //            this.refreshComponent.emit();
             console.log('dialog before close');
         });
-        this.dialogRef.afterClosed().subscribe(() => {
+        this._dialogRef.afterClosed().subscribe(() => {
 //            this.refreshComponent.emit();
             console.log('dialog after closed');
         });
@@ -108,7 +108,7 @@ export class FormDialogComponent implements OnInit {
         dialogRefConfirm.afterClosed().subscribe(result => {
             if (config.data.confirm === true) {
                 // close the form dialog box
-                this.dialogRef.close();
+                this._dialogRef.close();
             } else {
                 // do not close the form dialog box
             }
@@ -128,7 +128,7 @@ export class FormDialogComponent implements OnInit {
         const route: string = $event;
 
         // close the dialog box
-        this.dialogRef.close();
+        this._dialogRef.close();
 
         if (route !== undefined) {
             // go to the defined route

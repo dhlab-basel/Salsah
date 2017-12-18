@@ -47,6 +47,7 @@
             <salsah-users-list *ngSwitchCase="'user'"
                                [listType]="list.showAs"
                                [restrictedBy]="list.restrictedBy"
+                               (refreshComponent)="updateSession()"
                                [admin]="loggedInAdmin">
             </salsah-users-list>
 
