@@ -18,7 +18,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ListsService} from '../../../../model/services/lists.service';
-import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
+import {List, ListInfo, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
 import {ListNodeFormComponent} from '../list-node-form/list-node-form.component';
 
 @Component({
@@ -31,17 +31,15 @@ export class ListFormComponent implements OnChanges {
     @Input() listIri: string;
     @Input() listOp: string; // view, edit, create
 
-    currentNodes: ListNode[];
     currentListInfo: ListInfo;
+    currentNodes: ListNode[];
+    currentListNodeInfo: ListNodeInfo;
+    currentListNodeIri: string;
 
     errorMessage: string = undefined;
     selectedRow: number;
 
-    editListInfo: boolean;
-
     isLoading: boolean = true;
-    labelsLoading: boolean = true;
-
     editList: boolean = true;
 
 
@@ -56,31 +54,27 @@ export class ListFormComponent implements OnChanges {
             nodes: {
                 formLabel: 'has Nodes',
                 formDescription: 'Click to edit the node',
+                id: 'Node ID',
+                name: 'Node name',
                 label: 'Node label',
-                description: 'Node description',
-                gui: 'GUI element',
-                attributes: 'GUI attributes',
-                id: 'Property ID',
-                occurrence: 'Occurrence',
-                valuetype_id: 'Value type ID',
-                vocabulary: 'Vocabulary',
-                icon: 'Icon'
+                children: 'has children',
+                level: 'Node level',
             }
         },
-        addNode: {
-            addLabel: 'Add new properties',
-            label: 'or create new property',
-            description: 'Create a custom property',
-            selectLabel: 'Select node',
-            selectedLabel: 'Selected node',
-            selectDescript: 'Select an existing node to add to this resource',
-            selectedDescript: 'You have selected the node:',
-            autoComplete: 'Start typing a node name here',
-            skip: 'Skip and create custom node',
-            customize: 'Customize node',
-            customizeDescript: 'Select a unique name and id for your new node'
-
-        },
+        // addNode: {
+        //     addLabel: 'Add new properties',
+        //     label: 'or create new property',
+        //     description: 'Create a custom property',
+        //     selectLabel: 'Select node',
+        //     selectedLabel: 'Selected node',
+        //     selectDescript: 'Select an existing node to add to this resource',
+        //     selectedDescript: 'You have selected the node:',
+        //     autoComplete: 'Start typing a node name here',
+        //     skip: 'Skip and create custom node',
+        //     customize: 'Customize node',
+        //     customizeDescript: 'Select a unique name and id for your new node'
+        //
+        // },
         buttons: {
             save: 'Save',
             reset: 'Reset',
@@ -92,8 +86,16 @@ export class ListFormComponent implements OnChanges {
         }
     };
 
+    options = {
+        useVirtualScroll: false,
+        nodeHeight: 0,
+        allowDrag: true,
+        allowDrop: true,
+
+    }
 
     public listInfoForm: FormGroup; // our model driven form
+    public listNodeInfoForm: FormGroup; // our model driven form
     public labels: FormArray = undefined;
     public comments: FormArray = undefined;
 
@@ -101,14 +103,17 @@ export class ListFormComponent implements OnChanges {
 
     constructor(private _listsService: ListsService,
                 private _dialog: MatDialog,
-                private _fb: FormBuilder) {
+                private _fb: FormBuilder,
+                private _fbn: FormBuilder) {
 
         // build form
         this.buildListInfoForm();
+        this.buildListNodeInfoForm();
     }
 
     ngOnChanges() {
         this.fetchDataAndUpdateForm(this.listIri);
+        this.fetchNodeDataAndUpdateForm(this.currentListNodeIri);
         // this.isLoading = false;
 
     }
@@ -120,14 +125,23 @@ export class ListFormComponent implements OnChanges {
             labels: this.buildLabelsArray(),
             comments: this.buildCommentsArray()
         });
-
+    }
+    buildListNodeInfoForm() {
+        this.listNodeInfoForm = this._fbn.group({
+            id: '',
+            name:'',
+            labels: '',
+            children:'',
+            level:'',
+        });
 
         // this.listInfoForm.controls['id'].disable();
         // this.listInfoForm.controls['projectIri'].disable();
     }
 
     buildLabelsArray(): FormArray {
-        this.labels = this._fb.array([]);return this.labels;
+        this.labels = this._fb.array([]);
+        return this.labels;
     }
 
     buildCommentsArray(): FormArray {
@@ -206,6 +220,25 @@ export class ListFormComponent implements OnChanges {
 
     }
 
+    fetchNodeDataAndUpdateForm(iri: string) {
+        this._listsService.getListNodeInfo(iri)
+            .subscribe(
+                (nodeInfo: ListNodeInfo) => {
+                    this.currentListNodeInfo = nodeInfo;
+
+                    this.buildListNodeInfoForm();
+
+                    (<FormGroup>this.listNodeInfoForm)
+                        .setValue(this.currentListNodeInfo, { onlySelf: true });
+
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                }
+            );
+    }
+
+
     revert() {
         (<FormGroup>this.listInfoForm)
             .setValue(this.currentListInfo, { onlySelf: true });
@@ -213,12 +246,22 @@ export class ListFormComponent implements OnChanges {
 
     save(listInfo: ListInfo) {
         this.submitted = true; // set form submit to true
-
-
-
         // check if model is valid
         // if valid, call API to save customer
         console.log('save:', listInfo);
+    }
+
+    revertNode() {
+        (<FormGroup>this.listNodeInfoForm)
+            .setValue(this.currentListNodeInfo, { onlySelf: true });
+    }
+
+    saveNode(listNodeInfo: ListNodeInfo) {
+        this.submitted = true; // set form submit to true
+
+        // check if model is valid
+        // if valid, call API to save customer
+        console.log('save:', listNodeInfo);
     }
 
 }
