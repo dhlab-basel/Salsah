@@ -137,7 +137,7 @@ import {DecimalValueComponent} from './view/modules/search/extended-search/selec
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
 import {KnarqlgenerationService} from "./model/services/knarqlgeneration.service";
-import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertiblecalendardateadapter/src/JDNConvertibleCalendarDateAdapter.module'
 import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
 import { TextValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
 import { UriValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
@@ -259,7 +259,7 @@ import { LinkValueComponent } from './view/modules/search/extended-search/select
         HttpModule,
         RouterModule,
         AppMaterialModule,
-        MatMomentDateModule,
+        MatJDNConvertibleCalendarDateAdapterModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
