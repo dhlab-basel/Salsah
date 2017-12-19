@@ -121,37 +121,63 @@
 
     <h5>{{editLists.list.nodes.formLabel}}</h5>
 
-    <mat-accordion class="headers-align">
-        <mat-expansion-panel *ngIf="currentListInfo">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <span> Node name </span>
-                </mat-panel-title>
-                <mat-panel-description>
-                    <span>{{editLists.list.nodes.formDescription}}</span>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <tree-root [nodes]="currentNodes">
-                <ng-template #treeNodeTemplate let-node let-index="index">
-                    <span>{{ node.data.id }}</span>
-                    <button (click)="viewDetails(node.data.id)">Details</button>
-                </ng-template>
-            </tree-root>
+    <mat-accordion class="full-width" *ngIf="currentListInfo">
+        <tree-root #tree [nodes]="currentNodes" [options]="options">
+            <ng-template #treeNodeTemplate let-node let-index="index">
+                <mat-expansion-panel class="full-width">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <span> {{ node.data.name }} </span>
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            <span>{{editLists.list.nodes.formDescription}}</span>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <form class="salsah-form new-user" [formGroup]="listNodeInfoForm" novalidate>
+                        <mat-form-field class="full-width">
+                            <input matInput
+                                   [placeholder]=editLists.list.nodes.name
+                                   formControlName="name">
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <input matInput
+                                   [placeholder]=editLists.list.nodes.label
+                                   formControlName="labels">
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <input matInput
+                                   [placeholder]=editLists.list.nodes.children
+                                   formControlName="children">
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <input matInput
+                                   [placeholder]=editLists.list.nodes.level
+                                   formControlName="level">
+                        </mat-form-field>
 
-            <mat-action-row>
-                <button mat-button
-                        color="warn">
-                    {{editLists.buttons.reset}}
-                </button>
-                <button mat-raised-button
-                        class="save-button"
-                        [color]="'primary'"
-                        [disabled]="!listInfoForm.valid">
-                    {{editLists.buttons.save}}
-                </button>
-            </mat-action-row>
 
-        </mat-expansion-panel>
+                        <span>{{ node.data.name }}</span>
+                        <button (click)="viewDetails(node.data.id)">Details</button>
+
+
+                        <mat-action-row>
+                            <button mat-button
+                                    color="warn"
+                                    (click)="revertNode()">
+                                {{editLists.buttons.reset}}
+                            </button>
+                            <button mat-raised-button
+                                    class="save-button"
+                                    [color]="'primary'"
+                                    [disabled]="!listInfoForm.valid"
+                                    (click)="saveNode(listNodeInfoForm.value)">
+                                {{editLists.buttons.save}}
+                            </button>
+                        </mat-action-row>
+                    </form>
+                </mat-expansion-panel>
+            </ng-template>
+        </tree-root>
     </mat-accordion>
     <!--
     <hr/>
