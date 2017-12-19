@@ -43,15 +43,19 @@ import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list
  */
 export class UsersListComponent implements OnInit {
 
-    @Input() restrictedBy?: string;      // restrictedBy: project iri
+    // restrictedBy: project iri
+    @Input() restrictedBy?: string;
+
+    // listType could be table, or accordion; the default list type is a simple mat-list
     @Input() listType?: string;
+
+    // information about the logged-in user: does he have admin rights?
     @Input() admin?: boolean = false;
 
-    // in the case of a http get request, we display the progress in the loading element
+    // isLoading = true, during the http get request
     isLoading: boolean = true;
 
-    // with the http get request, we need also a variable for error messages;
-    // just in the case if something's going wrong
+    // error message in the case of an error from the http get request
     errorMessage: any = undefined;
 
     // in the case of no data, but with a working API
@@ -61,10 +65,11 @@ export class UsersListComponent implements OnInit {
         statusText: 'It seems there\'s no user yet. Add a new one with the button above &uarr;'
     };
 
-    // the main objects in this component
+    // the main objects in this component: users;
+    // we need a list of active and a list of inactive users
     allUsers: UserData[] = [];
-    allActiveUsers: UserProfile[] = [];
-    allInactiveUsers: UserProfile[] = [];
+    allActiveUsers: NewUserData[] = [];
+    allInactiveUsers: NewUserData[] = [];
 
     newAllActiveUsers: NewUserData[] = [];
     newAllInactiveUsers: NewUserData[] = [];
@@ -126,8 +131,8 @@ export class UsersListComponent implements OnInit {
     }
 
     listOfActiveAndInactiveUsers() {
-        this.newAllActiveUsers = [];
-        this.newAllInactiveUsers = [];
+        this.allActiveUsers = [];
+        this.allInactiveUsers = [];
         for (const au of this.allUsers) {
             // at the end, we need an array of user profiles
             this._userService.getUserByIri(au.user_id)
@@ -135,25 +140,25 @@ export class UsersListComponent implements OnInit {
                     (userResult: ApiServiceResult) => {
                         const user: UserProfile = userResult.getBody(UserResponse).userProfile;
                         if (user.userData.status === true) {
-                            this.allActiveUsers.push(user);
+//                            this.allActiveUsers.push(user);
                             const active: NewUserData = {
                                 email: user.userData.email,
                                 givenName: user.userData.givenName,
                                 familyName: user.userData.familyName,
                                 user_profile: user
                             };
-                            this.newAllActiveUsers.push(active);
-                            this.countActive = this.newAllActiveUsers.length;
+                            this.allActiveUsers.push(active);
+                            this.countActive = this.allActiveUsers.length;
                         } else {
-                            this.allInactiveUsers.push(user);
+//                            this.allInactiveUsers.push(user);
                             const inactive: NewUserData = {
                                 email: user.userData.email,
                                 givenName: user.userData.givenName,
                                 familyName: user.userData.familyName,
                                 user_profile: user
                             };
-                            this.newAllInactiveUsers.push(inactive);
-                            this.countInactive = this.newAllInactiveUsers.length;
+                            this.allInactiveUsers.push(inactive);
+                            this.countInactive = this.allInactiveUsers.length;
                         }
                     },
                     (userError: ApiServiceError) => {

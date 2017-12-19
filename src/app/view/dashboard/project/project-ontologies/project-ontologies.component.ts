@@ -32,7 +32,7 @@ export class ProjectOntologiesComponent implements OnInit {
         title: 'Ontologies in this project',
         description: '',
         content: 'ontology',
-        showAs: 'expansion',
+        showAs: 'accordion',
         restrictedBy: ''
     };
 
