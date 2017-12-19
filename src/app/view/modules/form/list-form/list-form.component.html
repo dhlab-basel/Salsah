@@ -9,7 +9,7 @@
     <!-----------Each card will have its own save button----------------------------------------------------->
     <h5>{{editLists.label}}</h5>
     <mat-accordion class="headers-align">
-        <mat-expansion-panel hideToggle="false">
+        <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <span> {{labels.at(0).get('value').value}} </span>
@@ -20,98 +20,139 @@
             </mat-expansion-panel-header>
             <form class="salsah-form new-user" [formGroup]="listInfoForm" novalidate>
                 <span *ngIf="labels" formArrayName="labels">
-                    <div *ngFor="let label of labels.controls" [formGroupName]="0">
-                        <mat-form-field class="width-80">
-                            <input matInput
-                                   [placeholder]=editLists.list.label
-                                   formControlName="value">
-                        </mat-form-field>
-                    </div>
+                    <mat-form-field class="full-width" [formGroupName]="0">
+                        <input matInput
+                               [placeholder]=editLists.list.label
+                               formControlName="value">
+                    </mat-form-field>
                 </span>
 
                 <mat-form-field class="full-width">
                     <input matInput
-                           placeholder="Id"
+                           [placeholder]=editLists.list.id
                            formControlName="id">
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
                     <input matInput
-                           placeholder="Project"
+                           [placeholder]=editLists.list.project
                            formControlName="projectIri">
                 </mat-form-field>
 
-                <h4>Labels</h4>
-                <span *ngIf="labels" formArrayName="labels">
-                    <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
-                        <mat-form-field class="width-80">
-                            <input matInput
-                                   placeholder="Value"
-                                   formControlName="value">
-                        </mat-form-field>
-                        <mat-form-field class="width-10">
-                            <mat-select formControlName="language">
-                                <mat-option value="" disabled>Select language</mat-option>
-                                <mat-option value="en">en</mat-option>
-                                <mat-option value="de">de</mat-option>
-                                <mat-option value="fr">fr</mat-option>
-                                <mat-option value="it">it</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                <button mat-button
-                        class="right"
-                        [color]="'primary'"
-                        (click)="addLabel()">
-                    Add Label
-                </button>
+                <span *ngIf="comments" formArrayName="comments">
+                    <mat-form-field class="full-width" [formGroupName]="0">
+                        <input matInput
+                               [placeholder]=editLists.list.comments
+                               formControlName="value">
+                    </mat-form-field>
                 </span>
+                <!--
+                <!-- This part includes the labels and comments in different languages
+                               <h4>Labels</h4>
+                               <span *ngIf="labels" formArrayName="labels">
+                                   <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
+                                       <mat-form-field class="width-80">
+                                           <input matInput
+                                                  placeholder="Value"
+                                                  formControlName="value">
+                                       </mat-form-field>
+                                       <mat-form-field class="width-10">
+                                           <mat-select formControlName="language">
+                                               <mat-option value="" disabled>Select language</mat-option>
+                                               <mat-option value="en">en</mat-option>
+                                               <mat-option value="de">de</mat-option>
+                                               <mat-option value="fr">fr</mat-option>
+                                               <mat-option value="it">it</mat-option>
+                                           </mat-select>
+                                       </mat-form-field>
+                                   </div>
+                               <button mat-button
+                                       class="right"
+                                       [color]="'primary'"
+                                       (click)="addLabel()">
+                                   Add Label
+                               </button>
+                               </span>
 
 
-                <h4>Comments</h4>
-                <div *ngIf="comments" formArrayName="comments">
-                    <div *ngFor="let comment of comments.controls; let i=index" [formGroupName]="i">
-                        <mat-form-field class="width-80">
-                            <input matInput
-                                   placeholder="Value"
-                                   formControlName="value">
-                        </mat-form-field>
-                        <mat-form-field class="width-10">
-                            <mat-select formControlName="language">
-                                <mat-option value="" disabled>Select language</mat-option>
-                                <mat-option value="en">en</mat-option>
-                                <mat-option value="de">de</mat-option>
-                                <mat-option value="fr">fr</mat-option>
-                                <mat-option value="it">it</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <button mat-button
-                            class="right"
-                            [color]="'primary'"
-                            (click)="addComment()">
-                        Add Comment
-                    </button>
-                </div>
-
-
+                               <h4>Comments</h4>
+                               <div *ngIf="comments" formArrayName="comments">
+                                   <div *ngFor="let comment of comments.controls; let i=index" [formGroupName]="i">
+                                       <mat-form-field class="width-80">
+                                           <input matInput
+                                                  placeholder="Value"
+                                                  formControlName="value">
+                                       </mat-form-field>
+                                       <mat-form-field class="width-10">
+                                           <mat-select formControlName="language">
+                                               <mat-option value="" disabled>Select language</mat-option>
+                                               <mat-option value="en">en</mat-option>
+                                               <mat-option value="de">de</mat-option>
+                                               <mat-option value="fr">fr</mat-option>
+                                               <mat-option value="it">it</mat-option>
+                                           </mat-select>
+                                       </mat-form-field>
+                                   </div>
+                                   <button mat-button
+                                           class="right"
+                                           [color]="'primary'"
+                                           (click)="addComment()">
+                                       Add Comment
+                                   </button>
+                               </div>
+               -->
                 <mat-action-row>
-                    <div style="margin-bottom: 1em">
-                        <button mat-raised-button
-                                (click)="save(listInfoForm.value)"
-                                [disabled]="listInfoForm.pristine" class="btn btn-success">Save
-                        </button>
-                        &nbsp;
-                        <button mat-raised-button (click)="revert()"
-                                [disabled]="listInfoForm.pristine" class="btn btn-danger">Revert
-                        </button>
-                    </div>
+                    <button mat-button
+                            color="warn"
+                            (click)="revert()">
+                        {{editLists.buttons.reset}}
+                    </button>
+                    <button mat-raised-button
+                            class="save-button"
+                            [color]="'primary'"
+                            [disabled]="!listInfoForm.valid"
+                            (click)="save(listInfoForm.value)">
+                        {{editLists.buttons.save}}
+                    </button>
                 </mat-action-row>
             </form>
         </mat-expansion-panel>
     </mat-accordion>
 
+    <h5>{{editLists.list.nodes.formLabel}}</h5>
 
+    <mat-accordion class="headers-align">
+        <mat-expansion-panel *ngIf="currentListInfo">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <span> Node name </span>
+                </mat-panel-title>
+                <mat-panel-description>
+                    <span>{{editLists.list.nodes.formDescription}}</span>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <tree-root [nodes]="currentNodes">
+                <ng-template #treeNodeTemplate let-node let-index="index">
+                    <span>{{ node.data.id }}</span>
+                    <button (click)="viewDetails(node.data.id)">Details</button>
+                </ng-template>
+            </tree-root>
+
+            <mat-action-row>
+                <button mat-button
+                        color="warn">
+                    {{editLists.buttons.reset}}
+                </button>
+                <button mat-raised-button
+                        class="save-button"
+                        [color]="'primary'"
+                        [disabled]="!listInfoForm.valid">
+                    {{editLists.buttons.save}}
+                </button>
+            </mat-action-row>
+
+        </mat-expansion-panel>
+    </mat-accordion>
     <!--
     <hr/>
     {{currentListInfo | json}}
@@ -197,25 +238,25 @@
         </md-card>
 
     </form>
+-->
+    <!--    <hr/>
+        {{ listInfoForm.value | json }}
+        <hr/>
 
-    <hr/>
-    {{ listInfoForm.value | json }}
-    <hr/>
+        <md-card>
+            <md-card-title>List Nodes</md-card-title>
+            <md-card-content>
+                <div *ngIf="currentListInfo">
+                    <tree-root [nodes]="currentNodes">
+                        <ng-template #treeNodeTemplate let-node let-index="index">
+                            <span>{{ node.data.label }}</span>
+                            <button (click)="viewDetails(node.data.id)">Details</button>
+                        </ng-template>
+                    </tree-root>
+                </div>
+            </md-card-content>
 
-    <md-card>
-        <md-card-title>List Nodes</md-card-title>
-        <md-card-content>
-            <div *ngIf="currentListInfo">
-                <tree-root [nodes]="currentNodes">
-                    <ng-template #treeNodeTemplate let-node let-index="index">
-                        <span>{{ node.data.label }}</span>
-                        <button (click)="viewDetails(node.data.id)">Details</button>
-                    </ng-template>
-                </tree-root>
-            </div>
-        </md-card-content>
-
-    </md-card>
-
+        </md-card>
     -->
+
 </section>

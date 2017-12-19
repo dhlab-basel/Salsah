@@ -49,9 +49,10 @@ export class ListFormComponent implements OnChanges {
         label: 'List',
         description: 'Click to edit the list data',
         list: {
-            label: 'List label',
-            description: 'List description',
-            icon: 'Icon',
+            label: 'Label',
+            project: 'Belongs to project',
+            id: 'Id',
+            comments: 'Comments',
             nodes: {
                 formLabel: 'has Nodes',
                 formDescription: 'Click to edit the node',
