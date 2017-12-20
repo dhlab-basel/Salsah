@@ -3086,7 +3086,7 @@ jasminewd2@^2.1.0:
 
 "jdnconvertiblecalendardateadapter@git+https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter.git":
   version "0.0.1"
-  resolved "git+https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter.git#33b53fa29d37b04730d4fdac136d3c504b367a1f"
+  resolved "git+https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter.git#e1deabf4bb32f0f3acf25cc2aa952ad0e920968e"
   dependencies:
     tslib "^1.7.1"
 
