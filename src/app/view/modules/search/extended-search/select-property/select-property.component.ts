@@ -2,7 +2,7 @@ import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {Properties, Property} from "../../../../../model/services/ontologycache.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {
-    ComparisonOperatorAndValueLiteral,
+    ComparisonOperatorAndValue,
     SpecifyPropertyValueComponent
 } from "./specify-property-value/specify-property-value.component";
 
@@ -15,9 +15,9 @@ export class PropertyWithValue {
      * Constructs a [PropertyWithValue].
      *
      * @param {Property} property the specified property.
-     * @param {ComparisonOperatorAndValueLiteral} valueLiteral the specified comparison operator and value.
+     * @param {ComparisonOperatorAndValue} valueLiteral the specified comparison operator and value.
      */
-    constructor(readonly property: Property, readonly valueLiteral: ComparisonOperatorAndValueLiteral) {
+    constructor(readonly property: Property, readonly valueLiteral: ComparisonOperatorAndValue) {
     };
 
 }
@@ -91,7 +91,7 @@ export class SelectPropertyComponent implements OnInit {
      */
     getPropertySelectedWithValue() {
 
-        let propVal: ComparisonOperatorAndValueLiteral = this.specifyPropertyValue.getComparisonOperatorAndValueLiteralForProperty();
+        let propVal: ComparisonOperatorAndValue = this.specifyPropertyValue.getComparisonOperatorAndValueLiteralForProperty();
 
         return new PropertyWithValue(this.propertySelected, propVal);
 

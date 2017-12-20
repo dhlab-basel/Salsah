@@ -52,14 +52,6 @@ export class KnarqlgenerationService {
 
                 let propIriSimple = Utils.convertComplexKnoraApiEntityIritoSimple(propWithVal.property.id);
 
-                let propValue = `?propVal${index}`;
-
-                // generate statement
-                let statement: string = `?mainRes <${propIriSimple}> ${propValue} .`;
-
-                // TODO: check if statement should be returned returned in results
-                returnStatements.push(statement);
-
                 let simpleType;
                 if (!propWithVal.property.isLinkProperty) {
                     simpleType = this.typeConversionComplexToSimple[propWithVal.property.objectType];
@@ -67,22 +59,52 @@ export class KnarqlgenerationService {
                     simpleType = AppConfig.resourceSimple;
                 }
 
+                // represents the object of a statement
+                let propValue;
+                if (!propWithVal.property.isLinkProperty || propWithVal.valueLiteral.comparisonOperator.getClassName() == 'Exists') {
+                    // it is not a linking property, create a variable for the value (to be used by a subsequent FILTER)
+                    // OR the comparison operator Exists is used in which case we do not need to specify the object any further
+                    propValue = `?propVal${index}`;
+                } else {
+                    // it is a linking property and the comparison operator is not Exists, use its IRI
+                    propValue = propWithVal.valueLiteral.value.toSparql();
+                }
+
+                // generate statement
+                let statement: string = `?mainRes <${propIriSimple}> ${propValue} .`;
+
                 // type annotations
                 let propTypeAnnotation = `<${propIriSimple}> knora-api:objectType <${simpleType}> .`;
                 let propValueAnnotation = `${propValue} a <${simpleType}> .`;
 
+                // check if it is a linking property that has to be wrapped in a FILTER NOT EXISTS (comparison operator NOT_EQUALS) to negate it
+                if (propWithVal.property.isLinkProperty && propWithVal.valueLiteral.comparisonOperator.getClassName() == 'NotEquals') {
+                    // do not include statement in results, because the query checks for the absence of this statement
+                    statement = `FILTER NOT EXISTS {
+                        ${statement}
+                        ${propTypeAnnotation}
+                        ${propValueAnnotation}
+                    }`;
+                } else {
+                    // TODO: check if statement should be returned returned in results (Boolean flag from checkbox)
+                    returnStatements.push(statement);
+                    statement = `
+                        ${statement}
+                        ${propTypeAnnotation}
+                        ${propValueAnnotation}
+                    `;
+                }
+
                 // generate filter if comparison operator is not Exists
                 let filter: string = '';
-
-                // TODO: do not make a linkValue literal a FILTER, but a statement (use FILTER NOT EXISTS for negation)
-                if (propWithVal.valueLiteral.comparisonOperator.getClassName() != 'Exists') {
-                    filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.valueLiteral.toSparql()})`;
+                // only create a FILTER if the comparison operator is not EXISTS and it is not a linking property
+                if (!propWithVal.property.isLinkProperty && propWithVal.valueLiteral.comparisonOperator.getClassName() != 'Exists') {
+                    filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.value.toSparql()})`;
                 }
+
 
                 return `${statement}
                 ${filter}
-                ${propTypeAnnotation}
-                ${propValueAnnotation}
                 `;
 
             }

@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {AppConfig} from "../../../../../../../app.config";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PropertyValue, ValueLiteral} from "../specify-property-value.component";
+import {PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
 import {Utils} from "../../../../../../../utils";
 
 @Component({
@@ -26,7 +26,7 @@ export class UriValueComponent implements OnInit, PropertyValue {
     ngOnInit() {
     }
 
-    getValue(): ValueLiteral {
+    getValue(): Value {
 
         return new ValueLiteral(String(this.form.value.uriValue), AppConfig.xsdUri);
     }

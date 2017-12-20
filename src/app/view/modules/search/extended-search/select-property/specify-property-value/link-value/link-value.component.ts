@@ -1,5 +1,5 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {PropertyValue, ValueLiteral} from "../specify-property-value.component";
+import {IRI, PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
 import {AppConfig} from "../../../../../../../app.config";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Utils} from "../../../../../../../utils";
@@ -82,11 +82,11 @@ export class LinkValueComponent implements OnInit, PropertyValue {
     ngOnInit() {
     }
 
-    getValue(): ValueLiteral {
+    getValue(): Value {
 
         // TODO: check that resource is a valid Knora resource Iri
 
-        return new ValueLiteral(String(this.form.value.resource), AppConfig.xsdUri);
+        return new IRI(this.form.value.resource);
     }
 
 }

@@ -111,19 +111,33 @@ class Exists implements ComparisonOperator {
 }
 
 /**
- * Combination of a comparison operator and a value literal.
+ * Combination of a comparison operator and a value literal or an IRI.
  * In case the comparison operator is 'Exists', no value is given.
  */
-export class ComparisonOperatorAndValueLiteral {
+export class ComparisonOperatorAndValue {
 
-    constructor(readonly comparisonOperator: ComparisonOperator, readonly valueLiteral?: ValueLiteral) {
+    constructor(readonly comparisonOperator: ComparisonOperator, readonly value?: Value) {
     };
+}
+
+/**
+ * An abstract interface representing a value: an IRI or a literal.
+ */
+export interface Value {
+
+    /**
+     * Turns the value into a Sparql string representation.
+     *
+     * @returns {string}
+     */
+    toSparql(): string;
+
 }
 
 /**
  * Represents a property's value as a literal with the indication of its type.
  */
-export class ValueLiteral {
+export class ValueLiteral implements Value {
 
     /**
      * Constructs a [ValueLiteral].
@@ -147,6 +161,25 @@ export class ValueLiteral {
 }
 
 /**
+ * Represents an IRI.
+ */
+export class IRI implements Value {
+
+    /**
+     * Constructs an [IRI].
+     *
+     * @param {string} iri the IRI of a resource instance.
+     */
+    constructor(readonly iri: string) {
+    };
+
+    toSparql(): string {
+        return `<${this.iri}>`;
+    }
+
+}
+
+/**
  * An abstract interface that represents a value.
  * This interface has to be implemented for all value types (value component classes).
  */
@@ -160,9 +193,9 @@ export interface PropertyValue {
     /**
      * Returns the value.
      *
-     * @returns {ValueLiteral} the value.
+     * @returns {Value}.
      */
-    getValue(): ValueLiteral;
+    getValue(): Value;
 
 }
 
@@ -268,19 +301,19 @@ export class SpecifyPropertyValueComponent implements OnInit {
     /**
      * Gets the specified comparison operator and value for the property.
      *
-     * @returns {ComparisonOperatorAndValueLiteral} the comparison operator and the specified value
+     * @returns {ComparisonOperatorAndValue} the comparison operator and the specified value
      */
-    getComparisonOperatorAndValueLiteralForProperty(): ComparisonOperatorAndValueLiteral {
-        // return value literal from the child component
-        let valueLiteral: ValueLiteral;
+    getComparisonOperatorAndValueLiteralForProperty(): ComparisonOperatorAndValue {
+        // return value (literal or IRI) from the child component
+        let value: Value;
 
         // comparison operator 'Exists' does not require a value
         if (this.comparisonOperatorSelected.getClassName() != 'Exists') {
-            valueLiteral = this.propertyValueComponent.getValue();
+            value = this.propertyValueComponent.getValue();
         }
 
         // return the comparison operator and the specified value
-        return new ComparisonOperatorAndValueLiteral(this.comparisonOperatorSelected, valueLiteral);
+        return new ComparisonOperatorAndValue(this.comparisonOperatorSelected, value);
 
     }
 

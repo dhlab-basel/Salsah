@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {PropertyValue, ValueLiteral} from "../specify-property-value.component";
+import {PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
 import {AppConfig} from "../../../../../../../app.config";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/src/JDNConvertibleCalendar";
@@ -30,7 +30,7 @@ export class DateValueComponent implements OnInit, PropertyValue {
     ngOnInit() {
     }
 
-    getValue(): ValueLiteral {
+    getValue(): Value {
 
         const dateObj: JDNConvertibleCalendarModule.JDNConvertibleCalendar = this.form.value.dateValue;
 

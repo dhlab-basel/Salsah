@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PropertyValue, ValueLiteral} from "../specify-property-value.component";
+import {PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
 import {AppConfig} from "../../../../../../../app.config";
 
 @Component({
@@ -24,7 +24,7 @@ export class DecimalValueComponent implements OnInit, PropertyValue {
     ngOnInit() {
     }
 
-    getValue(): ValueLiteral {
+    getValue(): Value {
         return new ValueLiteral(String(this.form.value.decimalValue), AppConfig.xsdDecimal);
     }
 }
