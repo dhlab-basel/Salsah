@@ -29,12 +29,12 @@ export class ProjectTeamComponent implements OnInit {
     // here we can reuse the framework-for-listings component:
     // shows a list of users and the possibility to create new users
 
-
     //
     //  DATA for FrameworkForListingsComponent
     //
+
     list: ListData = {
-        title: 'Members in this project',
+        title: '',
         description: '',
         content: 'user',
         showAs: 'expansion',
@@ -43,15 +43,42 @@ export class ProjectTeamComponent implements OnInit {
 
     // add new users
     add: AddData = {
-        title: 'Add new team member',
+        title: '',
         description: ''
     };
+
+
+    irgendeineFunktion(){
+
+    }
+
+
+
 
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------
 
     constructor() {
+        // Temporarily stored values, will be refactored to a function, called by an Event Emitter
+        //
+        let  langString: string;
+        if ( localStorage.getItem('lang') === 'de') {
+            console.log('Sprache: de');
+            langString = localStorage.getItem('lang');
+            this.list.title = 'Mitglieder in diesem Projekt';
+            this.add.title = 'Füge neues Mitglied hinzu';
+        } else {
+            console.log('Sprache: en');
+            langString = localStorage.getItem('lang');
+            this.list.title = 'Members in this project';
+            this.add.title = 'Add new team member';
+        }
+        if (langString === 'de') {
+            console.log('Es ist deutsch');
+        }
     }
+
+
 
     ngOnInit() {
         this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;

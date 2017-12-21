@@ -9,12 +9,25 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class InternationalizationComponent implements OnInit {
 
+    localStorage: any;
+
     constructor(private translate: TranslateService) {
         translate.addLangs(['de', 'en']);
         translate.setDefaultLang('en');
 
         const browserLang = translate.getBrowserLang();
-        translate.use(browserLang.match(/en|de/) ? browserLang : 'en');
+        // translate.use(browserLang.match(/en|de/) ? browserLang : 'en');
+
+        if (localStorage.getItem('lang') === null) {
+            translate.use(browserLang.match(/en|de/) ? browserLang : 'en');
+        } else {
+            translate.use(localStorage.getItem('lang'));
+        }
+    }
+
+    public changeStorage(event:any, langSelect:string) {
+        // console.log('Sprache: ' + langSelect);
+        localStorage.setItem('lang', langSelect);
     }
 
 
