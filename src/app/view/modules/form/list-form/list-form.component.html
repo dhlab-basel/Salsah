@@ -5,8 +5,8 @@
 <section class="salsah-form-content" *ngIf="editList && !isLoading">
 
     <!------------------------------------------------------------------------------------------------------->
-    <!-----------Here we will use cards for each list and node, which will be collapsible------------>
-    <!-----------Each card will have its own save button----------------------------------------------------->
+    <!-----------Here we will use expansion panels for each list, which will be collapsible------------------>
+    <!-----------Each expansion panels will have its own save button----------------------------------------->
     <h5>{{editLists.label}}</h5>
     <mat-accordion class="headers-align">
         <mat-expansion-panel>
@@ -119,12 +119,15 @@
         </mat-expansion-panel>
     </mat-accordion>
 
+    <!------------------------------------------------------------------------------------------------------->
+    <!-----------Here we will use expansion panels for each node, which will be collapsible------------------>
+    <!-----------Each expansion panels will have its own save button----------------------------------------->
     <h5>{{editLists.list.nodes.formLabel}}</h5>
 
     <mat-accordion class="full-width" *ngIf="currentListInfo">
         <tree-root #tree [nodes]="currentNodes" [options]="options">
             <ng-template #treeNodeTemplate let-node let-index="index">
-                <mat-expansion-panel class="full-width">
+                <mat-expansion-panel class="full-width" (opened)="setIndex(index)">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <span> {{ node.data.name }} </span>
@@ -133,7 +136,7 @@
                             <span>{{editLists.list.nodes.formDescription}}</span>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <form class="salsah-form new-user" [formGroup]="listNodeInfoForm" novalidate>
+                    <form class="salsah-form new-user" [formGroup]="listNodeInfoForm">
                         <mat-form-field class="full-width">
                             <input matInput
                                    [placeholder]=editLists.list.nodes.name
@@ -157,7 +160,7 @@
 
 
                         <span>{{ node.data.name }}</span>
-                        <button (click)="viewDetails(node.data.id)">Details</button>
+                        <!--<button (click)="viewDetails(node.data.id)">Details</button>-->
 
 
                         <mat-action-row>

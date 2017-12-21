@@ -42,6 +42,7 @@ export class ListFormComponent implements OnChanges {
     isLoading: boolean = true;
     editList: boolean = true;
 
+    index: number = 0;
 
     public editLists: any = {
         label: 'List',
@@ -106,16 +107,17 @@ export class ListFormComponent implements OnChanges {
                 private _fb: FormBuilder,
                 private _fbn: FormBuilder) {
 
-        // build form
-        this.buildListInfoForm();
-        this.buildListNodeInfoForm();
+
     }
 
     ngOnChanges() {
-        this.fetchDataAndUpdateForm(this.listIri);
-        this.fetchNodeDataAndUpdateForm(this.currentListNodeIri);
-        // this.isLoading = false;
+        console.log('0. onChanges', this.listIri, this.currentListNodeIri);
 
+        this.buildListNodeInfoForm();
+        this.fetchDataAndUpdateForm(this.listIri);
+
+        // this.isLoading = false;
+        // build form
     }
 
     buildListInfoForm() {
@@ -125,15 +127,32 @@ export class ListFormComponent implements OnChanges {
             labels: this.buildLabelsArray(),
             comments: this.buildCommentsArray()
         });
+
+        console.log('2. buildListInfoForm', this.listInfoForm);
+
     }
     buildListNodeInfoForm() {
-        this.listNodeInfoForm = this._fbn.group({
-            id: '',
-            name:'',
-            labels: '',
-            children:'',
-            level:'',
-        });
+
+        if(!this.isLoading){
+            this.listNodeInfoForm = this._fbn.group({
+                id: this.currentNodes[0].id,
+                name: this.currentNodes[0].id,
+                labels: this.currentNodes[0].id,
+                children: this.currentNodes[0].id,
+                level: this.currentNodes[0].id,
+            });
+        }
+        else{
+            this.listNodeInfoForm = this._fbn.group({
+                id:'',
+                name:'',
+                labels:'',
+                children:'',
+                level:'',
+            });
+        }
+
+        console.log('5. buildListNodeInfoForm', this.listNodeInfoForm);
 
         // this.listInfoForm.controls['id'].disable();
         // this.listInfoForm.controls['projectIri'].disable();
@@ -177,35 +196,41 @@ export class ListFormComponent implements OnChanges {
     }
 
     updateFormValues() {
+
         if (this.currentListInfo) {
             (<FormGroup>this.listInfoForm)
                 .setValue(this.currentListInfo, { onlySelf: true });
         }
         this.isLoading=false;
-    }
-
-    viewDetails(nodeIri: string) {
-        const dialogRef = this._dialog.open(ListNodeFormComponent, <MatDialogConfig>{
-            height: '500px',
-            width: '600px',
-            data: nodeIri
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-
-            // only if we have changed the list node, go and fetch the updated version
-            if (result === true) {
-                this.fetchDataAndUpdateForm(this.listIri);
-            }
-        });
+        console.log('3. updateFormValues:  current list info',this.currentListInfo);
 
     }
+
+    // viewDetails(nodeIri: string) {
+    //     const dialogRef = this._dialog.open(ListNodeFormComponent, <MatDialogConfig>{
+    //         height: '500px',
+    //         width: '600px',
+    //         data: nodeIri
+    //     });
+    //
+    //     dialogRef.afterClosed().subscribe(result => {
+    //
+    //         // only if we have changed the list node, go and fetch the updated version
+    //         if (result === true) {
+    //             this.fetchDataAndUpdateForm(this.listIri);
+    //             this.fetchNodeDataAndUpdateForm(this.currentListNodeIri);
+    //         }
+    //     });
+    //
+    // }
 
     fetchDataAndUpdateForm(iri: string) {
+
         this._listsService.getList(iri)
             .subscribe(
                 (list: List) => {
                     this.currentNodes = list.children;
+                    this.currentListNodeIri = this.currentNodes[this.index].id;
                     this.currentListInfo = list.listinfo;
 
                     this.buildListInfoForm();
@@ -218,24 +243,40 @@ export class ListFormComponent implements OnChanges {
                 }
             );
 
+        console.log('1. fetchDataAndUpdateForm:  current nodes',this.currentNodes);
+
     }
 
     fetchNodeDataAndUpdateForm(iri: string) {
+
         this._listsService.getListNodeInfo(iri)
             .subscribe(
                 (nodeInfo: ListNodeInfo) => {
                     this.currentListNodeInfo = nodeInfo;
+                    // this.buildListNodeInfoForm();
 
-                    this.buildListNodeInfoForm();
+                    // this.viewDetails(this.currentListNodeIri);
 
-                    (<FormGroup>this.listNodeInfoForm)
-                        .setValue(this.currentListNodeInfo, { onlySelf: true });
 
+                    // (<FormGroup>this.listNodeInfoForm)
+                    //     .setValue(this.currentListNodeInfo, { onlySelf: true });
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
             );
+        console.log('4. fetchNodeDataAndUpdateForm: nodes info:', this.currentListNodeInfo );
+
+    }
+
+    setIndex(index: number) {
+
+        this.index = index;
+        this.fetchNodeDataAndUpdateForm(this.currentListNodeIri);
+        this.buildListNodeInfoForm();
+
+        console.log('6. setIndex: index:', this.index );
+
     }
 
 
