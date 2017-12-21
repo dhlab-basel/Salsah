@@ -46,13 +46,7 @@ export class ProjectTeamComponent implements OnInit {
         title: '',
         description: ''
     };
-
-
-    irgendeineFunktion(){
-
-    }
-
-
+    private langString: string;
 
 
     // ------------------------------------------------------------------------
@@ -78,7 +72,26 @@ export class ProjectTeamComponent implements OnInit {
         }
     }
 
+    changeLangPT(event) {
+        this.langString = '';
+        this.langString = event;
+        alert('i18n von project-team: ' + this.langString);
 
+        if ( localStorage.getItem('lang') === 'de') {
+            console.log('Sprache: de');
+            this.langString = localStorage.getItem('lang');
+            this.list.title = 'Mitglieder in diesem Projekt';
+            this.add.title = 'Füge neues Mitglied hinzu';
+        } else {
+            console.log('Sprache: en');
+            this.langString = localStorage.getItem('lang');
+            this.list.title = 'Members in this project';
+            this.add.title = 'Add new team member';
+        }
+        if (this.langString === 'de') {
+            console.log('Es ist deutsch');
+        }
+    }
 
     ngOnInit() {
         this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
