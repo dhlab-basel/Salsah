@@ -1,15 +1,14 @@
 <!-- progress indicator while the data is loading -->
 <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
-<div *ngIf="!isLoading">
+<!-- show the results -->
+<div *ngIf="!isLoading && !errorMessage; else errorMsg">
     <div *ngIf="result.numberOfResources > 0; else noData" [ngSwitch]="listType">
         <!-- show as table if listType === table -->
         <table *ngSwitchCase="'table'" class="salsah-table">
         </table>
 
         <!-- show as grid-list if listType === grid -->
-
-
         <mat-grid-list *ngSwitchCase="'grid'"
                        class="salsah-grid-list"
                        salsahResizeGrid
@@ -65,12 +64,13 @@
         </mat-list>
     </div>
 
-    <!-- in the case of an API error: show the error message -->
-    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
-
     <!-- in the case of zero results: show a no data message -->
-    <ng-template #noData *ngIf="!errorMessage">
+    <ng-template #noData>
         <salsah-message [message]="noDataMessage"></salsah-message>
     </ng-template>
 </div>
 
+<!-- in the case of an API error: show the error message -->
+<ng-template #errorMsg>
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+</ng-template>
