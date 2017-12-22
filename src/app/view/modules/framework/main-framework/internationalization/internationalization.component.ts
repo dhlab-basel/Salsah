@@ -1,5 +1,5 @@
 ///<reference path="../../../../../../../node_modules/@angular/core/src/metadata/directives.d.ts"/>
-import {Component, OnChanges, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -7,12 +7,10 @@ import {TranslateService} from '@ngx-translate/core';
     templateUrl: './internationalization.component.html',
     styleUrls: ['./internationalization.component.scss']
 })
-export class InternationalizationComponent implements OnInit, OnChanges { // OnChange hier geändert
+export class InternationalizationComponent implements OnInit {
 
     localStorage: any;
-    langSelect: any;
-
-    @Output() LanguageChange = new EventEmitter<any>();
+    langString: string;
 
     constructor(private translate: TranslateService) {
         translate.addLangs(['de', 'en']);
@@ -32,16 +30,12 @@ export class InternationalizationComponent implements OnInit, OnChanges { // OnC
         // console.log('Sprache: ' + langSelect);
         this.translate.use(langSelect);
         localStorage.setItem('lang', langSelect);
-        this.LanguageChange.emit(this.langSelect);
-        alert('i18n: ' + langSelect);
+        this.langString = langSelect;
+        window.location.reload();
+        // alert('i18n: ' + langSelect);
     }
-
-
-    ngOnInit() { // ngOnChange nötig, funktioniert das?
-    }
-
-    ngOnChanges() {
-        alert('etwas wurde geändert');
+    
+    ngOnInit() {
     }
 
 }

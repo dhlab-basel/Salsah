@@ -12,12 +12,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import {
     AddData, ListData,
     SortData
 } from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
-import {UsersListComponent} from '../../../modules/listing/users-list/users-list.component';
+
 
 @Component({
     selector: 'salsah-project-team',
@@ -46,7 +46,6 @@ export class ProjectTeamComponent implements OnInit {
         title: '',
         description: ''
     };
-    private langString: string;
 
 
     // ------------------------------------------------------------------------
@@ -54,7 +53,7 @@ export class ProjectTeamComponent implements OnInit {
 
     constructor() {
         // Temporarily stored values, will be refactored to a function, called by an Event Emitter
-        //
+
         let  langString: string;
         if ( localStorage.getItem('lang') === 'de') {
             console.log('Sprache: de');
@@ -72,29 +71,7 @@ export class ProjectTeamComponent implements OnInit {
         }
     }
 
-    changeLangPT(event) {
-        this.langString = '';
-        this.langString = event;
-        alert('i18n von project-team: ' + this.langString);
-
-        if ( localStorage.getItem('lang') === 'de') {
-            console.log('Sprache: de');
-            this.langString = localStorage.getItem('lang');
-            this.list.title = 'Mitglieder in diesem Projekt';
-            this.add.title = 'Füge neues Mitglied hinzu';
-        } else {
-            console.log('Sprache: en');
-            this.langString = localStorage.getItem('lang');
-            this.list.title = 'Members in this project';
-            this.add.title = 'Add new team member';
-        }
-        if (this.langString === 'de') {
-            console.log('Es ist deutsch');
-        }
-    }
-
     ngOnInit() {
         this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
     }
-
 }

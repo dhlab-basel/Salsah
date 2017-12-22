@@ -141,19 +141,13 @@
   dependencies:
     tslib "^1.7.1"
 
-<<<<<<< HEAD
 "@angular/language-service@^5.0.0":
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-5.0.4.tgz#176a55e381b73e9657da1eee593c18a4f070549d"
 
-"@angular/material@^2.0.0-beta.12":
-  version "2.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-2.0.0-beta.12.tgz#71b6d0b7b021891e5d0e3688c1d4bd78c7457f58"
-=======
 "@angular/material@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@angular/material/-/material-5.0.1.tgz#73ff8af76daf7c7ec56092a613637b21deb5d00e"
->>>>>>> develop
   dependencies:
     tslib "^1.7.1"
 
@@ -232,6 +226,12 @@
 "@types/selenium-webdriver@^2.53.35", "@types/selenium-webdriver@~2.53.39":
   version "2.53.43"
   resolved "https://registry.yarnpkg.com/@types/selenium-webdriver/-/selenium-webdriver-2.53.43.tgz#2de3d718819bc20165754c4a59afb7e9833f6707"
+
+"@uniprank/ng2-file-uploader@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@uniprank/ng2-file-uploader/-/ng2-file-uploader-0.2.2.tgz#395ec29c0e24defd8894fdc1abcd870c2f688038"
+  dependencies:
+    typescript "2.3.2"
 
 abbrev@1:
   version "1.1.1"
@@ -5733,6 +5733,10 @@ type-is@~1.6.15:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+typescript@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.2.tgz#f0f045e196f69a72f06b25fd3bd39d01c3ce9984"
 
 "typescript@>=2.4.0 <2.6.0":
   version "2.5.3"
