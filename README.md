@@ -1,5 +1,9 @@
 [![Build Status](https://travis-ci.org/dhlab-basel/Salsah.svg?branch=develop)](https://travis-ci.org/dhlab-basel/Salsah)
 
+```
+WARNING (2017/12/22): We updated the node packages to the latest version. If you have already installed Salsah, please update your local node_modules!
+```
+
 # Salsah
 
 This is the repository for the [Knora](https://github.com/dhlab-basel/Knora) team's 
@@ -9,7 +13,7 @@ It is developed by the [Digital Humanities Lab](http://www.dhlab.unibas.ch/) at 
 
 Salsah is [free software](http://www.gnu.org/philosophy/free-sw.en.html), released under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.en.html).
 
-The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.2.0 (will be updated from time to time!)
+The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.5.4 (will be updated from time to time!)
 
 You find more information about Salsah on: 
 
@@ -18,26 +22,22 @@ You find more information about Salsah on:
 
 ## Developer Environment
 
-```
-WARNING (2017/11/27): we updated the node packages to the latest version. Pleas update your local installed node_modules to the new defined versions. Use [yarn](https://yarnpkg.com/en/docs/cli/install): yarn install --production=false
-```
-
 If you're a developer and you want to improve the app, please have a look at the developer guideline first:
 
 **[https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/index.html](https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/index.html)**
 
 ### Prerequisites
 
-We develop the Salsah app with Angular (v4), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) 6.9.0 or higher and [NPM](https://www.npmjs.com) 3 or higher. Btw we're using [yarn](https://yarnpkg.com/en/docs/cli/install) to install the node dependencies. As a Salsah developer we recommend to use Yarn instead of npm!
+We develop the Salsah app with Angular (v4), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) 6.9.0 or higher and [NPM](https://www.npmjs.com) 3 or higher. Btw we're using [yarn](https://yarnpkg.com/en/docs/cli/install) to install the node packages. As a Salsah developer we recommend to use Yarn instead of npm!
 
 **Install [angular-cli](https://github.com/angular/angular-cli) globally**
 
-`npm install -g @angular/cli`
+`yarn global add @angular/cli`
 
 If there are some permission issues, try to fix the writing rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`
 
 ### Node package dependencies 
-After cloning the Salsah code, install the node packages from the Salsah root directory with Yarn
+After cloning the Salsah code, install the node packages from the Salsah root directory
 
 `yarn install --production=false`
 
@@ -46,7 +46,7 @@ With `ng serve` the Salsah app starts on [localhost:4200](http://localhost:4200)
 
 If you have any trouble to start the Salsah app with ng, you should have a look on the [@angular/cli](https://cli.angular.io) website.
 
-#### Update Salsah packages (last Update: 27 November 2017)
+#### Update Salsah packages (last Update: December 22 2017)
 From time to time we grab the latest node packages for Salsah. 
 We recommend to update the packages with:
 
