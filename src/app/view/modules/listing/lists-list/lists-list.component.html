@@ -1,71 +1,81 @@
 <!-- progress indicator while the data is loading -->
 <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
-<!-- in the case of an API error: show the error message -->
-<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+<!-- show the results -->
+<div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
-<!-- if we have the data: show the list-->
-<div class="fill-remaining-space" *ngIf="listCount > 0; else noData">
+    <!-- if we have the data: show the list-->
+    <div class="fill-remaining-space" *ngIf="numberOfItems > 0; else noData">
 
-    <mat-accordion>
-        <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
-                             (opened)="fetchListData(item.id)">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <h4>{{item.labels[0].value}}</h4>
-                </mat-panel-title>
-                <mat-panel-description>
-                    {{item.id}}
-                    <mat-icon>list</mat-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
+                                 (opened)="fetchListData(item.id)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>{{item.labels[0].value}}</h4>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{item.id}}
+                        <mat-icon>list</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
 
-            <span><b>Nodes</b>
-            </span>
-            <salsah-progress-indicator *ngIf="isLoadingNodes"></salsah-progress-indicator>
-            <div *ngIf="currentListInfo">
-                <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
-                    <ng-template #treeNodeTemplate let-node let-index="index">
-                        <div>
-                            <span>{{ node.data.name }}</span>
-                            <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
-                        </div>
-                        <!--     <button>{{node.data.name}}</button>
-                           <button (click)="viewDetails(node.data.id)">Node Name</button>
-                          -->
-                    </ng-template>
-                </tree-root>
-                <button class="right" mat-button color="primary" *ngIf="!isExpanded" (click)="expandAll(tree)">Expand all</button>
-                <button class="right" mat-button color="primary" *ngIf="isExpanded" (click)="collapseAll(tree)">Collapse all</button>
-                <!--TODO: move button above next to "Nodes" title-->
-            </div>
+                <span><b>Nodes</b>
+                </span>
+                <salsah-progress-indicator *ngIf="isLoadingNodes"></salsah-progress-indicator>
+                <div *ngIf="currentListInfo">
+                    <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
+                        <ng-template #treeNodeTemplate let-node let-index="index">
+                            <div>
+                                <span>{{ node.data.name }}</span>
+                                <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
+                            </div>
+                            <!--     <button>{{node.data.name}}</button>
+                               <button (click)="viewDetails(node.data.id)">Node Name</button>
+                              -->
+                        </ng-template>
+                    </tree-root>
+                    <button class="right" mat-button color="primary" *ngIf="!isExpanded" (click)="expandAll(tree)">
+                        Expand all
+                    </button>
+                    <button class="right" mat-button color="primary" *ngIf="isExpanded" (click)="collapseAll(tree)">
+                        Collapse all
+                    </button>
+                    <!--TODO: move button above next to "Nodes" title-->
+                </div>
 
-            <mat-action-row>
-                <button mat-button
-                        color="primary"
-                        (click)="toggle(item?.id, i)">
-                    edit
-                </button>
-            </mat-action-row>
-            <!--
-                        <mat-action-row>
-                            <button mat-button
-                                    color="primary"
-                                    (click)="edit(item?.id)">
-                                edit
-                            </button>
-                        </mat-action-row>
-            -->
-        </mat-expansion-panel>
+                <mat-action-row>
+                    <button mat-button
+                            color="primary"
+                            (click)="toggle(item?.id, i)">
+                        edit
+                    </button>
+                </mat-action-row>
+                <!--
+                            <mat-action-row>
+                                <button mat-button
+                                        color="primary"
+                                        (click)="edit(item?.id)">
+                                    edit
+                                </button>
+                            </mat-action-row>
+                -->
+            </mat-expansion-panel>
 
-    </mat-accordion>
+        </mat-accordion>
 
 
+    </div>
+
+    <!-- in the case of zero results: show a no data message -->
+    <ng-template #noData>
+        <salsah-message [message]="noDataMessage"></salsah-message>
+    </ng-template>
 </div>
 
-<!-- if there are any data: show a no data message -->
-<ng-template #noData>
-    <salsah-message *ngIf="!isLoading && !errorMessage" [message]="noDataMessage"></salsah-message>
+<!-- in the case of an API error: show the error message -->
+<ng-template #errorMsg>
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 </ng-template>
 
 

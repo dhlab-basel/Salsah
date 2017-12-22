@@ -44,7 +44,7 @@ export class ListsListComponent implements OnInit {
 
 
     lists: ListInfo[] = [];
-    listCount: number;
+    numberOfItems: number;
 
     currentNodes: ListNode[];
     nodeChildren: number;
@@ -62,7 +62,7 @@ export class ListsListComponent implements OnInit {
         nodeHeight: 22,
         allowDrag: true,
         allowDrop: true,
-    }
+    };
 
     constructor(private _listsService: ListsService,
                 public _dialog: MatDialog) {
@@ -76,7 +76,7 @@ export class ListsListComponent implements OnInit {
                 .subscribe(
                     (lists: ListInfo[]) => {
                         this.lists = lists;
-                        this.listCount = this.lists.length;
+                        this.numberOfItems = this.lists.length;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -102,7 +102,7 @@ export class ListsListComponent implements OnInit {
     }
 
     fetchListData(iri: string) {
-        //get the specific list data once the list expansion panel is opened
+        // get the specific list data once the list expansion panel is opened
         this._listsService.getList(iri)
             .subscribe(
                 (list: List) => {
@@ -117,7 +117,7 @@ export class ListsListComponent implements OnInit {
             );
     }
 
-    //Methods to expand/collapse list
+    // Methods to expand/collapse list
     expandAll(tree) {
         tree.treeModel.expandAll();
         this.isExpanded = true;
@@ -144,7 +144,7 @@ export class ListsListComponent implements OnInit {
 
     }
 
-    //TODO: implement proper edit method/component
+    // TODO: implement proper edit method/component
     edit(id: string, title?: string) {
         const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {

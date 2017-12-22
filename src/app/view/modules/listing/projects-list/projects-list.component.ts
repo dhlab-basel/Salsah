@@ -76,7 +76,7 @@ export class ProjectsListComponent implements OnInit {
     allProjects: Project[] = [];
     allActive: Project[] = [];
     allInactive: Project[] = [];
-    countAll: number;
+    numberOfItems: number;
     countActive: number;
     countInactive: number;
 
@@ -137,7 +137,7 @@ export class ProjectsListComponent implements OnInit {
                 this.allInactive.push(item);
             }
         }
-        this.countAll = Object.keys(list).length;
+        this.numberOfItems = Object.keys(list).length;
         this.countActive = Object.keys(this.allActive).length;
         this.countInactive = Object.keys(this.allInactive).length;
     }

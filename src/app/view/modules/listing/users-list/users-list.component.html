@@ -1,113 +1,118 @@
 <!-- progress indicator while the data is loading -->
 <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
-<!-- in the case of an API error: show the error message -->
-<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+<!-- show the results -->
+<div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
-<!-- if we have the data: show the list-->
-<div *ngIf="countAll > 0; else noData" [ngSwitch]="listType">
-    <!-- table if "showAsTable" is true -->
-    <div *ngSwitchCase="'table'">
-        <!-- table with all active users -->
-        <h4>Active users</h4>
-        <table class="salsah-table">
-            <tr>
-                <th># {{countActive}}</th>
-                <th (click)="sortKey='givenName'" class="salsah-link">Firstname</th>
-                <th (click)="sortKey='familyName'" class="salsah-link">Lastname</th>
-                <th (click)="sortKey='email'" class="salsah-link">eMail</th>
-                <th></th>
-            </tr>
-            <tr *ngFor="let item of newAllActiveUsers | sortBy: sortKey; let i = index;">
-                <td class="salsah-avatar-cell">
-                    <img salsahImage [image]="item?.user_profile.userData.email" [type]="'user'" class="salsah-avatar-image"/>
-                </td>
-                <td>{{item?.user_profile.userData.givenName}}</td>
-                <td>{{item?.user_profile.userData.familyName}}</td>
-                <td>{{item?.user_profile.userData.email}}</td>
-                <td>
-                    <div class="hidden">
+    <div *ngIf="numberOfItems > 0; else noData" [ngSwitch]="listType">
+        <!-- table if "showAsTable" is true -->
+        <div *ngSwitchCase="'table'">
+            <!-- table with all active users -->
+            <h4>Active users</h4>
+            <table class="salsah-table">
+                <tr>
+                    <th># {{countActive}}</th>
+                    <th (click)="sortKey='givenName'" class="salsah-link">Firstname</th>
+                    <th (click)="sortKey='familyName'" class="salsah-link">Lastname</th>
+                    <th (click)="sortKey='email'" class="salsah-link">eMail</th>
+                    <th></th>
+                </tr>
+                <tr *ngFor="let item of newAllActiveUsers | sortBy: sortKey; let i = index;">
+                    <td class="salsah-avatar-cell">
+                        <img salsahImage [image]="item?.user_profile.userData.email" [type]="'user'"
+                             class="salsah-avatar-image"/>
+                    </td>
+                    <td>{{item?.user_profile.userData.givenName}}</td>
+                    <td>{{item?.user_profile.userData.familyName}}</td>
+                    <td>{{item?.user_profile.userData.email}}</td>
+                    <td>
+                        <div class="hidden">
 
-                        <button mat-icon-button
-                                (click)="setInactive(item?.user_profile.userData.user_id, item?.user_profile.userData.givenName + ' ' + item?.user_profile.userData.familyName)"
-                                matTooltip="Delete user">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                            <button mat-icon-button
+                                    (click)="setInactive(item?.user_profile.userData.user_id, item?.user_profile.userData.givenName + ' ' + item?.user_profile.userData.familyName)"
+                                    matTooltip="Delete user">
+                                <mat-icon>delete</mat-icon>
+                            </button>
 
-                        <button mat-icon-button (click)="edit(item?.user_profile.userData.user_id)" matTooltip="Edit user">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button (click)="open(item?.user_profile.userData.email)"
-                                matTooltip="Go to the user's dashboard">
-                            <mat-icon>forward</mat-icon>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <br><br>
-        <!-- table with all inactive users -->
-        <h4>Inactive (deleted) users</h4>
-        <table class="salsah-table">
-            <tr>
-                <th># {{countInactive}}</th>
-                <th (click)="sortKeyIA='givenName'" class="salsah-link">Firstname</th>
-                <th (click)="sortKeyIA='familyName'" class="salsah-link">Lastname</th>
-                <th (click)="sortKeyIA='email'" class="salsah-link">eMail</th>
-                <th></th>
-            </tr>
-            <tr *ngFor="let item of newAllInactiveUsers | sortBy: sortKeyIA; let i = index;">
-                <td class="salsah-avatar-cell">
-                    <img salsahImage [image]="item?.user_profile.userData.email" [type]="'user'" class="salsah-avatar-image"/>
-                </td>
-                <td>{{item?.user_profile.userData.givenName}}</td>
-                <td>{{item?.user_profile.userData.familyName}}</td>
-                <td>{{item?.user_profile.userData.email}}</td>
-                <td>
-                    <div class="hidden">
-                        <button mat-icon-button
-                                (click)="setActive(item?.user_profile.userData.user_id,  item?.user_profile.userData.givenName + ' ' + item?.user_profile.userData.familyName)"
-                                matTooltip="Activate user">
-                            <mat-icon>refresh</mat-icon>
-                        </button>
-                        <button mat-icon-button (click)="edit(item?.user_profile.userData.user_id)" matTooltip="Edit user">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button (click)="open(item?.user_profile.userData.email)"
-                                matTooltip="Go to the user dashboard">
-                            <mat-icon>forward</mat-icon>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div *ngSwitchCase="'expansion'">
-
-        <mat-form-field style="margin: -12px 0 0 12px">
-            <mat-select [placeholder]="sortTitle" [(value)]="sortKey">
-                <mat-option *ngFor="let item of sortProps" [value]="item.key">
-                    {{item.label}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <div *ngIf="countActive > 0">
-            <h4 class="salsah-sub-header">{{countActive}} Active user<span *ngIf="countActive > 1">s</span></h4>
-            <salsah-users-list-item [listData]="newAllActiveUsers" [sortProp]="sortKey" [project]="project"></salsah-users-list-item>
+                            <button mat-icon-button (click)="edit(item?.user_profile.userData.user_id)"
+                                    matTooltip="Edit user">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="open(item?.user_profile.userData.email)"
+                                    matTooltip="Go to the user's dashboard">
+                                <mat-icon>forward</mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <br><br>
+            <!-- table with all inactive users -->
+            <h4>Inactive (deleted) users</h4>
+            <table class="salsah-table">
+                <tr>
+                    <th># {{countInactive}}</th>
+                    <th (click)="sortKeyIA='givenName'" class="salsah-link">Firstname</th>
+                    <th (click)="sortKeyIA='familyName'" class="salsah-link">Lastname</th>
+                    <th (click)="sortKeyIA='email'" class="salsah-link">eMail</th>
+                    <th></th>
+                </tr>
+                <tr *ngFor="let item of newAllInactiveUsers | sortBy: sortKeyIA; let i = index;">
+                    <td class="salsah-avatar-cell">
+                        <img salsahImage [image]="item?.user_profile.userData.email" [type]="'user'"
+                             class="salsah-avatar-image"/>
+                    </td>
+                    <td>{{item?.user_profile.userData.givenName}}</td>
+                    <td>{{item?.user_profile.userData.familyName}}</td>
+                    <td>{{item?.user_profile.userData.email}}</td>
+                    <td>
+                        <div class="hidden">
+                            <button mat-icon-button
+                                    (click)="setActive(item?.user_profile.userData.user_id,  item?.user_profile.userData.givenName + ' ' + item?.user_profile.userData.familyName)"
+                                    matTooltip="Activate user">
+                                <mat-icon>refresh</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="edit(item?.user_profile.userData.user_id)"
+                                    matTooltip="Edit user">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="open(item?.user_profile.userData.email)"
+                                    matTooltip="Go to the user dashboard">
+                                <mat-icon>forward</mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <br><br>
-        <div *ngIf="countInactive > 0">
-            <h4 class="salsah-sub-header">{{countInactive}} Inactive user<span *ngIf="countInactive > 1">s</span></h4>
-            <salsah-users-list-item [listData]="newAllInactiveUsers" [sortProp]="sortKey" [project]="project"></salsah-users-list-item>
-        </div>
-    </div>
 
-    <!-- default list -->
-    <mat-list *ngSwitchDefault class="salsah-list">
-        <h3 mat-subheader># Users: {{countActive}}
-            <span *ngIf="selectedRow === undefined && countAll > 1"> | {{sortTitle}}
+        <div *ngSwitchCase="'expansion'">
+
+            <mat-form-field style="margin: -12px 0 0 12px">
+                <mat-select [placeholder]="sortTitle" [(value)]="sortKey">
+                    <mat-option *ngFor="let item of sortProps" [value]="item.key">
+                        {{item.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div *ngIf="countActive > 0">
+                <h4 class="salsah-sub-header">{{countActive}} Active user<span *ngIf="countActive > 1">s</span></h4>
+                <salsah-users-list-item [listData]="newAllActiveUsers" [sortProp]="sortKey"
+                                        [project]="project"></salsah-users-list-item>
+            </div>
+            <br><br>
+            <div *ngIf="countInactive > 0">
+                <h4 class="salsah-sub-header">{{countInactive}} Inactive user<span *ngIf="countInactive > 1">s</span></h4>
+                <salsah-users-list-item [listData]="newAllInactiveUsers" [sortProp]="sortKey"
+                                        [project]="project"></salsah-users-list-item>
+            </div>
+        </div>
+
+        <!-- default list -->
+        <mat-list *ngSwitchDefault class="salsah-list">
+            <h3 mat-subheader># Users: {{countActive}}
+                <span *ngIf="selectedRow === undefined && countAll > 1"> | {{sortTitle}}
                 <button mat-button
                         *ngIf="selectedRow == undefined"
                         (click)="sortBy(sortKey)"
@@ -115,32 +120,38 @@
                     {{sortLabel}} <mat-icon>sort_by_alpha</mat-icon>
                 </button>
             </span>
-        </h3>
-        <mat-list-item *ngFor="let item of allUsers | sortBy: sortKey; let i = index"
-                       (click)="toggle(item.user_id, i);"
-                       [id]="item.user_id"
-                       class="salsah-link"
-                       [class.inactive]="!item.status"
-                       [class.highlight]="i == selectedRow">
-            <!--<mat-list-item *ngFor="let admin of project.admins">-->
-            <mat-icon mat-list-avatar class="salsah-avatar">
-                <img salsahImage [image]="item?.email" [type]="'user'" class="salsah-avatar-image"/>
-            </mat-icon>
-            <h4 mat-line>{{item?.givenName}} {{item?.familyName}}</h4>
-            <p mat-line> {{item?.email}} </p>
-            <button mat-icon-button class="right close close-highlight">
-                <mat-icon>close</mat-icon>
-            </button>
-            <!-- styling issue #81
-                <button mat-icon-button class="right action-highlight" (click)="removeFromProject(item.user_id, project)" matTooltip="Remove user from project" *ngIf="loggedInAdmin">
-                    <mat-icon>delete</mat-icon>
+            </h3>
+            <mat-list-item *ngFor="let item of allUsers | sortBy: sortKey; let i = index"
+                           (click)="toggle(item.user_id, i);"
+                           [id]="item.user_id"
+                           class="salsah-link"
+                           [class.inactive]="!item.status"
+                           [class.highlight]="i == selectedRow">
+                <!--<mat-list-item *ngFor="let admin of project.admins">-->
+                <mat-icon mat-list-avatar class="salsah-avatar">
+                    <img salsahImage [image]="item?.email" [type]="'user'" class="salsah-avatar-image"/>
+                </mat-icon>
+                <h4 mat-line>{{item?.givenName}} {{item?.familyName}}</h4>
+                <p mat-line> {{item?.email}} </p>
+                <button mat-icon-button class="right close close-highlight">
+                    <mat-icon>close</mat-icon>
                 </button>
-                -->
-        </mat-list-item>
-    </mat-list>
+                <!-- styling issue #81
+                    <button mat-icon-button class="right action-highlight" (click)="removeFromProject(item.user_id, project)" matTooltip="Remove user from project" *ngIf="loggedInAdmin">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    -->
+            </mat-list-item>
+        </mat-list>
+    </div>
+
+    <!-- in the case of zero results: show a no data message -->
+    <ng-template #noData>
+        <salsah-message [message]="noDataMessage"></salsah-message>
+    </ng-template>
 </div>
 
-<!-- if there are any data: show a no data message -->
-<ng-template #noData>
-    <salsah-message *ngIf="!isLoading && !errorMessage" [message]="noDataMessage"></salsah-message>
+<!-- in the case of an API error: show the error message -->
+<ng-template #errorMsg>
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 </ng-template>

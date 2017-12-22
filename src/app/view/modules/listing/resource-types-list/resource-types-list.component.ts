@@ -49,9 +49,9 @@ export class ResourceTypesListComponent implements OnInit {
         statusText: 'It seems there\'s no resource type yet. Add a new one with the button above &uarr;'
     };
 
-    // the main objects in this component
+    // the main object in this component and a result counter
     list: ResourceTypeItem[] = [];
-    num: number;
+    numberOfItems: number;
 
 
     // for the list of objects we have to know which object is active / selected
@@ -71,7 +71,7 @@ export class ResourceTypesListComponent implements OnInit {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.list = result.getBody(ResourceTypes).resourcetypes;
-                    this.num = Object.keys(this.list).length;
+                    this.numberOfItems = Object.keys(this.list).length;
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {

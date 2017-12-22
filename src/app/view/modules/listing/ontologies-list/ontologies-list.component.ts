@@ -60,6 +60,9 @@ export class OntologiesListComponent implements OnInit {
     // just in the case if something's going wrong
     errorMessage: any = undefined;
 
+    // number of results:
+    numberOfItems: number;
+
     // in the case of no data, but with a working API
     noDataMessage: MessageData = {
         status: 204,
@@ -81,6 +84,8 @@ export class OntologiesListComponent implements OnInit {
         if (this.restrictedBy !== undefined) {
             // list of ontologies in a project dashboard
             this.ontologiesList = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
+            this.numberOfItems = this.ontologiesList.length;
+            this.isLoading = false;
 
         } else {
             // list of ontologies in the system dashboard
