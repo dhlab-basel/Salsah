@@ -1,6 +1,53 @@
 <!-- progress indicator while the data is loading -->
 <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
+<!-- show the results -->
+<div *ngIf="!isLoading && !errorMessage; else errorMsg">
+
+    <mat-accordion *ngIf="numberOfItems > 0; else noData">
+
+        <mat-expansion-panel *ngFor="let item of list | sortBy: 'label'; let i = index" [hideToggle]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <h4>{{item?.label | slice:0:36}}</h4>
+                </mat-panel-title>
+                <mat-panel-description>
+                    has {{item.properties.length}} properties
+                    <mat-icon>insert_drive_file</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-list>
+                <!-- <h5 mat-subheader>{{item?.label}}</h5> -->
+                <mat-list-item *ngFor="let prop of item.properties">
+                    {{prop.label}}
+                </mat-list-item>
+            </mat-list>
+
+            <mat-action-row>
+                <button mat-button
+                        color="primary"
+                        (click)="edit(item?.id)">
+                    edit
+                </button>
+            </mat-action-row>
+        </mat-expansion-panel>
+
+    </mat-accordion>
+
+    <!-- in the case of zero results: show a no data message -->
+    <ng-template #noData>
+        <salsah-message [message]="noDataMessage"></salsah-message>
+    </ng-template>
+</div>
+
+<!-- in the case of an API error: show the error message -->
+<ng-template #errorMsg>
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+</ng-template>
+
+
+
 <!-- in the case of an API error: show the error message -->
 <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
@@ -30,36 +77,7 @@
 </mat-list>
 -->
 
-<mat-accordion>
-    <mat-expansion-panel *ngFor="let item of list | sortBy: 'label'; let i = index" [hideToggle]="true">
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <h4>{{item?.label | slice:0:36}}</h4>
-            </mat-panel-title>
-            <mat-panel-description>
-                has {{item.properties.length}} properties
-                <mat-icon>insert_drive_file</mat-icon>
-            </mat-panel-description>
-        </mat-expansion-panel-header>
 
-        <mat-list>
-            <!-- <h5 mat-subheader>{{item?.label}}</h5> -->
-            <mat-list-item *ngFor="let prop of item.properties">
-                {{prop.label}}
-            </mat-list-item>
-        </mat-list>
-
-        <mat-action-row>
-            <button mat-button
-                    color="primary"
-                    (click)="edit(item?.id)">
-                edit
-            </button>
-        </mat-action-row>
-
-    </mat-expansion-panel>
-
-</mat-accordion>
 
 <!-- TODO: add resource-type button at the end -->
 

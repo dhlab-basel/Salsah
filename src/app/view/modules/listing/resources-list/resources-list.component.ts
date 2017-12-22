@@ -42,10 +42,15 @@ export class ResourcesListComponent implements OnInit {
     rowHeight: number = 308;
     colGutter: number = 12;
 
-    public isLoading: boolean = true;
-    public errorMessage: any;
+    // in the case of a http get request, we display the progress in the loading element
+    isLoading: boolean = true;
 
-    public noDataMessage: MessageData = {
+    // with the http get request, we need also a variable for error messages;
+    // just in the case if something's going wrong
+    errorMessage: any = undefined;
+
+    // in the case of no data, but with a working API
+    noDataMessage: MessageData = {
         status: 204,
         statusMsg: 'No results',
         statusText: 'Sorry! I couldn\'t find what you were looking for. Try another search'
@@ -58,6 +63,7 @@ export class ResourcesListComponent implements OnInit {
 
     result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
     ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
+    numberOfItems: number;
 
     constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService) {
     }
@@ -127,6 +133,7 @@ export class ResourcesListComponent implements OnInit {
                     // assign ontology information to a variable so it can be used in the component's template
                     this.ontologyInfo = resourceClassInfos;
                     this.result = resources;
+                    this.numberOfItems = this.result.numberOfResources;
 
                 },
                 (err) => {

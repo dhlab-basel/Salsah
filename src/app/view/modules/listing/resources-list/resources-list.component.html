@@ -3,7 +3,8 @@
 
 <!-- show the results -->
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
-    <div *ngIf="result.numberOfResources > 0; else noData" [ngSwitch]="listType">
+
+    <div *ngIf="numberOfItems !== 0; else noData" [ngSwitch]="listType">
         <!-- show as table if listType === table -->
         <table *ngSwitchCase="'table'" class="salsah-table">
         </table>
