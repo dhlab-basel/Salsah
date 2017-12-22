@@ -67,7 +67,7 @@ export class ResourcesListComponent implements OnInit {
             this.columns = 3;
         }
 
-        if (this.searchMode == "fulltext") {
+        if (this.searchMode === 'fulltext') {
             // fulltext search
 
             this._searchService.doFulltextSearch(this.searchParam)
@@ -79,7 +79,7 @@ export class ResourcesListComponent implements OnInit {
                         this.isLoading = false;
                     }
                 );
-        } else if (this.searchMode == "extended") {
+        } else if (this.searchMode === 'extended') {
             // extended search
 
             this._searchService.doExtendedSearch(this.searchParam)
@@ -131,13 +131,13 @@ export class ResourcesListComponent implements OnInit {
                 },
                 (err) => {
 
-                    console.log("cache request failed: " + err);
+                    console.log('cache request failed: ' + err);
                 }
             );
 
         }, function (err) {
 
-            console.log("JSONLD could not be expanded:" + err);
+            console.log('JSONLD could not be expanded:' + err);
         });
 
         this.isLoading = false;
