@@ -3,33 +3,33 @@
 <hr/>
 
 
-<div md-line></div>
+<div mat-line></div>
 
 <form [formGroup]="listInfoForm" novalidate>
 
-    <md-card class="list-form">
+    <mat-card class="list-form">
 
-        <md-card-title>List Details</md-card-title>
+        <mat-card-title>List Details</mat-card-title>
 
-        <md-card-content>
-            <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Id" formControlName="id">
-            </md-input-container>
+        <mat-card-content>
+            <mat-input-container class="list-item-full-width">
+                <input matInput placeholder="Id" formControlName="id">
+            </mat-input-container>
 
-            <md-input-container class="list-item-full-width">
-                <input mdInput placeholder="Project" formControlName="projectIri">
-            </md-input-container>
+            <mat-input-container class="list-item-full-width">
+                <input matInput placeholder="Project" formControlName="projectIri">
+            </mat-input-container>
 
             <div>
-                <h4>Labels</h4> <button md-button (click)="addLabel()">Add Label</button>
+                <h4>Labels</h4> <button mat-button (click)="addLabel()">Add Label</button>
             </div>
 
             <div *ngIf="labels" formArrayName="labels">
                 <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
                     <div class="flex align-center">
-                        <md-input-container class="list-item-half-width">
-                            <input mdInput placeholder="Value" formControlName="value">
-                        </md-input-container>
+                        <mat-input-container class="list-item-half-width">
+                            <input matInput placeholder="Value" formControlName="value">
+                        </mat-input-container>
 
                         <select formControlName="language" class="flex-one">
                             <option value="" disabled>Select language</option>
@@ -43,14 +43,14 @@
             </div>
 
             <div>
-                <h4>Comments</h4> <button md-button (click)="addComment()">Add Comment</button>
+                <h4>Comments</h4> <button mat-button (click)="addComment()">Add Comment</button>
             </div>
             <div *ngIf="comments" formArrayName="comments">
                 <div *ngFor="let comment of comments.controls; let i=index" [formGroupName]="i">
                     <div class="flex align-center">
-                        <md-input-container class="list-item-half-width">
-                            <input mdInput placeholder="Value" formControlName="value">
-                        </md-input-container>
+                        <mat-input-container class="list-item-half-width">
+                            <input matInput placeholder="Value" formControlName="value">
+                        </mat-input-container>
 
                         <select formControlName="language" class="flex-one">
                             <option value="" disabled>Select language</option>
@@ -63,18 +63,18 @@
                 </div>
             </div>
 
-        </md-card-content>
-        <md-card-actions align="end">
+        </mat-card-content>
+        <mat-card-actions align="end">
             <div style="margin-bottom: 1em">
-                <button md-raised-button
+                <button mat-raised-button
                         (click)="save(listInfoForm.value)"
                         [disabled]="listInfoForm.pristine" class="btn btn-success">Save</button> &nbsp;
-                <button md-raised-button (click)="revert()"
+                <button mat-raised-button (click)="revert()"
                         [disabled]="listInfoForm.pristine" class="btn btn-danger">Revert</button>
             </div>
-        </md-card-actions>
+        </mat-card-actions>
 
-    </md-card>
+    </mat-card>
 
 </form>
 
@@ -82,9 +82,9 @@
 {{ listInfoForm.value | json }}
 <hr/>
 
-<md-card>
-    <md-card-title>List Nodes</md-card-title>
-    <md-card-content>
+<mat-card>
+    <mat-card-title>List Nodes</mat-card-title>
+    <mat-card-content>
         <div *ngIf="currentListInfo">
             <tree-root [nodes]="currentNodes">
                 <ng-template #treeNodeTemplate let-node let-index="index">
@@ -93,6 +93,6 @@
                 </ng-template>
             </tree-root>
         </div>
-    </md-card-content>
+    </mat-card-content>
 
-</md-card>
+</mat-card>
