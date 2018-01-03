@@ -30,7 +30,7 @@
         "angular-tree-component": "^3.8.0",
         "core-js": "^2.5.0",
         "hammerjs": "^2.0.8",
-        "jdnconvertiblecalendar": "git+https://github.com/dhlab-basel/JDNConvertibleCalendar.git",
+        "jdnconvertiblecalendar": "0.0.1",
         "jdnconvertiblecalendardateadapter": "git+https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter.git",
         "json2typescript": "^1.0.5",
         "jsonld": "^0.4.12",

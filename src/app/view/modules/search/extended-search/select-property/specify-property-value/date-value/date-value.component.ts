@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
 import {AppConfig} from "../../../../../../../app.config";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/src/JDNConvertibleCalendar";
+import {JDNConvertibleCalendar} from "jdnconvertiblecalendar";
 
 @Component({
     selector: 'date-value',
@@ -22,7 +22,7 @@ export class DateValueComponent implements OnInit, PropertyValue {
         });
 
         this.form.valueChanges.subscribe((data) => {
-            //console.log(data);
+            console.log(data.dateValue);
         });
 
     }
@@ -32,7 +32,7 @@ export class DateValueComponent implements OnInit, PropertyValue {
 
     getValue(): Value {
 
-        const dateObj: JDNConvertibleCalendarModule.JDNConvertibleCalendar = this.form.value.dateValue;
+        const dateObj: JDNConvertibleCalendar = this.form.value.dateValue;
 
         // get calendar format
         const calendarFormat = dateObj.calendarFormat;
