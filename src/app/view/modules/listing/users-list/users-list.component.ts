@@ -199,19 +199,19 @@ export class UsersListComponent implements OnInit {
     // in the table view, it opens an object in a dialog box
     // open / close user
     edit($event) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-            data: {
-                iri: $event.id,
-                form: 'user'
-            }
-        });
+        if ($event.id !== undefined) {
+            const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+                data: {
+                    iri: $event.id,
+                    form: 'user'
+                }
+            });
 
-        dialogRef.afterClosed().subscribe(() => {
-            // console.log('new view update here!?');
-            this.initView(this.restrictedBy, $event.index);
-        });
-
-
+            dialogRef.afterClosed().subscribe(() => {
+                // console.log('new view update here!?');
+                this.initView(this.restrictedBy, $event.index);
+            });
+        }
     }
 
     open(id: string) {
@@ -355,8 +355,6 @@ export class UsersListComponent implements OnInit {
                     (result: UserData[]) => {
                         this.allUsers = result;
                         this.countAll = Object.keys(this.allUsers).length;
-
-                        console.log(this.allUsers);
 
                         this.listOfActiveAndInactiveUsers();
                         // set an array of the project members in local storage

@@ -31,7 +31,7 @@ export class AppConfig {
 
     public static PathSeparator = '#';
 
-    public static KnoraApiV2WithValueObjectPath: string =  AppConfig.KnoraApi + '/v2' + AppConfig.PathSeparator;
+    public static KnoraApiV2WithValueObjectPath: string = AppConfig.KnoraApi + '/v2' + AppConfig.PathSeparator;
 
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
     public static hasOntologiesWithClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithClasses';
@@ -151,25 +151,33 @@ export class AppConfig {
 
     public static SalsahLink = 'salsah-link';
 
-    public static EqualsComparisonOperator = "=";
-    public static EqualsComparisonLabel = "Equals";
+    public static EqualsComparisonOperator = '=';
+    public static EqualsComparisonLabel = 'Equals';
 
-    public static NotEqualsComparisonOperator = "!=";
-    public static NotEqualsComparisonLabel = "Not_Equals";
+    public static NotEqualsComparisonOperator = '!=';
+    public static NotEqualsComparisonLabel = 'Not_Equals';
 
-    public static GreaterThanComparisonOperator = ">";
-    public static GreaterThanComparisonLabel = "Greater_Than";
+    public static GreaterThanComparisonOperator = '>';
+    public static GreaterThanComparisonLabel = 'Greater_Than';
 
-    public static GreaterThanEqualsComparisonOperator = ">";
-    public static GreaterThanEqualsComparisonLabel = "Greater_Than";
+    public static GreaterThanEqualsComparisonOperator = '>';
+    public static GreaterThanEqualsComparisonLabel = 'Greater_Than';
 
-    public static LessThanComparisonOperator = "<=";
-    public static LessThanComparisonLabel = "Less_Than_Equals";
+    public static LessThanComparisonOperator = '<=';
+    public static LessThanComparisonLabel = 'Less_Than_Equals';
 
-    public static LessThanEqualsComparisonOperator = "<=";
-    public static LessThanQualsComparisonLabel = "Less_Than_Equals";
+    public static LessThanEqualsComparisonOperator = '<=';
+    public static LessThanQualsComparisonLabel = 'Less_Than_Equals';
 
-    public static ExistsComparisonOperator = "E";
-    public static ExistsComparisonLabel = "Exists";
+    public static ExistsComparisonOperator = 'E';
+    public static ExistsComparisonLabel = 'Exists';
+
+    // regular expression
+    public static RegexEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    public static RegexUrl = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/i;
+    public static RegexPassword = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/i;
+    public static RegexHex = /^[0-9A-Fa-f]+$/;
+    public static RegexShortname = /^[a-zA-Z]+\S*$/;
+
 
 }

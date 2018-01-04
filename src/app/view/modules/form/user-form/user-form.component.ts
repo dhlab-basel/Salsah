@@ -312,6 +312,8 @@ export class UserFormComponent implements OnInit {
             this.step = 1;
             this.formLabels.user.form.systemAdmin.title = 'Edit user';
             this.formLabels.user.form.projectAdmin.title = 'Edit user';
+            this.formLabels.user.form.systemAdmin.description = this.iri;
+            this.formLabels.user.form.projectAdmin.description = this.iri;
             // TODO: edit user profile: issue #128
             this.setSelectedUser(event, this.iri);
 
@@ -503,15 +505,16 @@ export class UserFormComponent implements OnInit {
 
     // get the user profile, if selected from the list
     setSelectedUser(ev, iri?: string) {
-
         if (iri && ev.isUserInput) {
+
+            console.log('restricted by ', this.restrictedBy);
             this.userIri = iri;
 
 //            console.log(this.userIri);
             this.selectedUser = new UserProfile();
 
             // check if the selected user isn't in the project yet
-            if (this.restrictedBy) {
+            if (this.restrictedBy !== undefined) {
                 const members = sessionStorage.getItem('currentMembers');
                 if (members.indexOf(iri) > -1) {
                     alert('The selected user (' + this.userIri + ') has already a membership in this project (' + this.restrictedBy + ')');
@@ -521,6 +524,7 @@ export class UserFormComponent implements OnInit {
                         .subscribe(
                             (result: ApiServiceResult) => {
                                 this.selectedUser = result.getBody(UserResponse).userProfile;
+                                console.log(this.selectedUser);
                             },
                             (error: ApiServiceError) => {
                                 console.log(error);
@@ -531,6 +535,20 @@ export class UserFormComponent implements OnInit {
                         this.nextStep(event, 3);
                     }
                 }
+            } else {
+                console.log(this.userIri);
+                this._userService.getUserByIri(this.userIri)
+                    .subscribe(
+                        (result: ApiServiceResult) => {
+                            this.selectedUser = result.getBody(UserResponse).userProfile;
+                            console.log(this.selectedUser);
+                        },
+                        (error: ApiServiceError) => {
+                            console.log(error);
+                            this.errorMessage = error;
+                        }
+                    );
+
             }
         }
     }
