@@ -34,7 +34,7 @@ export class InternationalizationComponent implements OnInit {
         window.location.reload();
         // alert('i18n: ' + langSelect);
     }
-    
+
     ngOnInit() {
     }
 
