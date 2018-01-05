@@ -5,6 +5,7 @@ import {HttpModule} from '@angular/http';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {LanguageService} from './model/services/language.service';
 import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {APP_BASE_HREF} from '@angular/common';
@@ -300,6 +301,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,
+        LanguageService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
