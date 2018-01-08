@@ -74,7 +74,7 @@ export class UsersListComponent implements OnInit {
     newAllActiveUsers: NewUserData[] = [];
     newAllInactiveUsers: NewUserData[] = [];
 
-    countAll: number;
+    numberOfItems: number;
     countActive: number;
     countInactive: number;
 
@@ -160,6 +160,9 @@ export class UsersListComponent implements OnInit {
                             this.allInactiveUsers.push(inactive);
                             this.countInactive = this.allInactiveUsers.length;
                         }
+                        this.numberOfItems = Object.keys(this.allUsers).length;
+                        this.isLoading = false;
+
                     },
                     (userError: ApiServiceError) => {
                         this.errorMessage = <any>userError;
@@ -354,7 +357,7 @@ export class UsersListComponent implements OnInit {
                 .subscribe(
                     (result: UserData[]) => {
                         this.allUsers = result;
-                        this.countAll = Object.keys(this.allUsers).length;
+                        this.numberOfItems = Object.keys(this.allUsers).length;
 
                         this.listOfActiveAndInactiveUsers();
                         // set an array of the project members in local storage
@@ -379,7 +382,7 @@ export class UsersListComponent implements OnInit {
                 .subscribe(
                     (result: UserData[]) => {
                         this.allUsers = result;
-                        this.countAll = Object.keys(this.allUsers).length;
+                        this.numberOfItems = Object.keys(this.allUsers).length;
 
                         this.listOfActiveAndInactiveUsers();
                         this.isLoading = false;

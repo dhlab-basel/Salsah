@@ -1,73 +1,77 @@
 <!-- progress indicator while the data is loading -->
 <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
-<!-- in the case of an API error: show the error message -->
-<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+<!-- show the results -->
+<div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
-<div *ngIf="result.numberOfResources > 0; else noData" [ngSwitch]="listType">
-    <!-- show as table if listType === table -->
-    <table *ngSwitchCase="'table'" class="salsah-table">
-    </table>
+    <div *ngIf="numberOfItems !== 0; else noData" [ngSwitch]="listType">
+        <!-- show as table if listType === table -->
+        <table *ngSwitchCase="'table'" class="salsah-table">
+        </table>
 
-    <!-- show as grid-list if listType === grid -->
-
-
-    <mat-grid-list *ngSwitchCase="'grid'"
-                   class="salsah-grid-list"
-                   salsahResizeGrid
-                   [cols]="columns"
-                   [gutterSize]="colGutter + 'px'"
-                   [rowHeight]="rowHeight + 'px'">
-        <mat-grid-tile *ngFor="let res of result.resources; let i = index"
-                       (click)="toggle(res.id, i)"
-                       [id]="res.id">
-            <mat-card [class.highlight]="i == selectedRow" class="salsah-link salsah-preview">
-                <!--
-                <img salsahImage [image]="res.preview_path" [type]="'resource'"
-                     [class.salsah-resource-preview]="res.preview_path"
-                     [class.salsah-resource-icon]="!res.preview_path"/>
-                 -->
-                <div class="salsah-preview-content">
-                    <mat-card-title class="salsah-preview-title">{{res.label}}
-                        ({{ontologyInfo?.getLabelForResourceClass(res.type) | slice:0:40}})
-                    </mat-card-title>
+        <!-- show as grid-list if listType === grid -->
+        <mat-grid-list *ngSwitchCase="'grid'"
+                       class="salsah-grid-list"
+                       salsahResizeGrid
+                       [cols]="columns"
+                       [gutterSize]="colGutter + 'px'"
+                       [rowHeight]="rowHeight + 'px'">
+            <mat-grid-tile *ngFor="let res of result.resources; let i = index"
+                           (click)="toggle(res.id, i)"
+                           [id]="res.id">
+                <mat-card [class.highlight]="i == selectedRow" class="salsah-link salsah-preview">
                     <!--
-                    <mat-card-content class="salsah-preview-text">
-                        {{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}
-                    </mat-card-content>
-                    -->
+                    <img salsahImage [image]="res.preview_path" [type]="'resource'"
+                         [class.salsah-resource-preview]="res.preview_path"
+                         [class.salsah-resource-icon]="!res.preview_path"/>
+                     -->
+                    <div class="salsah-preview-content">
+                        <mat-card-title class="salsah-preview-title">{{res.label}}
+                            ({{ontologyInfo?.getLabelForResourceClass(res.type) | slice:0:40}})
+                        </mat-card-title>
+                        <!--
+                        <mat-card-content class="salsah-preview-text">
+                            {{res.valuelabel[1]}}<br> {{res.value[1] | slice:0:120}}
+                        </mat-card-content>
+                        -->
+                    </div>
+                </mat-card>
+
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <!-- default list -->
+        <mat-list class="salsah-list" *ngSwitchDefault>
+            <mat-list-item *ngFor="let res of result.resources; let i = index"
+                           (click)="toggle(res.id, i)"
+                           [id]="res.id"
+                           class="salsah-link"
+                           [class.highlight]="i == selectedRow">
+                <!--
+                <img mat-list-avatar [src]="res.preview_path" class="salsah-preview-image" />
+                -->
+                <h3 mat-line>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</h3>
+                <div mat-line *ngFor="let prop of res.properties | key">
+
+                    <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span>
+                    <ul>
+                        <li *ngFor="let val of prop.value | key">{{val.value.getContent()}}</li>
+                    </ul>
                 </div>
-            </mat-card>
+                <button mat-icon-button class="right close close-highlight">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-list>
+    </div>
 
-        </mat-grid-tile>
-    </mat-grid-list>
-
-    <!-- default list -->
-    <mat-list class="salsah-list" *ngSwitchDefault>
-        <mat-list-item *ngFor="let res of result.resources; let i = index"
-                       (click)="toggle(res.id, i)"
-                       [id]="res.id"
-                       class="salsah-link"
-                       [class.highlight]="i == selectedRow">
-            <!--
-            <img mat-list-avatar [src]="res.preview_path" class="salsah-preview-image" />
-            -->
-            <h3 mat-line>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</h3>
-            <div mat-line *ngFor="let prop of res.properties | key">
-
-                <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span>
-                <ul>
-                    <li *ngFor="let val of prop.value | key">{{val.value.getContent()}}</li>
-                </ul>
-            </div>
-            <button mat-icon-button class="right close close-highlight">
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-list-item>
-    </mat-list>
+    <!-- in the case of zero results: show a no data message -->
+    <ng-template #noData>
+        <salsah-message [message]="noDataMessage"></salsah-message>
+    </ng-template>
 </div>
 
-<!-- if there are any data: show a no data message -->
-<ng-template #noData>
-    <salsah-message *ngIf="!isLoading && !errorMessage" [message]="noDataMessage"></salsah-message>
+<!-- in the case of an API error: show the error message -->
+<ng-template #errorMsg>
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 </ng-template>
