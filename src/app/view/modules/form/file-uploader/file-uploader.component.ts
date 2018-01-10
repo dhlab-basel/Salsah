@@ -25,10 +25,10 @@ export class FileUploaderComponent implements OnInit {
 
     @Output() setFiles = new EventEmitter<any>();
 
-    private fileList : any = [];
-    private invalidFiles : any = [];
+    fileList: any = [];
+    invalidFiles: any = [];
 
-    private filesToUpload : any = [];
+    filesToUpload: any = [];
 
     viewType: string = 'upload';
     dragStatus: boolean = false;
@@ -52,11 +52,11 @@ export class FileUploaderComponent implements OnInit {
         this.viewType = (this.viewType === 'upload' ? 'url' : 'upload')
     }
 
-    onFileChanges(fileList : Array<File>){
+    onFileChanges(fileList: Array<File>) {
         this.fileList = fileList;
     }
 
-    onFileInvalids(fileList : Array<File>){
+    onFileInvalids(fileList: Array<File>) {
         this.invalidFiles = fileList;
         this.upload();
     }

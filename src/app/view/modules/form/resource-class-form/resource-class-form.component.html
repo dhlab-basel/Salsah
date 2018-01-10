@@ -15,7 +15,7 @@
         <section [hidden]="counter!==0">
             <p mat-subheader>Select your media file type</p>
             <mat-grid-list cols="3" gutterSize="12px" rowHeight="100px" class="form-grid">
-                <mat-grid-tile *ngFor="let item of baseOntology?.resourceClasses | key; let i = index;">
+                <mat-grid-tile *ngFor="let item of basicOntology?.resourceClasses | key; let i = index;">
                     <button mat-button [matTooltip]="item.value.description" matTooltipPosition="above"
                             (click)="nextFormSection(counter, $event, item.key)">
                         <mat-icon style="font-size: 48px; width:48px; height: 48px;">{{item.value.icon}}</mat-icon><br>
@@ -275,7 +275,7 @@
                               ngModel></textarea>
             </mat-input-container>
         </section>
-    <form #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value, rcf.valid)" class="salsah-form">
+    <form #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value)" class="salsah-form">
     </form>
 </div>
 

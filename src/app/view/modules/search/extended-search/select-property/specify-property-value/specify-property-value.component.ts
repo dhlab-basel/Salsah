@@ -146,13 +146,13 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
     private _property: Property;
 
-    private isReady: Boolean = false;
+    public isReady: Boolean = false;
 
     private form: FormGroup;
 
     comparisonOperators: Array<ComparisonOperator> = [];
 
-    private propertyValueType;
+    public propertyValueType;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 

@@ -20,7 +20,7 @@ import 'rxjs/add/operator/map';
 import {UsersService} from '../../../../model/services/users.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {UserProfile, UsersResponse, UserResponse} from '../../../../model/webapi/knora/';
+import {UserProfile, UserResponse} from '../../../../model/webapi/knora/';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {Project, UserData} from '../../../../model/webapi/knora';
 import {existingNamesValidator} from '../../other/existing-name.directive';
@@ -293,6 +293,7 @@ export class UserFormComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
         // for the test environment
 //        this.restrictedBy = 'http://data.knora.org/projects/77275339';
@@ -304,6 +305,8 @@ export class UserFormComponent implements OnInit {
         this._userService.getAllUsers()
             .subscribe(
                 (users: UserData[]) => {
+                    // The email address of the user should be unique.
+                    // Therefore we create a list of existingUserNames to avoid multiple use of user names
                     for (const user of users) {
                         this.existingUserNames.push(new RegExp('(?:^|\W)' + user.email.toLowerCase() + '(?:$|\W)'));
                     }
@@ -354,6 +357,7 @@ export class UserFormComponent implements OnInit {
                     } else {
                         // in case of system admin:
                         // get a list of projects to add the new created user
+                        // OR in case of edit user and the user isn't yet a member of a project
                         this.step = 1;
                         this.start = this.step;
 

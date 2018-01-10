@@ -21,9 +21,9 @@
 export const environment = {
     type: 'productive',
     production: true,
-    media: 'https://url/to/the/MEDIA/server/eg/Sipi',
-    api: 'https://url/to/the/API/server/eg/Knora',
-    url: 'https//url/to/this/GUI/app',
-    dataPool: 'data-pool',
+    url: 'http://salsah.local',
+    api: 'http://localhost:3333',
+    media: 'http://localhost:1024',
+    localData: 'data',
     pagingLimit: 25
 };

@@ -54,6 +54,7 @@ export class OntologiesListItemComponent implements OnInit {
     list: ResourceTypeItem[] = [];
     num: number;
 
+    sortProp: string = undefined;
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;

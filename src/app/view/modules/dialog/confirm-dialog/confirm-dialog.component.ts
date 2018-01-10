@@ -10,7 +10,7 @@ export class ConfirmDialogComponent implements OnInit {
 
     values: any;
 
-    constructor(@Optional() @Inject(MAT_DIALOG_DATA) private data: any,
+    constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: any,
                 private _dialogRef: MatDialogRef<ConfirmDialogComponent>) {
     }
 
