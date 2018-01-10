@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, Inject, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {
     Ontology,
@@ -11,6 +11,7 @@ import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-reso
 import {PropertyWithValue, SelectPropertyComponent} from "./select-property/select-property.component";
 import {SelectResourceClassComponent} from "./select-resource-class/select-resource-class.component";
 import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
+import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -22,6 +23,12 @@ export class ExtendedSearchComponent implements OnInit {
 
     // all available ontologies
     ontologies: Array<Ontology> = [];
+
+    // ontology chosen by the user
+    activeOntology: string;
+
+    // properties specified by the user
+    activeProperties: boolean[] = [];
 
     // resource classes for the selected ontology
     resourceClasses: Array<ResourceClass> = [];
@@ -37,7 +44,8 @@ export class ExtendedSearchComponent implements OnInit {
     // reference to the component controlling the property selection
     @ViewChildren('property') propertyComponents: QueryList<SelectPropertyComponent>;
 
-    constructor(private _route: ActivatedRoute,
+    constructor(@Inject(FormBuilder) private fb: FormBuilder,
+                private _route: ActivatedRoute,
                 private _router: Router,
                 private _cacheService: OntologyCacheService,
                 private _knarqlgenerationService: KnarqlgenerationService) {
@@ -47,6 +55,20 @@ export class ExtendedSearchComponent implements OnInit {
 
         // initialize ontologies to be used for the ontologies selection in the search form
         this.initializeOntologies();
+    }
+
+    /**
+     * Add a property to the search form.
+     */
+    addProperty() {
+        this.activeProperties.push(true);
+    }
+
+    /**
+     * Remove the last property from the search form.
+     */
+    removeProperty() {
+        this.activeProperties.splice(-1,1);
     }
 
     /**
@@ -69,6 +91,8 @@ export class ExtendedSearchComponent implements OnInit {
      */
     getResourceClassesAndPropertiesForOntology(ontologyIri: string) {
 
+        this.activeOntology = ontologyIri;
+
         this._cacheService.getResourceClassesForNamedGraphs([ontologyIri]).subscribe(
             (ontoInfo: OntologyInformation) => {
 
@@ -87,6 +111,13 @@ export class ExtendedSearchComponent implements OnInit {
      * @param {string} resourceClassIri
      */
     getPropertiesForResourceClass(resourceClassIri: string) {
+
+
+        // if the client undoes the selection of a resource class, use the active ontology as a fallback
+        if (resourceClassIri === null) {
+            this.getResourceClassesAndPropertiesForOntology(this.activeOntology);
+            return;
+        }
 
         this._cacheService.getResourceClassDefinitions([resourceClassIri]).subscribe(
             (ontoInfo) => {

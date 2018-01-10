@@ -9,8 +9,16 @@
     </div>
 
     <div *ngIf="properties !== undefined">
-        <select-property #property [properties]="properties"></select-property>
-        <!-- make a button to add more properties to be combined with a logical AND -->
+
+        <div *ngFor="let prop of activeProperties; let i = index">
+
+            <select-property #property [properties]="properties"></select-property>
+
+        </div>
+
+        <button type="button" (click)="addProperty()">add property</button>
+        <button type="button" (click)="removeProperty()">remove property</button>
+
     </div>
 
     <button type="submit">Perform search</button>
