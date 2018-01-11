@@ -712,7 +712,7 @@ export class OntologyCacheService {
             return this.getAllEntityDefinitionsForOntologiesFromKnora(ontologyIrisToQuery).flatMap(
                 (ontologies: Object) => {
 
-                    // write resource classes for named graph to cache (including resource class definitions and properties)
+                    // write to cache
                     this.convertAndWriteAllEntityDefinitionsForOntologiesToCache(ontologies);
 
                     return this.getResourceClassesForOntologiesFromCache(ontologyIris);
@@ -757,7 +757,7 @@ export class OntologyCacheService {
             return this.getAllEntityDefinitionsForOntologiesFromKnora(ontologyIris).flatMap(
                 (ontologies: Object) => {
 
-                    // write resource classes for named graph to cache (including resource class definitions and properties)
+                    // write to cache
                     this.convertAndWriteAllEntityDefinitionsForOntologiesToCache(ontologies);
 
                     return this.getResourceClassDefinitionsFromCache(resourceClassIris);
@@ -805,7 +805,7 @@ export class OntologyCacheService {
             return this.getAllEntityDefinitionsForOntologiesFromKnora(ontologyIris).flatMap(
                 (ontologies: Object) => {
 
-                    // write resource classes for named graph to cache (including resource class definitions and properties)
+                    // write to cache
                     this.convertAndWriteAllEntityDefinitionsForOntologiesToCache(ontologies);
 
                     return Observable.of(this.getPropertyDefinitionsFromCache(propertyIris));
