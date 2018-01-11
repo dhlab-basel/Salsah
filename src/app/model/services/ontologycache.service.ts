@@ -184,7 +184,7 @@ export class OntologyInformation {
 
     /**
      *
-     * @param {ResourceClassesForOntology} resourceClassesForOntology all resource class Iris for a given ontology.
+     * @param {ResourceClassesForOntology} resourceClassesForOntology all resource class Iris for a given ontology. TODO: can this be removed?
      * @param {ResourceClasses} resourceClasses resource class definitions.
      * @param {Properties} properties property definitions.
      */
@@ -468,7 +468,7 @@ export class OntologyCacheService {
 
         for (let ontologyIri of ontologyIris) {
 
-            if (this.cacheOntology.resourceClassesForOntology[ontologyIri] === undefined) throw new OntologyCacheError(`getResourceClassesForOntologiesFromCache: named graph not found in cache: ${ontologyIri}`);
+            if (this.cacheOntology.resourceClassesForOntology[ontologyIri] === undefined) throw new OntologyCacheError(`getResourceClassesForOntologiesFromCache: ontology not found in cache: ${ontologyIri}`);
 
             // add information for the given named graph
             resourceClassesForOntology[ontologyIri] = this.cacheOntology.resourceClassesForOntology[ontologyIri];
@@ -699,11 +699,11 @@ export class OntologyCacheService {
      *
      * @param {string[]} ontologyIris Iris of the ontologies to be queried.
      */
-    public getResourceClassesForOntologies(ontologyIris: string[]): Observable<OntologyInformation> {
+    public getEntityDefinitionsForOntologies(ontologyIris: string[]): Observable<OntologyInformation> {
 
         let ontologyIrisToQuery = ontologyIris.filter(
             ontologyIri => {
-                // return the named graph Iris that are not cached yet
+                // return the ontology Iris that are not cached yet
                 return this.cacheOntology.resourceClassesForOntology[ontologyIri] === undefined;
             });
 
@@ -723,7 +723,6 @@ export class OntologyCacheService {
 
             return this.getResourceClassesForOntologiesFromCache(ontologyIris)
         }
-
 
     }
 

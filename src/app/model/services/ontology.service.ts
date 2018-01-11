@@ -39,7 +39,7 @@ export class OntologyService extends ApiService {
 
         if (ontologyIris.length === 0) {
             // no resource class Iris are given to query for, return a failed Observer
-            return Observable.create(observer => observer.error('No named graph Iris given for call of OntologyService.getResourceClassesForOntologies'));
+            return Observable.create(observer => observer.error('No named graph Iris given for call of OntologyService.getAllEntityDefinitionsForOntologies'));
         }
 
         let namedGraphUriEnc = '';
