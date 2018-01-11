@@ -1,5 +1,10 @@
 {
     "salsahLabels": {
+        "dashboardComponent": {
+            "firstParagraph": "",
+            "secondParagraph": "",
+            "projectsIntro": ""
+        },
         "frameworkForListings": {
             "list":{
                 "title": "",

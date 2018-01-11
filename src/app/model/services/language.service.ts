@@ -1,6 +1,5 @@
-import { Injectable, Input } from '@angular/core';
+import {Injectable, Input} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-// import {language} from './language';
 
 export class Language {
     lang: string;
@@ -23,48 +22,46 @@ export class LanguageService {
     ];
 
     localStorage: any;
+    lang: string;
 
     langObservable: Observable<Language[]>;
     observer;
 
-  constructor() {
-      this.langObservable = new Observable(observer => {
-          this.observer = observer;
-          this.observer.next(this.languages);
-      });
-  }
+    constructor() {
+        this.langObservable = new Observable(observer => {
+            this.observer = observer;
+            this.observer.next(this.languages);
+        });
+    }
 
-  setLanguage(lang) {
-      switch (lang) {
-          case 'de':
-              localStorage.setItem('lang', lang);
-              this.languages[0].selected = 'yes';
-              this.languages[1].selected = 'no';
-              break;
-          case 'en':
-              localStorage.setItem('lang', lang);
-              this.languages[0].selected = 'no';
-              this.languages[1].selected = 'yes';
-              break;
-          default:
-              localStorage.setItem('lang', lang);
-              this.languages[0].selected = 'no';
-              this.languages[1].selected = 'yes';
-              break;
-      }
-      this.observer.next(this.languages);
-  }
+    setLanguage(lang) {
+        switch (lang) {
+            case 'de':
+                localStorage.setItem('lang', lang);
+                this.languages[0].selected = 'selected';
+                this.languages[1].selected = 'no';
+                break;
+            case 'en':
+                localStorage.setItem('lang', lang);
+                this.languages[0].selected = 'no';
+                this.languages[1].selected = 'selected';
+                break;
+            default:
+                localStorage.setItem('lang', lang);
+                this.languages[0].selected = 'selected';
+                this.languages[1].selected = 'no';
+                break;
+        }
+        this.observer.next(this.languages);
+    }
 
     getLanguage(): Observable<Language[]> {
         return this.langObservable;
     }
 
-    initLanguage() {
-        localStorage.setItem('lang', 'en');
-        this.languages[0].selected = 'no';
-        this.languages[1].selected = 'yes';
-    }
-
-
+    // To Do:
+    // Initialize the language according to the browser language
+    // Possible procedure: use ngx-translate and read out browser-language
+    // Initialize the select form correctly (minor issue...)
 
 }

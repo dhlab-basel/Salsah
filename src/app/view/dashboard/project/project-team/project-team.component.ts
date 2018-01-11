@@ -18,6 +18,8 @@ import {
     SortData
 } from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 
+import {LanguageService} from '../../../../model/services/language.service';
+
 
 @Component({
     selector: 'salsah-project-team',
@@ -47,11 +49,14 @@ export class ProjectTeamComponent implements OnInit {
         description: ''
     };
 
-
+    languages: any;
+    name: string;
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------
 
-    constructor() {
+    constructor(
+        public _langService: LanguageService
+    ) {
         // Temporarily stored values, will be refactored to a function, called by an Event Emitter
 
         let  langString: string;
@@ -71,7 +76,33 @@ export class ProjectTeamComponent implements OnInit {
         }
     }
 
+    changeVal() {
+        this._langService.getLanguage();
+        for ( const xy in this.languages) {
+            if (this.languages[xy].selected === 'selected') {
+                this.name = this.languages[xy].lang;
+                console.log('Project-Team changeVal detected: ' + this.languages[xy].lang);
+                console.log('Project-Team Var name: ' + this.name);
+            }
+        }
+        switch (this.name) {
+            case 'en':
+                this.list.title = 'Members in this project';
+                this.add.title = 'Add new team member';
+                break;
+            case 'de':
+                this.list.title = 'Mitglieder in diesem Projekt';
+                this.add.title = 'Füge neues Mitglied hinzu';
+                break;
+        }
+    }
+
     ngOnInit() {
         this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
+        this._langService.getLanguage().subscribe (
+            languages => {
+                this.languages = languages, console.log('Something changed'), this.changeVal();
+            }
+        );
     }
 }
