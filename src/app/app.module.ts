@@ -251,12 +251,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         BooleanValueComponent,
         DateValueComponent,
         OntologiesListItemComponent,
-<<<<<<< HEAD
         InternationalizationComponent
-
-=======
         ExistingNameDirective
->>>>>>> develop
 
     ],
     imports: [
