@@ -108,7 +108,7 @@ export class AppConfig {
     public static linkValueHasTarget = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasTarget';
     public static linkValueHasTargetIri = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasTargetIri';
 
-    public static integerValueAsInteger = AppConfig.KnoraApiV2WithValueObjectPath + 'integerValueAsInteger';
+    public static integerValueAsInteger = AppConfig.KnoraApiV2WithValueObjectPath + 'intValueAsInt';
 
     public static decimalValueAsDecimal = AppConfig.KnoraApiV2WithValueObjectPath + 'decimalValueAsDecimal';
 
