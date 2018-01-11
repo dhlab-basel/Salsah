@@ -25,10 +25,15 @@ class OntologyCacheError extends Error {
 }
 
 /**
- * Represents a named graph.
+ * Represents an ontology's metadata.
  */
-export class NamedGraph {
+export class OntologyMetadata {
 
+    /**
+     *
+     * @param {string} id Iri identifying the ontology.
+     * @param {string} shortname a label describing the ontology.
+     */
     constructor(readonly id: string,
                 readonly shortname: string) {
 
@@ -37,7 +42,7 @@ export class NamedGraph {
 }
 
 /**
- * Occurrence of a property for resource class.
+ * Occurrence of a property for a resource class.
  */
 enum CardinalityOccurrence {
     minCard = 0,
@@ -49,6 +54,13 @@ enum CardinalityOccurrence {
  * Cardinality of a property for the given resource class.
  */
 class Cardinality {
+
+    /**
+     *
+     * @param {CardinalityOccurrence} occurrence type of given occurrence.
+     * @param {number} value numerical value of given occurrence.
+     * @param {string} property the property the given occurrence applies to.
+     */
     constructor(readonly occurrence: CardinalityOccurrence,
                 readonly value: number,
                 readonly property: string) {
@@ -59,8 +71,16 @@ class Cardinality {
  * A resource class definition.
  */
 export class ResourceClass {
+
+    /**
+     *
+     * @param {string} id Iri identifying the resource class.
+     * @param {string} icon path to an icon representing the resource class.
+     * @param {string} comment comment on the resource class.
+     * @param {string} label label for the resource class.
+     * @param {Array<Cardinality>} cardinalities the resource class's properties.
+     */
     constructor(readonly id: string,
-                readonly ontology: string,
                 readonly icon: string,
                 readonly comment: string,
                 readonly label: string,
@@ -80,8 +100,19 @@ class ResourceClasses {
  * A property definition.
  */
 export class Property {
+
+    /**
+     *
+     * @param {string} id Iri identifying the property definition.
+     * @param {string} objectType the property's object constraint.
+     * @param {string} comment comment on the property definition.
+     * @param {string} label label for the property definition.
+     * @param {Array<string>} subPropertyOf Iris of properties the given property is a subproperty of.
+     * @param {Boolean} isEditable indicates whether the given property can be edited by the client.
+     * @param {Boolean} isLinkProperty indicates whether the given property is a linking property.
+     * @param {Boolean} isLinkValueProperty indicates whether the given property refers to a link value.
+     */
     constructor(readonly id: string,
-                readonly ontology: string,
                 readonly objectType: string,
                 readonly comment: string,
                 readonly label: string,
@@ -101,9 +132,11 @@ export class Properties {
 }
 
 /**
- * A map of named graphs Iris to an Array of resource class Iris.
+ * Groups resource classes by the ontology they are defined in.
+ *
+ * A map of ontology Iris to an array of resource class Iris.
  */
-class ResourceClassesForNamedGraph {
+class ResourceClassesForOntology {
     [index: string]: Array<string>;
 }
 
@@ -113,9 +146,9 @@ class ResourceClassesForNamedGraph {
 class OntologyCache {
 
     constructor() {
-        this.namedGraphs = [];
+        this.ontologies = [];
 
-        this.resourceClassesForNamedGraph = new ResourceClassesForNamedGraph();
+        this.resourceClassesForOntology = new ResourceClassesForOntology();
 
         this.resourceClasses = new ResourceClasses();
 
@@ -123,14 +156,14 @@ class OntologyCache {
     }
 
     /**
-     * An Array of all named graphs (ontologies).
+     * An Array of all existing ontologies.
      */
-    namedGraphs: Array<NamedGraph>;
+    ontologies: Array<OntologyMetadata>;
 
     /**
      * A list of all resource class Iris for a named graph.
      */
-    resourceClassesForNamedGraph: ResourceClassesForNamedGraph;
+    resourceClassesForOntology: ResourceClassesForOntology;
 
     /**
      * Resource class definitions.
@@ -149,7 +182,13 @@ class OntologyCache {
  */
 export class OntologyInformation {
 
-    constructor(private resourceClassesForNamedGraph: ResourceClassesForNamedGraph, private resourceClasses: ResourceClasses, private properties: Properties) {
+    /**
+     *
+     * @param {ResourceClassesForOntology} resourceClassesForOntology all resource class Iris for a given ontology.
+     * @param {ResourceClasses} resourceClasses resource class definitions.
+     * @param {Properties} properties property definitions.
+     */
+    constructor(private resourceClassesForOntology: ResourceClassesForOntology, private resourceClasses: ResourceClasses, private properties: Properties) {
     }
 
     /**
@@ -157,26 +196,26 @@ export class OntologyInformation {
      * Merge the given [[OntologyInformation]] into the current instance,
      * updating the existing information.
      *
-     * @params ontoInfo the given [[OntologyInformation]] that has to be intergrated.
+     * @params ontologyInfo the given [[OntologyInformation]] that has to be integrated.
      */
-    updateOntologyInformation(ontoInfo: OntologyInformation): void {
+    updateOntologyInformation(ontologyInfo: OntologyInformation): void {
 
-        // update resourceClassesForNamedGraph
-        let newResourceClassesForNamedGraph = ontoInfo.getResourceClassForNamedGraph();
+        // update resourceClassesForOntology
+        let newResourceClassesForOntology = ontologyInfo.getResourceClassForOntology();
 
-        for (let newResClassForNamedGraph in newResourceClassesForNamedGraph) {
-            this.resourceClassesForNamedGraph[newResClassForNamedGraph] = newResourceClassesForNamedGraph[newResClassForNamedGraph]
+        for (let newResClassForOntology in newResourceClassesForOntology) {
+            this.resourceClassesForOntology[newResClassForOntology] = newResourceClassesForOntology[newResClassForOntology]
         }
 
         // update resourceClasses
-        let newResourceClasses = ontoInfo.getResourceClasses();
+        let newResourceClasses = ontologyInfo.getResourceClasses();
 
         for (let newResClass in newResourceClasses) {
             this.resourceClasses[newResClass] = newResourceClasses[newResClass];
         }
 
         // update properties
-        let newProperties = ontoInfo.getProperties();
+        let newProperties = ontologyInfo.getProperties();
 
         for (let newProp in newProperties) {
             this.properties[newProp] = newProperties[newProp];
@@ -185,16 +224,16 @@ export class OntologyInformation {
     }
 
     /**
-     * Get all resource classes definitions for named graphs.
+     * Gets resource classes definitions for ontologies.
      *
-     * @returns {ResourceClassesForNamedGraph}
+     * @returns {ResourceClassesForOntology}
      */
-    getResourceClassForNamedGraph(): ResourceClassesForNamedGraph {
-        return this.resourceClassesForNamedGraph;
+    getResourceClassForOntology(): ResourceClassesForOntology {
+        return this.resourceClassesForOntology;
     }
 
     /**
-     * Get all resource classes as an object.
+     * Gets all resource classes as an object.
      *
      * @returns {ResourceClasses}
      */
@@ -314,8 +353,8 @@ export class OntologyCacheService {
      *
      @returns {Observable<any>} an Observable representing the required information.
      */
-    private getNamedGraphIrisFromKnora(): Observable<object> {
-        let ontResponse = this._ontologyService.getNamedGraphIris().flatMap(
+    private getOntologiesMetadataFromKnora(): Observable<object> {
+        let ontoResponse = this._ontologyService.getOntologiesMetadata().flatMap(
             // this would return an Observable of a PromiseObservable -> combine them into one Observable
             // http://reactivex.io/documentation/operators/flatmap.html
             // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-mergeMap
@@ -330,17 +369,17 @@ export class OntologyCacheService {
             }
         );
 
-        return ontResponse;
+        return ontoResponse;
     }
 
     /**
-     * Requests information about the indicated ontologies from Knora.
+     * Requests all entity definitions for the given ontologies from Knora.
      *
      * @param ontologyIris the Iris of the requested ontologies.
      */
-    private getOntologiesFromKnora(ontologyIris: string[]): Observable<object> {
+    private getAllEntityDefinitionsForOntologiesFromKnora(ontologyIris: string[]): Observable<object> {
 
-        return this._ontologyService.getResourceClassesForNamedGraphs(ontologyIris).flatMap(
+        return this._ontologyService.getAllEntityDefinitionsForOntologies(ontologyIris).flatMap(
             // this would return an Observable of a PromiseObservable -> combine them into one Observable
             // http://reactivex.io/documentation/operators/flatmap.html
             // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-mergeMap
@@ -358,46 +397,46 @@ export class OntologyCacheService {
     }
 
     /**
-     * Writes all the ontology short info returned by Knora to the cache.
+     * Writes all the ontologies' metadata returned by Knora to the cache.
      *
-     * @param {string[]} ontologies all named graph Iris.
+     * @param {string[]} ontologies metadata of all existing ontologies.
      */
-    private convertAndWriteOntologyShortInfosToCache(ontologies: object[]) {
+    private convertAndWriteOntologiesMetadataToCache(ontologies: object[]) {
 
-        this.cacheOntology.namedGraphs = ontologies.map(
-            namedGraph => {
-                return new NamedGraph(namedGraph['@id'], namedGraph[AppConfig.RdfsLabel]);
+        this.cacheOntology.ontologies = ontologies.map(
+            ontology => {
+                return new OntologyMetadata(ontology['@id'], ontology[AppConfig.RdfsLabel]);
             }
         );
     }
 
     /**
-     * Gets all named graph Iris from the cache and returns them.
+     * Gets all ontologies' metadata from the cache and returns them.
      *
      * @returns {Array<string>}
      */
-    private getAllNamedGraphsFromCache(): Array<NamedGraph> {
+    private getAllOntologiesMetadataFromCache(): Array<OntologyMetadata> {
 
-        return this.cacheOntology.namedGraphs;
+        return this.cacheOntology.ontologies;
 
     }
 
     /**
-     * Converts a Knora response for ontology information about resource classes for named graphs
+     * Converts a Knora response for all entity definitions for the requested ontologies
      * into an internal representation and caches it.
      *
-     * Knora automatically includes the resource class definitions for the given named graphs and the property definitions
+     * Knora automatically includes the resource class definitions for the given ontologies and the property definitions
      * which are referred to in the cardinalities of the resource classes that have been returned.
      *
-     * @param {Object} namedGraphDefinitions the ontologies to be cached.
+     * @param {Object} ontologies the ontologies to be cached.
      */
-    private convertAndWriteKnoraOntologiesToCache(ontologies: Object): void {
+    private convertAndWriteAllEntityDefinitionsForOntologiesToCache(ontologies: Object): void {
 
         if (Array.isArray(ontologies[AppConfig.hasOntologies])) {
 
             for (let ontology of ontologies[AppConfig.hasOntologies]) {
 
-                this.cacheOntology.resourceClassesForNamedGraph[ontology['@id']] = Object.keys(ontology[AppConfig.hasClasses]);
+                this.cacheOntology.resourceClassesForOntology[ontology['@id']] = Object.keys(ontology[AppConfig.hasClasses]);
 
                 this.convertAndWriteKnoraResourceClassDefinitionsToCache(ontology[AppConfig.hasClasses], ontology[AppConfig.hasProperties]);
 
@@ -405,7 +444,7 @@ export class OntologyCacheService {
 
         } else {
 
-            this.cacheOntology.resourceClassesForNamedGraph[ontologies[AppConfig.hasOntologies]['@id']] = Object.keys(ontologies[AppConfig.hasOntologies][AppConfig.hasClasses]);
+            this.cacheOntology.resourceClassesForOntology[ontologies[AppConfig.hasOntologies]['@id']] = Object.keys(ontologies[AppConfig.hasOntologies][AppConfig.hasClasses]);
 
             this.convertAndWriteKnoraResourceClassDefinitionsToCache(ontologies[AppConfig.hasOntologies][AppConfig.hasClasses], ontologies[AppConfig.hasOntologies][AppConfig.hasProperties]);
 
@@ -415,40 +454,40 @@ export class OntologyCacheService {
     }
 
     /**
-     * Gets information about named graphs from the cache.
+     * Gets resource class definitions for the requested ontologies from the cache.
      *
-     * @param {string[]} namedGraphIris the named graphs to query for.
-     * @returns {OntologyCache} an [[OntologyCache]] representing the requested named graphs.
+     * @param {string[]} ontologyIris the ontologies for which resource classes should be returned.
+     * @returns {OntologyInformation} an [[OntologyInformation]] representing the requested information.
      */
-    private getResourceClassesForNamedGraphsFromCache(namedGraphIris: string[]): Observable<OntologyInformation> {
+    private getResourceClassesForOntologiesFromCache(ontologyIris: string[]): Observable<OntologyInformation> {
 
-        let resourceClassesForNamedGraphs = new ResourceClassesForNamedGraph();
+        let resourceClassesForOntology = new ResourceClassesForOntology();
 
         // collect resource class Iris for all requested named graphs
         let allResourceClassIris = [];
 
-        for (let namedGraphIri of namedGraphIris) {
+        for (let ontologyIri of ontologyIris) {
 
-            if (this.cacheOntology.resourceClassesForNamedGraph[namedGraphIri] === undefined) throw new OntologyCacheError(`getResourceClassesForNamedGraphsFromCache: named graph not found in cache: ${namedGraphIri}`);
+            if (this.cacheOntology.resourceClassesForOntology[ontologyIri] === undefined) throw new OntologyCacheError(`getResourceClassesForOntologiesFromCache: named graph not found in cache: ${ontologyIri}`);
 
             // add information for the given named graph
-            resourceClassesForNamedGraphs[namedGraphIri] = this.cacheOntology.resourceClassesForNamedGraph[namedGraphIri];
+            resourceClassesForOntology[ontologyIri] = this.cacheOntology.resourceClassesForOntology[ontologyIri];
 
             // add all resource class Iris of this named graph
-            allResourceClassIris = allResourceClassIris.concat(this.cacheOntology.resourceClassesForNamedGraph[namedGraphIri]);
+            allResourceClassIris = allResourceClassIris.concat(this.cacheOntology.resourceClassesForOntology[ontologyIri]);
         }
 
         // get resource class definitions for all named graphs
         return this.getResourceClassDefinitions(allResourceClassIris).map(
             resClassDefs => {
-                return new OntologyInformation(resourceClassesForNamedGraphs, resClassDefs.getResourceClasses(), resClassDefs.getProperties())
+                return new OntologyInformation(resourceClassesForOntology, resClassDefs.getResourceClasses(), resClassDefs.getProperties())
             }
         );
 
     }
 
     /**
-     * Converts a Knora response for ontology information about resource classes (JSON-LD)
+     * Converts a Knora response for resource class definitions of a given ontology
      * into an internal representation and caches it.
      *
      * Knora automatically includes the property definitions which are referred to in the cardinalities of the resource classes that have been returned.
@@ -499,7 +538,6 @@ export class OntologyCacheService {
             // create an instance of ResourceClass
             let resClassDef = new ResourceClass(
                 curResClassFromOntoRes['@id'],
-                curResClassFromOntoRes[AppConfig.belongsToOntology],
                 curResClassFromOntoRes[AppConfig.ResourceIcon],
                 curResClassFromOntoRes[AppConfig.RdfsComment],
                 curResClassFromOntoRes[AppConfig.RdfsLabel],
@@ -548,14 +586,14 @@ export class OntologyCacheService {
         // get the property definitions for which cardinalities exist
         return this.getPropertyDefinitions(propertyIris).map(
             propDefs => {
-                return new OntologyInformation(new ResourceClassesForNamedGraph(), resClassDefs, propDefs.getProperties());
+                return new OntologyInformation(new ResourceClassesForOntology(), resClassDefs, propDefs.getProperties());
             }
         );
 
     }
 
     /**
-     * Convert a Knora response for ontology information about properties (JSON-LD)
+     * Convert a Knora response for ontology information about properties
      * into an internal representation and cache it.
      *
      * @param {Object} propertyDefinitionsFromKnora the property definitions returned by Knora
@@ -593,7 +631,6 @@ export class OntologyCacheService {
             // create an instance of Property
             let newPropDef = new Property(
                 curPropDefFromKnora['@id'],
-                curPropDefFromKnora[AppConfig.belongsToOntology],
                 curPropDefFromKnora[AppConfig.ObjectType],
                 curPropDefFromKnora[AppConfig.RdfsComment],
                 curPropDefFromKnora[AppConfig.RdfsLabel],
@@ -631,28 +668,28 @@ export class OntologyCacheService {
             }
         );
 
-        return new OntologyInformation(new ResourceClassesForNamedGraph(), new ResourceClasses(), propertyDefs);
+        return new OntologyInformation(new ResourceClassesForOntology(), new ResourceClasses(), propertyDefs);
 
     }
 
     /**
      * Gets all named graphs.
      *
-     * @returns {Observable<Array<NamedGraph>>}
+     * @returns {Observable<Array<OntologyMetadata>>}
      */
-    public getAllNamedGraphIris(): Observable<Array<NamedGraph>> {
+    public getOntologiesMetadata(): Observable<Array<OntologyMetadata>> {
 
-        if (this.cacheOntology.namedGraphs.length == 0) {
-            return this.getNamedGraphIrisFromKnora().map(
+        if (this.cacheOntology.ontologies.length == 0) {
+            return this.getOntologiesMetadataFromKnora().map(
                 ontologies => {
-                    this.convertAndWriteOntologyShortInfosToCache(ontologies[AppConfig.hasOntologies]);
+                    this.convertAndWriteOntologiesMetadataToCache(ontologies[AppConfig.hasOntologies]);
 
-                    return this.getAllNamedGraphsFromCache();
+                    return this.getAllOntologiesMetadataFromCache();
 
                 }
             )
         } else {
-            return Observable.of(this.getAllNamedGraphsFromCache());
+            return Observable.of(this.getAllOntologiesMetadataFromCache());
         }
 
     }
@@ -662,29 +699,29 @@ export class OntologyCacheService {
      *
      * @param {string[]} ontologyIris Iris of the ontologies to be queried.
      */
-    public getResourceClassesForNamedGraphs(ontologyIris: string[]): Observable<OntologyInformation> {
+    public getResourceClassesForOntologies(ontologyIris: string[]): Observable<OntologyInformation> {
 
         let ontologyIrisToQuery = ontologyIris.filter(
             ontologyIri => {
                 // return the named graph Iris that are not cached yet
-                return this.cacheOntology.resourceClassesForNamedGraph[ontologyIri] === undefined;
+                return this.cacheOntology.resourceClassesForOntology[ontologyIri] === undefined;
             });
-        
+
         if (ontologyIrisToQuery.length > 0) {
 
-            return this.getOntologiesFromKnora(ontologyIrisToQuery).flatMap(
+            return this.getAllEntityDefinitionsForOntologiesFromKnora(ontologyIrisToQuery).flatMap(
                 (ontologies: Object) => {
 
                     // write resource classes for named graph to cache (including resource class definitions and properties)
-                    this.convertAndWriteKnoraOntologiesToCache(ontologies);
+                    this.convertAndWriteAllEntityDefinitionsForOntologiesToCache(ontologies);
 
-                    return this.getResourceClassesForNamedGraphsFromCache(ontologyIris);
+                    return this.getResourceClassesForOntologiesFromCache(ontologyIris);
                 }
             )
 
         } else {
 
-            return this.getResourceClassesForNamedGraphsFromCache(ontologyIris)
+            return this.getResourceClassesForOntologiesFromCache(ontologyIris)
         }
 
 
@@ -717,11 +754,11 @@ export class OntologyCacheService {
             ).filter(Utils.filterOutDuplicates);
 
             // obtain missing resource class information
-            return this.getOntologiesFromKnora(ontologyIris).flatMap(
+            return this.getAllEntityDefinitionsForOntologiesFromKnora(ontologyIris).flatMap(
                 (ontologies: Object) => {
 
                     // write resource classes for named graph to cache (including resource class definitions and properties)
-                    this.convertAndWriteKnoraOntologiesToCache(ontologies);
+                    this.convertAndWriteAllEntityDefinitionsForOntologiesToCache(ontologies);
 
                     return this.getResourceClassDefinitionsFromCache(resourceClassIris);
                 }
@@ -765,11 +802,11 @@ export class OntologyCacheService {
             ).filter(Utils.filterOutDuplicates);
 
             // obtain missing resource class information
-            return this.getOntologiesFromKnora(ontologyIris).flatMap(
+            return this.getAllEntityDefinitionsForOntologiesFromKnora(ontologyIris).flatMap(
                 (ontologies: Object) => {
 
                     // write resource classes for named graph to cache (including resource class definitions and properties)
-                    this.convertAndWriteKnoraOntologiesToCache(ontologies);
+                    this.convertAndWriteAllEntityDefinitionsForOntologiesToCache(ontologies);
 
                     return Observable.of(this.getPropertyDefinitionsFromCache(propertyIris));
                 }
