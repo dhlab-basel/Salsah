@@ -36,12 +36,16 @@ export class KnarqlgenerationService {
      */
     createKnarQLQuery(properties: PropertyWithValue[], mainResourceClassOption?: string): string {
 
+        // class restriction for the resource searched for
         let mainResourceClass = '';
 
         // if given, create the class restriction for the main resource
         if (mainResourceClassOption !== undefined) {
             mainResourceClass = `?mainRes a <${Utils.convertComplexKnoraApiEntityIritoSimple(mainResourceClassOption)}> .`;
         }
+
+        // criteria for the order by statement
+        const orderByCriteria = [];
 
         // statements to be returned in query results
         let returnStatements = [];
@@ -102,13 +106,22 @@ export class KnarqlgenerationService {
                     filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.value.toSparql()})`;
                 }
 
+                // check if current value is a sort criterion
+                if (propWithVal.valueLiteral.comparisonOperator.getClassName() != 'Exists' && propWithVal.valueLiteral.value.isSortCriterion) orderByCriteria.push(propValue);
 
                 return `${statement}
                 ${filter}
                 `;
 
-            }
-        );
+            });
+
+        let orderByStatement = '';
+
+        if (orderByCriteria.length > 0) {
+            orderByStatement = `
+            ORDER BY ${orderByCriteria.join(' ')} 
+            `;
+        }
 
         // template of the KnarQL query with dynamic components
         let knarqlTemplate = `
@@ -128,8 +141,9 @@ export class KnarqlgenerationService {
             
             ${props.join('')}
             
-        }`;
-
+        }
+        ${orderByStatement}
+        `;
 
         return knarqlTemplate;
 

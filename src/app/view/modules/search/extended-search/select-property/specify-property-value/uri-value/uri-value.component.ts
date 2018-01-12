@@ -18,7 +18,8 @@ export class UriValueComponent implements OnInit, PropertyValue {
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
         this.form = this.fb.group({
-            uriValue: [null, Validators.compose([Validators.required, Validators.pattern(Utils.urlRegex)])]
+            uriValue: [null, Validators.compose([Validators.required, Validators.pattern(Utils.urlRegex)])],
+            isSortCriterion: [false]
         });
 
     }
@@ -28,7 +29,9 @@ export class UriValueComponent implements OnInit, PropertyValue {
 
     getValue(): Value {
 
-        return new ValueLiteral(String(this.form.value.uriValue), AppConfig.xsdUri);
+        const isSortCriterion: boolean = Boolean(this.form.value.isSortCriterion);
+
+        return new ValueLiteral(String(this.form.value.uriValue), AppConfig.xsdUri, isSortCriterion);
     }
 
 }

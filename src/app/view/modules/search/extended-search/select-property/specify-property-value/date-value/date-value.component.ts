@@ -18,7 +18,8 @@ export class DateValueComponent implements OnInit, PropertyValue {
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
         this.form = this.fb.group({
-            dateValue: [null, Validators.compose([Validators.required])]
+            dateValue: [null, Validators.compose([Validators.required])],
+            isSortCriterion: [false]
         });
 
         this.form.valueChanges.subscribe((data) => {
@@ -41,6 +42,8 @@ export class DateValueComponent implements OnInit, PropertyValue {
 
         const dateString = `${calendarFormat.toUpperCase()}:${calendarPeriod.periodStart.year}-${calendarPeriod.periodStart.month}-${calendarPeriod.periodStart.day}:${calendarPeriod.periodEnd.year}-${calendarPeriod.periodEnd.month}-${calendarPeriod.periodEnd.day}`;
 
-        return new ValueLiteral(String(dateString), AppConfig.xsdString);
+        const isSortCriterion: boolean = Boolean(this.form.value.isSortCriterion);
+
+        return new ValueLiteral(String(dateString), AppConfig.xsdString, isSortCriterion);
     }
 }

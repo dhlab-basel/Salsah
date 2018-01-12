@@ -1,5 +1,9 @@
-<mat-form-field>
+ <mat-form-field>
     <input matInput [matDatepicker]="picker" placeholder="Choose a date" [formControl]="form.controls['dateValue']">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
+<!-- TODO: when making this a  <mat-form-field>, the following error is thrown: "Error: mat-form-field must contain a MatFormFieldControl" -->
+<mat-checkbox [formControl]="form.controls['isSortCriterion']"></mat-checkbox>
+
+

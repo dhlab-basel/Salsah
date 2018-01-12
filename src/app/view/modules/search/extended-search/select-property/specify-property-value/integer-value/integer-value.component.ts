@@ -17,7 +17,8 @@ export class IntegerValueComponent implements OnInit, PropertyValue {
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
         this.form = this.fb.group({
-            integerValue: [null, Validators.compose([Validators.required, Validators.pattern(/^-?\d+$/)])] // only allow for integer values (no fractions)
+            integerValue: [null, Validators.compose([Validators.required, Validators.pattern(/^-?\d+$/)])], // only allow for integer values (no fractions)
+            isSortCriterion: [false]
         });
 
     }
@@ -26,7 +27,9 @@ export class IntegerValueComponent implements OnInit, PropertyValue {
     }
 
     getValue(): Value {
-        return new ValueLiteral(String(this.form.value.integerValue), AppConfig.xsdInteger);
+        const isSortCriterion: boolean = Boolean(this.form.value.isSortCriterion);
+
+        return new ValueLiteral(String(this.form.value.integerValue), AppConfig.xsdInteger, isSortCriterion);
     }
 
 }

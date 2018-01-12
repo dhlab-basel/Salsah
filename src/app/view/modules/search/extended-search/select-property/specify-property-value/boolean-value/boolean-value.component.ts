@@ -17,7 +17,7 @@ export class BooleanValueComponent implements OnInit, PropertyValue {
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
         this.form = this.fb.group({
-            booleanValue: [null, Validators.compose([Validators.required])]
+            booleanValue: [false, Validators.compose([Validators.required])]
         });
 
     }
@@ -26,6 +26,6 @@ export class BooleanValueComponent implements OnInit, PropertyValue {
     }
 
     getValue(): Value {
-        return new ValueLiteral(String(this.form.value.booleanValue), AppConfig.xsdBoolean);
+        return new ValueLiteral(String(this.form.value.booleanValue), AppConfig.xsdBoolean, false);
     }
 }
