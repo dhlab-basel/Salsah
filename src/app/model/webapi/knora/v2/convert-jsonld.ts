@@ -49,16 +49,16 @@ export module ConvertJSONLD {
 
         let properties: ReadProperties = constructReadProperties(resourceJSONLD);
 
-        return {
-            id: resourceJSONLD['@id'],
-            type: resourceJSONLD['@type'],
-            label: resourceJSONLD[AppConfig.schemaName],
-            properties: properties,
-            incomingRegions: [],
-            incomingStillImageRepresentations: [],
-            incomingLinks: [],
-            stillImageRepresentationsToDisplay: []
-        };
+        return new ReadResource(
+            resourceJSONLD['@id'],
+            resourceJSONLD['@type'],
+            resourceJSONLD[AppConfig.schemaName],
+            [],
+            [],
+            [],
+            [],
+            properties
+    );
     }
 
     /**

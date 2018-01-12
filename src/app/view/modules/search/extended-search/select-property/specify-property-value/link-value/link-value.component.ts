@@ -89,7 +89,7 @@ export class LinkValueComponent implements OnInit, PropertyValue {
     }
 
     /**
-     * Checks that the selection is an object (instance of [[ReadResource]]).
+     * Checks that the selection is a [[ReadResource]].
      *
      * Surprisingly, [null] has to be returned if the value is valid: https://angular.io/guide/form-validation#custom-validators
      *
@@ -97,8 +97,9 @@ export class LinkValueComponent implements OnInit, PropertyValue {
      * @returns {any}
      */
     validateResource(c: FormControl) {
+        
 
-        const isValidResource = (c.value instanceof Object); // TODO: make ReadResource a class so there can be a check it c.value instanceof ReadResource.
+        const isValidResource = (c.value instanceof ReadResource);
 
         if (isValidResource) {
             return null;
