@@ -77,7 +77,6 @@ import {UserCollectionsComponent} from './view/dashboard/user/user-collections/u
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
-import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
 import {MessageComponent} from './view/modules/message/message.component';
@@ -136,12 +135,14 @@ import {IntegerValueComponent} from './view/modules/search/extended-search/selec
 import {DecimalValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/decimal-value/decimal-value.component';
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
+
 import {KnarqlgenerationService} from "./model/services/knarqlgeneration.service";
 import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertiblecalendardateadapter';
 import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
-import { TextValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
-import { UriValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
-import { LinkValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/link-value/link-value.component';
+import {TextValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
+import {UriValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
+import {LinkValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/link-value/link-value.component';
+import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 
 
 //
@@ -190,7 +191,6 @@ import { LinkValueComponent } from './view/modules/search/extended-search/select
         KeyPipe,
         ProgressIndicatorComponent,
         ProgressStepperComponent,
-        AdvancedResourceClassComponent,
         MathJaxDirective,
         DevelopmentComponent,
         MessageComponent,
@@ -250,8 +250,8 @@ import { LinkValueComponent } from './view/modules/search/extended-search/select
         OntologiesListItemComponent,
         TextValueComponent,
         UriValueComponent,
-        LinkValueComponent
-
+        LinkValueComponent,
+        ExistingNameDirective
     ],
     imports: [
         BrowserModule,
