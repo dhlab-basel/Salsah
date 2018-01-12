@@ -103,7 +103,13 @@ export class KnarqlgenerationService {
                 let filter: string = '';
                 // only create a FILTER if the comparison operator is not EXISTS and it is not a linking property
                 if (!propWithVal.property.isLinkProperty && propWithVal.valueLiteral.comparisonOperator.getClassName() != 'Exists') {
-                    filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.value.toSparql()})`;
+
+                    if (propWithVal.valueLiteral.comparisonOperator.getClassName() == 'Like') {
+                        // use regex function for LIKE
+                        filter = `FILTER regex(${propValue}, ${propWithVal.valueLiteral.value.toSparql()}, "i")`;
+                    } else {
+                        filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.value.toSparql()})`;
+                    }
                 }
 
                 // check if current value is a sort criterion

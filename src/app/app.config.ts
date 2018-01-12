@@ -168,6 +168,9 @@ export class AppConfig {
     public static ExistsComparisonOperator = "E";
     public static ExistsComparisonLabel = "Exists";
 
+    public static LikeComparisonOperator = "regex";
+    public static LikeComparisonLabel = "Like";
+
     public static Xsd = "http://www.w3.org/2001/XMLSchema#";
 
     public static xsdString = AppConfig.Xsd + "string";
