@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {OntologyCacheService, OntologyInformation, ResourceClass, Property, Properties, NamedGraph} from "../../../../model/services/ontologycache.service";
+import {OntologyCacheService, OntologyInformation, ResourceClass, Property, Properties, OntologyMetadata} from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 
 
@@ -11,7 +11,7 @@ import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-reso
 })
 export class ExtendedSearchComponent implements OnInit {
 
-    namedGraphs: Array<NamedGraph> = [];
+    namedGraphs: Array<OntologyMetadata> = [];
     resourceClasses: Array<ResourceClass> = [];
     properties: Properties;
 
@@ -32,7 +32,7 @@ export class ExtendedSearchComponent implements OnInit {
      * Gets all available ontologies for the search form.
      */
     initializeOntologies() {
-        this._cacheService.getAllNamedGraphIris().subscribe(
+        this._cacheService.getOntologiesMetadata().subscribe(
             (namedGraphs) => {
 
                 this.namedGraphs = namedGraphs;
@@ -48,7 +48,7 @@ export class ExtendedSearchComponent implements OnInit {
      */
     getClassesAndPropertiesForOntology(ontologyIri: string) {
 
-        this._cacheService.getResourceClassesForNamedGraphs([ontologyIri]).subscribe(
+        this._cacheService.getEntityDefinitionsForOntologies([ontologyIri]).subscribe(
             (ontoInfo: OntologyInformation) => {
 
                 this.resourceClasses = ontoInfo.getResourceClassesAsArray();

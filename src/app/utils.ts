@@ -36,7 +36,7 @@ export class Utils {
         // -> this means that there is no identical element before this index, hence it is not a duplicate
         // for all other elements, false is returned
         return index == self.indexOf(elem);
-    }
+    };
 
     /**
      * Given a Knora entity IRI, gets the ontology Iri.
@@ -44,7 +44,7 @@ export class Utils {
      * @param {string} entityIri an entity Iri.
      * @return {string} the ontology IRI
      */
-    public static getOntologyIriFromClass(entityIri: string) {
+    public static getOntologyIriFromEntityIri(entityIri: string) {
 
         // split class Iri on "#"
         let segments: string[] = entityIri.split(AppConfig.PathSeparator);
