@@ -1,17 +1,14 @@
 import {Component, Inject, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {
-    Ontology,
-    OntologyCacheService,
-    OntologyInformation,
-    Properties,
+    OntologyCacheService, OntologyInformation, OntologyMetadata, Properties,
     ResourceClass
 } from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 import {PropertyWithValue, SelectPropertyComponent} from "./select-property/select-property.component";
 import {SelectResourceClassComponent} from "./select-resource-class/select-resource-class.component";
 import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
-import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 
 
 @Component({
@@ -22,7 +19,7 @@ import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 export class ExtendedSearchComponent implements OnInit {
 
     // all available ontologies
-    ontologies: Array<Ontology> = [];
+    ontologies: Array<OntologyMetadata> = [];
 
     // ontology chosen by the user
     activeOntology: string;
@@ -75,8 +72,8 @@ export class ExtendedSearchComponent implements OnInit {
      * Gets all available ontologies for the search form.
      */
     initializeOntologies() {
-        this._cacheService.getAllNamedGraphIris().subscribe(
-            (ontologies: Array<Ontology>) => {
+        this._cacheService.getOntologiesMetadata().subscribe(
+            (ontologies: Array<OntologyMetadata>) => {
 
                 this.ontologies = ontologies;
 
@@ -93,7 +90,7 @@ export class ExtendedSearchComponent implements OnInit {
 
         this.activeOntology = ontologyIri;
 
-        this._cacheService.getResourceClassesForNamedGraphs([ontologyIri]).subscribe(
+        this._cacheService.getEntityDefinitionsForOntologies([ontologyIri]).subscribe(
             (ontoInfo: OntologyInformation) => {
 
                 this.resourceClasses = ontoInfo.getResourceClassesAsArray();

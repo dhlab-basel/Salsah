@@ -44,7 +44,7 @@ export class Utils {
      * @param {string} entityIri an entity Iri.
      * @return {string} the ontology IRI
      */
-    public static getOntologyIriFromClass(entityIri: string) {
+    public static getOntologyIriFromEntityIri(entityIri: string) {
 
         // split class Iri on "#"
         let segments: string[] = entityIri.split(AppConfig.PathSeparator);
