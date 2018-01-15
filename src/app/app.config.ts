@@ -171,6 +171,9 @@ export class AppConfig {
     public static LikeComparisonOperator = "regex";
     public static LikeComparisonLabel = "Like";
 
+    public static MatchComparisonOperator = "contains";
+    public static MatchComparisonLabel = "Match";
+
     public static Xsd = "http://www.w3.org/2001/XMLSchema#";
 
     public static xsdString = AppConfig.Xsd + "string";

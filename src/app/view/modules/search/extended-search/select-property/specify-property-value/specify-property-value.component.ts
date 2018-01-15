@@ -123,6 +123,19 @@ class Like implements ComparisonOperator {
 
 }
 
+class Match implements ComparisonOperator {
+
+    constructor() {}
+
+    type = AppConfig.MatchComparisonOperator;
+    label = AppConfig.MatchComparisonLabel;
+
+    getClassName() {
+        return this.constructor.name;
+    };
+
+}
+
 /**
  * Combination of a comparison operator and a value literal or an IRI.
  * In case the comparison operator is 'Exists', no value is given.
@@ -283,7 +296,7 @@ export class SpecifyPropertyValueComponent implements OnInit {
         switch (this.propertyValueType) {
 
             case AppConfig.TextValue:
-                this.comparisonOperators = [new Like(), new Equals(), new NotEquals(), new Exists()];
+                this.comparisonOperators = [new Like(), new Match(), new Equals(), new NotEquals(), new Exists()];
                 break;
 
             case AppConfig.BooleanValue:
