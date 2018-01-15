@@ -120,14 +120,6 @@ export class FileUploaderComponent implements OnInit {
          .startWith(null)
          .map(val => val ? this.filter(val) : this.usersList.slice())
          */
-    }
-
-    onValueChanged(data?: any) {
-
-        if (!this.urlForm) {
-            return;
-        }
-
         const form = this.urlForm;
 
         Object.keys(this.formErrors).map(field => {
@@ -142,6 +134,26 @@ export class FileUploaderComponent implements OnInit {
             }
         });
     }
+
+    onValueChanged(data?: any) {
+
+        if (!this.urlForm) {
+            return;
+        }
+    }
+
+    /*
+    onFileChanges(fileList: Array<File>) {
+        this.fileList = fileList;
+    }
+
+    onFileInvalids(fileList: Array<File>) {
+        this.invalidFiles = fileList;
+        this.upload();
+    }
+    */
+
+
 
     onFileChange(event) {
         const uploadFiles = event.target.files;

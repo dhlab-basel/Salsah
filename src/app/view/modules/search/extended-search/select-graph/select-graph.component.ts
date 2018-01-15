@@ -1,7 +1,5 @@
-import {Component, Inject, Input, OnInit, Output} from '@angular/core';
-import {NamedGraph} from "../../../../../model/services/ontologycache.service";
-import {MatSelectChange} from "@angular/material";
-import {EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {OntologyMetadata} from "../../../../../model/services/ontologycache.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -11,7 +9,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class SelectGraphComponent implements OnInit {
 
-    @Input() namedGraphs: Array<NamedGraph>;
+    @Input() namedGraphs: Array<OntologyMetadata>;
 
     @Output() namedGraphSelected = new EventEmitter<string>();
 

@@ -15,35 +15,36 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs/Observable';
+import {ApiServiceResult} from "./api-service-result";
 
 @Injectable()
 export class OntologyService extends ApiService {
 
     /**
-     * Requests the Iris of the existing named graphs from Knora's ontologies route.
+     * Requests the metadata about existing ontologies from Knora's ontologies route.
      *
-     * @returns {Observable<any>}
+     * @returns {Observable<ApiServiceResult>}
      */
-    getNamedGraphIris() {
+    getOntologiesMetadata(): Observable<ApiServiceResult> {
         return this.httpGetV2('/ontologies/metadata');
     }
 
     /**
-     * Requests information about the resource classes of the given named graphs from Knora's ontologies route.
+     * Requests all entity definitions for the given ontologies from Knora's ontologies route.
      *
-     * @param namedGraphIris the Iris of the named graphs whose resource classes are to be returned.
+     * @param ontologyIris the Iris of the named graphs whose resource classes are to be returned.
      * @returns {any}
      */
-    getResourceClassesForNamedGraphs(namedGraphIris: string[]) {
+    getAllEntityDefinitionsForOntologies(ontologyIris: string[]): Observable<ApiServiceResult> {
 
-        if (namedGraphIris.length === 0) {
+        if (ontologyIris.length === 0) {
             // no resource class Iris are given to query for, return a failed Observer
-            return Observable.create(observer => observer.error('No named graph Iris given for call of OntologyService.getResourceClassesForNamedGraphs'));
+            return Observable.create(observer => observer.error('No named graph Iris given for call of OntologyService.getAllEntityDefinitionsForOntologies'));
         }
 
         let namedGraphUriEnc = '';
 
-        namedGraphIris.forEach(function (resClassIri) {
+        ontologyIris.forEach(function (resClassIri) {
             namedGraphUriEnc = namedGraphUriEnc + '/' + encodeURIComponent(resClassIri.toString())
         });
 
