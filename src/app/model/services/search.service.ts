@@ -25,7 +25,7 @@ export class SearchService extends ApiService {
      * Perform a fulltext search.
      *
      * @param searchTerm the term to search for.
-     * @returns {Observable<any>}
+     * @returns {Observable<ApiServiceResult>}
      */
     doFulltextSearch(searchTerm: string): Observable<ApiServiceResult> {
 
@@ -34,6 +34,21 @@ export class SearchService extends ApiService {
         }
 
         return this.httpGetV2("/search/" + searchTerm);
+    }
+
+    /**
+     * Perform a fulltext search count query.
+     *
+     * @param searchTerm the term to search for.
+     * @returns {Observable<ApiServiceResult>}
+     */
+    doFulltextSearchCountQuery(searchTerm: string): Observable<ApiServiceResult> {
+
+        if (searchTerm === undefined || searchTerm.length == 0) {
+            return Observable.create(observer => observer.error("No search term given for call of SearchService.doFulltextSearch"));
+        }
+
+        return this.httpGetV2("/search/count/" + searchTerm);
     }
 
     /**
@@ -51,6 +66,24 @@ export class SearchService extends ApiService {
         }
 
         return this.httpGetV2("/searchextended/" + sparqlString);
+
+    }
+
+    /**
+     * Perform an extended search count query.
+     *
+     * @param sparqlString the Sparql query string to be sent to Knora.
+     * @returns {Observable<ApiServiceResult>}
+     */
+    doExtendedSearchCountQuery(sparqlString: string): Observable<ApiServiceResult> {
+
+        // TODO: check that the sparqlString is already URL encoded
+
+        if (sparqlString === undefined || sparqlString.length == 0) {
+            return Observable.create(observer => observer.error("No Sparql string given for call of SearchService.doExtendedSearch"));
+        }
+
+        return this.httpGetV2("/searchextended/count/" + sparqlString);
 
     }
 

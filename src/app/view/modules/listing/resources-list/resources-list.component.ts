@@ -20,6 +20,7 @@ import {MessageData} from '../../message/message.component';
 import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
 import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
 import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
+import {AppConfig} from "../../../../app.config";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -63,7 +64,8 @@ export class ResourcesListComponent implements OnInit {
 
     result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
     ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
-    numberOfItems: number;
+    numberOfItems: number; // number of items actually returned by the query (using paging)
+    numberOfAllResults: number; // total number of results (count query)
 
     constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService) {
     }
@@ -76,6 +78,17 @@ export class ResourcesListComponent implements OnInit {
         if (this.searchMode === 'fulltext') {
             // fulltext search
 
+            // perform count query
+            this._searchService.doFulltextSearchCountQuery(this.searchParam)
+                .subscribe(
+                    this.showNumberOfAllResults,
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+
+                        this.isLoading = false;
+                    }
+                );
+
             this._searchService.doFulltextSearch(this.searchParam)
                 .subscribe(
                     this.processSearchResults, // function pointer
@@ -87,6 +100,17 @@ export class ResourcesListComponent implements OnInit {
                 );
         } else if (this.searchMode === 'extended') {
             // extended search
+
+            // perform count query
+            this._searchService.doExtendedSearchCountQuery(this.searchParam)
+                .subscribe(
+                    this.showNumberOfAllResults,
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+
+                        this.isLoading = false;
+                    }
+                );
 
             this._searchService.doExtendedSearch(this.searchParam)
                 .subscribe(
@@ -102,6 +126,24 @@ export class ResourcesListComponent implements OnInit {
         }
 
     }
+
+    /**
+     * Shows total number of results returned by a count query.
+     *
+     * @param {ApiServiceResult} countQueryResult the response to a count query.
+     */
+    private showNumberOfAllResults = (countQueryResult: ApiServiceResult) => {
+        let resPromises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        let resPromise = resPromises.compact(countQueryResult.body, {});
+
+        resPromise.then((compacted) => {
+            this.numberOfAllResults = compacted[AppConfig.schemaNumberOfItems]
+        }, function (err) {
+
+            console.log('JSONLD could not be expanded:' + err);
+        });
+    };
 
     /**
      *

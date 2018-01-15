@@ -5,6 +5,8 @@
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
     <div *ngIf="numberOfItems !== 0; else noData" [ngSwitch]="listType">
+        <div>{{numberOfAllResults}}</div>
+
         <!-- show as table if listType === table -->
         <table *ngSwitchCase="'table'" class="salsah-table">
         </table>
