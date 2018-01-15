@@ -107,10 +107,10 @@ export class KnarqlgenerationService {
                     if (propWithVal.valueLiteral.comparisonOperator.getClassName() == 'Like') {
                         // use regex function for LIKE
                         filter = `FILTER regex(${propValue}, ${propWithVal.valueLiteral.value.toSparql()}, "i")`;
-                    } if (propWithVal.valueLiteral.comparisonOperator.getClassName() == 'Match') {
+                    } else if (propWithVal.valueLiteral.comparisonOperator.getClassName() == 'Match') {
                         // use contains function for LIKE
                         filter = `FILTER contains(${propValue}, ${propWithVal.valueLiteral.value.toSparql()})`;
-                    }else {
+                    } else {
                         filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.value.toSparql()})`;
                     }
                 }
