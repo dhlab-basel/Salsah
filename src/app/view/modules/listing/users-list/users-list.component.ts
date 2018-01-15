@@ -205,7 +205,8 @@ export class UsersListComponent implements OnInit {
         if ($event.id !== undefined) {
             const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
                 data: {
-                    iri: $event.id,
+                    userIri: $event.id,
+                    projectIri: this.restrictedBy,
                     form: 'user'
                 }
             });

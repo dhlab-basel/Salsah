@@ -55,7 +55,7 @@
         <mat-action-row>
             <button *ngIf="admin"
                     mat-button color="primary"
-                    (click)="editUser.emit({id: item.user_profile.userData.user_id, index: i})">edit</button>
+                    (click)="editUser.emit({id: item.user_profile.userData.user_id, index: i, restrictedBy: project})">edit</button>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>

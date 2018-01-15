@@ -24,6 +24,7 @@ import {UserProfile, UsersResponse, UserResponse} from '../../../../model/webapi
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {Project, UserData} from '../../../../model/webapi/knora';
 import {existingNamesValidator} from '../../other/existing-name.directive';
+import {AppConfig} from '../../../../app.config';
 
 
 @Component({
@@ -50,6 +51,7 @@ export class UserFormComponent implements OnInit {
     // general stuff
     isLoading: boolean = true;
     errorMessage: any = undefined;
+
     // status after submit data; needed to close the dialog box
     afterSubmit: boolean = false;
 
@@ -62,13 +64,12 @@ export class UserFormComponent implements OnInit {
     // who is using the form? is this user a system admin?
     sysAdmin: boolean = false;
 
-
     // user data:
     // the user-form can be used to create new users or to edit existing users
     // it can have an attribute called iri which opens the edit form
     // otherwise the form is empty to create new user
-    @Input() iri?: string = undefined;
-    userIri: string = this.iri;
+    @Input() userIri?: string;
+
     // on submitting user data, activate a progress loader
     submitUserData: boolean = false;
     submitUserStatus: number = -1;
@@ -87,10 +88,7 @@ export class UserFormComponent implements OnInit {
     // case 1b) form to create new user
     // uf => user form control
     form: FormGroup;
-    // email and password validator
-    emailRegexp: any = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-//    passwordRegexp: any = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i;
-    passwordRegexp: any = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/i;
+
     // password visibility
     showPassword: boolean = false;
     // list of users to prevent duplicate entries
@@ -102,8 +100,8 @@ export class UserFormComponent implements OnInit {
     // project data:
     // project admin case: restrictedBy is the iri of the project
     // in this case, the project admin adds a new (or existing) person to this project
-    @Input() restrictedBy?: string = undefined;
-    projectIri: string = this.restrictedBy;
+    @Input() projectIri?: string;
+
     // on submitting project data (resp. when adding to user to a project), activate a progress loader
     submitProjectData: boolean = false;
     submitProjectStatus: number = -1;
@@ -115,6 +113,7 @@ export class UserFormComponent implements OnInit {
     // project list for mat-autocomplete
     projects: any = [];
     filteredProjects: any;
+
     // form controller for mat-autocomplete
     projectCtrl: FormControl;
     selectedProject: Project;
@@ -125,12 +124,13 @@ export class UserFormComponent implements OnInit {
     sysAdminPermission: boolean = false;
     specialPermission: string = 'not yet implemented';
     submitPermissionsStatus: number = -1;
+
     // on error with permissions data
     permissionsErrorMessage: ApiServiceError = undefined;
 
 
     // some titles, descriptions, labels and hints
-    public formLabels: any = {
+    formLabels: any = {
         user: {
             select: {
                 title: 'Select user',
@@ -255,7 +255,7 @@ export class UserFormComponent implements OnInit {
 
     constructor(public _userService: UsersService,
                 public _projectsService: ProjectsService,
-                @Inject(FormBuilder) fb: FormBuilder) {
+                private _fb: FormBuilder) {
 
         this.userCtrl = new FormControl('', Validators.required);
         this.projectCtrl = new FormControl('', Validators.required);
@@ -271,11 +271,13 @@ export class UserFormComponent implements OnInit {
             .map(name => this.filterProjects(name));
 
         // form validation configuration
-        this.form = fb.group({
+        // TODO: move the following form controls to a method called buildForm similar to project-form
+        // and fix the issue with the "select user" box is missing in "create new" form
+        this.form = this._fb.group({
             'givenName': [null, Validators.required],
             'familyName': [null, Validators.required],
-            'email': [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegexp), existingNamesValidator(this.existingUserNames)])],
-            'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(this.passwordRegexp)])],
+            'email': [null, Validators.compose([Validators.required, Validators.pattern(AppConfig.RegexEmail), existingNamesValidator(this.existingUserNames)])],
+            'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(AppConfig.RegexPassword)])],
             'lang': 'en',
             'status': true,
             'systemAdmin': this.sysAdminPermission,
@@ -298,24 +300,28 @@ export class UserFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.userIri);
+        console.log(this.projectIri);
+
         this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+
         // for the test environment
-//        this.restrictedBy = 'http://data.knora.org/projects/77275339';
+//        this.projectIri = 'http://data.knora.org/projects/77275339';
 
         // get a list of all users and create an array of the user name ( = email address)
         // the user name should be unique and with the array list, we can
         // prevent to have the same user name twice; proof it with the ForbiddenName directive
 
         // if we have an iri from @Input, the form should be in the "edit" mode instead of "create new"
-        if (this.iri !== undefined) {
+        if (this.userIri !== undefined) {
 
             this.step = 1;
             this.formLabels.user.form.systemAdmin.title = 'Edit user';
             this.formLabels.user.form.projectAdmin.title = 'Edit user';
-            this.formLabels.user.form.systemAdmin.description = this.iri;
-            this.formLabels.user.form.projectAdmin.description = this.iri;
+            this.formLabels.user.form.systemAdmin.description = this.userIri;
+            this.formLabels.user.form.projectAdmin.description = this.userIri;
             // TODO: edit user profile: issue #128
-            this.setSelectedUser(event, this.iri);
+            this.setSelectedUser(this.userIri);
 
         }
 
@@ -329,11 +335,10 @@ export class UserFormComponent implements OnInit {
                     // in case of project admin:
                     // get a list of the users which are already team members;
                     // the list of project members should already be in the session storage
-                    if (this.restrictedBy) {
+                    if (this.projectIri) {
                         const members = sessionStorage.getItem('currentMembers');
 
-                        // this.setSelectedProject(this.restrictedBy);
-                        this.projectIri = this.restrictedBy;
+                        // this.setSelectedProject(this.projectIri);
                         this.selectedProject = new Project();
                         this._projectsService.getProjectByIri(this.projectIri)
                             .subscribe(
@@ -504,31 +509,28 @@ export class UserFormComponent implements OnInit {
     }
 
     // get the user profile, if selected from the list
-    setSelectedUser(ev, iri?: string) {
-        if (iri && ev.isUserInput) {
+    setSelectedUser(iri?: string, ev?) {
 
-            console.log('restricted by ', this.restrictedBy);
-            this.userIri = iri;
+        if (iri) {
 
-//            console.log(this.userIri);
             this.selectedUser = new UserProfile();
 
             // check if the selected user isn't in the project yet
-            if (this.restrictedBy !== undefined) {
+            if (this.projectIri !== undefined && this.userIri) {
                 const members = sessionStorage.getItem('currentMembers');
-                if (members.indexOf(iri) > -1) {
-                    alert('The selected user (' + this.userIri + ') has already a membership in this project (' + this.restrictedBy + ')');
+                if (ev && members.indexOf(iri) > -1) {
+                    alert('The selected user (' + iri + ') has already a membership in this project (' + this.projectIri + ')');
                     this.resetSelectedUser();
                 } else {
-                    this._userService.getUserByIri(this.userIri)
+                    this._userService.getUserByIri(iri)
                         .subscribe(
                             (result: ApiServiceResult) => {
                                 this.selectedUser = result.getBody(UserResponse).userProfile;
                                 console.log(this.selectedUser);
                             },
                             (error: ApiServiceError) => {
-                                console.log(error);
                                 this.errorMessage = error;
+                                console.log(error);
                             }
                         );
                     if (this.step === 0) {
@@ -554,24 +556,20 @@ export class UserFormComponent implements OnInit {
     }
 
     // get the project item, if selected from the list
-    setSelectedProject(ev, iri: string) {
-
-        if (iri && ev.isUserInput) {
-            this.projectIri = iri;
-            this.selectedProject = new Project();
-            this._projectsService.getProjectByIri(this.projectIri)
-                .subscribe(
-                    (result: Project) => {
-                        this.selectedProject = result;
-                    },
-                    (error: ApiServiceError) => {
-                        console.log(error);
-                        this.projectErrorMessage = error;
-                    }
-                );
-            if (this.step === 2) {
-                this.nextStep(event);
-            }
+    setSelectedProject(projectIri: string) {
+        this.selectedProject = new Project();
+        this._projectsService.getProjectByIri(projectIri)
+            .subscribe(
+                (result: Project) => {
+                    this.selectedProject = result;
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.projectErrorMessage = error;
+                }
+            );
+        if (this.step === 2) {
+            this.nextStep(event);
         }
     }
 
@@ -747,8 +745,8 @@ export class UserFormComponent implements OnInit {
 
                 // result.body.userProfile.userData.user_id
                 // this.project.id
-                if (this.restrictedBy) {
-                    this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.restrictedBy).subscribe(
+                if (this.projectIri) {
+                    this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.projectIri).subscribe(
                         (secondResult: ApiServiceResult) => {
                             console.log(secondResult.body);
 //                        this._projectTeam.closeDetailView();
@@ -773,7 +771,7 @@ export class UserFormComponent implements OnInit {
 
     getInfo() {
 
-//        this.addUserToProject('http://data.knora.org/users/multiuser', this.restrictedBy);
+//        this.addUserToProject('http://data.knora.org/users/multiuser', this.projectIri);
         console.log('groupPermission?', this.groupPermission);
         console.log('adminPermission?', this.adminPermission);
         console.log('disabled by form?', !this.form.valid);

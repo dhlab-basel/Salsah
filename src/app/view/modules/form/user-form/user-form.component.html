@@ -25,7 +25,7 @@
 
             <!-- 1) user profile -->
             <!-- 1a) view: project admin: select existing user OR create new user profile => b) -->
-            <mat-expansion-panel [expanded]="step === 0" *ngIf="restrictedBy && !form.valid"
+            <mat-expansion-panel [expanded]="step === 0" *ngIf="projectIri && !form.valid"
                                 (opened)="setStep(0)"
                                 hideToggle="true">
                 <!-- header -->
@@ -50,7 +50,7 @@
                     </mat-icon>
                     <mat-autocomplete #autoUser="matAutocomplete"> <!-- [displayWith]="displayFn"> -->
                         <mat-option *ngFor="let user of filteredUsers | async" [value]="user?.name"
-                                   (onSelectionChange)="setSelectedUser($event, user?.iri)">
+                                   (onSelectionChange)="setSelectedUser(user?.iri)">
                             {{ user?.name }}
                         </mat-option>
                     </mat-autocomplete>
@@ -63,14 +63,14 @@
                             (click)="nextStep($event)">
                         {{formLabels.user.select.skip}}
                     </button>
-                    <button mat-button *ngIf="restrictedBy"
+                    <button mat-button *ngIf="projectIri"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 3)"
                             [disabled]="!userCtrl.valid">
                         {{formLabels.navigation.next}}
                     </button>
-                    <button mat-button *ngIf="!restrictedBy"
+                    <button mat-button *ngIf="!projectIri"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 2)"
@@ -87,13 +87,13 @@
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <span *ngIf="restrictedBy">{{formLabels.user.form.projectAdmin.title}}</span>
-                        <span *ngIf="!restrictedBy">{{formLabels.user.form.systemAdmin.title}}</span>
+                        <span *ngIf="projectIri">{{formLabels.user.form.projectAdmin.title}}</span>
+                        <span *ngIf="!projectIri">{{formLabels.user.form.systemAdmin.title}}</span>
                     </mat-panel-title>
                     <mat-panel-description
                         *ngIf="!form.controls['givenName'].value && !form.controls['familyName'].value">
-                        <span *ngIf="restrictedBy">{{formLabels.user.form.projectAdmin.description}}</span>
-                        <span *ngIf="!restrictedBy">{{formLabels.user.form.systemAdmin.description}}</span>
+                        <span *ngIf="projectIri">{{formLabels.user.form.projectAdmin.description}}</span>
+                        <span *ngIf="!projectIri">{{formLabels.user.form.systemAdmin.description}}</span>
                         <mat-icon>person_add</mat-icon>
                     </mat-panel-description>
                     <mat-panel-description *ngIf="form.controls['givenName'].value && form.controls['familyName'].value">
@@ -160,14 +160,14 @@
                             (click)="form.reset()">
                         {{formLabels.navigation.reset}}
                     </button>
-                    <button mat-button *ngIf="restrictedBy"
+                    <button mat-button *ngIf="projectIri"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 3)"
                             [disabled]="!form.valid">
                         {{formLabels.navigation.next}}
                     </button>
-                    <button mat-button *ngIf="!restrictedBy"
+                    <button mat-button *ngIf="!projectIri"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event)"
@@ -182,7 +182,7 @@
             <!-- 2) project membership -->
 
             <!-- 2a) view: system admin: select project AND set the permissions => b) -->
-            <mat-expansion-panel [expanded]="step === 2" *ngIf="!restrictedBy"
+            <mat-expansion-panel [expanded]="step === 2" *ngIf="!projectIri"
                                 (opened)="setStep(2)"
                                 hideToggle="true">
                 <!-- header -->
@@ -206,7 +206,7 @@
                     </mat-icon>
                     <mat-autocomplete #autoProject="matAutocomplete"> <!-- [displayWith]="displayFn"> -->
                         <mat-option *ngFor="let project of filteredProjects | async" [value]="project?.name"
-                                   (onSelectionChange)="setSelectedProject($event, project?.iri)">
+                                   (onSelectionChange)="setSelectedProject(project?.iri, $event)">
                             {{ project?.name }}
                         </mat-option>
                     </mat-autocomplete>
@@ -273,6 +273,7 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-list>
+
                     <div>
                         <h3 mat-subheader>
                             {{formLabels.permissions.project.title}}
@@ -286,6 +287,8 @@
                             </mat-slide-toggle>
                         </mat-list-item>
                     </div>
+
+                    <!-- set system wide permissions, if the editor has system admin rights too -->
                     <div *ngIf="sysAdmin && !userIri">
                         <h3 mat-subheader>{{formLabels.permissions.system.title}}</h3>
                         <mat-list-item>
@@ -356,8 +359,8 @@
                     </mat-list-item>
                 </mat-list>
 
-                <mat-list *ngIf="restrictedBy || selectedProject">
-                    <mat-list-item *ngIf="restrictedBy || selectedProject">
+                <mat-list *ngIf="projectIri || selectedProject">
+                    <mat-list-item *ngIf="projectIri || selectedProject">
                         <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [type]="'submit'"
                                                    [status]="submitProjectStatus"></salsah-progress-indicator>
                         <h4 mat-line>

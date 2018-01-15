@@ -35,8 +35,8 @@
 
         <!-- create new / edit users -->
         <salsah-user-form *ngSwitchCase="'user'"
-                          [iri]="data.iri"
-                          [restrictedBy]="data.restriction">
+                          [userIri]="data.userIri"
+                          [projectIri]="data.projectIri">
         </salsah-user-form>
 
         <!-- create new / edit ontologies -->
