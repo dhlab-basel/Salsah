@@ -17,8 +17,7 @@ export class DecimalValueComponent implements OnInit, PropertyValue {
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
         this.form = this.fb.group({
-            decimalValue: [null, Validators.compose([Validators.required])],
-            isSortCriterion: [false]
+            decimalValue: [null, Validators.compose([Validators.required])]
         });
     }
 
@@ -26,8 +25,7 @@ export class DecimalValueComponent implements OnInit, PropertyValue {
     }
 
     getValue(): Value {
-        const isSortCriterion: boolean = Boolean(this.form.value.isSortCriterion);
 
-        return new ValueLiteral(String(this.form.value.decimalValue), AppConfig.xsdDecimal, isSortCriterion);
+        return new ValueLiteral(String(this.form.value.decimalValue), AppConfig.xsdDecimal);
     }
 }

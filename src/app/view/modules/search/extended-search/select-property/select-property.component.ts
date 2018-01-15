@@ -16,8 +16,9 @@ export class PropertyWithValue {
      *
      * @param {Property} property the specified property.
      * @param {ComparisonOperatorAndValue} valueLiteral the specified comparison operator and value.
+     * @param isSortCriterion indicates if the property is used as a sort criterion.
      */
-    constructor(readonly property: Property, readonly valueLiteral: ComparisonOperatorAndValue) {
+    constructor(readonly property: Property, readonly valueLiteral: ComparisonOperatorAndValue, readonly isSortCriterion: Boolean) {
     };
 
 }
@@ -51,19 +52,22 @@ export class SelectPropertyComponent implements OnInit {
     private form: FormGroup;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
+
+    }
+
+    ngOnInit() {
+
         // build a form for the property selection
-        this.form = fb.group({
-            property: [null, Validators.required]
+        this.form = this.fb.group({
+            property: [null, Validators.required],
+            isSortCriterion: [false, Validators.required]
         });
 
         // update the selected property
         this.form.valueChanges.subscribe((data) => {
             let propIri = data.property;
             this.propertySelected = this._properties[propIri];
-        })
-    }
-
-    ngOnInit() {
+        });
 
     }
 
@@ -89,11 +93,18 @@ export class SelectPropertyComponent implements OnInit {
     /**
      * Returns the selected property with the specified value.
      */
-    getPropertySelectedWithValue() {
+    getPropertySelectedWithValue(): PropertyWithValue {
 
         let propVal: ComparisonOperatorAndValue = this.specifyPropertyValue.getComparisonOperatorAndValueLiteralForProperty();
 
-        return new PropertyWithValue(this.propertySelected, propVal);
+        let isSortCriterion = false;
+
+        // only non linking properties can be used for sorting
+        if (!this.propertySelected.isLinkProperty) {
+            isSortCriterion = this.form.value.isSortCriterion;
+        }
+
+        return new PropertyWithValue(this.propertySelected, propVal, isSortCriterion);
 
     }
 

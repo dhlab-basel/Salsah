@@ -116,7 +116,7 @@ export class KnarqlgenerationService {
                 }
 
                 // check if current value is a sort criterion
-                if (propWithVal.valueLiteral.comparisonOperator.getClassName() != 'Exists' && propWithVal.valueLiteral.value.isSortCriterion) orderByCriteria.push(propValue);
+                if (propWithVal.isSortCriterion) orderByCriteria.push(propValue);
 
                 return `${statement}
                 ${filter}

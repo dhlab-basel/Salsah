@@ -4,5 +4,7 @@
     </mat-select>
 </mat-form-field>
 
+<mat-checkbox *ngIf="propertySelected !== undefined && !propertySelected.isLinkProperty" [formControl]="form.controls['isSortCriterion']"></mat-checkbox>
+
 <specify-property-value #specifyPropertyValue *ngIf="propertySelected !== undefined" [property]="propertySelected"></specify-property-value>
 

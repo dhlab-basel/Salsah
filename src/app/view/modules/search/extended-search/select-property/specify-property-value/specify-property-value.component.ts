@@ -158,8 +158,6 @@ export interface Value {
      */
     toSparql(): string;
 
-    readonly isSortCriterion: Boolean;
-
 }
 
 /**
@@ -172,9 +170,8 @@ export class ValueLiteral implements Value {
      *
      * @param {string} value the literal representation of the value.
      * @param {string} type the type of the value (making use of xsd).
-     * @param isSortCriterion indicates if value has to be used as a sort criterion.
      */
-    constructor(public readonly value: string, public readonly type: string, public readonly isSortCriterion: Boolean) {
+    constructor(public readonly value: string, public readonly type: string) {
     };
 
 
@@ -205,9 +202,6 @@ export class IRI implements Value {
     public toSparql(): string {
         return `<${this.iri}>`;
     }
-
-    // an IRI is not a valid sort criterion
-    public readonly isSortCriterion = false;
 
 }
 

@@ -17,8 +17,7 @@ export class TextValueComponent implements OnInit, PropertyValue {
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
         this.form = this.fb.group({
-            textValue: [null, Validators.required],
-            isSortCriterion: [false]
+            textValue: [null, Validators.required]
         });
 
     }
@@ -28,9 +27,7 @@ export class TextValueComponent implements OnInit, PropertyValue {
 
     getValue(): Value {
 
-        const isSortCriterion: boolean = Boolean(this.form.value.isSortCriterion);
-
-        return new ValueLiteral(String(this.form.value.textValue), AppConfig.xsdString, isSortCriterion);
+        return new ValueLiteral(String(this.form.value.textValue), AppConfig.xsdString);
     }
 
 }

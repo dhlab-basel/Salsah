@@ -26,6 +26,6 @@ export class BooleanValueComponent implements OnInit, PropertyValue {
     }
 
     getValue(): Value {
-        return new ValueLiteral(String(this.form.value.booleanValue), AppConfig.xsdBoolean, false);
+        return new ValueLiteral(String(this.form.value.booleanValue), AppConfig.xsdBoolean);
     }
 }
