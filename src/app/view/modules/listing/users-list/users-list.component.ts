@@ -26,6 +26,7 @@ import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
+import {LanguageService} from '../../../../model/services/language.service';
 
 
 
@@ -80,6 +81,10 @@ export class UsersListComponent implements OnInit {
     countActive: number;
     countInactive: number;
 
+    // translation
+    languages: any;
+    name: string;
+
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
     // iri of the selected person
@@ -101,7 +106,7 @@ export class UsersListComponent implements OnInit {
             label: 'E-mail'
         }
     ];
-    sortTitle: string = 'Sort by ';
+    sortTitle: string = 'Sort by ';  // Replaced by the json language files...
     sortKey: string = this.sortProps[0].key;
     sortKeyIA: string = this.sortProps[0].key;
     sortLabel: string = this.sortProps[0].label;
@@ -115,7 +120,42 @@ export class UsersListComponent implements OnInit {
     constructor(private _router: Router,
                 public _projectsService: ProjectsService,
                 public _userService: UsersService,
-                public _dialog: MatDialog) {
+                public _dialog: MatDialog,
+                public _langService: LanguageService
+    ) {
+
+        // Here follows the initialisation of the sortProps according to the language, e.g. after reading out localStorage.
+        if ( localStorage.getItem('lang') === 'de') {
+            this.sortProps = [
+                {
+                    key: 'familyName',
+                    label: 'Nachname'
+                },
+                {
+                    key: 'givenName',
+                    label: 'Vorname'
+                },
+                {
+                    key: 'email',
+                    label: 'E-mail'
+                }
+            ];
+        } else {
+            this.sortProps = [
+                {
+                    key: 'familyName',
+                    label: 'Last name'
+                },
+                {
+                    key: 'givenName',
+                    label: 'First name'
+                },
+                {
+                    key: 'email',
+                    label: 'E-mail'
+                }
+            ];
+        }
     }
 
     ngOnInit() {
@@ -239,6 +279,13 @@ export class UsersListComponent implements OnInit {
 
         }
 
+        // Here we implement the languageService with its observable and the function call (analog to project-team.c.ts)
+        this._langService.getLanguage().subscribe (
+            languages => {
+                this.languages = languages, this.changeVal();
+            }
+        );
+
     }
 
     sortBy(key: string) {
@@ -250,6 +297,50 @@ export class UsersListComponent implements OnInit {
         } else {
             this.sortKey = this.sortProps[0].key;
             this.sortLabel = this.sortProps[1].label;
+        }
+    }
+
+    changeVal() {
+        this._langService.getLanguage();
+        for ( const xy in this.languages) {
+            if (this.languages[xy].selected === 'selected') {
+                this.name = this.languages[xy].lang;
+
+            }
+        }
+        switch (this.name) {
+            case 'en':
+                this.sortProps = [
+                    {
+                        key: 'familyName',
+                        label: 'Last name'
+                    },
+                    {
+                        key: 'givenName',
+                        label: 'First name'
+                    },
+                    {
+                        key: 'email',
+                        label: 'E-mail'
+                    }
+                ];
+                break;
+            case 'de':
+                this.sortProps = [
+                    {
+                        key: 'familyName',
+                        label: 'Nachname'
+                    },
+                    {
+                        key: 'givenName',
+                        label: 'Vorname'
+                    },
+                    {
+                        key: 'email',
+                        label: 'E-mail'
+                    }
+                ];
+                break;
         }
     }
 

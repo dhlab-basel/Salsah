@@ -61,18 +61,15 @@ export class ProjectTeamComponent implements OnInit {
 
         let  langString: string;
         if ( localStorage.getItem('lang') === 'de') {
-            console.log('Sprache: de');
+            // console.log('Sprache: de');
             langString = localStorage.getItem('lang');
             this.list.title = 'Mitglieder in diesem Projekt';
             this.add.title = 'Füge neues Mitglied hinzu';
         } else {
-            console.log('Sprache: en');
+            // console.log('Sprache: en');
             langString = localStorage.getItem('lang');
             this.list.title = 'Members in this project';
             this.add.title = 'Add new team member';
-        }
-        if (langString === 'de') {
-            console.log('Es ist deutsch');
         }
     }
 
@@ -81,8 +78,8 @@ export class ProjectTeamComponent implements OnInit {
         for ( const xy in this.languages) {
             if (this.languages[xy].selected === 'selected') {
                 this.name = this.languages[xy].lang;
-                console.log('Project-Team changeVal detected: ' + this.languages[xy].lang);
-                console.log('Project-Team Var name: ' + this.name);
+                // console.log('Project-Team changeVal detected: ' + this.languages[xy].lang);
+                // console.log('Project-Team Var name: ' + this.name);
             }
         }
         switch (this.name) {
@@ -101,7 +98,7 @@ export class ProjectTeamComponent implements OnInit {
         this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
         this._langService.getLanguage().subscribe (
             languages => {
-                this.languages = languages, console.log('Something changed'), this.changeVal();
+                this.languages = languages, this.changeVal();
             }
         );
     }
