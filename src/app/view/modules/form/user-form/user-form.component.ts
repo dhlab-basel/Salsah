@@ -83,7 +83,7 @@ export class UserFormComponent implements OnInit {
     filteredUsers: any;
     // form controller for mat-autocomplete
     userCtrl: FormControl;
-    selectedUser: UserProfile;
+    selectedUser: UserProfile = new UserProfile();
 
     // case 1b) form to create new user
     // uf => user form control
@@ -273,16 +273,6 @@ export class UserFormComponent implements OnInit {
         // form validation configuration
         // TODO: move the following form controls to a method called buildForm similar to project-form
         // and fix the issue with the "select user" box is missing in "create new" form
-        this.form = this._fb.group({
-            'givenName': [null, Validators.required],
-            'familyName': [null, Validators.required],
-            'email': [null, Validators.compose([Validators.required, Validators.pattern(AppConfig.RegexEmail), existingNamesValidator(this.existingUserNames)])],
-            'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(AppConfig.RegexPassword)])],
-            'lang': 'en',
-            'status': true,
-            'systemAdmin': this.sysAdminPermission,
-            'group': null
-        });
 
 // test data for developing...
         /*
@@ -300,31 +290,12 @@ export class UserFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.userIri);
-        console.log(this.projectIri);
-
+        // TODO: do we still need the following isSysAdmin request?
         this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-
-        // for the test environment
-//        this.projectIri = 'http://data.knora.org/projects/77275339';
 
         // get a list of all users and create an array of the user name ( = email address)
         // the user name should be unique and with the array list, we can
         // prevent to have the same user name twice; proof it with the ForbiddenName directive
-
-        // if we have an iri from @Input, the form should be in the "edit" mode instead of "create new"
-        if (this.userIri !== undefined) {
-
-            this.step = 1;
-            this.formLabels.user.form.systemAdmin.title = 'Edit user';
-            this.formLabels.user.form.projectAdmin.title = 'Edit user';
-            this.formLabels.user.form.systemAdmin.description = this.userIri;
-            this.formLabels.user.form.projectAdmin.description = this.userIri;
-            // TODO: edit user profile: issue #128
-            this.setSelectedUser(this.userIri);
-
-        }
-
         this._userService.getAllUsers()
             .subscribe(
                 (users: UserData[]) => {
@@ -423,6 +394,32 @@ export class UserFormComponent implements OnInit {
                 }
             );
 
+        // if we have an iri from @Input, the form should be in the "edit" mode instead of "create new"
+        if (this.userIri) {
+
+            this.step = 1;
+            this.formLabels.user.form.systemAdmin.title = 'Edit user';
+            this.formLabels.user.form.projectAdmin.title = 'Edit user';
+            this.formLabels.user.form.systemAdmin.description = this.userIri;
+            this.formLabels.user.form.projectAdmin.description = this.userIri;
+
+
+            this._userService.getUserByIri(this.userIri)
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        this.selectedUser = result.getBody(UserResponse).userProfile;
+                        console.log(this.selectedUser);
+                        this.buildForm(this.selectedUser);
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = error;
+                        console.log(error);
+                    }
+                );
+
+        } else {
+            this.buildForm(new UserProfile());
+        }
 
         this.form.valueChanges
             .subscribe(data => this.onValueChanged(data));
@@ -490,7 +487,6 @@ export class UserFormComponent implements OnInit {
 //        return value && typeof value === 'object' ? value.name : value;
     }
 
-
     toggleVisibility() {
         this.showPassword = (!this.showPassword);
     }
@@ -516,7 +512,7 @@ export class UserFormComponent implements OnInit {
 
         if (iri) {
 
-            this.selectedUser = new UserProfile();
+            let selectedUser = new UserProfile();
 
             // check if the selected user isn't in the project yet
             if (this.projectIri !== undefined && this.userIri) {
@@ -528,8 +524,8 @@ export class UserFormComponent implements OnInit {
                     this._userService.getUserByIri(iri)
                         .subscribe(
                             (result: ApiServiceResult) => {
-                                this.selectedUser = result.getBody(UserResponse).userProfile;
-                                console.log(this.selectedUser);
+                                selectedUser = result.getBody(UserResponse).userProfile;
+                                console.log(selectedUser);
                             },
                             (error: ApiServiceError) => {
                                 this.errorMessage = error;
@@ -545,8 +541,8 @@ export class UserFormComponent implements OnInit {
                 this._userService.getUserByIri(this.userIri)
                     .subscribe(
                         (result: ApiServiceResult) => {
-                            this.selectedUser = result.getBody(UserResponse).userProfile;
-                            console.log(this.selectedUser);
+                            selectedUser = result.getBody(UserResponse).userProfile;
+                            console.log(selectedUser);
                         },
                         (error: ApiServiceError) => {
                             console.log(error);
@@ -555,6 +551,8 @@ export class UserFormComponent implements OnInit {
                     );
 
             }
+
+            return selectedUser;
         }
     }
 
@@ -619,7 +617,6 @@ export class UserFormComponent implements OnInit {
                 break;
         }
     }
-
 
     submitData(): void {
 
@@ -715,6 +712,26 @@ export class UserFormComponent implements OnInit {
 //        location.reload();
     }
 
+    buildForm(user: UserProfile): void {
+        this.form = this._fb.group({
+            'givenName': [user.userData.givenName, Validators.required],
+            'familyName': [user.userData.familyName, Validators.required],
+            'email': [user.userData.email, Validators.compose([Validators.required, Validators.pattern(AppConfig.RegexEmail), existingNamesValidator(this.existingUserNames)])],
+            'password': [user.userData.password, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(AppConfig.RegexPassword)])],
+            'lang': user.userData.lang,
+            'status': user.userData.status,
+            'systemAdmin': this.sysAdminPermission,
+            'group': null
+        });
+
+        this.isLoading = false;
+
+        this.form.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+
+        this.onValueChanged(); // (re)set validation messages now
+    }
+
     // option to add more users after added one
     resetForm() {
         this.step = this.start;
@@ -772,32 +789,4 @@ export class UserFormComponent implements OnInit {
 
     }
 
-    getInfo() {
-
-//        this.addUserToProject('http://data.knora.org/users/multiuser', this.projectIri);
-        console.log('groupPermission?', this.groupPermission);
-        console.log('adminPermission?', this.adminPermission);
-        console.log('disabled by form?', !this.form.valid);
-        console.log('disabled by user?', !this.selectedUser);
-    }
-
-    getGroups() {
-        // preparation for the group selection in the permissions section
-        /*
-        this._groupsService.getAll()
-            .subscribe(
-
-            );
-        */
-    }
-
-    /*
-        openUserForm() {
-            const dialogRef = this.dialog.open(UserFormComponent);
-            dialogRef.afterClosed().subscribe(result => {
-                console.log(result);
-            });
-
-        }
-    */
 }
