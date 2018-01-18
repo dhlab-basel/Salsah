@@ -3084,11 +3084,9 @@ jdnconvertiblecalendar@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/jdnconvertiblecalendar/-/jdnconvertiblecalendar-0.0.1.tgz#1d6271525696a093a7009524f5528769d992e763"
 
-jdnconvertiblecalendardateadapter@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/jdnconvertiblecalendardateadapter/-/jdnconvertiblecalendardateadapter-0.0.1.tgz#426880cbac09529967c936615820e2c78413e058"
-  dependencies:
-    tslib "^1.7.1"
+jdnconvertiblecalendardateadapter@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/jdnconvertiblecalendardateadapter/-/jdnconvertiblecalendardateadapter-0.0.2.tgz#d11fb8d89e720f54159db039f34add3055ed35aa"
 
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.0"
