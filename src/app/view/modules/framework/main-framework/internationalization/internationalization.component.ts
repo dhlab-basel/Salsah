@@ -28,11 +28,12 @@ export class InternationalizationComponent implements OnInit {
             this.langString = translate.currentLang;
             localStorage.setItem('lang', this.langString);
             // this._langService.setLanguage(this.langString);
-            console.log('Die Browsersprache ist: ' + this.langString);
+//            console.log('Die Browsersprache ist: ' + this.langString);
 
         } else {
             translate.use(localStorage.getItem('lang'));
             this.langString = translate.currentLang;
+//            console.log('Die Usersprache ist: ' + this.langString);
             // this._langService.setLanguage(this.langString);
         }
     }
