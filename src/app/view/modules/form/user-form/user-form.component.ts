@@ -129,7 +129,7 @@ export class UserFormComponent implements OnInit {
     permissionsErrorMessage: ApiServiceError = undefined;
 
 
-    // some titles, descriptions, labels and hints
+    // labels (placeholder) titles, descriptions, labels and hints
     formLabels: any = {
         user: {
             select: {
@@ -212,8 +212,7 @@ export class UserFormComponent implements OnInit {
         }
     };
 
-    // the following form fields would have an error check
-
+    // error checking on the following fields
     formErrors = {
         'givenName': '',
         'familyName': '',
@@ -221,7 +220,7 @@ export class UserFormComponent implements OnInit {
         'password': '',
     };
 
-    // ...with the following messages
+    // ...and the error hints
     validationMessages = {
         'givenName': {
             'required': 'First name is required.'
@@ -270,9 +269,6 @@ export class UserFormComponent implements OnInit {
             .map(val => this.displayFn(val))
             .map(name => this.filterProjects(name));
 
-        // form validation configuration
-        // TODO: move the following form controls to a method called buildForm similar to project-form
-        // and fix the issue with the "select user" box is missing in "create new" form
 
 // test data for developing...
         /*
@@ -402,7 +398,6 @@ export class UserFormComponent implements OnInit {
             this.formLabels.user.form.projectAdmin.title = 'Edit user';
             this.formLabels.user.form.systemAdmin.description = this.userIri;
             this.formLabels.user.form.projectAdmin.description = this.userIri;
-
 
             this._userService.getUserByIri(this.userIri)
                 .subscribe(

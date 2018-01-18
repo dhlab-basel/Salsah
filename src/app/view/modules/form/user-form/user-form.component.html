@@ -380,7 +380,9 @@
                             {{formLabels.permissions.title}}
                         </h4>
                         <p mat-line>
-                            <span *ngIf="adminPermission">&bull; {{formLabels.permissions.project.description}} <i>&nbsp;{{selectedProject?.longname}}</i></span>
+                            <span *ngIf="adminPermission">&bull; {{formLabels.permissions.project.description}}
+                                <i>&nbsp;{{selectedProject?.longname}}</i>
+                            </span>
                             <span *ngIf="sysAdminPermission"><br>&bull; {{formLabels.permissions.system.description}}</span>
                         </p>
                         <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
@@ -435,103 +437,4 @@
         </mat-accordion>
     </div>
 
-
 </div>
-
-<!-- next section
-{{formLabels.system.admin}}
-                                    <mat-slide-toggle [color]="'primary'" [formControl]="form.controls['systemAdmin']"
-                                                     [(ngModel)]="form.controls['systemAdmin'].value">
-                                    </mat-slide-toggle>
-                                    -->
-
-
-<!--
-                        <table class="full-width" cellspacing="0">
-                            <!-- line 1: pre and last name --
-                            <tr>
-                                <td colspan="1">
-                                    <mat-input-container class="full-width"
-                                                        dividerColor="{{ form.controls['givenName']?.invalid && form.controls['givenName']?.touched ? 'warn' : 'primary' }}">
-                                        <input matInput
-                                               [placeholder]="formLabels.user.givenName + ' *'"
-                                               [formControl]="form.controls['givenName']">
-                                    </mat-input-container>
-                                </td>
-                                <td colspan="2">
-                                    <mat-input-container class="full-width"
-                                                        dividerColor="{{ form.controls['familyName']?.invalid && form.controls['familyName']?.touched ? 'warn' : 'primary' }}">
-                                        <input matInput
-                                               [placeholder]="formLabels.user.familyName + ' *'"
-                                               [formControl]="form.controls['familyName']">
-                                    </mat-input-container>
-                                </td>
-                            </tr>
-                            <!-- line 2: eMail address --
-                            <tr>
-                                <td colspan="3">
-                                    <mat-input-container class="full-width"
-                                                        dividerColor="{{ form.controls['email']?.invalid && form.controls['email']?.touched ? 'warn' : 'primary' }}">
-                                        <input matInput type="email"
-                                               [placeholder]="formLabels.user.email + ' *'"
-                                               [formControl]="form.controls['email']">
-                                        <mat-hint class="salsah-hint">
-                                            <span [hidden]="form.controls['email'].invalid">{{formLabels.user.emailHint}}</span>
-                                            <span
-                                                [hidden]="form.controls['email'].valid && form.controls['email'].dirty || !form.controls['email'].touched"
-                                                class="salsah-error">{{formLabels.user.emailValidation}}
-                                    </span>
-                                        </mat-hint>
-                                    </mat-input-container>
-                                </td>
-                            </tr>
-                            <!-- line 3: password --
-                            <tr>
-                                <td colspan="3">
-                                    <mat-input-container class="full-width"
-                                                        dividerColor="{{ !form.controls['password']?.valid ? 'warn' : 'primary' }}">
-                                        <input matInput type="password"
-                                               [placeholder]="formLabels.user.password + ' *'"
-                                               [formControl]="form.controls['password']">
-                                        <mat-hint class="salsah-hint">
-                                            <!-- [hidden]="form.controls['password'].valid" [ngClass]="{'salsah-error': (form.controls['password'].invalid && form.controls['password'].dirty)}"  --
-                                            <span
-                                                [hidden]="form.controls['password'].valid && form.controls['password'].dirty || form.controls['password'].touched"
-                                                class="salsah-error">
-                                        {{formLabels.user.passwordHint}}
-                                    </span>
-                                        </mat-hint>
-                                    </mat-input-container>
-                                </td>
-                            </tr>
-                            <!-- line 4: preferred language --
-                            <tr>
-                                <td colspan="2">
-                                    <mat-select [formControl]="form.controls['lang']"
-                                               [placeholder]="formLabels.user.language"
-                                               [(ngModel)]="form.controls['lang'].value">
-                                        <mat-option value="en">english</mat-option>
-                                        <mat-option value="de">deutsch</mat-option>
-                                        <mat-option value="fr">français</mat-option>
-                                        <mat-option value="it">italiano</mat-option>
-                                    </mat-select>
-                                </td>
-                                <td>
-                                    {{formLabels.system.admin}}
-                                    <mat-slide-toggle [color]="'primary'" [formControl]="form.controls['systemAdmin']"
-                                                     [(ngModel)]="form.controls['systemAdmin'].value">
-                                    </mat-slide-toggle>
-                                </td>
-                            </tr>
-                        </table>
-
-                        <mat-action-row>
-                            <button mat-button
-                                    class="navigation-button center"
-                                    color="primary"
-                                    (click)="nextStep($event)"
-                                    [disabled]="!form.valid">
-                                Next
-                            </button>
-                        </mat-action-row>
--->
