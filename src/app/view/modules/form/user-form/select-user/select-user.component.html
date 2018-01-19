@@ -1,21 +1,24 @@
-<!--
-[expanded]="step === 0" *ngIf="projectIri && !form.valid"
-(opened)="setStep(0)"
-hideToggle="true"
--->
-<mat-expansion-panel [expanded]="expanded" (opened)="setStep()" [hideToggle]="true">
+<mat-expansion-panel [expanded]="expanded"
+                     (opened)="isActive(0)"
+                     [hideToggle]="true">
+
     <!-- header -->
     <mat-expansion-panel-header>
+
         <mat-panel-title>
             <span *ngIf="!selectedUser">{{formLabels.user.select.title}}</span>
             <span *ngIf="selectedUser">{{formLabels.user.select.titleDone}}</span>
         </mat-panel-title>
+
         <mat-panel-description>
             <span *ngIf="!selectedUser">{{formLabels.user.select.description}}</span>
             <span *ngIf="selectedUser"><i>{{selectedUser}}</i></span>
             <mat-icon>person</mat-icon>
         </mat-panel-description>
+
     </mat-expansion-panel-header>
+
+    <!-- content -->
     <mat-form-field class="large">
         <input matInput
                [placeholder]="formLabels.user.select.autoComplete"
@@ -34,7 +37,8 @@ hideToggle="true"
             </mat-option>
         </mat-autocomplete>
     </mat-form-field>
-    <!-- footer -->
+
+    <!-- footer with action buttons -->
     <mat-action-row>
         <button mat-button *ngIf="!selectedUser"
                 class="navigation-button left"
@@ -45,16 +49,17 @@ hideToggle="true"
         <button mat-button *ngIf="project"
                 class="navigation-button"
                 color="primary"
-                (click)="navigate($event, 'skip')"
+                (click)="navigate($event, 'next')"
                 [disabled]="!userCtrl.valid">
             {{formLabels.navigation.next}}
         </button>
         <button mat-button *ngIf="!project"
                 class="navigation-button"
                 color="primary"
-                (click)="navigate($event, 'next')"
+                (click)="navigate($event, 'skip')"
                 [disabled]="!userCtrl.valid">
             {{formLabels.navigation.next}}
         </button>
     </mat-action-row>
+
 </mat-expansion-panel>

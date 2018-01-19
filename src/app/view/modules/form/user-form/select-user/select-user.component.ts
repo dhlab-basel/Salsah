@@ -39,7 +39,7 @@ export class SelectUserComponent implements OnInit {
      */
     @Output() goTo: EventEmitter<number> = new EventEmitter<number>();
 
-    @Output() setStep: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() setStep: EventEmitter<number> = new EventEmitter<number>();
 
     // list of all users
     users: AutocompleteItem[] = [];
@@ -197,7 +197,7 @@ export class SelectUserComponent implements OnInit {
         this.goTo.emit(num)
     }
 
-    setStatus(opened: boolean): void {
-        this.setStep.emit(opened);
+    isActive(step: number): void {
+        this.setStep.emit(step);
     }
 }

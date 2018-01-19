@@ -450,12 +450,14 @@ export class UserFormComponent implements OnInit {
 
     setStep(step: number) {
 
+        this.step = step;
+/*
         if (step) {
             this.step = step;
         } else {
             this.step++;
         }
-
+*/
         if (!this.selectedProject) {
             this.groupPermission = false;
             this.adminPermission = false;
@@ -569,7 +571,7 @@ export class UserFormComponent implements OnInit {
                 }
             );
         if (this.step === 2) {
-            this.nextStep(event);
+//            this.nextStep(event);
         }
     }
 
@@ -596,8 +598,9 @@ export class UserFormComponent implements OnInit {
         }
     }
 
-    nextStep(ev, step?: number) {
-        ev.preventDefault();
+    nextStep(step?: number) {
+        console.log(step);
+        // ev.preventDefault();
         if (step) {
             this.step = step;
         } else {
