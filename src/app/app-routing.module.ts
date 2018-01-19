@@ -44,6 +44,7 @@ import {UserFormComponent} from './view/modules/form/user-form/user-form.compone
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
 import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
+import {FormTestComponent} from './view/test/development/form-test/form-test.component';
 
 const appRoutes: Routes = [
     {
@@ -190,6 +191,9 @@ const appRoutes: Routes = [
                         path: 'user', component: UserFormComponent
                     }
                 ]
+            },
+            {
+                path: 'form-test', component: FormTestComponent
             },
             {
                 path: 'new-res-class',

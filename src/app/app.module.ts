@@ -140,6 +140,10 @@ import {OntologiesListItemComponent} from './view/modules/listing/ontologies-lis
 import {FileService} from './model/services/file.service';
 
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
+import { FormTestComponent } from './view/test/development/form-test/form-test.component';
+import { SelectUserComponent } from './view/modules/form/user-form/select-user/select-user.component';
+import { SelectProjectComponent } from './view/modules/form/user-form/select-project/select-project.component';
+import { ProjectPermissionComponent } from './view/modules/form/user-form/project-permission/project-permission.component';
 
 //
 // import all needed services
@@ -244,7 +248,11 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         BooleanValueComponent,
         DateValueComponent,
         OntologiesListItemComponent,
-        ExistingNameDirective
+        ExistingNameDirective,
+        FormTestComponent,
+        SelectUserComponent,
+        SelectProjectComponent,
+        ProjectPermissionComponent
 
     ],
     imports: [

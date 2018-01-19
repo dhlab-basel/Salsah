@@ -25,60 +25,12 @@
 
             <!-- 1) user profile -->
             <!-- 1a) view: project admin: select existing user OR create new user profile => b) -->
-            <mat-expansion-panel [expanded]="step === 0" *ngIf="projectIri && !form.valid"
-                                (opened)="setStep(0)"
-                                hideToggle="true">
-                <!-- header -->
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <span *ngIf="!selectedUser">{{formLabels.user.select.title}}</span>
-                        <span *ngIf="selectedUser">{{formLabels.user.select.titleDone}}</span>
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        <span *ngIf="!selectedUser">{{formLabels.user.select.description}}</span>
-                        <span *ngIf="selectedUser"><i>{{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}</i></span>
-                        <mat-icon>person</mat-icon>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-form-field class="large">
-                    <input matInput
-                           [placeholder]="formLabels.user.select.autoComplete"
-                           [matAutocomplete]="autoUser"
-                           [formControl]="userCtrl">
-                    <mat-icon matSuffix class="input-icon icon-for-autocomplete" (click)="resetSelectedUser()"
-                             *ngIf="userCtrl.value && userCtrl.dirty">close
-                    </mat-icon>
-                    <mat-autocomplete #autoUser="matAutocomplete"> <!-- [displayWith]="displayFn"> -->
-                        <mat-option *ngFor="let user of filteredUsers | async" [value]="user?.name"
-                                   (onSelectionChange)="setSelectedUser(user?.iri)">
-                            {{ user?.name }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-                <!-- footer -->
-                <mat-action-row>
-                    <button mat-button *ngIf="showUserForm"
-                            class="navigation-button left"
-                            color="warn"
-                            (click)="nextStep($event)">
-                        {{formLabels.user.select.skip}}
-                    </button>
-                    <button mat-button *ngIf="projectIri"
-                            class="navigation-button"
-                            color="primary"
-                            (click)="nextStep($event, 3)"
-                            [disabled]="!userCtrl.valid">
-                        {{formLabels.navigation.next}}
-                    </button>
-                    <button mat-button *ngIf="!projectIri"
-                            class="navigation-button"
-                            color="primary"
-                            (click)="nextStep($event, 2)"
-                            [disabled]="!userCtrl.valid">
-                        {{formLabels.navigation.next}}
-                    </button>
-                </mat-action-row>
-            </mat-expansion-panel>
+            <salsah-select-user *ngIf="projectIri"
+                                [expanded]="step === 0"
+                                [project]="projectIri"
+                                (setStep)="setStep($event)"
+                                (goTo)="setStep($event)">
+            </salsah-select-user>
 
             <!-- 1b) view: project and system admin: create new user profile (or edit old one) -->
             <mat-expansion-panel *ngIf="showUserForm"
@@ -321,7 +273,7 @@
             <!-- 3) overview or additional form stuff -->
             <mat-expansion-panel [expanded]="step === 4"
                                 (opened)="setStep(4)"
-                                hideToggle="true">
+                                [hideToggle]="true">
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>

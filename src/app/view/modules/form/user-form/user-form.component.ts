@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
@@ -45,7 +45,6 @@ export class UserFormComponent implements OnInit {
             b) in case of system admin: select project and set permissions or add user to project or remove user from project
 
         3) special stuff like "add the user to system project" and set system permissions
-
      */
 
     // general stuff
@@ -133,14 +132,6 @@ export class UserFormComponent implements OnInit {
     // labels (placeholder) titles, descriptions, labels and hints
     formLabels: any = {
         user: {
-            select: {
-                title: 'Select user',
-                titleDone: 'Selected user',
-                description: 'Add an existing one',
-                autoComplete: 'just type a name here',
-                autoCompleteHint: '',
-                skip: 'Skip and create new user instead'
-            },
             form: {
                 projectAdmin: {
                     title: 'Or create new user',
@@ -288,7 +279,7 @@ export class UserFormComponent implements OnInit {
 
     ngOnInit() {
         // TODO: do we still need the following isSysAdmin request?
-        this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+//        this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
 
         console.log(this.projectIri);
 
@@ -457,8 +448,13 @@ export class UserFormComponent implements OnInit {
         });
     }
 
-    setStep(index: number) {
-        this.step = index;
+    setStep(step: number) {
+
+        if (step) {
+            this.step = step;
+        } else {
+            this.step++;
+        }
 
         if (!this.selectedProject) {
             this.groupPermission = false;
@@ -620,6 +616,10 @@ export class UserFormComponent implements OnInit {
                 this.resetSelectedUser();
                 break;
         }
+    }
+
+    goTo(step: number): void {
+        console.log('go to step: ', step);
     }
 
     submitData(): void {
