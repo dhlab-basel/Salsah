@@ -143,6 +143,8 @@ import {TextValueComponent} from './view/modules/search/extended-search/select-p
 import {UriValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
 import {LinkValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/link-value/link-value.component';
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
+import {BeolComponent} from './view/templates/beol/beol.component';
+import {BeolService} from "./model/services/beol.service";
 
 
 //
@@ -251,7 +253,8 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         TextValueComponent,
         UriValueComponent,
         LinkValueComponent,
-        ExistingNameDirective
+        ExistingNameDirective,
+        BeolComponent
     ],
     imports: [
         BrowserModule,
@@ -290,6 +293,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         StatusMsgServiceService,
         AuthenticationService,
         KnarqlgenerationService,
+        BeolService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
