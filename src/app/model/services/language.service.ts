@@ -1,5 +1,6 @@
 import {Injectable, Input} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
 
 export class Language {
     lang: string;
@@ -8,7 +9,6 @@ export class Language {
 
 @Injectable()
 export class LanguageService {
-
     @Input() language: Language;
     languages: Language[] = [
         {
@@ -24,17 +24,21 @@ export class LanguageService {
     localStorage: any;
     lang: string;
 
-    langObservable: Observable<Language[]>;
-    observer;
+    private subject = new Subject<Language[]>();
 
-    constructor() {
-        this.langObservable = new Observable(observer => {
-            this.observer = observer;
-            this.observer.next(this.languages);
-        });
-    }
+    /*
+        langObservable: Observable<Language[]>;
+        observer;
+        constructor() {
+            this.langObservable = new Observable(observer => {
+                this.observer = observer;
+                this.observer.next(this.languages);
+            });
+        }
+    */
 
-    setLanguage(lang) {
+
+    setLanguage(lang: string) {
         switch (lang) {
             case 'de':
                 localStorage.setItem('lang', lang);
@@ -52,11 +56,13 @@ export class LanguageService {
                 this.languages[1].selected = 'no';
                 break;
         }
-        this.observer.next(this.languages);
+        // this.observer.next(this.languages);
+        this.subject.next()
     }
 
     getLanguage(): Observable<Language[]> {
-        return this.langObservable;
+        console.log('getLanguage wird aufgerufen: das langSubject ist: ' + this.subject.asObservable());
+        return this.subject.asObservable();
     }
 
     // To Do:

@@ -1,8 +1,7 @@
 ///<reference path="../../../../../../../node_modules/@angular/core/src/metadata/directives.d.ts"/>
-import {Component, OnInit} from '@angular/core';
-import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
+import {Subscription} from 'rxjs/Subscription';
 import {LanguageService} from '../../../../../model/services/language.service';
 
 @Component({
@@ -10,14 +9,20 @@ import {LanguageService} from '../../../../../model/services/language.service';
     templateUrl: './internationalization.component.html',
     styleUrls: ['./internationalization.component.scss']
 })
-export class InternationalizationComponent implements OnInit {
+export class InternationalizationComponent implements OnInit, OnDestroy {
 
     localStorage: any;
     langString: string;
     languages: Array<any>;
+    subscription: Subscription;
 
     constructor(private translate: TranslateService,
                 public _langService: LanguageService) {
+        this.subscription = this._langService.getLanguage().subscribe(languages => {
+            this.languages = languages;
+            // console.log('languages' + languages );
+        }
+        );
         translate.addLangs(['de', 'en']);
         translate.setDefaultLang('en');
 
@@ -28,18 +33,18 @@ export class InternationalizationComponent implements OnInit {
             this.langString = translate.currentLang;
             localStorage.setItem('lang', this.langString);
             // this._langService.setLanguage(this.langString);
-//            console.log('Die Browsersprache ist: ' + this.langString);
+            console.log('Die Browsersprache ist: ' + this.langString);
 
         } else {
             translate.use(localStorage.getItem('lang'));
             this.langString = translate.currentLang;
-//            console.log('Die Usersprache ist: ' + this.langString);
+            console.log('Die Usersprache ist: ' + this.langString);
             // this._langService.setLanguage(this.langString);
         }
     }
 
     setLanguage(event: any, langSelect: string) {
-        console.log('Sprache: ' + langSelect);
+        // console.log('Sprache: ' + langSelect);
         this.translate.use(langSelect);
         localStorage.setItem('lang', langSelect);
         this.langString = langSelect;
@@ -48,20 +53,20 @@ export class InternationalizationComponent implements OnInit {
         console.log('langSelect, i18n: ' + langSelect);
     }
 
-    initialize() {
-        this.langString = this.translate.currentLang;
-        // console.log('Initialize: ' + this.langString);
-        return this.langString;
-
-    }
-
-
     ngOnInit() {
 
         this._langService.getLanguage().subscribe(
-            languages => this.languages = languages
+               languages => this.languages = languages
         );
 
+        console.log('Init Intern.');
+
     }
+
+    ngOnDestroy() {
+        // unsubscribe to ensure no memory leaks
+        this.subscription.unsubscribe();
+    }
+
 
 }

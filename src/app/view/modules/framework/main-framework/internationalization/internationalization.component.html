@@ -1,9 +1,10 @@
 <span>
     <mat-form-field class="select-language">
           <mat-select #langSelect
-                      [(value)]="langString"
+                      [value]=""
                       (change)="setLanguage($event, langSelect.value.lang)">
-            <mat-option *ngFor="let language of languages" [value]="language.lang">{{ language.lang }}</mat-option>
+            <mat-option *ngFor="let language of languages" [value]="language">{{ language.lang }}</mat-option>
           </mat-select>
     </mat-form-field>
 </span>
+<!-- Rückgängig gemachte Änderung: [(value)]="langString" -->

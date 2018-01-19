@@ -276,17 +276,27 @@ export class UsersListComponent implements OnInit {
                         this.errorMessage = <any>error;
                     }
                 );
-
         }
 
-        // Here we implement the languageService with its observable and the function call (analog to project-team.c.ts)
         this._langService.getLanguage().subscribe (
             languages => {
                 this.languages = languages, this.changeVal();
             }
         );
 
+
     }
+
+    /*
+    ngDoCheck() {
+        this._langService.getLanguage().subscribe (
+            languages => {
+                this.languages = languages, this.changeVal();
+            }
+        );
+    }
+    */
+
 
     sortBy(key: string) {
 
@@ -301,13 +311,17 @@ export class UsersListComponent implements OnInit {
     }
 
     changeVal() {
-        this._langService.getLanguage();
+        // this._langService.getLanguage();
+        console.log('User-List-component greeting');
+        this.name = localStorage.getItem('lang');
+/*
         for ( const xy in this.languages) {
             if (this.languages[xy].selected === 'selected') {
                 this.name = this.languages[xy].lang;
 
             }
         }
+        */
         switch (this.name) {
             case 'en':
                 this.sortProps = [
