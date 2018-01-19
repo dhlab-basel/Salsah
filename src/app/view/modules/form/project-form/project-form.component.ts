@@ -180,11 +180,12 @@ export class ProjectFormComponent implements OnInit {
                         this.project = result;
                         this.formLabels.project.subtitle += this.project.shortname;
 
-                        const short = new RegExp(this.project.shortname);
-                        this.existingShortNames.splice(this.existingShortNames.indexOf(short), 1);
+                        const shortN = new RegExp(this.project.shortname);
+                        const shortC = new RegExp(this.project.shortcode);
+                        this.existingShortNames.splice(this.existingShortNames.indexOf(shortN), 1);
+                        this.existingShortcodes.splice(this.existingShortcodes.indexOf(shortC), 1);
 
                         const sc = new RegExp(this.project.shortcode);
-//                        this.existingShortcodes.splice(this.existingShortcodes.indexOf(sc), 1);
 
                         this.buildForm(this.project);
                     },

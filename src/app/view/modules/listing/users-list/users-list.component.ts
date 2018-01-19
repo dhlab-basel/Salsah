@@ -206,7 +206,7 @@ export class UsersListComponent implements OnInit {
             const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
                 data: {
                     userIri: $event.id,
-                    projectIri: this.restrictedBy,
+                    projectIri: $event.restrictedBy,
                     form: 'user'
                 }
             });

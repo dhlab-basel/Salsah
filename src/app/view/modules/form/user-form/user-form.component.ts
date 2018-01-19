@@ -83,7 +83,8 @@ export class UserFormComponent implements OnInit {
     filteredUsers: any;
     // form controller for mat-autocomplete
     userCtrl: FormControl;
-    selectedUser: UserProfile = new UserProfile();
+    selectedUser: UserProfile;
+    showUserForm: boolean = true;
 
     // case 1b) form to create new user
     // uf => user form control
@@ -289,6 +290,8 @@ export class UserFormComponent implements OnInit {
         // TODO: do we still need the following isSysAdmin request?
         this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
 
+        console.log(this.projectIri);
+
         // get a list of all users and create an array of the user name ( = email address)
         // the user name should be unique and with the array list, we can
         // prevent to have the same user name twice; proof it with the ForbiddenName directive
@@ -304,8 +307,10 @@ export class UserFormComponent implements OnInit {
                     // in case of project admin:
                     // get a list of the users which are already team members;
                     // the list of project members should already be in the session storage
-                    if (this.projectIri) {
+                    if (this.projectIri !== undefined) {
                         const members = sessionStorage.getItem('currentMembers');
+
+
 
                         // this.setSelectedProject(this.projectIri);
                         this.selectedProject = new Project();
@@ -344,7 +349,7 @@ export class UserFormComponent implements OnInit {
                         });
 
                     } else {
-                        // in case of system admin:
+                        // in case of system admin view:
                         // get a list of projects to add the new created user
                         // OR in case of edit user and the user isn't yet a member of a project
                         this.step = 1;
@@ -403,6 +408,9 @@ export class UserFormComponent implements OnInit {
                 .subscribe(
                     (result: ApiServiceResult) => {
                         this.selectedUser = result.getBody(UserResponse).userProfile;
+                        const userN = new RegExp(this.selectedUser.userData.email);
+                        this.existingUserNames.splice(this.existingUserNames.indexOf(userN), 1);
+
                         console.log(this.selectedUser);
                         this.buildForm(this.selectedUser);
                     },
@@ -506,7 +514,9 @@ export class UserFormComponent implements OnInit {
     setSelectedUser(iri?: string, ev?) {
 
         if (iri) {
+            console.log(iri);
 
+            this.showUserForm = false;
             let selectedUser = new UserProfile();
 
             // check if the selected user isn't in the project yet
@@ -532,12 +542,10 @@ export class UserFormComponent implements OnInit {
                     }
                 }
             } else {
-                console.log(this.userIri);
                 this._userService.getUserByIri(this.userIri)
                     .subscribe(
                         (result: ApiServiceResult) => {
                             selectedUser = result.getBody(UserResponse).userProfile;
-                            console.log(selectedUser);
                         },
                         (error: ApiServiceError) => {
                             console.log(error);
@@ -573,6 +581,7 @@ export class UserFormComponent implements OnInit {
         this.userCtrl.reset();
         this.userIri = undefined;
         this.selectedUser = undefined;
+        this.showUserForm = true;
     }
 
     resetSelectedProject() {
@@ -708,15 +717,42 @@ export class UserFormComponent implements OnInit {
     }
 
     buildForm(user: UserProfile): void {
+        if (user.userData === undefined) {
+            user.userData = new UserData();
+            console.log(user);
+        }
+
         this.form = this._fb.group({
-            'givenName': [user.userData.givenName, Validators.required],
-            'familyName': [user.userData.familyName, Validators.required],
-            'email': [user.userData.email, Validators.compose([Validators.required, Validators.pattern(AppConfig.RegexEmail), existingNamesValidator(this.existingUserNames)])],
-            'password': [user.userData.password, Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern(AppConfig.RegexPassword)])],
-            'lang': user.userData.lang,
-            'status': user.userData.status,
-            'systemAdmin': this.sysAdminPermission,
-            'group': null
+            'givenName': new FormControl({
+                value: user.userData.givenName, disabled: false
+            }, [
+                Validators.required
+            ]),
+            'familyName': new FormControl({
+                value: user.userData.familyName, disabled: false
+            }, [
+                Validators.required
+            ]),
+            'email': new FormControl({
+                value: user.userData.email, disabled: this.userIri !== undefined
+            }, [
+                Validators.required,
+                Validators.pattern(AppConfig.RegexEmail),
+                existingNamesValidator(this.existingUserNames)
+            ]),
+            'password': new FormControl({
+                value: user.userData.password, disabled: true
+            }, [
+                Validators.required,
+                Validators.minLength(8),
+                Validators.pattern(AppConfig.RegexPassword)
+            ]),
+            'lang': new FormControl({
+                value: user.userData.lang, disabled: false
+            }),
+//            'status': user.userData.status,
+//            'systemAdmin': this.sysAdminPermission,
+//            'group': null
         });
 
         this.isLoading = false;

@@ -57,7 +57,7 @@
                 </mat-form-field>
                 <!-- footer -->
                 <mat-action-row>
-                    <button mat-button *ngIf="!selectedUser"
+                    <button mat-button *ngIf="showUserForm"
                             class="navigation-button left"
                             color="warn"
                             (click)="nextStep($event)">
@@ -81,9 +81,10 @@
             </mat-expansion-panel>
 
             <!-- 1b) view: project and system admin: create new user profile (or edit old one) -->
-            <mat-expansion-panel [expanded]="step === 1"
-                                (opened)="setStep(1)"
-                                hideToggle="true">
+            <mat-expansion-panel *ngIf="showUserForm"
+                                 [expanded]="step === 1"
+                                 (opened)="setStep(1)"
+                                 hideToggle="true">
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -130,7 +131,7 @@
                         </mat-hint>
                     </mat-form-field>
                     <!-- password -->
-                    <mat-form-field class="large">
+                    <mat-form-field class="large" *ngIf="!userIri">
                         <input matInput [type]="showPassword ? 'text' : 'password'"
                                [placeholder]="formLabels.user.form.password + ' *'"
                                [formControl]="form.controls['password']">
@@ -406,7 +407,7 @@
                             {{formLabels.navigation.submit}}
                         </button>
                     </div>
-                    <!-- one button to add more users and on button to close the form;
+                    <!-- one button to add more users and one button to close the form;
                         both button are shown after submit -->
                     <div *ngIf="(!userErrorMessage && !projectErrorMessage && !permissionsErrorMessage) && afterSubmit">
                         <button mat-button
