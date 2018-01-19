@@ -4,6 +4,16 @@ import {Utils} from "../../utils";
 import {AppConfig} from "../../app.config";
 
 /**
+ * Represents an error that occurred when generating KnarQL.
+ */
+class KnarqlGenerationError extends Error {
+
+    constructor(msg: string) {
+        super(msg);
+    }
+}
+
+/**
  * Handles the generation of KnarQL queries.
  */
 @Injectable()
@@ -13,7 +23,7 @@ export class KnarqlgenerationService {
     }
 
     // map of complex knora-api value types to simple ones
-    typeConversionComplexToSimple = {
+    private typeConversionComplexToSimple = {
         [AppConfig.IntValue]: AppConfig.xsdInteger, // use computed property name: http://www.ecma-international.org/ecma-262/6.0/#sec-object-initializer
         [AppConfig.DecimalValue]: AppConfig.xsdDecimal,
         [AppConfig.BooleanValue]: AppConfig.xsdBoolean,
@@ -23,8 +33,34 @@ export class KnarqlgenerationService {
         [AppConfig.GeomValue]: AppConfig.geomSimple,
         [AppConfig.ColorValue]: AppConfig.colorSimple,
         [AppConfig.GeonameValue]: AppConfig.geonameSimple,
-        [AppConfig.UriValue]: AppConfig.xsdUri
+        [AppConfig.UriValue]: AppConfig.xsdUri,
+        [AppConfig.StillImageFileValue]: AppConfig.stillImageFileSimple,
+        [AppConfig.FileValue]: AppConfig.fileSimple,
+        [AppConfig.MovingImageFileValue]: AppConfig.movingFileSimple,
+        [AppConfig.DDDFileValue]: AppConfig.dddFileSimple,
+        [AppConfig.AudioFileValue]: AppConfig.audioFileSimple,
+        [AppConfig.DocumentFileValue]: AppConfig.documentFileSimple,
+        [AppConfig.TextFileValue]: AppConfig.textFileSimple,
+        [AppConfig.ListValue]: AppConfig.xsdString
     };
+
+    /**
+     * Converts a complex type Iri to a simple type Iri.
+     *
+     * @param {string} complexType the Iri of a value type (knora-api complex).
+     * @returns {string} the corresponding Iri of the simple type (knora-api simple).
+     */
+    private convertComplexTypeToSimpleType(complexType: string): string {
+
+        const simpleType: string = this.typeConversionComplexToSimple[complexType];
+
+        if (simpleType !== undefined) {
+            return simpleType;
+        } else {
+            throw new KnarqlGenerationError(`complex type ${complexType} could not be converted to simple type.`);
+        }
+
+    }
 
 
     /**
@@ -58,7 +94,7 @@ export class KnarqlgenerationService {
 
                 let simpleType;
                 if (!propWithVal.property.isLinkProperty) {
-                    simpleType = this.typeConversionComplexToSimple[propWithVal.property.objectType];
+                    simpleType = this.convertComplexTypeToSimpleType(propWithVal.property.objectType);
                 } else {
                     simpleType = AppConfig.resourceSimple;
                 }
