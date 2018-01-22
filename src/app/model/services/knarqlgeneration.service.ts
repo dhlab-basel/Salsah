@@ -68,9 +68,10 @@ export class KnarqlgenerationService {
      *
      * @param {PropertyWithValue[]} properties the properties specified by the user.
      * @param {string} mainResourceClassOption the class of the main resource, if specified.
+     * @param offset the offset to be used (nth page of results).
      * @returns {string} a KnarQL query string.
      */
-    createKnarQLQuery(properties: PropertyWithValue[], mainResourceClassOption?: string): string {
+    createKnarQLQuery(properties: PropertyWithValue[], mainResourceClassOption?: string, offset: number = 0): string {
 
         // class restriction for the resource searched for
         let mainResourceClass = '';
@@ -188,6 +189,7 @@ export class KnarqlgenerationService {
             
         }
         ${orderByStatement}
+        OFFSET ${offset}
         `;
 
         return knarqlTemplate;
