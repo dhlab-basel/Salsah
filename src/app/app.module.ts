@@ -144,6 +144,7 @@ import { FormTestComponent } from './view/test/development/form-test/form-test.c
 import { SelectUserComponent } from './view/modules/form/user-form/select-user/select-user.component';
 import { SelectProjectComponent } from './view/modules/form/user-form/select-project/select-project.component';
 import { ProjectPermissionComponent } from './view/modules/form/user-form/project-permission/project-permission.component';
+import { UserDataComponent } from './view/modules/form/user-form/user-data/user-data.component';
 
 //
 // import all needed services
@@ -252,7 +253,8 @@ import { ProjectPermissionComponent } from './view/modules/form/user-form/projec
         FormTestComponent,
         SelectUserComponent,
         SelectProjectComponent,
-        ProjectPermissionComponent
+        ProjectPermissionComponent,
+        UserDataComponent
 
     ],
     imports: [

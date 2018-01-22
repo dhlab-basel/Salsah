@@ -290,21 +290,6 @@ export class ProjectFormComponent implements OnInit {
 
             }
         });
-
-        /*
-                for (const field in Object.keys(this.formErrors)) {
-                    // clear previous error message (if any)
-                    this.formErrors[field] = '';
-                    const control = form.get(field);
-
-                    if (control && control.dirty && !control.valid) {
-                        const messages = this.validationMessages[field];
-                        for (const key in control.errors) {
-                            this.formErrors[field] += messages[key] + ' ';
-                        }
-                    }
-                }
-                */
     }
 
     onSubmit(value: any, iri?: string): void {

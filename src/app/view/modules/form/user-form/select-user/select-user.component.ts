@@ -154,7 +154,6 @@ export class SelectUserComponent implements OnInit {
      * @param {string} name
      * @returns {AutocompleteItem[]}
      *
-     *
      */
     filterUsers(name: string) {
         const filterValue = name.toLowerCase();
@@ -163,9 +162,8 @@ export class SelectUserComponent implements OnInit {
         );
     }
 
-
     /**
-     *
+     * get the information about the selected user
      * @param {AutocompleteItem} user
      */
     setSelectedUser(user: AutocompleteItem) {
@@ -191,12 +189,21 @@ export class SelectUserComponent implements OnInit {
         this.selectedUser = undefined;
     }
 
+    /**
+     * navigate go to the next or the one after that (skip)
+     * @param ev
+     * @param {string} step
+     */
     navigate(ev, step: string) {
         ev.preventDefault();
         const num: number = (step === 'skip' ? 1 : 3);
         this.goTo.emit(num)
     }
 
+    /**
+     * get the information / return the information if the expansion panel is active or not
+     * @param {number} step
+     */
     isActive(step: number): void {
         this.setStep.emit(step);
     }

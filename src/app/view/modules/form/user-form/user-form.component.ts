@@ -403,7 +403,7 @@ export class UserFormComponent implements OnInit {
                         this.existingUserNames.splice(this.existingUserNames.indexOf(userN), 1);
 
                         console.log(this.selectedUser);
-                        this.buildForm(this.selectedUser);
+//                        this.buildForm(this.selectedUser);
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = error;
@@ -412,14 +412,14 @@ export class UserFormComponent implements OnInit {
                 );
 
         } else {
-            this.buildForm(new UserProfile());
+ //           this.buildForm(new UserProfile());
         }
-
+/*
         this.form.valueChanges
             .subscribe(data => this.onValueChanged(data));
 
         this.onValueChanged(); // (re)set validation messages now
-
+*/
         /*
          this.filteredUsers = this.userCtrl.valueChanges
          .startWith(null)
@@ -536,7 +536,7 @@ export class UserFormComponent implements OnInit {
                             }
                         );
                     if (this.step === 0) {
-                        this.nextStep(event, 3);
+                        this.nextStep(3);
                     }
                 }
             } else {
@@ -719,52 +719,7 @@ export class UserFormComponent implements OnInit {
 //        location.reload();
     }
 
-    buildForm(user: UserProfile): void {
-        if (user.userData === undefined) {
-            user.userData = new UserData();
-            console.log(user);
-        }
 
-        this.form = this._fb.group({
-            'givenName': new FormControl({
-                value: user.userData.givenName, disabled: false
-            }, [
-                Validators.required
-            ]),
-            'familyName': new FormControl({
-                value: user.userData.familyName, disabled: false
-            }, [
-                Validators.required
-            ]),
-            'email': new FormControl({
-                value: user.userData.email, disabled: this.userIri !== undefined
-            }, [
-                Validators.required,
-                Validators.pattern(AppConfig.RegexEmail),
-                existingNamesValidator(this.existingUserNames)
-            ]),
-            'password': new FormControl({
-                value: user.userData.password, disabled: true
-            }, [
-                Validators.required,
-                Validators.minLength(8),
-                Validators.pattern(AppConfig.RegexPassword)
-            ]),
-            'lang': new FormControl({
-                value: user.userData.lang, disabled: false
-            }),
-//            'status': user.userData.status,
-//            'systemAdmin': this.sysAdminPermission,
-//            'group': null
-        });
-
-        this.isLoading = false;
-
-        this.form.valueChanges
-            .subscribe(data => this.onValueChanged(data));
-
-        this.onValueChanged(); // (re)set validation messages now
-    }
 
     // option to add more users after added one
     resetForm() {

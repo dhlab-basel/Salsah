@@ -24,7 +24,7 @@
         <mat-accordion class="headers-align">
 
             <!-- 1) user profile -->
-            <!-- 1a) view: project admin: select existing user OR create new user profile => b) -->
+            <!-- 1a) project admin view: select existing user OR create new user profile => b) -->
             <salsah-select-user *ngIf="projectIri"
                                 [expanded]="step === 0"
                                 [project]="projectIri"
@@ -32,112 +32,23 @@
                                 (goTo)="nextStep($event)">
             </salsah-select-user>
 
-            <!-- 1b) view: project and system admin: create new user profile (or edit old one) -->
-            <mat-expansion-panel *ngIf="showUserForm"
-                                 [expanded]="step === 1"
-                                 (opened)="setStep(1)"
-                                 hideToggle="true">
-                <!-- header -->
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <span *ngIf="projectIri">{{formLabels.user.form.projectAdmin.title}}</span>
-                        <span *ngIf="!projectIri">{{formLabels.user.form.systemAdmin.title}}</span>
-                    </mat-panel-title>
-                    <mat-panel-description
-                        *ngIf="!form.controls['givenName'].value && !form.controls['familyName'].value">
-                        <span *ngIf="projectIri">{{formLabels.user.form.projectAdmin.description}}</span>
-                        <span *ngIf="!projectIri">{{formLabels.user.form.systemAdmin.description}}</span>
-                        <mat-icon>person_add</mat-icon>
-                    </mat-panel-description>
-                    <mat-panel-description *ngIf="form.controls['givenName'].value && form.controls['familyName'].value">
-                        {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}
-                        <mat-icon>person_add</mat-icon>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
+            <!-- 1b) project and system admin view: main form to create new user profile or to edit existing one -->
+            <salsah-user-data [expanded]="step === 1"
+                              [user]="userIri"
+                              [project]="projectIri"
+                              (setStep)="setStep($event)"
+                              (goTo)="nextStep($event)">
+            </salsah-user-data>
 
-                <!-- step 1 form content -->
-                <form class="salsah-form new-user" [formGroup]="form">
-                    <mat-form-field class="small">
-                        <input matInput [salsahFocus]="step === 1"
-                               [placeholder]="formLabels.user.form.givenName + ' *'"
-                               [formControl]="form.controls['givenName']">
-                        <mat-hint *ngIf="formErrors.givenName">
-                            {{ formErrors.givenName }}
-                        </mat-hint>
-                    </mat-form-field>
-                    <mat-form-field class="medium">
-                        <input matInput
-                               [placeholder]="formLabels.user.form.familyName + ' *'"
-                               [formControl]="form.controls['familyName']">
-                        <mat-hint *ngIf="formErrors.familyName">
-                            {{ formErrors.familyName }}
-                        </mat-hint>
-                    </mat-form-field>
-                    <!-- email = username -->
-                    <mat-form-field class="large">
-                        <input matInput type="email" class="full-width"
-                               [placeholder]="formLabels.user.form.email + ' *'"
-                               [formControl]="form.controls['email']">
-                        <mat-hint *ngIf="formErrors.email">
-                            {{ formErrors.email }}
-                        </mat-hint>
-                    </mat-form-field>
-                    <!-- password -->
-                    <mat-form-field class="large" *ngIf="!userIri">
-                        <input matInput [type]="showPassword ? 'text' : 'password'"
-                               [placeholder]="formLabels.user.form.password + ' *'"
-                               [formControl]="form.controls['password']">
-                        <mat-icon matSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
-                                 [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></mat-icon>
-                        <mat-hint *ngIf="formErrors.password">
-                            {{ formErrors.password }}
-                        </mat-hint>
-                    </mat-form-field>
 
-                    <mat-select class="large"
-                               [placeholder]="formLabels.user.form.language"
-                               [formControl]="form.controls['lang']">
-
-                        <mat-option value="en">english</mat-option>
-                        <mat-option value="de">deutsch</mat-option>
-                        <mat-option value="fr">français</mat-option>
-                        <mat-option value="it">italiano</mat-option>
-                    </mat-select>
-
-                </form>
-
-                <!-- footer -->
-                <mat-action-row>
-                    <button mat-button
-                            color="warn"
-                            (click)="form.reset()">
-                        {{formLabels.navigation.reset}}
-                    </button>
-                    <button mat-button *ngIf="projectIri"
-                            class="navigation-button"
-                            color="primary"
-                            (click)="nextStep($event, 3)"
-                            [disabled]="!form.valid">
-                        {{formLabels.navigation.next}}
-                    </button>
-                    <button mat-button *ngIf="!projectIri"
-                            class="navigation-button"
-                            color="primary"
-                            (click)="nextStep($event)"
-                            [disabled]="!form.valid">
-                        {{formLabels.navigation.next}}
-                    </button>
-                </mat-action-row>
-
-            </mat-expansion-panel>
             <!-- ////////////////////////////////////////////////////////////////////////////////// -->
 
             <!-- 2) project membership -->
 
             <!-- 2a) view: system admin: select project AND set the permissions => b) -->
             <mat-expansion-panel [expanded]="step === 2" *ngIf="!projectIri"
-                                (opened)="setStep(2)"
-                                hideToggle="true">
+                                 (opened)="setStep(2)"
+                                 hideToggle="true">
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -155,11 +66,11 @@
                            [matAutocomplete]="autoProject"
                            [formControl]="projectCtrl">
                     <mat-icon matSuffix class="input-icon icon-for-autocomplete" (click)="projectCtrl.reset()"
-                             *ngIf="projectCtrl.value && projectCtrl.dirty">close
+                              *ngIf="projectCtrl.value && projectCtrl.dirty">close
                     </mat-icon>
                     <mat-autocomplete #autoProject="matAutocomplete"> <!-- [displayWith]="displayFn"> -->
                         <mat-option *ngFor="let project of filteredProjects | async" [value]="project?.name"
-                                   (onSelectionChange)="setSelectedProject(project?.iri, $event)">
+                                    (onSelectionChange)="setSelectedProject(project?.iri, $event)">
                             {{ project?.name }}
                         </mat-option>
                     </mat-autocomplete>
@@ -213,8 +124,8 @@
 
             <!-- 2b) view: project and system admin: set permissions -->
             <mat-expansion-panel [expanded]="step === 3"
-                                (opened)="setStep(3)"
-                                hideToggle="true">
+                                 (opened)="setStep(3)"
+                                 hideToggle="true">
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -233,8 +144,8 @@
                         </h3>
                         <mat-list-item>
                             <mat-slide-toggle [(ngModel)]="adminPermission"
-                                             [disabled]="!projectIri && (!selectedUser && !form.valid)"
-                                             color="primary">
+                                              [disabled]="!projectIri && (!selectedUser && !form.valid)"
+                                              color="primary">
                                 {{formLabels.permissions.project.description}}
                                 <span *ngIf="selectedProject"><i>&nbsp;{{selectedProject?.longname}}</i></span>
                             </mat-slide-toggle>
@@ -246,8 +157,8 @@
                         <h3 mat-subheader>{{formLabels.permissions.system.title}}</h3>
                         <mat-list-item>
                             <mat-slide-toggle [(ngModel)]="sysAdminPermission"
-                                             [disabled]="!projectIri && (!selectedUser && !form.valid)"
-                                             color="primary">
+                                              [disabled]="!projectIri && (!selectedUser && !form.valid)"
+                                              color="primary">
                                 {{formLabels.permissions.system.description}}
                             </mat-slide-toggle>
                         </mat-list-item>
@@ -272,8 +183,8 @@
 
             <!-- 3) overview or additional form stuff -->
             <mat-expansion-panel [expanded]="step === 4"
-                                (opened)="setStep(4)"
-                                [hideToggle]="true">
+                                 (opened)="setStep(4)"
+                                 [hideToggle]="true">
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -291,12 +202,14 @@
                         <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [type]="'submit'"
                                                    [status]="submitUserStatus"></salsah-progress-indicator>
                         <h4 mat-line>
+                            <!--
                             <span *ngIf="selectedUser">
                                 {{formLabels.user.select.titleDone}}
                             </span>
                             <span *ngIf="!selectedUser && form.valid">
                                 {{formLabels.user.form.projectAdmin.titleDone}}
                             </span>
+                            -->
                         </h4>
                         <p mat-line>
                             <span *ngIf="selectedUser">
@@ -336,7 +249,8 @@
                             <span *ngIf="adminPermission">&bull; {{formLabels.permissions.project.description}}
                                 <i>&nbsp;{{selectedProject?.longname}}</i>
                             </span>
-                            <span *ngIf="sysAdminPermission"><br>&bull; {{formLabels.permissions.system.description}}</span>
+                            <span
+                                *ngIf="sysAdminPermission"><br>&bull; {{formLabels.permissions.system.description}}</span>
                         </p>
                         <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
                             {{permissionsErrorMessage?.statusText}}

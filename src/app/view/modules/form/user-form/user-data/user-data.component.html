@@ -1,0 +1,96 @@
+<mat-expansion-panel *ngIf="!isLoading"
+                     [expanded]="expanded"
+                     (opened)="isActive(1)"
+                     [hideToggle]="true">
+    <!-- header -->
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <span *ngIf="!user">{{formLabels.user.title.new}}</span>
+            <span *ngIf="user">{{formLabels.user.title.edit}}</span>
+        </mat-panel-title>
+
+        <mat-panel-description>
+            <span>{{form.controls['givenName']?.value}} {{form.controls['familyName']?.value}}</span>
+            <mat-icon *ngIf="!user">person_add</mat-icon>
+            <mat-icon *ngIf="user">edit</mat-icon>
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <!-- content -->
+    <div class="salsah-form new-user" [formGroup]="form">
+
+        <mat-form-field class="small">
+            <input matInput
+                   [placeholder]="formLabels.user.form.givenName + ' *'"
+                   [formControl]="form.controls['givenName']">
+            <mat-hint *ngIf="formErrors.givenName">
+                {{ formErrors.givenName }}
+            </mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="medium">
+            <input matInput
+                   [placeholder]="formLabels.user.form.familyName + ' *'"
+                   [formControl]="form.controls['familyName']">
+            <mat-hint *ngIf="formErrors.familyName">
+                {{ formErrors.familyName }}
+            </mat-hint>
+        </mat-form-field>
+        <!-- email = username -->
+        <mat-form-field class="large">
+            <input matInput type="email" class="full-width"
+                   [placeholder]="formLabels.user.form.email + ' *'"
+                   [formControl]="form.controls['email']">
+            <mat-hint *ngIf="formErrors.email">
+                {{ formErrors.email }}
+            </mat-hint>
+        </mat-form-field>
+        <!-- password -->
+        <mat-form-field class="large" *ngIf="!user">
+            <input matInput [type]="showPassword ? 'text' : 'password'"
+                   [placeholder]="formLabels.user.form.password + ' *'"
+                   [formControl]="form.controls['password']">
+            <mat-icon matSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
+                      [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></mat-icon>
+            <mat-hint *ngIf="formErrors.password">
+                {{ formErrors.password }}
+            </mat-hint>
+        </mat-form-field>
+
+        <mat-select class="large"
+                    [placeholder]="formLabels.user.form.language"
+                    [formControl]="form.controls['lang']">
+
+            <mat-option value="en">english</mat-option>
+            <mat-option value="de">deutsch</mat-option>
+            <mat-option value="fr">français</mat-option>
+            <mat-option value="it">italiano</mat-option>
+        </mat-select>
+
+    </div>
+
+    <!-- footer -->
+    <mat-action-row>
+        <button mat-button
+                color="warn"
+                (click)="form.reset()">
+            {{formLabels.navigation.reset}}
+        </button>
+        <button mat-button *ngIf="project"
+                class="navigation-button"
+                color="primary"
+                (click)="navigate($event, 'skip')"
+                [disabled]="!form.valid">
+            {{formLabels.navigation.next}}
+        </button>
+        <button mat-button *ngIf="!project"
+                class="navigation-button"
+                color="primary"
+                (click)="navigate($event, 'next')"
+                [disabled]="!form.valid">
+            {{formLabels.navigation.next}}
+        </button>
+    </mat-action-row>
+
+
+</mat-expansion-panel>
