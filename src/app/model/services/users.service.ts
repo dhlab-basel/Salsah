@@ -14,10 +14,10 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {ApiService} from './api.service';
-import {UsersResponse, UserData} from '../webapi/knora';
-import {ApiServiceResult} from './api-service-result';
+import {User, UsersResponse} from '../webapi/knora';
 import {ApiServiceError} from './api-service-error';
+import {ApiServiceResult} from './api-service-result';
+import {ApiService} from './api.service';
 
 
 @Injectable()
@@ -48,11 +48,11 @@ export class UsersService extends ApiService {
      *
      * @returns {Observable<UserData[]>}
      */
-    getAllUsers(): Observable<UserData[]> {
+    getAllUsers(): Observable<User[]> {
 
         return this.httpGet('/admin/users').map(
             (result: ApiServiceResult) => {
-                const users: UserData[] = result.getBody(UsersResponse).users;
+                const users: User[] = result.getBody(UsersResponse).users;
                 // console.log('UsersService - getAllProjects: ' + JSON.stringify(projects));
                 return users;
             },

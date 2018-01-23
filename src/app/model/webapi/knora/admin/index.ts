@@ -14,20 +14,10 @@
  */
 
 /**
- * Interfaces for projects
+ * Interfaces for groups
  */
-export * from './projects/project';
-export * from './projects/project-members-response';
-export * from './projects/project-response';
-export * from './projects/projects-response';
+export * from './groups/group';
 
-/**
- * Interfaces for users
- */
-export * from './users/users-response'
-export * from './users/user-response';
-export * from './users/user-profile';
-export * from './users/user-data';
 
 /**
  * Interface for lists
@@ -41,7 +31,32 @@ export * from './lists/list-node-info-response';
 export * from './lists/list-response';
 export * from './lists/lists-response';
 
+
 /**
- * Interface for permissions (admin)
+ * Interface for ontologies
  */
-export * from './permissions/permission-data';
+export * from './ontologies/ontology-info-short';
+
+
+/**
+ * Interfaces for permissions
+ */
+export * from './permissions/permission-data'
+
+
+/**
+ * Interfaces for projects
+ */
+export * from './projects/project';
+export * from './projects/project-members-response';
+export * from './projects/project-response';
+export * from './projects/projects-response';
+
+
+/**
+ * Interfaces for users
+ */
+export * from './users/users-response'
+export * from './users/user-response';
+export * from './users/user-profile';
+export * from './users/user';

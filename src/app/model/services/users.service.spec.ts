@@ -1,25 +1,25 @@
-import {TestBed, inject} from '@angular/core/testing';
-import {AppModule} from '../../app.module';
-import {AppRoutingModule} from '../../app-routing.module';
+import {Http} from '@angular/http';
+import {environment} from '../../../environments/environment';
 import {ApiService} from './api.service';
 import {UsersService} from './users.service';
 
 
-describe('UsersService', () => {
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                AppModule,
-                AppRoutingModule
-            ],
-            providers: [
-                ApiService,
-                UsersService
-            ]
-        });
-    });
+fdescribe('UsersService', () => {
 
-    it('should ...', inject([UsersService], (service: UsersService) => {
+    let service: UsersService;
+
+    fit('should return all users', () => {
+
+        service = new UsersService(new ApiService());
         expect(service).toBeTruthy();
-    }));
+
+        if (environment.type === 'integration') {
+
+            const users = service.getAllUsers();
+
+            expect(service.getAllUsers()).toBe()
+
+        }
+
+    });
 });

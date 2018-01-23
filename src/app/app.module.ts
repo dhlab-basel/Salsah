@@ -1,3 +1,4 @@
+import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -248,6 +249,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
     ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         FormsModule,
         HttpModule,
         RouterModule,
