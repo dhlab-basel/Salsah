@@ -77,7 +77,6 @@ import {UserCollectionsComponent} from './view/dashboard/user/user-collections/u
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
-import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
 import {MessageComponent} from './view/modules/message/message.component';
@@ -140,6 +139,8 @@ import {DateValueComponent} from './view/modules/search/extended-search/select-p
 import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
 import {FileService} from './model/services/file.service';
 
+import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
+
 //
 // import all needed services
 //
@@ -186,7 +187,6 @@ import {FileService} from './model/services/file.service';
         KeyPipe,
         ProgressIndicatorComponent,
         ProgressStepperComponent,
-        AdvancedResourceClassComponent,
         MathJaxDirective,
         DevelopmentComponent,
         MessageComponent,
@@ -243,7 +243,8 @@ import {FileService} from './model/services/file.service';
         DecimalValueComponent,
         BooleanValueComponent,
         DateValueComponent,
-        OntologiesListItemComponent
+        OntologiesListItemComponent,
+        ExistingNameDirective
 
     ],
     imports: [

@@ -1,7 +1,26 @@
-<div *ngFor="let item of ontologiesList">
-    <h3>{{item}}</h3>
+<!-- progress indicator while the data is loading -->
+<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
 
-    <!-- an ontology has a list of resource types -->
-    <salsah-resource-types-list [restrictedBy]="item"></salsah-resource-types-list>
+<!-- show the results -->
+<div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
+    <div *ngIf="numberOfItems > 0; else noData">
+        <div *ngFor="let item of ontologiesList">
+            <h3>{{item}}</h3>
+
+            <!-- an ontology has a list of resource types -->
+            <salsah-resource-types-list [restrictedBy]="item"></salsah-resource-types-list>
+
+        </div>
+    </div>
+
+    <!-- in the case of zero results: show a no data message -->
+    <ng-template #noData>
+        <salsah-message [message]="noDataMessage"></salsah-message>
+    </ng-template>
 </div>
+
+<!-- in the case of an API error: show the error message -->
+<ng-template #errorMsg>
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+</ng-template>
