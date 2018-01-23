@@ -16,7 +16,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {ApiService} from './api.service';
-import {ApiServiceResult} from "./api-service-result";
+import {ApiServiceResult} from './api-service-result';
 
 @Injectable()
 export class SearchService extends ApiService {
@@ -29,11 +29,26 @@ export class SearchService extends ApiService {
      */
     doFulltextSearch(searchTerm: string): Observable<ApiServiceResult> {
 
-        if (searchTerm === undefined || searchTerm.length == 0) {
-            return Observable.create(observer => observer.error("No search term given for call of SearchService.doFulltextSearch"));
+        if (searchTerm === undefined || searchTerm.length === 0) {
+            return Observable.create(observer => observer.error('No search term given for call of SearchService.doFulltextSearch'));
         }
 
-        return this.httpGetV2("/search/" + searchTerm);
+        return this.httpGetV2('/search/' + searchTerm);
+    }
+
+    /**
+     * Get the number of all fulltext search results
+     *
+     * @param {string} searchTerm
+     * @returns {Observable<any>}
+     */
+    countResultsFulltextSearch(searchTerm: string): Observable<ApiServiceResult> {
+
+        if (searchTerm === undefined || searchTerm.length === 0) {
+            return Observable.create(observer => observer.error('No search term given for call of SearchService.countResultsFulltextSearch'));
+        }
+
+        return this.httpGetV2('/search/count/' + searchTerm);
     }
 
     /**
@@ -46,11 +61,11 @@ export class SearchService extends ApiService {
 
         // TODO: check that the sparqString is already URL encoded
 
-        if (sparqlString === undefined || sparqlString.length == 0) {
-            return Observable.create(observer => observer.error("No Sparql string given for call of SearchService.doExtendedSearch"));
+        if (sparqlString === undefined || sparqlString.length === 0) {
+            return Observable.create(observer => observer.error('No Sparql string given for call of SearchService.doExtendedSearch'));
         }
 
-        return this.httpGetV2("/searchextended/" + sparqlString);
+        return this.httpGetV2('/searchextended/' + sparqlString);
 
     }
 

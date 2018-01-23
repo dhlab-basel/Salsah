@@ -79,12 +79,21 @@ export class SearchResultsComponent implements OnInit {
             this.list.searchMode = params['mode'];
 
             this.list.restrictedBy = params['q'];
+
             this._title.setTitle( 'Salsah | Looked for ' + this.list.restrictedBy);
         });
     }
 
-    public changeView(view: string): void {
+    changeView(view: string): void {
         this.list.showAs = view;
     }
+
+
+    onScroll () {
+        // TODO here we have to send the end of scroll information to the framework-for-listings.
+        // it should include a counter for the paging
+        alert('load the next 25 results and append them to the list');
+    }
+
 
 }

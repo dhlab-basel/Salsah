@@ -115,20 +115,20 @@ export class ResourcesListComponent implements OnInit {
      */
     private processSearchResults = (searchResult: ApiServiceResult) => {
 
-        let resPromises = jsonld.promises;
+        const resPromises = jsonld.promises;
         // compact JSON-LD using an empty context: expands all Iris
-        let resPromise = resPromises.compact(searchResult.body, {});
+        const resPromise = resPromises.compact(searchResult.body, {});
 
         resPromise.then((compacted) => {
 
             // get resource class Iris from response
-            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+            const resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
             // request ontology information about resource class Iris (properties are implied)
             this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
                 (resourceClassInfos: OntologyInformation) => {
 
-                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                    const resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                     // assign ontology information to a variable so it can be used in the component's template
                     this.ontologyInfo = resourceClassInfos;

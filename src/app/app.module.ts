@@ -18,6 +18,8 @@ import 'hammerjs';
 //
 // import other third party modules
 import {DndModule} from 'ng2-dnd';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+
 import {ApiService} from './model/services/api.service';
 import {AuthenticationService} from './model/services/authentication.service';
 import {ProjectsService} from './model/services/projects.service';
@@ -253,6 +255,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         RouterModule,
         AppMaterialModule,
         MatNativeDateModule,
+        InfiniteScrollModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,

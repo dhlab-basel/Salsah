@@ -5,6 +5,7 @@
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
     <div *ngIf="numberOfItems !== 0; else noData" [ngSwitch]="listType">
+        <p>{{numberOfItems}}</p>
         <!-- show as table if listType === table -->
         <table *ngSwitchCase="'table'" class="salsah-table">
         </table>
@@ -41,7 +42,7 @@
         </mat-grid-list>
 
         <!-- default list -->
-        <mat-list class="salsah-list" *ngSwitchDefault>
+        <mat-list class="salsah-list" *ngSwitchDefault >
             <mat-list-item *ngFor="let res of result.resources; let i = index"
                            (click)="toggle(res.id, i)"
                            [id]="res.id"
