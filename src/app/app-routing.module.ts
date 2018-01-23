@@ -87,7 +87,7 @@ const appRoutes: Routes = [
         component: ResourceObjectComponent
     },
     {
-        path: 'project/:pid', component: ProjectComponent,
+        path: 'project/:shortname', component: ProjectComponent,
         children: [
             {
                 path: '', component: ProjectProfileComponent
@@ -169,6 +169,16 @@ const appRoutes: Routes = [
             {
                 path: 'progress-stepper',
                 component: ProgressStepperComponent
+            },
+            {
+                path: 'upload',
+                component: FileUploaderComponent,
+                data: {
+                    maxFiles: 5,
+                    formType: 'admin',
+                    viewType: 'url'
+
+                }
             },
             {
                 path: 'form/:name', component: FormCreateComponent,

@@ -19,11 +19,21 @@
 // The list of which environment maps to which file can be found in `..angular-cli.json`.
 
 export const environment = {
-    description: 'developer',
     production: false,
-    media: 'http://localhost:1024/knora',   // perhaps we have to rename it into sipi?
-    api: 'http://localhost:3333',           // perhaps we have to rename it into knora?
-    url: 'http://localhost:4200',           // perhaps we have to rename it into guiUrl or salsah?
-    localData: 'data',
+    description: 'developer environment',
+    url: 'http://localhost:4200',
+    api: 'http://localhost:3333',
+    media: 'http://localhost:1024',
+/*
+    TODO: change the structure of environment object into something like the following:
+    database: {
+        client: 'knora',
+        path: 'http://localhost:3333'
+    },
+    fileserver: {
+        client: 'sipi',
+        path: 'http://localhost:1024'
+    },
+*/
     pagingLimit: 25
 };

@@ -1,47 +1,42 @@
 <div class="salsah-module with-header" *ngIf="sysAdmin && !errorMessage">
+
     <!-- this component has his own toolbar header
         with tabs for navigation through the settings
     -->
-    <!--
-    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-    -->
 
-    <!-- component has his own toolbar, with component specific buttons / tabs / etc. -->
     <mat-toolbar class="salsah-module-header">
-        <!-- type of the current dashboard -->
+        <!-- current dashboard type -->
         <h4 mat-subheader>
             System
         </h4>
-        <!--
-        <mat-icon>build</mat-icon>
-        -->
 
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
 
         <!-- Tab menu -->
-        <nav class="salsah-tab-group" *ngIf="!errorMessage">
-            <button *ngFor="let item of menu; let i = index; let first=first"
-                    mat-button
-                    class="salsah-tab-item"
-                    [routerLink]="item.route"
-                    routerLinkActive="active">
+        <nav mat-tab-nav-bar class="salsah-tab-group" *ngIf="!errorMessage && !isLoading">
+            <!-- the tabs contains the system admin navigation -->
+            <a mat-tab-link *ngFor="let item of menu; let first = first"
+               [routerLink]="item.route"
+               routerLinkActive
+               #rla="routerLinkActive"
+               [active]="rla.isActive">
                 {{item.name}}
-            </button>
+            </a>
         </nav>
+
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
 
     </mat-toolbar>
 
-    <!-- and the sub module for route specific child components -->
-    <div class="salsah-module-scroll-area">
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+    <div class="salsah-module-scroll-area" *ngIf="!isLoading">
 
         <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
-        <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
-
-        <router-outlet *ngIf="!errorMessage && !isLoading" (tabRequest)="activateTab($event)"></router-outlet>
+        <router-outlet *ngIf="!errorMessage"></router-outlet>
 
     </div>
 

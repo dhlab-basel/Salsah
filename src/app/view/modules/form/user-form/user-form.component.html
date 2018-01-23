@@ -17,14 +17,6 @@
 
 
 <div class="salsah-step-by-step-form">
-    <!-- form header with form stepper -->
-    <!--
-    <div class="salsah-form-stepper">
-        <salsah-progress-stepper *ngIf="steps || max_steps" [steps]="steps"
-                                 [counter]="counter"></salsah-progress-stepper>
-    </div>
-    <br>
-    -->
 
     <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
@@ -88,8 +80,8 @@
                 </mat-action-row>
             </mat-expansion-panel>
 
-            <!-- 1b) view: project and system admin: create new user profile (or edit old one?) -->
-            <mat-expansion-panel [expanded]="step === 1" *ngIf="!selectedUser && !userCtrl.value"
+            <!-- 1b) view: project and system admin: create new user profile (or edit old one) -->
+            <mat-expansion-panel [expanded]="step === 1"
                                 (opened)="setStep(1)"
                                 hideToggle="true">
                 <!-- header -->
@@ -419,8 +411,10 @@
                         </button>
                         <button mat-button mat-dialog-close
                                 class="navigation-button-center"
-                                color="warn"
+                                color="warn">
+                            <!--
                                 (click)="updateView()">
+                            -->
                             {{formLabels.navigation.close}}
                         </button>
                     </div>

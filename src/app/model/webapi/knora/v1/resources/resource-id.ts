@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
+import {JsonObject, JsonProperty} from 'json2typescript';
 
 
 @JsonObject
@@ -23,4 +23,3 @@ export class ResourceId {
     @JsonProperty('pid', String)
     public pid: string = undefined;
 }
- 

@@ -12,9 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+import {environment} from '../environments/environment';
+
 export class AppConfig {
 
-    public static KnoraBase: string = 'http://www.knora.org/ontology/knora-base';
+    public static FileServer: string = environment.media;
+    public static AdminFileServer: string = environment.media + '/server/admin';
+
+    public static KnoraOntologyPath: string = 'http://www.knora.org/ontology';
+    public static KnoraBase: string = AppConfig.KnoraOntologyPath + '/knora-base';
 
     public static SystemProject: string = AppConfig.KnoraBase + '#SystemProject';
     public static SystemAdminGroup: string = AppConfig.KnoraBase + '#SystemAdmin';

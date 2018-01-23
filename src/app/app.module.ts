@@ -135,8 +135,9 @@ import {IntegerValueComponent} from './view/modules/search/extended-search/selec
 import {DecimalValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/decimal-value/decimal-value.component';
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
-import {MatNativeDateModule} from '@angular/material';
+
 import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+import {FileService} from './model/services/file.service';
 
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 
@@ -252,7 +253,6 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         HttpModule,
         RouterModule,
         AppMaterialModule,
-        MatNativeDateModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
@@ -282,6 +282,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,
+        FileService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

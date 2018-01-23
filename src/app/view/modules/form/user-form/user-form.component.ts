@@ -302,6 +302,14 @@ export class UserFormComponent implements OnInit {
         // the user name should be unique and with the array list, we can
         // prevent to have the same user name twice; proof it with the ForbiddenName directive
 
+        // if we have an iri from @Input, the form should be in the "edit" mode instead of "create new"
+        if (this.iri !== undefined) {
+
+            this.step = 1;
+            // TODO: edit user profile: issue #128
+            // this.setSelectedUser(null, this.iri);
+        }
+
         this._userService.getAllUsers()
             .subscribe(
                 (users: UserData[]) => {
@@ -681,7 +689,7 @@ export class UserFormComponent implements OnInit {
 
     // after close form, refresh the page
     updateView() {
-        location.reload();
+//        location.reload();
     }
 
     // option to add more users after added one
