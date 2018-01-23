@@ -30,7 +30,7 @@ export class UsersService extends ApiService {
      * @returns {Observable<any>}
      */
     getUserByIri(iri: string): Observable<any> {
-        return this.httpGet('/v1/users/' + encodeURIComponent(iri));
+        return this.httpGet('/admin/users/' + encodeURIComponent(iri));
     }
 
     /**
@@ -40,7 +40,7 @@ export class UsersService extends ApiService {
      * @returns {Observable<any>}
      */
     getUserByEmail(email: string): Observable<any> {
-        return this.httpGet('/v1/users/' + encodeURIComponent(email) + '?identifier=email');
+        return this.httpGet('/admin/users/' + encodeURIComponent(email) + '?identifier=email');
     }
 
     /**
@@ -50,7 +50,7 @@ export class UsersService extends ApiService {
      */
     getAllUsers(): Observable<UserData[]> {
 
-        return this.httpGet('/v1/users').map(
+        return this.httpGet('/admin/users').map(
             (result: ApiServiceResult) => {
                 const users: UserData[] = result.getBody(UsersResponse).users;
                 // console.log('UsersService - getAllProjects: ' + JSON.stringify(projects));
@@ -84,34 +84,34 @@ export class UsersService extends ApiService {
          lang: String = "en",
          systemAdmin: Boolean = false
          */
-        return this.httpPost('/v1/users', data, {});
+        return this.httpPost('/admin/users', data, {});
     }
 
     addUserToProject(uIri: string, pIri: string): Observable<any> {
-        return this.httpPost('/v1/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+        return this.httpPost('/admin/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
     }
 
     removeUserFromProject(uIri: string, pIri: string): Observable<any> {
-        return this.httpDelete('/v1/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+        return this.httpDelete('/admin/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
     }
 
     addUserToProjectAdmin(uIri: string, pIri: string): Observable<any> {
-        return this.httpPost('/v1/users/projects-admin/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+        return this.httpPost('/admin/users/projects-admin/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
     }
 
     addUserToSystemAdmin(uIri: string, data: any): Observable<any> {
-        return this.httpPut('/v1/users/' + encodeURIComponent(uIri), data, {});
+        return this.httpPut('/admin/users/' + encodeURIComponent(uIri), data, {});
     }
 
     deleteUser(iri: string): Observable<any> {
-        return this.httpDelete('/v1/users/' + encodeURIComponent(iri));
+        return this.httpDelete('/admin/users/' + encodeURIComponent(iri));
     }
 
     activateUser(iri: string): Observable<any> {
         const data: any = {
             status: true
         };
-        return this.httpPut('/v1/users/' + encodeURIComponent(iri), data)
+        return this.httpPut('/admin/users/' + encodeURIComponent(iri), data)
     }
 
 

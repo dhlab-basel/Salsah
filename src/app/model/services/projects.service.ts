@@ -35,7 +35,7 @@ export class ProjectsService extends ApiService {
      */
     getAllProjects(): Observable<Project[]> {
 
-        return this.httpGet('/v1/projects').map(
+        return this.httpGet('/admin/projects').map(
                 (result: ApiServiceResult) => {
                     const projects: Project[] = result.getBody(ProjectsResponse).projects;
                     // console.log('ProjectsService - getAllProjects: ' + JSON.stringify(projects));
@@ -59,7 +59,7 @@ export class ProjectsService extends ApiService {
 
 
 
-        const url = '/v1/projects/' + encodeURIComponent(iri)
+        const url = '/admin/projects/' + encodeURIComponent(iri)
         return this.getProject(url);
     }
 
@@ -71,7 +71,7 @@ export class ProjectsService extends ApiService {
      * @throws {ApiServiceError}
      */
     getProjectByShortname(shortname: string): Observable<Project> {
-        const url = '/v1/projects/' + shortname + '?identifier=shortname';
+        const url = '/admin/projects/' + shortname + '?identifier=shortname';
         return this.getProject(url);
     }
 
@@ -107,7 +107,7 @@ export class ProjectsService extends ApiService {
 
 //        console.log('ProjectsService - getProjectMembersByIri - iri: ' + iri);
 
-        const url = '/v1/projects/members/' + encodeURIComponent(iri);
+        const url = '/admin/projects/members/' + encodeURIComponent(iri);
         return this.getProjectMembers(url);
     }
 
@@ -119,12 +119,12 @@ export class ProjectsService extends ApiService {
      * @throws {ApiServiceError}
      */
     getProjectMembersByShortname(shortname: string): Observable<UserData[]> {
-        const url = '/v1/projects/members/' + shortname + '?identifier=shortname';
+        const url = '/admin/projects/members/' + shortname + '?identifier=shortname';
         return this.getProjectMembers(url);
     }
 
     /**
-     * Helper method comining project member retrieval
+     * Helper method combining project member retrieval
      *
      * @param url
      * @returns {Observable<UserData[]>}
@@ -148,25 +148,25 @@ export class ProjectsService extends ApiService {
         const headers: Headers = new Headers();
         console.log(headers);
         console.log(data);
-        return this.httpPost('/v1/projects', data);
+        return this.httpPost('/admin/projects', data);
     }
 
     updateProject(iri: string, data: any): Observable<any> {
         const headers: Headers = new Headers();
         console.log(headers);
         console.log(data);
-        return this.httpPut('/v1/projects/' + encodeURIComponent(iri), data);
+        return this.httpPut('/admin/projects/' + encodeURIComponent(iri), data);
     }
 
     deleteProject(iri: string): Observable<any> {
-        return this.httpDelete('/v1/projects/' + encodeURIComponent(iri));
+        return this.httpDelete('/admin/projects/' + encodeURIComponent(iri));
     }
 
     activateProject(iri: string): Observable<any> {
         const data: any = {
             status: true
         };
-        return this.httpPut('/v1/projects/' + encodeURIComponent(iri), data)
+        return this.httpPut('/admin/projects/' + encodeURIComponent(iri), data)
     }
 
 
