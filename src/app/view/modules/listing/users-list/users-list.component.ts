@@ -76,7 +76,7 @@ export class UsersListComponent implements OnInit {
     newAllActiveUsers: NewUserData[] = [];
     newAllInactiveUsers: NewUserData[] = [];
 
-    countAll: number;
+    numberOfItems: number;
     countActive: number;
     countInactive: number;
 
@@ -171,7 +171,7 @@ export class UsersListComponent implements OnInit {
                                 );
 
                         }
-                        this.countAll = Object.keys(this.allUsers).length;
+                        this.numberOfItems = Object.keys(this.allUsers).length;
                         // set an array of the project members in local storage
                         // it's a list of user IRIs
                         // we need it, when we want to add new members to a project
@@ -228,7 +228,7 @@ export class UsersListComponent implements OnInit {
                                 );
 
                         }
-                        this.countAll = Object.keys(this.allUsers).length;
+                        this.numberOfItems = Object.keys(this.allUsers).length;
                         this.isLoading = false;
 
                     },

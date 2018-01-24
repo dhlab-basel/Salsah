@@ -25,10 +25,12 @@ export class FileUploaderComponent implements OnInit {
 
     @Output() setFiles = new EventEmitter<any>();
 
-    private fileList: any = [];
-    private invalidFiles: any = [];
 
-    private filesToUpload: any = [];
+    fileList: any = [];
+    invalidFiles: any = [];
+
+    filesToUpload: any = [];
+
 
     viewType: string = 'upload';
     dragStatus: boolean = false;
