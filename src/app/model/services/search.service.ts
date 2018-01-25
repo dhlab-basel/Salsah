@@ -25,15 +25,16 @@ export class SearchService extends ApiService {
      * Perform a fulltext search.
      *
      * @param searchTerm the term to search for.
+     * @param offset the offset to be used (for paging, first offset is 0)
      * @returns {Observable<any>}
      */
-    doFulltextSearch(searchTerm: string): Observable<ApiServiceResult> {
+    doFulltextSearch(searchTerm: string, offset: number = 0): Observable<ApiServiceResult> {
 
         if (searchTerm === undefined || searchTerm.length === 0) {
             return Observable.create(observer => observer.error('No search term given for call of SearchService.doFulltextSearch'));
         }
 
-        return this.httpGetV2('/search/' + searchTerm);
+        return this.httpGetV2('/search/' + searchTerm + '?offset='+ offset);
     }
 
     /**
