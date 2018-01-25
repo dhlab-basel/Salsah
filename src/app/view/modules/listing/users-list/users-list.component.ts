@@ -16,7 +16,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {UsersService} from '../../../../model/services/users.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {UserData, UserProfile, UserResponse} from '../../../../model/webapi/knora';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 
 import {MessageData} from '../../message/message.component';
@@ -26,7 +25,7 @@ import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
-
+import {User} from '../../../../model/webapi/knora';
 
 
 @Component({
@@ -69,9 +68,9 @@ export class UsersListComponent implements OnInit {
     };
 
     // the main objects in this component
-    allUsers: UserData[] = [];
-    allActiveUsers: UserProfile[] = [];
-    allInactiveUsers: UserProfile[] = [];
+    allUsers: User[] = [];
+    allActiveUsers: User[] = [];
+    allInactiveUsers: User[] = [];
 
     newAllActiveUsers: NewUserData[] = [];
     newAllInactiveUsers: NewUserData[] = [];
@@ -132,43 +131,34 @@ export class UsersListComponent implements OnInit {
             // get project members
             this._projectsService.getProjectMembersByIri(this.project)
                 .subscribe(
-                    (result: UserData[]) => {
+                    (result: User[]) => {
                         this.allUsers = result;
 
                         // TODO: move the following lines into a method
-                        for (const au of this.allUsers) {
-                            // TODO: get all user profiles here
-                            // ...
-                            this._userService.getUserByIri(au.user_id)
-                                .subscribe(
-                                    (userResult: ApiServiceResult) => {
-                                        const user: UserProfile = userResult.getBody(UserResponse).userProfile;
-                                        if (user.userData.status === true) {
-                                            this.allActiveUsers.push(user);
-                                            const active: NewUserData = {
-                                                email: user.userData.email,
-                                                givenName: user.userData.givenName,
-                                                familyName: user.userData.familyName,
-                                                user_profile: user
-                                            };
-                                            this.newAllActiveUsers.push(active);
-                                            this.countActive = this.newAllActiveUsers.length;
-                                        } else {
-                                            this.allInactiveUsers.push(user);
-                                            const inactive: NewUserData = {
-                                                email: user.userData.email,
-                                                givenName: user.userData.givenName,
-                                                familyName: user.userData.familyName,
-                                                user_profile: user
-                                            };
-                                            this.newAllInactiveUsers.push(inactive);
-                                            this.countInactive = this.newAllInactiveUsers.length;
-                                        }
-                                    },
-                                    (userError: ApiServiceError) => {
-                                        this.errorMessage = <any>userError;
-                                    }
-                                );
+                        // FixMe: Looks very redundant to me. Do we really need this.
+                        for (const u of this.allUsers) {
+
+                            if (u.status === true) {
+                                this.allActiveUsers.push(u);
+                                const active: NewUserData = {
+                                    email: u.email,
+                                    givenName: u.givenName,
+                                    familyName: u.familyName,
+                                    user_profile: u
+                                };
+                                this.newAllActiveUsers.push(active);
+                                this.countActive = this.newAllActiveUsers.length;
+                            } else {
+                                this.allInactiveUsers.push(u);
+                                const inactive: NewUserData = {
+                                    email: u.email,
+                                    givenName: u.givenName,
+                                    familyName: u.familyName,
+                                    user_profile: u
+                                };
+                                this.newAllInactiveUsers.push(inactive);
+                                this.countInactive = this.newAllInactiveUsers.length;
+                            }
 
                         }
                         this.numberOfItems = Object.keys(this.allUsers).length;
@@ -178,7 +168,7 @@ export class UsersListComponent implements OnInit {
                         // in that case we see, if someone is already a member
                         const currentMembers: string[] = [];
                         for (const m of this.allUsers) {
-                            currentMembers.push(m.user_id);
+                            currentMembers.push(m.id);
                         }
                         sessionStorage.setItem('currentMembers', JSON.stringify(currentMembers));
                         this.isLoading = false;
@@ -192,40 +182,32 @@ export class UsersListComponent implements OnInit {
             // get all users from knora
             this._userService.getAllUsers()
                 .subscribe(
-                    (result: UserData[]) => {
+                    (result: User[]) => {
                         this.allUsers = result;
-                        for (const au of this.allUsers) {
-                            this._userService.getUserByIri(au.user_id)
-                                .subscribe(
-                                    (userResult: ApiServiceResult) => {
-                                        const user: UserProfile = userResult.getBody(UserResponse).userProfile;
-                                        if (user.userData.status === true) {
-                                            this.allActiveUsers.push(user);
-                                            const active: NewUserData = {
-                                                email: user.userData.email,
-                                                givenName: user.userData.givenName,
-                                                familyName: user.userData.familyName,
-                                                user_profile: user
-                                            };
-                                            this.newAllActiveUsers.push(active);
-                                            this.countActive = this.newAllActiveUsers.length;
+                        for (const u of this.allUsers) {
 
-                                        } else {
-                                            this.allInactiveUsers.push(user);
-                                            const inactive: NewUserData = {
-                                                email: user.userData.email,
-                                                givenName: user.userData.givenName,
-                                                familyName: user.userData.familyName,
-                                                user_profile: user
-                                            };
-                                            this.newAllInactiveUsers.push(inactive);
-                                            this.countInactive = this.newAllInactiveUsers.length;
-                                        }
-                                    },
-                                    (userError: ApiServiceError) => {
-                                        this.errorMessage = <any>userError;
-                                    }
-                                );
+                            if (u.status === true) {
+                                this.allActiveUsers.push(u);
+                                const active: NewUserData = {
+                                    email: u.email,
+                                    givenName: u.givenName,
+                                    familyName: u.familyName,
+                                    user_profile: u
+                                };
+                                this.newAllActiveUsers.push(active);
+                                this.countActive = this.newAllActiveUsers.length;
+
+                            } else {
+                                this.allInactiveUsers.push(u);
+                                const inactive: NewUserData = {
+                                    email: u.email,
+                                    givenName: u.givenName,
+                                    familyName: u.familyName,
+                                    user_profile: u
+                                };
+                                this.newAllInactiveUsers.push(inactive);
+                                this.countInactive = this.newAllInactiveUsers.length;
+                            }
 
                         }
                         this.numberOfItems = Object.keys(this.allUsers).length;
@@ -307,7 +289,7 @@ export class UsersListComponent implements OnInit {
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
                 this._userService.removeUserFromProject(uIri, pIri).subscribe(
-                    (res: ApiServiceResult) => {
+                    (res: User) => {
                         // reload page
                         window.location.reload();
                     },
@@ -344,7 +326,7 @@ export class UsersListComponent implements OnInit {
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
                 this._userService.deleteUser(iri).subscribe(
-                    (res: ApiServiceResult) => {
+                    (res: User) => {
                         // reload page
                         this.isLoading = false;
                         window.location.reload();
@@ -383,7 +365,7 @@ export class UsersListComponent implements OnInit {
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
                 this._userService.activateUser(iri).subscribe(
-                    (res: ApiServiceResult) => {
+                    (res: User) => {
                         // reload page
                         this.isLoading = false;
                         window.location.reload();

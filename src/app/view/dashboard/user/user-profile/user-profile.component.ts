@@ -12,11 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, Input} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {UserProfile} from "../../../../model/webapi/knora/";
-import {UsersService} from "../../../../model/services/users.service";
+import {Component, OnInit} from '@angular/core';
 import {MessageData} from '../../../modules/message/message.component';
+import {User} from '../../../../model/webapi/knora';
 
 @Component({
     selector: 'salsah-user-profile',
@@ -26,13 +24,13 @@ import {MessageData} from '../../../modules/message/message.component';
 export class UserProfileComponent implements OnInit {
 
     errorMessage: string = undefined;
-    user: UserProfile = new UserProfile();
+    user: User = new User();
 
     developerInfo: MessageData = {
         status: 304,
-        statusMsg: "User profile dashboard",
-        statusText: "TODO: What should be in the user's dashboard? List of last edited instances? Social network?",
-        route: "dashboard/user/user-profile/"
+        statusMsg: 'User profile dashboard',
+        statusText: 'TODO: What should be in the user\'s dashboard? List of last edited instances? Social network?',
+        route: 'dashboard/user/user-profile/'
     };
 
     constructor() {

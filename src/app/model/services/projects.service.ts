@@ -15,17 +15,18 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {UserData, Project, ProjectMembersResponse, ProjectsResponse, ProjectResponse} from '../webapi/knora';
+import {Project, ProjectMembersResponse, ProjectsResponse, ProjectResponse} from '../webapi/knora';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 
 import {ApiService} from './api.service';
+import {User} from '../webapi/knora/admin';
 
 @Injectable()
 export class ProjectsService extends ApiService {
 
     private activeProject: ReplaySubject<Project> = new ReplaySubject(1);
-    private projectMembers: ReplaySubject<UserData[]> = new ReplaySubject(1);
+    private projectMembers: ReplaySubject<User[]> = new ReplaySubject(1);
 
     /**
      * returns a list of all projects
@@ -57,8 +58,6 @@ export class ProjectsService extends ApiService {
      */
     getProjectByIri(iri: string): Observable<Project> {
 
-
-
         const url = '/admin/projects/' + encodeURIComponent(iri)
         return this.getProject(url);
     }
@@ -85,7 +84,7 @@ export class ProjectsService extends ApiService {
     getProject(url: string): Observable<Project> {
         return this.httpGet(url).map(
             (result: ApiServiceResult) => {
-                const project: Project = result.getBody(ProjectResponse).project_info;
+                const project: Project = result.getBody(ProjectResponse).project;
                 // console.log('ProjectsService - getProject: ' + url + ' , project: ' + project);
                 return project;
             },
@@ -103,9 +102,9 @@ export class ProjectsService extends ApiService {
      * @returns {Observable<UserData[]>}
      * @throws {ApiServiceError}
      */
-    getProjectMembersByIri(iri: string): Observable<UserData[]> {
+    getProjectMembersByIri(iri: string): Observable<User[]> {
 
-//        console.log('ProjectsService - getProjectMembersByIri - iri: ' + iri);
+        // console.log('ProjectsService - getProjectMembersByIri - iri: ' + iri);
 
         const url = '/admin/projects/members/' + encodeURIComponent(iri);
         return this.getProjectMembers(url);
@@ -118,7 +117,7 @@ export class ProjectsService extends ApiService {
      * @returns {Observable<UserData[]>}
      * @throws {ApiServiceError}
      */
-    getProjectMembersByShortname(shortname: string): Observable<UserData[]> {
+    getProjectMembersByShortname(shortname: string): Observable<User[]> {
         const url = '/admin/projects/members/' + shortname + '?identifier=shortname';
         return this.getProjectMembers(url);
     }
@@ -130,11 +129,11 @@ export class ProjectsService extends ApiService {
      * @returns {Observable<UserData[]>}
      * @throws {ApiServiceError}
      */
-    getProjectMembers(url: string): Observable<UserData[]> {
+    getProjectMembers(url: string): Observable<User[]> {
         return this.httpGet(url).map(
             (result: ApiServiceResult) => {
-                const members: UserData[] = result.getBody(ProjectMembersResponse).members;
-//                console.log('ProjectsService - getProjectMembers - url: ' + JSON.stringify(url) + ' , members: ' + JSON.stringify(members));
+                const members: User[] = result.getBody(ProjectMembersResponse).members;
+                // console.log('ProjectsService - getProjectMembers - url: ' + JSON.stringify(url) + ' , members: ' + JSON.stringify(members));
                 return members;
             },
             (error: ApiServiceError) => {
@@ -144,6 +143,7 @@ export class ProjectsService extends ApiService {
         )
     }
 
+    // FIXME: refactor to return specific object.
     createProject(data: any): Observable<any> {
         const headers: Headers = new Headers();
         console.log(headers);
@@ -151,6 +151,7 @@ export class ProjectsService extends ApiService {
         return this.httpPost('/admin/projects', data);
     }
 
+    // FIXME: refactor to return specific object.
     updateProject(iri: string, data: any): Observable<any> {
         const headers: Headers = new Headers();
         console.log(headers);
@@ -158,15 +159,48 @@ export class ProjectsService extends ApiService {
         return this.httpPut('/admin/projects/' + encodeURIComponent(iri), data);
     }
 
-    deleteProject(iri: string): Observable<any> {
-        return this.httpDelete('/admin/projects/' + encodeURIComponent(iri));
+    /**
+     * Deletes (deactivates) a project by setting it's status to false.
+     *
+     * @param {string} iri
+     * @returns {Observable<Project>}
+     */
+    deleteProject(iri: string): Observable<Project> {
+        return this.httpDelete('/admin/projects/' + encodeURIComponent(iri)).map(
+            (result: ApiServiceResult) => {
+                const project: Project = result.getBody(ProjectResponse).project;
+                // console.log('ProjectsService - deleteProject - iri: ' + JSON.stringify(iri) + ' , project: ' + JSON.stringify(project));
+                return project;
+            },
+            (error: ApiServiceError) => {
+                console.error(error);
+                throw error;
+            }
+        )
     }
 
-    activateProject(iri: string): Observable<any> {
+    /**
+     * Activates (un-deletes) a project.
+     *
+     * @param {string} iri
+     * @returns {Observable<Project>}
+     */
+    activateProject(iri: string): Observable<Project> {
         const data: any = {
             status: true
         };
-        return this.httpPut('/admin/projects/' + encodeURIComponent(iri), data)
+
+        return this.httpPut('/admin/projects/' + encodeURIComponent(iri), data).map(
+            (result: ApiServiceResult) => {
+                const project: Project = result.getBody(ProjectResponse).project;
+                // console.log('ProjectsService - activateProject - iri: ' + JSON.stringify(iri) + ' , project: ' + JSON.stringify(project));
+                return project;
+            },
+            (error: ApiServiceError) => {
+                console.error(error);
+                throw error;
+            }
+        )
     }
 
 

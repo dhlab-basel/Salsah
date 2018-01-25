@@ -56,7 +56,6 @@ export * from './projects/projects-response';
 /**
  * Interfaces for users
  */
-export * from './users/users-response'
+export * from './users/users-response';
 export * from './users/user-response';
-export * from './users/user-profile';
 export * from './users/user';
