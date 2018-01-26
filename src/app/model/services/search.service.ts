@@ -38,21 +38,6 @@ export class SearchService extends ApiService {
     }
 
     /**
-     * Get the number of all fulltext search results
-     *
-     * @param {string} searchTerm
-     * @returns {Observable<any>}
-     */
-    countResultsFulltextSearch(searchTerm: string): Observable<ApiServiceResult> {
-
-        if (searchTerm === undefined || searchTerm.length === 0) {
-            return Observable.create(observer => observer.error('No search term given for call of SearchService.countResultsFulltextSearch'));
-        }
-
-        return this.httpGetV2('/search/count/' + searchTerm);
-    }
-
-    /**
      * Perform an extended search.
      *
      * @param sparqlString the Sparql query string to be sent to Knora.
