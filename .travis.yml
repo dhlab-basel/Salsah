@@ -14,8 +14,7 @@ addons:
   chrome: stable
 
 before_script:
-- npm install -g @angular/cli
-- npm install -g karma
+- yarn global add @angular/cli
 
 script: ng test --reporters=spec --browser=ChromeHeadless --single-run=true
 
