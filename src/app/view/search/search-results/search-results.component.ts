@@ -76,9 +76,12 @@ export class SearchResultsComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this._route.params.subscribe((params: Params) => {
 
             this.list.searchMode = params['mode'];
+
+            this.page = 0;
 
             this.list.restrictedBy = params['q'];
 

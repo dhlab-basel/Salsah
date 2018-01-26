@@ -79,7 +79,14 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     @Input() add?: AddData;
 
     // offset number (paging) in e.g. search results
-    @Input() offset?: number;
+    _offset: number;
+    @Input()
+        set offset(offset: number) {
+            this._offset = offset;
+    }
+    get offset() {
+        return this._offset;
+    }
 
     loggedInAdmin: boolean = false;
 

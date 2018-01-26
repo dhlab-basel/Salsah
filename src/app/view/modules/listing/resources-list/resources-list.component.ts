@@ -20,6 +20,7 @@ import {MessageData} from '../../message/message.component';
 import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
 import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
 import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
+import {ReadResource} from '../../../../model/webapi/knora/v2/read-resource';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -35,12 +36,19 @@ export class ResourcesListComponent implements OnInit, OnChanges {
     @Input() searchMode: string;
     @Input() listType?: string;
 
-    @Input() offset?: number;
+    _offset: number;
+    @Input()
+    set offset(offset: number) {
+        this._offset = offset;
+    }
+    get offset() {
+        return this._offset;
+    }
 
     @Output() toggleItem = new EventEmitter<any>();
 
     // grid list settings
-    columns: number = 1;
+    columns: number = 3;
     rowHeight: number = 308;
     colGutter: number = 12;
 
@@ -63,23 +71,22 @@ export class ResourcesListComponent implements OnInit, OnChanges {
     // iri of the selected person
     iri: string;
 
-    result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
+    result: ReadResource[] = [];
     ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
-    numberOfItems: number;
 
     constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService) {
     }
 
     ngOnInit() {
 
-        if (this.listType === 'grid') {
-            this.columns = 3;
-        }
 
     }
 
     ngOnChanges() {
-        console.log(this.offset);
+
+        if (this.listType === 'grid') {
+            this.columns = 3;
+        }
 
         if (this.searchMode === 'fulltext') {
             // fulltext search
@@ -138,9 +145,12 @@ export class ResourcesListComponent implements OnInit, OnChanges {
                     const resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                     // assign ontology information to a variable so it can be used in the component's template
-                    this.ontologyInfo = resourceClassInfos;
-                    this.result = resources;
-                    this.numberOfItems = this.result.numberOfResources;
+                    if (this.ontologyInfo === undefined) {
+                        this.ontologyInfo = resourceClassInfos;
+                    } else {
+                        this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+                    }
+                    this.result = this.result.concat(resources.resources);
 
                 },
                 (err) => {
@@ -157,12 +167,13 @@ export class ResourcesListComponent implements OnInit, OnChanges {
         this.isLoading = false;
     };
 
-    // open / close user
+    // open / close detail view
     toggle(id: string, index: number) {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
-            if (this.columns > 0) {
+
+            if (this.columns > 0 && this.listType !== 'list') {
                 // in the case of the grid, show the grid list after close
                 this.listType = 'grid';
                 this.columns = 3;
@@ -171,7 +182,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
         } else {
             // open the detail view
             this.selectedRow = index;
-            if (this.columns > 0) {
+            if (this.columns > 0 && this.listType !== 'grid') {
                 // in the case of the grid, show the default list view here
                 this.listType = 'list';
                 this.columns = 1;
