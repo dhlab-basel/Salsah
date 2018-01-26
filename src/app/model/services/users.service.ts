@@ -73,7 +73,7 @@ export class UsersService extends ApiService {
         return this.httpGet('/admin/users').map(
             (result: ApiServiceResult) => {
                 const users: User[] = result.getBody(UsersResponse).users;
-                // console.log('UsersService - getAllUsers: ' + JSON.stringify(projects));
+                // console.log('UsersService - getAllUsers: ' + JSON.stringify(users));
                 return users;
             },
             (error: ApiServiceError) => {

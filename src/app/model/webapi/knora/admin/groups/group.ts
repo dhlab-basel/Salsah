@@ -14,7 +14,7 @@
  */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {Project} from '../';
+import {Project} from '../projects/project';
 
 @JsonObject
 export class Group {
@@ -28,7 +28,7 @@ export class Group {
     @JsonProperty('description', String)
     public description: string = undefined;
 
-    @JsonProperty('project', Project)
+    @JsonProperty('project', Project, false)
     public project: Project = undefined;
 
     @JsonProperty('status', Boolean)
