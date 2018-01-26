@@ -26,7 +26,9 @@ export class SearchResultsComponent implements OnInit {
 
     @Output() change: EventEmitter<any> = new EventEmitter<any>();
 
-    public counter: number = 0;
+    public numberOfResults: number = 0;
+
+    public page: number = 0;
 
     public selectedView: string = 'list';
 
@@ -89,10 +91,9 @@ export class SearchResultsComponent implements OnInit {
     }
 
 
-    onScroll () {
-        // TODO here we have to send the end of scroll information to the framework-for-listings.
-        // it should include a counter for the paging
-        alert('load the next 25 results and append them to the list');
+    onScroll (offset: number = 0) {
+        // update the page offset when the end of scroll is reached to get the next search results
+        this.page = (offset === this.page ? this.page += 1 : offset);
     }
 
 

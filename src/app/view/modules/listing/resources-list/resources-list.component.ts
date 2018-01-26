@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {SearchService} from '../../../../model/services/search.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
@@ -29,16 +29,18 @@ const jsonld = require('jsonld');
     templateUrl: './resources-list.component.html',
     styleUrls: ['./resources-list.component.scss']
 })
-export class ResourcesListComponent implements OnInit {
+export class ResourcesListComponent implements OnInit, OnChanges {
 
     @Input() searchParam: string;
     @Input() searchMode: string;
     @Input() listType?: string;
 
+    @Input() offset?: number;
+
     @Output() toggleItem = new EventEmitter<any>();
 
     // grid list settings
-    columns: number = 3;
+    columns: number = 1;
     rowHeight: number = 308;
     colGutter: number = 12;
 
@@ -69,14 +71,20 @@ export class ResourcesListComponent implements OnInit {
     }
 
     ngOnInit() {
+
         if (this.listType === 'grid') {
             this.columns = 3;
         }
 
+    }
+
+    ngOnChanges() {
+        console.log(this.offset);
+
         if (this.searchMode === 'fulltext') {
             // fulltext search
 
-            this._searchService.doFulltextSearch(this.searchParam)
+            this._searchService.doFulltextSearch(this.searchParam, this.offset)
                 .subscribe(
                     this.processSearchResults, // function pointer
                     (error: ApiServiceError) => {
@@ -100,7 +108,6 @@ export class ResourcesListComponent implements OnInit {
         } else {
             this.errorMessage = `search mode invalid: ${this.searchMode}`;
         }
-
     }
 
     /**

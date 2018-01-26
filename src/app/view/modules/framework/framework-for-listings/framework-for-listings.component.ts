@@ -78,6 +78,9 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     // the list can have an (optional) add button, which opens the form-dialog with a new-XYZ-form
     @Input() add?: AddData;
 
+    // offset number (paging) in e.g. search results
+    @Input() offset?: number;
+
     loggedInAdmin: boolean = false;
 
     // error message in the case of an api service error
