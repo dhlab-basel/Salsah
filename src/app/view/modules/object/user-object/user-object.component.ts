@@ -13,7 +13,6 @@
  * */
 
 import {Component, Input, OnChanges} from '@angular/core';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UsersService} from '../../../../model/services/users.service';
 import {Project, User} from '../../../../model/webapi/knora/';
@@ -83,7 +82,7 @@ export class UserObjectComponent implements OnChanges {
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
                 this._userService.deleteUser(iri).subscribe(
-                    (res: ApiServiceResult) => {
+                    (res: User) => {
                         // reload page
                         window.location.reload();
                     },

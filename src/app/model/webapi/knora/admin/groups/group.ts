@@ -29,7 +29,7 @@ export class Group {
     public description: string = undefined;
 
     @JsonProperty('project', Project)
-    public project: string = undefined;
+    public project: Project = undefined;
 
     @JsonProperty('status', Boolean)
     public status: boolean = undefined;
