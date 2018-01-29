@@ -13,32 +13,38 @@ export class InternationalizationComponent implements OnInit, OnDestroy {
 
     localStorage: any;
     langString: string;
-    languages: Array<any>;
+    lang: Array<any>;
     subscription: Subscription;
+    browserLang: string = 'en';
+
 
     constructor(private translate: TranslateService,
                 public _langService: LanguageService) {
-        this.subscription = this._langService.getLanguage().subscribe(languages => {
-            this.languages = languages;
-            // console.log('languages' + languages );
-        }
+
+        this.subscription = this._langService.getLanguage().subscribe(lang => {
+            this.lang = lang;
+            // console.log('lang: ' + lang.var);
+            }
         );
+
+
         translate.addLangs(['de', 'en']);
         translate.setDefaultLang('en');
 
-        const browserLang = translate.getBrowserLang();
+        this.browserLang = translate.getBrowserLang();
+        // console.log('BrowserLang: ' + this.browserLang);
 
         if (localStorage.getItem('lang') === null) {
-            translate.use(browserLang.match(/en|de/) ? browserLang : 'en');
+            translate.use(this.browserLang.match(/en|de/) ? this.browserLang : 'en');
             this.langString = translate.currentLang;
             localStorage.setItem('lang', this.langString);
             // this._langService.setLanguage(this.langString);
-            console.log('Die Browsersprache ist: ' + this.langString);
+            // console.log('Die Browsersprache ist: ' + this.langString);
 
         } else {
             translate.use(localStorage.getItem('lang'));
             this.langString = translate.currentLang;
-            console.log('Die Usersprache ist: ' + this.langString);
+            // console.log('Die Usersprache ist: ' + this.langString);
             // this._langService.setLanguage(this.langString);
         }
     }
@@ -50,17 +56,12 @@ export class InternationalizationComponent implements OnInit, OnDestroy {
         this.langString = langSelect;
         this._langService.setLanguage(langSelect);
         // window.location.reload();
-        console.log('langSelect, i18n: ' + langSelect);
+        // console.log('langSelect, i18n: ' + langSelect);
     }
 
     ngOnInit() {
-
-        this._langService.getLanguage().subscribe(
-               languages => this.languages = languages
-        );
-
-        console.log('Init Intern.');
-
+        // is not needed anymore...
+        // console.log('Init Intern.');
     }
 
     ngOnDestroy() {

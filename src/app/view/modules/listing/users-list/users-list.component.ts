@@ -27,6 +27,7 @@ import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
 import {LanguageService} from '../../../../model/services/language.service';
+import {Subscription} from 'rxjs/Subscription';
 
 
 
@@ -81,9 +82,15 @@ export class UsersListComponent implements OnInit {
     countActive: number;
     countInactive: number;
 
-    // translation
-    languages: any;
+    // Language translation
+    subscription: Subscription;
     name: string;
+
+    lang: any = [
+        {
+            var: ''
+        }
+    ];
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
@@ -92,6 +99,7 @@ export class UsersListComponent implements OnInit {
 
     // sort the list of members by familyName OR givenName.
     // the sortBy method toggles the right setting, which is defined here
+    // the correct translation is done on ngOnInit
     sortProps: any = [
         {
             key: 'familyName',
@@ -125,6 +133,7 @@ export class UsersListComponent implements OnInit {
     ) {
 
         // Here follows the initialisation of the sortProps according to the language, e.g. after reading out localStorage.
+
         if ( localStorage.getItem('lang') === 'de') {
             this.sortProps = [
                 {
@@ -156,6 +165,7 @@ export class UsersListComponent implements OnInit {
                 }
             ];
         }
+
     }
 
     ngOnInit() {
@@ -278,24 +288,15 @@ export class UsersListComponent implements OnInit {
                 );
         }
 
-        this._langService.getLanguage().subscribe (
-            languages => {
-                this.languages = languages, this.changeVal();
+        this.subscription = this._langService.getLanguage().subscribe (
+            lang => {
+                this.lang = lang, this.changeVal(lang.var);
+
             }
         );
 
 
     }
-
-    /*
-    ngDoCheck() {
-        this._langService.getLanguage().subscribe (
-            languages => {
-                this.languages = languages, this.changeVal();
-            }
-        );
-    }
-    */
 
 
     sortBy(key: string) {
@@ -310,19 +311,10 @@ export class UsersListComponent implements OnInit {
         }
     }
 
-    changeVal() {
-        // this._langService.getLanguage();
+    changeVal(name) {
         console.log('User-List-component greeting');
-        this.name = localStorage.getItem('lang');
-/*
-        for ( const xy in this.languages) {
-            if (this.languages[xy].selected === 'selected') {
-                this.name = this.languages[xy].lang;
 
-            }
-        }
-        */
-        switch (this.name) {
+        switch (name) {
             case 'en':
                 this.sortProps = [
                     {
