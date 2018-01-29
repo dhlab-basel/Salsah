@@ -106,8 +106,6 @@ export class ListFormComponent implements OnChanges {
                 private _dialog: MatDialog,
                 private _fb: FormBuilder,
                 private _fbn: FormBuilder) {
-
-
     }
 
     ngOnChanges() {

@@ -64,6 +64,16 @@ export class ListsListComponent implements OnInit {
         allowDrop: true,
     };
 
+    public listLists: any = {
+        nodesLabel: 'Nodes',
+        buttons: {
+            expand: 'Expand all',
+            collapse: 'Collapse all',
+            edit: 'Edit'
+        }
+
+    }
+
     constructor(private _listsService: ListsService,
                 public _dialog: MatDialog) {
     }
@@ -76,14 +86,18 @@ export class ListsListComponent implements OnInit {
                 .subscribe(
                     (lists: ListInfo[]) => {
                         this.lists = lists;
-                        this.numberOfItems = this.lists.length;
+                        this.numberOfItems = lists.length;
                         this.isLoading = false;
+                        console.log("items: ", this.numberOfItems);
+
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
                         this.isLoading = false;
                     }
                 );
+            //this.numberOfItems = this.lists.length;
+            console.log("items now: ", this.numberOfItems);
         }
         else {
             // get all system lists
@@ -99,7 +113,11 @@ export class ListsListComponent implements OnInit {
                     }
                 );
         }
+
+
+
     }
+
 
     fetchListData(iri: string) {
         // get the specific list data once the list expansion panel is opened
@@ -115,6 +133,9 @@ export class ListsListComponent implements OnInit {
                     this.errorMessage = <any>error;
                 }
             );
+        console.log("fetchListData ");
+
+
     }
 
     // Methods to expand/collapse list
