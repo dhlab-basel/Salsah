@@ -10,13 +10,16 @@ import {APP_BASE_HREF} from '@angular/common';
 //
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
+
 //
 // import the material design modules
 //
 import {AppMaterialModule} from './app-material-module';
 import 'hammerjs';
+
 //
 // import other third party modules
+//
 import {DndModule} from 'ng2-dnd';
 import {ApiService} from './model/services/api.service';
 import {AuthenticationService} from './model/services/authentication.service';
@@ -28,10 +31,14 @@ import {ListsService} from './model/services/lists.service';
 import {OntologyService} from './model/services/ontology.service';
 import {OntologyCacheService} from './model/services/ontologycache.service';
 import {SearchService} from './model/services/search.service';
-
 import {IncomingService} from './model/services/incoming.service';
-
 import {UsersService} from './model/services/users.service';
+
+//
+// import all npm salsah modules
+//
+import { ProgressIndicatorModule } from '@salsah/progress-indicator';
+
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -75,7 +82,7 @@ import {DocumentationComponent} from './view/documentation/documentation.compone
 import {UserProjectsComponent} from './view/dashboard/user/user-projects/user-projects.component';
 import {UserCollectionsComponent} from './view/dashboard/user/user-collections/user-collections.component';
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
+
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
@@ -184,7 +191,6 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         ProjectAdvancedComponent,
         ReversePipe,
         KeyPipe,
-        ProgressIndicatorComponent,
         ProgressStepperComponent,
         MathJaxDirective,
         DevelopmentComponent,
@@ -257,6 +263,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         BrowserAnimationsModule,
         ReactiveFormsModule,
         TreeModule,
+        ProgressIndicatorModule,
         DndModule.forRoot()
     ],
     // we need the entryComponents for every component inside of a mat-dialog module
