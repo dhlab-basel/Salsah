@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit
 import {ActivatedRoute, Router} from "@angular/router";
 import {OntologyCacheService, OntologyInformation, ResourceClass, Property, Properties, OntologyMetadata} from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
+import {SearchDataService} from '../../../../model/services/search-data.service';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class ExtendedSearchComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
-                private _cacheService: OntologyCacheService) {
+                private _cacheService: OntologyCacheService,
+                private _searchDataService: SearchDataService) {
     }
 
     ngOnInit() {
@@ -77,6 +79,8 @@ export class ExtendedSearchComponent implements OnInit {
      * @param {string} sparql the SPARQL query to be sent to Knora's extended search route.
      */
     performExtendedSearch(sparql: string) {
+
+        this._searchDataService.changeMessage(sparql);
 
         this._router.navigate(['/search/extended/' + encodeURIComponent(sparql)], {relativeTo: this._route});
     }

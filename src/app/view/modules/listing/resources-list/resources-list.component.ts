@@ -21,6 +21,7 @@ import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
 import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
 import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
 import {ReadResource} from '../../../../model/webapi/knora/v2/read-resource';
+import {SearchDataService} from '../../../../model/services/search-data.service';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -74,11 +75,14 @@ export class ResourcesListComponent implements OnInit, OnChanges {
     result: ReadResource[] = [];
     ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
 
-    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService) {
+    constructor(private _searchService: SearchService,
+                private _cacheService: OntologyCacheService,
+                private _searchDataService: SearchDataService) {
     }
 
     ngOnInit() {
 
+        this._searchDataService.currentSearch.subscribe(message => console.log(message));
 
     }
 

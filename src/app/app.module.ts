@@ -141,6 +141,7 @@ import {MatNativeDateModule} from '@angular/material';
 import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
 
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
+import {SearchDataService} from './model/services/search-data.service';
 
 //
 // import all needed services
@@ -285,6 +286,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,
+        SearchDataService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
