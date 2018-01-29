@@ -53,9 +53,6 @@ export class User {
     @JsonProperty('sessionId', String, true)
     public sessionId: string = undefined;
 
-    @JsonProperty('isSystemUser', Boolean)
-    public isSystemUser: boolean = undefined;
-
     @JsonProperty('permissions', PermissionData)
     public permissions: PermissionData = undefined;
 

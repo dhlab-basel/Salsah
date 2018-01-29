@@ -54,6 +54,13 @@ export * from './projects/projects-response';
 
 
 /**
+ * Interfaces for store
+ */
+export * from './store/rdf-data-object';
+export * from './store/reset-triplestore-content-response';
+
+
+/**
  * Interfaces for users
  */
 export * from './users/users-response';

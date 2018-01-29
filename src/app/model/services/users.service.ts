@@ -30,7 +30,7 @@ export class UsersService extends ApiService {
      * @returns {Observable<User>}
      */
     getUserByIri(iri: string): Observable<User> {
-        return this.httpGet('/admin/users' + encodeURIComponent(iri)).map(
+        return this.httpGet('/admin/users/' + encodeURIComponent(iri)).map(
             (result: ApiServiceResult) => {
                 const user: User = result.getBody(UserResponse).user;
                 // console.log('UsersService - getUserByIri: ' + JSON.stringify(user));
@@ -50,8 +50,9 @@ export class UsersService extends ApiService {
      * @returns {Observable<any>}
      */
     getUserByEmail(email: string): Observable<User> {
-        return this.httpGet('/admin/users' + encodeURIComponent(email) + '?identifier=email').map(
+        return this.httpGet('/admin/users/' + encodeURIComponent(email) + '?identifier=email').map(
             (result: ApiServiceResult) => {
+                // console.log('UsersService - getUserByEmail - result: ', JSON.stringify(result));
                 const user: User = result.getBody(UserResponse).user;
                 // console.log('UsersService - getUserByIri: ' + JSON.stringify(user));
                 return user;
@@ -72,11 +73,11 @@ export class UsersService extends ApiService {
 
         return this.httpGet('/admin/users').map(
             (result: ApiServiceResult) => {
-                console.log('UsersService - getAllUsers - result: ' + JSON.stringify(result));
+                // console.log('UsersService - getAllUsers - result: ' + JSON.stringify(result));
                 const response: UsersResponse = result.getBody(UsersResponse);
-                console.log('UsersService - getAllUsers - response: ' + JSON.stringify(response));
+                // console.log('UsersService - getAllUsers - response: ' + JSON.stringify(response));
                 const users: User[] = response.users;
-                console.log('UsersService - getAllUsers - users: ' + JSON.stringify(users));
+                // console.log('UsersService - getAllUsers - users: ' + JSON.stringify(users));
                 return users;
             },
             (error: ApiServiceError) => {

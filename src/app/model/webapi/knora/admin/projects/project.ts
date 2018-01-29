@@ -18,9 +18,6 @@ import {OntologyInfoShort} from '../ontologies/ontology-info-short';
 @JsonObject
 export class Project {
 
-//    @JsonProperty('basepath', String, true)
-//    public basepath: string = undefined;
-
     @JsonProperty('id', String)
     public id: string = undefined;
 

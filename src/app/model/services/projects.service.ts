@@ -75,6 +75,18 @@ export class ProjectsService extends ApiService {
     }
 
     /**
+     * returns a project object
+     *
+     * @param shortname
+     * @returns {Observable<ProjectItem>}
+     * @throws {ApiServiceError}
+     */
+    getProjectByShortcode(shortcode: string): Observable<Project> {
+        const url = '/admin/projects/' + shortcode + '?identifier=shortcode';
+        return this.getProject(url);
+    }
+
+    /**
      * Helper method combining project retrieval
      *
      * @param url
@@ -84,6 +96,7 @@ export class ProjectsService extends ApiService {
     getProject(url: string): Observable<Project> {
         return this.httpGet(url).map(
             (result: ApiServiceResult) => {
+                // console.log('ProjectsService - getProject - result: ', JSON.stringify(result));
                 const project: Project = result.getBody(ProjectResponse).project;
                 // console.log('ProjectsService - getProject: ' + url + ' , project: ' + project);
                 return project;

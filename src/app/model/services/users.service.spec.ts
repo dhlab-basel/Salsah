@@ -3,9 +3,12 @@ import {UsersService} from './users.service';
 import {HttpModule} from '@angular/http';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {ApiService} from './api.service';
-import {HttpBackend} from '@angular/common/http';
+import {HttpBackend, HttpClientModule} from '@angular/common/http';
 import {ApiServiceError} from './api-service-error';
-import {User} from '../webapi/knora/admin';
+import {User, UserResponse, UsersResponse} from '../webapi/knora/admin';
+import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
+import {multiUser} from '../test-data/shared-test-data';
+import {StoreService} from './store.service';
 
 
 fdescribe('UsersService', () => {
@@ -13,12 +16,13 @@ fdescribe('UsersService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpModule
+                HttpModule,
+                HttpClientModule
             ],
             providers: [
                 ApiService,
                 UsersService,
-                HttpBackend
+                StoreService
             ]
         });
     });
@@ -29,17 +33,54 @@ fdescribe('UsersService', () => {
         }))
     );
 
+    fit('should parse users-response', () => {
+
+        const json: any = {'users': [{'familyName': 'biblio', 'givenName': 'biblio', 'email': 'biblio@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/Q-6Sssu8TBWrcCGuVJ0lVw', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'User', 'givenName': 'Super', 'email': 'super.user@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/superuser', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'User', 'givenName': 'Normal', 'email': 'normal.user@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/normaluser', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'User01', 'givenName': 'Anything', 'email': 'anything.user01@example.org', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/9XBCrDV3SRa7kS1WwynB4Q', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'BEOL', 'givenName': 'BEOL', 'email': 'beol@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'User', 'givenName': 'User01', 'email': 'user01.user1@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/c266a56709', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'User', 'givenName': 'User02', 'email': 'user02.user@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/97cec4000f', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'Test', 'givenName': 'User', 'email': 'user.test@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/b83acc5f05', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'User', 'givenName': 'User03', 'email': 'images-reviewer-user@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/images-reviewer-user', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'BEOL', 'givenName': 'BEOL', 'email': 't.schweizer@unibas.ch', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGF', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'User', 'givenName': 'Inactive', 'email': 'inactive.user@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/inactiveuser', 'status': false, 'projects': [], 'lang': 'de'}, {'familyName': 'User2', 'givenName': 'Test', 'email': 'test.user2@test.ch', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/incunabulaMemberUser', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'Administrator', 'givenName': 'System', 'email': 'root@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/root', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'User02', 'givenName': 'Anything', 'email': 'anything.user02@example.org', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/BhkfBc3hTeS_IDo-JgXRbQ', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'System', 'givenName': 'Knora', 'email': 'system@localhost', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://www.knora.org/ontology/knora-base#SystemUser', 'status': true, 'projects': [], 'lang': 'en'}, {'familyName': 'Admin-alt', 'givenName': 'Administrator-alt', 'email': 'root-alt@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/91e19f1e01', 'status': true, 'projects': [], 'lang': 'de'}, {'familyName': 'User', 'givenName': 'Multi', 'email': 'multi.user@example.com', 'permissions': {'groupsPerProject': {}, 'administrativePermissionsPerProject': {}}, 'groups': [], 'id': 'http://rdfh.ch/users/multiuser', 'status': true, 'projects': [], 'lang': 'de'}]};
+
+        const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
+
+        const result: User[] = jsonConvert.deserializeObject(json, UsersResponse);
+
+        // console.log('users: ', result);
+    });
+
+    fit('should parse user-response', () => {
+
+        const json: any = {'user': {'familyName': 'User', 'givenName': 'Multi', 'email': 'multi.user@example.com', 'permissions': {'groupsPerProject': {'http://rdfh.ch/projects/77275339': ['http://www.knora.org/ontology/knora-base#ProjectMember', 'http://www.knora.org/ontology/knora-base#ProjectAdmin'], 'http://rdfh.ch/projects/00FF': ['http://rdfh.ch/groups/00FF/images-reviewer', 'http://www.knora.org/ontology/knora-base#ProjectMember', 'http://www.knora.org/ontology/knora-base#ProjectAdmin'], 'http://rdfh.ch/projects/anything': ['http://www.knora.org/ontology/knora-base#ProjectMember', 'http://www.knora.org/ontology/knora-base#ProjectAdmin']}, 'administrativePermissionsPerProject': {'http://rdfh.ch/projects/77275339': [{'name': 'ProjectAdminAllPermission'}, {'name': 'ProjectResourceCreateAllPermission'}], 'http://rdfh.ch/projects/00FF': [{'name': 'ProjectAdminAllPermission'}, {'name': 'ProjectResourceCreateAllPermission'}], 'http://rdfh.ch/projects/anything': [{'name': 'ProjectAdminAllPermission'}, {'name': 'ProjectResourceCreateAllPermission'}]}}, 'groups': [{'name': 'Image reviewer', 'project': {'ontologies': [{'ontologyIri': 'http://www.knora.org/ontology/00FF/images', 'ontologyName': 'images'}], 'shortname': 'images', 'description': 'A demo project of a collection of images', 'institution': 'http://rdfh.ch/institutions/dhlab-basel', 'shortcode': '00FF', 'id': 'http://rdfh.ch/projects/00FF', 'status': true, 'selfjoin': false, 'keywords': 'images, collection', 'longname': 'Image Collection Demo'}, 'description': 'A group for image reviewers.', 'id': 'http://rdfh.ch/groups/00FF/images-reviewer', 'status': true, 'selfjoin': false}], 'id': 'http://rdfh.ch/users/multiuser', 'status': true, 'projects': [{'ontologies': [{'ontologyIri': 'http://www.knora.org/ontology/00FF/images', 'ontologyName': 'images'}], 'shortname': 'images', 'description': 'A demo project of a collection of images', 'institution': 'http://rdfh.ch/institutions/dhlab-basel', 'shortcode': '00FF', 'id': 'http://rdfh.ch/projects/00FF', 'status': true, 'selfjoin': false, 'keywords': 'images, collection', 'longname': 'Image Collection Demo'}, {'ontologies': [{'ontologyIri': 'http://www.knora.org/ontology/incunabula', 'ontologyName': 'incunabula'}], 'shortname': 'incunabula', 'description': '<p>Das interdisziplinäre Forschungsprojekt "<b><em>Die Bilderfolgen der Basler Frühdrucke: Spätmittelalterliche Didaxe als Bild-Text-Lektüre</em></b>" verbindet eine umfassende kunstwissenschaftliche Analyse der Bezüge zwischen den Bildern und Texten in den illustrierten Basler Inkunabeln mit der Digitalisierung der Bestände der Universitätsbibliothek und der Entwicklung einer elektronischen Edition in der Form einer neuartigen Web-0.2-Applikation.\n</p>\n<p>Das Projekt wird durchgeführt vom <a href="http://kunsthist.unibas.ch">Kunsthistorischen Seminar</a> der Universität Basel (Prof. B. Schellewald) und dem <a href="http://www.dhlab.unibas.ch">Digital Humanities Lab</a> der Universität Basel (PD Dr. L. Rosenthaler).\n</p>\n<p>\nDas Kernstück der digitalen Edition besteht aus rund zwanzig reich bebilderten Frühdrucken aus vier verschiedenen Basler Offizinen. Viele davon sind bereits vor 1500 in mehreren Ausgaben erschienen, einige fast gleichzeitig auf Deutsch und Lateinisch. Es handelt sich um eine ausserordentlich vielfältige Produktion; neben dem Heilsspiegel finden sich ein Roman, die Melusine,  die Reisebeschreibungen des Jean de Mandeville, einige Gebets- und Erbauungsbüchlein, theologische Schriften, Fastenpredigten, die Leben der Heiligen Fridolin und Meinrad, das berühmte Narrenschiff  sowie die Exempelsammlung des Ritters vom Thurn.\n</p>\nDie Internetpublikation macht das digitalisierte Korpus dieser Frühdrucke  durch die Möglichkeiten nichtlinearer Verknüpfung und Kommentierung der Bilder und Texte, für die wissenschaftliche Edition sowie für die Erforschung der Bilder und Texte nutzbar machen. Auch können bereits bestehende und entstehende Online-Editionen damit verknüpft  werden , wodurch die Nutzung von Datenbanken anderer Institutionen im Hinblick auf unser Corpus optimiert wird.\n</p>', 'logo': 'incunabula_logo.png', 'id': 'http://rdfh.ch/projects/77275339', 'status': true, 'selfjoin': false, 'keywords': 'Basler Frühdrucke, Inkunabel, Narrenschiff, Wiegendrucke, Sebastian Brant, Bilderfolgen, early print, incunabula, ship of fools, Kunsthistorischs Seminar Universität Basel, Late Middle Ages, Letterpress Printing, Basel, Contectualisation of images', 'longname': 'Bilderfolgen Basler Frühdrucke'}, {'ontologies': [{'ontologyIri': 'http://www.knora.org/ontology/anything', 'ontologyName': 'anything'}], 'shortname': 'anything', 'description': 'Anything Project', 'id': 'http://rdfh.ch/projects/anything', 'status': true, 'selfjoin': false, 'longname': 'Anything Project'}], 'lang': 'de'}};
+
+        const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
+
+        const result: User = jsonConvert.deserializeObject(json, UserResponse);
+
+        // console.log('users: ', result);
+    });
+
+
     if (environment.type === 'integration') {
-        fit('should return all users (integration)', async(inject(
-            [UsersService, HttpBackend], (service, httpBackend) => {
-                // expect(service).toBeDefined();
-                console.log('vor service Aufruf');
+
+        fit('should load test data [it]', async(inject(
+            [StoreService], (service) => {
+
+                expect(service).toBeDefined();
+
+                service.resetTriplestoreContent([])
+                    .subscribe(
+                        (result: string) => {
+                            expect(result).toBe('success');
+                        });
+
+            })), 300000);
+
+        fit('#getAllUsers should return all users [it]', async(inject(
+            [UsersService], (service) => {
+
+                expect(service).toBeDefined();
 
                 service.getAllUsers()
                     .subscribe(
                         (users: User[]) => {
-                            console.log('users: ' + JSON.stringify(users));
-                            expect(users.length).toBe(8);
+                            // console.log('users: ' + JSON.stringify(users));
+                            expect(users.length).toBe(21);
                         },
                         (error: ApiServiceError) => {
                             fail(error);
@@ -47,6 +88,43 @@ fdescribe('UsersService', () => {
                     );
 
             })));
+
+        fit('#getUserByEmail should return user [it]', async(inject(
+            [UsersService, HttpBackend], (service, httpBackend) => {
+
+                expect(service).toBeDefined();
+
+                service.getUserByEmail('multi.user@example.com')
+                    .subscribe(
+                        (user: User) => {
+                            // console.log('users: ' + JSON.stringify(users));
+                            expect(user).toEqual(multiUser);
+                        },
+                        (error: ApiServiceError) => {
+                            fail(error);
+                        }
+                    );
+
+            })));
+
+        fit('#getUserByIri should return user [it]', async(inject(
+            [UsersService, HttpBackend], (service, httpBackend) => {
+
+                expect(service).toBeDefined();
+
+                service.getUserByIri('http://rdfh.ch/users/multiuser')
+                    .subscribe(
+                        (user: User) => {
+                            // console.log('users: ' + JSON.stringify(users));
+                            expect(user).toEqual(multiUser);
+                        },
+                        (error: ApiServiceError) => {
+                            fail(error);
+                        }
+                    );
+
+            })));
+
     } else {
         xit('integration tests skipped. run  "ng test --env=it".');
     }
