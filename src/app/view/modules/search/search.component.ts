@@ -21,6 +21,7 @@ import {
     animate,
     transition
 } from '@angular/animations';
+import {SearchDataService} from '../../../model/services/search-data.service';
 
 @Component({
     selector: 'salsah-search',
@@ -62,7 +63,8 @@ export class SearchComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
-                private _eleRef: ElementRef) {
+                private _eleRef: ElementRef,
+                private _searchDataService: SearchDataService) {
 
     }
 
@@ -90,6 +92,8 @@ export class SearchComponent implements OnInit {
     doSearch(search_ele: HTMLElement) {
         if (this.searchQuery !== undefined && this.searchQuery !== null) {
             this.toggleMenu('simpleSearch');
+            this._searchDataService.changeMessage(this.searchQuery);
+
             this._router.navigate(['/search/fulltext/' + this.searchQuery], {relativeTo: this._route});
 
             // push the search query into the local storage prevSearch array (previous search)

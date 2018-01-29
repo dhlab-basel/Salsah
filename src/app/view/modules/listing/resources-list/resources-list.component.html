@@ -4,7 +4,8 @@
 <!-- show the results -->
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
-    <div *ngIf="numberOfItems !== 0; else noData" [ngSwitch]="listType">
+    <div *ngIf="result?.length > 0; else noData" [ngSwitch]="listType">
+        <p>{{numberOfItems}}</p>
         <!-- show as table if listType === table -->
         <table *ngSwitchCase="'table'" class="salsah-table">
         </table>
@@ -16,7 +17,7 @@
                        [cols]="columns"
                        [gutterSize]="colGutter + 'px'"
                        [rowHeight]="rowHeight + 'px'">
-            <mat-grid-tile *ngFor="let res of result.resources; let i = index"
+            <mat-grid-tile *ngFor="let res of result; let i = index"
                            (click)="toggle(res.id, i)"
                            [id]="res.id">
                 <mat-card [class.highlight]="i == selectedRow" class="salsah-link salsah-preview">
@@ -41,8 +42,8 @@
         </mat-grid-list>
 
         <!-- default list -->
-        <mat-list class="salsah-list" *ngSwitchDefault>
-            <mat-list-item *ngFor="let res of result.resources; let i = index"
+        <mat-list class="salsah-list" *ngSwitchDefault >
+            <mat-list-item *ngFor="let res of result; let i = index"
                            (click)="toggle(res.id, i)"
                            [id]="res.id"
                            class="salsah-link"

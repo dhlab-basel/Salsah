@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {SearchService} from '../../../../model/services/search.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
@@ -20,6 +20,8 @@ import {MessageData} from '../../message/message.component';
 import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
 import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
 import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
+import {ReadResource} from '../../../../model/webapi/knora/v2/read-resource';
+import {SearchDataService} from '../../../../model/services/search-data.service';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -29,11 +31,20 @@ const jsonld = require('jsonld');
     templateUrl: './resources-list.component.html',
     styleUrls: ['./resources-list.component.scss']
 })
-export class ResourcesListComponent implements OnInit {
+export class ResourcesListComponent implements OnInit, OnChanges {
 
     @Input() searchParam: string;
     @Input() searchMode: string;
     @Input() listType?: string;
+
+    _offset: number;
+    @Input()
+    set offset(offset: number) {
+        this._offset = offset;
+    }
+    get offset() {
+        return this._offset;
+    }
 
     @Output() toggleItem = new EventEmitter<any>();
 
@@ -61,14 +72,22 @@ export class ResourcesListComponent implements OnInit {
     // iri of the selected person
     iri: string;
 
-    result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
+    result: ReadResource[] = [];
     ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
-    numberOfItems: number;
 
-    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService) {
+    constructor(private _searchService: SearchService,
+                private _cacheService: OntologyCacheService,
+                private _searchDataService: SearchDataService) {
     }
 
     ngOnInit() {
+
+        this._searchDataService.currentSearch.subscribe(message => console.log(message));
+
+    }
+
+    ngOnChanges() {
+
         if (this.listType === 'grid') {
             this.columns = 3;
         }
@@ -76,7 +95,7 @@ export class ResourcesListComponent implements OnInit {
         if (this.searchMode === 'fulltext') {
             // fulltext search
 
-            this._searchService.doFulltextSearch(this.searchParam)
+            this._searchService.doFulltextSearch(this.searchParam, this.offset)
                 .subscribe(
                     this.processSearchResults, // function pointer
                     (error: ApiServiceError) => {
@@ -100,7 +119,6 @@ export class ResourcesListComponent implements OnInit {
         } else {
             this.errorMessage = `search mode invalid: ${this.searchMode}`;
         }
-
     }
 
     /**
@@ -115,25 +133,28 @@ export class ResourcesListComponent implements OnInit {
      */
     private processSearchResults = (searchResult: ApiServiceResult) => {
 
-        let resPromises = jsonld.promises;
+        const resPromises = jsonld.promises;
         // compact JSON-LD using an empty context: expands all Iris
-        let resPromise = resPromises.compact(searchResult.body, {});
+        const resPromise = resPromises.compact(searchResult.body, {});
 
         resPromise.then((compacted) => {
 
             // get resource class Iris from response
-            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+            const resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
             // request ontology information about resource class Iris (properties are implied)
             this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
                 (resourceClassInfos: OntologyInformation) => {
 
-                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                    const resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                     // assign ontology information to a variable so it can be used in the component's template
-                    this.ontologyInfo = resourceClassInfos;
-                    this.result = resources;
-                    this.numberOfItems = this.result.numberOfResources;
+                    if (this.ontologyInfo === undefined) {
+                        this.ontologyInfo = resourceClassInfos;
+                    } else {
+                        this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+                    }
+                    this.result = this.result.concat(resources.resources);
 
                 },
                 (err) => {
@@ -150,12 +171,13 @@ export class ResourcesListComponent implements OnInit {
         this.isLoading = false;
     };
 
-    // open / close user
+    // open / close detail view
     toggle(id: string, index: number) {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
-            if (this.columns > 0) {
+
+            if (this.columns > 0 && this.listType !== 'list') {
                 // in the case of the grid, show the grid list after close
                 this.listType = 'grid';
                 this.columns = 3;
@@ -164,7 +186,7 @@ export class ResourcesListComponent implements OnInit {
         } else {
             // open the detail view
             this.selectedRow = index;
-            if (this.columns > 0) {
+            if (this.columns > 0 && this.listType !== 'grid') {
                 // in the case of the grid, show the default list view here
                 this.listType = 'list';
                 this.columns = 1;

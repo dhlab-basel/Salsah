@@ -18,6 +18,8 @@ import 'hammerjs';
 //
 // import other third party modules
 import {DndModule} from 'ng2-dnd';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+
 import {ApiService} from './model/services/api.service';
 import {AuthenticationService} from './model/services/authentication.service';
 import {ProjectsService} from './model/services/projects.service';
@@ -139,6 +141,7 @@ import {MatNativeDateModule} from '@angular/material';
 import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
 
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
+import {SearchDataService} from './model/services/search-data.service';
 
 //
 // import all needed services
@@ -253,6 +256,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         RouterModule,
         AppMaterialModule,
         MatNativeDateModule,
+        InfiniteScrollModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
@@ -282,6 +286,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,
+        SearchDataService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

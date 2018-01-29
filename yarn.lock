@@ -3671,6 +3671,10 @@ ng2-dnd@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/ng2-dnd/-/ng2-dnd-5.0.2.tgz#862278ac7dedfa14f5783bbf34014d5d73dfefb4"
 
+ngx-infinite-scroll@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/ngx-infinite-scroll/-/ngx-infinite-scroll-0.8.2.tgz#9cc615c01fbb6307599453c9d9cfb5c1db4fd3e8"
+
 no-case@^2.2.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
