@@ -22,7 +22,7 @@ import {User} from '../../../../../model/webapi/knora';
 })
 export class UsersListItemComponent implements OnInit {
 
-    @Input() listData: User[] = [];
+    @Input() listData: User[];
     @Input() sortProp: string;
     @Input() project?: string;
 
