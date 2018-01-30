@@ -14,8 +14,7 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {Project, ProjectMembersResponse, ProjectsResponse, ProjectResponse} from '../webapi/knora';
+import {Project, ProjectMembersResponse, ProjectResponse, ProjectsResponse} from '../webapi/knora';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 
@@ -25,25 +24,23 @@ import {User} from '../webapi/knora/admin';
 @Injectable()
 export class ProjectsService extends ApiService {
 
-    private activeProject: ReplaySubject<Project> = new ReplaySubject(1);
-    private projectMembers: ReplaySubject<User[]> = new ReplaySubject(1);
-
     /**
      * returns a list of all projects
      *
-     * @returns {Observable<ProjectItem[]>}
+     * @returns {Observable<Project[]>}
      * @throws {ApiServiceError}
      */
     getAllProjects(): Observable<Project[]> {
 
         return this.httpGet('/admin/projects').map(
                 (result: ApiServiceResult) => {
+                    // console.log('ProjectsService - getAllProjects - result: ', JSON.stringify(result));
                     const projects: Project[] = result.getBody(ProjectsResponse).projects;
-                    // console.log('ProjectsService - getAllProjects: ' + JSON.stringify(projects));
+                    // console.log('ProjectsService - getAllProjects - projects: ', JSON.stringify(projects));
                     return projects;
                 },
                 (error: ApiServiceError) => {
-                    console.error('ProjectsService - getAllProjects - error: ' + JSON.stringify(error));
+                    console.error('ProjectsService - getAllProjects - error: ', JSON.stringify(error));
                     throw error;
                 }
             );
@@ -53,7 +50,7 @@ export class ProjectsService extends ApiService {
      * returns a project object
      *
      * @param iri (= project iri)
-     * @returns {Observable<ProjectItem>}
+     * @returns {Observable<Project>}
      * @throws {ApiServiceError}
      */
     getProjectByIri(iri: string): Observable<Project> {
@@ -66,7 +63,7 @@ export class ProjectsService extends ApiService {
      * returns a project object
      *
      * @param shortname
-     * @returns {Observable<ProjectItem>}
+     * @returns {Observable<Project>}
      * @throws {ApiServiceError}
      */
     getProjectByShortname(shortname: string): Observable<Project> {
@@ -78,7 +75,7 @@ export class ProjectsService extends ApiService {
      * returns a project object
      *
      * @param shortname
-     * @returns {Observable<ProjectItem>}
+     * @returns {Observable<Project>}
      * @throws {ApiServiceError}
      */
     getProjectByShortcode(shortcode: string): Observable<Project> {
@@ -98,7 +95,7 @@ export class ProjectsService extends ApiService {
             (result: ApiServiceResult) => {
                 // console.log('ProjectsService - getProject - result: ', JSON.stringify(result));
                 const project: Project = result.getBody(ProjectResponse).project;
-                // console.log('ProjectsService - getProject: ' + url + ' , project: ' + project);
+                // console.log('ProjectsService - getProject: ' + url + ' , project: ', JSON.stringify(project));
                 return project;
             },
             (error: ApiServiceError) => {
@@ -112,7 +109,7 @@ export class ProjectsService extends ApiService {
      * returns all project members
      *
      * @param iri (= project iri)
-     * @returns {Observable<UserData[]>}
+     * @returns {Observable<User[]>}
      * @throws {ApiServiceError}
      */
     getProjectMembersByIri(iri: string): Observable<User[]> {
@@ -127,7 +124,7 @@ export class ProjectsService extends ApiService {
      * returns all project members
      *
      * @param shortname (= project shortname)
-     * @returns {Observable<UserData[]>}
+     * @returns {Observable<User[]>}
      * @throws {ApiServiceError}
      */
     getProjectMembersByShortname(shortname: string): Observable<User[]> {
@@ -139,7 +136,7 @@ export class ProjectsService extends ApiService {
      * Helper method combining project member retrieval
      *
      * @param url
-     * @returns {Observable<UserData[]>}
+     * @returns {Observable<User[]>}
      * @throws {ApiServiceError}
      */
     getProjectMembers(url: string): Observable<User[]> {

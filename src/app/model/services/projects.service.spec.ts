@@ -6,9 +6,10 @@ import {environment} from '../../../environments/environment';
 import {StoreService} from './store.service';
 import {HttpClientModule} from '@angular/common/http';
 import {ApiServiceError} from './api-service-error';
-import {Project, ProjectResponse, User, UsersResponse} from '../webapi/knora/admin';
-import {imagesProject} from '../test-data/shared-test-data';
+import {Project, ProjectResponse} from '../webapi/knora';
+import {imagesProject, imagesProjectResponseJson, projectsResponseJson, projectsTestData} from '../test-data/shared-test-data';
 import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
+import {ProjectsResponse} from '../webapi/knora/admin';
 
 fdescribe('ProjectsService', () => {
     beforeEach(() => {
@@ -32,15 +33,22 @@ fdescribe('ProjectsService', () => {
     );
 
 
-    fit('should parse project-response', () => {
-
-        const json: any = {'project': {'ontologies': [{'ontologyIri': 'http://www.knora.org/ontology/00FF/images', 'ontologyName': 'images'}], 'shortname': 'images', 'description': 'A demo project of a collection of images', 'institution': 'http://rdfh.ch/institutions/dhlab-basel', 'shortcode': '00FF', 'id': 'http://rdfh.ch/projects/00FF', 'status': true, 'selfjoin': false, 'keywords': 'images, collection', 'longname': 'Image Collection Demo'}};
+    fit('should parse projects-response', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
-        const result: User[] = jsonConvert.deserializeObject(json, ProjectResponse);
+        const result: ProjectsResponse = jsonConvert.deserializeObject(projectsResponseJson, ProjectsResponse);
 
-        // console.log('users: ', result);
+        expect(result).toBeTruthy();
+    });
+
+    fit('should parse project-response', () => {
+
+        const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
+
+        const result: ProjectResponse = jsonConvert.deserializeObject(imagesProjectResponseJson, ProjectResponse);
+
+        expect(result).toBeTruthy();
     });
 
 
@@ -70,6 +78,7 @@ fdescribe('ProjectsService', () => {
                         (projects: Project[]) => {
                             // console.log('projects: ' + JSON.stringify(projects));
                             expect(projects.length).toBe(8);
+                            expect(projects).toEqual(projectsTestData);
                         },
                         (error: ApiServiceError) => {
                             fail(error);

@@ -17,6 +17,8 @@
  * Interfaces for groups
  */
 export * from './groups/group';
+export * from './groups/group-response';
+export * from './groups/groups-response';
 
 
 /**

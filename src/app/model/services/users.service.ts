@@ -24,6 +24,29 @@ import {ApiService} from './api.service';
 export class UsersService extends ApiService {
 
     /**
+     * returns all users
+     *
+     * @returns {Observable<User[]>}
+     */
+    getAllUsers(): Observable<User[]> {
+
+        return this.httpGet('/admin/users').map(
+            (result: ApiServiceResult) => {
+                // console.log('UsersService - getAllUsers - result: ', JSON.stringify(result));
+                const response: UsersResponse = result.getBody(UsersResponse);
+                // console.log('UsersService - getAllUsers - response: ' + JSON.stringify(response));
+                const users: User[] = response.users;
+                // console.log('UsersService - getAllUsers - users: ' + JSON.stringify(users));
+                return users;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - getAllUsers - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
+    }
+
+    /**
      * returns a user profile
      *
      * @param iri
@@ -32,12 +55,13 @@ export class UsersService extends ApiService {
     getUserByIri(iri: string): Observable<User> {
         return this.httpGet('/admin/users/' + encodeURIComponent(iri)).map(
             (result: ApiServiceResult) => {
+                // console.log('UsersService - getUserByIri - result: ', JSON.stringify(result));
                 const user: User = result.getBody(UserResponse).user;
-                // console.log('UsersService - getUserByIri: ' + JSON.stringify(user));
+                // console.log('UsersService - getUserByIri - user: ', JSON.stringify(user));
                 return user;
             },
             (error: ApiServiceError) => {
-                console.error('UsersService - getUserByIri - error: ' + JSON.stringify(error));
+                console.error('UsersService - getUserByIri - error: ', JSON.stringify(error));
                 throw error;
             }
         );
@@ -64,28 +88,7 @@ export class UsersService extends ApiService {
         );
     }
 
-    /**
-     * returns all users
-     *
-     * @returns {Observable<User[]>}
-     */
-    getAllUsers(): Observable<User[]> {
 
-        return this.httpGet('/admin/users').map(
-            (result: ApiServiceResult) => {
-                // console.log('UsersService - getAllUsers - result: ' + JSON.stringify(result));
-                const response: UsersResponse = result.getBody(UsersResponse);
-                // console.log('UsersService - getAllUsers - response: ' + JSON.stringify(response));
-                const users: User[] = response.users;
-                // console.log('UsersService - getAllUsers - users: ' + JSON.stringify(users));
-                return users;
-            },
-            (error: ApiServiceError) => {
-                console.error('UsersService - getAllUsers - error: ' + JSON.stringify(error));
-                throw error;
-            }
-        );
-    }
 
     /**
      * Creates a new user.
