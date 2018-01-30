@@ -21,6 +21,7 @@
                 </mat-expansion-panel-header>
 
                 <span><b>{{listLists.nodesLabel}}</b>
+                    <span class="subtitle">Click on the node title to edit the node</span>
                 </span>
                 <salsah-progress-indicator *ngIf="isLoadingNodes"></salsah-progress-indicator>
                 <div *ngIf="currentListInfo" #tree>
@@ -33,7 +34,7 @@
                     <tree-root class="tree-node-expanded"  #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
                             <div>
-                                <span>{{ node.data.name }}</span>
+                                <span (click)="edit(item.id, node.data)">{{ node.data.name }}</span>
                                 <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
                             </div>
                             <!--     <button>{{node.data.name}}</button>
@@ -44,23 +45,23 @@
 
                     <!--TODO: move button above next to "Nodes" title-->
                 </div>
-
-                <mat-action-row>
-                    <button mat-button
-                            color="primary"
-                            (click)="toggle(item?.id, i)">
-                        {{listLists.buttons.edit}}
-                    </button>
-                </mat-action-row>
                 <!--
-                            <mat-action-row>
-                                <button mat-button
-                                        color="primary"
-                                        (click)="edit(item?.id)">
-                                    edit
-                                </button>
-                            </mat-action-row>
-                -->
+                              <mat-action-row>
+                                  <button mat-button
+                                          color="primary"
+                                          (click)="toggle(item?.id, i)">
+                                      {{listLists.buttons.edit}}
+                                  </button>
+                              </mat-action-row>
+
+                                          <mat-action-row>
+                                              <button mat-button
+                                                      color="primary"
+                                                      (click)="edit(item?.id)">
+                                                  edit
+                                              </button>
+                                          </mat-action-row>
+                              -->
             </mat-expansion-panel>
 
         </mat-accordion>

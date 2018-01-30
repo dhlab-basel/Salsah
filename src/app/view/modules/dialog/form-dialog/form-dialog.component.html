@@ -50,9 +50,10 @@
         </salsah-edit-resource-class>
 
         <!-- create new / edit lists class -->
-        <salsah-list-form *ngSwitchCase="'list'"
-                                   [listIri]="data.iri">
-        </salsah-list-form>
+        <salsah-edit-list *ngSwitchCase="'list'"
+                                   [listIri]="data.iri"
+                                    [currentNode]="data.currentNodes">
+        </salsah-edit-list>
 
         <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
     </mat-dialog-content>

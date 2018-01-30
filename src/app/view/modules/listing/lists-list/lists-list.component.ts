@@ -166,10 +166,17 @@ export class ListsListComponent implements OnInit {
     }
 
     // TODO: implement proper edit method/component
-    edit(id: string, title?: string) {
+    edit(id: string, cNode: ListNode[], title?: string) {
         const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
+                currentNodes: cNode,
+                // nodeIri: nodeId,
+                // nodeName: name,
+                // nodeLabel: label,
+                // nodeChildren: children,
+                // nodeLevel: level,
+                // nodePos: position,
                 title: 'Edit ' + id,
                 form: 'list'
             }
