@@ -12,13 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {
     AddData, ListData,
     SortData
 } from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 
 import {LanguageService} from '../../../../model/services/language.service';
+import {TranslateService} from '@ngx-translate/core';
 import {Subscription} from 'rxjs/Subscription';
 
 
@@ -27,7 +28,7 @@ import {Subscription} from 'rxjs/Subscription';
     templateUrl: './project-team.component.html',
     styleUrls: ['./project-team.component.scss']
 })
-export class ProjectTeamComponent implements OnInit {
+export class ProjectTeamComponent implements OnInit, OnDestroy {
 
     // here we can reuse the framework-for-listings component:
     // shows a list of users and the possibility to create new users
@@ -59,29 +60,42 @@ export class ProjectTeamComponent implements OnInit {
 
     name: string;
     subscription: Subscription;
+    browserLang: string;
 
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------
 
-    constructor(public _langService: LanguageService) {
-
-        if (localStorage.getItem('lang') === 'de') {
+    constructor(private translate: TranslateService,
+                public _langService: LanguageService) {
+        this.browserLang = translate.getBrowserLang();
+        // if (localStorage.getItem('lang') === 'de') {
+            if (this.browserLang === 'de') {
             this.list.title = 'Mitglieder in diesem Projekt';
             this.add.title = 'Füge neues Mitglied hinzu';
         } else {
             this.list.title = 'Members in this project';
             this.add.title = 'Add new team member';
         }
+
+
+        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
+        this.subscription = this._langService.getLanguage().subscribe(
+            lang => {
+                this.lang = lang, this.changeptVal(lang.var), console.log('project-tesm: constructor log');
+            }
+        );
+
     }
 
 
     ngOnInit() {
         this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
-        this.subscription = this._langService.getLanguage().subscribe(
-            lang => {
-                this.lang = lang, this.changeptVal(lang.var);
-            }
-        );
+
+    }
+
+    ngOnDestroy() {
+        // unsubscribe to ensure no memory leaks
+        this.subscription.unsubscribe();
     }
 
     changeptVal(name) {

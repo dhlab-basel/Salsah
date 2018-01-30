@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, OnDestroy} from '@angular/core';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {UsersService} from '../../../../model/services/users.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
@@ -27,6 +27,7 @@ import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
 import {LanguageService} from '../../../../model/services/language.service';
+import {TranslateService} from '@ngx-translate/core';
 import {Subscription} from 'rxjs/Subscription';
 
 
@@ -44,7 +45,7 @@ import {Subscription} from 'rxjs/Subscription';
  * - project<string> --> project iri returns list of users in the specified project
  * - index<number> --> index of active list item; for highlighting
  */
-export class UsersListComponent implements OnInit {
+export class UsersListComponent implements OnInit, OnDestroy {
 
     @Input('restrictedBy') project: string;
     @Input() index: number;
@@ -84,6 +85,7 @@ export class UsersListComponent implements OnInit {
 
     // Language translation
     subscription: Subscription;
+    browserLang: string;
     name: string;
 
     lang: any = [
@@ -129,12 +131,14 @@ export class UsersListComponent implements OnInit {
                 public _projectsService: ProjectsService,
                 public _userService: UsersService,
                 public _dialog: MatDialog,
+                public translate: TranslateService,
                 public _langService: LanguageService
     ) {
 
-        // Here follows the initialisation of the sortProps according to the language, e.g. after reading out localStorage.
-
-        if ( localStorage.getItem('lang') === 'de') {
+        this.browserLang = translate.getBrowserLang();
+        translate.use(this.browserLang.match(/en|de/) ? this.browserLang : 'en');
+        if ( this.browserLang === 'de') {
+            this.sortTitle = 'Sort by ';
             this.sortProps = [
                 {
                     key: 'familyName',
@@ -150,6 +154,7 @@ export class UsersListComponent implements OnInit {
                 }
             ];
         } else {
+            this.sortTitle = 'Sortieren nach ';
             this.sortProps = [
                 {
                     key: 'familyName',
@@ -298,6 +303,10 @@ export class UsersListComponent implements OnInit {
 
     }
 
+    ngOnDestroy() {
+        // unsubscribe to ensure no memory leaks
+        this.subscription.unsubscribe();
+    }
 
     sortBy(key: string) {
 
@@ -312,8 +321,7 @@ export class UsersListComponent implements OnInit {
     }
 
     changeVal(name) {
-        console.log('User-List-component greeting');
-
+        // console.log('User-List-component greeting');
         switch (name) {
             case 'en':
                 this.sortProps = [

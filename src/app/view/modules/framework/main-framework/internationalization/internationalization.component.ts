@@ -22,8 +22,8 @@ export class InternationalizationComponent implements OnInit, OnDestroy {
                 public _langService: LanguageService) {
 
         this.subscription = this._langService.getLanguage().subscribe(lang => {
-            this.lang = lang;
-            // console.log('lang: ' + lang.var);
+                this.lang = lang;
+                // console.log('lang: ' + lang.var);
             }
         );
 
@@ -32,36 +32,22 @@ export class InternationalizationComponent implements OnInit, OnDestroy {
         translate.setDefaultLang('en');
 
         this.browserLang = translate.getBrowserLang();
+        translate.use(this.browserLang.match(/en|de/) ? this.browserLang : 'en');
         // console.log('BrowserLang: ' + this.browserLang);
+        this._langService.setLanguage(this.browserLang);
 
-        if (localStorage.getItem('lang') === null) {
-            translate.use(this.browserLang.match(/en|de/) ? this.browserLang : 'en');
-            this.langString = translate.currentLang;
-            localStorage.setItem('lang', this.langString);
-            // this._langService.setLanguage(this.langString);
-            // console.log('Die Browsersprache ist: ' + this.langString);
-
-        } else {
-            translate.use(localStorage.getItem('lang'));
-            this.langString = translate.currentLang;
-            // console.log('Die Usersprache ist: ' + this.langString);
-            // this._langService.setLanguage(this.langString);
-        }
     }
 
     setLanguage(event: any, langSelect: string) {
-        // console.log('Sprache: ' + langSelect);
         this.translate.use(langSelect);
-        localStorage.setItem('lang', langSelect);
+        // localStorage.setItem('lang', langSelect);
         this.langString = langSelect;
         this._langService.setLanguage(langSelect);
-        // window.location.reload();
         // console.log('langSelect, i18n: ' + langSelect);
     }
 
     ngOnInit() {
-        // is not needed anymore...
-        // console.log('Init Intern.');
+
     }
 
     ngOnDestroy() {
