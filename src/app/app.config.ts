@@ -98,6 +98,8 @@ export class AppConfig {
 
     public static dateValueHasStartYear: string = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasStartYear';
     public static dateValueHasEndYear: string = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasEndYear';
+    public static dateValueHasStartEra: string = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasStartEra';
+    public static dateValueHasEndEra: string = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasEndEra';
     public static dateValueHasStartMonth = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasStartMonth';
     public static dateValueHasEndMonth = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasEndMonth';
     public static dateValueHasStartDay = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasStartDay';

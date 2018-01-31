@@ -111,6 +111,8 @@ export module ConvertJSONLD {
                     propValue[AppConfig.dateValueHasCalendar],
                     propValue[AppConfig.dateValueHasStartYear],
                     propValue[AppConfig.dateValueHasEndYear],
+                    propValue[AppConfig.dateValueHasStartEra],
+                    propValue[AppConfig.dateValueHasEndEra],
                     propValue[AppConfig.dateValueHasStartMonth],
                     propValue[AppConfig.dateValueHasEndMonth],
                     propValue[AppConfig.dateValueHasStartDay],
