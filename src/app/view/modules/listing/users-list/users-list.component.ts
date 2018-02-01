@@ -86,6 +86,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
     // Language translation
     subscription: Subscription;
     browserLang: string;
+    currentLanguage: string;
     name: string;
 
     lang: any = [
@@ -135,8 +136,14 @@ export class UsersListComponent implements OnInit, OnDestroy {
                 public _langService: LanguageService
     ) {
 
-        this.browserLang = translate.getBrowserLang();
-        translate.use(this.browserLang.match(/en|de/) ? this.browserLang : 'en');
+        if (translate.currentLang === null) {
+            this.browserLang = translate.getBrowserLang();
+            translate.use(this.browserLang.match(/en|de/) ? this.browserLang : 'en');
+        } else {
+            this.browserLang = translate.currentLang;
+        }
+
+
         if ( this.browserLang === 'de') {
             this.sortProps = [
                 {
@@ -297,6 +304,41 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
             }
         );
+
+        this.currentLanguage = this.translate.currentLang;
+        // console.log('Users-List: CurrentLanguage: ' + this.currentLanguage);
+
+        if ( this.currentLanguage === 'de') {
+            this.sortProps = [
+                {
+                    key: 'familyName',
+                    label: 'Nachname'
+                },
+                {
+                    key: 'givenName',
+                    label: 'Vorname'
+                },
+                {
+                    key: 'email',
+                    label: 'E-mail'
+                }
+            ];
+        } else {
+            this.sortProps = [
+                {
+                    key: 'familyName',
+                    label: 'Last name'
+                },
+                {
+                    key: 'givenName',
+                    label: 'First name'
+                },
+                {
+                    key: 'email',
+                    label: 'E-mail'
+                }
+            ];
+        }
 
 
     }

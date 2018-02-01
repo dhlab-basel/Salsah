@@ -61,14 +61,22 @@ export class ProjectTeamComponent implements OnInit, OnDestroy {
     name: string;
     subscription: Subscription;
     browserLang: string;
+    currentLanguage: string;
 
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------
 
-    constructor(private translate: TranslateService,
+    constructor(public translate: TranslateService,
                 public _langService: LanguageService) {
-        this.browserLang = translate.getBrowserLang();
-            if (this.browserLang === 'de') {
+
+        if (translate.currentLang === null) {
+            this.browserLang = translate.getBrowserLang();
+            translate.use(this.browserLang.match(/en|de/) ? this.browserLang : 'en');
+        } else {
+            this.browserLang = translate.currentLang;
+        }
+
+        if (this.browserLang === 'de') {
             this.list.title = 'Mitglieder in diesem Projekt';
             this.add.title = 'Füge neues Mitglied hinzu';
         } else {
@@ -76,19 +84,29 @@ export class ProjectTeamComponent implements OnInit, OnDestroy {
             this.add.title = 'Add new team member';
         }
 
-
         this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
+    }
+
+
+    ngOnInit() {
+        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
+
         this.subscription = this._langService.getLanguage().subscribe(
             lang => {
                 this.lang = lang, this.changeptVal(lang.var);
             }
         );
 
-    }
+        this.currentLanguage = this.translate.currentLang;
+        // console.log('CurrentLanguage: ' + this.currentLanguage);
 
-
-    ngOnInit() {
-        this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
+        if (this.currentLanguage === 'de') {
+            this.list.title = 'Mitglieder in diesem Projekt';
+            this.add.title = 'Füge neues Mitglied hinzu';
+        } else {
+            this.list.title = 'Members in this project';
+            this.add.title = 'Add new team member';
+        }
 
     }
 
