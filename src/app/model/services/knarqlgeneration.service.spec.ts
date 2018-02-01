@@ -90,7 +90,7 @@ describe('KnarqlgenerationService', () => {
             false
         );
 
-        const value = new ComparisonOperatorAndValue(new Like(), new ValueLiteral('Bernoulli', 'xsd:string'));
+        const value = new ComparisonOperatorAndValue(new Like(), new ValueLiteral('Bernoulli', 'http://www.w3.org/2001/XMLSchema#string'));
 
         const propWithVal = new PropertyWithValue(prop, value, false);
 
@@ -115,7 +115,7 @@ describe('KnarqlgenerationService', () => {
                         <http://0.0.0.0:3333/ontology/beol/simple/v2#hasFamilyName> knora-api:objectType <http://www.w3.org/2001/XMLSchema#string> .
                         ?propVal0 a <http://www.w3.org/2001/XMLSchema#string> .
                     
-                FILTER regex(?propVal0, "Bernoulli"^^<xsd:string>, "i")
+                FILTER regex(?propVal0, "Bernoulli"^^<http://www.w3.org/2001/XMLSchema#string>, "i")
                 
             
         }
