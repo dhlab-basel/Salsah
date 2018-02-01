@@ -10,7 +10,8 @@
     <mat-expansion-panel class="full-width" [expanded]="true">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                <span> {{ currentNode.name }} </span>
+                <!--<span> {{ currentNode.name }} </span>-->
+                <span> {{ listNodeInfoForm.get('name').value }} </span>
             </mat-panel-title>
             <mat-panel-description>
                 <span>{{editLists.list.nodes.formDescription}}</span>
@@ -32,16 +33,30 @@
                        [placeholder]=editLists.list.nodes.label
                        formControlName="labels">
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="full-width">
                 <input matInput
                        [placeholder]=editLists.list.nodes.children
                        formControlName="numberOfChildren">
-                <hr>
-                <div class="salsah-placeholder">Names:</div>
-                <mat-list *ngFor="let child of currentNode.children">
-                    {{child.name}}
-                </mat-list>
             </mat-form-field>
+            <mat-form-field class="full-width" formArrayName="children">
+                <div *ngFor="let child of children.controls; let i=index" [formGroupName]="i">
+                    <input matInput
+                           [placeholder]=editLists.list.nodes.childName
+                           formControlName="name">
+                    <!--{{child.get('name').value}}-->
+                    <!--<button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">-->
+                        <!--<mat-icon>close</mat-icon>-->
+                    <!--</button>-->
+                </div>
+            </mat-form-field>
+            <mat-action-row>
+                <button mat-button
+                        color="primary"
+                        (click)="addChild()">
+                    {{editLists.buttons.addChild}}
+                </button>
+            </mat-action-row>
+
             <mat-form-field class="full-width">
                 <input matInput
                        [placeholder]=editLists.list.nodes.level
@@ -56,15 +71,15 @@
 
             <mat-action-row>
                 <button mat-button
-                        color="warn">
-                    <!--(click)="revertNode()">-->
+                        color="warn"
+                        (click)="revertNode(currentNode)">
                     {{editLists.buttons.reset}}
                 </button>
                 <button mat-raised-button
                         class="save-button"
                         [color]="'primary'"
-                        [disabled]="!listNodeInfoForm.valid">
-                    <!--(click)="saveNode(listNodeInfoForm.value)">-->
+                        [disabled]="!listNodeInfoForm.valid"
+                        (click)="saveNode(listNodeInfoForm.value)">
                     {{editLists.buttons.save}}
                 </button>
             </mat-action-row>

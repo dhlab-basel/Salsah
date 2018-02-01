@@ -16,8 +16,8 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ListsService} from '../../../../model/services/lists.service';
-import {List, ListNode} from '../../../../model/webapi/knora';
-import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {List, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
+import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 
 
 @Component({
@@ -30,8 +30,11 @@ export class EditListComponent implements OnChanges {
     @Input() listIri: string;
     @Input() currentNode: ListNode;
 
+    currentListNodeInfo: ListNodeInfo;
+
     errorMessage: string = undefined;
     isLoading: boolean = true;
+    public submitted: boolean; // keep track on whether form is submitted
 
     public editLists: any = {
         label: 'List',
@@ -42,12 +45,13 @@ export class EditListComponent implements OnChanges {
             id: 'Id',
             comments: 'Comments',
             nodes: {
-                formLabel: 'has Nodes',
+                formLabel: 'edit Nodes',
                 formDescription: 'Click to edit the node',
                 id: 'Node ID',
                 name: 'Node name',
                 label: 'Node label',
                 children: 'has children',
+                childName: 'Children names',
                 level: 'Node level',
                 position: 'Node position',
             }
@@ -73,8 +77,21 @@ export class EditListComponent implements OnChanges {
             edit: 'Edit',
             skip: 'Skip',
             next: 'Next',
-            add: 'Add'
+            add: 'Add',
+            addNode: 'Add node',
+            addChild: 'Add child'
         }
+    };
+
+    // the following form fields would have an error check
+    formErrors = {
+        'nodeName': ''
+    };
+    // ...with the following messages
+    validationMessages = {
+        'nodeName': {
+            'required': 'Node name is required'
+        },
     };
 
 
@@ -89,16 +106,19 @@ export class EditListComponent implements OnChanges {
     ngOnChanges() {
         console.log('list iri: ', this.listIri);
         console.log('node: ', this.currentNode);
+        console.log('children: ', this.currentNode.children);
+
         this.buildListNodeInfoForm();
+        this.setChildren(this.currentNode.children);
 
     }
 
     buildListNodeInfoForm() {
         this.listNodeInfoForm = this._fb.group({
             id: new FormControl({value: this.currentNode.id, disabled: true}),
-            name: this.currentNode.name,
+            name: [this.currentNode.name, Validators.required],
             labels: this.currentNode.label,
-            children: new FormControl({value: this.currentNode.children, disabled: true}),
+            children: this._fb.array([]),
             numberOfChildren: new FormControl({value: this.currentNode.children.length, disabled: true}),
             level: this.currentNode.level,
             position: this.currentNode.position
@@ -108,5 +128,32 @@ export class EditListComponent implements OnChanges {
         this.isLoading = false;
 
     }
+
+    get children(): FormArray {
+        return this.listNodeInfoForm.get('children') as FormArray;
+    };
+
+    setChildren(children: ListNode[]) {
+        console.log('setChildren: ', children);
+        const childFGs = children.map(child => this._fb.group(child));
+        const childFormArray = this._fb.array(childFGs);
+        this.listNodeInfoForm.setControl('children', childFormArray);
+    }
+
+    addChild() {
+        this.children.push(this._fb.group(new ListNode()));
+    }
+
+    revertNode() {
+        this.ngOnChanges();
+    }
+
+    saveNode(listNodeInfo: ListNodeInfo) {
+        this.submitted = true; // set form submit to true
+        // check if model is valid
+        // if valid, call API to save customer
+        console.log('save:', listNodeInfo);
+    }
+
 
 }
