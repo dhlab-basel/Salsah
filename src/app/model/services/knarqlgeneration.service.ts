@@ -170,8 +170,7 @@ export class KnarqlgenerationService {
         }
 
         // template of the KnarQL query with dynamic components
-        let knarqlTemplate = `
-    
+        let knarqlTemplate = `    
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         

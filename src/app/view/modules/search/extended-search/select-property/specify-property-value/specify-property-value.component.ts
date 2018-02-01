@@ -19,7 +19,7 @@ interface ComparisonOperator {
     getClassName(): string
 }
 
-class Equals implements ComparisonOperator {
+export class Equals implements ComparisonOperator {
 
     constructor() {
     }
@@ -32,7 +32,7 @@ class Equals implements ComparisonOperator {
     };
 }
 
-class NotEquals implements ComparisonOperator {
+export class NotEquals implements ComparisonOperator {
 
     constructor() {
     }
@@ -45,7 +45,7 @@ class NotEquals implements ComparisonOperator {
     };
 }
 
-class GreaterThan implements ComparisonOperator {
+export class GreaterThan implements ComparisonOperator {
 
     constructor() {
     }
@@ -58,7 +58,7 @@ class GreaterThan implements ComparisonOperator {
     };
 }
 
-class GreaterThanEquals implements ComparisonOperator {
+export class GreaterThanEquals implements ComparisonOperator {
 
     constructor() {
     }
@@ -71,7 +71,7 @@ class GreaterThanEquals implements ComparisonOperator {
     };
 }
 
-class LessThan implements ComparisonOperator {
+export class LessThan implements ComparisonOperator {
 
     constructor() {
     }
@@ -84,7 +84,7 @@ class LessThan implements ComparisonOperator {
     };
 }
 
-class LessThanEquals implements ComparisonOperator {
+export class LessThanEquals implements ComparisonOperator {
 
     constructor() {
     }
@@ -97,7 +97,7 @@ class LessThanEquals implements ComparisonOperator {
     };
 }
 
-class Exists implements ComparisonOperator {
+export class Exists implements ComparisonOperator {
 
     constructor() {
     }
@@ -110,7 +110,7 @@ class Exists implements ComparisonOperator {
     };
 }
 
-class Like implements ComparisonOperator {
+export class Like implements ComparisonOperator {
 
     constructor() {}
 
@@ -123,7 +123,7 @@ class Like implements ComparisonOperator {
 
 }
 
-class Match implements ComparisonOperator {
+export class Match implements ComparisonOperator {
 
     constructor() {}
 
