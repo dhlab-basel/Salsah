@@ -139,6 +139,7 @@ import {MatNativeDateModule} from '@angular/material';
 import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
 
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
+import { GndDirective } from './view/modules/other/gnd.directive';
 
 //
 // import all needed services
@@ -243,7 +244,8 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         BooleanValueComponent,
         DateValueComponent,
         OntologiesListItemComponent,
-        ExistingNameDirective
+        ExistingNameDirective,
+        GndDirective
 
     ],
     imports: [
