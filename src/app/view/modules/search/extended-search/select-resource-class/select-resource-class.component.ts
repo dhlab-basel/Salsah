@@ -9,6 +9,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class SelectResourceClassComponent implements OnInit {
 
+    @Input() formGroup: FormGroup;
+
     // setter method for resource classes when being updated by parent component
     @Input()
     set resourceClasses(value: Array<ResourceClass>) {
@@ -30,20 +32,9 @@ export class SelectResourceClassComponent implements OnInit {
     // stores the currently selected resource class
     private resourceClassSelected: string;
 
-    private form: FormGroup;
+    form: FormGroup;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
-
-        // build a form for the resource class selection
-        this.form = fb.group({
-            resourceClass: [null] // resource class selection is optional
-        });
-
-        // store and emit Iri of the resource class when selected
-        this.form.valueChanges.subscribe((data) => {
-            this.resourceClassSelected = data.resourceClass;
-            this.resourceClassSelectedEvent.emit(this.resourceClassSelected);
-        })
     }
 
     /**
@@ -60,6 +51,21 @@ export class SelectResourceClassComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        // build a form for the resource class selection
+        this.form = this.fb.group({
+            resourceClass: [null] // resource class selection is optional
+        });
+
+        // store and emit Iri of the resource class when selected
+        this.form.valueChanges.subscribe((data) => {
+            this.resourceClassSelected = data.resourceClass;
+            this.resourceClassSelectedEvent.emit(this.resourceClassSelected);
+        });
+
+        // add form to the parent form group
+        this.formGroup.addControl('resourceClass', this.form);
+
     }
 
 }

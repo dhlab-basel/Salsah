@@ -49,7 +49,7 @@ export class SelectPropertyComponent implements OnInit {
     // represents the currently selected property
     propertySelected: Property;
 
-    private form: FormGroup;
+    form: FormGroup;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 

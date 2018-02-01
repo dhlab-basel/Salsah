@@ -1,11 +1,11 @@
-<form (ngSubmit)="submit()">
+<form [formGroup]="form" (ngSubmit)="submit()">
     Extended Search Form:
     <div>
-        <select-ontology *ngIf="ontologies.length > 0" [ontologies]="ontologies" (ontologySelected)="getResourceClassesAndPropertiesForOntology($event)"></select-ontology>
+        <select-ontology *ngIf="ontologies.length > 0" [formGroup]="form" [ontologies]="ontologies" (ontologySelected)="getResourceClassesAndPropertiesForOntology($event)"></select-ontology>
     </div>
 
     <div *ngIf="resourceClasses?.length > 0">
-        <select-resource-class #resourceClass [resourceClasses]="resourceClasses" (resourceClassSelectedEvent)="getPropertiesForResourceClass($event)"></select-resource-class>
+        <select-resource-class #resourceClass [formGroup]="form" [resourceClasses]="resourceClasses" (resourceClassSelectedEvent)="getPropertiesForResourceClass($event)"></select-resource-class>
     </div>
 
     <div *ngIf="properties !== undefined">
@@ -21,6 +21,6 @@
 
     </div>
 
-    <button type="submit">Perform search</button>
+    <button type="submit" [disabled]="!validForm()">Perform search</button>
 </form>
 

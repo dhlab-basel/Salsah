@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, Inject, OnChanges, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {
     OntologyCacheService, OntologyInformation, OntologyMetadata, Properties,
@@ -8,7 +8,7 @@ import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-reso
 import {PropertyWithValue, SelectPropertyComponent} from "./select-property/select-property.component";
 import {SelectResourceClassComponent} from "./select-resource-class/select-resource-class.component";
 import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 
 @Component({
@@ -41,6 +41,8 @@ export class ExtendedSearchComponent implements OnInit {
     // reference to the component controlling the property selection
     @ViewChildren('property') propertyComponents: QueryList<SelectPropertyComponent>;
 
+    form: FormGroup;
+
     constructor(@Inject(FormBuilder) private fb: FormBuilder,
                 private _route: ActivatedRoute,
                 private _router: Router,
@@ -49,6 +51,8 @@ export class ExtendedSearchComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.form = this.fb.group({});
 
         // initialize ontologies to be used for the ontologies selection in the search form
         this.initializeOntologies();
@@ -126,7 +130,18 @@ export class ExtendedSearchComponent implements OnInit {
 
     }
 
+    /**
+     * Validates form and returns status.
+     *
+     * @returns {boolean}
+     */
+    validForm() {
+        return this.form.valid;
+    }
+
     submit() {
+
+        //console.log(this.form);
 
         // TODO: check validity of inputs: there is problem when combining FormGroup validators of parent and child components: ExpressionChangedAfterItHasBeenCheckedError
         // https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
@@ -148,6 +163,10 @@ export class ExtendedSearchComponent implements OnInit {
 
         const knarql = this._knarqlgenerationService.createKnarQLQuery(properties, resClass);
 
+        //console.log(knarql);
+
+        //if (true == true) return;
+
         this.performExtendedSearch(knarql);
 
     }
@@ -157,8 +176,6 @@ export class ExtendedSearchComponent implements OnInit {
      *
      */
     performExtendedSearch(knarql: string) {
-
-        console.log(knarql);
 
         this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
     }

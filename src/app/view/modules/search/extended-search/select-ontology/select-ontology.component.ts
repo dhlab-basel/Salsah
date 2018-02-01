@@ -9,27 +9,32 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class SelectOntologyComponent implements OnInit {
 
+    @Input() formGroup: FormGroup;
+
     @Input() ontologies: Array<OntologyMetadata>;
 
     @Output() ontologySelected = new EventEmitter<string>();
 
-    private form: FormGroup;
+    form: FormGroup;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
+    }
+
+    ngOnInit() {
+
         // build a form for the named graph selection
-        this.form = fb.group({
+        this.form = this.fb.group({
             ontology: [null, Validators.required]
         });
 
         // emit Iri of the ontology when being selected
         this.form.valueChanges.subscribe((data) => {
             this.ontologySelected.emit(data.ontology);
-        })
+        });
 
-    }
-
-    ngOnInit() {
+        // add form to the parent form group
+        this.formGroup.addControl('ontology', this.form);
 
     }
 
