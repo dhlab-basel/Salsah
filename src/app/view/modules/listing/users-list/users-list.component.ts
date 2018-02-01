@@ -138,7 +138,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.browserLang = translate.getBrowserLang();
         translate.use(this.browserLang.match(/en|de/) ? this.browserLang : 'en');
         if ( this.browserLang === 'de') {
-            this.sortTitle = 'Sort by ';
             this.sortProps = [
                 {
                     key: 'familyName',
@@ -154,7 +153,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
                 }
             ];
         } else {
-            this.sortTitle = 'Sortieren nach ';
             this.sortProps = [
                 {
                     key: 'familyName',

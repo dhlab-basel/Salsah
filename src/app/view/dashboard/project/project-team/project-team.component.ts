@@ -68,7 +68,6 @@ export class ProjectTeamComponent implements OnInit, OnDestroy {
     constructor(private translate: TranslateService,
                 public _langService: LanguageService) {
         this.browserLang = translate.getBrowserLang();
-        // if (localStorage.getItem('lang') === 'de') {
             if (this.browserLang === 'de') {
             this.list.title = 'Mitglieder in diesem Projekt';
             this.add.title = 'Füge neues Mitglied hinzu';
@@ -81,7 +80,7 @@ export class ProjectTeamComponent implements OnInit, OnDestroy {
         this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
         this.subscription = this._langService.getLanguage().subscribe(
             lang => {
-                this.lang = lang, this.changeptVal(lang.var), console.log('project-tesm: constructor log');
+                this.lang = lang, this.changeptVal(lang.var);
             }
         );
 
@@ -99,9 +98,6 @@ export class ProjectTeamComponent implements OnInit, OnDestroy {
     }
 
     changeptVal(name) {
-
-        // console.log('language in project-team: ' + name);
-
         switch (name) {
             case 'en':
                 this.list.title = 'Members in this project';
