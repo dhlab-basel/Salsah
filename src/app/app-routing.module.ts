@@ -29,7 +29,6 @@ import {ProjectFormComponent} from './view/modules/form/project-form/project-for
 import {DocumentationComponent} from './view/documentation/documentation.component';
 
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
 import {MessageComponent} from './view/modules/message/message.component';
@@ -162,10 +161,6 @@ const appRoutes: Routes = [
     {
         path: 'dev', component: DevelopmentComponent,
         children: [
-            {
-                path: 'progress-indicator',
-                component: ProgressIndicatorComponent
-            },
             {
                 path: 'progress-stepper',
                 component: ProgressStepperComponent
