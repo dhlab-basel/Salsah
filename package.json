@@ -30,7 +30,6 @@
         "@ngx-translate/core": "^8.0.0",
         "@ngx-translate/http-loader": "^2.0.0",
         "@salsah/progress-indicator": "^1.0.0-beta.3",
-        "@uniprank/ng2-file-uploader": "^0.2.2",
         "angular-tree-component": "^6.1.0",
         "core-js": "^2.5.1",
         "hammerjs": "^2.0.8",
