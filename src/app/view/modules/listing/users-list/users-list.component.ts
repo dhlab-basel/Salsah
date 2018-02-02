@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, OnDestroy} from '@angular/core';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {UsersService} from '../../../../model/services/users.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
@@ -26,6 +26,9 @@ import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
+import {LanguageService} from '../../../../model/services/language.service';
+import {TranslateService} from '@ngx-translate/core';
+import {Subscription} from 'rxjs/Subscription';
 
 
 
@@ -42,7 +45,7 @@ import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list
  * - project<string> --> project iri returns list of users in the specified project
  * - index<number> --> index of active list item; for highlighting
  */
-export class UsersListComponent implements OnInit {
+export class UsersListComponent implements OnInit, OnDestroy {
 
     @Input('restrictedBy') project: string;
     @Input() index: number;
@@ -80,6 +83,18 @@ export class UsersListComponent implements OnInit {
     countActive: number;
     countInactive: number;
 
+    // Language translation
+    subscription: Subscription;
+    browserLang: string;
+    currentLanguage: string;
+    name: string;
+
+    lang: any = [
+        {
+            var: ''
+        }
+    ];
+
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
     // iri of the selected person
@@ -87,6 +102,7 @@ export class UsersListComponent implements OnInit {
 
     // sort the list of members by familyName OR givenName.
     // the sortBy method toggles the right setting, which is defined here
+    // the correct translation is done on ngOnInit
     sortProps: any = [
         {
             key: 'familyName',
@@ -101,7 +117,7 @@ export class UsersListComponent implements OnInit {
             label: 'E-mail'
         }
     ];
-    sortTitle: string = 'Sort by ';
+    sortTitle: string = 'Sort by ';  // Replaced by the json language files...
     sortKey: string = this.sortProps[0].key;
     sortKeyIA: string = this.sortProps[0].key;
     sortLabel: string = this.sortProps[0].label;
@@ -115,7 +131,51 @@ export class UsersListComponent implements OnInit {
     constructor(private _router: Router,
                 public _projectsService: ProjectsService,
                 public _userService: UsersService,
-                public _dialog: MatDialog) {
+                public _dialog: MatDialog,
+                public translate: TranslateService,
+                public _langService: LanguageService
+    ) {
+
+        if (translate.currentLang === null) {
+            this.browserLang = translate.getBrowserLang();
+            translate.use(this.browserLang.match(/en|de/) ? this.browserLang : 'en');
+        } else {
+            this.browserLang = translate.currentLang;
+        }
+
+
+        if ( this.browserLang === 'de') {
+            this.sortProps = [
+                {
+                    key: 'familyName',
+                    label: 'Nachname'
+                },
+                {
+                    key: 'givenName',
+                    label: 'Vorname'
+                },
+                {
+                    key: 'email',
+                    label: 'E-mail'
+                }
+            ];
+        } else {
+            this.sortProps = [
+                {
+                    key: 'familyName',
+                    label: 'Last name'
+                },
+                {
+                    key: 'givenName',
+                    label: 'First name'
+                },
+                {
+                    key: 'email',
+                    label: 'E-mail'
+                }
+            ];
+        }
+
     }
 
     ngOnInit() {
@@ -236,9 +296,56 @@ export class UsersListComponent implements OnInit {
                         this.errorMessage = <any>error;
                     }
                 );
-
         }
 
+        this.subscription = this._langService.getLanguage().subscribe (
+            lang => {
+                this.lang = lang, this.changeVal(lang.var);
+
+            }
+        );
+
+        this.currentLanguage = this.translate.currentLang;
+        // console.log('Users-List: CurrentLanguage: ' + this.currentLanguage);
+
+        if ( this.currentLanguage === 'de') {
+            this.sortProps = [
+                {
+                    key: 'familyName',
+                    label: 'Nachname'
+                },
+                {
+                    key: 'givenName',
+                    label: 'Vorname'
+                },
+                {
+                    key: 'email',
+                    label: 'E-mail'
+                }
+            ];
+        } else {
+            this.sortProps = [
+                {
+                    key: 'familyName',
+                    label: 'Last name'
+                },
+                {
+                    key: 'givenName',
+                    label: 'First name'
+                },
+                {
+                    key: 'email',
+                    label: 'E-mail'
+                }
+            ];
+        }
+
+
+    }
+
+    ngOnDestroy() {
+        // unsubscribe to ensure no memory leaks
+        this.subscription.unsubscribe();
     }
 
     sortBy(key: string) {
@@ -250,6 +357,44 @@ export class UsersListComponent implements OnInit {
         } else {
             this.sortKey = this.sortProps[0].key;
             this.sortLabel = this.sortProps[1].label;
+        }
+    }
+
+    changeVal(name) {
+        // console.log('User-List-component greeting');
+        switch (name) {
+            case 'en':
+                this.sortProps = [
+                    {
+                        key: 'familyName',
+                        label: 'Last name'
+                    },
+                    {
+                        key: 'givenName',
+                        label: 'First name'
+                    },
+                    {
+                        key: 'email',
+                        label: 'E-mail'
+                    }
+                ];
+                break;
+            case 'de':
+                this.sortProps = [
+                    {
+                        key: 'familyName',
+                        label: 'Nachname'
+                    },
+                    {
+                        key: 'givenName',
+                        label: 'Vorname'
+                    },
+                    {
+                        key: 'email',
+                        label: 'E-mail'
+                    }
+                ];
+                break;
         }
     }
 

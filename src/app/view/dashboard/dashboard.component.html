@@ -2,18 +2,18 @@
     <div class="salsah-module-scroll-area">
         <div class="salsah-module-content medium salsah-text">
             <p>
-                Welcome to Salsah &mdash; a web-based virtual research environment that helps researchers in the
-                humanities to deal with digital data. It allows the annotation and linkage of arbitrary sources such as
-                digital texts, still and moving images, and sound.
+                {{ 'salsahLabels.dashboardComponent.firstParagraph' | translate }}
+
             </p>
             <p>
-                SALSAH is one (generic) user interface to handle the data from the main repository called <a
+                {{ 'salsahLabels.dashboardComponent.secondParagraph' | translate }}
+                <a
                 href="http://knora.org"
-                title="Knora: Knowledge Organization, Representation, and Annotation">Knora</a>.
+                title="Knora: Knowledge Organization, Representation, and Annotation" target="_new">Knora</a>.
             </p>
 
             <!-- list all public projects -->
-            <h3>{{listTitle}}</h3>
+            <h3>{{'salsahLabels.dashboardComponent.projectsIntro' | translate}}</h3>
             <salsah-projects-list [listType]="'grid'"></salsah-projects-list>
 
         </div>

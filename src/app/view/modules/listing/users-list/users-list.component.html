@@ -87,15 +87,13 @@
         </div>
 
         <div *ngSwitchCase="'expansion'">
-
-            <mat-form-field style="margin: -12px 0 0 12px">
-                <mat-select [placeholder]="sortTitle" [(value)]="sortKey">
-                    <mat-option *ngFor="let item of sortProps" [value]="item.key">
-                        {{item.label}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
+        <mat-form-field style="margin: -12px 0 0 12px">
+            <mat-select [placeholder]="'salsahLabels.usersList.sortProps.sortTitle' | translate " [(value)]="sortKey">
+                <mat-option *ngFor="let item of sortProps" [value]="item.key">
+                    {{item.label}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
             <div *ngIf="countActive > 0">
                 <h4 class="salsah-sub-header">{{countActive}} Active user<span *ngIf="countActive > 1">s</span></h4>
                 <salsah-users-list-item [listData]="newAllActiveUsers" [sortProp]="sortKey"

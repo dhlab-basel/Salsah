@@ -39,18 +39,18 @@
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <span *ngIf="!selectedUser">{{formLabels.user.select.title}}</span>
-                        <span *ngIf="selectedUser">{{formLabels.user.select.titleDone}}</span>
+                        <span *ngIf="!selectedUser">{{ 'salsahLabels.userFormLabels.user.select.title' | translate }}</span>
+                        <span *ngIf="selectedUser">{{ 'salsahLabels.userFormLabels.user.select.titleDone' | translate }}</span>
                     </mat-panel-title>
                     <mat-panel-description>
-                        <span *ngIf="!selectedUser">{{formLabels.user.select.description}}</span>
-                        <span *ngIf="selectedUser"><i>{{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}</i></span>
+                        <span *ngIf="!selectedUser">{{'salsahLabels.userFormLabels.user.select.description' | translate }}</span>
+                        <span *ngIf="selectedUser"><i>{{ selectedUser.userData?.givenName }} {{ selectedUser.userData?.familyName }}</i></span>
                         <mat-icon>person</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-form-field class="large">
                     <input matInput
-                           [placeholder]="formLabels.user.select.autoComplete"
+                           [placeholder]= "'salsahLabels.userFormLabels.user.select.autoComplete' | translate"
                            [matAutocomplete]="autoUser"
                            [formControl]="userCtrl">
                     <mat-icon matSuffix class="input-icon icon-for-autocomplete" (click)="resetSelectedUser()"
@@ -69,21 +69,21 @@
                             class="navigation-button left"
                             color="warn"
                             (click)="nextStep($event)">
-                        {{formLabels.user.select.skip}}
+                        {{ 'salsahLabels.userFormLabels.user.select.skip' | translate }}
                     </button>
                     <button mat-button *ngIf="restrictedBy"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 3)"
                             [disabled]="!userCtrl.valid">
-                        {{formLabels.navigation.next}}
+                        {{ 'salsahLabels.userFormLabels.navigation.next' | translate }}
                     </button>
                     <button mat-button *ngIf="!restrictedBy"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 2)"
                             [disabled]="!userCtrl.valid">
-                        {{formLabels.navigation.next}}
+                        {{ 'salsahLabels.userFormLabels.navigation.next' | translate }}
                     </button>
                 </mat-action-row>
             </mat-expansion-panel>
@@ -95,13 +95,13 @@
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.title}}</span>
-                        <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.title}}</span>
+                        <span *ngIf="restrictedBy">{{ 'salsahLabels.userFormLabels.user.create.projectAdmin.title' | translate}}</span>
+                        <span *ngIf="!restrictedBy">{{ 'salsahLabels.userFormLabels.user.create.systemAdmin.title'| translate }}</span>
                     </mat-panel-title>
                     <mat-panel-description
                         *ngIf="!form.controls['givenName'].value && !form.controls['familyName'].value">
-                        <span *ngIf="restrictedBy">{{formLabels.user.create.projectAdmin.description}}</span>
-                        <span *ngIf="!restrictedBy">{{formLabels.user.create.systemAdmin.description}}</span>
+                        <span *ngIf="restrictedBy">{{ 'salsahLabels.userFormLabels.user.create.projectAdmin.description' | translate}}</span>
+                        <span *ngIf="!restrictedBy">{{ 'salsahLabels.userFormLabels.user.create.systemAdmin.description' | translate}}</span>
                         <mat-icon>person_add</mat-icon>
                     </mat-panel-description>
                     <mat-panel-description *ngIf="form.controls['givenName'].value && form.controls['familyName'].value">
@@ -114,7 +114,7 @@
                 <form class="salsah-form new-user" [formGroup]="form">
                     <mat-form-field class="small">
                         <input matInput [salsahFocus]="step === 1"
-                               [placeholder]="formLabels.user.create.givenName + ' *'"
+                               [placeholder]="'salsahLabels.userFormLabels.user.create.givenName' | translate"
                                [formControl]="form.controls['givenName']">
                         <mat-hint *ngIf="formErrors.givenName">
                             {{ formErrors.givenName }}
@@ -122,7 +122,7 @@
                     </mat-form-field>
                     <mat-form-field class="medium">
                         <input matInput
-                               [placeholder]="formLabels.user.create.familyName + ' *'"
+                               [placeholder]="'salsahLabels.userFormLabels.user.create.familyName' |translate"
                                [formControl]="form.controls['familyName']">
                         <mat-hint *ngIf="formErrors.familyName">
                             {{ formErrors.familyName }}
@@ -131,7 +131,7 @@
                     <!-- email = username -->
                     <mat-form-field class="large">
                         <input matInput type="email" class="full-width"
-                               [placeholder]="formLabels.user.create.email + ' *'"
+                               [placeholder]="'salsahLabels.userFormLabels.user.create.email' | translate"
                                [formControl]="form.controls['email']">
                         <mat-hint *ngIf="formErrors.email">
                             {{ formErrors.email }}
@@ -140,7 +140,7 @@
                     <!-- password -->
                     <mat-form-field class="large">
                         <input matInput [type]="showPassword ? 'text' : 'password'"
-                               [placeholder]="formLabels.user.create.password + ' *'"
+                               [placeholder]="'salsahLabels.userFormLabels.user.create.password' | translate"
                                [formControl]="form.controls['password']">
                         <mat-icon matSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
                                  [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></mat-icon>
@@ -148,39 +148,38 @@
                             {{ formErrors.password }}
                         </mat-hint>
                     </mat-form-field>
-
-                    <mat-select class="large"
-                               [placeholder]="formLabels.user.create.language"
-                               [formControl]="form.controls['lang']">
-
-                        <mat-option value="en">english</mat-option>
-                        <mat-option value="de">deutsch</mat-option>
-                        <mat-option value="fr">français</mat-option>
-                        <mat-option value="it">italiano</mat-option>
-                    </mat-select>
-
+                    <mat-form-field class="large">
+                        <mat-select class="large"
+                                    [placeholder]="'salsahLabels.userFormLabels.user.create.language' | translate"
+                                    [formControl]="form.controls['lang']">
+                            <mat-option value="en">English</mat-option>
+                            <mat-option value="de">Deutsch</mat-option>
+                            <mat-option value="fr">Français</mat-option>
+                            <mat-option value="it">Italiano</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </form>
-
+                <!--  -->
                 <!-- footer -->
                 <mat-action-row>
                     <button mat-button
                             color="warn"
                             (click)="form.reset()">
-                        {{formLabels.navigation.reset}}
+                        {{ 'salsahLabels.userFormLabels.navigation.reset' | translate}}
                     </button>
                     <button mat-button *ngIf="restrictedBy"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event, 3)"
                             [disabled]="!form.valid">
-                        {{formLabels.navigation.next}}
+                        {{ 'salsahLabels.userFormLabels.navigation.next' | translate}}
                     </button>
                     <button mat-button *ngIf="!restrictedBy"
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!form.valid">
-                        {{formLabels.navigation.next}}
+                        {{ 'salsahLabels.userFormLabels.navigation.next' | translate}}
                     </button>
                 </mat-action-row>
 
@@ -196,11 +195,11 @@
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        {{formLabels.project.select.title}}
+                        {{ 'salsahLabels.userFormLabels.project.select.title' | translate}}
                     </mat-panel-title>
                     <!-- 2a) show the project short name only -->
                     <mat-panel-description>
-                        {{formLabels.project.select.description}}
+                        {{ 'salsahLabels.userFormLabels.project.select.description' | translate}}
                         <mat-icon>assignment</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
@@ -225,14 +224,14 @@
                             class="navigation-button left"
                             color="warn"
                             (click)="skipStep($event, 4, 'project')">
-                        {{formLabels.project.select.skip}}
+                        {{ 'salsahLabels.userFormLabels.project.select.skip' | translate}}
                     </button>
                     <button mat-button
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event)"
                             [disabled]="!projectCtrl.valid">
-                        {{formLabels.navigation.next}}
+                        {{ 'salsahLabels.userFormLabels.navigation.next' | translate}}
                     </button>
                 </mat-action-row>
 
@@ -273,34 +272,34 @@
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        {{formLabels.permissions.title}}
+                        {{ 'salsahLabels.userFormLabels.permissions.title' | translate}}
                     </mat-panel-title>
                     <mat-panel-description>
-                        <span>{{formLabels.permissions.description}}</span>
+                        <span>{{ 'salsahLabels.userFormLabels.permissions.description' | translate}}</span>
                         <mat-icon>accessibility</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-list>
                     <div>
                         <h3 mat-subheader>
-                            {{formLabels.permissions.project.title}}
+                            {{ 'salsahLabels.userFormLabels.permissions.project.title' | translate}}
                         </h3>
                         <mat-list-item>
                             <mat-slide-toggle [(ngModel)]="adminPermission"
                                              [disabled]="!projectIri && (!selectedUser && !form.valid)"
                                              color="primary">
-                                {{formLabels.permissions.project.description}}
+                                {{ 'salsahLabels.userFormLabels.permissions.project.description' | translate}}
                                 <span *ngIf="selectedProject"><i>&nbsp;{{selectedProject?.longname}}</i></span>
                             </mat-slide-toggle>
                         </mat-list-item>
                     </div>
                     <div *ngIf="sysAdmin && !userIri">
-                        <h3 mat-subheader>{{formLabels.permissions.system.title}}</h3>
+                        <h3 mat-subheader>{{ 'salsahLabels.userFormLabels.permissions.system.title' | translate}}</h3>
                         <mat-list-item>
                             <mat-slide-toggle [(ngModel)]="sysAdminPermission"
                                              [disabled]="!projectIri && (!selectedUser && !form.valid)"
                                              color="primary">
-                                {{formLabels.permissions.system.description}}
+                                {{ 'salsahLabels.userFormLabels.permissions.system.description' | translate}}
                             </mat-slide-toggle>
                         </mat-list-item>
                     </div>
@@ -314,7 +313,7 @@
                             class="navigation-button"
                             color="primary"
                             (click)="nextStep($event)">
-                        {{formLabels.navigation.next}}
+                        {{ 'salsahLabels.userFormLabels.navigation.next' | translate}}
                     </button>
                 </mat-action-row>
 
@@ -329,10 +328,10 @@
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        {{formLabels.overview.title}}
+                        {{ 'salsahLabels.userFormLabels.overview.title' | translate}}
                     </mat-panel-title>
                     <mat-panel-description>
-                        {{formLabels.overview.description}}
+                        {{ 'salsahLabels.userFormLabels.overview.description' | translate}}
                         <mat-icon>done</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
@@ -344,10 +343,10 @@
                                                    [status]="submitUserStatus"></salsah-progress-indicator>
                         <h4 mat-line>
                             <span *ngIf="selectedUser">
-                                {{formLabels.user.select.titleDone}}
+                                {{ 'salsahLabels.userFormLabels.user.select.titleDone' | translate}}
                             </span>
                             <span *ngIf="!selectedUser && form.valid">
-                                {{formLabels.user.create.projectAdmin.titleDone}}
+                                {{ 'salsahLabels.userFormLabels.user.create.projectAdmin.titleDone' | translate}}
                             </span>
                         </h4>
                         <p mat-line>
@@ -355,7 +354,7 @@
                                 {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}, {{selectedUser.userData?.email}}
                             </span>
                             <span *ngIf="!selectedUser && form.valid">
-                                {{form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
+                                {{ form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
                             </span>
                         </p>
                         <mat-hint mat-line *ngIf="userErrorMessage" class="salsah-error-message">
@@ -369,7 +368,7 @@
                         <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [type]="'submit'"
                                                    [status]="submitProjectStatus"></salsah-progress-indicator>
                         <h4 mat-line>
-                            {{formLabels.project.select.title}}
+                            {{ 'salsahLabels.userFormLabels.project.select.title' | translate}}
                         </h4>
                         <p mat-line>
                             {{selectedProject?.longname}} ({{selectedProject?.shortname}})
@@ -382,11 +381,11 @@
                         <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [type]="'submit'"
                                                    [status]="submitPermissionsStatus"></salsah-progress-indicator>
                         <h4 mat-line>
-                            {{formLabels.permissions.title}}
+                            {{ 'salsahLabels.userFormLabels.permissions.title' | translate}}
                         </h4>
                         <p mat-line>
-                            <span *ngIf="adminPermission">&bull; {{formLabels.permissions.project.description}} <i>&nbsp;{{selectedProject?.longname}}</i></span>
-                            <span *ngIf="sysAdminPermission"><br>&bull; {{formLabels.permissions.system.description}}</span>
+                            <span *ngIf="adminPermission">&bull; {{ 'salsahLabels.userFormLabels.permissions.project.description' | translate}} <i>&nbsp;{{selectedProject?.longname}}</i></span>
+                            <span *ngIf="sysAdminPermission"><br>&bull; {{ 'salsahLabels.userFormLabels.permissions.system.description' | translate}}</span>
                         </p>
                         <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
                             {{permissionsErrorMessage?.statusText}}
@@ -401,12 +400,12 @@
                         <button mat-raised-button *ngIf="!selectedUser" [disabled]="!form.valid"
                                 color="primary"
                                 (click)="submitData()">
-                            {{formLabels.navigation.submit}}
+                            {{ 'salsahLabels.userFormLabels.navigation.submit' | translate}}
                         </button>
                         <button mat-raised-button *ngIf="selectedUser" [disabled]="!selectedUser?.userData?.user_id"
                                 color="primary"
                                 (click)="submitData()">
-                            {{formLabels.navigation.submit}}
+                            {{ 'salsahLabels.userFormLabels.navigation.submit' | translate}}
                         </button>
                     </div>
                     <!-- one button to add more users and on button to close the form;
@@ -415,13 +414,13 @@
                         <button mat-button
                                 color="primary"
                                 (click)="resetForm()">
-                            {{formLabels.navigation.add}}
+                            {{ 'salsahLabels.userFormLabels.navigation.add' | translate}}
                         </button>
                         <button mat-button mat-dialog-close
                                 class="navigation-button-center"
                                 color="warn"
                                 (click)="updateView()">
-                            {{formLabels.navigation.close}}
+                            {{ 'salsahLabels.userFormLabels.navigation.close' | translate}}
                         </button>
                     </div>
                     <!--

@@ -2,6 +2,10 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {LanguageService} from './model/services/language.service';
 import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {APP_BASE_HREF} from '@angular/common';
@@ -136,18 +140,22 @@ import {DecimalValueComponent} from './view/modules/search/extended-search/selec
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
 import {MatNativeDateModule} from '@angular/material';
-import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
-
+import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+import { InternationalizationComponent } from './view/modules/framework/main-framework/internationalization/internationalization.component';
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 
 //
 // import all needed services
 //
 // just to get the basic ontology form the json file
-// just to get the basic ontology form the json file
 //
 // import all app components
 //
+
+// Translate: AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
+}
 
 @NgModule({
     declarations: [
@@ -243,6 +251,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         BooleanValueComponent,
         DateValueComponent,
         OntologiesListItemComponent,
+        InternationalizationComponent,
         ExistingNameDirective
 
     ],
@@ -257,7 +266,15 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         BrowserAnimationsModule,
         ReactiveFormsModule,
         TreeModule,
-        DndModule.forRoot()
+        DndModule.forRoot(),
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     // we need the entryComponents for every component inside of a mat-dialog module
     entryComponents: [
@@ -282,6 +299,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,
+        LanguageService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
