@@ -61,7 +61,6 @@ export class ExtendedSearchComponent implements OnInit {
         // if form status changes, re-run validation
         this.form.statusChanges.subscribe((data) => {
             this.formValid = this.validateForm();
-            //console.log('formValid: ' + this.formValid);
         });
 
         // initialize ontologies to be used for the ontologies selection in the search form
@@ -147,10 +146,10 @@ export class ExtendedSearchComponent implements OnInit {
      */
     private validateForm() {
 
-        // TODO: check that either a resource class is selected or at least one property is specified
-        // this.propertyComponents.length > 0 || (this.resourceClassComponent !== undefined && this.resourceClassComponent.getResourceClassSelected() !== false
+        // check that either a resource class is selected or at least one property is specified
+        return this.form.valid &&
+            (this.propertyComponents.length > 0 || (this.resourceClassComponent !== undefined && this.resourceClassComponent.getResourceClassSelected() !== false));
 
-        return this.form.valid;
     }
 
     /**

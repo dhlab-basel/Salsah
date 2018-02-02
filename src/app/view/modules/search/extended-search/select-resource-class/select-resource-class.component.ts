@@ -43,7 +43,7 @@ export class SelectResourceClassComponent implements OnInit {
      * @returns the Iri of the selected resource class or false in case no resource class is selected.
      */
     getResourceClassSelected(): any {
-        if (this.resourceClassSelected !== undefined) {
+        if (this.resourceClassSelected !== undefined && this.resourceClassSelected !== null) {
             return this.resourceClassSelected;
         } else {
             return false;
