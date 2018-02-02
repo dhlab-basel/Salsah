@@ -16,8 +16,13 @@
 
         </div>
 
-        <button type="button" (click)="addProperty()">add property</button>
-        <button type="button" (click)="removeProperty()">remove property</button>
+        <button mat-icon-button (click)="addProperty()">
+            <mat-icon aria-label="add a property">add</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="removeProperty()" [disabled]="activeProperties.length == 0">
+            <mat-icon aria-label="remove property">remove</mat-icon>
+        </button>
 
     </div>
 
