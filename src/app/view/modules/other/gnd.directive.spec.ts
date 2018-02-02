@@ -31,11 +31,19 @@ class TestGndComponent2 {}
 })
 class TestGndComponent3 {}
 
+/**
+ * Test component for long normal text.
+ */
+@Component({
+    template: `<span [gnd]="'normal text that is quite long an will not even be looked at because it cannot possibly be a GND/IAF or VIAF identifier'"></span>`
+})
+class TestGndComponent4 {}
+
 describe('GndDirective', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ TestGndComponent1, TestGndComponent2, TestGndComponent3, GndDirective ],
+            declarations: [ TestGndComponent1, TestGndComponent2, TestGndComponent3, TestGndComponent4, GndDirective ],
             providers: [
                 { provide: ElementRef, useClass: MockElementRef }
             ]
@@ -83,6 +91,17 @@ describe('GndDirective', () => {
         let spanEle: DebugElement = fixture.debugElement.query(By.css('span'));
 
         expect(spanEle.nativeElement.innerHTML).toEqual("normal text")
+
+    });
+
+    it('should not transform long normal text', () => {
+
+        let fixture: ComponentFixture<TestGndComponent1> = TestBed.createComponent(TestGndComponent4);
+        fixture.detectChanges();
+
+        let spanEle: DebugElement = fixture.debugElement.query(By.css('span'));
+
+        expect(spanEle.nativeElement.innerHTML).toEqual("normal text that is quite long an will not even be looked at because it cannot possibly be a GND/IAF or VIAF identifier")
 
     });
 
