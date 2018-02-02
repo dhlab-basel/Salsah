@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {IRI, PropertyValue, Value} from "../specify-property-value.component";
 import {AppConfig} from "../../../../../../../app.config";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
@@ -13,12 +13,18 @@ import {ReadResourcesSequence} from "../../../../../../../model/webapi/knora/v2/
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
 
+// https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
+const resolvedPromise = Promise.resolve(null);
+
 @Component({
     selector: 'link-value',
     templateUrl: './link-value.component.html',
     styleUrls: ['./link-value.component.scss']
 })
-export class LinkValueComponent implements OnInit, PropertyValue {
+export class LinkValueComponent implements OnInit, OnDestroy, PropertyValue {
+
+    // parent FormGroup
+    @Input() formGroup: FormGroup;
 
     type = AppConfig.LinkValue;
 
@@ -97,7 +103,6 @@ export class LinkValueComponent implements OnInit, PropertyValue {
      * @returns {any}
      */
     validateResource(c: FormControl) {
-        
 
         const isValidResource = (c.value instanceof ReadResource);
 
@@ -124,6 +129,20 @@ export class LinkValueComponent implements OnInit, PropertyValue {
         this.form.valueChanges.subscribe((data) => {
             this.searchByLabel(data.resource);
         });
+
+        resolvedPromise.then(() => {
+            // add form to the parent form group
+            this.formGroup.addControl('propValue', this.form);
+        });
+    }
+
+    ngOnDestroy() {
+
+        // remove form from the parent form group
+        resolvedPromise.then(() => {
+            this.formGroup.removeControl('propValue')
+        });
+
     }
 
     getValue(): Value {

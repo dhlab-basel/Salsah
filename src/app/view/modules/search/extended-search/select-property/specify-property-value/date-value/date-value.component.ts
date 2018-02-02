@@ -1,21 +1,30 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
 import {AppConfig} from "../../../../../../../app.config";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {JDNConvertibleCalendar} from "jdnconvertiblecalendar";
+
+// https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
+const resolvedPromise = Promise.resolve(null);
 
 @Component({
     selector: 'date-value',
     templateUrl: './date-value.component.html',
     styleUrls: ['./date-value.component.scss']
 })
-export class DateValueComponent implements OnInit, PropertyValue {
+export class DateValueComponent implements OnInit, OnDestroy, PropertyValue {
+
+    // parent FormGroup
+    @Input() formGroup: FormGroup;
 
     type = AppConfig.DateValue;
 
     form: FormGroup;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
+    }
+
+    ngOnInit() {
 
         this.form = this.fb.group({
             dateValue: [null, Validators.compose([Validators.required])]
@@ -25,9 +34,20 @@ export class DateValueComponent implements OnInit, PropertyValue {
             console.log(data.dateValue);
         });
 
+        resolvedPromise.then(() => {
+            // add form to the parent form group
+            this.formGroup.addControl('propValue', this.form);
+        });
+
     }
 
-    ngOnInit() {
+    ngOnDestroy() {
+
+        // remove form from the parent form group
+        resolvedPromise.then(() => {
+            this.formGroup.removeControl('propValue')
+        });
+
     }
 
     getValue(): Value {

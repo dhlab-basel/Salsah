@@ -56,11 +56,13 @@ export class ExtendedSearchComponent implements OnInit {
 
     ngOnInit() {
 
+        // parent form is empty, it gets passed to the child components
         this.form = this.fb.group({});
 
         // if form status changes, re-run validation
         this.form.statusChanges.subscribe((data) => {
             this.formValid = this.validateForm();
+            //console.log(this.form.value);
         });
 
         // initialize ontologies to be used for the ontologies selection in the search form
@@ -78,7 +80,7 @@ export class ExtendedSearchComponent implements OnInit {
      * Remove the last property from the search form.
      */
     removeProperty() {
-        this.activeProperties.splice(-1,1);
+        this.activeProperties.splice(-1, 1);
     }
 
     /**
@@ -87,9 +89,7 @@ export class ExtendedSearchComponent implements OnInit {
     initializeOntologies() {
         this._cacheService.getOntologiesMetadata().subscribe(
             (ontologies: Array<OntologyMetadata>) => {
-
                 this.ontologies = ontologies;
-
             });
     }
 
@@ -100,6 +100,9 @@ export class ExtendedSearchComponent implements OnInit {
      * @param {string} ontologyIri Iri of the ontology chosen by the user.
      */
     getResourceClassesAndPropertiesForOntology(ontologyIri: string) {
+
+        // reset specified properties
+        this.activeProperties = [];
 
         this.activeOntology = ontologyIri;
 
@@ -122,6 +125,8 @@ export class ExtendedSearchComponent implements OnInit {
      */
     getPropertiesForResourceClass(resourceClassIri: string) {
 
+        // reset specified properties
+        this.activeProperties = [];
 
         // if the client undoes the selection of a resource class, use the active ontology as a fallback
         if (resourceClassIri === null) {
@@ -131,9 +136,7 @@ export class ExtendedSearchComponent implements OnInit {
 
         this._cacheService.getResourceClassDefinitions([resourceClassIri]).subscribe(
             (ontoInfo) => {
-
                 this.properties = ontoInfo.getProperties();
-
             }
         );
 
@@ -157,7 +160,7 @@ export class ExtendedSearchComponent implements OnInit {
      */
     submit() {
 
-        //console.log(this.form);
+        if (!this.formValid) return; // check that from is valid
 
         // TODO: check validity of inputs: there is problem when combining FormGroup validators of parent and child components: ExpressionChangedAfterItHasBeenCheckedError
         // https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
@@ -180,8 +183,6 @@ export class ExtendedSearchComponent implements OnInit {
         const knarql = this._knarqlgenerationService.createKnarQLQuery(properties, resClass);
 
         console.log(knarql);
-
-        //if (true == true) return;
 
         this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
 

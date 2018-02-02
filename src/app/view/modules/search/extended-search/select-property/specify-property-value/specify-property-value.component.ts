@@ -225,6 +225,9 @@ export interface PropertyValue {
 
 }
 
+// https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
+const resolvedPromise = Promise.resolve(null);
+
 @Component({
     selector: 'specify-property-value',
     templateUrl: './specify-property-value.component.html',
@@ -233,6 +236,9 @@ export interface PropertyValue {
 export class SpecifyPropertyValueComponent implements OnInit {
 
     AppConfig = AppConfig;
+
+    // parent FormGroup
+    @Input() formGroup: FormGroup;
 
     @ViewChild('propertyValue') private propertyValueComponent: PropertyValue;
 
@@ -269,16 +275,6 @@ export class SpecifyPropertyValueComponent implements OnInit {
      * Resets the comparison operators for this._property.
      */
     resetComparisonOperators() {
-
-        // build a form for the named graph selection
-        this.form = this.fb.group({
-            comparisonOperator: [null, Validators.required]
-        });
-
-        // emit Iri of named graph when selected
-        this.form.valueChanges.subscribe((data) => {
-            this.comparisonOperatorSelected = data.comparisonOperator;
-        });
 
         // depending on object class, set comparison operators and value entry field
         if (this._property.isLinkProperty) {
@@ -325,6 +321,22 @@ export class SpecifyPropertyValueComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        // build a form for comparison operator selection
+        this.form = this.fb.group({
+            comparisonOperator: [null, Validators.required]
+        });
+
+        // store comparison operator when selected
+        this.form.valueChanges.subscribe((data) => {
+            this.comparisonOperatorSelected = data.comparisonOperator;
+        });
+
+        resolvedPromise.then(() => {
+            // add form to the parent form group
+            this.formGroup.addControl('comparisonOperator', this.form);
+        });
+
     }
 
     /**
