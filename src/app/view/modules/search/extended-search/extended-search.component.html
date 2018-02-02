@@ -12,7 +12,7 @@
 
         <div *ngFor="let prop of activeProperties; let i = index">
 
-            <select-property #property [properties]="properties"></select-property>
+            <select-property #property [formGroup]="form" [index]="i" [properties]="properties"></select-property>
 
         </div>
 
@@ -21,6 +21,6 @@
 
     </div>
 
-    <button type="submit" [disabled]="!validForm()">Perform search</button>
+    <button type="submit" [disabled]="!formValid">Perform search</button>
 </form>
 

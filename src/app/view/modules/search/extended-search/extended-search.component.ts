@@ -41,7 +41,11 @@ export class ExtendedSearchComponent implements OnInit {
     // reference to the component controlling the property selection
     @ViewChildren('property') propertyComponents: QueryList<SelectPropertyComponent>;
 
+    // FormGroup (used as parent for child components)
     form: FormGroup;
+
+    // form validation status
+    formValid = false;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder,
                 private _route: ActivatedRoute,
@@ -53,6 +57,12 @@ export class ExtendedSearchComponent implements OnInit {
     ngOnInit() {
 
         this.form = this.fb.group({});
+
+        // if form status changes, re-run validation
+        this.form.statusChanges.subscribe((data) => {
+            this.formValid = this.validateForm();
+            //console.log('formValid: ' + this.formValid);
+        });
 
         // initialize ontologies to be used for the ontologies selection in the search form
         this.initializeOntologies();
@@ -131,14 +141,21 @@ export class ExtendedSearchComponent implements OnInit {
     }
 
     /**
-     * Validates form and returns status.
+     * Validates form and returns its status.
      *
      * @returns {boolean}
      */
-    validForm() {
+    private validateForm() {
+
+        // TODO: check that either a resource class is selected or at least one property is specified
+        // this.propertyComponents.length > 0 || (this.resourceClassComponent !== undefined && this.resourceClassComponent.getResourceClassSelected() !== false
+
         return this.form.valid;
     }
 
+    /**
+     * Creates a KnarQL query with the given form values and calls the extended search route.
+     */
     submit() {
 
         //console.log(this.form);
@@ -163,21 +180,12 @@ export class ExtendedSearchComponent implements OnInit {
 
         const knarql = this._knarqlgenerationService.createKnarQLQuery(properties, resClass);
 
-        //console.log(knarql);
+        console.log(knarql);
 
         //if (true == true) return;
 
-        this.performExtendedSearch(knarql);
-
-    }
-
-    /**
-     * Perform an extended search based on the search form.
-     *
-     */
-    performExtendedSearch(knarql: string) {
-
         this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
+
     }
 
 }

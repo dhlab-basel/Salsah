@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Properties, Property} from "../../../../../model/services/ontologycache.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {
@@ -23,12 +23,22 @@ export class PropertyWithValue {
 
 }
 
+// https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
+const resolvedPromise = Promise.resolve(null);
+
 @Component({
     selector: 'select-property',
     templateUrl: './select-property.component.html',
     styleUrls: ['./select-property.component.scss']
 })
-export class SelectPropertyComponent implements OnInit {
+export class SelectPropertyComponent implements OnInit, OnDestroy {
+
+    // parent FormGroup
+    @Input() formGroup: FormGroup;
+
+    // index of the given property (unique)
+    @Input() index: number;
+
     // setter method for properties when being updated by parent component
     @Input()
     set properties(value: Properties) {
@@ -51,6 +61,9 @@ export class SelectPropertyComponent implements OnInit {
 
     form: FormGroup;
 
+    // unique name for this property to be used in the parent FormGroup
+    propIndex: string;
+
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
     }
@@ -69,6 +82,21 @@ export class SelectPropertyComponent implements OnInit {
             this.propertySelected = this._properties[propIri];
         });
 
+        resolvedPromise.then(() => {
+            this.propIndex = 'property' + this.index;
+
+            // add form to the parent form group
+            this.formGroup.addControl(this.propIndex, this.form);
+        });
+
+    }
+
+    ngOnDestroy() {
+
+        // remove form from the parent form group
+        resolvedPromise.then(() => {
+            this.formGroup.removeControl(this.propIndex)
+        });
     }
 
     /**
