@@ -2,6 +2,10 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {LanguageService} from './model/services/language.service';
 import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {APP_BASE_HREF} from '@angular/common';
@@ -17,6 +21,7 @@ import {AppMaterialModule} from './app-material-module';
 import 'hammerjs';
 //
 // import other third party modules
+//
 import {DndModule} from 'ng2-dnd';
 import {ApiService} from './model/services/api.service';
 import {AuthenticationService} from './model/services/authentication.service';
@@ -28,10 +33,12 @@ import {ListsService} from './model/services/lists.service';
 import {OntologyService} from './model/services/ontology.service';
 import {OntologyCacheService} from './model/services/ontologycache.service';
 import {SearchService} from './model/services/search.service';
-
 import {IncomingService} from './model/services/incoming.service';
-
 import {UsersService} from './model/services/users.service';
+//
+// import all npm salsah modules
+//
+import {ProgressIndicatorModule} from '@salsah/progress-indicator';
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -75,7 +82,6 @@ import {DocumentationComponent} from './view/documentation/documentation.compone
 import {UserProjectsComponent} from './view/dashboard/user/user-projects/user-projects.component';
 import {UserCollectionsComponent} from './view/dashboard/user/user-collections/user-collections.component';
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
@@ -145,16 +151,22 @@ import {LinkValueComponent} from './view/modules/search/extended-search/select-p
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 import {BeolComponent} from './view/templates/beol/beol.component';
 import {BeolService} from "./model/services/beol.service";
+import {InternationalizationComponent} from './view/modules/framework/main-framework/internationalization/internationalization.component';
+import {GndDirective} from './view/modules/other/gnd.directive';
 
 
 //
 // import all needed services
 //
 // just to get the basic ontology form the json file
-// just to get the basic ontology form the json file
 //
 // import all app components
 //
+
+// Translate: AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
+}
 
 @NgModule({
     declarations: [
@@ -191,7 +203,6 @@ import {BeolService} from "./model/services/beol.service";
         ProjectAdvancedComponent,
         ReversePipe,
         KeyPipe,
-        ProgressIndicatorComponent,
         ProgressStepperComponent,
         MathJaxDirective,
         DevelopmentComponent,
@@ -254,7 +265,9 @@ import {BeolService} from "./model/services/beol.service";
         UriValueComponent,
         LinkValueComponent,
         ExistingNameDirective,
-        BeolComponent
+        BeolComponent,
+        GndDirective,
+        InternationalizationComponent
     ],
     imports: [
         BrowserModule,
@@ -267,7 +280,16 @@ import {BeolService} from "./model/services/beol.service";
         BrowserAnimationsModule,
         ReactiveFormsModule,
         TreeModule,
-        DndModule.forRoot()
+        ProgressIndicatorModule,
+        DndModule.forRoot(),
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     // we need the entryComponents for every component inside of a mat-dialog module
     entryComponents: [
@@ -294,6 +316,7 @@ import {BeolService} from "./model/services/beol.service";
         AuthenticationService,
         KnarqlgenerationService,
         BeolService,
+        LanguageService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

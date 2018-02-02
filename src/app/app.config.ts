@@ -197,5 +197,9 @@ export class AppConfig {
     public static textFileSimple = AppConfig.KnoraApiV2SimplePath + "TextFile";
     public static documentFileSimple = AppConfig.KnoraApiV2SimplePath + "DocumentFile";
 
+	public static GNDPrefix = "(DE-588)";
+    public static GNDResolver = "http://d-nb.info/gnd/";
 
+    public static VIAFPrefix = "(VIAF)";
+    public static VIAFResolver = "https://viaf.org/viaf/";
 }
