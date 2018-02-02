@@ -146,7 +146,7 @@ export class ReadTextValueAsXml implements ReadPropertyItem {
  */
 export class ReadDateValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly calendar:string, readonly startYear:number, readonly endYear:number, readonly startMonth?:number, readonly endMonth?:number, readonly startDay?:number, readonly endDay?:number) {
+    constructor(readonly id:string, readonly propIri, readonly calendar:string, readonly startYear:number, readonly endYear:number, readonly startEra:string, readonly endEra:string,  readonly startMonth?:number, readonly endMonth?:number, readonly startDay?:number, readonly endDay?:number) {
 
     }
 
@@ -169,6 +169,7 @@ export class ReadDateValue implements ReadPropertyItem {
             // day precision
             startDate = this.startYear + this.separator + this.startMonth + this.separator + this.startDay;
         }
+        startDate += " " + this.startEra;
 
         let endDate:string;
 
@@ -182,7 +183,7 @@ export class ReadDateValue implements ReadPropertyItem {
             // day precision
             endDate = this.endYear + this.separator + this.endMonth + this.separator + this.endDay;
         }
-
+        endDate += " " + this.endEra;
         if (startDate == endDate) {
             return this.calendar + ":" + startDate
         } else {

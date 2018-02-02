@@ -34,7 +34,6 @@ export class AppConfig {
 
     public static hasProperties: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasProperties';
 
-    public static belongsToOntology: string = AppConfig.KnoraApiV2WithValueObjectPath + 'belongsToOntology';
     public static isEditable: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isEditable';
     public static isLinkProperty: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isLinkProperty';
     public static isLinkValueProperty: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isLinkValueProperty';
@@ -99,6 +98,8 @@ export class AppConfig {
 
     public static dateValueHasStartYear: string = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasStartYear';
     public static dateValueHasEndYear: string = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasEndYear';
+    public static dateValueHasStartEra: string = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasStartEra';
+    public static dateValueHasEndEra: string = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasEndEra';
     public static dateValueHasStartMonth = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasStartMonth';
     public static dateValueHasEndMonth = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasEndMonth';
     public static dateValueHasStartDay = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasStartDay';
@@ -108,7 +109,7 @@ export class AppConfig {
     public static linkValueHasTarget = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasTarget';
     public static linkValueHasTargetIri = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasTargetIri';
 
-    public static integerValueAsInteger = AppConfig.KnoraApiV2WithValueObjectPath + 'integerValueAsInteger';
+    public static integerValueAsInteger = AppConfig.KnoraApiV2WithValueObjectPath + 'intValueAsInt';
 
     public static decimalValueAsDecimal = AppConfig.KnoraApiV2WithValueObjectPath + 'decimalValueAsDecimal';
 
