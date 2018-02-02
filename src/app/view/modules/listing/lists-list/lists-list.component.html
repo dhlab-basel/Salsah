@@ -31,12 +31,12 @@
                     <button class="right" mat-button color="primary" *ngIf="isExpanded" (click)="collapseAll(tree)">
                         {{listLists.buttons.collapse}}
                     </button>
-                    <tree-root class="tree-node-expanded"  #tree [nodes]="currentNodes" [options]="options">
+                    <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
-                            <div>
-                                <span (click)="edit(item.id, node.data)">{{ node.data.name }}</span>
-                                <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
-                            </div>
+                            <span (click)="edit(item.id, node.data)">{{ node.data.name }}</span>
+                            <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
+
+
                             <!--     <button>{{node.data.name}}</button>
                                <button (click)="viewDetails(node.data.id)">Node Name</button>
                               -->
