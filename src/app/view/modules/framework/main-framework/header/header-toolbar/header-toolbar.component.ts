@@ -97,6 +97,8 @@ export class HeaderToolbarComponent implements OnInit {
 
     ];
 
+    langString: string = '';
+
     constructor(private _eleRef: ElementRef,
                 private _dialog: MatDialog,
                 private _route: ActivatedRoute,
@@ -188,5 +190,6 @@ export class HeaderToolbarComponent implements OnInit {
         window.location.replace(goToUrl);
 //        this._router.navigate([goToUrl]);
     }
-
 }
+
+

@@ -6,12 +6,12 @@
     <mat-expansion-panel-header>
 
         <mat-panel-title>
-            <span *ngIf="!selectedUser">{{formLabels.user.select.title}}</span>
-            <span *ngIf="selectedUser">{{formLabels.user.select.titleDone}}</span>
+            <span *ngIf="!selectedUser">{{ 'salsahLabels.userFormLabels.user.select.title' | translate }}</span>
+            <span *ngIf="selectedUser">{{ 'salsahLabels.userFormLabels.user.select.titleDone' | translate }}</span>
         </mat-panel-title>
 
         <mat-panel-description>
-            <span *ngIf="!selectedUser">{{formLabels.user.select.description}}</span>
+            <span *ngIf="!selectedUser">{{'salsahLabels.userFormLabels.user.select.description' | translate }}</span>
             <span *ngIf="selectedUser"><i>{{selectedUser}}</i></span>
             <mat-icon>person</mat-icon>
         </mat-panel-description>
@@ -21,7 +21,7 @@
     <!-- content -->
     <mat-form-field class="large">
         <input matInput
-               [placeholder]="formLabels.user.select.autoComplete"
+               [placeholder]="'salsahLabels.userFormLabels.user.select.autoComplete' | translate"
                [matAutocomplete]="autoUser"
                [formControl]="userCtrl">
         <mat-icon matSuffix
@@ -44,21 +44,21 @@
                 class="navigation-button left"
                 color="warn"
                 (click)="navigate($event, 'skip')">
-            {{formLabels.user.select.skip}}
+            {{ 'salsahLabels.userFormLabels.user.select.skip' | translate }}
         </button>
         <button mat-button *ngIf="project"
                 class="navigation-button"
                 color="primary"
                 (click)="navigate($event, 'next')"
                 [disabled]="!userCtrl.valid">
-            {{formLabels.navigation.next}}
+            {{ 'salsahLabels.userFormLabels.user.select.next' | translate }}
         </button>
         <button mat-button *ngIf="!project"
                 class="navigation-button"
                 color="primary"
                 (click)="navigate($event, 'skip')"
                 [disabled]="!userCtrl.valid">
-            {{formLabels.navigation.next}}
+            {{ 'salsahLabels.userFormLabels.user.select.next' | translate }}
         </button>
     </mat-action-row>
 
