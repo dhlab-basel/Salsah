@@ -339,7 +339,7 @@
                 <!-- name / email of selected user -->
                 <mat-list>
                     <mat-list-item *ngIf="selectedUser || form.valid">
-                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [type]="'submit'"
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
                                                    [status]="submitUserStatus"></salsah-progress-indicator>
                         <h4 mat-line>
                             <span *ngIf="selectedUser">
@@ -365,7 +365,7 @@
 
                 <mat-list *ngIf="restrictedBy || selectedProject">
                     <mat-list-item *ngIf="restrictedBy || selectedProject">
-                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [type]="'submit'"
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
                                                    [status]="submitProjectStatus"></salsah-progress-indicator>
                         <h4 mat-line>
                             {{ 'salsahLabels.userFormLabels.project.select.title' | translate}}
@@ -378,7 +378,7 @@
                         </mat-hint>
                     </mat-list-item>
                     <mat-list-item>
-                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [type]="'submit'"
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
                                                    [status]="submitPermissionsStatus"></salsah-progress-indicator>
                         <h4 mat-line>
                             {{ 'salsahLabels.userFormLabels.permissions.title' | translate}}
