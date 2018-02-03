@@ -62,7 +62,7 @@ export class ExtendedSearchComponent implements OnInit {
         // if form status changes, re-run validation
         this.form.statusChanges.subscribe((data) => {
             this.formValid = this.validateForm();
-            //console.log(this.form.value);
+            // console.log(this.form);
         });
 
         // initialize ontologies to be used for the ontologies selection in the search form

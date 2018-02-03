@@ -1,13 +1,16 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {ResourceClass} from "../../../../../model/services/ontologycache.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+
+// https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
+const resolvedPromise = Promise.resolve(null);
 
 @Component({
     selector: 'select-resource-class',
     templateUrl: './select-resource-class.component.html',
     styleUrls: ['./select-resource-class.component.scss']
 })
-export class SelectResourceClassComponent implements OnInit {
+export class SelectResourceClassComponent implements OnInit, OnChanges {
 
     @Input() formGroup: FormGroup;
 
@@ -50,8 +53,11 @@ export class SelectResourceClassComponent implements OnInit {
         }
     }
 
-    ngOnInit() {
-
+    /**
+     * Initalizes the FormGroup for the resource class selection.
+     * The initial value is set to null.
+     */
+    private initForm() {
         // build a form for the resource class selection
         this.form = this.fb.group({
             resourceClass: [null] // resource class selection is optional
@@ -62,10 +68,36 @@ export class SelectResourceClassComponent implements OnInit {
             this.resourceClassSelected = data.resourceClass;
             this.resourceClassSelectedEvent.emit(this.resourceClassSelected);
         });
+    }
+
+    ngOnInit() {
+
+        this.initForm();
 
         // add form to the parent form group
         this.formGroup.addControl('resourceClass', this.form);
 
+    }
+
+    ngOnChanges() {
+
+        if (this.form !== undefined) {
+
+            // resource classes have been reinitialized
+            // reset form
+            resolvedPromise.then(() => {
+
+                // remove this form from the parent form group
+                this.formGroup.removeControl('resourceClass');
+
+                this.initForm();
+
+                // add form to the parent form group
+                this.formGroup.addControl('resourceClass', this.form);
+
+            });
+
+        }
     }
 
 }
