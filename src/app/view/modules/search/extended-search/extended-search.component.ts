@@ -156,6 +156,15 @@ export class ExtendedSearchComponent implements OnInit {
     }
 
     /**
+     * Resets the form (selected resource class and specified properties) preserving the active ontology.
+     */
+    resetForm() {
+        if (this.activeOntology !== undefined) {
+            this.getResourceClassesAndPropertiesForOntology(this.activeOntology);
+        }
+    }
+
+    /**
      * Creates a KnarQL query with the given form values and calls the extended search route.
      */
     submit() {

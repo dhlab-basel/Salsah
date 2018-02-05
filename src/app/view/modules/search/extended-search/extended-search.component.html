@@ -26,8 +26,14 @@
 
     </div>
 
-    <button mat-icon-button type="submit" [disabled]="!formValid">
-        <mat-icon aria-label="submit query">send</mat-icon>
-    </button>
+    <div>
+        <button mat-icon-button (click)="resetForm()" [disabled]="this.activeOntology === undefined">
+            <mat-icon aria-label="reset query form">clear</mat-icon>
+        </button>
+
+        <button mat-icon-button type="submit" [disabled]="!formValid">
+            <mat-icon aria-label="submit query">send</mat-icon>
+        </button>
+    </div>
 </form>
 
