@@ -21,11 +21,11 @@ import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angul
 
 
 @Component({
-    selector: 'salsah-edit-list',
-    templateUrl: './edit-list.component.html',
-    styleUrls: ['./edit-list.component.scss']
+    selector: 'salsah-edit-node-info',
+    templateUrl: './edit-node-info.component.html',
+    styleUrls: ['./edit-node-info.component.scss']
 })
-export class EditListComponent implements OnChanges {
+export class EditNodeInfoComponent implements OnChanges {
 
     @Input() listIri: string;
     @Input() currentNode: ListNode;

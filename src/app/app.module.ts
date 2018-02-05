@@ -138,7 +138,7 @@ import {BooleanValueComponent} from './view/modules/search/extended-search/selec
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
 import {MatNativeDateModule} from '@angular/material';
 import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
-import { EditListComponent } from './view/modules/form/edit-list/edit-list.component';
+import { EditNodeInfoComponent } from './view/modules/form/edit-node-info/edit-node-info.component';
 
 //
 // import all needed services
@@ -244,7 +244,7 @@ import { EditListComponent } from './view/modules/form/edit-list/edit-list.compo
         BooleanValueComponent,
         DateValueComponent,
         OntologiesListItemComponent,
-        EditListComponent
+        EditNodeInfoComponent
 
     ],
     imports: [

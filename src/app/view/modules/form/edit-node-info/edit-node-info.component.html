@@ -42,7 +42,7 @@
                 <div class="salsah-placeholder"  *ngIf="listNodeInfoForm.get('numberOfChildren').value > 0" formArrayName="children">
                     <span>Children names:</span>
                     <span *ngFor="let child of children.controls; let i=index"
-                                    [formGroupName]="i">
+                          [formGroupName]="i">
                         <div matPrefix> #{{i+1}}
                             <span>{{child.get('name').value}}</span>
                         </div>
@@ -52,24 +52,24 @@
 
             <!-----Show + add + remove children, edit names ------>
             <!--<div *ngIf="listNodeInfoForm.get('numberOfChildren').value > 0" formArrayName="children">-->
-                <!--<mat-form-field class="full-width" *ngFor="let child of children.controls; let i=index"-->
-                                <!--[formGroupName]="i">-->
-                    <!--<span matPrefix>#{{i+1}} &nbsp;</span>-->
-                    <!--<input matInput-->
-                           <!--[placeholder]=editLists.list.nodes.childName-->
-                           <!--formControlName="name">-->
-                    <!--&lt;!&ndash;{{child.get('name').value}}&ndash;&gt;-->
-                    <!--<button mat-button matSuffix mat-icon-button aria-label="Clear" disabled (click)="removeChild(i)">-->
-                        <!--<mat-icon>close</mat-icon>-->
-                    <!--</button>-->
-                <!--</mat-form-field>-->
+            <!--<mat-form-field class="full-width" *ngFor="let child of children.controls; let i=index"-->
+            <!--[formGroupName]="i">-->
+            <!--<span matPrefix>#{{i+1}} &nbsp;</span>-->
+            <!--<input matInput-->
+            <!--[placeholder]=editLists.list.nodes.childName-->
+            <!--formControlName="name">-->
+            <!--&lt;!&ndash;{{child.get('name').value}}&ndash;&gt;-->
+            <!--<button mat-button matSuffix mat-icon-button aria-label="Clear" disabled (click)="removeChild(i)">-->
+            <!--<mat-icon>close</mat-icon>-->
+            <!--</button>-->
+            <!--</mat-form-field>-->
             <!--</div>-->
             <!--<mat-action-row>-->
-                <!--<button mat-button-->
-                        <!--color="primary"-->
-                        <!--(click)="addChild()">-->
-                    <!--{{editLists.buttons.addChild}}-->
-                <!--</button>-->
+            <!--<button mat-button-->
+            <!--color="primary"-->
+            <!--(click)="addChild()">-->
+            <!--{{editLists.buttons.addChild}}-->
+            <!--</button>-->
             <!--</mat-action-row>-->
 
             <mat-form-field class="full-width">
