@@ -13,6 +13,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// DEPRECATED
+
 import {Component, Input, OnChanges} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material';
