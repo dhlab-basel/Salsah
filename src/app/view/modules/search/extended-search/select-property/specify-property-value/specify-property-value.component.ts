@@ -257,7 +257,7 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
     private _property: Property;
 
-    private form: FormGroup;
+    form: FormGroup;
 
     // available comparison operators for the property
     comparisonOperators: Array<ComparisonOperator> = [];

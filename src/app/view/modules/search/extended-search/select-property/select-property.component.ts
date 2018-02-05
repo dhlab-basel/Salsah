@@ -1,5 +1,5 @@
 import {Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Properties, Property} from "../../../../../model/services/ontologycache.service";
+import {Properties, Property, ResourceClass} from "../../../../../model/services/ontologycache.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {
     ComparisonOperatorAndValue,
@@ -97,6 +97,17 @@ export class SelectPropertyComponent implements OnInit, OnDestroy {
         resolvedPromise.then(() => {
             this.formGroup.removeControl(this.propIndex)
         });
+    }
+
+    /**
+     * Indicates if property can be used as a sort criterion.
+     *
+     * @returns {boolean}
+     */
+    sortCriterion() {
+
+        // check if a resource class is selected and if the property's cardinality is 1 for the selected resource class
+        return this.propertySelected !== undefined && !this.propertySelected.isLinkProperty
     }
 
     /**
