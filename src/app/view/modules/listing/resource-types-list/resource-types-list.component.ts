@@ -26,7 +26,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
     templateUrl: './resource-types-list.component.html',
     styleUrls: ['./resource-types-list.component.scss']
 })
-export class ResourceTypesListComponent implements OnInit {
+export class  ResourceTypesListComponent implements OnInit {
 
     @Input() restrictedBy: string; // restricted by ontology
     @Input() index: number;
