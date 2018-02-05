@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-    Extended Search Form:
+
     <div>
         <select-ontology *ngIf="ontologies.length > 0" [formGroup]="form" [ontologies]="ontologies" (ontologySelected)="getResourceClassesAndPropertiesForOntology($event)"></select-ontology>
     </div>
@@ -16,18 +16,18 @@
 
         </div>
 
-        <button mat-icon-button (click)="addProperty()">
+        <button mat-icon-button type="button" (click)="addProperty()" [disabled]="activeProperties.length >= 4">
             <mat-icon aria-label="add a property">add</mat-icon>
         </button>
 
-        <button mat-icon-button (click)="removeProperty()" [disabled]="activeProperties.length == 0">
+        <button mat-icon-button type="button" (click)="removeProperty()" [disabled]="activeProperties.length == 0">
             <mat-icon aria-label="remove property">remove</mat-icon>
         </button>
 
     </div>
 
     <div>
-        <button mat-icon-button (click)="resetForm()" [disabled]="this.activeOntology === undefined">
+        <button mat-icon-button type="button" (click)="resetForm()" [disabled]="this.activeOntology === undefined">
             <mat-icon aria-label="reset query form">clear</mat-icon>
         </button>
 
@@ -35,5 +35,6 @@
             <mat-icon aria-label="submit query">send</mat-icon>
         </button>
     </div>
+
 </form>
 
