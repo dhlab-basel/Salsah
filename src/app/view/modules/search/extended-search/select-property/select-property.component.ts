@@ -1,5 +1,8 @@
 import {Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Properties, Property, ResourceClass} from "../../../../../model/services/ontologycache.service";
+import {
+    Cardinality, CardinalityOccurrence, Properties, Property,
+    ResourceClass
+} from "../../../../../model/services/ontologycache.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {
     ComparisonOperatorAndValue,
@@ -45,6 +48,14 @@ export class SelectPropertyComponent implements OnInit, OnDestroy {
         this.propertySelected = undefined; // reset selected property (overwriting any previous selection)
         this._properties = value;
         this.updatePropertiesArray();
+    }
+
+    _activeResourceClass: ResourceClass;
+
+    // setter method for selected resource class
+    @Input()
+    set activeResourceClass(value: ResourceClass) {
+        this._activeResourceClass = value;
     }
 
     // reference to child component: combination of comparison operator and value for chosen property
@@ -101,13 +112,32 @@ export class SelectPropertyComponent implements OnInit, OnDestroy {
 
     /**
      * Indicates if property can be used as a sort criterion.
+     * Property has to have cardinality or max cardinality 1 for the chosen resource class.
+     *
+     * We cannot sort by properties whose cardinality is greater than 1.
      *
      * @returns {boolean}
      */
     sortCriterion() {
 
         // check if a resource class is selected and if the property's cardinality is 1 for the selected resource class
-        return this.propertySelected !== undefined && !this.propertySelected.isLinkProperty
+        if (this._activeResourceClass !== undefined && this.propertySelected !== undefined && !this.propertySelected.isLinkProperty) {
+
+            const card: Cardinality[] = this._activeResourceClass.cardinalities.filter(
+                (card: Cardinality) => {
+                    // cardinality 1 or max occurrence 1
+                    return card.property == this.propertySelected.id
+                        && card.value == 1
+                        && (card.occurrence == CardinalityOccurrence.card || card.occurrence == CardinalityOccurrence.maxCard)
+
+                }
+            );
+
+            return card.length == 1;
+        } else {
+            return false;
+        }
+
     }
 
     /**

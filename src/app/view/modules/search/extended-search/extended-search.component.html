@@ -12,7 +12,7 @@
 
         <div *ngFor="let prop of activeProperties; let i = index">
 
-            <select-property #property [formGroup]="form" [index]="i" [properties]="properties"></select-property>
+            <select-property #property [activeResourceClass]="activeResourceClass" [formGroup]="form" [index]="i" [properties]="properties"></select-property>
 
         </div>
 

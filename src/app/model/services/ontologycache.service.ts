@@ -44,7 +44,7 @@ export class OntologyMetadata {
 /**
  * Occurrence of a property for a resource class.
  */
-enum CardinalityOccurrence {
+export enum CardinalityOccurrence {
     minCard = 0,
     card = 1,
     maxCard = 2
@@ -53,7 +53,7 @@ enum CardinalityOccurrence {
 /**
  * Cardinality of a property for the given resource class.
  */
-class Cardinality {
+export class Cardinality {
 
     /**
      *
@@ -92,7 +92,7 @@ export class ResourceClass {
 /**
  * A map of resource class Iris to resource class definitions.
  */
-class ResourceClasses {
+export class ResourceClasses {
     [index: string]: ResourceClass;
 }
 

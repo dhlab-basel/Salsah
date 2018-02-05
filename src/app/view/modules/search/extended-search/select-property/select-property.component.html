@@ -4,8 +4,7 @@
     </mat-select>
 </mat-form-field>
 
-<!-- check for cardinality 1 -->
-<mat-checkbox *ngIf="sortCriterion()" [formControl]="form.controls['isSortCriterion']">sort criterion</mat-checkbox>
+<mat-checkbox *ngIf="propertySelected !== undefined && sortCriterion()" [formControl]="form.controls['isSortCriterion']">sort criterion</mat-checkbox>
 
 <specify-property-value #specifyPropertyValue [formGroup]="form" *ngIf="propertySelected !== undefined" [property]="propertySelected"></specify-property-value>
 

@@ -2,7 +2,7 @@ import {Component, Inject, OnChanges, OnInit, QueryList, ViewChild, ViewChildren
 import {ActivatedRoute, Router} from "@angular/router";
 import {
     OntologyCacheService, OntologyInformation, OntologyMetadata, Properties,
-    ResourceClass
+    ResourceClass, ResourceClasses
 } from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 import {PropertyWithValue, SelectPropertyComponent} from "./select-property/select-property.component";
@@ -29,6 +29,9 @@ export class ExtendedSearchComponent implements OnInit {
 
     // resource classes for the selected ontology
     resourceClasses: Array<ResourceClass> = [];
+
+    // definition of the selected resource class, if set.
+    activeResourceClass: ResourceClass;
 
     // properties for the selected ontology or selected resource class
     properties: Properties;
@@ -101,6 +104,9 @@ export class ExtendedSearchComponent implements OnInit {
      */
     getResourceClassesAndPropertiesForOntology(ontologyIri: string) {
 
+        // reset active resource class definition
+        this.activeResourceClass = undefined;
+
         // reset specified properties
         this.activeProperties = [];
 
@@ -131,14 +137,18 @@ export class ExtendedSearchComponent implements OnInit {
         // if the client undoes the selection of a resource class, use the active ontology as a fallback
         if (resourceClassIri === null) {
             this.getResourceClassesAndPropertiesForOntology(this.activeOntology);
-            return;
-        }
+        } else {
 
-        this._cacheService.getResourceClassDefinitions([resourceClassIri]).subscribe(
-            (ontoInfo) => {
-                this.properties = ontoInfo.getProperties();
-            }
-        );
+            this._cacheService.getResourceClassDefinitions([resourceClassIri]).subscribe(
+                (ontoInfo: OntologyInformation) => {
+                    this.properties = ontoInfo.getProperties();
+
+                    this.activeResourceClass = ontoInfo.getResourceClasses()[resourceClassIri];
+
+                }
+            );
+
+        }
 
     }
 
