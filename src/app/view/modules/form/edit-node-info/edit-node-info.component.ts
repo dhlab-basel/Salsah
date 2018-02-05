@@ -46,7 +46,7 @@ export class EditNodeInfoComponent implements OnChanges {
             comments: 'Comments',
             nodes: {
                 formLabel: 'edit Nodes',
-                formDescription: 'Click to edit the node',
+                formDescription: 'click on the fields to edit',
                 id: 'Node ID',
                 name: 'Node name',
                 label: 'Node label',
