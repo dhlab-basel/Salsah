@@ -51,7 +51,7 @@ export class EditListComponent implements OnChanges {
                 name: 'Node name',
                 label: 'Node label',
                 children: 'has children',
-                childName: 'Children names',
+                childName: 'Child name',
                 level: 'Node level',
                 position: 'Node position',
             }
@@ -118,7 +118,7 @@ export class EditListComponent implements OnChanges {
             id: new FormControl({value: this.currentNode.id, disabled: true}),
             name: [this.currentNode.name, Validators.required],
             labels: this.currentNode.label,
-            children: this._fb.array([]),
+            children: [this._fb.array([]), Validators.required],
             numberOfChildren: new FormControl({value: this.currentNode.children.length, disabled: true}),
             level: this.currentNode.level,
             position: this.currentNode.position
@@ -142,6 +142,9 @@ export class EditListComponent implements OnChanges {
 
     addChild() {
         this.children.push(this._fb.group(new ListNode()));
+    }
+    removeChild(i: number) {
+        this.children.removeAt(i);
     }
 
     revertNode() {

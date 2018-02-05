@@ -38,17 +38,18 @@
                        [placeholder]=editLists.list.nodes.children
                        formControlName="numberOfChildren">
             </mat-form-field>
-            <mat-form-field *ngIf="listNodeInfoForm.get('numberOfChildren').value > 0" class="full-width" formArrayName="children">
-                <div *ngFor="let child of children.controls; let i=index" [formGroupName]="i">
-                    <input matInput
+            <div  *ngIf="listNodeInfoForm.get('numberOfChildren').value > 0" formArrayName="children">
+            <mat-form-field class="full-width" *ngFor="let child of children.controls; let i=index" [formGroupName]="i" >
+                <span matPrefix>#{{i+1}} &nbsp;</span>
+                <input matInput
                            [placeholder]=editLists.list.nodes.childName
                            formControlName="name">
                     <!--{{child.get('name').value}}-->
-                    <!--<button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">-->
-                        <!--<mat-icon>close</mat-icon>-->
-                    <!--</button>-->
-                </div>
+                    <button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="removeChild(i)">
+                        <mat-icon>close</mat-icon>
+                    </button>
             </mat-form-field>
+            </div>
             <mat-action-row>
                 <button mat-button
                         color="primary"
