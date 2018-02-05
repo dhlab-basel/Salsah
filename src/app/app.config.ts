@@ -167,4 +167,10 @@ export class AppConfig {
     public static ExistsComparisonOperator = "E";
     public static ExistsComparisonLabel = "Exists";
 
+    public static GNDPrefix = "(DE-588)";
+    public static GNDResolver = "http://d-nb.info/gnd/";
+
+    public static VIAFPrefix = "(VIAF)";
+    public static VIAFResolver = "https://viaf.org/viaf/";
+
 }
