@@ -50,6 +50,8 @@ export class BeolComponent implements OnInit {
 
         let Johann_I_Bernoulli = new Correspondent("Johann I Bernoulli 1667-1748", "(DE-588)118509969");
 
+        let Johann_Frick = new Correspondent("Johann Frick 1670-1739", "(DE-588)123393094");
+
         /**
          * Collection of correspondences the user can select from.
          */
@@ -57,7 +59,8 @@ export class BeolComponent implements OnInit {
             new Correspondence(LeonhardEuler, ChristianGoldbach),
             new Correspondence(Johann_I_Bernoulli, new Correspondent("Johann Jakob Scheuchzer 1672-1733", "(DE-588)118607308")),
             new Correspondence(Johann_I_Bernoulli, new Correspondent("Johannes Scheuchzer 1667-1748", "(DE-588)120379260")),
-            new Correspondence(Johann_I_Bernoulli, new Correspondent("Christian Wolff 1679-1754", "(DE-588)118634771"))
+            new Correspondence(Johann_I_Bernoulli, new Correspondent("Christian Wolff 1679-1754", "(DE-588)118634771")),
+            new Correspondence(Johann_I_Bernoulli, Johann_Frick)
         ];
 
     }
