@@ -112,7 +112,7 @@ export class ProjectsListComponent implements OnInit {
                 .subscribe(
                     (result: Project[]) => {
                         this.allProjects = result;
-                        console.log('projects: ', result);
+                        //console.log('projects: ', result);
 
 
                         this.filter(this.allProjects);

@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
 
     // on this page is a list of all public projects;
     // implemented with ProjectsListComponent which can have a list title
-    listTitle = 'Public projects in Knora';
+    // listTitle = 'Public projects in Knora';
 
     constructor(private _title: Title,
                 private _router: Router,

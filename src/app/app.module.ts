@@ -2,6 +2,10 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {LanguageService} from './model/services/language.service';
 import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {APP_BASE_HREF} from '@angular/common';
@@ -10,13 +14,16 @@ import {APP_BASE_HREF} from '@angular/common';
 //
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
+
 //
 // import the material design modules
 //
 import {AppMaterialModule} from './app-material-module';
 import 'hammerjs';
+
 //
 // import other third party modules
+//
 import {DndModule} from 'ng2-dnd';
 import {ApiService} from './model/services/api.service';
 import {AuthenticationService} from './model/services/authentication.service';
@@ -28,10 +35,14 @@ import {ListsService} from './model/services/lists.service';
 import {OntologyService} from './model/services/ontology.service';
 import {OntologyCacheService} from './model/services/ontologycache.service';
 import {SearchService} from './model/services/search.service';
-
 import {IncomingService} from './model/services/incoming.service';
-
 import {UsersService} from './model/services/users.service';
+
+//
+// import all npm salsah modules
+//
+import { ProgressIndicatorModule } from '@salsah/progress-indicator';
+
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -75,9 +86,8 @@ import {DocumentationComponent} from './view/documentation/documentation.compone
 import {UserProjectsComponent} from './view/dashboard/user/user-projects/user-projects.component';
 import {UserCollectionsComponent} from './view/dashboard/user/user-collections/user-collections.component';
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
+
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
-import {AdvancedResourceClassComponent} from './view/modules/form/advanced-resource-class/advanced-resource-class.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
 import {MessageComponent} from './view/modules/message/message.component';
@@ -139,15 +149,22 @@ import {DateValueComponent} from './view/modules/search/extended-search/select-p
 import {MatNativeDateModule} from '@angular/material';
 import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
 import { EditNodeInfoComponent } from './view/modules/form/edit-node-info/edit-node-info.component';
+import { InternationalizationComponent } from './view/modules/framework/main-framework/internationalization/internationalization.component';
+import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
+import { GndDirective } from './view/modules/other/gnd.directive';
 
 //
 // import all needed services
 //
 // just to get the basic ontology form the json file
-// just to get the basic ontology form the json file
 //
 // import all app components
 //
+
+// Translate: AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
+}
 
 @NgModule({
     declarations: [
@@ -184,9 +201,7 @@ import { EditNodeInfoComponent } from './view/modules/form/edit-node-info/edit-n
         ProjectAdvancedComponent,
         ReversePipe,
         KeyPipe,
-        ProgressIndicatorComponent,
         ProgressStepperComponent,
-        AdvancedResourceClassComponent,
         MathJaxDirective,
         DevelopmentComponent,
         MessageComponent,
@@ -245,6 +260,9 @@ import { EditNodeInfoComponent } from './view/modules/form/edit-node-info/edit-n
         DateValueComponent,
         OntologiesListItemComponent,
         EditNodeInfoComponent
+        ExistingNameDirective,
+        GndDirective,
+        InternationalizationComponent
 
     ],
     imports: [
@@ -258,7 +276,16 @@ import { EditNodeInfoComponent } from './view/modules/form/edit-node-info/edit-n
         BrowserAnimationsModule,
         ReactiveFormsModule,
         TreeModule,
-        DndModule.forRoot()
+        ProgressIndicatorModule,
+        DndModule.forRoot(),
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     // we need the entryComponents for every component inside of a mat-dialog module
     entryComponents: [
@@ -283,6 +310,7 @@ import { EditNodeInfoComponent } from './view/modules/form/edit-node-info/edit-n
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,
+        LanguageService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
