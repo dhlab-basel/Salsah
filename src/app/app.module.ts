@@ -148,6 +148,7 @@ import {BooleanValueComponent} from './view/modules/search/extended-search/selec
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
 import {MatNativeDateModule} from '@angular/material';
 import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+import { EditNodeInfoComponent } from './view/modules/form/edit-node-info/edit-node-info.component';
 import { InternationalizationComponent } from './view/modules/framework/main-framework/internationalization/internationalization.component';
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 import { GndDirective } from './view/modules/other/gnd.directive';
@@ -258,6 +259,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         BooleanValueComponent,
         DateValueComponent,
         OntologiesListItemComponent,
+        EditNodeInfoComponent,
         ExistingNameDirective,
         GndDirective,
         InternationalizationComponent

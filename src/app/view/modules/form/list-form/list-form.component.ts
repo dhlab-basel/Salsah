@@ -13,12 +13,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// DEPRECATED
+
 import {Component, Input, OnChanges} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ListsService} from '../../../../model/services/lists.service';
-import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
+import {List, ListInfo, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
 import {ListNodeFormComponent} from '../list-node-form/list-node-form.component';
 
 @Component({
@@ -31,15 +33,72 @@ export class ListFormComponent implements OnChanges {
     @Input() listIri: string;
     @Input() listOp: string; // view, edit, create
 
-    currentNodes: ListNode[];
     currentListInfo: ListInfo;
+    currentNodes: ListNode[];
+    currentListNodeInfo: ListNodeInfo;
+    currentListNodeIri: string;
 
     errorMessage: string = undefined;
     selectedRow: number;
 
-    editListInfo: boolean;
+    isLoading: boolean = true;
+    editList: boolean = true;
+
+    index: number = 0;
+
+    public editLists: any = {
+        label: 'List',
+        description: 'Click to edit the list data',
+        list: {
+            label: 'Label',
+            project: 'Belongs to project',
+            id: 'Id',
+            comments: 'Comments',
+            nodes: {
+                formLabel: 'has Nodes',
+                formDescription: 'Click to edit the node',
+                id: 'Node ID',
+                name: 'Node name',
+                label: 'Node label',
+                children: 'has children',
+                level: 'Node level',
+            }
+        },
+        // addNode: {
+        //     addLabel: 'Add new properties',
+        //     label: 'or create new property',
+        //     description: 'Create a custom property',
+        //     selectLabel: 'Select node',
+        //     selectedLabel: 'Selected node',
+        //     selectDescript: 'Select an existing node to add to this resource',
+        //     selectedDescript: 'You have selected the node:',
+        //     autoComplete: 'Start typing a node name here',
+        //     skip: 'Skip and create custom node',
+        //     customize: 'Customize node',
+        //     customizeDescript: 'Select a unique name and id for your new node'
+        //
+        // },
+        buttons: {
+            save: 'Save',
+            reset: 'Reset',
+            close: 'Close',
+            edit: 'Edit',
+            skip: 'Skip',
+            next: 'Next',
+            add: 'Add'
+        }
+    };
+
+    options = {
+        useVirtualScroll: false,
+        nodeHeight: 0,
+        allowDrag: true,
+        allowDrop: true,
+
+    }
 
     public listInfoForm: FormGroup; // our model driven form
+    public listNodeInfoForm: FormGroup; // our model driven form
     public labels: FormArray = undefined;
     public comments: FormArray = undefined;
 
@@ -47,15 +106,18 @@ export class ListFormComponent implements OnChanges {
 
     constructor(private _listsService: ListsService,
                 private _dialog: MatDialog,
-                private _fb: FormBuilder) {
-
-        // build form
-        this.buildListInfoForm();
+                private _fb: FormBuilder,
+                private _fbn: FormBuilder) {
     }
 
     ngOnChanges() {
-        console.log(this.listIri);
+        console.log('0. onChanges', this.listIri, this.currentListNodeIri);
+
+        this.buildListNodeInfoForm();
         this.fetchDataAndUpdateForm(this.listIri);
+
+        // this.isLoading = false;
+        // build form
     }
 
     buildListInfoForm() {
@@ -66,18 +128,42 @@ export class ListFormComponent implements OnChanges {
             comments: this.buildCommentsArray()
         });
 
+        console.log('2. buildListInfoForm', this.listInfoForm);
+
+    }
+    buildListNodeInfoForm() {
+
+        if(!this.isLoading){
+            this.listNodeInfoForm = this._fbn.group({
+                id: this.currentNodes[0].id,
+                name: this.currentNodes[0].id,
+                labels: this.currentNodes[0].id,
+                children: this.currentNodes[0].id,
+                level: this.currentNodes[0].id,
+            });
+        }
+        else{
+            this.listNodeInfoForm = this._fbn.group({
+                id:'',
+                name:'',
+                labels:'',
+                children:'',
+                level:'',
+            });
+        }
+
+        console.log('5. buildListNodeInfoForm', this.listNodeInfoForm);
+
         // this.listInfoForm.controls['id'].disable();
         // this.listInfoForm.controls['projectIri'].disable();
     }
 
     buildLabelsArray(): FormArray {
-
         this.labels = this._fb.array([]);
         return this.labels;
     }
 
     buildCommentsArray(): FormArray {
-
         this.comments = this._fb.array([]);
         return this.comments;
     }
@@ -110,33 +196,41 @@ export class ListFormComponent implements OnChanges {
     }
 
     updateFormValues() {
+
         if (this.currentListInfo) {
             (<FormGroup>this.listInfoForm)
                 .setValue(this.currentListInfo, { onlySelf: true });
         }
+        this.isLoading=false;
+        console.log('3. updateFormValues:  current list info',this.currentListInfo);
+
     }
 
-    viewDetails(nodeIri: string) {
-        const dialogRef = this._dialog.open(ListNodeFormComponent, <MatDialogConfig>{
-            height: '500px',
-            width: '600px',
-            data: nodeIri
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-
-            // only if we have changed the list node, go and fetch the updated version
-            if (result === true) {
-                this.fetchDataAndUpdateForm(this.listIri);
-            }
-        });
-    }
+    // viewDetails(nodeIri: string) {
+    //     const dialogRef = this._dialog.open(ListNodeFormComponent, <MatDialogConfig>{
+    //         height: '500px',
+    //         width: '600px',
+    //         data: nodeIri
+    //     });
+    //
+    //     dialogRef.afterClosed().subscribe(result => {
+    //
+    //         // only if we have changed the list node, go and fetch the updated version
+    //         if (result === true) {
+    //             this.fetchDataAndUpdateForm(this.listIri);
+    //             this.fetchNodeDataAndUpdateForm(this.currentListNodeIri);
+    //         }
+    //     });
+    //
+    // }
 
     fetchDataAndUpdateForm(iri: string) {
+
         this._listsService.getList(iri)
             .subscribe(
                 (list: List) => {
                     this.currentNodes = list.children;
+                    this.currentListNodeIri = this.currentNodes[this.index].id;
                     this.currentListInfo = list.listinfo;
 
                     this.buildListInfoForm();
@@ -148,7 +242,43 @@ export class ListFormComponent implements OnChanges {
                     this.errorMessage = <any>error;
                 }
             );
+
+        console.log('1. fetchDataAndUpdateForm:  current nodes',this.currentNodes);
+
     }
+
+    fetchNodeDataAndUpdateForm(iri: string) {
+
+        this._listsService.getListNodeInfo(iri)
+            .subscribe(
+                (nodeInfo: ListNodeInfo) => {
+                    this.currentListNodeInfo = nodeInfo;
+                    // this.buildListNodeInfoForm();
+
+                    // this.viewDetails(this.currentListNodeIri);
+
+
+                    // (<FormGroup>this.listNodeInfoForm)
+                    //     .setValue(this.currentListNodeInfo, { onlySelf: true });
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                }
+            );
+        console.log('4. fetchNodeDataAndUpdateForm: nodes info:', this.currentListNodeInfo );
+
+    }
+
+    setIndex(index: number) {
+
+        this.index = index;
+        this.fetchNodeDataAndUpdateForm(this.currentListNodeIri);
+        this.buildListNodeInfoForm();
+
+        console.log('6. setIndex: index:', this.index );
+
+    }
+
 
     revert() {
         (<FormGroup>this.listInfoForm)
@@ -157,12 +287,22 @@ export class ListFormComponent implements OnChanges {
 
     save(listInfo: ListInfo) {
         this.submitted = true; // set form submit to true
-
-
-
         // check if model is valid
         // if valid, call API to save customer
         console.log('save:', listInfo);
+    }
+
+    revertNode() {
+        (<FormGroup>this.listNodeInfoForm)
+            .setValue(this.currentListNodeInfo, { onlySelf: true });
+    }
+
+    saveNode(listNodeInfo: ListNodeInfo) {
+        this.submitted = true; // set form submit to true
+
+        // check if model is valid
+        // if valid, call API to save customer
+        console.log('save:', listNodeInfo);
     }
 
 }

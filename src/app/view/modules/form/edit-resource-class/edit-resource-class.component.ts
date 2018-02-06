@@ -80,7 +80,7 @@ export class EditResourceClassComponent implements OnChanges {
 
     public editResFormLabels: any = {
         label: 'Resource class',
-        description: 'Click to edit the resource name',
+        description: 'Click to edit the resource data',
         resource: {
             label: 'Resource label',
             description: 'Resource description',

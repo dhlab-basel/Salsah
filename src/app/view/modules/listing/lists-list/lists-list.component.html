@@ -12,7 +12,9 @@
                                  (opened)="fetchListData(item.id)">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h4>{{item.labels[0].value}}</h4>
+                        <span matTooltip="Click on the list name to see nodes">
+                            <h4>{{item.labels[0].value}}</h4>
+                        </span>
                     </mat-panel-title>
                     <mat-panel-description>
                         {{item.id}}
@@ -20,51 +22,60 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
-                <span><b>Nodes</b>
+                <span><b>{{listLists.nodesLabel}}</b>
+                    <span class="subtitle">Click on the node name to edit the node</span>
                 </span>
                 <salsah-progress-indicator *ngIf="isLoadingNodes"></salsah-progress-indicator>
-                <div *ngIf="currentListInfo">
+                <div *ngIf="currentListInfo" #tree>
+                    <button class="right" mat-button color="primary" *ngIf="!isExpanded" (click)="expandAll(tree)">
+                        {{listLists.buttons.expand}}
+                    </button>
+                    <button class="right" mat-button color="primary" *ngIf="isExpanded" (click)="collapseAll(tree)">
+                        {{listLists.buttons.collapse}}
+                    </button>
                     <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
-                            <div>
-                                <span>{{ node.data.name }}</span>
-                                <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
-                            </div>
+                            <span *ngIf="node.children.length == 0" matTooltip="Click on the node name to edit">
+                                <span (click)="edit(item.id, node.data)">
+                                    {{ node.data.name }}
+                                </span>
+                            </span>
+                            <span *ngIf="node.children.length != 0" matTooltip="Click arrow to see children, or node name to edit">
+                                <span (click)="edit(item.id, node.data)">
+                                    {{ node.data.name }}
+                                </span>
+                            </span>
+                            <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
+
+
                             <!--     <button>{{node.data.name}}</button>
                                <button (click)="viewDetails(node.data.id)">Node Name</button>
                               -->
                         </ng-template>
                     </tree-root>
-                    <button class="right" mat-button color="primary" *ngIf="!isExpanded" (click)="expandAll(tree)">
-                        Expand all
-                    </button>
-                    <button class="right" mat-button color="primary" *ngIf="isExpanded" (click)="collapseAll(tree)">
-                        Collapse all
-                    </button>
+
                     <!--TODO: move button above next to "Nodes" title-->
                 </div>
-
-                <mat-action-row>
-                    <button mat-button
-                            color="primary"
-                            (click)="toggle(item?.id, i)">
-                        edit
-                    </button>
-                </mat-action-row>
                 <!--
-                            <mat-action-row>
-                                <button mat-button
-                                        color="primary"
-                                        (click)="edit(item?.id)">
-                                    edit
-                                </button>
-                            </mat-action-row>
-                -->
+                              <mat-action-row>
+                                  <button mat-button
+                                          color="primary"
+                                          (click)="toggle(item?.id, i)">
+                                      {{listLists.buttons.edit}}
+                                  </button>
+                              </mat-action-row>
+
+                                          <mat-action-row>
+                                              <button mat-button
+                                                      color="primary"
+                                                      (click)="edit(item?.id)">
+                                                  edit
+                                              </button>
+                                          </mat-action-row>
+                              -->
             </mat-expansion-panel>
 
         </mat-accordion>
-
-
     </div>
 
     <!-- in the case of zero results: show a no data message -->
@@ -106,3 +117,4 @@
 </div>
 </div>
 -->
+
