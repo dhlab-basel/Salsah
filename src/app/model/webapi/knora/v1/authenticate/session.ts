@@ -13,7 +13,6 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {UserProfile} from '../../admin/index';
 
 @JsonObject
 export class Session {
@@ -26,8 +25,5 @@ export class Session {
 
     @JsonProperty('sid', String, true)
     public sid: string = undefined;
-
-    @JsonProperty('userProfile', UserProfile, true)
-    public userProfile: UserProfile = undefined;
 
 }

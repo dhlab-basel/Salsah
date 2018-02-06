@@ -12,19 +12,13 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {MessageData} from '../../message/message.component';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {OntologyService} from '../../../../model/services/ontology.service';
-import {ResourceTypeItem} from '../../../../model/webapi/knora/v1/resource-types/resource-type-item';
-import {ResourceTypesService} from '../../../../model/services/resource-types.service';
-import {ResourceTypes} from '../../../../model/webapi/knora/v1/resource-types/resource-types';
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {ResourceType} from '../../../../model/webapi/knora/v1/resource-types/resource-type';
+import {OntologyInfoShort} from '../../../../model/webapi/knora';
+import {ResourceTypeItem} from '../../../../model/webapi/knora/v1/resource-types/resource-type-item';
+import {MessageData} from '../../message/message.component';
 
 @JsonObject
 export class OntologyInfo {
@@ -73,17 +67,15 @@ export class OntologiesListComponent implements OnInit {
     // the main object in this component
     ontologiesList: string[] = [];
 
-    constructor(private _router: Router,
-                public _resourceTypesService: ResourceTypesService,
-                public _ontologyService: OntologyService,
-                public _dialog: MatDialog) {
+    constructor(public _dialog: MatDialog) {
     }
 
     ngOnInit() {
 
         if (this.restrictedBy !== undefined) {
             // list of ontologies in a project dashboard
-            this.ontologiesList = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
+            const ontologyInfos: OntologyInfoShort[] = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
+            this.ontologiesList = ontologyInfos.map(value => value.ontologyIri);
             this.numberOfItems = this.ontologiesList.length;
             this.isLoading = false;
 

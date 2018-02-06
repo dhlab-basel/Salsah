@@ -19,26 +19,26 @@
                 </tr>
                 <tr *ngFor="let item of newAllActiveUsers | sortBy: sortKey; let i = index;">
                     <td class="salsah-avatar-cell">
-                        <img salsahImage [image]="item?.user_profile.userData.email" [type]="'user'"
+                        <img salsahImage [image]="item?.user_profile.email" [type]="'user'"
                              class="salsah-avatar-image"/>
                     </td>
-                    <td>{{item?.user_profile.userData.givenName}}</td>
-                    <td>{{item?.user_profile.userData.familyName}}</td>
-                    <td>{{item?.user_profile.userData.email}}</td>
+                    <td>{{item?.user_profile.givenName}}</td>
+                    <td>{{item?.user_profile.familyName}}</td>
+                    <td>{{item?.user_profile.email}}</td>
                     <td>
                         <div class="hidden">
 
                             <button mat-icon-button
-                                    (click)="setInactive(item?.user_profile.userData.user_id, item?.user_profile.userData.givenName + ' ' + item?.user_profile.userData.familyName)"
+                                    (click)="setInactive(item?.user_profile.id, item?.user_profile.givenName + ' ' + item?.user_profile.familyName)"
                                     matTooltip="Delete user">
                                 <mat-icon>delete</mat-icon>
                             </button>
 
-                            <button mat-icon-button (click)="edit(item?.user_profile.userData.user_id)"
+                            <button mat-icon-button (click)="edit(item?.user_profile.id)"
                                     matTooltip="Edit user">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="open(item?.user_profile.userData.email)"
+                            <button mat-icon-button (click)="open(item?.user_profile.email)"
                                     matTooltip="Go to the user's dashboard">
                                 <mat-icon>forward</mat-icon>
                             </button>
@@ -59,24 +59,24 @@
                 </tr>
                 <tr *ngFor="let item of newAllInactiveUsers | sortBy: sortKeyIA; let i = index;">
                     <td class="salsah-avatar-cell">
-                        <img salsahImage [image]="item?.user_profile.userData.email" [type]="'user'"
+                        <img salsahImage [image]="item?.user_profile.email" [type]="'user'"
                              class="salsah-avatar-image"/>
                     </td>
-                    <td>{{item?.user_profile.userData.givenName}}</td>
-                    <td>{{item?.user_profile.userData.familyName}}</td>
-                    <td>{{item?.user_profile.userData.email}}</td>
+                    <td>{{item?.user_profile.givenName}}</td>
+                    <td>{{item?.user_profile.familyName}}</td>
+                    <td>{{item?.user_profile.email}}</td>
                     <td>
                         <div class="hidden">
                             <button mat-icon-button
-                                    (click)="setActive(item?.user_profile.userData.user_id,  item?.user_profile.userData.givenName + ' ' + item?.user_profile.userData.familyName)"
+                                    (click)="setActive(item?.user_profile.userData.id,  item?.user_profile.givenName + ' ' + item?.user_profile.familyName)"
                                     matTooltip="Activate user">
                                 <mat-icon>refresh</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="edit(item?.user_profile.userData.user_id)"
+                            <button mat-icon-button (click)="edit(item?.user_profile.id)"
                                     matTooltip="Edit user">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="open(item?.user_profile.userData.email)"
+                            <button mat-icon-button (click)="open(item?.user_profile.email)"
                                     matTooltip="Go to the user dashboard">
                                 <mat-icon>forward</mat-icon>
                             </button>
