@@ -259,7 +259,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         BooleanValueComponent,
         DateValueComponent,
         OntologiesListItemComponent,
-        EditNodeInfoComponent
+        EditNodeInfoComponent,
         ExistingNameDirective,
         GndDirective,
         InternationalizationComponent
