@@ -10,11 +10,18 @@ module.exports = function (config) {
             require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-coverage-istanbul-reporter'),
+            require('karma-html-detailed-reporter'),
+            require('karma-spec-reporter'),
             require('@angular/cli/plugins/karma')
         ],
         client:{
             captureConsole: true,
             clearContext: false // leave Jasmine Spec Runner output visible in browser
+        },
+        browserConsoleLogOptions: {
+            level: 'log',
+            format: '%b %T: %m',
+            terminal: true
         },
         files: [
             { pattern: './src/test.ts', watched: false }
@@ -29,15 +36,17 @@ module.exports = function (config) {
             reports: [ 'html', 'lcovonly' ],
             fixWebpackSourcePaths: true
         },
+        logLevel: config.LOG_LOG,
         angularCli: {
             environment: 'dev'
         },
-        reporters: config.angularCli && config.angularCli.codeCoverage
-            ? ['progress', 'coverage-istanbul']
-            : ['progress', 'kjhtml'],
+        reporters: ['progress', 'kjhtml'],
+        specReporter: {
+            suppressPassed: false,  // do not print information about passed tests
+            suppressSkipped: true,  // do not print information about skipped tests
+        },
         port: 9876,
         colors: true,
-        logLevel: config.LOG_INFO,
         autoWatch: true,
         browsers: ['Chrome'],
         singleRun: false,

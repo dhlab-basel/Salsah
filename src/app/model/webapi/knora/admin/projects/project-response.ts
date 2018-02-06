@@ -19,7 +19,7 @@ import {Project} from './project';
 @JsonObject
 export class ProjectResponse {
 
-    @JsonProperty('project_info', Project)
-    public project_info: Project = undefined;
+    @JsonProperty('project', Project)
+    public project: Project = undefined;
 
 }

@@ -14,35 +14,33 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {UserData, Project, ProjectMembersResponse, ProjectsResponse, ProjectResponse} from '../webapi/knora';
+import {Project, ProjectMembersResponse, ProjectResponse, ProjectsResponse} from '../webapi/knora';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 
 import {ApiService} from './api.service';
+import {User} from '../webapi/knora/admin';
 
 @Injectable()
 export class ProjectsService extends ApiService {
 
-    private activeProject: ReplaySubject<Project> = new ReplaySubject(1);
-    private projectMembers: ReplaySubject<UserData[]> = new ReplaySubject(1);
-
     /**
      * returns a list of all projects
      *
-     * @returns {Observable<ProjectItem[]>}
+     * @returns {Observable<Project[]>}
      * @throws {ApiServiceError}
      */
     getAllProjects(): Observable<Project[]> {
 
-        return this.httpGet('/v1/projects').map(
+        return this.httpGet('/admin/projects').map(
                 (result: ApiServiceResult) => {
+                    // console.log('ProjectsService - getAllProjects - result: ', JSON.stringify(result));
                     const projects: Project[] = result.getBody(ProjectsResponse).projects;
-                    // console.log('ProjectsService - getAllProjects: ' + JSON.stringify(projects));
+                    // console.log('ProjectsService - getAllProjects - projects: ', JSON.stringify(projects));
                     return projects;
                 },
                 (error: ApiServiceError) => {
-                    console.error('ProjectsService - getAllProjects - error: ' + JSON.stringify(error));
+                    console.error('ProjectsService - getAllProjects - error: ', JSON.stringify(error));
                     throw error;
                 }
             );
@@ -52,14 +50,12 @@ export class ProjectsService extends ApiService {
      * returns a project object
      *
      * @param iri (= project iri)
-     * @returns {Observable<ProjectItem>}
+     * @returns {Observable<Project>}
      * @throws {ApiServiceError}
      */
     getProjectByIri(iri: string): Observable<Project> {
 
-
-
-        const url = '/v1/projects/' + encodeURIComponent(iri)
+        const url = '/admin/projects/' + encodeURIComponent(iri)
         return this.getProject(url);
     }
 
@@ -67,11 +63,23 @@ export class ProjectsService extends ApiService {
      * returns a project object
      *
      * @param shortname
-     * @returns {Observable<ProjectItem>}
+     * @returns {Observable<Project>}
      * @throws {ApiServiceError}
      */
     getProjectByShortname(shortname: string): Observable<Project> {
-        const url = '/v1/projects/' + shortname + '?identifier=shortname';
+        const url = '/admin/projects/' + shortname + '?identifier=shortname';
+        return this.getProject(url);
+    }
+
+    /**
+     * returns a project object
+     *
+     * @param shortname
+     * @returns {Observable<Project>}
+     * @throws {ApiServiceError}
+     */
+    getProjectByShortcode(shortcode: string): Observable<Project> {
+        const url = '/admin/projects/' + shortcode + '?identifier=shortcode';
         return this.getProject(url);
     }
 
@@ -85,8 +93,9 @@ export class ProjectsService extends ApiService {
     getProject(url: string): Observable<Project> {
         return this.httpGet(url).map(
             (result: ApiServiceResult) => {
-                const project: Project = result.getBody(ProjectResponse).project_info;
-                // console.log('ProjectsService - getProject: ' + url + ' , project: ' + project);
+                // console.log('ProjectsService - getProject - result: ', JSON.stringify(result));
+                const project: Project = result.getBody(ProjectResponse).project;
+                // console.log('ProjectsService - getProject: ' + url + ' , project: ', JSON.stringify(project));
                 return project;
             },
             (error: ApiServiceError) => {
@@ -100,14 +109,14 @@ export class ProjectsService extends ApiService {
      * returns all project members
      *
      * @param iri (= project iri)
-     * @returns {Observable<UserData[]>}
+     * @returns {Observable<User[]>}
      * @throws {ApiServiceError}
      */
-    getProjectMembersByIri(iri: string): Observable<UserData[]> {
+    getProjectMembersByIri(iri: string): Observable<User[]> {
 
-//        console.log('ProjectsService - getProjectMembersByIri - iri: ' + iri);
+        // console.log('ProjectsService - getProjectMembersByIri - iri: ' + iri);
 
-        const url = '/v1/projects/members/' + encodeURIComponent(iri);
+        const url = '/admin/projects/members/' + encodeURIComponent(iri);
         return this.getProjectMembers(url);
     }
 
@@ -115,26 +124,26 @@ export class ProjectsService extends ApiService {
      * returns all project members
      *
      * @param shortname (= project shortname)
-     * @returns {Observable<UserData[]>}
+     * @returns {Observable<User[]>}
      * @throws {ApiServiceError}
      */
-    getProjectMembersByShortname(shortname: string): Observable<UserData[]> {
-        const url = '/v1/projects/members/' + shortname + '?identifier=shortname';
+    getProjectMembersByShortname(shortname: string): Observable<User[]> {
+        const url = '/admin/projects/members/' + shortname + '?identifier=shortname';
         return this.getProjectMembers(url);
     }
 
     /**
-     * Helper method comining project member retrieval
+     * Helper method combining project member retrieval
      *
      * @param url
-     * @returns {Observable<UserData[]>}
+     * @returns {Observable<User[]>}
      * @throws {ApiServiceError}
      */
-    getProjectMembers(url: string): Observable<UserData[]> {
+    getProjectMembers(url: string): Observable<User[]> {
         return this.httpGet(url).map(
             (result: ApiServiceResult) => {
-                const members: UserData[] = result.getBody(ProjectMembersResponse).members;
-//                console.log('ProjectsService - getProjectMembers - url: ' + JSON.stringify(url) + ' , members: ' + JSON.stringify(members));
+                const members: User[] = result.getBody(ProjectMembersResponse).members;
+                // console.log('ProjectsService - getProjectMembers - url: ' + JSON.stringify(url) + ' , members: ' + JSON.stringify(members));
                 return members;
             },
             (error: ApiServiceError) => {
@@ -144,29 +153,64 @@ export class ProjectsService extends ApiService {
         )
     }
 
+    // FIXME: refactor to return specific object.
     createProject(data: any): Observable<any> {
         const headers: Headers = new Headers();
         console.log(headers);
         console.log(data);
-        return this.httpPost('/v1/projects', data);
+        return this.httpPost('/admin/projects', data);
     }
 
+    // FIXME: refactor to return specific object.
     updateProject(iri: string, data: any): Observable<any> {
         const headers: Headers = new Headers();
         console.log(headers);
         console.log(data);
-        return this.httpPut('/v1/projects/' + encodeURIComponent(iri), data);
+        return this.httpPut('/admin/projects/' + encodeURIComponent(iri), data);
     }
 
-    deleteProject(iri: string): Observable<any> {
-        return this.httpDelete('/v1/projects/' + encodeURIComponent(iri));
+    /**
+     * Deletes (deactivates) a project by setting it's status to false.
+     *
+     * @param {string} iri
+     * @returns {Observable<Project>}
+     */
+    deleteProject(iri: string): Observable<Project> {
+        return this.httpDelete('/admin/projects/' + encodeURIComponent(iri)).map(
+            (result: ApiServiceResult) => {
+                const project: Project = result.getBody(ProjectResponse).project;
+                // console.log('ProjectsService - deleteProject - iri: ' + JSON.stringify(iri) + ' , project: ' + JSON.stringify(project));
+                return project;
+            },
+            (error: ApiServiceError) => {
+                console.error(error);
+                throw error;
+            }
+        )
     }
 
-    activateProject(iri: string): Observable<any> {
+    /**
+     * Activates (un-deletes) a project.
+     *
+     * @param {string} iri
+     * @returns {Observable<Project>}
+     */
+    activateProject(iri: string): Observable<Project> {
         const data: any = {
             status: true
         };
-        return this.httpPut('/v1/projects/' + encodeURIComponent(iri), data)
+
+        return this.httpPut('/admin/projects/' + encodeURIComponent(iri), data).map(
+            (result: ApiServiceResult) => {
+                const project: Project = result.getBody(ProjectResponse).project;
+                // console.log('ProjectsService - activateProject - iri: ' + JSON.stringify(iri) + ' , project: ' + JSON.stringify(project));
+                return project;
+            },
+            (error: ApiServiceError) => {
+                console.error(error);
+                throw error;
+            }
+        )
     }
 
 

@@ -7,7 +7,7 @@ import {Http} from '@angular/http';
 import {AppConfig} from '../../app.config';
 import {ProjectsService} from './projects.service';
 import {UsersService} from './users.service';
-import {Project, PermissionData} from '../webapi/knora';
+import {PermissionData, Project, UserResponse} from '../webapi/knora';
 
 @Injectable()
 export class AuthenticationService extends ApiService {
@@ -42,7 +42,7 @@ export class AuthenticationService extends ApiService {
 
         return this.httpPost('/v2/authentication', {email: email, password: password}).map(
             (result: ApiServiceResult) => {
-//                console.log('AuthenticationService - login - result:', result);
+                // console.log('AuthenticationService - login - result:', result);
 
                 const token = result.body && result.body.token;
                 if (token) {
@@ -50,9 +50,11 @@ export class AuthenticationService extends ApiService {
                     this.token = token;
 
                     // check if the user is sysAdmin
-                    this.httpGet('/v1/users/' + encodeURIComponent(email) + '?identifier=email').subscribe(
+                    this.httpGet('/admin/users/' + encodeURIComponent(email) + '?identifier=email').subscribe(
                         (res: ApiServiceResult) => {
-                            permissions = res.body.userProfile.permissionData;
+                            permissions = res.body.user.permissions;
+
+                            // console.log(res);
 
                             if (permissions.groupsPerProject[AppConfig.SystemProject]) {
                                 isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
@@ -67,6 +69,9 @@ export class AuthenticationService extends ApiService {
                                 token: token,
                                 sysAdmin: isSysAdmin
                             }));
+
+                            localStorage.setItem('lang', res.getBody(UserResponse).lang);
+
                             isLoading = false;
 
                         },
@@ -150,9 +155,9 @@ export class AuthenticationService extends ApiService {
 
     projectPermissions(user?: string): any {
         // check if the user is sysAdmin
-        this.httpGet('/v1/users/' + encodeURIComponent(user) + '?identifier=email').subscribe(
+        this.httpGet('/admin/users/' + encodeURIComponent(user) + '?identifier=email').subscribe(
             (result: ApiServiceResult) => {
-                const permissions: PermissionData = result.body.userProfile.permissionData;
+                const permissions: PermissionData = result.body.user.permissions;
                 const projectsList: string[] = [];
                 let isSysAdmin: boolean = false;
 
@@ -212,6 +217,7 @@ export class AuthenticationService extends ApiService {
         // clear token remove user from local storage to log user out
         this.token = null;
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('lang');
         sessionStorage.clear();
     }
 
