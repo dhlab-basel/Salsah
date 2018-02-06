@@ -32,7 +32,7 @@ export class OntologyMetadata {
     /**
      *
      * @param {string} id Iri identifying the ontology.
-     * @param {string} shortname a label describing the ontology.
+     * @param {string} label a label describing the ontology.
      */
     constructor(readonly id: string,
                 readonly label: string) {
