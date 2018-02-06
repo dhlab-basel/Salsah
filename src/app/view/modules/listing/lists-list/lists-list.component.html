@@ -10,10 +10,12 @@
         <mat-accordion>
             <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
                                  (opened)="fetchListData(item.id)">
-                <mat-expansion-panel-header>
+                <mat-expansion-panel-header matTooltip="Click to open panel and see nodes">
                     <mat-panel-title>
-                        <span matTooltip="Click on the list name to see nodes">
-                            <h4>{{item.labels[0].value}}</h4>
+                        <span matTooltip="Click on the list name to edit">
+                            <span (click)="editList(item.id, item)">
+                                <h4>{{item.labels[0].value}}</h4>
+                            </span>
                         </span>
                     </mat-panel-title>
                     <mat-panel-description>
@@ -21,7 +23,6 @@
                         <mat-icon>list</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-
                 <span><b>{{listLists.nodesLabel}}</b>
                     <span class="subtitle">Click on the node name to edit the node</span>
                 </span>
@@ -36,12 +37,13 @@
                     <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
                             <span *ngIf="node.children.length == 0" matTooltip="Click on the node name to edit">
-                                <span (click)="edit(item.id, node.data)">
+                                <span (click)="editNode(item.id, node.data)">
                                     {{ node.data.name }}
                                 </span>
                             </span>
-                            <span *ngIf="node.children.length != 0" matTooltip="Click arrow to see children, or node name to edit">
-                                <span (click)="edit(item.id, node.data)">
+                            <span *ngIf="node.children.length != 0"
+                                  matTooltip="Click arrow to see children, or node name to edit">
+                                <span (click)="editNode(item.id, node.data)">
                                     {{ node.data.name }}
                                 </span>
                             </span>

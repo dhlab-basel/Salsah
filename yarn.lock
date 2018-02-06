@@ -232,12 +232,6 @@
   version "2.53.43"
   resolved "https://registry.yarnpkg.com/@types/selenium-webdriver/-/selenium-webdriver-2.53.43.tgz#2de3d718819bc20165754c4a59afb7e9833f6707"
 
-"@uniprank/ng2-file-uploader@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@uniprank/ng2-file-uploader/-/ng2-file-uploader-0.2.2.tgz#395ec29c0e24defd8894fdc1abcd870c2f688038"
-  dependencies:
-    typescript "2.3.2"
-
 JSONStream@^1.0.3:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.2.tgz#c102371b6ec3a7cf3b847ca00c20bb0fce4c6dea"
@@ -7341,10 +7335,6 @@ type-is@~1.6.15:
 typedarray@^0.0.6, typedarray@~0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
-
-typescript@2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.2.tgz#f0f045e196f69a72f06b25fd3bd39d01c3ce9984"
 
 typescript@~2.6.1, typescript@~2.6.2:
   version "2.6.2"

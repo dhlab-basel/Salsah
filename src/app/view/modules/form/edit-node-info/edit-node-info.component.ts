@@ -27,7 +27,7 @@ import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angul
 })
 export class EditNodeInfoComponent implements OnChanges {
 
-    @Input() listIri: string;
+    @Input() nodeIri: string;
     @Input() currentNode: ListNode;
 
     currentListNodeInfo: ListNodeInfo;
@@ -104,7 +104,7 @@ export class EditNodeInfoComponent implements OnChanges {
     }
 
     ngOnChanges() {
-        console.log('list iri: ', this.listIri);
+        console.log('list iri: ', this.nodeIri);
         console.log('node: ', this.currentNode);
         console.log('children: ', this.currentNode.children);
 

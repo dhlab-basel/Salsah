@@ -166,7 +166,7 @@ export class ListsListComponent implements OnInit {
     }
 
     // TODO: implement proper edit method/component
-    edit(id: string, cNode: ListNode[], title?: string) {
+    editNode(id: string, cNode: ListNode[], title?: string) {
         const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
@@ -178,7 +178,17 @@ export class ListsListComponent implements OnInit {
                 // nodeLevel: level,
                 // nodePos: position,
                 title: 'Edit ' + id,
-                form: 'list'
+                form: 'nodeInfo'
+            }
+        });
+    }
+    editList(id: string, list: ListInfo[], title?: string) {
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+            data: {
+                iri: id,
+                currentListInfo: list,
+                title: 'Edit ' + id,
+                form: 'listInfo'
             }
         });
     }
