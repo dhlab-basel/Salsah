@@ -14,14 +14,13 @@
 
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {UserData} from './user-data';
-import {UserProfile} from './user-profile';
+import {User} from './user';
 
 @JsonObject
 export class UsersList {
 
-    @JsonProperty('users', [UserData])
-    public users: UserData[] = undefined;
+    @JsonProperty('users', [User])
+    public users: User[] = undefined;
 
 }
 
@@ -37,8 +36,8 @@ export class NewUserData {
     @JsonProperty('lastname', String, true)
     public familyName: string = undefined;
 
-    @JsonProperty('user_profile', UserProfile, true)
-    public user_profile: UserProfile = undefined;
+    @JsonProperty('user_profile', User, true)
+    public user_profile: User = undefined;
 }
 
 @JsonObject

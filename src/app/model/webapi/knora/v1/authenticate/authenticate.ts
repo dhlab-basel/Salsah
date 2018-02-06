@@ -13,7 +13,6 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {UserProfile} from '../../admin/index';
 
 @JsonObject
 export class Authenticate {
@@ -26,11 +25,5 @@ export class Authenticate {
 
     @JsonProperty('sid', String)
     public sid: string = undefined;
-
-    @JsonProperty('userProfile', UserProfile)
-    public userProfile: UserProfile = undefined;
-
-//    @JsonProperty('userData', UserData, true)
-//    public userData: UserData = undefined;
 
 }

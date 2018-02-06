@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {UserProfile} from '../../../model/webapi/knora/';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageData} from '../../modules/message/message.component';
 import {Title} from '@angular/platform-browser';
@@ -14,7 +13,6 @@ export class SystemComponent implements OnInit {
     errorMessage: MessageData;
     isLoading: boolean = true;
 
-    userProfile: UserProfile = new UserProfile();
     sysAdmin: boolean = false;
     loggedInUser: boolean = false;
 

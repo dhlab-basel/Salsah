@@ -12,18 +12,6 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from 'json2typescript';
-
-@JsonObject
-export class Session {
-
-    @JsonProperty('status', Number)
-    public status: number = undefined;
-
-    @JsonProperty('message', String)
-    public message: string = undefined;
-
-    @JsonProperty('sid', String, true)
-    public sid: string = undefined;
-
+export interface ResetTriplestoreContentResponse {
+    message: string;
 }

@@ -265,6 +265,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         FormsModule,
         HttpModule,
         RouterModule,

@@ -21,6 +21,9 @@
 export const environment = {
     type: 'integration',
     production: false,
-    media: 'http://localhost:1024/knora',
-    api: 'http://localhost:3333/v1'
+    media: 'http://localhost:1024/knora',   // perhaps we have to rename it into sipi?
+    api: 'http://localhost:3333',           // perhaps we have to rename it into knora?
+    url: 'http://localhost:4200',           // perhaps we have to rename it into guiUrl or salsah?
+    localData: 'data',
+    pagingLimit: 25
 };

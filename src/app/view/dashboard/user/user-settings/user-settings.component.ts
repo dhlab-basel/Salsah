@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {UserProfile} from "../../../../model/webapi/knora/";
+import {Component, OnInit} from '@angular/core';
 import {MessageData} from '../../../modules/message/message.component';
+import {User} from '../../../../model/webapi/knora/';
 
 @Component({
     selector: 'salsah-user-settings',
@@ -25,13 +25,13 @@ export class UserSettingsComponent implements OnInit {
 
     // @Input('user') user: UserProfile;
 
-    user: UserProfile = new UserProfile();
+    user: User = new User();
 
     developerInfo: MessageData = {
         status: 304,
-        statusMsg: "User configuration form",
-        statusText: "TODO: Here should be a form to change user specific settings",
-        route: "dashboard/user/user-settings/"
+        statusMsg: 'User configuration form',
+        statusText: 'TODO: Here should be a form to change user specific settings',
+        route: 'dashboard/user/user-settings/'
     };
 
     constructor() {

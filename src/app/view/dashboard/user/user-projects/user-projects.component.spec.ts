@@ -2,63 +2,14 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {UserProjectsComponent} from './user-projects.component';
-import {UserProfile} from '../../../../model/webapi/knora/';
+import {User} from '../../../../model/webapi/knora';
+import {multiUser} from '../../../../model/test-data/shared-test-data'
 
 describe('UserProjectsComponent', () => {
     let component: UserProjectsComponent;
     let fixture: ComponentFixture<UserProjectsComponent>;
 
-    const testProfile: UserProfile = <UserProfile>{
-        'userData': {
-            'email': 'multi.user@example.com',
-            'givenName': 'Multi',
-            'familyName': 'User',
-            'isActiveUser': true,
-            'status': true,
-            'lang': 'de',
-            'password': null,
-            'token': null,
-            'user_id': 'http://data.knora.org/users/multiuser'
-        },
-        'groups': ['http://data.knora.org/groups/images-reviewer'],
-        'projects_info': [{
-            'ontologies': [
-                'http://www.knora.org/ontology/00FF/images'
-            ],
-            'shortname': 'images',
-            'description': 'A demo project of a collection of images',
-            'institution': null,
-            'shortcode': '00FF',
-            'logo': null,
-            'id': 'http://rdfh.ch/projects/00FF',
-            'status': true,
-            'selfjoin': false,
-            'keywords': 'images, collection',
-            'longname': 'Image Collection Demo'
-        }],
-        'sessionId': null,
-        'isSystemUser': false,
-        'permissionData': {
-            'groupsPerProject': {
-                'http://data.knora.org/projects/77275339': [
-                    'http://www.knora.org/ontology/knora-base#ProjectMember',
-                    'http://www.knora.org/ontology/knora-base#ProjectAdmin'
-                ]
-            },
-            'administrativePermissionsPerProject': {
-                'http://data.knora.org/projects/images': [{
-                    'name': 'ProjectAdminAllPermission',
-                    'additionalInformation': null,
-                    'v1Code': null
-                }, {
-                    'name': 'ProjectResourceCreateAllPermission',
-                    'additionalInformation': null,
-                    'v1Code': null
-                }]
-            },
-            'anonymousUser': false
-        }
-    };
+    const testProfile: User = multiUser;
 
     const currentTestUser = <any>{
         'email': 'multi.user@example.com',

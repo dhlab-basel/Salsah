@@ -13,17 +13,12 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
+import {Group} from './group';
 
 @JsonObject
-export class Session {
+export class GroupsResponse {
 
-    @JsonProperty('status', Number)
-    public status: number = undefined;
-
-    @JsonProperty('message', String)
-    public message: string = undefined;
-
-    @JsonProperty('sid', String, true)
-    public sid: string = undefined;
+    @JsonProperty('groups', [Group])
+    public groups: Group[] = undefined;
 
 }

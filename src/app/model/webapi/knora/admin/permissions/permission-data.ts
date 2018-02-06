@@ -22,7 +22,4 @@ export class PermissionData {
 
     @JsonProperty('administrativePermissionsPerProject', Object)
     public administrativePermissionsPerProject: any = undefined;
-
-    @JsonProperty('anonymousUser', Boolean)
-    public anonymousUser: boolean = undefined;
 }

@@ -35,7 +35,8 @@
                 "prod": "environments/environment.prod.ts",
                 "test": "environments/environment.test.ts",
                 "mock": "environments/environment.mock.ts",
-                "beol": "environments/environment.beol.ts"
+                "beol": "environments/environment.beol.ts",
+                "it": "environments/environment.integration.ts"
             }
         }
     ],

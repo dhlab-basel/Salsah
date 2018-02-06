@@ -14,23 +14,57 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {ApiService} from './api.service';
-import {UsersResponse, UserData} from '../webapi/knora';
-import {ApiServiceResult} from './api-service-result';
+import {User, UserResponse, UsersResponse} from '../webapi/knora';
 import {ApiServiceError} from './api-service-error';
+import {ApiServiceResult} from './api-service-result';
+import {ApiService} from './api.service';
 
 
 @Injectable()
 export class UsersService extends ApiService {
 
     /**
+     * returns all users
+     *
+     * @returns {Observable<User[]>}
+     */
+    getAllUsers(): Observable<User[]> {
+
+        return this.httpGet('/admin/users').map(
+            (result: ApiServiceResult) => {
+                // console.log('UsersService - getAllUsers - result: ', JSON.stringify(result));
+                const response: UsersResponse = result.getBody(UsersResponse);
+                // console.log('UsersService - getAllUsers - response: ' + JSON.stringify(response));
+                const users: User[] = response.users;
+                // console.log('UsersService - getAllUsers - users: ' + JSON.stringify(users));
+                return users;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - getAllUsers - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
+    }
+
+    /**
      * returns a user profile
      *
      * @param iri
-     * @returns {Observable<any>}
+     * @returns {Observable<User>}
      */
-    getUserByIri(iri: string): Observable<any> {
-        return this.httpGet('/v1/users/' + encodeURIComponent(iri));
+    getUserByIri(iri: string): Observable<User> {
+        return this.httpGet('/admin/users/' + encodeURIComponent(iri)).map(
+            (result: ApiServiceResult) => {
+                // console.log('UsersService - getUserByIri - result: ', JSON.stringify(result));
+                const user: User = result.getBody(UserResponse).user;
+                // console.log('UsersService - getUserByIri - user: ', JSON.stringify(user));
+                return user;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - getUserByIri - error: ', JSON.stringify(error));
+                throw error;
+            }
+        );
     }
 
     /**
@@ -39,25 +73,16 @@ export class UsersService extends ApiService {
      * @param email
      * @returns {Observable<any>}
      */
-    getUserByEmail(email: string): Observable<any> {
-        return this.httpGet('/v1/users/' + encodeURIComponent(email) + '?identifier=email');
-    }
-
-    /**
-     * returns all users
-     *
-     * @returns {Observable<UserData[]>}
-     */
-    getAllUsers(): Observable<UserData[]> {
-
-        return this.httpGet('/v1/users').map(
+    getUserByEmail(email: string): Observable<User> {
+        return this.httpGet('/admin/users/' + encodeURIComponent(email) + '?identifier=email').map(
             (result: ApiServiceResult) => {
-                const users: UserData[] = result.getBody(UsersResponse).users;
-                // console.log('UsersService - getAllProjects: ' + JSON.stringify(projects));
-                return users;
+                // console.log('UsersService - getUserByEmail - result: ', JSON.stringify(result));
+                const user: User = result.getBody(UserResponse).user;
+                // console.log('UsersService - getUserByIri: ' + JSON.stringify(user));
+                return user;
             },
             (error: ApiServiceError) => {
-                console.error('ProjectsService - getAllProjects - error: ' + JSON.stringify(error));
+                console.error('UsersService - getUserByIri - error: ' + JSON.stringify(error));
                 throw error;
             }
         );
@@ -65,11 +90,13 @@ export class UsersService extends ApiService {
 
 
 
-
-
-
-
-    createUser(data: any): Observable<any> {
+    /**
+     * Creates a new user.
+     *
+     * @param data
+     * @returns {Observable<User>}
+     */
+    createUser(data: any): Observable<User> {
 
 //        const headers: Headers = new Headers();
 //        console.log(headers);
@@ -84,34 +111,168 @@ export class UsersService extends ApiService {
          lang: String = "en",
          systemAdmin: Boolean = false
          */
-        return this.httpPost('/v1/users', data, {});
+
+        return this.httpPost('/admin/users', data).map(
+            (result: ApiServiceResult) => {
+                const user: User = result.getBody(UserResponse).user;
+                // console.log('UsersService - getUserByIri: ' + JSON.stringify(user));
+                return user;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - getUserByIri - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
+
     }
 
-    addUserToProject(uIri: string, pIri: string): Observable<any> {
-        return this.httpPost('/v1/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+    /**
+     * Adds a user to a project.
+     *
+     * @param {string} uIri
+     * @param {string} pIri
+     * @returns {Observable<User>}
+     */
+    addUserToProject(uIri: string, pIri: string): Observable<User> {
+        return this.httpPost('/admin/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri)).map(
+            (result: ApiServiceResult) => {
+                const user: User = result.getBody(UserResponse).user;
+                // console.log('UsersService - addUserToProject: ' + JSON.stringify(user));
+                return user;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - addUserToProject - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
     }
 
-    removeUserFromProject(uIri: string, pIri: string): Observable<any> {
-        return this.httpDelete('/v1/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+    /**
+     * Removes a user from a project.
+     *
+     * @param {string} uIri
+     * @param {string} pIri
+     * @returns {Observable<User>}
+     */
+    removeUserFromProject(uIri: string, pIri: string): Observable<User> {
+        return this.httpDelete('/admin/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri)).map(
+            (result: ApiServiceResult) => {
+                const user: User = result.getBody(UserResponse).user;
+                // console.log('UsersService - removeUserFromProject: ' + JSON.stringify(user));
+                return user;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - removeUserFromProject - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
     }
 
-    addUserToProjectAdmin(uIri: string, pIri: string): Observable<any> {
-        return this.httpPost('/v1/users/projects-admin/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri));
+    /**
+     * Add user to a project admin group.
+     *
+     * @param {string} uIri
+     * @param {string} pIri
+     * @returns {Observable<User>}
+     */
+    addUserToProjectAdmin(uIri: string, pIri: string): Observable<User> {
+        return this.httpPost('/admin/users/projects-admin/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri)).map(
+            (result: ApiServiceResult) => {
+                const user: User = result.getBody(UserResponse).user;
+                // console.log('UsersService - addUserToProjectAdmin: ' + JSON.stringify(user));
+                return user;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - addUserToProjectAdmin - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
     }
 
+    /**
+     * Removes a user from a project admin group.
+     *
+     * @param {string} uIri
+     * @param {string} pIri
+     * @returns {Observable<User>}
+     */
+    removeUserFromProjectAdmin(uIri: string, pIri: string): Observable<User> {
+        return this.httpDelete('/admin/users/projects-admin/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri)).map(
+            (result: ApiServiceResult) => {
+                const user: User = result.getBody(UserResponse).user;
+                // console.log('UsersService - removeUserFromProjectAdmin: ' + JSON.stringify(user));
+                return user;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - removeUserFromProjectAdmin - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
+    }
+
+    /**
+     * Add user to system admin groups.
+     *
+     * @param {string} uIri
+     * @param data
+     * @returns {Observable<User>}
+     */
     addUserToSystemAdmin(uIri: string, data: any): Observable<any> {
-        return this.httpPut('/v1/users/' + encodeURIComponent(uIri), data, {});
+        return this.httpPut('/admin/users/' + encodeURIComponent(uIri), data).map(
+            (result: ApiServiceResult) => {
+                const user: User = result.getBody(UserResponse).user;
+                // console.log('UsersService - activateUser: ' + JSON.stringify(user));
+                return user;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - activateUser - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
     }
 
-    deleteUser(iri: string): Observable<any> {
-        return this.httpDelete('/v1/users/' + encodeURIComponent(iri));
+    /**
+     * Delete (deactivate) user.
+     *
+     * @param {string} iri
+     * @returns {Observable<User>}
+     */
+    deleteUser(iri: string): Observable<User> {
+        return this.httpDelete('/admin/users/' + encodeURIComponent(iri)).map(
+            (result: ApiServiceResult) => {
+                const user: User = result.getBody(UserResponse).user;
+                // console.log('UsersService - deleteUser: ' + JSON.stringify(user));
+                return user;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - deleteUser - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
+
     }
 
-    activateUser(iri: string): Observable<any> {
+    /**
+     * Activate (undelete) user.
+     *
+     * @param {string} iri
+     * @returns {Observable<User>}
+     */
+    activateUser(iri: string): Observable<User> {
         const data: any = {
             status: true
         };
-        return this.httpPut('/v1/users/' + encodeURIComponent(iri), data)
+        return this.httpPut('/admin/users/' + encodeURIComponent(iri), data).map(
+            (result: ApiServiceResult) => {
+                const user: User = result.getBody(UserResponse).user;
+                // console.log('UsersService - activateUser: ' + JSON.stringify(user));
+                return user;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - activateUser - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        );
     }
 
 

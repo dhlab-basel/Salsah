@@ -3,9 +3,9 @@
 import {TestBed, async} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 
-import {AppModule} from "./app.module";
-import {RouterModule} from "@angular/router";
-import {APP_BASE_HREF} from "@angular/common";
+import {AppModule} from './app.module';
+import {RouterModule} from '@angular/router';
+import {APP_BASE_HREF} from '@angular/common';
 
 fdescribe('AppComponent', () => {
     beforeEach(() => {

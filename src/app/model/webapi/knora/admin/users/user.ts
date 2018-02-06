@@ -13,31 +13,48 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {UserData} from './user-data';
-import {Project} from '../projects/project';
+import {Group} from '../groups/group';
 import {PermissionData} from '../permissions/permission-data';
+import {Project} from '../projects/project';
 
 @JsonObject
-export class UserProfile {
+export class User {
 
-    @JsonProperty('userData', UserData)
-    public userData: UserData = undefined;
+    @JsonProperty('id', String)
+    public id: string = undefined;
 
-    @JsonProperty('groups', [String])
-    public groups: string[] = undefined;
+    @JsonProperty('email', String)
+    public email: string = undefined;
 
-    @JsonProperty('projects_info', [Project])
-    public projects_info: Project[] = undefined;
+    @JsonProperty('password', String, true)
+    public password: string = undefined;
+
+    @JsonProperty('token', String, true)
+    public token: string = undefined;
+
+    @JsonProperty('givenName', String)
+    public givenName: string = undefined;
+
+    @JsonProperty('familyName', String)
+    public familyName: string = undefined;
+
+    @JsonProperty('status', Boolean)
+    public status: boolean = undefined;
+
+    @JsonProperty('lang', String)
+    public lang: string = undefined;
+
+    @JsonProperty('groups', [Group])
+    public groups: Group[] = undefined;
+
+    @JsonProperty('projects', [Project])
+    public projects: Project[] = undefined;
 
     @JsonProperty('sessionId', String, true)
     public sessionId: string = undefined;
 
-    // @JsonProperty('projects', [String], true)
-    // public projects: string[] = undefined;
+    @JsonProperty('permissions', PermissionData)
+    public permissions: PermissionData = undefined;
 
-    @JsonProperty('isSystemUser', Boolean)
-    public isSystemUser: boolean = undefined;
 
-    @JsonProperty('permissionData', PermissionData)
-    public permissionData: PermissionData = undefined;
 }

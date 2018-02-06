@@ -3,11 +3,11 @@
                          [hideToggle]="true">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                <h4>{{item?.user_profile.userData.givenName}} {{item?.user_profile.userData.familyName}}</h4>
+                <h4>{{item?.user_profile.givenName}} {{item?.user_profile.familyName}}</h4>
             </mat-panel-title>
             <mat-panel-description>
-                <mat-chip-list *ngIf="item?.user_profile.permissionData.groupsPerProject[project]">
-                            <span *ngFor="let iri of item?.user_profile.permissionData.groupsPerProject[project]">
+                <mat-chip-list *ngIf="item?.user_profile.permissions.groupsPerProject[project]">
+                            <span *ngFor="let iri of item?.user_profile.permissions.groupsPerProject[project]">
                                 <mat-chip color="primary" selected="true"
                                           *ngIf="iri === 'http://www.knora.org/ontology/knora-base#ProjectAdmin'">admin</mat-chip>
                                 <!--
@@ -24,13 +24,13 @@
             <mat-grid-tile
                     colspan="1"
                     rowspan="2">
-                <img salsahImage [image]="item?.user_profile.userData.email" [type]="'user'" class="salsah-avatar-image square"/>
+                <img salsahImage [image]="item?.user_profile.email" [type]="'user'" class="salsah-avatar-image square"/>
             </mat-grid-tile>
             <mat-grid-tile
                     colspan="3"
                     rowspan="1">
                 <div class="text-inside-grid">
-                    <a href="mailto:{{item?.user_profile.userData.email}}">{{item?.user_profile.userData.email}}</a>
+                    <a href="mailto:{{item?.user_profile.email}}">{{item?.user_profile.email}}</a>
                 </div>
             </mat-grid-tile>
             <mat-grid-tile
@@ -39,7 +39,7 @@
                 <div class="text-inside-grid">
                     <p>Member in the following projects</p>
                     <mat-chip-list>
-                        <mat-chip *ngFor="let proj of item?.user_profile.projects_info | key"
+                        <mat-chip *ngFor="let proj of item?.user_profile.projects | key"
                                   routerLink="/project/{{proj.value.shortname}}"
                                   class="salsah-link">
                             {{proj.value.shortname}}

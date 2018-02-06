@@ -12,32 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from 'json2typescript';
-
-@JsonObject
-export class UserData {
-
-    @JsonProperty('email', String, true)
-    public email: string = undefined;
-
-    @JsonProperty('firstname', String, true)
-    public givenName: string = undefined;
-
-    @JsonProperty('lastname', String, true)
-    public familyName: string = undefined;
-
-    @JsonProperty('lang', String, true)
-    public lang: string = undefined;
-
-    @JsonProperty('password', String, true)
-    public password: string = undefined;
-
-    @JsonProperty('status', Boolean, true)
-    public status: boolean = undefined;
-
-    @JsonProperty('token', String, true)
-    public token: string = undefined;
-
-    @JsonProperty('user_id', String, true)
-    public user_id: string = undefined;
+export interface RdfDataObject {
+    path: string;
+    name: string;
 }

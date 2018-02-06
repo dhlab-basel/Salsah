@@ -7,26 +7,13 @@ import {UsersService} from '../../../../model/services/users.service';
 import {Project} from '../../../../model/webapi/knora/';
 import {MockBackend} from '@angular/http/testing';
 import {BaseRequestOptions, Http, ResponseOptions} from '@angular/http';
+import {imagesProject} from '../../../../model/test-data/shared-test-data';
 
 describe('ProjectTeamComponent', () => {
     let component: ProjectTeamComponent;
     let fixture: ComponentFixture<ProjectTeamComponent>;
 
-    const testProject: Project = <Project>{
-        'ontologies': [
-            'http://www.knora.org/ontology/00FF/images'
-        ],
-        'shortname': 'images',
-        'description': 'A demo project of a collection of images',
-        'institution': null,
-        'shortcode': '00FF',
-        'logo': null,
-        'id': 'http://rdfh.ch/projects/00FF',
-        'status': true,
-        'selfjoin': false,
-        'keywords': 'images, collection',
-        'longname': 'Image Collection Demo'
-    };
+    const testProject: Project = imagesProject;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
