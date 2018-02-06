@@ -14,8 +14,6 @@
  */
 
 import {Component, Input, OnChanges} from '@angular/core';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ListsService} from '../../../../model/services/lists.service';
 import {List, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 
@@ -98,8 +96,7 @@ export class EditNodeInfoComponent implements OnChanges {
     public listNodeInfoForm: FormGroup; // our model driven form
 
 
-    constructor(private _listsService: ListsService,
-                private _fb: FormBuilder) {
+    constructor(private _fb: FormBuilder) {
 
     }
 
