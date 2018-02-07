@@ -17,14 +17,65 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
         <form class="salsah-form new-user" [formGroup]="listInfoForm">
-            <div formArrayName="labels">
-                <mat-form-field class="full-width" *ngFor="let label of labels.controls; let i=index"
-                                [formGroupName]="i">
-                    <input matInput
-                           [placeholder]=editLists.list.label
-                           formControlName="value">
-                </mat-form-field>
+
+
+            <h4>Labels</h4>
+            <span *ngIf="labels" formArrayName="labels">
+                                   <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
+                                       <mat-form-field class="width-80">
+                                           <input matInput
+                                                  placeholder="Value"
+                                                  formControlName="value">
+                                       </mat-form-field>
+                                       <mat-form-field class="width-10">
+                                           <mat-select formControlName="language">
+                                               <mat-option value="" disabled>Select language</mat-option>
+                                               <mat-option value="en">en</mat-option>
+                                               <mat-option value="de">de</mat-option>
+                                               <mat-option value="fr">fr</mat-option>
+                                               <mat-option value="it">it</mat-option>
+                                               <!--<mat-option *ngFor="let label of labels.controls" [value]="label.get('language').value">-->
+                                               <!--{{label.get('language').value}}-->
+                                               <!--</mat-option>-->
+                                           </mat-select>
+                                       </mat-form-field>
+                                   </div>
+                               <button mat-button
+                                       class="right"
+                                       [color]="'primary'"
+                                       (click)="addLabel()">
+                                   Add Label
+                               </button>
+                               </span>
+
+
+            <h4>Comments</h4>
+            <div *ngIf="comments" formArrayName="comments">
+                <div *ngFor="let comment of comments.controls; let i=index" [formGroupName]="i">
+                    <mat-form-field class="width-80">
+                        <input matInput
+                               placeholder="Value"
+                               formControlName="value">
+                    </mat-form-field>
+                    <mat-form-field class="width-10">
+                        <mat-select formControlName="language">
+                            <mat-option value="" disabled>Select language</mat-option>
+                            <mat-option value="en">en</mat-option>
+                            <mat-option value="de">de</mat-option>
+                            <mat-option value="fr">fr</mat-option>
+                            <mat-option value="it">it</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <button mat-button
+                        class="right"
+                        [color]="'primary'"
+                        (click)="addComment()">
+                    Add Comment
+                </button>
             </div>
+
+
             <mat-form-field class="full-width">
                 <input matInput
                        [placeholder]=editLists.list.id

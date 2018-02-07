@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {List, ListInfo, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
-import {StringV2} from 'src/app/model/webapi/knora/v2/shared/strings';
+import {StringV2} from 'app/model/webapi/knora/v2/shared/strings';
 
 
 @Component({
@@ -18,17 +18,17 @@ export class EditListInfoComponent implements OnChanges {
     isLoading: boolean = true;
     public submitted: boolean; // keep track on whether form is submitted
 
-    language: string = 'default'
+    // language: string = 'default'
     arrayLength: number;
 
     public editLists: any = {
         label: 'List',
         description: 'Click on the fields to edit',
         list: {
-            label: 'Label ' + '(' + this.language + ')',
+            label: 'Label ',
             project: 'Belongs to project',
             id: 'Id',
-            comments: 'Comments ' + '(' + this.language + ')',
+            comments: 'Comments ' ,
             nodes: {
                 formLabel: 'edit Nodes',
                 formDescription: 'click on the fields to edit',
@@ -64,8 +64,8 @@ export class EditListInfoComponent implements OnChanges {
     ngOnChanges() {
         console.log('labels: ', this.currentListInfo.labels);
         this.buildListInfoForm();
-        this.setComments(this.currentListInfo.comments);
         this.setLabels(this.currentListInfo.labels);
+        this.setComments(this.currentListInfo.comments);
     }
 
     buildListInfoForm() {
@@ -96,8 +96,8 @@ export class EditListInfoComponent implements OnChanges {
         const labelFormArray = this._fb.array(labelFGs);
         this.arrayLength = labelFormArray.length;
         this.listInfoForm.setControl('labels', labelFormArray);
-        this.language = labelFormArray.get('language').value;
-        console.log('this.language: ', this.language);
+        // this.language = labelFormArray.get('language').value;
+        // console.log('this.language: ', this.language);
     }
     setComments(comments: StringV2[]){
         console.log('setComments: ', comments);
@@ -105,6 +105,14 @@ export class EditListInfoComponent implements OnChanges {
         const commentFormArray = this._fb.array(commentFGs);
         this.listInfoForm.setControl('comments', commentFormArray);
     }
+
+    buildValueLangGroup(): FormGroup {
+        return this._fb.group({
+            value: ['', Validators.required],
+            language: ['']
+        });
+    }
+
     // setLanguage(){
     //     this.language = this.currentListInfo.labels[this.arrayLength].language;
     //     return this.language;
@@ -113,6 +121,14 @@ export class EditListInfoComponent implements OnChanges {
 
     revertListInfo(cList: ListInfo) {
         this.ngOnChanges();
+    }
+
+    addLabel() {
+        this.labels.push(this.buildValueLangGroup());
+    }
+
+    addComment() {
+        this.comments.push(this.buildValueLangGroup());
     }
 
 
