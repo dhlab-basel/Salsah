@@ -155,6 +155,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
 import {BeolComponent} from './view/templates/beol/beol.component';
 import {BeolService} from "./model/services/beol.service";
 import {GndDirective} from './view/modules/other/gnd.directive';
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 
 //
@@ -287,6 +288,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ProgressIndicatorModule,
         DndModule.forRoot(),
         HttpClientModule,
+        InfiniteScrollModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

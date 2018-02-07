@@ -44,7 +44,8 @@
         "svg-overlay": "github:openseadragon/svg-overlay",
         "ts-helpers": "^1.1.2",
         "ts-md5": "^1.2.2",
-        "zone.js": "^0.8.18"
+        "zone.js": "^0.8.18",
+        "ngx-infinite-scroll": "^0.8.2"
     },
     "devDependencies": {
         "@angular/cli": "~1.6.0",
