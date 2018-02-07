@@ -148,10 +148,12 @@ import {OntologiesListItemComponent} from './view/modules/listing/ontologies-lis
 import {TextValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
 import {UriValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
 import {LinkValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/link-value/link-value.component';
+import {EditNodeInfoComponent} from './view/modules/form/edit-node-info/edit-node-info.component';
+import {InternationalizationComponent} from './view/modules/framework/main-framework/internationalization/internationalization.component';
+
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 import {BeolComponent} from './view/templates/beol/beol.component';
 import {BeolService} from "./model/services/beol.service";
-import {InternationalizationComponent} from './view/modules/framework/main-framework/internationalization/internationalization.component';
 import {GndDirective} from './view/modules/other/gnd.directive';
 
 
@@ -264,6 +266,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TextValueComponent,
         UriValueComponent,
         LinkValueComponent,
+        EditNodeInfoComponent,
         ExistingNameDirective,
         BeolComponent,
         GndDirective,
@@ -271,6 +274,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         FormsModule,
         HttpModule,
         RouterModule,

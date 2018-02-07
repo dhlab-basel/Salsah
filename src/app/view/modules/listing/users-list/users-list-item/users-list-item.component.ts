@@ -13,7 +13,7 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {UserProfile} from '../../../../../model/webapi/knora/';
+import {User} from '../../../../../model/webapi/knora';
 
 @Component({
     selector: 'salsah-users-list-item',
@@ -22,7 +22,7 @@ import {UserProfile} from '../../../../../model/webapi/knora/';
 })
 export class UsersListItemComponent implements OnInit {
 
-    @Input() listData: UserProfile[] = [];
+    @Input() listData: User[];
     @Input() sortProp: string;
     @Input() project?: string;
 

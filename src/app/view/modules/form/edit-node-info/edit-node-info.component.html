@@ -1,0 +1,103 @@
+<!------------------------------------Edit lists!    ------------------------------------------------>
+<!------------------------------------------------------------------------------------------------------->
+<salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+<section class="salsah-form-content" *ngIf="!isLoading">
+    <!------------------------------------------------------------------------------------------------------->
+    <!-----------Here we will use expansion panels for each node, which will be collapsible------------------>
+    <!-----------Each expansion panels will have its own save button----------------------------------------->
+    <h5>{{editLists.list.nodes.formLabel}}</h5>
+
+    <mat-expansion-panel class="full-width" [expanded]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <!--<span> {{ currentNode.name }} </span>-->
+                <span>{{ listNodeInfoForm.get('name').value }} </span>
+            </mat-panel-title>
+            <mat-panel-description>
+                <span>{{editLists.list.nodes.formDescription}}</span>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form class="salsah-form new-user" [formGroup]="listNodeInfoForm">
+            <mat-form-field class="full-width">
+                <input matInput
+                       [placeholder]=editLists.list.nodes.name
+                       formControlName="name">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput
+                       [placeholder]=editLists.list.nodes.id
+                       formControlName="id">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput
+                       [placeholder]=editLists.list.nodes.label
+                       formControlName="labels">
+            </mat-form-field>
+
+            <!----Show children with no edit control--->
+            <mat-form-field class="full-width">
+                <input matInput
+                       [placeholder]=editLists.list.nodes.children
+                       formControlName="numberOfChildren">
+                <div class="salsah-placeholder"  *ngIf="listNodeInfoForm.get('numberOfChildren').value > 0" formArrayName="children">
+                    <span>Children names:</span>
+                    <span *ngFor="let child of children.controls; let i=index"
+                          [formGroupName]="i">
+                        <div matPrefix> #{{i+1}}
+                            <span>{{child.get('name').value}}</span>
+                        </div>
+                    </span>
+                </div>
+            </mat-form-field>
+
+            <!-----Show + add + remove children, edit names ------>
+            <!--<div *ngIf="listNodeInfoForm.get('numberOfChildren').value > 0" formArrayName="children">-->
+            <!--<mat-form-field class="full-width" *ngFor="let child of children.controls; let i=index"-->
+            <!--[formGroupName]="i">-->
+            <!--<span matPrefix>#{{i+1}} &nbsp;</span>-->
+            <!--<input matInput-->
+            <!--[placeholder]=editLists.list.nodes.childName-->
+            <!--formControlName="name">-->
+            <!--&lt;!&ndash;{{child.get('name').value}}&ndash;&gt;-->
+            <!--<button mat-button matSuffix mat-icon-button aria-label="Clear" disabled (click)="removeChild(i)">-->
+            <!--<mat-icon>close</mat-icon>-->
+            <!--</button>-->
+            <!--</mat-form-field>-->
+            <!--</div>-->
+            <!--<mat-action-row>-->
+            <!--<button mat-button-->
+            <!--color="primary"-->
+            <!--(click)="addChild()">-->
+            <!--{{editLists.buttons.addChild}}-->
+            <!--</button>-->
+            <!--</mat-action-row>-->
+
+            <mat-form-field class="full-width">
+                <input matInput
+                       [placeholder]=editLists.list.nodes.level
+                       formControlName="level">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput
+                       [placeholder]=editLists.list.nodes.position
+                       formControlName="position">
+            </mat-form-field>
+
+
+            <mat-action-row>
+                <button mat-button
+                        color="warn"
+                        (click)="revertNode(currentNode)">
+                    {{editLists.buttons.reset}}
+                </button>
+                <button mat-raised-button
+                        class="save-button"
+                        [color]="'primary'"
+                        [disabled]="!listNodeInfoForm.valid"
+                        (click)="saveNode(listNodeInfoForm.value)">
+                    {{editLists.buttons.save}}
+                </button>
+            </mat-action-row>
+        </form>
+    </mat-expansion-panel>
+</section>

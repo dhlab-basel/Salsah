@@ -13,15 +13,11 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {UserProfile} from './user-profile';
+import {User} from './user';
 
 @JsonObject
 export class UserResponse {
 
-    @JsonProperty('userProfile', UserProfile)
-    public userProfile: UserProfile = undefined;
-
-    @JsonProperty('status', Number)
-    public status: Number = undefined;
-
+    @JsonProperty('user', User)
+    public user: User = undefined;
 }

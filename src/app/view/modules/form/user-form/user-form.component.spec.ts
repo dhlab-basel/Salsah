@@ -5,26 +5,13 @@ import {MatDialogRef} from '@angular/material';
 import {UserFormComponent} from './user-form.component';
 import {ProjectTeamComponent} from '../../../dashboard/project/project-team/project-team.component';
 import {Project} from '../../../../model/webapi/knora/';
+import {imagesProject} from '../../../../model/test-data/shared-test-data';
 
 describe('UserFormComponent', () => {
     let component: UserFormComponent;
     let fixture: ComponentFixture<UserFormComponent>;
 
-    const testProject: Project = <Project>{
-        'ontologies': [
-            'http://www.knora.org/ontology/00FF/images'
-        ],
-        'shortname': 'images',
-        'description': 'A demo project of a collection of images',
-        'institution': null,
-        'shortcode': '00FF',
-        'logo': null,
-        'id': 'http://rdfh.ch/projects/00FF',
-        'status': true,
-        'selfjoin': false,
-        'keywords': 'images, collection',
-        'longname': 'Image Collection Demo'
-    };
+    const testProject: Project = imagesProject;
 
     const testMembers: any = [
         'http://data.knora.org/users/b83acc5f05',

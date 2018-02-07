@@ -14,11 +14,10 @@
 
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {ApiServiceResult} from '../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../model/services/api-service-error';
 import {UsersService} from '../../../model/services/users.service';
-import {UserProfile, UserResponse} from '../../../model/webapi/knora/';
 import {Title} from '@angular/platform-browser';
+import {User} from '../../../model/webapi/knora';
 
 
 @Component({
@@ -37,7 +36,7 @@ export class UserComponent implements OnInit {
 
     // get userProfile by eMail
     email: string;
-    userProfile: UserProfile = new UserProfile();
+    user: User = new User();
 
     // showOwnProfile is a boolean;
     // set it to true if currentUser.email is the same as userProfile.email
@@ -128,9 +127,9 @@ export class UserComponent implements OnInit {
         if (this.email) {
             this._userService.getUserByEmail(this.email)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.userProfile = result.getBody(UserResponse).userProfile;
-                        sessionStorage.setItem('currentUser', JSON.stringify(this.userProfile));
+                    (result: User) => {
+                        this.user = result
+                        sessionStorage.setItem('currentUser', JSON.stringify(this.user));
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {

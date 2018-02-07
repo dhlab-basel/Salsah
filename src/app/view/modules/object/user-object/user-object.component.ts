@@ -12,16 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnChanges, Input} from '@angular/core';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {Component, Input, OnChanges} from '@angular/core';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {UsersService} from '../../../../model/services/users.service';
-import {UserResponse, UserProfile} from '../../../../model/webapi/knora/';
+import {Project, User} from '../../../../model/webapi/knora/';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageData} from '../../message/message.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
-import {Project} from '../../../../model/webapi/knora/';
 
 @Component({
     selector: 'salsah-user-object',
@@ -32,7 +30,7 @@ export class UserObjectComponent implements OnChanges {
 
     @Input() id: string;
 
-    userProfile: UserProfile;
+    user: User;
     email: string;
     iri: string;
 
@@ -51,10 +49,9 @@ export class UserObjectComponent implements OnChanges {
         this.email = undefined;
         this._userService.getUserByIri(this.id)
             .subscribe(
-                (result: ApiServiceResult) => {
-                    const user: UserResponse = result.getBody(UserResponse);
-                    this.userProfile = user.userProfile;
-                    this.email = user.userProfile.userData.email;
+                (result: User) => {
+                    this.user = result;
+                    this.email = result.email;
                     this.iri = this.id;
                 },
                 (error: ApiServiceError) => {
@@ -85,7 +82,7 @@ export class UserObjectComponent implements OnChanges {
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
                 this._userService.deleteUser(iri).subscribe(
-                    (res: ApiServiceResult) => {
+                    (res: User) => {
                         // reload page
                         window.location.reload();
                     },
