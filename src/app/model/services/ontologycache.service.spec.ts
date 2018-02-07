@@ -50,7 +50,7 @@ describe('OntologyCacheService', () => {
         expect(service).toBeTruthy();
     }));
 
-    it('should convert and cache the BEOL ontology complex', inject([OntologyCacheService], (service: OntologyCacheService) => {
+    it('should convert and cache the BEOL ontology complex', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
 
         let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(["http://0.0.0.0:3333/ontology/beol/v2"]);
 
@@ -64,9 +64,9 @@ describe('OntologyCacheService', () => {
             }
         );
 
-    }));
+    })));
 
-    it('should convert and cache the Knora-API ontology complex', inject([OntologyCacheService], (service: OntologyCacheService) => {
+    it('should convert and cache the Knora-API ontology complex',  async(inject([OntologyCacheService], (service: OntologyCacheService) => {
 
         let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(["http://api.knora.org/ontology/knora-api/v2"]);
 
@@ -75,12 +75,12 @@ describe('OntologyCacheService', () => {
 
                 const resClassesForKnoraApi = ontoRes.getResourceClassForOntology();
 
-                expect(resClassesForKnoraApi["http://api.knora.org/ontology/knora-api/v2"].sort()).toEqual(resClassesInKnoraApi.sort())
+                expect(resClassesForKnoraApi["http://api.knora.org/ontology/knora-api/v2"].sort()).toEqual(resClassesInKnoraApi.sort());
 
             }
         );
 
-    }));
+    })));
 });
 
 
@@ -95,7 +95,6 @@ const resClassesInKnoraApi = ["http://api.knora.org/ontology/knora-api/v2#AudioR
     "http://api.knora.org/ontology/knora-api/v2#MovingImageRepresentation",
     "http://api.knora.org/ontology/knora-api/v2#Region",
     "http://api.knora.org/ontology/knora-api/v2#Representation",
-    "http://api.knora.org/ontology/knora-api/v2#Resource",
     "http://api.knora.org/ontology/knora-api/v2#StillImageRepresentation",
     "http://api.knora.org/ontology/knora-api/v2#TextRepresentation"];
 

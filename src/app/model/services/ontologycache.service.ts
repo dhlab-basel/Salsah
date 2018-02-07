@@ -426,8 +426,9 @@ export class OntologyCacheService {
 
     /**
      * Gets resource class definitions from the ontology response.
+     * `knora-api:Resource` will be excluded.
      *
-     * @param {Object} classDefinitions the [hasClasses] section of an ontology response.
+     * @param {Object} classDefinitions the `hasClasses` section of an ontology response.
      * @returns {string[]}
      */
     private getResourceClassDefinitionsFromOntologyResponse(classDefinitions: Object) {
@@ -435,7 +436,7 @@ export class OntologyCacheService {
 
         for (let classDefName in classDefinitions) {
             // check that class name is not listed as a non resource class and that the isValueFlag is not present or set to false
-            if (this.nonResourceClasses.indexOf(classDefName) == -1 && (classDefinitions[classDefName][AppConfig.IsValueClass] === undefined || classDefinitions[classDefName][AppConfig.IsValueClass] === false)) {
+            if (classDefName !== AppConfig.Resource && this.nonResourceClasses.indexOf(classDefName) == -1 && (classDefinitions[classDefName][AppConfig.IsValueClass] === undefined || classDefinitions[classDefName][AppConfig.IsValueClass] === false)) {
                 // it is not a value class, but a resource class definition
                 resourceClassDefinitions.push(classDefName)
             }
