@@ -156,6 +156,7 @@ import {BeolComponent} from './view/templates/beol/beol.component';
 import {BeolService} from "./model/services/beol.service";
 import {GndDirective} from './view/modules/other/gnd.directive';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {SearchParamsService} from "./model/services/search-params.service";
 
 
 //
@@ -323,6 +324,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         KnarqlgenerationService,
         BeolService,
         LanguageService,
+        SearchParamsService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

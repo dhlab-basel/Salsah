@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {PropertyWithValue} from "../../view/modules/search/extended-search/select-property/select-property.component";
 import {Utils} from "../../utils";
 import {AppConfig} from "../../app.config";
+import {ExtendedSearchParams, SearchParamsService} from "./search-params.service";
 
 /**
  * Represents an error that occurred when generating KnarQL.
@@ -19,7 +20,7 @@ class KnarqlGenerationError extends Error {
 @Injectable()
 export class KnarqlgenerationService {
 
-    constructor() {
+    constructor(private _searchParamsService: SearchParamsService) {
     }
 
     // map of complex knora-api value types to simple ones
@@ -72,6 +73,11 @@ export class KnarqlgenerationService {
      * @returns {string} a KnarQL query string.
      */
     createKnarQLQuery(properties: PropertyWithValue[], mainResourceClassOption?: string, offset: number = 0): string {
+
+        if (offset === 0) {
+            // store extended search param so another KnarQL query can be created with an increased offset
+            this._searchParamsService.changeSearchParamsMsg(new ExtendedSearchParams(properties, mainResourceClassOption));
+        }
 
         // class restriction for the resource searched for
         let mainResourceClass = '';

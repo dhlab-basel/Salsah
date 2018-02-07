@@ -22,6 +22,8 @@ import {OntologyCacheService, OntologyInformation} from '../../../../model/servi
 import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
 import {AppConfig} from "../../../../app.config";
 import {ReadResource} from "../../../../model/webapi/knora/v2/read-resource";
+import {ExtendedSearchParams, SearchParamsService} from "../../../../model/services/search-params.service";
+import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -78,7 +80,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
     numberOfItems: number; // number of items actually returned by the query (using paging)
     numberOfAllResults: number; // total number of results (count query)
 
-    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService) {
+    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService, private _searchParamsService: SearchParamsService, private _knarqlgenerationService: KnarqlgenerationService) {
     }
 
     ngOnInit() {
@@ -132,15 +134,46 @@ export class ResourcesListComponent implements OnInit, OnChanges {
             }
 
             // TODO: use a service to create a new KnarQl with an increased offset!
-            this._searchService.doExtendedSearch(this.searchParam)
-                .subscribe(
-                    this.processSearchResults, // function pointer
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
+            this._searchParamsService.currentSearchParams.subscribe(
+                (extendedSearchParams: ExtendedSearchParams) => {
 
-                        this.isLoading = false;
+                    if (this._offset === 0) {
+                        console.log(decodeURI(this.searchParam));
+
+                        // use KnarQL provided via the route
+                        this._searchService.doExtendedSearch(this.searchParam)
+                            .subscribe(
+                                this.processSearchResults, // function pointer
+                                (error: ApiServiceError) => {
+                                    this.errorMessage = <any>error;
+
+                                    this.isLoading = false;
+                                }
+                            );
+
+                    } else {
+                        // generate new Knarql with increased offset
+                        let newKnarQL = this._knarqlgenerationService.createKnarQLQuery(extendedSearchParams.properties, extendedSearchParams.resourceClass, this._offset);
+
+                        console.log(newKnarQL);
+
+                        this._searchService.doExtendedSearch(encodeURIComponent(newKnarQL))
+                            .subscribe(
+                                this.processSearchResults, // function pointer
+                                (error: ApiServiceError) => {
+                                    this.errorMessage = <any>error;
+
+                                    this.isLoading = false;
+                                }
+                            );
+
                     }
-                );
+
+                }
+            );
+
+
+
         } else {
             this.errorMessage = `search mode invalid: ${this.searchMode}`;
         }

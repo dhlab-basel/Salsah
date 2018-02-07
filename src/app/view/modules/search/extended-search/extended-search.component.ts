@@ -9,6 +9,7 @@ import {PropertyWithValue, SelectPropertyComponent} from "./select-property/sele
 import {SelectResourceClassComponent} from "./select-resource-class/select-resource-class.component";
 import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ExtendedSearchParams, SearchParamsService} from "../../../../model/services/search-params.service";
 
 
 @Component({
@@ -199,9 +200,7 @@ export class ExtendedSearchComponent implements OnInit {
             }
         );
 
-        const knarql = this._knarqlgenerationService.createKnarQLQuery(properties, resClass);
-
-        console.log(knarql);
+        const knarql = this._knarqlgenerationService.createKnarQLQuery(properties, resClass, 0);
 
         this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
 
