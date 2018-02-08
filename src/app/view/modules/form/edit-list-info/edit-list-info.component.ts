@@ -18,7 +18,7 @@ export class EditListInfoComponent implements OnChanges {
     isLoading: boolean = true;
     public submitted: boolean; // keep track on whether form is submitted
 
-    // language: string = 'default'
+    // language: string ;
     arrayLength: number;
 
     public editLists: any = {

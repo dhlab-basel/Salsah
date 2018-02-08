@@ -17,65 +17,50 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
         <form class="salsah-form new-user" [formGroup]="listInfoForm">
-
-
-            <h4>Labels</h4>
             <span *ngIf="labels" formArrayName="labels">
-                                   <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
-                                       <mat-form-field class="width-80">
-                                           <input matInput
-                                                  placeholder="Value"
-                                                  formControlName="value">
-                                       </mat-form-field>
-                                       <mat-form-field class="width-10">
-                                           <mat-select formControlName="language">
-                                               <mat-option value="" disabled>Select language</mat-option>
-                                               <mat-option value="en">en</mat-option>
-                                               <mat-option value="de">de</mat-option>
-                                               <mat-option value="fr">fr</mat-option>
-                                               <mat-option value="it">it</mat-option>
-                                               <!--<mat-option *ngFor="let label of labels.controls" [value]="label.get('language').value">-->
-                                               <!--{{label.get('language').value}}-->
-                                               <!--</mat-option>-->
-                                           </mat-select>
-                                       </mat-form-field>
-                                   </div>
-                               <button mat-button
-                                       class="right"
-                                       [color]="'primary'"
-                                       (click)="addLabel()">
-                                   Add Label
-                               </button>
-                               </span>
-
-
-            <h4>Comments</h4>
-            <div *ngIf="comments" formArrayName="comments">
+               <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
+                   <mat-form-field class="width-80">
+                       <input matInput
+                              placeholder="Value"
+                              formControlName="value">
+                   </mat-form-field>
+                   <mat-form-field class="width-10">
+                      <input matInput
+                             placeholder="Language"
+                             formControlName="language">
+                   </mat-form-field>
+               </div>
+                <mat-action-row>
+                   <button mat-button
+                           class="right"
+                           [color]="'primary'"
+                           (click)="addLabel()">
+                       Add Label
+                   </button>
+                </mat-action-row>
+            </span>
+            <span *ngIf="comments" formArrayName="comments">
                 <div *ngFor="let comment of comments.controls; let i=index" [formGroupName]="i">
                     <mat-form-field class="width-80">
                         <input matInput
-                               placeholder="Value"
+                               [placeholder]=editLists.list.comments
                                formControlName="value">
                     </mat-form-field>
                     <mat-form-field class="width-10">
-                        <mat-select formControlName="language">
-                            <mat-option value="" disabled>Select language</mat-option>
-                            <mat-option value="en">en</mat-option>
-                            <mat-option value="de">de</mat-option>
-                            <mat-option value="fr">fr</mat-option>
-                            <mat-option value="it">it</mat-option>
-                        </mat-select>
+                        <input matInput
+                               placeholder="Language"
+                               formControlName="language">
                     </mat-form-field>
                 </div>
-                <button mat-button
-                        class="right"
-                        [color]="'primary'"
-                        (click)="addComment()">
-                    Add Comment
-                </button>
-            </div>
-
-
+                <mat-action-row>
+                    <button mat-button
+                            class="right"
+                            [color]="'primary'"
+                            (click)="addComment()">
+                       Add Comment
+                    </button>
+               </mat-action-row>
+            </span>
             <mat-form-field class="full-width">
                 <input matInput
                        [placeholder]=editLists.list.id
@@ -86,14 +71,6 @@
                        [placeholder]=editLists.list.project
                        formControlName="belongsToProject">
             </mat-form-field>
-            <div formArrayName="comments">
-                <mat-form-field class="full-width" *ngFor="let comment of comments.controls; let j=index"
-                                [formGroupName]="j">
-                    <input matInput
-                           [placeholder]=editLists.list.comments
-                           formControlName="value">
-                </mat-form-field>
-            </div>
 
             <mat-action-row>
                 <button mat-button
