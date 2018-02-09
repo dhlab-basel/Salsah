@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {PropertyWithValue} from "../../view/modules/search/extended-search/select-property/select-property.component";
 
 
 /**
@@ -10,10 +9,11 @@ export class ExtendedSearchParams {
 
     /**
      *
-     * @param {PropertyWithValue[]} properties the specification of the properties.
-     * @param {string} resourceClass the resource class to restrict the search to, if set.
+     * @param generateKnarQL a function the generates KnarQL.
+     *                       The function is expected to take the offset
+     *                       as a parameter and return a KnarQL query string.
      */
-    constructor(public readonly properties: PropertyWithValue[], public readonly resourceClass?: string) {
+    constructor(public generateKnarQL: (offset: number) => string) {
 
     }
 
@@ -27,8 +27,8 @@ export class ExtendedSearchParams {
  */
 export class SearchParamsService {
 
-    // init empty params
-    private searchParamsMessage = new BehaviorSubject<ExtendedSearchParams>(new ExtendedSearchParams([]));
+    // init with a dummy function
+    private searchParamsMessage = new BehaviorSubject<ExtendedSearchParams>(new ExtendedSearchParams((offset: number) => ''));
     currentSearchParams = this.searchParamsMessage.asObservable();
 
     constructor() {

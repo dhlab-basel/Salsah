@@ -7,11 +7,12 @@ import {
     ComparisonOperatorAndValue, Like,
     ValueLiteral
 } from "../../view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component";
+import {SearchParamsService} from "./search-params.service";
 
 describe('KnarqlgenerationService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [KnarqlgenerationService]
+            providers: [KnarqlgenerationService, SearchParamsService]
         });
     });
 

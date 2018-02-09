@@ -138,7 +138,8 @@ export class ResourcesListComponent implements OnInit, OnChanges {
                 (extendedSearchParams: ExtendedSearchParams) => {
 
                     if (this._offset === 0) {
-                        console.log(decodeURI(this.searchParam));
+
+                        console.log(decodeURI(this.searchParam))
 
                         // use KnarQL provided via the route
                         this._searchService.doExtendedSearch(this.searchParam)
@@ -153,9 +154,9 @@ export class ResourcesListComponent implements OnInit, OnChanges {
 
                     } else {
                         // generate new Knarql with increased offset
-                        let newKnarQL = this._knarqlgenerationService.createKnarQLQuery(extendedSearchParams.properties, extendedSearchParams.resourceClass, this._offset);
+                        let newKnarQL = extendedSearchParams.generateKnarQL(this._offset);
 
-                        console.log(newKnarQL);
+                        console.log(decodeURI(newKnarQL));
 
                         this._searchService.doExtendedSearch(encodeURIComponent(newKnarQL))
                             .subscribe(

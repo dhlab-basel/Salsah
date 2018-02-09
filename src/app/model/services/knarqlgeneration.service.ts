@@ -74,11 +74,6 @@ export class KnarqlgenerationService {
      */
     createKnarQLQuery(properties: PropertyWithValue[], mainResourceClassOption?: string, offset: number = 0): string {
 
-        if (offset === 0) {
-            // store extended search param so another KnarQL query can be created with an increased offset
-            this._searchParamsService.changeSearchParamsMsg(new ExtendedSearchParams(properties, mainResourceClassOption));
-        }
-
         // class restriction for the resource searched for
         let mainResourceClass = '';
 
@@ -193,11 +188,28 @@ export class KnarqlgenerationService {
             ${props.join('')}
             
         }
-        ${orderByStatement}
+        ${orderByStatement}`;
+
+        // offset component of the KnarQL query
+        let offsetTemplate = `
         OFFSET ${offset}
         `;
 
-        return knarqlTemplate;
+        // function that generates the same KnarQL query with the given offset
+        let generateKnarQLWithCustomOffset = (localOffset: number): string => {
+            let offsetCustomTemplate = `
+            OFFSET ${localOffset}
+            `;
+
+            return knarqlTemplate + offsetCustomTemplate;
+        };
+
+        if (offset === 0) {
+            // store the function so another KnarQL query can be created with an increased offset
+            this._searchParamsService.changeSearchParamsMsg(new ExtendedSearchParams(generateKnarQLWithCustomOffset));
+        }
+
+        return knarqlTemplate + offsetTemplate;
 
     }
 
