@@ -7,7 +7,15 @@ import {StoreService} from './store.service';
 import {HttpClientModule} from '@angular/common/http';
 import {ApiServiceError} from './api-service-error';
 import {Project, ProjectResponse} from '../webapi/knora';
-import {imagesProject, imagesProjectResponseJson, projectsResponseJson, projectsTestData} from '../test-data/shared-test-data';
+import {
+    anythingProject,
+    anythingProjectResponseJson,
+    imagesProject,
+    imagesProjectResponseJson, incunabulaProject,
+    incunabulaProjectResponseJson,
+    projectsResponseJson,
+    projectsTestData
+} from '../test-data/shared-test-data';
 import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
 import {ProjectsResponse} from '../webapi/knora/admin';
 
@@ -42,11 +50,29 @@ fdescribe('ProjectsService', () => {
         expect(result).toBeTruthy();
     });
 
-    fit('should parse project-response', () => {
+    fit('should parse project-response (images)', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
         const result: ProjectResponse = jsonConvert.deserializeObject(imagesProjectResponseJson, ProjectResponse);
+
+        expect(result).toBeTruthy();
+    });
+
+    fit('should parse project-response (incunabula)', () => {
+
+        const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
+
+        const result: ProjectResponse = jsonConvert.deserializeObject(incunabulaProjectResponseJson, ProjectResponse);
+
+        expect(result).toBeTruthy();
+    });
+
+    fit('should parse project-response (anything)', () => {
+
+        const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
+
+        const result: ProjectResponse = jsonConvert.deserializeObject(anythingProjectResponseJson, ProjectResponse);
 
         expect(result).toBeTruthy();
     });
@@ -88,7 +114,7 @@ fdescribe('ProjectsService', () => {
             })));
 
 
-        fit('#getProjectByIri should return project [it]', async(inject(
+        fit('#getProjectByIri should return project (images) [it]', async(inject(
             [ProjectsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -106,8 +132,43 @@ fdescribe('ProjectsService', () => {
 
             })));
 
+        fit('#getProjectByIri should return project (incunabula) [it]', async(inject(
+            [ProjectsService], (service) => {
 
-        fit('#getProjectByShortname should return project [it]', async(inject(
+                expect(service).toBeDefined();
+
+                service.getProjectByIri('http://rdfh.ch/projects/77275339')
+                    .subscribe(
+                        (project: Project) => {
+                            // console.log('project: ' + JSON.stringify(project));
+                            expect(project).toEqual(incunabulaProject);
+                        },
+                        (error: ApiServiceError) => {
+                            fail(error);
+                        }
+                    );
+
+            })));
+
+        fit('#getProjectByIri should return project (anything) [it]', async(inject(
+            [ProjectsService], (service) => {
+
+                expect(service).toBeDefined();
+
+                service.getProjectByIri('http://rdfh.ch/projects/anything')
+                    .subscribe(
+                        (project: Project) => {
+                            // console.log('project: ' + JSON.stringify(project));
+                            expect(project).toEqual(anythingProject);
+                        },
+                        (error: ApiServiceError) => {
+                            fail(error);
+                        }
+                    );
+
+            })));
+
+        fit('#getProjectByShortname should return project (images) [it]', async(inject(
             [ProjectsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -126,7 +187,7 @@ fdescribe('ProjectsService', () => {
             })));
 
 
-        fit('#getProjectByShortcode should return project [it]', async(inject(
+        fit('#getProjectByShortcode should return project (images) [it]', async(inject(
             [ProjectsService], (service) => {
 
                 expect(service).toBeDefined();
