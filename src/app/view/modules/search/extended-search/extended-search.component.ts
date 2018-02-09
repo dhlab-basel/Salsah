@@ -1,4 +1,7 @@
-import {Component, Inject, OnChanges, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+    Component, EventEmitter, Inject, OnChanges, OnInit, Output, QueryList, ViewChild,
+    ViewChildren
+} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {
     OntologyCacheService, OntologyInformation, OntologyMetadata, Properties,
@@ -18,6 +21,9 @@ import {ExtendedSearchParams, SearchParamsService} from "../../../../model/servi
     styleUrls: ['./extended-search.component.scss']
 })
 export class ExtendedSearchComponent implements OnInit {
+
+    // trigger toggle for extended search form
+    @Output() toggleExtendedSearchForm = new EventEmitter<boolean>();
 
     // all available ontologies
     ontologies: Array<OntologyMetadata> = [];
@@ -175,16 +181,13 @@ export class ExtendedSearchComponent implements OnInit {
         }
     }
 
+
     /**
      * Creates a KnarQL query with the given form values and calls the extended search route.
      */
     submit() {
 
         if (!this.formValid) return; // check that from is valid
-
-        // TODO: check validity of inputs: there is problem when combining FormGroup validators of parent and child components: ExpressionChangedAfterItHasBeenCheckedError
-        // https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
-        // https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
 
         let resClassOption = this.resourceClassComponent.getResourceClassSelected();
 
@@ -203,6 +206,9 @@ export class ExtendedSearchComponent implements OnInit {
         const knarql = this._knarqlgenerationService.createKnarQLQuery(properties, resClass, 0);
 
         this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
+
+        // toggle extended search form
+        this.toggleExtendedSearchForm.emit(true);
 
     }
 
