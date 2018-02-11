@@ -109,7 +109,7 @@ export class EditListInfoComponent implements OnChanges {
     buildValueLangGroup(): FormGroup {
         return this._fb.group({
             value: ['', Validators.required],
-            language: ['']
+            language: ['', Validators.required]
         });
     }
 
@@ -130,6 +130,11 @@ export class EditListInfoComponent implements OnChanges {
     addComment() {
         this.comments.push(this.buildValueLangGroup());
     }
-
+    saveListInfo(listInfo: ListInfo){
+        this.submitted = true; // set form submit to true
+        // check if model is valid
+        // if valid, call API to save customer
+        console.log('save:', listInfo);
+    }
 
 }

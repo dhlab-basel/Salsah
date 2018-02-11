@@ -10,7 +10,7 @@
     <mat-expansion-panel class="full-width" [expanded]="true">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                <!--<span>{{ listInfoForm.get('labels').value }} </span>-->
+                <span>{{ listInfoForm.get('labels').at(0).get('value').value }} </span>
             </mat-panel-title>
             <mat-panel-description>
                 <span>{{editLists.description}}</span>
@@ -82,7 +82,7 @@
                         class="save-button"
                         [color]="'primary'"
                         [disabled]="!listInfoForm.valid"
-                        (click)="saveNode(listInfoForm.value)">
+                        (click)="saveListInfo(listInfoForm.value)">
                     {{editLists.buttons.save}}
                 </button>
             </mat-action-row>
