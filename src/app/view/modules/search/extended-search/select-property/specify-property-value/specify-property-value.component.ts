@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Property} from 'app/model/services/ontologycache.service';
 import {AppConfig} from "../../../../../../app.config";
@@ -233,7 +233,7 @@ const resolvedPromise = Promise.resolve(null);
     templateUrl: './specify-property-value.component.html',
     styleUrls: ['./specify-property-value.component.scss']
 })
-export class SpecifyPropertyValueComponent implements OnInit {
+export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
 
     AppConfig = AppConfig;
 
@@ -320,7 +320,9 @@ export class SpecifyPropertyValueComponent implements OnInit {
 
     }
 
-    ngOnInit() {
+    ngOnInit() {}
+
+    ngOnChanges() {
 
         // build a form for comparison operator selection
         this.form = this.fb.group({
@@ -333,6 +335,10 @@ export class SpecifyPropertyValueComponent implements OnInit {
         });
 
         resolvedPromise.then(() => {
+
+            // remove from the parent form group (clean reset)
+            this.formGroup.removeControl('comparisonOperator');
+
             // add form to the parent form group
             this.formGroup.addControl('comparisonOperator', this.form);
         });

@@ -5,7 +5,7 @@
 </mat-form-field>
 
 <!-- select apt component for value specification using a switch case statement-->
-<span *ngIf="comparisonOperatorSelected !== undefined && comparisonOperatorSelected.getClassName() != 'Exists'" [ngSwitch]="propertyValueType">
+<span *ngIf="comparisonOperatorSelected !== undefined && comparisonOperatorSelected !== null && comparisonOperatorSelected.getClassName() != 'Exists'" [ngSwitch]="propertyValueType">
     <integer-value #propertyValue [formGroup]="form" *ngSwitchCase="AppConfig.IntValue"></integer-value>
     <decimal-value #propertyValue [formGroup]="form" *ngSwitchCase="AppConfig.DecimalValue"></decimal-value>
     <boolean-value #propertyValue [formGroup]="form" *ngSwitchCase="AppConfig.BooleanValue"></boolean-value>

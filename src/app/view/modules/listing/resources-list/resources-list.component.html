@@ -52,7 +52,7 @@
                 <!--
                 <img mat-list-avatar [src]="res.preview_path" class="salsah-preview-image" />
                 -->
-                <h3 mat-line>{{res.label}} {{ontologyInfo?.getLabelForResourceClass(res.type)}}</h3>
+                <h3 mat-line>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</h3>
                 <div mat-line *ngFor="let prop of res.properties | key">
 
                     <span>{{ontologyInfo?.getLabelForProperty(prop.key)}}</span>
