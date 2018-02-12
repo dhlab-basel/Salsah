@@ -3,7 +3,6 @@ import {List, ListInfo, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 import {StringV2} from 'app/model/webapi/knora/v2/shared/strings';
 
-
 @Component({
     selector: 'salsah-edit-list-info',
     templateUrl: './edit-list-info.component.html',
@@ -20,6 +19,13 @@ export class EditListInfoComponent implements OnChanges {
 
     // language: string ;
     arrayLength: number;
+
+    public ISOlang: any[] = [{
+        label: 'en',
+        name: 'english'
+    },
+    ]
+
 
     public editLists: any = {
         label: 'List',
@@ -126,10 +132,17 @@ export class EditListInfoComponent implements OnChanges {
     addLabel() {
         this.labels.push(this.buildValueLangGroup());
     }
-
     addComment() {
         this.comments.push(this.buildValueLangGroup());
     }
+
+    removeLabel(i: number) {
+        this.labels.removeAt(i);
+    }
+    removeComment(i: number) {
+        this.comments.removeAt(i);
+    }
+
     saveListInfo(listInfo: ListInfo){
         this.submitted = true; // set form submit to true
         // check if model is valid

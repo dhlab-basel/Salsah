@@ -187,7 +187,7 @@ export class ListsListComponent implements OnInit {
             data: {
                 iri: id,
                 currentListInfo: list,
-                title: 'Edit ' + id,
+                title: 'Edit list with id:' + id,
                 form: 'listInfo'
             }
         });
