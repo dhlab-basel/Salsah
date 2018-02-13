@@ -42,7 +42,6 @@ export class ListsListComponent implements OnInit {
         statusText: 'It seems there\'s no list yet. Add a new one with the button above &uarr;'
     };
 
-
     lists: ListInfo[] = [];
     numberOfItems: number;
 
@@ -152,38 +151,36 @@ export class ListsListComponent implements OnInit {
 
     // in the list view, it opens an object on the right hand side detail view
     // open / close user
-    toggle(id: string, index: number) {
-        if (this.selectedRow === index) {
-            // close the detail view
-            this.selectedRow = undefined;
-            this.toggleItem.emit({id, index});
-        } else {
-            // open the detail view
-            this.selectedRow = index;
-            this.toggleItem.emit({id, index});
-        }
-
-    }
+    // toggle(id: string, index: number) {
+    //     if (this.selectedRow === index) {
+    //         // close the detail view
+    //         this.selectedRow = undefined;
+    //         this.toggleItem.emit({id, index});
+    //     } else {
+    //         // open the detail view
+    //         this.selectedRow = index;
+    //         this.toggleItem.emit({id, index});
+    //     }
+    //
+    // }
 
     // TODO: implement proper edit method/component
     editNode(id: string, cNode: ListNode[], title?: string) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+         let dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
                 currentNodes: cNode,
-                // nodeIri: nodeId,
-                // nodeName: name,
-                // nodeLabel: label,
-                // nodeChildren: children,
-                // nodeLevel: level,
-                // nodePos: position,
                 title: 'Edit ' + id,
                 form: 'nodeInfo'
             }
         });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The edit node info dialog was closed'result);
+            //TODO: here load the lists service to get the updated nodes - when list service is fixed
+        });
     }
     editList(id: string, list: ListInfo[], title?: string) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+         let dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
                 currentListInfo: list,
@@ -191,7 +188,15 @@ export class ListsListComponent implements OnInit {
                 form: 'listInfo'
             }
         });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The edit list info dialog was closed', result);
+            //TODO: here load the lists service to get the updated list - when list service is fixed
+        });
+
     }
 
+    // onNoClick(): void {
+    //     this.dialogRef.close();
+    // }
 
 }

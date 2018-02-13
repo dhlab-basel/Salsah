@@ -160,7 +160,6 @@ export class EditListInfoComponent implements OnChanges {
                 }
             );
 
-
     }
 
 }
