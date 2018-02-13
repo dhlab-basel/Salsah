@@ -21,11 +21,11 @@ interface ComparisonOperator {
 
 export class Equals implements ComparisonOperator {
 
-    constructor() {
-    }
-
     type = AppConfig.EqualsComparisonOperator;
     label = AppConfig.EqualsComparisonLabel;
+
+    constructor() {
+    }
 
     getClassName() {
         return this.constructor.name;
@@ -34,24 +34,11 @@ export class Equals implements ComparisonOperator {
 
 export class NotEquals implements ComparisonOperator {
 
-    constructor() {
-    }
-
     type = AppConfig.NotEqualsComparisonOperator;
     label = AppConfig.NotEqualsComparisonLabel;
 
-    getClassName() {
-        return this.constructor.name;
-    };
-}
-
-export class GreaterThan implements ComparisonOperator {
-
     constructor() {
     }
-
-    type = AppConfig.GreaterThanEqualsComparisonOperator;
-    label = AppConfig.GreaterThanEqualsComparisonLabel;
 
     getClassName() {
         return this.constructor.name;
@@ -60,11 +47,24 @@ export class GreaterThan implements ComparisonOperator {
 
 export class GreaterThanEquals implements ComparisonOperator {
 
+    type = AppConfig.GreaterThanEqualsComparisonOperator;
+    label = AppConfig.GreaterThanEqualsComparisonLabel;
+
     constructor() {
     }
 
+    getClassName() {
+        return this.constructor.name;
+    };
+}
+
+export class GreaterThan implements ComparisonOperator {
+
     type = AppConfig.GreaterThanComparisonOperator;
     label = AppConfig.GreaterThanComparisonLabel;
+
+    constructor() {
+    }
 
     getClassName() {
         return this.constructor.name;
@@ -73,11 +73,11 @@ export class GreaterThanEquals implements ComparisonOperator {
 
 export class LessThan implements ComparisonOperator {
 
-    constructor() {
-    }
-
     type = AppConfig.LessThanComparisonOperator;
     label = AppConfig.LessThanComparisonLabel;
+
+    constructor() {
+    }
 
     getClassName() {
         return this.constructor.name;
@@ -86,11 +86,11 @@ export class LessThan implements ComparisonOperator {
 
 export class LessThanEquals implements ComparisonOperator {
 
-    constructor() {
-    }
-
     type = AppConfig.LessThanEqualsComparisonOperator;
     label = AppConfig.LessThanQualsComparisonLabel;
+
+    constructor() {
+    }
 
     getClassName() {
         return this.constructor.name;
@@ -99,11 +99,11 @@ export class LessThanEquals implements ComparisonOperator {
 
 export class Exists implements ComparisonOperator {
 
-    constructor() {
-    }
-
     type = AppConfig.ExistsComparisonOperator;
     label = AppConfig.ExistsComparisonLabel;
+
+    constructor() {
+    }
 
     getClassName() {
         return this.constructor.name;
@@ -112,10 +112,11 @@ export class Exists implements ComparisonOperator {
 
 export class Like implements ComparisonOperator {
 
-    constructor() {}
-
     type = AppConfig.LikeComparisonOperator;
     label = AppConfig.LikeComparisonLabel;
+
+    constructor() {
+    }
 
     getClassName() {
         return this.constructor.name;
@@ -125,10 +126,11 @@ export class Like implements ComparisonOperator {
 
 export class Match implements ComparisonOperator {
 
-    constructor() {}
-
     type = AppConfig.MatchComparisonOperator;
     label = AppConfig.MatchComparisonLabel;
+
+    constructor() {
+    }
 
     getClassName() {
         return this.constructor.name;
@@ -299,7 +301,7 @@ export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
             case AppConfig.IntValue:
             case AppConfig.DecimalValue:
             case AppConfig.DateValue:
-                this.comparisonOperators = [new Equals(), new NotEquals(), new LessThan(), new GreaterThan(), new LessThanEquals(), new GreaterThanEquals(), new Exists()];
+                this.comparisonOperators = [new Equals(), new NotEquals(), new LessThan(), new LessThanEquals(), new GreaterThan(), new GreaterThanEquals(), new Exists()];
                 break;
 
             case AppConfig.ListValue:
@@ -314,7 +316,7 @@ export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
                 break;
 
             default:
-                console.log("ERROR: Unsupported value type " + this._property.objectType)
+                console.log('ERROR: Unsupported value type ' + this._property.objectType)
 
         }
 
