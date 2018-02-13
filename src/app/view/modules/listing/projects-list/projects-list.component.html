@@ -100,7 +100,7 @@
                     <div class="salsah-preview-content">
                         <mat-card-title class="salsah-preview-title">{{item.longname}}</mat-card-title>
                         <mat-card-content class="salsah-preview-text"
-                                          [innerHtml]="item.description | slice:0:150">
+                                          [innerHtml]="item.description[0].value  | slice:0:150">
                         </mat-card-content>
                     </div>
 
@@ -115,7 +115,7 @@
             <mat-list-item *ngFor="let item of allProjects | key" >
                 <img mat-list-icon salsahImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
                 <h4 mat-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
-                <div mat-line [innerHtml]="item.value.description | slice:0:128"></div>
+                <div mat-line [innerHtml]="item.value.description[0].value | slice:0:128"></div>
                 <button mat-icon-button
                         matTooltip="Go to the project dashboard"
                         class="right action-highlight"

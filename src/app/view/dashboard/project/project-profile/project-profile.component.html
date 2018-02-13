@@ -1,7 +1,7 @@
 <div class="salsah-module-content medium" *ngIf="project">
     <img salsahImage [image]="project?.logo" [type]="'project'">
     <h2 mat-header>{{project.longname}}</h2>
-    <div [innerHTML]="project.description" class="salsah-text"></div>
+    <div [innerHTML]="project.description[0].value" class="salsah-text"></div>
 </div>
 
 

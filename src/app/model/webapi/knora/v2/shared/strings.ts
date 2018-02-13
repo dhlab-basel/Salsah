@@ -17,7 +17,7 @@
 import {JsonObject, JsonProperty} from 'json2typescript';
 
 @JsonObject
-export class StringV2 {
+export class StringLiteralV2 {
 
     @JsonProperty('value', String, false)
     public value: string = undefined;

@@ -14,7 +14,7 @@
  */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {StringV2} from '../../v2/shared/strings';
+import {StringLiteralV2} from '../../v2/shared/strings';
 
 @JsonObject
 export class ListInfo {
@@ -25,9 +25,9 @@ export class ListInfo {
     @JsonProperty('projectIri', String, false)
     public projectIri: string = undefined;
 
-    @JsonProperty('labels', [StringV2], true)
-    public labels: StringV2[] = undefined;
+    @JsonProperty('labels', [StringLiteralV2], true)
+    public labels: StringLiteralV2[] = undefined;
 
-    @JsonProperty('comments', [StringV2], true)
-    public comments: StringV2[] = undefined;
+    @JsonProperty('comments', [StringLiteralV2], true)
+    public comments: StringLiteralV2[] = undefined;
 }
