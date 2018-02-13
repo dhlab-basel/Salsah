@@ -107,9 +107,8 @@ export class EditListInfoComponent implements OnChanges {
         const labelFormArray = this._fb.array(labelFGs);
         this.arrayLength = labelFormArray.length;
         this.listInfoForm.setControl('labels', labelFormArray);
-        // this.language = labelFormArray.get('language').value;
-        // console.log('this.language: ', this.language);
     }
+
     setComments(comments: StringV2[]){
         console.log('setComments: ', comments);
         const commentFGs = comments.map(comment => this._fb.group(comment));
@@ -123,12 +122,6 @@ export class EditListInfoComponent implements OnChanges {
             language: ['', Validators.required]
         });
     }
-
-    // setLanguage(){
-    //     this.language = this.currentListInfo.labels[this.arrayLength].language;
-    //     return this.language;
-    //     console.log(this.language);
-    // }
 
     revertListInfo(cList: ListInfo) {
         this.ngOnChanges();

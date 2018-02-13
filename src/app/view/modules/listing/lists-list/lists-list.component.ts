@@ -112,9 +112,6 @@ export class ListsListComponent implements OnInit {
                     }
                 );
         }
-
-
-
     }
 
 
@@ -194,9 +191,5 @@ export class ListsListComponent implements OnInit {
         });
 
     }
-
-    // onNoClick(): void {
-    //     this.dialogRef.close();
-    // }
 
 }
