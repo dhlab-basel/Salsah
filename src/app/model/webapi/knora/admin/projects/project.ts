@@ -14,6 +14,7 @@
 
 import {JsonObject, JsonProperty} from 'json2typescript';
 import {OntologyInfoShort} from '../ontologies/ontology-info-short';
+import {StringLiteralV2} from '../../v2/shared/strings';
 
 @JsonObject
 export class Project {
@@ -30,11 +31,11 @@ export class Project {
     @JsonProperty('longname', String, true)
     public longname: string = undefined;
 
-    @JsonProperty('description', String, true)
-    public description: string = undefined;
+    @JsonProperty('description', [StringLiteralV2], true)
+    public description: StringLiteralV2[] = undefined;
 
-    @JsonProperty('keywords', String, true)
-    public keywords: string = undefined;
+    @JsonProperty('keywords', [String], true)
+    public keywords: string[] = undefined;
 
     @JsonProperty('logo', String, true)
     public logo: string = undefined;
