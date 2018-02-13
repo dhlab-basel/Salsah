@@ -1,4 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core';
+import {ListsService} from '../../../../model/services/lists.service';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {List, ListInfo, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 import {StringV2} from 'app/model/webapi/knora/v2/shared/strings';
@@ -16,6 +18,8 @@ export class EditListInfoComponent implements OnChanges {
     errorMessage: string = undefined;
     isLoading: boolean = true;
     public submitted: boolean; // keep track on whether form is submitted
+
+    listInfoErrorMessage: ApiServiceError = undefined;
 
     // language: string ;
     arrayLength: number;
@@ -64,7 +68,8 @@ export class EditListInfoComponent implements OnChanges {
     public listInfoForm: FormGroup; // our model driven form
 
 
-    constructor(private _fb: FormBuilder) {
+    constructor(private _listsService: ListsService,
+                private _fb: FormBuilder) {
     }
 
     ngOnChanges() {
@@ -143,11 +148,19 @@ export class EditListInfoComponent implements OnChanges {
         this.comments.removeAt(i);
     }
 
-    saveListInfo(listInfo: ListInfo){
+    saveListInfo(){
         this.submitted = true; // set form submit to true
-        // check if model is valid
-        // if valid, call API to save customer
-        console.log('save:', listInfo);
+        console.log('save:', this.listInfoForm.value);
+
+        this._listsService.updateListInfo(this.listInfoForm.value).subscribe(
+                (result: Boolean) => {},
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.listInfoErrorMessage = error;
+                }
+            );
+
+
     }
 
 }
