@@ -23,7 +23,8 @@
             "styles": [
                 "index.style.css",
                 "assets/style/mat-teal-amber.scss",
-                "assets/style/main.scss"
+                "assets/style/main.scss",
+                "themes/beol/main.scss"
             ],
             "scripts": [
                 "../node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
