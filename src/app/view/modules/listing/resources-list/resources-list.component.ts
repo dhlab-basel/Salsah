@@ -51,6 +51,8 @@ export class ResourcesListComponent implements OnInit, OnChanges {
 
     @Output() toggleItem = new EventEmitter<any>();
 
+    AppConfig = AppConfig;
+
     // grid list settings
     columns: number = 3;
     rowHeight: number = 308;

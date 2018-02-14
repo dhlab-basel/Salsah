@@ -19,6 +19,7 @@ export class MathJaxDirective implements OnInit {
     @Input('mathJax') private html: string = ''; // the HTML to be inserted
     @Input('valueObject') private valueObject: ReadTextValueAsHtml;
     @Input('ontologyInfo') private ontologyInfo: OntologyInformation;
+    @Input('bindEvents') private bindEvents: Boolean; // indicates if click and mouseover events have to be bound
 
     constructor(private el: ElementRef, private dialog: MatDialog, private snackBar: MatSnackBar) {
     }
@@ -34,7 +35,7 @@ export class MathJaxDirective implements OnInit {
         // console.log(event);
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+        if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
             let config = new MatDialogConfig();
             config.height = '60%';
@@ -46,7 +47,7 @@ export class MathJaxDirective implements OnInit {
 
             // preventDefault (propagation)
             return false;
-        } else if (event.target.nodeName.toLowerCase() === 'a') {
+        } else if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a') {
             // open link in a new window
             window.open(event.target.href, '_blank');
             return false;
@@ -67,7 +68,7 @@ export class MathJaxDirective implements OnInit {
     onMouseEnter(event) {
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+        if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
             // console.log("mouseenter: internal link to: " + event.target.href);
 
             let referredResourceIri = event.target.href;
@@ -82,14 +83,14 @@ export class MathJaxDirective implements OnInit {
             // preventDefault (propagation)
             return false;
         } else {
-            // do not prevent propagation
-            return true;
+            // prevent propagation
+            return false;
         }
 
     }
 
     ngOnInit() {
-        // console.log("mathjax directive");
+        // console.log(this.bindEvents);
 
         this.el.nativeElement.innerHTML = this.html;
 

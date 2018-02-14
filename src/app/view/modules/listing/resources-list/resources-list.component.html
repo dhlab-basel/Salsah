@@ -57,7 +57,12 @@
 
                     <span>{{ontologyInfo?.getLabelForProperty(prop.key)}}</span>
                     <ul>
-                        <li *ngFor="let val of prop.value | key">{{val.value.getContent()}}</li>
+                        <li *ngFor="let val of prop.value | key">
+                            <span [ngSwitch]="val.value.getClassName()">
+                                <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo" [bindEvents]="false"></read-text-value-as-html>
+                                <span *ngSwitchDefault="">{{val.value.getContent()}}</span>
+                            </span>
+                        </li>
                     </ul>
                 </div>
                 <button mat-icon-button class="right close close-highlight">
