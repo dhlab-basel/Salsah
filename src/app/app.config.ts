@@ -132,6 +132,7 @@ export class AppConfig {
     public static intervalValueHasEnd = AppConfig.KnoraApiV2WithValueObjectPath + 'intervalValueHasEnd';
 
     public static hierarchicalListValueAsListNode = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNode';
+    public static hierarchicalListValueAsListNodeName = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNodeName';
 
     public static hasGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'hasGeometry';
 
