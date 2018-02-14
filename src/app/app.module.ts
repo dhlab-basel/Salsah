@@ -153,6 +153,11 @@ import { InternationalizationComponent } from './view/modules/framework/main-fra
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 import { GndDirective } from './view/modules/other/gnd.directive';
 
+import { AngularFireModule } from 'angularfire2';
+import { environment } from '../environments/environment';
+import { ContactFormComponent } from './view/modules/form/contact-form/contact-form.component';
+import {AngularFirestore} from "angularfire2/firestore";
+
 //
 // import all needed services
 //
@@ -262,8 +267,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         EditNodeInfoComponent,
         ExistingNameDirective,
         GndDirective,
-        InternationalizationComponent
-
+        InternationalizationComponent,
+        ContactFormComponent
     ],
     imports: [
         BrowserModule,
@@ -280,6 +285,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ProgressIndicatorModule,
         DndModule.forRoot(),
         HttpClientModule,
+        AngularFireModule.initializeApp(environment.firebase),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -312,7 +318,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         StatusMsgServiceService,
         AuthenticationService,
         LanguageService,
-        {provide: APP_BASE_HREF, useValue: '/'}
+        {provide: APP_BASE_HREF, useValue: '/'},
+        AngularFirestore
     ],
     bootstrap: [AppComponent]
 })
