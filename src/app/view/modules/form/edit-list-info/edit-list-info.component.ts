@@ -60,7 +60,7 @@ export class EditListInfoComponent implements OnChanges {
             skip: 'Skip',
             next: 'Next',
             add: 'Add',
-            addNode: 'Add node',
+            adNode: 'Add node',
             addChild: 'Add child'
         }
     };

@@ -94,7 +94,8 @@
                         class="save-button"
                         [color]="'primary'"
                         [disabled]="!listNodeInfoForm.valid"
-                        (click)="saveNode(listNodeInfoForm.value)">
+                        (click)="saveNode(listNodeInfoForm.value)"
+                        mat-dialog-close>
                     {{editLists.buttons.save}}
                 </button>
             </mat-action-row>

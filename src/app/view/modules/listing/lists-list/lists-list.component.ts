@@ -20,7 +20,6 @@ import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 
-
 @Component({
     selector: 'salsah-lists-list',
     templateUrl: './lists-list.component.html',
@@ -172,7 +171,7 @@ export class ListsListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The edit node info dialog was closed'result);
+            console.log('The edit node info dialog was closed', result);
             //TODO: here load the lists service to get the updated nodes - when list service is fixed
         });
     }
