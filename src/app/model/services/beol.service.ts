@@ -17,7 +17,7 @@ export class BeolService {
     searchForCorrespondence(gnd1: string, gnd2: string, offset: number = 0): string {
 
         const correspondenceTemplate = `
-    PREFIX beol: <http://0.0.0.0:3333/ontology/beol/simple/v2#>
+    PREFIX beol: <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#>
     PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
     
     CONSTRUCT {
