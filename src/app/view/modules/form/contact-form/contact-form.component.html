@@ -1,7 +1,18 @@
-<h1>Information Request</h1>
+<h1>BEOL Beta Release Feedback Form</h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <input type="text" placeholder="Name" formControlName="name">
-    <input type="text" placeholder="Email" formControlName="email">
-    <textarea placeholder="Message" formControlName="message">
-    </textarea>
+    <div>
+        <mat-form-field>
+            <input matInput type="text" placeholder="Name" formControlName="name">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+            <input matInput type="text" placeholder="Email" formControlName="email">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+            <textarea matInput placeholder="Feedback" formControlName="feedback"></textarea>
+        </mat-form-field>
+    </div>
     <button type="submit" [disabled]="form.invalid">Submit</button></form>

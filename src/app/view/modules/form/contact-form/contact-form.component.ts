@@ -21,18 +21,20 @@ export class ContactFormComponent implements OnInit {
     createForm() {
         this.form = this.fb.group({
             name: ['', Validators.required],
-            email: ['', Validators.required],
-            message: ['', Validators.required],
+            email: ['', Validators.email],
+            feedback: ['', Validators.required],
         });
     }
 
     onSubmit() {
-        const {name, email, message} = this.form.value;
+
+        // destructuring assignment
+        const {name, email, feedback} = this.form.value;
         const date = Date();
 
-        let formRequest = {name, email, message, date};
+        let formRequest = {name, email, feedback, date};
 
-
+        // send data to Cloud Firestore
         this.db.collection('/messages').add(formRequest);
 
         this.form.reset();
