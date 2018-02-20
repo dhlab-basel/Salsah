@@ -18,31 +18,36 @@ import {Observable} from 'rxjs/Observable';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 import {ApiService} from './api.service';
-import {List, ListInfo, ListNodeInfo, ListsResponse} from '../webapi/knora/admin';
-import {ListNodeInfoResponse} from '../webapi/knora/admin/lists/list-node-info-response';
-import {ListResponse} from '../webapi/knora/admin/lists/list-response';
+import {List, ListInfo, ListInfoResponse, ListNodeInfo, ListNodeInfoResponse, ListResponse, ListsResponse} from '../webapi/knora/admin';
 
 
 @Injectable()
 export class ListsService extends ApiService {
 
     /**
-     * Retrieves basic information about lists. If the 'projectIri' is supplied, then only
+     * Retrieves information about lists. If the 'projectIri' is supplied, then only
      * information about lists belonging to this project are returned. If no 'projectIri' is
-     * supplied, then all lists are returned.
+     * supplied, then all lists are returned. The returned lists don't include any children!
      *
      * @param projectIri
-     * @returns {Observable<ListInfo[]>}
+     * @returns {Observable<List[]>}
      * @throws {ApiServiceError}
      */
-    getLists(projectIri?: string): Observable<ListInfo[]> {
+    getLists(projectIri?: string): Observable<List[]> {
 
-        const empty: ListInfo[] = [];
+        let url: string;
+        const empty: List[] = [];
 
-        return this.httpGet('/admin/lists?projectIri=' + encodeURIComponent(projectIri)).map(
+        url = '/admin/lists';
+
+        if (projectIri) {
+            url = url + '?projectIri=' + encodeURIComponent(projectIri)
+        }
+
+        return this.httpGet(url).map(
             (result: ApiServiceResult) => {
-                const received: ListInfo[] = result.getBody(ListsResponse).items;
-                console.log('ListsService - getLists - projectIri: ' + projectIri +  ' , lists: ',  received);
+                const received: List[] = result.getBody(ListsResponse).lists;
+                // console.log('ListsService - getLists - projectIri: ' + projectIri +  ' , lists: ',  received);
                 if (received.length > 0) {
                     return received;
                 } else {
@@ -70,7 +75,7 @@ export class ListsService extends ApiService {
         return this.httpGet('/admin/lists/' + encodeURIComponent(listIri)).map(
             (result: ApiServiceResult) => {
                 const received: List = result.getBody(ListResponse).list;
-                console.log('ListsService - getLists - listIri: ' + listIri +  ' , list: ', received);
+                // console.log('ListsService - getLists - listIri: ' + listIri +  ' , list: ', received);
                 return received;
             },
             (error: ApiServiceError) => {
@@ -83,16 +88,38 @@ export class ListsService extends ApiService {
     }
 
     /**
+     * Retrieves the basic list information given the list's IRI.
+     *
+     * @param {string} listIri
+     * @returns {Observable<ListInfo>}
+     */
+    getListInfo(listIri: string): Observable<ListInfo> {
+        return this.httpGet('/admin/lists/infos/' + encodeURIComponent(listIri)).map(
+            (result: ApiServiceResult) => {
+                const received: ListInfo = result.getBody(ListInfoResponse).listinfo;
+                // console.log('ListsService - getListInfo - listIri: ' + listIri +  ' , listinfo: ', received);
+                return received;
+            },
+            (error: ApiServiceError) => {
+                const errorMessage = <any>error;
+                console.error('ListsService - getListInfo - error: ' + errorMessage);
+                throw error;
+            }
+        )
+    }
+
+    /**
      * Updates the list's basic information.
      *
      * @param {ListInfo} listInfo
-     * @returns {Observable<Boolean>}
+     * @returns {Observable<ListInfo>}
      */
-    updateListInfo(listInfo: ListInfo): Observable<Boolean> {
-        return this.httpPut('/admin/lists/infos' + encodeURIComponent(listInfo.id), listInfo, {}).map(
+    updateListInfo(listInfo: ListInfo): Observable<ListInfo> {
+        return this.httpPut('/admin/lists/infos/' + encodeURIComponent(listInfo.id), listInfo, {}).map(
             (result: ApiServiceResult) => {
-                console.log('ListsService - updateListInfo - result:', result);
-                return true;
+                const received: ListInfo = result.getBody(ListInfoResponse).listinfo;
+                // console.log('ListsService - updateListInfo - result:', result);
+                return received;
             },
             (error: ApiServiceError) => {
                 const errorMessage = <any>error;

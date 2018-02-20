@@ -1,5 +1,15 @@
 import {
-    Group, GroupResponse, GroupsResponse, Project, ProjectResponse, ProjectsResponse, User, UserResponse,
+    Group,
+    GroupResponse,
+    GroupsResponse,
+    List, ListNodeInfo, ListNodeInfoResponse,
+    ListResponse,
+    ListsResponse,
+    Project,
+    ProjectResponse,
+    ProjectsResponse,
+    User,
+    UserResponse,
     UsersResponse
 } from '../webapi/knora/admin';
 import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
@@ -47,4 +57,15 @@ export const multiUserResponseJson: any = {'user': {'familyName': 'User', 'given
 export const multiUserResponse: UserResponse = jsonConvert.deserializeObject(multiUserResponseJson, UserResponse);
 export const multiUser: User = multiUserResponse.user;
 
+// ---- Lists ----
+export const listsResponseJson: any = {'lists': [{'listinfo': {'id': 'http://rdfh.ch/lists/FFFF/ynm01', 'projectIri': 'http://www.knora.org/ontology/knora-base#SystemProject', 'labels': [{'value': 'The Yes, No, Maybe List', 'language': 'en'}], 'comments': []}, 'children': []}]};
+export const listsResponse: ListsResponse = jsonConvert.deserializeObject(listsResponseJson, ListsResponse);
+export const listsTestData: List[] = listsResponse.lists;
 
+export const yesNoMaybeListResponseJson: any = {'list': {'listinfo': {'id': 'http://rdfh.ch/lists/FFFF/ynm01', 'projectIri': 'http://www.knora.org/ontology/knora-base#SystemProject', 'labels': [{'value': 'The Yes, No, Maybe List', 'language': 'en'}], 'comments': []}, 'children': [{'children': [], 'name': 'yes', 'id': 'http://rdfh.ch/lists/FFFF/ynm01-01', 'labels': [{'value': 'Yes'}], 'position': 0, 'comments': []}, {'children': [], 'name': 'no', 'id': 'http://rdfh.ch/lists/FFFF/ynm01-02', 'labels': [{'value': 'No'}], 'position': 1, 'comments': []}, {'children': [], 'name': 'maybe', 'id': 'http://rdfh.ch/lists/FFFF/ynm01-03', 'labels': [{'value': 'Maybe'}], 'position': 2, 'comments': []}]}};
+export const yesNoMaybeListResponse: ListResponse = jsonConvert.deserializeObject(yesNoMaybeListResponseJson, ListResponse);
+export const yesNoMaybeListTestData: List = yesNoMaybeListResponse.list;
+
+export const yesNodeInfoResponseJson: any = {'nodeinfo': {'name': 'yes', 'id': 'http://rdfh.ch/lists/FFFF/ynm01-01', 'labels': [{'value': 'Yes', 'language': 'en'}, {'value': 'Ja', 'language': 'de'}], 'position': 0, 'comments': []}};
+export const yesNodeInfoResponse: ListNodeInfoResponse = jsonConvert.deserializeObject(yesNodeInfoResponseJson, ListNodeInfoResponse);
+export const yesNodeInfoTestData: ListNodeInfo = yesNodeInfoResponse.nodeinfo;
