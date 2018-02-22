@@ -49,6 +49,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
     @Input('restrictedBy') project: string;
     @Input() index: number;
     @Input() listType?: string;
+    @Input() admin?: boolean;
 
     @Output() toggleItem = new EventEmitter<any>();
     // send the number of entries to the parent component (framework-for-listings) to us it there in the title
@@ -182,11 +183,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.selectedRow = this.index;
 
         if (this.project !== undefined) {
-
-            // hack to get the project admin information
-            if (localStorage.getItem('currentUser') !== null) {
-                this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-            }
 
             // get project members
             this._projectsService.getProjectMembersByIri(this.project)
