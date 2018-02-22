@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {UserProfile} from '../../../../../model/webapi/knora/admin';
+import {User} from '../../../../../model/webapi/knora/admin';
 import {FormControl, Validators} from '@angular/forms';
-import {UserData} from '../../../../../model/webapi/knora';
 import {UsersService} from '../../../../../model/services/users.service';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
 import {Observable} from 'rxjs/Observable';
@@ -101,7 +100,7 @@ export class SelectUserComponent implements OnInit {
 
         this._usersService.getAllUsers()
             .subscribe(
-                (users: UserData[]) => {
+                (users: User[]) => {
 
                     let i: number = 1;
 
@@ -113,13 +112,13 @@ export class SelectUserComponent implements OnInit {
                         // we're filtering the current project members and add a * in front of the name;
                         if (this.project) {
                             this.members = JSON.parse(sessionStorage.getItem('currentMembers'));
-                            if (this.members.indexOf(u.user_id) > -1) {
+                            if (this.members.indexOf(u.id) > -1) {
                                 exists = '* ';
                             }
                         }
 
                         this.users[i] = <AutocompleteItem>{
-                            id: u.user_id,
+                            id: u.id,
                             name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
                         };
 

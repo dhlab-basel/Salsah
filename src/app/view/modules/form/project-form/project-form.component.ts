@@ -25,6 +25,7 @@ import {MatDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {MessageData} from '../../message/message.component';
 import {AppConfig} from '../../../../app.config';
+import {OntologyInfoShort} from '../../../../model/webapi/knora/admin/ontologies/ontology-info-short';
 
 @Component({
     selector: 'salsah-project-form',
@@ -302,7 +303,11 @@ export class ProjectFormComponent implements OnInit {
 
         if (!this.iri) {
             this.project.ontologies = [];
-            this.project.ontologies.push(AppConfig.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname);
+            const ontology: OntologyInfoShort = {
+                ontologyIri: AppConfig.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname,
+                ontologyName: value.shortname
+            };
+            this.project.ontologies.push(ontology);
 
             console.log('project info before post ', this.project);
 
@@ -394,8 +399,8 @@ export class ProjectFormComponent implements OnInit {
         // TODO: "are you sure?"-dialog
 
         // if true
-        this._projectsService.deactivateProject(id).subscribe(
-            (res: ApiServiceResult) => {
+        this._projectsService.deleteProject(id).subscribe(
+            (res: Project) => {
                 // reload page
                 this.isLoading = false;
                 window.location.reload();
@@ -423,7 +428,7 @@ export class ProjectFormComponent implements OnInit {
         // TODO: "are you sure?"-dialog
 
         this._projectsService.activateProject(id).subscribe(
-            (res: ApiServiceResult) => {
+            (res: Project) => {
                 // reload page
                 window.location.reload();
                 this.isLoading = false;

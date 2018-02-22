@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AppConfig} from '../../../../../app.config';
-import {UserData, UserProfile, UserResponse} from '../../../../../model/webapi/knora';
+import {User, UserResponse} from '../../../../../model/webapi/knora';
 import {existingNamesValidator} from '../../../other/existing-name.directive';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiServiceResult} from '../../../../../model/services/api-service-result';
@@ -47,7 +47,7 @@ export class UserDataComponent implements OnInit {
     showPassword: boolean = false;
 
     // user profile to edit
-    userProfile: UserProfile;
+    userProfile: User;
 
     // all existing users
     existingUsers: [RegExp] = [
@@ -130,10 +130,10 @@ export class UserDataComponent implements OnInit {
             this.getExistingUsers(this.user);
             this._usersService.getUserByIri(this.user)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.userProfile = result.getBody(UserResponse).userProfile;
+                    (result: User) => {
+                        this.userProfile = result;
 
-                        const exclude = new RegExp(this.userProfile.userData.email);
+                        const exclude = new RegExp(this.userProfile.email);
                         this.existingUsers.splice(this.existingUsers.indexOf(exclude), 1);
 
                         this.buildForm(this.userProfile);
@@ -145,7 +145,7 @@ export class UserDataComponent implements OnInit {
                 );
         } else {
             this.getExistingUsers();
-            this.buildForm(new UserProfile());
+            this.buildForm(new User());
         }
 
 
@@ -157,11 +157,11 @@ export class UserDataComponent implements OnInit {
     getExistingUsers(exclude?: string): void {
         this._usersService.getAllUsers()
             .subscribe(
-                (users: UserData[]) => {
+                (users: User[]) => {
                     // The email address of the user should be unique.
                     // Therefore we create a list of existingUserNames to avoid multiple use of user names
                     for (const user of users) {
-                        if (exclude !== user.user_id) {
+                        if (exclude !== user.id) {
                             this.existingUsers.push(new RegExp('(?:^|\W)' + user.email.toLowerCase() + '(?:$|\W)'));
                         }
                     }
@@ -173,41 +173,40 @@ export class UserDataComponent implements OnInit {
      *
      * @param {UserProfile} user
      */
-    buildForm(user?: UserProfile): void {
+    buildForm(user?: User): void {
 
         if (!user) {
-            user = new UserProfile();
-            user.userData = new UserData();
+            user = new User();
         }
 
 
         this.form = this._fb.group({
             'givenName': new FormControl({
-                value: user.userData.givenName, disabled: false
+                value: user.givenName, disabled: false
             }, [
                 Validators.required
             ]),
             'familyName': new FormControl({
-                value: user.userData.familyName, disabled: false
+                value: user.familyName, disabled: false
             }, [
                 Validators.required
             ]),
             'email': new FormControl({
-                value: user.userData.email, disabled: false
+                value: user.email, disabled: false
             }, [
                 Validators.required,
                 Validators.pattern(AppConfig.RegexEmail),
                 existingNamesValidator(this.existingUsers)
             ]),
             'password': new FormControl({
-                value: user.userData.password, disabled: true
+                value: user.password, disabled: true
             }, [
                 Validators.required,
                 Validators.minLength(8),
                 Validators.pattern(AppConfig.RegexPassword)
             ]),
             'lang': new FormControl({
-                value: user.userData.lang, disabled: false
+                value: user.lang, disabled: false
             })
 //            'status': user.userData.status,
 //            'systemAdmin': this.sysAdminPermission,
