@@ -19,8 +19,8 @@
 // The list of which environment maps to which file can be found in `..angular-cli.json`.
 
 export const environment = {
+    type: 'dev',
     production: false,
-    description: 'developer environment',
     url: 'http://localhost:4200',
     api: 'http://localhost:3333',
     media: 'http://localhost:1024',

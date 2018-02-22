@@ -14,16 +14,16 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {Project, UserResponse} from '../../../../model/webapi/knora/';
+import {Project} from '../../../../model/webapi/knora/';
 import {UsersService} from '../../../../model/services/users.service';
 import {MessageData} from '../../message/message.component';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
+import {User} from '../../../../model/webapi/knora/admin';
 
 /**
  * This component has two optional attributes:
@@ -95,8 +95,8 @@ export class ProjectsListComponent implements OnInit {
             // get all the projects where the user is member of
             this._userService.getUserByIri(this.restrictedBy)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.allProjects = result.getBody(UserResponse).userProfile.projects_info;
+                    (result: User) => {
+                        this.allProjects = result.projects;
 
                         this.filter(this.allProjects);
 
@@ -113,8 +113,8 @@ export class ProjectsListComponent implements OnInit {
                 .subscribe(
                     (result: Project[]) => {
                         this.allProjects = result;
-//                        console.log('projects: ', result);
 
+                        // console.log('projects: ', result);
 
                         this.filter(this.allProjects);
 
@@ -178,7 +178,7 @@ export class ProjectsListComponent implements OnInit {
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
                 this._userService.removeUserFromProject(user, project).subscribe(
-                    (res: ApiServiceResult) => {
+                    (res: User) => {
                         console.log(res);
                         // reload page
                     },
@@ -214,8 +214,8 @@ export class ProjectsListComponent implements OnInit {
             this.isLoading = true;
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
-                this._projectsService.deactivateProject(iri).subscribe(
-                    (res: ApiServiceResult) => {
+                this._projectsService.deleteProject(iri).subscribe(
+                    (res: Project) => {
                         // reload page
                         this.isLoading = false;
                         window.location.reload();
@@ -255,7 +255,7 @@ export class ProjectsListComponent implements OnInit {
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
                 this._projectsService.activateProject(iri).subscribe(
-                    (res: ApiServiceResult) => {
+                    (res: Project) => {
                         // reload page
                         window.location.reload();
                         this.isLoading = false;

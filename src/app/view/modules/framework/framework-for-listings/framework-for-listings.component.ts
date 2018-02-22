@@ -14,11 +14,12 @@
 
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
-import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
-import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
-import {MessageData} from '../../message/message.component';
 import {ActivatedRoute, Params} from '@angular/router';
+
+import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
+import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {UsersListComponent} from '../../listing/users-list/users-list.component';
+import {MessageData} from '../../message/message.component';
 
 export interface ListData {
     title: string,

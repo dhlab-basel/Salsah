@@ -18,11 +18,9 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 
 import {UsersService} from '../../../../model/services/users.service';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {UserProfile, UserResponse} from '../../../../model/webapi/knora/';
 import {ProjectsService} from '../../../../model/services/projects.service';
-import {Project, UserData} from '../../../../model/webapi/knora';
+import {Project, User} from '../../../../model/webapi/knora';
 import {existingNamesValidator} from '../../other/existing-name.directive';
 import {AppConfig} from '../../../../app.config';
 
@@ -82,8 +80,8 @@ export class UserFormComponent implements OnInit {
     filteredUsers: any;
     // form controller for mat-autocomplete
     userCtrl: FormControl;
-    selectedUser: UserProfile;
     showUserForm: boolean = true;
+    selectedUser: User;
 
     // case 1b) form to create new user
     // uf => user form control
@@ -288,7 +286,7 @@ export class UserFormComponent implements OnInit {
         // prevent to have the same user name twice; proof it with the ForbiddenName directive
         this._userService.getAllUsers()
             .subscribe(
-                (users: UserData[]) => {
+                (users: User[]) => {
                     // The email address of the user should be unique.
                     // Therefore we create a list of existingUserNames to avoid multiple use of user names
                     for (const user of users) {
@@ -319,11 +317,11 @@ export class UserFormComponent implements OnInit {
                         let i: number = 1;
                         for (const u of users) {
                             let exists: string = '';
-                            if (members.indexOf(u.user_id) > -1) {
+                            if (members.indexOf(u.id) > -1) {
                                 exists = '* ';
                             }
                             this.users[i] = {
-                                iri: u.user_id,
+                                iri: u.id,
                                 name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
                             };
                             i++;
@@ -397,9 +395,9 @@ export class UserFormComponent implements OnInit {
 
             this._userService.getUserByIri(this.userIri)
                 .subscribe(
-                    (result: ApiServiceResult) => {
-                        this.selectedUser = result.getBody(UserResponse).userProfile;
-                        const userN = new RegExp(this.selectedUser.userData.email);
+                    (result: User) => {
+                        this.selectedUser = result;
+                        const userN = new RegExp(this.selectedUser.email);
                         this.existingUserNames.splice(this.existingUserNames.indexOf(userN), 1);
 
                         console.log(this.selectedUser);
@@ -515,7 +513,8 @@ export class UserFormComponent implements OnInit {
             console.log(iri);
 
             this.showUserForm = false;
-            let selectedUser = new UserProfile();
+//            console.log(this.userIri);
+            this.selectedUser = new User();
 
             // check if the selected user isn't in the project yet
             if (this.projectIri !== undefined && this.userIri) {
@@ -526,9 +525,8 @@ export class UserFormComponent implements OnInit {
                 } else {
                     this._userService.getUserByIri(iri)
                         .subscribe(
-                            (result: ApiServiceResult) => {
-                                selectedUser = result.getBody(UserResponse).userProfile;
-                                console.log(selectedUser);
+                            (result: User) => {
+                                this.selectedUser = result;
                             },
                             (error: ApiServiceError) => {
                                 this.errorMessage = error;
@@ -542,8 +540,8 @@ export class UserFormComponent implements OnInit {
             } else {
                 this._userService.getUserByIri(this.userIri)
                     .subscribe(
-                        (result: ApiServiceResult) => {
-                            selectedUser = result.getBody(UserResponse).userProfile;
+                        (result: User) => {
+                            this.selectedUser = result;
                         },
                         (error: ApiServiceError) => {
                             console.log(error);
@@ -553,7 +551,7 @@ export class UserFormComponent implements OnInit {
 
             }
 
-            return selectedUser;
+            return this.selectedUser; // this makes no sense!?
         }
     }
 
@@ -635,11 +633,11 @@ export class UserFormComponent implements OnInit {
             // new user: send the data from user form to knora
 
             this._userService.createUser(this.form.value).subscribe(
-                (result: ApiServiceResult) => {
+                (result: User) => {
 
-                    const newUser: UserResponse = result.getBody(UserResponse);
+                    const newUser: User = result;
 
-                    this.userIri = newUser.userProfile.userData.user_id;
+                    this.userIri = newUser.id;
 
                     this.submitUserStatus = 1;
 
@@ -673,13 +671,13 @@ export class UserFormComponent implements OnInit {
     addUserToProject(uIri: string, pIri: string) {
         this.submitProjectStatus = 0;
         this._userService.addUserToProject(uIri, pIri).subscribe(
-            (result: ApiServiceResult) => {
+            (result: User) => {
                 this.submitProjectStatus = 1;
                 // and set the permissions in a second step
                 if (this.adminPermission) {
                     // set the user as project admin
                     this._userService.addUserToProjectAdmin(uIri, pIri).subscribe(
-                        (res: ApiServiceResult) => {
+                        (res: User) => {
                             this.submitPermissionsStatus = 1;
                         },
                         (error: ApiServiceError) => {
@@ -695,7 +693,7 @@ export class UserFormComponent implements OnInit {
                         systemAdmin: true
                     };
                     this._userService.addUserToSystemAdmin(uIri, data).subscribe(
-                        (res: ApiServiceResult) => {
+                        (res: User) => {
                             this.submitPermissionsStatus = 1;
                         },
                         (error: ApiServiceError) => {
@@ -749,15 +747,17 @@ export class UserFormComponent implements OnInit {
 
         console.log('you submitted value: ', value);
         this._userService.createUser(value).subscribe(
-            (result: ApiServiceResult) => {
+            (result: User) => {
 //                console.log(result.body.userProfile.userData.user_id);
 
                 // result.body.userProfile.userData.user_id
                 // this.project.id
+
                 if (this.projectIri) {
-                    this._userService.addUserToProject(result.body.userProfile.userData.user_id, this.projectIri).subscribe(
-                        (secondResult: ApiServiceResult) => {
-                            console.log(secondResult.body);
+                    this._userService.addUserToProject(result.id, this.projectIri).subscribe(
+                        (secondResult: User) => {
+                            console.log(secondResult);
+
 //                        this._projectTeam.closeDetailView();
                         },
                         (error: ApiServiceError) => {
@@ -767,8 +767,6 @@ export class UserFormComponent implements OnInit {
                     );
 
                 }
-
-
             },
             (error: ApiServiceError) => {
                 this.errorMessage = error;

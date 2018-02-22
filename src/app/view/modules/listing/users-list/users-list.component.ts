@@ -15,8 +15,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, OnDestroy} from '@angular/core';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {UsersService} from '../../../../model/services/users.service';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {UserData, UserProfile, UserResponse} from '../../../../model/webapi/knora';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 
 import {MessageData} from '../../message/message.component';
@@ -26,6 +24,8 @@ import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
+import {User} from '../../../../model/webapi/knora';
+
 import {LanguageService} from '../../../../model/services/language.service';
 import {TranslateService} from '@ngx-translate/core';
 import {Subscription} from 'rxjs/Subscription';
@@ -46,19 +46,21 @@ import {Subscription} from 'rxjs/Subscription';
  */
 export class UsersListComponent implements OnInit, OnDestroy {
 
-    // restrictedBy: project iri
-    @Input() restrictedBy?: string;
-
-    // listType could be table, or accordion; the default list type is a simple mat-list
+    @Input('restrictedBy') project: string;
+    @Input() index: number;
     @Input() listType?: string;
 
-    // information about the logged-in user: does he have admin rights?
-    @Input() admin?: boolean = false;
+    @Output() toggleItem = new EventEmitter<any>();
+    // send the number of entries to the parent component (framework-for-listings) to us it there in the title
+    @Output() counter: EventEmitter<number> = new EventEmitter<number>();
 
-    // isLoading = true, during the http get request
+    loggedInAdmin: boolean = false;
+
+    // in the case of a http get request, we display the progress in the loading element
     isLoading: boolean = true;
 
-    // error message in the case of an error from the http get request
+    // with the http get request, we need also a variable for error messages;
+    // just in the case if something's going wrong
     errorMessage: any = undefined;
 
     // in the case of no data, but with a working API
@@ -68,11 +70,10 @@ export class UsersListComponent implements OnInit, OnDestroy {
         statusText: 'It seems there\'s no user yet. Add a new one with the button above &uarr;'
     };
 
-    // the main objects in this component: users;
-    // we need a list of active and a list of inactive users
-    allUsers: UserData[] = [];
-    allActiveUsers: NewUserData[] = [];
-    allInactiveUsers: NewUserData[] = [];
+    // the main objects in this component
+    allUsers: User[] = [];
+    allActiveUsers: User[] = [];
+    allInactiveUsers: User[] = [];
 
     newAllActiveUsers: NewUserData[] = [];
     newAllInactiveUsers: NewUserData[] = [];
@@ -95,9 +96,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
-    // iri and index of the selected person
+    // iri of the selected person
     iri: string;
-    index: number;
 
     // sort the list of members by familyName OR givenName.
     // the sortBy method toggles the right setting, which is defined here
@@ -123,6 +123,9 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
     step = 0;
 
+    setStep(index: number) {
+        this.step = index;
+    }
 
     constructor(private _router: Router,
                 public _projectsService: ProjectsService,
@@ -176,47 +179,103 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
-        this.initView(this.restrictedBy);
+        this.selectedRow = this.index;
 
+        if (this.project !== undefined) {
 
-    }
+            // hack to get the project admin information
+            if (localStorage.getItem('currentUser') !== null) {
+                this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+            }
 
-    listOfActiveAndInactiveUsers() {
-        this.allActiveUsers = [];
-        this.allInactiveUsers = [];
-        for (const au of this.allUsers) {
-            // at the end, we need an array of user profiles
-            this._userService.getUserByIri(au.user_id)
+            // get project members
+            this._projectsService.getProjectMembersByIri(this.project)
                 .subscribe(
-                    (userResult: ApiServiceResult) => {
-                        const user: UserProfile = userResult.getBody(UserResponse).userProfile;
-                        if (user.userData.status === true) {
-//                            this.allActiveUsers.push(user);
-                            const active: NewUserData = {
-                                email: user.userData.email,
-                                givenName: user.userData.givenName,
-                                familyName: user.userData.familyName,
-                                user_profile: user
-                            };
-                            this.allActiveUsers.push(active);
-                            this.countActive = this.allActiveUsers.length;
-                        } else {
-//                            this.allInactiveUsers.push(user);
-                            const inactive: NewUserData = {
-                                email: user.userData.email,
-                                givenName: user.userData.givenName,
-                                familyName: user.userData.familyName,
-                                user_profile: user
-                            };
-                            this.allInactiveUsers.push(inactive);
-                            this.countInactive = this.allInactiveUsers.length;
+                    (result: User[]) => {
+                        this.allUsers = result;
+
+                        // TODO: move the following lines into a method
+                        // FixMe: Looks very redundant to me. Do we really need this.
+                        for (const u of this.allUsers) {
+
+                            if (u.status === true) {
+                                this.allActiveUsers.push(u);
+                                const active: NewUserData = {
+                                    email: u.email,
+                                    givenName: u.givenName,
+                                    familyName: u.familyName,
+                                    user_profile: u
+                                };
+                                this.newAllActiveUsers.push(active);
+                                this.countActive = this.newAllActiveUsers.length;
+                            } else {
+                                this.allInactiveUsers.push(u);
+                                const inactive: NewUserData = {
+                                    email: u.email,
+                                    givenName: u.givenName,
+                                    familyName: u.familyName,
+                                    user_profile: u
+                                };
+                                this.newAllInactiveUsers.push(inactive);
+                                this.countInactive = this.newAllInactiveUsers.length;
+                            }
+
+                        }
+                        this.numberOfItems = Object.keys(this.allUsers).length;
+                        // set an array of the project members in local storage
+                        // it's a list of user IRIs
+                        // we need it, when we want to add new members to a project
+                        // in that case we see, if someone is already a member
+                        const currentMembers: string[] = [];
+                        for (const m of this.allUsers) {
+                            currentMembers.push(m.id);
+                        }
+                        sessionStorage.setItem('currentMembers', JSON.stringify(currentMembers));
+                        this.isLoading = false;
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
+                        this.isLoading = false;
+                    }
+                );
+        } else {
+            // get all users from knora
+            this._userService.getAllUsers()
+                .subscribe(
+                    (result: User[]) => {
+                        this.allUsers = result;
+                        for (const u of this.allUsers) {
+
+                            if (u.status === true) {
+                                this.allActiveUsers.push(u);
+                                const active: NewUserData = {
+                                    email: u.email,
+                                    givenName: u.givenName,
+                                    familyName: u.familyName,
+                                    user_profile: u
+                                };
+                                this.newAllActiveUsers.push(active);
+                                this.countActive = this.newAllActiveUsers.length;
+
+                            } else {
+                                this.allInactiveUsers.push(u);
+                                const inactive: NewUserData = {
+                                    email: u.email,
+                                    givenName: u.givenName,
+                                    familyName: u.familyName,
+                                    user_profile: u
+                                };
+                                this.newAllInactiveUsers.push(inactive);
+                                this.countInactive = this.newAllInactiveUsers.length;
+                            }
+
                         }
                         this.numberOfItems = Object.keys(this.allUsers).length;
                         this.isLoading = false;
 
                     },
-                    (userError: ApiServiceError) => {
-                        this.errorMessage = <any>userError;
+                    (error: ApiServiceError) => {
+                        this.errorMessage = <any>error;
                     }
                 );
         }
@@ -262,6 +321,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
                 }
             ];
         }
+
+
     }
 
     ngOnDestroy() {
@@ -325,32 +386,30 @@ export class UsersListComponent implements OnInit, OnDestroy {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
-//            this.toggleItem.emit({id, index});
+            this.toggleItem.emit({id, index});
         } else {
             // open the detail view
             this.selectedRow = index;
-//            this.toggleItem.emit({id, index});
+            this.toggleItem.emit({id, index});
         }
 
     }
 
     // in the table view, it opens an object in a dialog box
     // open / close user
-    edit($event) {
-        if ($event.id !== undefined) {
-            const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-                data: {
-                    userIri: $event.id,
-                    projectIri: $event.restrictedBy,
-                    form: 'user'
-                }
-            });
+    edit(id: string) {
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+            data: {
+                iri: id,
+                form: 'user'
+            }
+        });
+        /*
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+        });
+        */
 
-            dialogRef.afterClosed().subscribe(() => {
-                // console.log('new view update here!?');
-                this.initView(this.restrictedBy, $event.index);
-            });
-        }
     }
 
     open(id: string) {
@@ -375,7 +434,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
                 this._userService.removeUserFromProject(uIri, pIri).subscribe(
-                    (res: ApiServiceResult) => {
+                    (res: User) => {
                         // reload page
                         window.location.reload();
                     },
@@ -411,8 +470,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
             this.isLoading = true;
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
-                this._userService.deactivateUser(iri).subscribe(
-                    (res: ApiServiceResult) => {
+                this._userService.deleteUser(iri).subscribe(
+                    (res: User) => {
                         // reload page
                         this.isLoading = false;
                         window.location.reload();
@@ -451,7 +510,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
             if (config.data.confirm === true) {
                 // if answer is true: remove the user from the project
                 this._userService.activateUser(iri).subscribe(
-                    (res: ApiServiceResult) => {
+                    (res: User) => {
                         // reload page
                         this.isLoading = false;
                         window.location.reload();
@@ -477,60 +536,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
     }
 
 
-    private initView(iri?: string, index?: number) {
-        this.allUsers = [];
-        this.allActiveUsers = [];
-        this.allInactiveUsers = [];
-
-        this.index = index;
-//        console.log(this.allUsers);
-
-        if (iri !== undefined) {
-            // the list is restricted by a project, so
-            // get project all members and prepare them into two lists:
-            // active users and inactive (deleted) users
-            this._projectsService.getProjectMembersByIri(iri)
-                .subscribe(
-                    (result: UserData[]) => {
-                        this.allUsers = result;
-                        this.numberOfItems = Object.keys(this.allUsers).length;
-
-                        this.listOfActiveAndInactiveUsers();
-                        // set an array of the project members in local storage
-                        // it's a list of user IRIs
-                        // we need it, when we want to add new members to a project
-                        // in that case we see, if someone is already a member
-                        const currentMembers: string[] = [];
-                        for (const m of this.allUsers) {
-                            currentMembers.push(m.user_id);
-                        }
-                        sessionStorage.setItem('currentMembers', JSON.stringify(currentMembers));
-                        this.isLoading = false;
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
-                        this.isLoading = false;
-                    }
-                );
-        } else {
-            // get all users from knora
-            this._userService.getAllUsers()
-                .subscribe(
-                    (result: UserData[]) => {
-                        this.allUsers = result;
-                        this.numberOfItems = Object.keys(this.allUsers).length;
-
-                        this.listOfActiveAndInactiveUsers();
-                        this.isLoading = false;
-
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
-                    }
-                );
-
-        }
-    }
 }
 
 

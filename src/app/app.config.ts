@@ -181,4 +181,10 @@ export class AppConfig {
     public static RegexShortname = /^[a-zA-Z]+\S*$/;
 
 
+    public static GNDPrefix = "(DE-588)";
+    public static GNDResolver = "http://d-nb.info/gnd/";
+
+    public static VIAFPrefix = "(VIAF)";
+    public static VIAFResolver = "https://viaf.org/viaf/";
+
 }

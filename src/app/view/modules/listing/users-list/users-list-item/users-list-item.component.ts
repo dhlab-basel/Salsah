@@ -12,8 +12,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {UserProfile} from '../../../../../model/webapi/knora/';
+import {Component, Input, OnInit} from '@angular/core';
+import {User} from '../../../../../model/webapi/knora';
 
 @Component({
     selector: 'salsah-users-list-item',
@@ -22,13 +22,9 @@ import {UserProfile} from '../../../../../model/webapi/knora/';
 })
 export class UsersListItemComponent implements OnInit {
 
-    @Input() listData: UserProfile[] = [];
+    @Input() listData: User[];
     @Input() sortProp: string;
     @Input() project?: string;
-    @Input() admin?: boolean;
-    @Input() index?: number;
-
-    @Output() editUser = new EventEmitter<any>();
 
     constructor() {
     }

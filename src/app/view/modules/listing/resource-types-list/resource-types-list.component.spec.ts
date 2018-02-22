@@ -3,26 +3,13 @@ import {AppModule} from '../../../../app.module';
 import {ResourceTypesListComponent} from './resource-types-list.component';
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
 import {Project} from '../../../../model/webapi/knora/';
+import {imagesProject} from '../../../../model/test-data/shared-test-data';
 
 describe('ResourceTypesListComponent', () => {
     let component: ResourceTypesListComponent;
     let fixture: ComponentFixture<ResourceTypesListComponent>;
 
-    const testProject: Project = <Project>{
-        'ontologies': [
-            'http://www.knora.org/ontology/00FF/images'
-        ],
-        'shortname': 'images',
-        'description': 'A demo project of a collection of images',
-        'institution': null,
-        'shortcode': '00FF',
-        'logo': null,
-        'id': 'http://rdfh.ch/projects/00FF',
-        'status': true,
-        'selfjoin': false,
-        'keywords': 'images, collection',
-        'longname': 'Image Collection Demo'
-    };
+    const testProject: Project = imagesProject;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({

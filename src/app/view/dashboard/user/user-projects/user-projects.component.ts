@@ -13,8 +13,8 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {UserProfile} from '../../../../model/webapi/knora/';
 import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
+import {User} from '../../../../model/webapi/knora';
 
 
 @Component({
@@ -50,8 +50,8 @@ export class UserProjectsComponent implements OnInit {
     }
 
     ngOnInit() {
-        let user: UserProfile = JSON.parse(sessionStorage.getItem('currentUser'));
-        this.list.restrictedBy = user.userData.user_id;
+        const user: User = JSON.parse(sessionStorage.getItem('currentUser'));
+        this.list.restrictedBy = user.id;
     }
 
 
