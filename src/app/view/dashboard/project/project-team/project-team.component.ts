@@ -41,7 +41,7 @@ export class ProjectTeamComponent implements OnInit, OnDestroy {
         title: '',
         description: '',
         content: 'user',
-        showAs: 'accordion',
+        showAs: 'expansion',
         restrictedBy: ''
     };
 
