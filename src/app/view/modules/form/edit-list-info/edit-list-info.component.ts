@@ -3,7 +3,7 @@ import {ListsService} from '../../../../model/services/lists.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {List, ListInfo, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
-import {StringV2} from 'app/model/webapi/knora/v2/shared/strings';
+import {StringLiteralV2} from 'app/model/webapi/knora/v2/shared/strings';
 
 @Component({
     selector: 'salsah-edit-list-info',
@@ -101,7 +101,7 @@ export class EditListInfoComponent implements OnChanges {
         return this.listInfoForm.get('comments') as FormArray;
     }
 
-    setLabels(labels: StringV2[]){
+    setLabels(labels: StringLiteralV2[]){
         console.log('setLabels: ', labels);
         const labelFGs = labels.map(label => this._fb.group(label));
         const labelFormArray = this._fb.array(labelFGs);
@@ -109,7 +109,7 @@ export class EditListInfoComponent implements OnChanges {
         this.listInfoForm.setControl('labels', labelFormArray);
     }
 
-    setComments(comments: StringV2[]){
+    setComments(comments: StringLiteralV2[]){
         console.log('setComments: ', comments);
         const commentFGs = comments.map(comment => this._fb.group(comment));
         const commentFormArray = this._fb.array(commentFGs);

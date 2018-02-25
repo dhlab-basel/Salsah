@@ -67,7 +67,8 @@ export class ListsListComponent implements OnInit {
         buttons: {
             expand: 'Expand all',
             collapse: 'Collapse all',
-            edit: 'Edit'
+            edit: 'Edit',
+            add: 'Add node'
         }
 
     }
@@ -142,6 +143,11 @@ export class ListsListComponent implements OnInit {
     collapseAll(tree) {
         tree.treeModel.collapseAll();
         this.isExpanded = false;
+    }
+
+    addNode(tree) {
+        this.currentNodes.push({ id: 'an id', name: 'another node', label: 'a node', children: [], level: 0 , position: 0});
+        tree.treeModel.update();
     }
 
 

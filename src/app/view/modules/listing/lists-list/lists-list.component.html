@@ -43,6 +43,9 @@
                     <button class="right" mat-button color="primary" *ngIf="isExpanded" (click)="collapseAll(tree)">
                         {{listLists.buttons.collapse}}
                     </button>
+                    <button class="right" mat-button color="primary" (click)="addNode(tree)">
+                        {{listLists.buttons.add}}
+                    </button>
                     <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
                             <span *ngIf="node.children.length == 0" matTooltip="Click on the node name to edit">
@@ -62,6 +65,7 @@
                               -->
                         </ng-template>
                     </tree-root>
+
 
 
                     <!--TODO: move button above next to "Nodes" title-->
