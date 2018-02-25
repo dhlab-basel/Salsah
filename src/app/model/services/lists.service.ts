@@ -18,7 +18,8 @@ import {Observable} from 'rxjs/Observable';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 import {ApiService} from './api.service';
-import {List, ListInfo, ListInfoResponse, ListNodeInfo, ListNodeInfoResponse, ListResponse, ListsResponse} from '../webapi/knora/admin';
+import {List, ListInfo, ListInfoResponse, ListNodeInfo, ListNodeInfoResponse, ListResponse, ListsResponse, ListCreatePayload} from '../webapi/knora/admin';
+import {ListInfoUpdatePayload} from '../webapi/knora/admin/lists/list-info-update-payload';
 
 
 @Injectable()
@@ -109,13 +110,57 @@ export class ListsService extends ApiService {
     }
 
     /**
+     * Retrieves the basic list (child) node information.
+     *
+     * @param nodeIri
+     * @returns {Observable<ListNodeInfo>}
+     * @throws {ApiServiceError}
+     */
+    getListNodeInfo(nodeIri: string): Observable<ListNodeInfo> {
+        return this.httpGet('/admin/lists/nodes/' + encodeURIComponent(nodeIri)).map(
+            (result: ApiServiceResult) => {
+                const received: ListNodeInfo = result.getBody(ListNodeInfoResponse).nodeinfo;
+                // console.log('ListsService - getLists - listIri: ' + nodeIri +  ' , list: ', received);
+                return received
+            },
+            (error: ApiServiceError) => {
+                const errorMessage = <any>error;
+                console.log('ListsService - getList - error: ' + errorMessage);
+                throw error;
+            }
+        )
+
+    }
+
+    /**
+     * Create a new list.
+     *
+     * @param {ListCreatePayload} payload
+     * @returns {Observable<List>}
+     */
+    createList(payload: ListCreatePayload): Observable<List> {
+        return this.httpPost('/admin/lists', payload, {}).map(
+            (result: ApiServiceResult) => {
+                const received: List = result.getBody(ListResponse).list;
+                // console.log('ListsService - createList - result:', result);
+                return received;
+            },
+            (error: ApiServiceError) => {
+                const errorMessage = <any>error;
+                console.error('ListsService - createList - error: ' + errorMessage);
+                throw error;
+            }
+        )
+    }
+
+    /**
      * Updates the list's basic information.
      *
-     * @param {ListInfo} listInfo
+     * @param {ListInfoUpdatePayload} payload
      * @returns {Observable<ListInfo>}
      */
-    updateListInfo(listInfo: ListInfo): Observable<ListInfo> {
-        return this.httpPut('/admin/lists/infos/' + encodeURIComponent(listInfo.id), listInfo, {}).map(
+    updateListInfo(payload: ListInfoUpdatePayload): Observable<ListInfo> {
+        return this.httpPut('/admin/lists/infos/' + encodeURIComponent(payload.listIri), payload, {}).map(
             (result: ApiServiceResult) => {
                 const received: ListInfo = result.getBody(ListInfoResponse).listinfo;
                 // console.log('ListsService - updateListInfo - result:', result);
@@ -127,29 +172,6 @@ export class ListsService extends ApiService {
                 throw error;
             }
         )
-    }
-
-    /**
-     * Retrieves the basic list (child) node information.
-     *
-     * @param nodeIri
-     * @returns {Observable<ListNodeInfo>}
-     * @throws {ApiServiceError}
-     */
-    getListNodeInfo(nodeIri: string): Observable<ListNodeInfo> {
-        return this.httpGet('/admin/lists/nodes/' + encodeURIComponent(nodeIri)).map(
-            (result: ApiServiceResult) => {
-                const received: ListNodeInfo = result.getBody(ListNodeInfoResponse).nodeinfo;
-                console.log('ListsService - getLists - listIri: ' + nodeIri +  ' , list: ', received);
-                return received
-            },
-            (error: ApiServiceError) => {
-                const errorMessage = <any>error;
-                console.log('ListsService - getList - error: ' + errorMessage);
-                throw error;
-            }
-        )
-
     }
 
 }

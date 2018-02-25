@@ -18,8 +18,10 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {ListsService} from './lists.service';
 import {ApiService} from './api.service';
 import {
+    imagesProjectIri,
     listsResponseJson,
-    listsTestData, yesNodeInfoTestData,
+    listsTestData,
+    yesNodeInfoTestData,
     yesNoMaybeListResponseJson,
     yesNoMaybeListTestData
 } from '../test-data/shared-test-data';
@@ -27,9 +29,14 @@ import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {StoreService} from './store.service';
-import {List, ListInfo, ListNodeInfo, ListResponse, ListsResponse} from '../webapi/knora/admin';
+import {List, ListCreatePayload, ListInfo, ListNodeInfo, ListResponse, ListsResponse} from '../webapi/knora/admin';
 import {environment} from '../../../environments/environment';
 import {ApiServiceError} from './api-service-error';
+import {StringLiteralV2} from '../webapi/knora/v2';
+import {ListInfoUpdatePayload} from '../webapi/knora/admin/lists/list-info-update-payload';
+import {AuthenticationService} from './authentication.service';
+import {UsersService} from './users.service';
+import {ProjectsService} from './projects.service';
 
 describe('ListsService', () => {
     beforeEach(() => {
@@ -40,8 +47,11 @@ describe('ListsService', () => {
             ],
             providers: [
                 ApiService,
+                AuthenticationService,
                 ListsService,
-                StoreService
+                ProjectsService,
+                StoreService,
+                UsersService
             ]
         });
     });
@@ -72,6 +82,8 @@ describe('ListsService', () => {
 
 
     if (environment.type === 'integration') {
+
+        let newList: string;
 
         fit('should load test data [it]', async(inject(
             [StoreService], (service) => {
@@ -141,26 +153,6 @@ describe('ListsService', () => {
 
             })));
 
-        /*
-        fit('#updateListInfo should update a list info [it]', async(inject(
-            [ListsService], (service) => {
-
-                expect(service).toBeDefined();
-
-                service.updateListInfo('http://rdfh.ch/lists/FFFF/ynm01')
-                    .subscribe(
-                        (listinfo: ListInfo) => {
-                            // console.log('users: ' + JSON.stringify(users));
-                            expect(listinfo).toEqual(yesNoMaybeListTestData.listinfo);
-                        },
-                        (error: ApiServiceError) => {
-                            fail(error);
-                        }
-                    );
-
-            })));
-        */
-
         fit('#getListNodeInfo should return a list node info [it]', async(inject(
             [ListsService], (service) => {
 
@@ -171,6 +163,86 @@ describe('ListsService', () => {
                         (nodeinfo: ListNodeInfo) => {
                             // console.log('users: ' + JSON.stringify(users));
                             expect(nodeinfo).toEqual(yesNodeInfoTestData);
+                        },
+                        (error: ApiServiceError) => {
+                            fail(error);
+                        }
+                    );
+
+            })));
+
+        /* Create and update tests */
+
+        fit('#createList should create a list [it]', async(inject(
+            [ListsService, AuthenticationService], (service, auth) => {
+
+                expect(service).toBeDefined();
+
+                // need to login
+                auth.login('user01.user1@example.com', 'test');
+
+                const payload: ListCreatePayload = {
+                    projectIri: imagesProjectIri,
+                    labels: [{value: 'Neue Liste', language: 'de'}],
+                    comments: []
+                };
+
+                service.createList(payload)
+                    .subscribe(
+                        (list: List) => {
+                            // console.log('users: ' + JSON.stringify(users));
+
+                            const listInfo = list.listinfo;
+                            const labels: StringLiteralV2[] = list.listinfo.labels;
+
+                            const expectedLabel: StringLiteralV2 = {value: 'Neue Liste', language: 'de'};
+                            const children = list.children;
+
+                            expect(listInfo.projectIri).toEqual(imagesProjectIri);
+                            expect(labels[0].value).toEqual(expectedLabel.value);
+                            expect(labels[0].language).toEqual(expectedLabel.language);
+                            expect(children.length).toEqual(0);
+
+                            // save for next test
+                            newList = listInfo.id;
+                        },
+                        (error: ApiServiceError) => {
+                            fail(error);
+                        }
+                    );
+
+            })));
+
+        fit('#updateListInfo should update a list info [it]', async(inject(
+            [ListsService, AuthenticationService], (service, auth) => {
+
+                expect(service).toBeDefined();
+                
+                // need to login
+                auth.login('user01.user1@example.com', 'test').subscribe(
+                    (result: boolean) => {
+                        expect(result).toEqual(true)
+                    }
+                );
+
+                const updatePayload: ListInfoUpdatePayload = {
+                    listIri: newList,
+                    projectIri: imagesProjectIri,
+                    labels: [{value: 'Neue geänderte Liste', language: 'de'}],
+                    comments: []
+                };
+
+                service.updateListInfo(updatePayload)
+                    .subscribe(
+                        (listinfo: ListInfo) => {
+                            // console.log('users: ' + JSON.stringify(users));
+
+                            const labels: StringLiteralV2[] = listinfo.labels;
+
+                            const expectedLabel: StringLiteralV2 = {value: 'Neue geänderte Liste', language: 'de'};
+
+                            expect(labels[0].value).toBe(expectedLabel.value);
+                            expect(labels[0].language).toBe(expectedLabel.language);
                         },
                         (error: ApiServiceError) => {
                             fail(error);
