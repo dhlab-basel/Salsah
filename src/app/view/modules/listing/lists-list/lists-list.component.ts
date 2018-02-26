@@ -34,6 +34,9 @@ export class ListsListComponent implements OnInit {
     isLoadingNodes: boolean = true;
     errorMessage: any;
 
+    isExpanded: boolean = false;
+
+
     // in the case of no data, but with a working API
     noDataMessage: MessageData = {
         status: 204,
@@ -48,7 +51,6 @@ export class ListsListComponent implements OnInit {
     nodeChildren: number;
     currentListInfo: ListInfo;
 
-    isExpanded: boolean = false;
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
@@ -112,6 +114,9 @@ export class ListsListComponent implements OnInit {
                     }
                 );
         }
+
+        this.isExpanded = false;
+
     }
 
 
@@ -130,6 +135,7 @@ export class ListsListComponent implements OnInit {
                 }
             );
         console.log("fetchListData ");
+        console.log(this.isExpanded);
 
 
     }

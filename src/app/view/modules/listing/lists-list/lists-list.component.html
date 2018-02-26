@@ -9,8 +9,8 @@
 
         <mat-accordion>
             <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
-                                 (opened)="fetchListData(item.id); isExpanded=true" (closed)="isExpanded=false">
-                <mat-expansion-panel-header *ngIf="!isExpanded"  matTooltip="Click to open panel and see nodes">
+                                 (opened)="fetchListData(item.id); epExpanded=true" (closed)="isExpanded=false">
+                <mat-expansion-panel-header *ngIf="!epExpanded"  matTooltip="Click to open panel and see nodes">
                     <mat-panel-title>
                             <span (click)="editList(item.id, item)">
                                 <h4>{{item.labels[0].value}}</h4>
@@ -21,7 +21,7 @@
                         <mat-icon>list</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <mat-expansion-panel-header *ngIf="isExpanded" matTooltip="Click list name to edit list info">
+                <mat-expansion-panel-header *ngIf="epExpanded" matTooltip="Click list name to edit list info">
                     <mat-panel-title>
                             <span (click)="editList(item.id, item)">
                                 <h4>{{item.labels[0].value}}</h4>
