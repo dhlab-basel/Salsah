@@ -26,6 +26,11 @@ import {existingNamesValidator} from '../../other/existing-name.directive';
 import {AppConfig} from '../../../../app.config';
 
 
+export interface AutocompleteList {
+    iri: string,
+    name: string
+}
+
 @Component({
     selector: 'salsah-user-form',
     templateUrl: './user-form.component.html',
@@ -46,6 +51,19 @@ export class UserFormComponent implements OnInit {
     // on error with user data
     userErrorMessage: ApiServiceError = undefined;
 
+    // add' or 'create new' user starts always with the user's email address
+    // it's an auto complete form, which checks, if the user already exists
+
+    // form controller for mat-autocomplete in user select
+    userCtrl: FormControl;
+    // list of all users in the system
+    allUsers: AutocompleteList[] = [];
+    // filter users while typing (autocomplete method)
+    filteredUsers: Observable<any[]>;
+
+
+
+
     // project data
     // project admin view: restrictedBy is the iri of the project
     // in this case, the project admin adds a new (or existing) person to the project
@@ -53,11 +71,18 @@ export class UserFormComponent implements OnInit {
     // on error with project data
     projectErrorMessage: ApiServiceError = undefined;
 
-    // workflow
-    // add' or 'create new' user starts always with the user's email address
-    // it's an auto complete form, which checks, if the user already exists
-    allUsers: any = [];
-    filteredUsers: Observable<any[]>;
+    // form controller for mat-autocomplete in user select
+    projectCtrl: FormControl;
+
+    // in system admin view, it's possible to add a new created (or an old) user to a project
+    // list of all projects in the system
+    allProjects: AutocompleteList[] = [];
+    // filter users while typing (autocomplete method)
+    filteredProjects: Observable<any[]>;
+
+
+
+
     selectedUser: User;
     newUser: string;
 
@@ -66,23 +91,19 @@ export class UserFormComponent implements OnInit {
         new RegExp('user')
     ];
 
-    // form controller for mat-autocomplete in user select
-    userCtrl: FormControl;
-
-
 
     // system admin view: to add a user to a project, we need a list of all projects
-    allProjects: any = [];
-    filteredProjects: any;
+
     selectedProject: Project;
     // form controller for mat-autocomplete in project select
-    projectCtrl: FormControl;
+
 
     // Form labels and placeholder; will be organised by a i18n json file!
 
     formLabels: any = {
         user: {
             form: {
+                autoComplete: 'Select user or set new one by email address',
                 projectAdmin: {
                     title: 'Or create new user',
                     titleDone: 'New user',
@@ -155,28 +176,25 @@ export class UserFormComponent implements OnInit {
     };
 
 
-
-
     constructor (public _userService: UsersService,
                  public _projectsService: ProjectsService,
                  private _fb: FormBuilder) {
 
-        this.userCtrl = new FormControl('', Validators.required);
+        this.userCtrl = new FormControl();
 
         this.filteredUsers = this.userCtrl.valueChanges
             .pipe(
                 startWith(''),
-                map(user => user ? this.filterUsers(user) : this.allUsers.slice())
+                map(user => user ? this.filter(this.allUsers, user) : this.allUsers.slice())
             );
 
-
-        this.projectCtrl = new FormControl('', Validators.required);
+        this.projectCtrl = new FormControl();
 
         this.filteredProjects = this.projectCtrl.valueChanges
-            .startWith(this.projectCtrl.value)
-//            .map(val => this.displayFn(val))
-            .map(name => this.filterProjects(name));
-
+            .pipe(
+                startWith(this.projectCtrl.value),
+                map(project => project ? this.filter(this.allProjects, project) : this.allProjects.slice())
+            );
     }
 
     ngOnInit () {
@@ -187,6 +205,7 @@ export class UserFormComponent implements OnInit {
         this._userService.getAllUsers()
             .subscribe(
                 (users: User[]) => {
+
                     // The email address of the user should be unique.
                     // Therefore we create a list of existingUserNames to avoid multiple use of user names
                     for (const user of users) {
@@ -195,12 +214,13 @@ export class UserFormComponent implements OnInit {
                         );
                     }
 
-                    // in case of project admin:
-                    // get a list of the users which are already team members;
-                    // the list of project members should already be in the session storage
-                    if (this.projectIri !== undefined) {
-                        const members = sessionStorage.getItem('currentMembers');
+                    let members: string;
 
+                    if (this.projectIri !== undefined) {
+                        // get the members of the project
+                        members = sessionStorage.getItem('currentMembers');
+
+                        // get the project information
                         let selectedProject = new Project();
                         this._projectsService.getProjectByIri(this.projectIri)
                             .subscribe(
@@ -212,31 +232,48 @@ export class UserFormComponent implements OnInit {
                                     this.projectErrorMessage = error;
                                 }
                             );
+                    }
 
-                        let i: number = 1;
-                        for (const u of users) {
-                            let exists: string = '';
-                            if (members.indexOf(u.id) > -1) {
-                                exists = '* ';
-                            }
-                            this.allUsers[i] = {
-                                iri: u.id,
-                                name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
-                            };
-                            i++;
+
+                    let i: number = 1;
+                    for (const u of users) {
+
+                        let exists: string = '';
+
+                        if (members && members.indexOf(u.id) > -1) {
+                            exists = '* ';
                         }
 
-                        this.allUsers.sort(function (u1, u2) {
-                            if (u1.name < u2.name) {
-                                return -1;
-                            } else if (u1.name > u2.name) {
-                                return 1;
-                            } else {
-                                return 0;
-                            }
-                        });
+                        this.allUsers[i] = {
+                            iri: u.id,
+                            name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
+                        };
+                        i++;
+                    }
 
-                    } else {
+                    console.log(this.allUsers);
+
+                    this.allUsers.sort(function (u1, u2) {
+                        if (u1.name < u2.name) {
+                            return -1;
+                        } else if (u1.name > u2.name) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    });
+
+                    // in case of project admin:
+                    // get a list of the users which are already team members;
+                    // the list of project members should already be in the session storage
+                    if (this.projectIri !== undefined) {
+
+
+
+
+                    }
+                    /*
+                    else {
                         // in case of system admin view:
                         // get a list of projects to add the new created user
                         // OR in case of edit user and the user isn't yet a member of a project
@@ -295,29 +332,22 @@ export class UserFormComponent implements OnInit {
                             }
                         });
                     }
+                   */
 
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
-                    console.log(error);
-                    this.errorMessage = error;
+                    this.userErrorMessage = error;
                 }
             );
 
     }
 
-    filterUsers(name: string) {
-        return this.allUsers.filter(user =>
-            user.email.toLowerCase().indexOf(name.toLowerCase()) === 0);
-    }
-
-
-    filterProjects(val: string) {
-        if (val) {
-            const filterValue = val.toLowerCase();
-            return this.allProjects.filter(project => project.name.toLowerCase().includes(filterValue));
-        }
-        return this.allProjects;
+    // filter for auto complete input field
+    filter(list: AutocompleteList[], name: string) {
+        return list.filter(user =>
+            user.name.toLowerCase().includes(name.toLowerCase())
+        );
     }
 
 
