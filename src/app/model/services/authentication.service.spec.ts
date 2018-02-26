@@ -1,12 +1,13 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 
 import {AuthenticationService} from './authentication.service';
-import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
+import {BaseRequestOptions, Http, HttpModule} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {UsersService} from './users.service';
 import {ProjectsService} from './projects.service';
+import {environment} from '../../../environments/environment';
 
-describe('AuthenticationService', () => {
+fdescribe('AuthenticationService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -27,32 +28,29 @@ describe('AuthenticationService', () => {
         });
     });
 
-    it('should be created', async(inject(
+    fit('should be created', async(inject(
         [AuthenticationService, MockBackend], (service, mockBackend) => {
             expect(service).toBeDefined();
         }))
     );
 
-    /*
-    fit('should login', async(inject(
-        [AuthenticationService, MockBackend], (service, mockBackend) => {
+    if (environment.type === 'integration') {
 
+        fit('#login should login the user [it]', async(inject(
+            [AuthenticationService], (service) => {
 
-            mockBackend.connections.subscribe(conn => {
-                // expect(conn.request.method).toBe('post')
-                expect(conn.request.url).toBe('http://localhost:3333/v2/authentication');
-                // expect(conn.request.body).toBe(JSON.stringify({email: 'root@example.com', password: 'test'}));
-                conn.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify({token: '123456'}) })));
-            });
+                expect(service).toBeDefined();
 
-            service.login('root@example.com', 'test').subscribe(
-                (result: boolean) => {
-                expect(result).toEqual(true);
-                }
-            );
+                service.login('user01.user1@example.com', 'test').subscribe(
+                    (result: boolean) => {
+                        expect(result).toEqual(true)
+                    }
+                );
 
+            })));
 
-        }))
-    );
-    */
+    } else {
+        xit('Integration tests skipped. Run  "ng test --env=it" to run integration tests.');
+    }
+
 });

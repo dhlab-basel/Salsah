@@ -19,6 +19,7 @@ import {Router} from '@angular/router';
 import {ListsService} from '../../../../model/services/lists.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
+import {List} from '../../../../model/webapi/knora/admin';
 
 @Component({
     selector: 'salsah-project-lists-admin',
@@ -85,8 +86,8 @@ export class ProjectListsAdminComponent implements OnInit {
         // get all project lists
         this._listsService.getLists(this.list.restrictedBy)
             .subscribe(
-                (lists: ListInfo[]) => {
-                    this.projectLists = lists;
+                (lists: List[]) => {
+                    this.projectLists = lists.map(value => value.listinfo);
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -96,8 +97,8 @@ export class ProjectListsAdminComponent implements OnInit {
         // get all system lists
         this._listsService.getLists('http://www.knora.org/ontology/knora-base#SystemProject')
             .subscribe(
-                (lists: ListInfo[]) => {
-                    this.systemLists = lists;
+                (lists: List[]) => {
+                    this.systemLists = lists.map(value => value.listinfo);
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {

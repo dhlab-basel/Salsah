@@ -154,6 +154,7 @@ import {ProjectPermissionComponent} from './view/modules/form/user-form/project-
 import {UserDataComponent} from './view/modules/form/user-form/user-data/user-data.component';
 import {EditNodeInfoComponent} from './view/modules/form/edit-node-info/edit-node-info.component';
 import {GndDirective} from './view/modules/other/gnd.directive';
+import {EditListInfoComponent} from './view/modules/form/edit-list-info/edit-list-info.component';
 
 //
 // import all needed services
@@ -271,7 +272,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         EditNodeInfoComponent,
         ExistingNameDirective,
         GndDirective,
-        InternationalizationComponent
+        InternationalizationComponent,
+        EditListInfoComponent
     ],
     imports: [
         BrowserModule,
