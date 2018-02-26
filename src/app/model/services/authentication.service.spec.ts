@@ -44,8 +44,21 @@ fdescribe('AuthenticationService', () => {
                 service.login('user01.user1@example.com', 'test').subscribe(
                     (result: boolean) => {
                         expect(result).toEqual(true)
+
+                        expect(localStorage.getItem('currentUser')
                     }
                 );
+
+
+            })));
+
+        fit('#authenticate should check if the user is logged in [it]', async(inject(
+            [AuthenticationService], (service) => {
+
+                expect(service).toBeDefined();
+
+                const result = service.authenticate();
+                expect(result).toEqual(true)
 
             })));
 
