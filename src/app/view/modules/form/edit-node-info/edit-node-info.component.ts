@@ -14,8 +14,6 @@
  */
 
 import {Component, Input, OnChanges} from '@angular/core';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ListsService} from '../../../../model/services/lists.service';
 import {List, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 
@@ -27,7 +25,7 @@ import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angul
 })
 export class EditNodeInfoComponent implements OnChanges {
 
-    @Input() listIri: string;
+    @Input() nodeIri: string;
     @Input() currentNode: ListNode;
 
     currentListNodeInfo: ListNodeInfo;
@@ -78,7 +76,7 @@ export class EditNodeInfoComponent implements OnChanges {
             skip: 'Skip',
             next: 'Next',
             add: 'Add',
-            addNode: 'Add node',
+            adNode: 'Add node',
             addChild: 'Add child'
         }
     };
@@ -98,13 +96,12 @@ export class EditNodeInfoComponent implements OnChanges {
     public listNodeInfoForm: FormGroup; // our model driven form
 
 
-    constructor(private _listsService: ListsService,
-                private _fb: FormBuilder) {
+    constructor(private _fb: FormBuilder) {
 
     }
 
     ngOnChanges() {
-        console.log('list iri: ', this.listIri);
+        console.log('list iri: ', this.nodeIri);
         console.log('node: ', this.currentNode);
         console.log('children: ', this.currentNode.children);
 

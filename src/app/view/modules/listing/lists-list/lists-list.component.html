@@ -9,19 +9,29 @@
 
         <mat-accordion>
             <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
-                                 (opened)="fetchListData(item.id)">
-                <mat-expansion-panel-header>
+                                 (opened)="fetchListData(item.id); epExpanded=true" (closed)="isExpanded=false">
+                <mat-expansion-panel-header *ngIf="!epExpanded"  matTooltip="Click to open panel and see nodes">
                     <mat-panel-title>
-                        <span matTooltip="Click on the list name to see nodes">
-                            <h4>{{item.labels[0].value}}</h4>
-                        </span>
+                            <span (click)="editList(item.id, item)">
+                                <h4>{{item.labels[0].value}}</h4>
+                            </span>
                     </mat-panel-title>
                     <mat-panel-description>
                         {{item.id}}
                         <mat-icon>list</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-
+                <mat-expansion-panel-header *ngIf="epExpanded" matTooltip="Click list name to edit list info">
+                    <mat-panel-title>
+                            <span (click)="editList(item.id, item)">
+                                <h4>{{item.labels[0].value}}</h4>
+                            </span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{item.id}}
+                        <mat-icon>list</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
                 <span><b>{{listLists.nodesLabel}}</b>
                     <span class="subtitle">Click on the node name to edit the node</span>
                 </span>
@@ -33,26 +43,30 @@
                     <button class="right" mat-button color="primary" *ngIf="isExpanded" (click)="collapseAll(tree)">
                         {{listLists.buttons.collapse}}
                     </button>
+                    <button class="right" mat-button color="primary" (click)="addNode(tree)">
+                        {{listLists.buttons.add}}
+                    </button>
                     <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
                             <span *ngIf="node.children.length == 0" matTooltip="Click on the node name to edit">
-                                <span (click)="edit(item.id, node.data)">
+                                <span (click)="editNode(item.id, node.data)">
                                     {{ node.data.name }}
                                 </span>
                             </span>
-                            <span *ngIf="node.children.length != 0" matTooltip="Click arrow to see children, or node name to edit">
-                                <span (click)="edit(item.id, node.data)">
+                            <span *ngIf="node.children.length != 0"
+                                  matTooltip="Click arrow to see children, or node name to edit">
+                                <span (click)="editNode(item.id, node.data)">
                                     {{ node.data.name }}
                                 </span>
                             </span>
                             <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
-
-
                             <!--     <button>{{node.data.name}}</button>
                                <button (click)="viewDetails(node.data.id)">Node Name</button>
                               -->
                         </ng-template>
                     </tree-root>
+
+
 
                     <!--TODO: move button above next to "Nodes" title-->
                 </div>

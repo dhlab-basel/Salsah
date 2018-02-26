@@ -87,14 +87,15 @@
             <mat-action-row>
                 <button mat-button
                         color="warn"
-                        (click)="revertNode(currentNode)">
+                        (click)="revertNode()">
                     {{editLists.buttons.reset}}
                 </button>
                 <button mat-raised-button
                         class="save-button"
                         [color]="'primary'"
                         [disabled]="!listNodeInfoForm.valid"
-                        (click)="saveNode(listNodeInfoForm.value)">
+                        (click)="saveNode(listNodeInfoForm.value)"
+                        mat-dialog-close>
                     {{editLists.buttons.save}}
                 </button>
             </mat-action-row>
