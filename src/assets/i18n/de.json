@@ -38,7 +38,7 @@
                     "title": "Wähle Benutzer",
                     "titleDone": "Ausgewählter Benutzer",
                     "description": "Füge einen bestehenden hinzu",
-                    "autoComplete": "Namen hier einfügen",
+                    "autoComplete": "Wähle einen Benutzer oder kreiere einen neuen über die Email Adresse",
                     "autoCompleteHint": "",
                     "skip": "Überspringen und einen neuen Benutzer hinzufügen"
                 },

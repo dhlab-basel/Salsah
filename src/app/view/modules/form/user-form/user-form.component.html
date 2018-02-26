@@ -11,7 +11,10 @@
             <input matInput
                    [matAutocomplete]="user"
                    [formControl]="userCtrl"
-                   [placeholder]="formLabels.user.form.autoComplete">
+                    [placeholder]="'salsahLabels.userFormLabels.user.select.autoComplete' | translate">
+<!--
+[placeholder]="formLabels.user.form.autoComplete"
+-->
             <mat-icon matSuffix
                       class="input-icon"
                       (click)="userCtrl.reset()"
@@ -20,7 +23,8 @@
             </mat-icon>
             <mat-autocomplete #user="matAutocomplete">
                 <mat-option *ngFor="let user of filteredUsers | async"
-                            [value]="user?.name">
+                            [value]="user?.name"
+                            (onSelectionChange)="setSelected(user)">
                     {{ user?.name }}
                 </mat-option>
             </mat-autocomplete>

@@ -17,6 +17,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
+import {AutocompleteItem} from '../../../../app.interfaces';
 
 import {UsersService} from '../../../../model/services/users.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
@@ -25,11 +26,6 @@ import {Project, User} from '../../../../model/webapi/knora';
 import {existingNamesValidator} from '../../other/existing-name.directive';
 import {AppConfig} from '../../../../app.config';
 
-
-export interface AutocompleteList {
-    iri: string,
-    name: string
-}
 
 @Component({
     selector: 'salsah-user-form',
@@ -57,12 +53,12 @@ export class UserFormComponent implements OnInit {
     // form controller for mat-autocomplete in user select
     userCtrl: FormControl;
     // list of all users in the system
-    allUsers: AutocompleteList[] = [];
+    allUsers: AutocompleteItem[] = [];
     // filter users while typing (autocomplete method)
     filteredUsers: Observable<any[]>;
-
-
-
+    // username of the selected user
+    selectedUser: string;
+    selectedUserProfile: User;
 
     // project data
     // project admin view: restrictedBy is the iri of the project
@@ -76,15 +72,17 @@ export class UserFormComponent implements OnInit {
 
     // in system admin view, it's possible to add a new created (or an old) user to a project
     // list of all projects in the system
-    allProjects: AutocompleteList[] = [];
+    allProjects: AutocompleteItem[] = [];
     // filter users while typing (autocomplete method)
     filteredProjects: Observable<any[]>;
+    // project iri
+    selectedProject: string;
 
 
 
 
-    selectedUser: User;
-    newUser: string;
+
+
 
     // list of users to prevent duplicate entries
     existingUserNames: [RegExp] = [
@@ -94,7 +92,7 @@ export class UserFormComponent implements OnInit {
 
     // system admin view: to add a user to a project, we need a list of all projects
 
-    selectedProject: Project;
+//    selectedProject: Project;
     // form controller for mat-autocomplete in project select
 
 
@@ -176,10 +174,12 @@ export class UserFormComponent implements OnInit {
     };
 
 
+
     constructor (public _userService: UsersService,
                  public _projectsService: ProjectsService,
                  private _fb: FormBuilder) {
 
+        // auto complete form user
         this.userCtrl = new FormControl();
 
         this.filteredUsers = this.userCtrl.valueChanges
@@ -188,6 +188,7 @@ export class UserFormComponent implements OnInit {
                 map(user => user ? this.filter(this.allUsers, user) : this.allUsers.slice())
             );
 
+        // auto complete form project
         this.projectCtrl = new FormControl();
 
         this.filteredProjects = this.projectCtrl.valueChanges
@@ -245,7 +246,7 @@ export class UserFormComponent implements OnInit {
                         }
 
                         this.allUsers[i] = {
-                            iri: u.id,
+                            id: u.id,
                             name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
                         };
                         i++;
@@ -344,10 +345,43 @@ export class UserFormComponent implements OnInit {
     }
 
     // filter for auto complete input field
-    filter(list: AutocompleteList[], name: string) {
+    filter(list: AutocompleteItem[], name: string) {
         return list.filter(user =>
             user.name.toLowerCase().includes(name.toLowerCase())
         );
+    }
+
+    setSelected(value: any) {
+
+        let exists: boolean;
+
+        if (typeof value === 'string') {
+            exists = value.startsWith('*');
+
+        } else {
+            // type of value is AutocompleteItem
+            exists = value.name.startsWith('*');
+            if (exists === true) {
+                // 
+
+            }
+        }
+
+
+        // if the selected user is already a member in the project, make an alert (or something else)
+/*
+        if (this.members.indexOf(user.id) > -1) {
+            alert('The selected user (' + user.name + ') has already a membership in this project (' + this.project + ')');
+            this.resetSelectedUser();
+        } else {
+            // otherwise take the selected user name and split it by '(' to change the form description into given and family name
+            if (this.userCtrl.valid) {
+                this.selectedUser = user.name.split('(')[0];
+            } else {
+                this.resetSelectedUser();
+            }
+        }
+*/
     }
 
 
