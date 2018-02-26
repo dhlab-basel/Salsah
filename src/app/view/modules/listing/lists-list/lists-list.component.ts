@@ -85,11 +85,11 @@ export class ListsListComponent implements OnInit {
             //     get all project lists
             this._listsService.getLists(this.restrictedBy)
                 .subscribe(
-                    (lists: ListInfo[]) => {
-                        this.lists = lists;
+                    (lists: List[]) => {
+                        this.lists = lists.map(value => value.listinfo);
                         this.numberOfItems = lists.length;
                         this.isLoading = false;
-                        console.log("items: ", this.numberOfItems);
+                        console.log('items: ', this.numberOfItems);
 
                     },
                     (error: ApiServiceError) => {
@@ -97,15 +97,14 @@ export class ListsListComponent implements OnInit {
                         this.isLoading = false;
                     }
                 );
-            //this.numberOfItems = this.lists.length;
-            console.log("items now: ", this.numberOfItems);
-        }
-        else {
+            // this.numberOfItems = this.lists.length;
+            console.log('items now: ', this.numberOfItems);
+        } else {
             // get all system lists
             this._listsService.getLists()
                 .subscribe(
-                    (lists: ListInfo[]) => {
-                        this.lists = lists;
+                    (lists: List[]) => {
+                        this.lists = lists.map(value => value.listinfo);
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -134,7 +133,7 @@ export class ListsListComponent implements OnInit {
                     this.errorMessage = <any>error;
                 }
             );
-        console.log("fetchListData ");
+        console.log('fetchListData ');
         console.log(this.isExpanded);
 
 

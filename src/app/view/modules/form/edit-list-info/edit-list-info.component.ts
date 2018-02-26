@@ -146,7 +146,9 @@ export class EditListInfoComponent implements OnChanges {
         console.log('save:', this.listInfoForm.value);
 
         this._listsService.updateListInfo(this.listInfoForm.value).subscribe(
-                (result: Boolean) => {},
+                (result: any) => {
+                    console.log(result);
+                },
                 (error: ApiServiceError) => {
                     console.log(error);
                     this.listInfoErrorMessage = error;
