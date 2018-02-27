@@ -1,0 +1,12 @@
+<br>
+<br>
+<br>
+<br>
+<div>
+Correspondences:
+    <ul>
+    <li *ngFor="let corr of correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd)">
+        {{corr.correspondent1.name}} - {{corr.correspondent2.name}}
+    </li>
+</ul>
+</div>

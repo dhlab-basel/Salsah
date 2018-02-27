@@ -43,6 +43,7 @@ import {UserFormComponent} from './view/modules/form/user-form/user-form.compone
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
 import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
+import {BeolComponent} from "./view/templates/beol/beol.component";
 
 const appRoutes: Routes = [
     {
@@ -193,6 +194,10 @@ const appRoutes: Routes = [
                 component: UserFormComponent
             }
         ]
+    },
+    { // path to specific component for the BEOL project
+        path: 'beol',
+        component: BeolComponent
     },
     {
         path: '**',

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectClassComponent } from './select-class.component';
+import { BeolComponent } from './beol.component';
 
-describe('SelectClassComponent', () => {
-  let component: SelectClassComponent;
-  let fixture: ComponentFixture<SelectClassComponent>;
+describe('BeolComponent', () => {
+  let component: BeolComponent;
+  let fixture: ComponentFixture<BeolComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectClassComponent ]
+      declarations: [ BeolComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectClassComponent);
+    fixture = TestBed.createComponent(BeolComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -25,15 +25,31 @@ export class SearchService extends ApiService {
      * Perform a fulltext search.
      *
      * @param searchTerm the term to search for.
-     * @returns {Observable<any>}
+     * @param offset the offset to be used (for paging, first offset is 0).
+     * @returns {Observable<ApiServiceResult>}
      */
-    doFulltextSearch(searchTerm: string): Observable<ApiServiceResult> {
+    doFulltextSearch(searchTerm: string, offset: number = 0): Observable<ApiServiceResult> {
 
         if (searchTerm === undefined || searchTerm.length == 0) {
-            return Observable.create(observer => observer.error("No search term given for call of SearchService.doFulltextSearch"));
+            return Observable.create(observer => observer.error('No search term given for call of SearchService.doFulltextSearch'));
         }
 
-        return this.httpGetV2("/search/" + searchTerm);
+        return this.httpGetV2("/search/" + searchTerm + '?offset='+ offset);
+    }
+
+    /**
+     * Perform a fulltext search count query.
+     *
+     * @param searchTerm the term to search for.
+     * @returns {Observable<ApiServiceResult>}
+     */
+    doFulltextSearchCountQuery(searchTerm: string): Observable<ApiServiceResult> {
+
+        if (searchTerm === undefined || searchTerm.length == 0) {
+            return Observable.create(observer => observer.error('No search term given for call of SearchService.doFulltextSearchCountQuery'));
+        }
+
+        return this.httpGetV2("/search/count/" + searchTerm);
     }
 
     /**
@@ -44,13 +60,59 @@ export class SearchService extends ApiService {
      */
     doExtendedSearch(sparqlString: string): Observable<ApiServiceResult> {
 
-        // TODO: check that the sparqString is already URL encoded
+        // TODO: check that the sparqlString is already URL encoded
 
         if (sparqlString === undefined || sparqlString.length == 0) {
-            return Observable.create(observer => observer.error("No Sparql string given for call of SearchService.doExtendedSearch"));
+            return Observable.create(observer => observer.error('No Sparql string given for call of SearchService.doExtendedSearch'));
         }
 
         return this.httpGetV2("/searchextended/" + sparqlString);
+
+    }
+
+    /**
+     * Perform an extended search count query.
+     *
+     * @param sparqlString the Sparql query string to be sent to Knora.
+     * @returns {Observable<ApiServiceResult>}
+     */
+    doExtendedSearchCountQuery(sparqlString: string): Observable<ApiServiceResult> {
+
+        // TODO: check that the sparqlString is already URL encoded
+
+        if (sparqlString === undefined || sparqlString.length == 0) {
+            return Observable.create(observer => observer.error('No Sparql string given for call of SearchService.doExtendedSearchCountQuery'));
+        }
+
+        return this.httpGetV2("/searchextended/count/" + sparqlString);
+
+    }
+
+    /**
+     * Perform a search by a resource's rdfs:label.
+     *
+     * @param {string} searchTerm the term to search for.
+     * @param resourceClassIRI restrict search to given resource class.
+     * @param projectIri restrict search to given project.
+     * @returns {Observable<ApiServiceResult>}
+     */
+    searchByLabel(searchTerm: string, resourceClassIRI?: string, projectIri?: string): Observable<ApiServiceResult> {
+
+        if (searchTerm === undefined || searchTerm.length == 0) {
+            return Observable.create(observer => observer.error("No search term given for call of SearchService.doFulltextSearch"));
+        }
+
+        let params = {};
+
+        if (resourceClassIRI !== undefined) {
+            params['limitToResourceClass'] = resourceClassIRI;
+        }
+
+        if (projectIri !== undefined) {
+            params['limitToProject'] = projectIri;
+        }
+
+        return this.httpGetV2("/searchbylabel/" + encodeURIComponent(searchTerm), {params: params});
 
     }
 

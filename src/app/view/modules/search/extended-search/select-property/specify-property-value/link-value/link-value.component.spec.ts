@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectGraphComponent } from './select-graph.component';
+import { LinkValueComponent } from './link-value.component';
 
-describe('SelectGraphComponent', () => {
-  let component: SelectGraphComponent;
-  let fixture: ComponentFixture<SelectGraphComponent>;
+describe('LinkValueComponent', () => {
+  let component: LinkValueComponent;
+  let fixture: ComponentFixture<LinkValueComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectGraphComponent ]
+      declarations: [ LinkValueComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectGraphComponent);
+    fixture = TestBed.createComponent(LinkValueComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

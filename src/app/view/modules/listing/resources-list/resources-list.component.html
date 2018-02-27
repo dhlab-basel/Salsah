@@ -4,7 +4,9 @@
 <!-- show the results -->
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
-    <div *ngIf="numberOfItems !== 0; else noData" [ngSwitch]="listType">
+    <div *ngIf="result?.length > 0; else noData" [ngSwitch]="listType">
+                <p>{{numberOfAllResults}}</p>
+
         <!-- show as table if listType === table -->
         <table *ngSwitchCase="'table'" class="salsah-table">
         </table>
@@ -16,7 +18,7 @@
                        [cols]="columns"
                        [gutterSize]="colGutter + 'px'"
                        [rowHeight]="rowHeight + 'px'">
-            <mat-grid-tile *ngFor="let res of result.resources; let i = index"
+            <mat-grid-tile *ngFor="let res of result; let i = index"
                            (click)="toggle(res.id, i)"
                            [id]="res.id">
                 <mat-card [class.highlight]="i == selectedRow" class="salsah-link salsah-preview">
@@ -42,7 +44,7 @@
 
         <!-- default list -->
         <mat-list class="salsah-list" *ngSwitchDefault>
-            <mat-list-item *ngFor="let res of result.resources; let i = index"
+            <mat-list-item *ngFor="let res of result; let i = index"
                            (click)="toggle(res.id, i)"
                            [id]="res.id"
                            class="salsah-link"
@@ -53,9 +55,14 @@
                 <h3 mat-line>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</h3>
                 <div mat-line *ngFor="let prop of res.properties | key">
 
-                    <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span>
+                    <span>{{ontologyInfo?.getLabelForProperty(prop.key)}}</span>
                     <ul>
-                        <li *ngFor="let val of prop.value | key">{{val.value.getContent()}}</li>
+                        <li *ngFor="let val of prop.value | key">
+                            <span [ngSwitch]="val.value.getClassName()">
+                                <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo" [bindEvents]="false"></read-text-value-as-html>
+                                <span *ngSwitchDefault="">{{val.value.getContent()}}</span>
+                            </span>
+                        </li>
                     </ul>
                 </div>
                 <button mat-icon-button class="right close close-highlight">

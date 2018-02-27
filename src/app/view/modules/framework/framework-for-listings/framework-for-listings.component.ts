@@ -79,6 +79,17 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
         statusText: 'TODO: add the following component to the FrameworkForListings component:'
     };
 
+    // offset number (paging) in search results
+    _offset: number;
+    @Input()
+    set offset(offset: number) {
+        this._offset = offset;
+    }
+
+    get offset() {
+        return this._offset;
+    }
+
     // two progress loader:
     // 1) for the main module
     isLoading: boolean = true;

@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {SearchService} from '../../../../model/services/search.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
@@ -20,6 +20,10 @@ import {MessageData} from '../../message/message.component';
 import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
 import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
 import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
+import {AppConfig} from "../../../../app.config";
+import {ReadResource} from "../../../../model/webapi/knora/v2/read-resource";
+import {ExtendedSearchParams, SearchParamsService} from "../../../../model/services/search-params.service";
+import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -29,13 +33,25 @@ const jsonld = require('jsonld');
     templateUrl: './resources-list.component.html',
     styleUrls: ['./resources-list.component.scss']
 })
-export class ResourcesListComponent implements OnInit {
+export class ResourcesListComponent implements OnInit, OnChanges {
 
     @Input() searchParam: string;
     @Input() searchMode: string;
     @Input() listType?: string;
 
+    _offset: number;
+    @Input()
+    set offset(offset: number) {
+        this._offset = offset;
+    }
+
+    get offset() {
+        return this._offset;
+    }
+
     @Output() toggleItem = new EventEmitter<any>();
+
+    AppConfig = AppConfig;
 
     // grid list settings
     columns: number = 3;
@@ -61,14 +77,19 @@ export class ResourcesListComponent implements OnInit {
     // iri of the selected person
     iri: string;
 
-    result: ReadResourcesSequence = new ReadResourcesSequence([], 0);
+    result: ReadResource[] = []; // the results of a search query
     ontologyInfo: OntologyInformation; // ontology information about resource classes and properties present in `result`
-    numberOfItems: number;
+    numberOfItems: number; // number of items actually returned by the query (using paging)
+    numberOfAllResults: number; // total number of results (count query)
 
-    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService) {
+    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService, private _searchParamsService: SearchParamsService, private _knarqlgenerationService: KnarqlgenerationService) {
     }
 
     ngOnInit() {
+
+    }
+
+    ngOnChanges() {
         if (this.listType === 'grid') {
             this.columns = 3;
         }
@@ -76,7 +97,20 @@ export class ResourcesListComponent implements OnInit {
         if (this.searchMode === 'fulltext') {
             // fulltext search
 
-            this._searchService.doFulltextSearch(this.searchParam)
+            // perform count query
+            if (this._offset === 0) {
+                this._searchService.doFulltextSearchCountQuery(this.searchParam)
+                    .subscribe(
+                        this.showNumberOfAllResults,
+                        (error: ApiServiceError) => {
+                            this.errorMessage = <any>error;
+
+                            this.isLoading = false;
+                        }
+                    );
+            }
+
+            this._searchService.doFulltextSearch(this.searchParam, this._offset)
                 .subscribe(
                     this.processSearchResults, // function pointer
                     (error: ApiServiceError) => {
@@ -88,20 +122,84 @@ export class ResourcesListComponent implements OnInit {
         } else if (this.searchMode === 'extended') {
             // extended search
 
-            this._searchService.doExtendedSearch(this.searchParam)
-                .subscribe(
-                    this.processSearchResults, // function pointer
-                    (error: ApiServiceError) => {
-                        this.errorMessage = <any>error;
+            // perform count query
+            if (this._offset === 0) {
+                this._searchService.doExtendedSearchCountQuery(this.searchParam)
+                    .subscribe(
+                        this.showNumberOfAllResults,
+                        (error: ApiServiceError) => {
+                            this.errorMessage = <any>error;
 
-                        this.isLoading = false;
+                            this.isLoading = false;
+                        }
+                    );
+            }
+
+            // TODO: use a service to create a new KnarQl with an increased offset!
+            this._searchParamsService.currentSearchParams.subscribe(
+                (extendedSearchParams: ExtendedSearchParams) => {
+
+                    if (this._offset === 0) {
+
+                        console.log(decodeURI(this.searchParam))
+
+                        // use KnarQL provided via the route
+                        this._searchService.doExtendedSearch(this.searchParam)
+                            .subscribe(
+                                this.processSearchResults, // function pointer
+                                (error: ApiServiceError) => {
+                                    this.errorMessage = <any>error;
+
+                                    this.isLoading = false;
+                                }
+                            );
+
+                    } else {
+                        // generate new Knarql with increased offset
+                        let newKnarQL = extendedSearchParams.generateKnarQL(this._offset);
+
+                        console.log(decodeURI(newKnarQL));
+
+                        this._searchService.doExtendedSearch(encodeURIComponent(newKnarQL))
+                            .subscribe(
+                                this.processSearchResults, // function pointer
+                                (error: ApiServiceError) => {
+                                    this.errorMessage = <any>error;
+
+                                    this.isLoading = false;
+                                }
+                            );
+
                     }
-                );
+
+                }
+            );
+
+
+
         } else {
             this.errorMessage = `search mode invalid: ${this.searchMode}`;
         }
 
     }
+
+    /**
+     * Shows total number of results returned by a count query.
+     *
+     * @param {ApiServiceResult} countQueryResult the response to a count query.
+     */
+    private showNumberOfAllResults = (countQueryResult: ApiServiceResult) => {
+        let resPromises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        let resPromise = resPromises.compact(countQueryResult.body, {});
+
+        resPromise.then((compacted) => {
+            this.numberOfAllResults = compacted[AppConfig.schemaNumberOfItems]
+        }, function (err) {
+
+            console.log('JSONLD could not be expanded:' + err);
+        });
+    };
 
     /**
      *
@@ -131,9 +229,15 @@ export class ResourcesListComponent implements OnInit {
                     let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                     // assign ontology information to a variable so it can be used in the component's template
-                    this.ontologyInfo = resourceClassInfos;
-                    this.result = resources;
-                    this.numberOfItems = this.result.numberOfResources;
+                    if (this.ontologyInfo === undefined) {
+                        // init ontology information
+                        this.ontologyInfo = resourceClassInfos;
+                    } else {
+                        // update ontology information
+                        this.ontologyInfo.updateOntologyInformation(resourceClassInfos);
+                    }
+                    // append results to search results
+                    this.result = this.result.concat(resources.resources);
 
                 },
                 (err) => {
@@ -150,12 +254,12 @@ export class ResourcesListComponent implements OnInit {
         this.isLoading = false;
     };
 
-    // open / close user
+    // open / close detail view
     toggle(id: string, index: number) {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
-            if (this.columns > 0) {
+            if (this.columns > 0 && this.listType !== 'list') {
                 // in the case of the grid, show the grid list after close
                 this.listType = 'grid';
                 this.columns = 3;
@@ -164,7 +268,7 @@ export class ResourcesListComponent implements OnInit {
         } else {
             // open the detail view
             this.selectedRow = index;
-            if (this.columns > 0) {
+            if (this.columns > 0 && this.listType !== 'grid') {
                 // in the case of the grid, show the default list view here
                 this.listType = 'list';
                 this.columns = 1;

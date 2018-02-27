@@ -32,10 +32,10 @@ export class OntologyMetadata {
     /**
      *
      * @param {string} id Iri identifying the ontology.
-     * @param {string} shortname a label describing the ontology.
+     * @param {string} label a label describing the ontology.
      */
     constructor(readonly id: string,
-                readonly shortname: string) {
+                readonly label: string) {
 
     }
 
@@ -44,7 +44,7 @@ export class OntologyMetadata {
 /**
  * Occurrence of a property for a resource class.
  */
-enum CardinalityOccurrence {
+export enum CardinalityOccurrence {
     minCard = 0,
     card = 1,
     maxCard = 2
@@ -53,7 +53,7 @@ enum CardinalityOccurrence {
 /**
  * Cardinality of a property for the given resource class.
  */
-class Cardinality {
+export class Cardinality {
 
     /**
      *
@@ -92,7 +92,7 @@ export class ResourceClass {
 /**
  * A map of resource class Iris to resource class definitions.
  */
-class ResourceClasses {
+export class ResourceClasses {
     [index: string]: ResourceClass;
 }
 
@@ -346,6 +346,9 @@ export class OntologyCacheService {
     // that have to be ignored because they cannot be resolved at the moment
     private excludedProperties: Array<string> = [AppConfig.schemaName];
 
+    // class definitions that are not be treated as Knora resource classes
+    private nonResourceClasses: Array<string> = [AppConfig.ForbiddenResource, AppConfig.XMLToStandoffMapping, AppConfig.ListNode];
+
     private cacheOntology: OntologyCache = new OntologyCache();
 
     /**
@@ -422,6 +425,27 @@ export class OntologyCacheService {
     }
 
     /**
+     * Gets resource class definitions from the ontology response.
+     * `knora-api:Resource` will be excluded.
+     *
+     * @param {Object} classDefinitions the `hasClasses` section of an ontology response.
+     * @returns {string[]}
+     */
+    private getResourceClassDefinitionsFromOntologyResponse(classDefinitions: Object) {
+        let resourceClassDefinitions: string[] = [];
+
+        for (let classDefName in classDefinitions) {
+            // check that class name is not listed as a non resource class and that the isValueFlag is not present or set to false
+            if (classDefName !== AppConfig.Resource && this.nonResourceClasses.indexOf(classDefName) == -1 && (classDefinitions[classDefName][AppConfig.IsValueClass] === undefined || classDefinitions[classDefName][AppConfig.IsValueClass] === false)) {
+                // it is not a value class, but a resource class definition
+                resourceClassDefinitions.push(classDefName)
+            }
+        }
+
+        return resourceClassDefinitions;
+    }
+
+    /**
      * Converts a Knora response for all entity definitions for the requested ontologies
      * into an internal representation and caches it.
      *
@@ -436,7 +460,7 @@ export class OntologyCacheService {
 
             for (let ontology of ontologies[AppConfig.hasOntologies]) {
 
-                this.cacheOntology.resourceClassesForOntology[ontology['@id']] = Object.keys(ontology[AppConfig.hasClasses]);
+                this.cacheOntology.resourceClassesForOntology[ontology['@id']] = this.getResourceClassDefinitionsFromOntologyResponse(ontology[AppConfig.hasClasses]);
 
                 this.convertAndWriteKnoraResourceClassDefinitionsToCache(ontology[AppConfig.hasClasses], ontology[AppConfig.hasProperties]);
 
@@ -444,12 +468,11 @@ export class OntologyCacheService {
 
         } else {
 
-            this.cacheOntology.resourceClassesForOntology[ontologies[AppConfig.hasOntologies]['@id']] = Object.keys(ontologies[AppConfig.hasOntologies][AppConfig.hasClasses]);
+            this.cacheOntology.resourceClassesForOntology[ontologies[AppConfig.hasOntologies]['@id']] = this.getResourceClassDefinitionsFromOntologyResponse(ontologies[AppConfig.hasOntologies][AppConfig.hasClasses]);
 
             this.convertAndWriteKnoraResourceClassDefinitionsToCache(ontologies[AppConfig.hasOntologies][AppConfig.hasClasses], ontologies[AppConfig.hasOntologies][AppConfig.hasProperties]);
 
         }
-
 
     }
 

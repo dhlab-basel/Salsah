@@ -26,7 +26,9 @@ export class SearchResultsComponent implements OnInit {
 
     @Output() change: EventEmitter<any> = new EventEmitter<any>();
 
-    public counter: number = 0;
+    public numberOfResults: number = 0;
+
+    public offset: number = 0;
 
     public selectedView: string = 'list';
 
@@ -78,13 +80,21 @@ export class SearchResultsComponent implements OnInit {
 
             this.list.searchMode = params['mode'];
 
+            // init offset to 0
+            this.offset = 0;
+
             this.list.restrictedBy = params['q'];
-            this._title.setTitle( 'Salsah | Looked for ' + this.list.restrictedBy);
+            this._title.setTitle('Salsah | Looked for ' + this.list.restrictedBy);
         });
     }
 
-    public changeView(view: string): void {
+    changeView(view: string): void {
         this.list.showAs = view;
+    }
+
+    onScroll(offsetToUse: number = 0) {
+        // update the page offset when the end of scroll is reached to get the next page of search results
+        this.offset = (offsetToUse === this.offset ? this.offset += 1 : offsetToUse);
     }
 
 }
