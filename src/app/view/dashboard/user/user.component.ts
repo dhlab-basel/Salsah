@@ -128,7 +128,7 @@ export class UserComponent implements OnInit {
             this._userService.getUserByEmail(this.email)
                 .subscribe(
                     (result: User) => {
-                        this.user = result
+                        this.user = result;
                         sessionStorage.setItem('currentUser', JSON.stringify(this.user));
                         this.isLoading = false;
                     },

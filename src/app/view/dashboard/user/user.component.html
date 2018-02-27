@@ -31,7 +31,7 @@
                     class="salsah-tab-item"
                     [routerLink]="item.route"
                     routerLinkActive="active">
-                <strong *ngIf="first">{{userProfile?.userData?.givenName + ' ' + userProfile?.userData?.familyName}}</strong>
+                <strong *ngIf="first">{{user?.givenName + ' ' + user?.familyName}}</strong>
                 {{item.name}}
             </button>
         </nav>
@@ -41,7 +41,7 @@
 
     </mat-toolbar>
 
-    <div class="salsah-module-scroll-area" [ngSwitch]="route" *ngIf="!isLoading && userProfile.userData.user_id !== undefined">
+    <div class="salsah-module-scroll-area" [ngSwitch]="route" *ngIf="!isLoading && user?.id !== undefined">
 
         <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
