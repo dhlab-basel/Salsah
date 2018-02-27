@@ -1,7 +1,15 @@
 @import '../../../../../../../assets/style/config';
 
-.user-menu button {
+.salsah-header-toolbar {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 
+  salsah-internationalization {
+    height: 38px;
+    margin-top: -38px;
+  }
 }
 
 .salsah-menu {
