@@ -106,13 +106,10 @@ export class SelectUserComponent implements OnInit {
                     }
 
                     let members: string;
-
-                    if (this.project !== undefined) {
+                    if (this.project) {
                         // get the members of the project
                         members = sessionStorage.getItem('currentMembers');
-
                     }
-
 
                     let i: number = 1;
                     for (const u of users) {
@@ -134,9 +131,9 @@ export class SelectUserComponent implements OnInit {
                     console.log(this.users);
 
                     this.users.sort(function (u1, u2) {
-                        if (u1.name < u2.name) {
+                        if (u1.label < u2.label) {
                             return -1;
-                        } else if (u1.name > u2.name) {
+                        } else if (u1.label > u2.label) {
                             return 1;
                         } else {
                             return 0;
@@ -186,7 +183,7 @@ export class SelectUserComponent implements OnInit {
         // check if the form is valid
         Object.keys(this.formErrors).map(field => {
             this.formErrors[field] = '';
-            const control = form.get(field);
+            const control = this.form.get(field);
             if (control && control.dirty && !control.valid) {
                 const messages = this.validationMessages[field];
                 Object.keys(control.errors).map(key => {

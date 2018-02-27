@@ -255,7 +255,7 @@ export class UserFormComponent implements OnInit {
                         i++;
                     }
 
-                    console.log(this.allUsers);
+//                    console.log(this.allUsers);
 
                     this.allUsers.sort(function (u1, u2) {
                         if (u1.name < u2.name) {

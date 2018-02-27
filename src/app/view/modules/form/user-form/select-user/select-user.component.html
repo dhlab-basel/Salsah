@@ -1,4 +1,4 @@
-<form class="salsah-form-content" *ngIf="!isLoading">
+<form class="salsah-form-content" *ngIf="!isLoading" [formGroup]="form">
     <mat-form-field class="full-width">
         <input matInput
                [matAutocomplete]="user"
@@ -6,19 +6,13 @@
                [placeholder]="'salsahLabels.userFormLabels.user.select.autoComplete' | translate">
         <mat-icon matSuffix
                   class="input-icon"
-                  (click)="resetSelected(form.controls['username'])">
-            <!--
-                  *ngIf="formErrors.value && userCtrl.dirty">
-                  -->
+                  (click)="resetSelected(form.controls['username'])"
+                  *ngIf="form.controls['username'].dirty">
             close
         </mat-icon>
-        <button mat-button matSuffix
-                class="navigation-button"
-                color="primary"
-                (click)="nextStep($event)"
-                [disabled]="!form.valid">
-            {{ 'salsahLabels.userFormLabels.navigation.next' | translate }}
-        </button>
+        <mat-hint *ngIf="formErrors.username">
+            {{ formErrors.username }}
+        </mat-hint>
         <mat-autocomplete #user="matAutocomplete">
             <mat-option *ngFor="let user of filteredUsers | async"
                         [value]="user?.name"
