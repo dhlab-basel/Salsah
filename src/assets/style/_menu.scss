@@ -1,9 +1,9 @@
-
+/* deprecated
 .salsah-menu {
   @include mat-box-shadow-deep();
   background-color: $bright;
   border-radius: $border-radius;
-  display: none;
+//  display: none;
   position: absolute;
 
   &.add-menu,
@@ -34,3 +34,4 @@
     }
   }
 }
+*/

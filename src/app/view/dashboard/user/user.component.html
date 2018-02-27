@@ -24,16 +24,15 @@
         <span class="fill-remaining-space"></span>
 
         <!-- Tab menu -->
-        <nav mat-tab-nav-bar class="salsah-tab-group" *ngIf="!errorMessage && !isLoading">
-            <!-- the tabs contains the user admin navigation -->
-            <a mat-tab-link *ngFor="let item of menu; let first = first"
-               [routerLink]="item.route"
-               routerLinkActive
-               #rla="routerLinkActive"
-               [active]="rla.isActive">
-                <strong *ngIf="first">{{userProfile?.userData?.givenName + ' ' + userProfile?.userData?.familyName}}</strong>
+        <nav class="salsah-tab-group" *ngIf="!errorMessage">
+            <button *ngFor="let item of menu; let i = index; let first = first"
+                    mat-button
+                    class="salsah-tab-item"
+                    [routerLink]="item.route"
+                    routerLinkActive="active">
+                <strong *ngIf="first">{{user?.givenName + ' ' + user?.familyName}}</strong>
                 {{item.name}}
-            </a>
+            </button>
         </nav>
 
         <!-- This fills the remaining space of the current row -->
@@ -41,9 +40,7 @@
 
     </mat-toolbar>
 
-    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-
-    <div class="salsah-module-scroll-area" *ngIf="!isLoading" [ngSwitch]="route">
+    <div class="salsah-module-scroll-area" [ngSwitch]="route" *ngIf="!isLoading && user?.id !== undefined">
 
         <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
