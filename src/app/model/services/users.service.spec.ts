@@ -3,7 +3,7 @@ import {UsersService} from './users.service';
 import {HttpModule} from '@angular/http';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {ApiService} from './api.service';
-import {HttpBackend, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {ApiServiceError} from './api-service-error';
 import {User, UserResponse, UsersResponse} from '../webapi/knora/admin';
 import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
@@ -87,7 +87,7 @@ fdescribe('UsersService', () => {
             })));
 
         fit('#getUserByEmail should return user [it]', async(inject(
-            [UsersService, HttpBackend], (service, httpBackend) => {
+            [UsersService], (service) => {
 
                 expect(service).toBeDefined();
 
@@ -105,7 +105,7 @@ fdescribe('UsersService', () => {
             })));
 
         fit('#getUserByIri should return user [it]', async(inject(
-            [UsersService, HttpBackend], (service, httpBackend) => {
+            [UsersService], (service) => {
 
                 expect(service).toBeDefined();
 
