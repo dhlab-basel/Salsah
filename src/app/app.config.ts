@@ -33,6 +33,8 @@ export class AppConfig {
 
     public static KnoraApiV2WithValueObjectPath: string = AppConfig.KnoraApi + '/v2' + AppConfig.PathSeparator;
 
+    public static KnoraApiV2SimplePath: string = AppConfig.KnoraApi + '/simple/v2' + AppConfig.PathSeparator;
+
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
     public static hasOntologiesWithClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithClasses';
 
@@ -59,6 +61,7 @@ export class AppConfig {
 
     public static Region = AppConfig.KnoraApiV2WithValueObjectPath + 'Region';
 
+    public static Resource: string = AppConfig.KnoraApiV2WithValueObjectPath + 'Resource';
     public static TextValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'TextValue';
     public static IntValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'IntValue';
     public static BooleanValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'BooleanValue';
@@ -78,6 +81,11 @@ export class AppConfig {
     public static StillImageFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'StillImageFileValue';
     public static MovingImageFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'MovingImageFileValue';
     public static TextFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'TextFileValue';
+    public static IsValueClass: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isValueClass';
+    public static ForbiddenResource: string = AppConfig.KnoraApiV2WithValueObjectPath + 'ForbiddenResource';
+    public static XMLToStandoffMapping: string = AppConfig.KnoraApiV2WithValueObjectPath + 'XMLToStandoffMapping';
+    public static ListNode: string = AppConfig.KnoraApiV2WithValueObjectPath + 'ListNode';
+
 
     public static ReadTextValueAsHtml: string = 'ReadTextValueAsHtml';
     public static ReadTextValueAsString: string = 'ReadTextValueAsString';
@@ -161,11 +169,11 @@ export class AppConfig {
     public static GreaterThanComparisonOperator = '>';
     public static GreaterThanComparisonLabel = 'Greater_Than';
 
-    public static GreaterThanEqualsComparisonOperator = '>';
-    public static GreaterThanEqualsComparisonLabel = 'Greater_Than';
+    public static GreaterThanEqualsComparisonOperator = '>=';
+    public static GreaterThanEqualsComparisonLabel = 'Greater_Than_Equals';
 
-    public static LessThanComparisonOperator = '<=';
-    public static LessThanComparisonLabel = 'Less_Than_Equals';
+    public static LessThanComparisonOperator = '<';
+    public static LessThanComparisonLabel = 'Less_Than';
 
     public static LessThanEqualsComparisonOperator = '<=';
     public static LessThanQualsComparisonLabel = 'Less_Than_Equals';
@@ -173,18 +181,45 @@ export class AppConfig {
     public static ExistsComparisonOperator = 'E';
     public static ExistsComparisonLabel = 'Exists';
 
+    public static LikeComparisonOperator = 'regex';
+    public static LikeComparisonLabel = 'Like';
+
+    public static MatchComparisonOperator = 'contains';
+    public static MatchComparisonLabel = 'Match';
+
+    public static Xsd = 'http://www.w3.org/2001/XMLSchema#';
+
+    public static xsdString = AppConfig.Xsd + 'string';
+    public static xsdBoolean = AppConfig.Xsd + 'boolean';
+    public static xsdInteger = AppConfig.Xsd + 'integer';
+    public static xsdDecimal = AppConfig.Xsd + 'decimal';
+    public static xsdUri = AppConfig.Xsd + 'anyURI';
+
+    public static resourceSimple = AppConfig.KnoraApiV2SimplePath + 'Resource';
+    public static dateSimple = AppConfig.KnoraApiV2SimplePath + 'Date';
+    public static intervalSimple = AppConfig.KnoraApiV2SimplePath + 'Interval';
+    public static geomSimple = AppConfig.KnoraApiV2SimplePath + 'Geom';
+    public static colorSimple = AppConfig.KnoraApiV2SimplePath + 'Color';
+    public static geonameSimple = AppConfig.KnoraApiV2SimplePath + 'Geoname';
+    public static stillImageFileSimple = AppConfig.KnoraApiV2SimplePath + 'StillImageFile';
+    public static fileSimple = AppConfig.KnoraApiV2SimplePath + 'File';
+    public static movingFileSimple = AppConfig.KnoraApiV2SimplePath + 'MovingImageFile';
+    public static audioFileSimple = AppConfig.KnoraApiV2SimplePath + 'AudioFile';
+    public static dddFileSimple = AppConfig.KnoraApiV2SimplePath + 'DDDFile';
+    public static textFileSimple = AppConfig.KnoraApiV2SimplePath + 'TextFile';
+    public static documentFileSimple = AppConfig.KnoraApiV2SimplePath + 'DocumentFile';
+
+    public static GNDPrefix = '(DE-588)';
+    public static GNDResolver = 'http://d-nb.info/gnd/';
+
+    public static VIAFPrefix = '(VIAF)';
+    public static VIAFResolver = 'https://viaf.org/viaf/';
+
     // regular expression
     public static RegexEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     public static RegexUrl = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/i;
     public static RegexPassword = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/i;
     public static RegexHex = /^[0-9A-Fa-f]+$/;
     public static RegexShortname = /^[a-zA-Z]+\S*$/;
-
-
-    public static GNDPrefix = "(DE-588)";
-    public static GNDResolver = "http://d-nb.info/gnd/";
-
-    public static VIAFPrefix = "(VIAF)";
-    public static VIAFResolver = "https://viaf.org/viaf/";
 
 }
