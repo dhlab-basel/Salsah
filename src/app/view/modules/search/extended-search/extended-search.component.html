@@ -1,15 +1,40 @@
-<div>
-    Extended Search Form:
+<form [formGroup]="form" (ngSubmit)="submit()">
+
     <div>
-        <select-graph *ngIf="namedGraphs.length > 0" [namedGraphs]="namedGraphs" (namedGraphSelected)="getClassesAndPropertiesForOntology($event)"></select-graph>
+        <select-ontology *ngIf="ontologies.length > 0" [formGroup]="form" [ontologies]="ontologies" (ontologySelected)="getResourceClassesAndPropertiesForOntology($event)"></select-ontology>
     </div>
 
     <div *ngIf="resourceClasses?.length > 0">
-        <select-class [setResourceClasses]="resourceClasses" (resourceClassSelected)="getPropertiesForClass($event)"></select-class>
+        <select-resource-class #resourceClass [formGroup]="form" [resourceClasses]="resourceClasses" (resourceClassSelectedEvent)="getPropertiesForResourceClass($event)"></select-resource-class>
     </div>
 
     <div *ngIf="properties !== undefined">
-        <select-property [setProperties]="properties"></select-property>
+
+        <div *ngFor="let prop of activeProperties; let i = index">
+
+            <select-property #property [activeResourceClass]="activeResourceClass" [formGroup]="form" [index]="i" [properties]="properties"></select-property>
+
+        </div>
+
+        <button mat-icon-button type="button" (click)="addProperty()" [disabled]="activeProperties.length >= 4">
+            <mat-icon aria-label="add a property">add</mat-icon>
+        </button>
+
+        <button mat-icon-button type="button" (click)="removeProperty()" [disabled]="activeProperties.length == 0">
+            <mat-icon aria-label="remove property">remove</mat-icon>
+        </button>
+
     </div>
-</div>
+
+    <div>
+        <button mat-icon-button type="button" (click)="resetForm()" [disabled]="this.activeOntology === undefined">
+            <mat-icon aria-label="reset query form">clear</mat-icon>
+        </button>
+
+        <button mat-icon-button type="submit" [disabled]="!formValid">
+            <mat-icon aria-label="submit query">send</mat-icon>
+        </button>
+    </div>
+
+</form>
 
