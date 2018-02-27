@@ -70,7 +70,8 @@ export class ListsListComponent implements OnInit {
             expand: 'Expand all',
             collapse: 'Collapse all',
             edit: 'Edit',
-            add: 'Add node'
+            add: 'Add node',
+            remove: 'Remove node'
         }
 
     }
@@ -154,7 +155,10 @@ export class ListsListComponent implements OnInit {
         this.currentNodes.push({ id: 'an id', name: 'another node', label: 'a node', children: [], level: 0 , position: 0});
         tree.treeModel.update();
     }
-
+    removeNode(tree, index: number) {
+        this.currentNodes.splice(index, 1);
+        tree.treeModel.update();
+    }
 
     // in the list view, it opens an object on the right hand side detail view
     // open / close user

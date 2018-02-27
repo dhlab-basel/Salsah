@@ -33,7 +33,7 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <span><b>{{listLists.nodesLabel}}</b>
-                    <span class="subtitle">Click on the node name to edit the node</span>
+                    <span class="subtitle">Drag and drop the nodes to reorder</span>
                 </span>
                 <salsah-progress-indicator *ngIf="isLoadingNodes"></salsah-progress-indicator>
                 <div *ngIf="currentListInfo" #tree>
@@ -44,20 +44,15 @@
                         {{listLists.buttons.collapse}}
                     </button>
                     <button class="right" mat-button color="primary" (click)="addNode(tree)">
+                        <mat-icon>add</mat-icon>
                         {{listLists.buttons.add}}
                     </button>
                     <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
-                            <span *ngIf="node.children.length == 0" matTooltip="Click on the node name to edit">
-                                <span (click)="editNode(item.id, node.data)">
-                                    {{ node.data.name }}
-                                </span>
-                            </span>
-                            <span *ngIf="node.children.length != 0"
-                                  matTooltip="Click arrow to see children, or node name to edit">
-                                <span (click)="editNode(item.id, node.data)">
-                                    {{ node.data.name }}
-                                </span>
+                            <span>
+                                <mat-icon class="small-icon" (click)="editNode(item.id, node.data)"> edit </mat-icon>
+                                <mat-icon class="small-icon" (click)="removeNode(tree, index)"> delete </mat-icon>
+                                {{ node.data.name }}
                             </span>
                             <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
                             <!--     <button>{{node.data.name}}</button>
@@ -65,30 +60,8 @@
                               -->
                         </ng-template>
                     </tree-root>
-
-
-
-                    <!--TODO: move button above next to "Nodes" title-->
                 </div>
-                <!--
-                              <mat-action-row>
-                                  <button mat-button
-                                          color="primary"
-                                          (click)="toggle(item?.id, i)">
-                                      {{listLists.buttons.edit}}
-                                  </button>
-                              </mat-action-row>
-
-                                          <mat-action-row>
-                                              <button mat-button
-                                                      color="primary"
-                                                      (click)="edit(item?.id)">
-                                                  edit
-                                              </button>
-                                          </mat-action-row>
-                              -->
             </mat-expansion-panel>
-
         </mat-accordion>
     </div>
 
