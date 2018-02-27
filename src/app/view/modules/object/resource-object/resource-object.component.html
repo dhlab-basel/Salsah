@@ -1,11 +1,11 @@
 <salsah-message *ngIf="errorMessage">{{errorMessage}}</salsah-message>
-<p>{{resource?.type}} ({{ontologyInfo?.getLabelForResourceClass(resource?.type)}})</p>
+<p>{{ontologyInfo?.getLabelForResourceClass(resource?.type)}}</p>
 <p>{{resource?.label}}</p>
 
 <mat-list>
     <div mat-line *ngFor="let prop of resource?.properties | key">
 
-        <span>{{prop.key}} ({{ontologyInfo?.getLabelForProperty(prop.key)}})</span>
+        <span>{{ontologyInfo?.getLabelForProperty(prop.key)}}</span>
 
         <!--  array templates -->
         <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->
@@ -19,7 +19,7 @@
         <ng-template #singleTemplates>
             <ul><li *ngFor="let val of prop.value | key">
             <span [ngSwitch]="val.value.getClassName()">
-                <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo"></read-text-value-as-html>
+                <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo" [bindEvents]="true"></read-text-value-as-html>
                 <read-text-value-as-string *ngSwitchCase="AppConfig.ReadTextValueAsString" [valueObject]="val.value"></read-text-value-as-string>
                 <read-text-value-as-xml *ngSwitchCase="AppConfig.ReadTextValueAsXml" [valueObject]="val.value"></read-text-value-as-xml>
                 <read-date-value *ngSwitchCase="AppConfig.ReadDateValue" [valueObject]="val.value"></read-date-value>
