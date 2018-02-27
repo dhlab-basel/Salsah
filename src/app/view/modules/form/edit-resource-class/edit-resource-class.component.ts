@@ -310,12 +310,12 @@ export class EditResourceClassComponent implements OnChanges {
                 'name': this.props[this.index].name,
                 'guiorder': this.props[this.index].guiorder,
                 'description': this.props[this.index].description,
-                'valuetype_id': this.props[this.index].valuetype_id,
+                'valuetype_id': new FormControl({value: this.props[this.index].valuetype_id, disabled: true}),
                 'label': [this.props[this.index].label, Validators.required],
                 'vocabulary': [this.props[this.index].vocabulary, Validators.required],
                 'attributes': this.props[this.index].attributes,
                 'occurrence': [this.props[this.index].occurrence, Validators.required],
-                'id': this.props[this.index].id,
+                'id': new FormControl({value: this.props[this.index].id, disabled: true}),
                 'gui_name': [this.props[this.index].gui_name, Validators.required]
             });
             console.log(this.eRForm4prop);
@@ -333,7 +333,7 @@ export class EditResourceClassComponent implements OnChanges {
                 'name': '',
                 'guiorder': '',
                 'description': this.selectedProp.description,
-                'valuetype_id': this.selectedProp.valuetype_id,
+                'valuetype_id': new FormControl({value: this.selectedProp.valuetype_id, disabled: true}),
                 'label': ['', Validators.required],
                 'vocabulary': [this.selectedProp.vocabulary, Validators.required],
                 'attributes': this.selectedProp.attributes,
