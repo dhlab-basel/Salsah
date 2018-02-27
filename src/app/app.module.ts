@@ -152,6 +152,7 @@ import { EditNodeInfoComponent } from './view/modules/form/edit-node-info/edit-n
 import { InternationalizationComponent } from './view/modules/framework/main-framework/internationalization/internationalization.component';
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 import { GndDirective } from './view/modules/other/gnd.directive';
+import { EditListInfoComponent } from './view/modules/form/edit-list-info/edit-list-info.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
@@ -268,7 +269,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ExistingNameDirective,
         GndDirective,
         InternationalizationComponent,
-        ContactFormComponent
+        ContactFormComponent,
+        EditListInfoComponent,
     ],
     imports: [
         BrowserModule,
