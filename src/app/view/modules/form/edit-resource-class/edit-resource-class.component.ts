@@ -452,8 +452,9 @@ export class EditResourceClassComponent implements OnChanges {
     // At this moment there is a mix-up when reordering the properties with drag and drop and then resetting: the property resets to the one with the respective index
     // (i.e. if I move a prop[6] from position 6 to position 3, it will reset to prop[3]). This should be fixed when we actually submit the data to Knora, since then
     // we will get the updated list every time after saving.
-    resetDefaultProp(index: number): void {
+    resetDefaultProp(ev, index: number): void {
         if (this.resType.properties[index] !== undefined) {
+            ev.preventDefault();
             this._resourceTypesService.getResourceType(this.iri)
                 .subscribe(
                     (result: ApiServiceResult) => {
