@@ -1,0 +1,103 @@
+<!------------------------------------Edit lists!    ------------------------------------------------>
+<!------------------------------------------------------------------------------------------------------->
+<salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+<section class="salsah-form-content" *ngIf="!isLoading">
+    <!------------------------------------------------------------------------------------------------------->
+    <!-----------Here we will use expansion panels for each node, which will be collapsible------------------>
+    <!-----------Each expansion panels will have its own save button----------------------------------------->
+
+    <mat-expansion-panel class="full-width" [expanded]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <span>{{editLists.label}}: {{ listInfoForm.get('labels').at(0).get('value').value }} </span>
+            </mat-panel-title>
+            <mat-panel-description>
+                <span>{{editLists.description}}</span>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form class="salsah-form new-user" [formGroup]="listInfoForm">
+
+            <h5>Labels</h5>
+            <span *ngIf="labels" formArrayName="labels">
+               <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
+                   <mat-form-field class="width-70">
+                       <input matInput
+                              placeholder="Value"
+                              formControlName="value">
+                   </mat-form-field>
+                   <mat-form-field class="width-20">
+                      <input matInput
+                             placeholder="Language"
+                             formControlName="language">
+                   </mat-form-field>
+                   <button mat-icon-button aria-label="Clear" (click)="removeLabel(i)">
+                       <mat-icon>close</mat-icon>
+                   </button>
+               </div>
+                <mat-action-row>
+                   <button mat-button
+                           class="right"
+                           [color]="'primary'"
+                           (click)="addLabel()">
+                       Add Label
+                   </button>
+                </mat-action-row>
+            </span>
+
+            <h5>Comments</h5>
+            <span *ngIf="comments" formArrayName="comments">
+                <div *ngFor="let comment of comments.controls; let i=index" [formGroupName]="i">
+                    <mat-form-field class="width-70">
+                        <input matInput
+                               [placeholder]=editLists.list.comments
+                               formControlName="value">
+                    </mat-form-field>
+                    <mat-form-field class="width-20">
+                        <input matInput
+                               placeholder="Language"
+                               formControlName="language">
+                    </mat-form-field>
+                    <button mat-icon-button aria-label="Clear" (click)="removeComment(i)">
+                       <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <mat-action-row>
+                    <button mat-button
+                            class="right"
+                            [color]="'primary'"
+                            (click)="addComment()">
+                       Add Comment
+                    </button>
+               </mat-action-row>
+            </span>
+            <br>
+            <br>
+            <mat-form-field class="full-width">
+                <input matInput
+                       [placeholder]=editLists.list.id
+                       formControlName="id">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput
+                       [placeholder]=editLists.list.project
+                       formControlName="belongsToProject">
+            </mat-form-field>
+
+            <mat-action-row>
+                <button mat-button
+                        color="warn"
+                        (click)="revertListInfo()">
+                    {{editLists.buttons.reset}}
+                </button>
+                <button mat-raised-button
+                        class="save-button"
+                        [color]="'primary'"
+                        [disabled]="!listInfoForm.valid"
+                        (click)="saveListInfo()"
+                        mat-dialog-close>
+                    {{editLists.buttons.save}}
+                </button>
+            </mat-action-row>
+        </form>
+    </mat-expansion-panel>
+</section>

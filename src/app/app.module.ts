@@ -142,7 +142,7 @@ import {DecimalValueComponent} from './view/modules/search/extended-search/selec
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
 
-import {KnarqlgenerationService} from "./model/services/knarqlgeneration.service";
+import {KnarqlgenerationService} from './model/services/knarqlgeneration.service';
 import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertiblecalendardateadapter';
 import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
 import {TextValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
@@ -153,10 +153,11 @@ import {InternationalizationComponent} from './view/modules/framework/main-frame
 
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 import {BeolComponent} from './view/templates/beol/beol.component';
-import {BeolService} from "./model/services/beol.service";
+import {BeolService} from './model/services/beol.service';
 import {GndDirective} from './view/modules/other/gnd.directive';
-import {InfiniteScrollModule} from "ngx-infinite-scroll";
-import {SearchParamsService} from "./model/services/search-params.service";
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {SearchParamsService} from './model/services/search-params.service';
+import {EditListInfoComponent} from './view/modules/form/edit-list-info/edit-list-info.component';
 
 
 //
@@ -272,7 +273,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ExistingNameDirective,
         BeolComponent,
         GndDirective,
-        InternationalizationComponent
+        InternationalizationComponent,
+        EditListInfoComponent,
     ],
     imports: [
         BrowserModule,

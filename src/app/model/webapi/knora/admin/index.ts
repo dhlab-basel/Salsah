@@ -32,6 +32,7 @@ export * from './lists/list-node-info';
 export * from './lists/list-node-info-response';
 export * from './lists/list-response';
 export * from './lists/lists-response';
+export * from './lists/list-create-payload';
 
 
 /**
