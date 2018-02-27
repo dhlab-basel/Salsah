@@ -58,30 +58,6 @@ export class SelectUserComponent implements OnInit {
     // in case of an API error
     errorMessage: any;
 
-    // labels, titles and other texts in the form
-    formLabels: any = {
-        user: {
-            select: {
-                title: 'Select user',
-                titleDone: 'Selected user',
-                description: 'Add an existing one',
-                autoComplete: 'just type a name here',
-                autoCompleteHint: '',
-                skip: 'Skip and create new user instead'
-            },
-        },
-        navigation: {
-            next: 'Next',
-            back: 'Back',
-            skip: 'Skip',
-            cancel: 'Cancel',
-            submit: 'Save',
-            close: 'Close',
-            add: 'Add more users',
-            reset: 'Reset'
-        }
-    };
-
     constructor(private _usersService: UsersService) {
 
         this.userCtrl = new FormControl('', Validators.required);
@@ -189,7 +165,7 @@ export class SelectUserComponent implements OnInit {
     }
 
     /**
-     * navigate go to the next or the one after that (skip)
+     * navigate go to the next step or the one after that (skip)
      * @param ev
      * @param {string} step
      */

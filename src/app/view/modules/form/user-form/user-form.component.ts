@@ -38,6 +38,8 @@ export class UserFormComponent implements OnInit {
     // general stuff
     isLoading: boolean = true;
     errorMessage: any = undefined;
+    // step by step form
+    step: number;
 
     // user data
     // the user-form can be used to create new users or to edit existing users
@@ -180,11 +182,11 @@ export class UserFormComponent implements OnInit {
                  private _fb: FormBuilder) {
 
         // auto complete form user
-        this.userCtrl = new FormControl();
+        this.userCtrl = new FormControl('', Validators.required);
 
         this.filteredUsers = this.userCtrl.valueChanges
             .pipe(
-                startWith(''),
+                startWith(this.userCtrl.value),
                 map(user => user ? this.filter(this.allUsers, user) : this.allUsers.slice())
             );
 
@@ -344,28 +346,32 @@ export class UserFormComponent implements OnInit {
 
     }
 
-    // filter for auto complete input field
+    /**
+     * filter a list while typing in auto complete input field
+     * @param {AutocompleteItem[]} list
+     * @param {string} name
+     * @returns {AutocompleteItem[]}
+     */
     filter(list: AutocompleteItem[], name: string) {
         return list.filter(user =>
             user.name.toLowerCase().includes(name.toLowerCase())
         );
     }
 
-    setSelected(value: any) {
+    /**
+     * set selected user from auto complete
+     * @param {AutocompleteItem} value
+     */
+    setSelected(value: AutocompleteItem) {
 
-        let exists: boolean;
-
-        if (typeof value === 'string') {
-            exists = value.startsWith('*');
-
-        } else {
-            // type of value is AutocompleteItem
-            exists = value.name.startsWith('*');
-            if (exists === true) {
-                // 
-
-            }
+        if (value.name.startsWith('*')) {
+            // user is already member in the project
+            console.log(value.id + ' is already a member in this project');
         }
+        console.log('username: ', value.name.split('(')[1].split(')')[0]);
+        this.selectedUser = value.id;
+
+
 
 
         // if the selected user is already a member in the project, make an alert (or something else)
@@ -382,6 +388,33 @@ export class UserFormComponent implements OnInit {
             }
         }
 */
+    }
+
+    resetSelected(ctrl: FormControl) {
+        ctrl.reset();
+        this.selectedUser = undefined;
+    }
+
+    /**
+     * navigate go to the next step or the one after that (skip)
+     * @param {Event} ev
+     * @param {string} step
+     */
+    navigate(ev: Event, step: string) {
+        ev.preventDefault();
+        const num: number = (step === 'skip' ? 1 : 3);
+        if (step) {
+            this.step = num;
+        } else {
+            this.step++;
+        }
+    }
+
+    nextStep(ev: Event) {
+        // check some values here
+        // new user or existing one?
+        console.log(this.selectedUser);
+        // if undefined, check if  the value is a valid email address
     }
 
 
