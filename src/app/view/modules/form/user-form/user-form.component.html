@@ -6,35 +6,7 @@
 
     <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
-    <form class="salsah-form-content" *ngIf="!isLoading">
-        <mat-form-field class="full-width">
-            <input matInput
-                   [matAutocomplete]="user"
-                   [formControl]="userCtrl"
-                   [placeholder]="'salsahLabels.userFormLabels.user.select.autoComplete' | translate">
-            <mat-icon matSuffix
-                      class="input-icon"
-                      (click)="resetSelected(userCtrl)"
-                      *ngIf="userCtrl.value && userCtrl.dirty">
-                close
-            </mat-icon>
-            <button mat-button matSuffix
-                    class="navigation-button"
-                    color="primary"
-                    (click)="nextStep($event)"
-                    [disabled]="!userCtrl.valid">
-                {{ 'salsahLabels.userFormLabels.navigation.next' | translate }}
-            </button>
-            <mat-autocomplete #user="matAutocomplete">
-                <mat-option *ngFor="let user of filteredUsers | async"
-                            [value]="user?.name"
-                            (onSelectionChange)="setSelected(user)">
-                    {{ user?.name }}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-
-    </form>
+    <salsah-select-user [project]="projectIri"></salsah-select-user>
 
 </div>
 

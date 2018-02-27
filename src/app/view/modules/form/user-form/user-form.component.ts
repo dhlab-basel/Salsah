@@ -248,8 +248,9 @@ export class UserFormComponent implements OnInit {
                         }
 
                         this.allUsers[i] = {
-                            id: u.id,
-                            name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
+                            iri: u.id,
+                            name: u.email,
+                            label: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
                         };
                         i++;
                     }
@@ -366,10 +367,10 @@ export class UserFormComponent implements OnInit {
 
         if (value.name.startsWith('*')) {
             // user is already member in the project
-            console.log(value.id + ' is already a member in this project');
+            console.log(value.iri + ' is already a member in this project');
         }
         console.log('username: ', value.name.split('(')[1].split(')')[0]);
-        this.selectedUser = value.id;
+        this.selectedUser = value.iri;
 
 
 
