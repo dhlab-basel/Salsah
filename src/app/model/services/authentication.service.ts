@@ -14,9 +14,9 @@ import {PermissionData, Project, UserResponse} from '../webapi/knora';
 @Injectable()
 export class AuthenticationService extends ApiService {
 
-    public token: string;
+    private token: string;
 
-    public isSysAdmin: boolean;
+    private isSysAdmin: boolean;
 
     constructor(_http: Http,
                 private _userService: UsersService,
@@ -35,82 +35,96 @@ export class AuthenticationService extends ApiService {
      */
     login(email: string, password: string): Observable<boolean> {
 
+        // new login, so remove anything stale
+
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('lang');
+
         let isLoading: boolean = true;
 
         // data to check if the user has system admin (sysAdmin) rights
         let isSysAdmin: boolean = false;
         let permissions: PermissionData;
 
-        return this.httpPost('/v2/authentication', {email: email, password: password}).map(
-            (result: ApiServiceResult) => {
-                console.log('AuthenticationService - login - result:', result);
+        return this.httpPost('/v2/authentication', {email: email, password: password})
+            .map(
+                (result: ApiServiceResult) => {
+                    console.log('AuthenticationService - login - result:', result);
 
-                const token = result.body && result.body.token;
-                if (token) {
-                    // set token property
-                    this.token = token;
+                    const token = result.body && result.body.token;
+
+                    if (token) {
+                        return token;
+                    } else {
+                        // If login does fail, then we would gotten an error back. This case covers
+                        // a `positive` login outcome without a returned token. This is a bug in `webapi`
+                        throw new Error('Token not returned. Please report this as a possible bug.');
+                    }
+                },
+                (error: ApiServiceError) => {
+                    const errorMessage = <any>error;
+                    console.error('AuthenticationService - login - error: ' + errorMessage);
+                    throw error;
+                })
+            // end of first observable. now we need to chain it with the second. the second observable hast the return value of the first
+            // observable as the input parameter.
+            .flatMap(
+                (token: string) => {
 
                     // check if the user is sysAdmin
-                    this._userService.getUserByEmail(email).subscribe(
-                        (user: User) => {
+                    return this._userService.getUserByEmail(email)
+                        .map(
+                            (user: User) => {
 
-                            permissions = user.permissions;
+                                permissions = user.permissions;
 
-                            // console.log(res);
+                                // console.log(res);
 
-                            if (permissions.groupsPerProject[AppConfig.SystemProject]) {
-                                isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
-                            }
+                                if (permissions.groupsPerProject[AppConfig.SystemProject]) {
+                                    isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
+                                }
 
-                            const currentUserObject: CurrentUser = {
-                                email: email,
-                                token: token,
-                                sysAdmin: isSysAdmin
-                            };
+                                const currentUserObject: CurrentUser = {
+                                    email: email,
+                                    token: token,
+                                    sysAdmin: isSysAdmin
+                                };
 
-                            // store username and jwt token in local storage to keep user logged in between page refreshes
-                            // and set the system admin property to true or false
-                            localStorage.setItem('currentUser', JSON.stringify(currentUserObject));
-                            localStorage.setItem('lang', user.lang);
+                                // store username and jwt token in local storage to keep user logged in between page refreshes
+                                // and set the system admin property to true or false
+                                localStorage.setItem('currentUser', JSON.stringify(currentUserObject));
+                                localStorage.setItem('lang', user.lang);
 
-                            // get the project permissions
-                            this.projectPermissions(user);
+                                // get the project permissions and write them to local storage
+                                this.projectPermissions(user);
 
-                            isLoading = false;
-                        },
-                        (error: ApiServiceError) => {
-                            console.log(error);
-                            console.error('AuthenticationService - login - getUserByEmail error: ' + error);
-                            isSysAdmin = false;
+                                isLoading = false;
 
-                            // there was an error during login. remove anything from local storage
-                            localStorage.removeItem('currentUser');
-                            localStorage.removeItem('lang');
-                            isLoading = false;
+                                // return true to indicate successful login
+                                return true;
+                            },
+                            (error: ApiServiceError) => {
+                                console.log(error);
+                                console.error('AuthenticationService - login - getUserByEmail error: ' + error);
+                                isSysAdmin = false;
 
-                            // throw error
-                            throw error
-                        });
+                                // there was an error during login. remove anything from local storage
+                                localStorage.removeItem('currentUser');
+                                localStorage.removeItem('lang');
+                                isLoading = false;
 
-                    // return true to indicate successful login
-                    return true;
-                } else {
+                                // throw error
+                                throw error;
+                            });
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    console.error('AuthenticationService - login - authentication error: ' + error);
+                    throw error;
+                });
 
-                    // login not successful. remove anything from local storage
-                    localStorage.removeItem('currentUser');
-                    localStorage.removeItem('lang');
 
-                    // return false to indicate failed login
-                    return false;
-                }
-            },
-            (error: ApiServiceError) => {
-                const errorMessage = <any>error;
-                console.error('AuthenticationService - login - error: ' + errorMessage);
-                throw error;
-            }
-        );
-    }
+    };
 
     /**
      * Checks if the user is logged in or not.
@@ -159,12 +173,12 @@ export class AuthenticationService extends ApiService {
     }
 
     /**
-     * Extracts permission information from the user object and writes them to local storage
+     * Extracts permission information from the user object and writes them to session storage
      *
      * @param {User} user
      * @returns {any}
      */
-    projectPermissions(user: User): any {
+    projectPermissions(user: User): void {
 
         const permissions: PermissionData = user.permissions;
         const projectsList: string[] = [];
@@ -203,7 +217,7 @@ export class AuthenticationService extends ApiService {
 
 
     /**
-     * Sends a logout request to the server and removes the token from local storage.
+     * Sends a logout request to the server and removes any variables.
      */
     logout(): void {
 
@@ -218,6 +232,14 @@ export class AuthenticationService extends ApiService {
             }
         );
 
+        // clear token remove user from local storage to log user out
+        this.clearEverything();
+    }
+
+    /**
+     * Clears any variables set during authentication in local and session storage
+     */
+    clearEverything(): void {
         // clear token remove user from local storage to log user out
         this.token = null;
         localStorage.removeItem('currentUser');
