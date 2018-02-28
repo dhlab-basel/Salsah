@@ -12,22 +12,18 @@
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
 
-########
-SALSAH 2
-########
 
-..  toctree::
-    :maxdepth: 3
-
-    0-release-notes/index
-    introduction
-    get-started
-    dev-guidelines
-    app/index
+#############
+Release Notes
+#############
 
 
+.. toctree::
+   :maxdepth: 2
 
-Indices and tables
-==================
+   v2.0.0-alpha.7
+   v2.0.0-alpha.8
+   v2.0.0-alpha.12
+   v2.0.0-alpha.13
 
-* :ref:`genindex`
+

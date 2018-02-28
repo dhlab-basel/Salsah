@@ -12,22 +12,17 @@
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
 
-########
-SALSAH 2
-########
+************************************************
+v2.0.0-alpha.13 Release Notes (not released yet)
+************************************************
 
-..  toctree::
-    :maxdepth: 3
+See the `release`_ on Github.
 
-    0-release-notes/index
-    introduction
-    get-started
-    dev-guidelines
-    app/index
+New features:
+-------------
 
+Bugfixes:
+---------
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
+.. _release: https://github.com/dhlab-basel/Salsah/releases/tag/v2.0.0-alpha.13
