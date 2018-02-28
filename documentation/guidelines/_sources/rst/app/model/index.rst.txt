@@ -12,22 +12,26 @@
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
 
-########
-SALSAH 2
-########
 
-..  toctree::
-    :maxdepth: 3
+.. _app_model:
 
-    0-release-notes/index
-    introduction
-    get-started
-    dev-guidelines
-    app/index
+=========
+app/model
+=========
+
+This direcotry contains all files to get and send data from and to the webapi.
+
+--------
+services
+--------
+In the sub directory called services, you will find all http services.
+
+------
+webapi
+------
+
+In the webapi directory we store interfaces or classes which defines the excepted data structure from an API. The main webapi is knora. If you want connect Salsah with other APIs, you should store the interfaces here in a separated sub directory.
 
 
 
-Indices and tables
-==================
 
-* :ref:`genindex`

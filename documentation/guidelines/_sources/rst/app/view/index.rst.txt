@@ -12,22 +12,35 @@
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
 
+
+.. _app_view:
+
 ########
-SALSAH 2
+app/view
 ########
 
-..  toctree::
-    :maxdepth: 3
+---------
+dashboard
+---------
 
-    0-release-notes/index
-    introduction
-    get-started
-    dev-guidelines
-    app/index
+-------------
+documentation
+-------------
+
+-----
+login
+-----
+
+-------
+modules
+-------
+
+ * search
+
+-------------------------------
+[+ all app configuration files]
+-------------------------------
 
 
 
-Indices and tables
-==================
 
-* :ref:`genindex`
