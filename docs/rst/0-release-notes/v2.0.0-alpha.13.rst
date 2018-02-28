@@ -13,7 +13,7 @@
 
 
 ************************************************
-v2.0.0-alpha.10 Release Notes (not released yet)
+v2.0.0-alpha.13 Release Notes (not released yet)
 ************************************************
 
 See the `release`_ on Github.
@@ -25,4 +25,4 @@ Bugfixes:
 ---------
 
 
-.. _release: https://github.com/dhlab-basel/Salsah/releases/tag/v2.0.0-alpha.10
+.. _release: https://github.com/dhlab-basel/Salsah/releases/tag/v2.0.0-alpha.13

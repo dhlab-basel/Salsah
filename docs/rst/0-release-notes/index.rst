@@ -19,10 +19,11 @@ Release Notes
 
 
 .. toctree::
-:maxdepth: 2
+   :maxdepth: 2
+
+   v2.0.0-alpha.7
+   v2.0.0-alpha.8
+   v2.0.0-alpha.12
+   v2.0.0-alpha.13
 
 
-       v2.0.0-alpha.7
-       v2.0.0-alpha.8
-       v2.0.0-alpha.09
-       v2.0.0-alpha.10

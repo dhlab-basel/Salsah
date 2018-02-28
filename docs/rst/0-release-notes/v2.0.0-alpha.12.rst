@@ -12,9 +12,9 @@
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
 
-************************************************
-v2.0.0-alpha.09 Release Notes (not released yet)
-************************************************
+*****************************
+v2.0.0-alpha.12 Release Notes
+*****************************
 
 See the `release`_ on Github.
 
@@ -25,4 +25,4 @@ Bugfixes:
 ---------
 
 
-.. _release: https://github.com/dhlab-basel/Salsah/releases/tag/v2.0.0-alpha.09
+.. _release: https://github.com/dhlab-basel/Salsah/releases/tag/v2.0.0-alpha.12
