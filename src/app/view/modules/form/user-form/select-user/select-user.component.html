@@ -1,24 +1,58 @@
-<form class="salsah-form-content" *ngIf="!isLoading" [formGroup]="form">
-    <mat-form-field class="full-width">
-        <input matInput
-               [matAutocomplete]="user"
-               [formControl]="form.controls['username']"
-               [placeholder]="'salsahLabels.userFormLabels.user.select.autoComplete' | translate">
-        <mat-icon matSuffix
-                  class="input-icon"
-                  (click)="resetSelected(form.controls['username'])"
-                  *ngIf="form.controls['username'].dirty">
-            close
-        </mat-icon>
-        <mat-hint *ngIf="formErrors.username">
-            {{ formErrors.username }}
-        </mat-hint>
-        <mat-autocomplete #user="matAutocomplete">
-            <mat-option *ngFor="let user of filteredUsers | async"
-                        [value]="user?.name"
-                        (onSelectionChange)="setSelected(user)">
-                {{ user?.label }}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-</form>
+<div *ngIf="!isLoading && !errorMessage; else errorMsg">
+    <form class="salsah-form-content select-user-form" *ngIf="!isLoading" [formGroup]="form">
+        <!--
+
+        -->
+        <mat-form-field class="medium">
+            <input matInput
+                   [matAutocomplete]="user"
+                   [formControl]="form.controls['username']"
+                   [placeholder]="'salsahLabels.userFormLabels.user.select.autoComplete' | translate">
+                <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                        *ngIf="form.controls['username'].dirty"
+                        (click)="resetSelected(form.controls['username'])">
+                    <mat-icon>close</mat-icon>
+                </button>
+
+                <mat-autocomplete #user="matAutocomplete">
+                    <mat-option *ngFor="let user of filteredUsers | async"
+                                [value]="user?.name"
+                                (onSelectionChange)="setSelected(user)">
+                        {{ user?.label }}
+                    </mat-option>
+                </mat-autocomplete>
+
+            <mat-hint *ngIf="formErrors.username">
+                {{ formErrors.username }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!--
+
+        -->
+        <button  *ngIf="!selectedUser" mat-raised-button color="primary"
+                 [disabled]="!form.valid"
+                 (click)="setSelected()">
+            {{"salsahLabels.userFormLabels.navigation.next" | translate}}
+        </button>
+
+        <!--
+
+        -->
+        <mat-form-field *ngIf="selectedUser" class="small">
+            <mat-select placeholder="Project permission" [formControl]="form.controls['group']" [(value)]="form.controls['group'].value" multiple>
+                <mat-option *ngFor="let group of groups; let first = first" [value]="group.label">
+                    {{ group.label }}
+                </mat-option>
+            </mat-select>
+
+        </mat-form-field>
+
+
+    </form>
+</div>
+
+<!-- in the case of an API error: show the error message -->
+<ng-template #errorMsg>
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+</ng-template>

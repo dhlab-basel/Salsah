@@ -44,8 +44,6 @@ export class SelectUserComponent implements OnInit {
 
     // form group for the form controller
     form: FormGroup = new FormGroup({});
-    // form controller for mat-autocomplete
-    userCtrl: FormControl;
 
     // after selected a user, get the UserData/Profile from Knora
     selectedUser: string = undefined;
@@ -72,6 +70,28 @@ export class SelectUserComponent implements OnInit {
         },
     };
 
+    // permission groups / role of the user in a project
+    groups: AutocompleteItem[] = [
+        {
+            iri: '',
+            name: '',
+            label: 'Member'
+        },
+        {
+            iri: '',
+            name: '',
+            label: 'Administrator'
+        },
+        {
+            iri: '',
+            name: '',
+            label: 'System admin'
+        }
+
+    ];
+
+    selectedGroup: string = 'Member';
+
 
     constructor(private _usersService: UsersService,
                 private _fb: FormBuilder) {
@@ -84,6 +104,10 @@ export class SelectUserComponent implements OnInit {
                     Validators.pattern(AppConfig.RegexEmail),
                     existingNamesValidator(this.existingUserNames)
                 ]
+            ),
+            'group': new FormControl({
+                value: 'Member'
+            }, []
             )
         });
 
@@ -150,6 +174,7 @@ export class SelectUserComponent implements OnInit {
 
                 },
                 (error: ApiServiceError) => {
+                    this.isLoading = false;
                     this.errorMessage = error;
                 }
             );
@@ -173,12 +198,12 @@ export class SelectUserComponent implements OnInit {
      *
      * @param {AutocompleteItem} user
      */
-    setSelected(user: AutocompleteItem) {
+    setSelected(user?: AutocompleteItem) {
         // set selected has four possible scenarios
         // a) the user has selected one user from the auto-complete list, which gives us the user's IRI
         // b) the user has typed in an eMail address of a new user. It means the user doesn't exist yet
         // c) the user has typed in an eMail address of an existing user, but has not selected from the auto-complete list
-        // d) the user has typed in something else, which is not a valid eMail address, so the form isn't valid
+        // d) the user has typed in something else, which is not a valid eMail address, so the form isn't valid and this method will never start
 
         // check if the form is valid
         Object.keys(this.formErrors).map(field => {
@@ -193,6 +218,17 @@ export class SelectUserComponent implements OnInit {
             }
         });
 
+        // which case do we have? option a - d?
+        if (user) {
+            // case a) set selected user
+            console.log('case a) ', user)
+        } else {
+            // case b or c
+            console.log('case b or c) not sure if this user exists ', this.form.controls['username']);
+            // get user by username
+        }
+
+
         if (user.name.startsWith('*')) {
             // user is already member in the project
             console.log(user.iri + ' is already a member in this project');
@@ -202,11 +238,19 @@ export class SelectUserComponent implements OnInit {
     }
 
     /**
-     *
+     *  reset auto complete input and selected user
      */
     resetSelected() {
         this.form.reset();
         this.selectedUser = undefined;
+    }
+
+    /**
+     *
+     * @param {string} val
+     */
+    checkInput(val: string) {
+
     }
 
 
