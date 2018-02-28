@@ -1,11 +1,11 @@
 import {async, inject, TestBed} from '@angular/core/testing';
+import {HttpModule} from '@angular/http';
+import {environment} from '../../../environments/environment';
+import {CurrentUser} from '../webapi/knora/admin/authentication/current-user';
 
 import {AuthenticationService} from './authentication.service';
-import {BaseRequestOptions, Http, HttpModule} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {UsersService} from './users.service';
 import {ProjectsService} from './projects.service';
-import {environment} from '../../../environments/environment';
+import {UsersService} from './users.service';
 
 fdescribe('AuthenticationService', () => {
     beforeEach(() => {
@@ -16,20 +16,13 @@ fdescribe('AuthenticationService', () => {
             providers: [
                 AuthenticationService,
                 UsersService,
-                ProjectsService,
-                MockBackend,
-                BaseRequestOptions,
-                {
-                    provide: Http,
-                    useFactory: (backend, options) => new Http(backend, options),
-                    deps: [MockBackend, BaseRequestOptions]
-                }
+                ProjectsService
             ]
         });
     });
 
     fit('should be created', async(inject(
-        [AuthenticationService, MockBackend], (service, mockBackend) => {
+        [AuthenticationService], (service) => {
             expect(service).toBeDefined();
         }))
     );
@@ -43,9 +36,21 @@ fdescribe('AuthenticationService', () => {
 
                 service.login('user01.user1@example.com', 'test').subscribe(
                     (result: boolean) => {
-                        expect(result).toEqual(true)
 
-                        expect(localStorage.getItem('currentUser')
+                        console.log('result: ', result);
+
+                        // login successful
+                        expect(result).toEqual(true);
+
+                        // check loacalStorage to be sure
+                        const currentUser: CurrentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+                        console.log('currentUser: ', currentUser);
+                        expect(currentUser).toBeTruthy();
+                        expect(currentUser.email).toEqual('user01.user1@example.com');
+                    },
+                    (error) => {
+                        console.log('error: ', error);
                     }
                 );
 
@@ -57,8 +62,17 @@ fdescribe('AuthenticationService', () => {
 
                 expect(service).toBeDefined();
 
-                const result = service.authenticate();
-                expect(result).toEqual(true)
+                service.login('user01.user1@example.com', 'test').subscribe(
+                    (result: boolean) => {
+
+                        // service call should be true if succeeded
+                        expect(result).toEqual(true);
+
+                        // check with authenticate
+                        const authRes = service.authenticate();
+                        expect(authRes).toEqual(true)
+                    }
+                );
 
             })));
 

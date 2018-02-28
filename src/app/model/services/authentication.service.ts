@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {User} from '../webapi/knora/admin';
+import {CurrentUser} from '../webapi/knora/admin/authentication/current-user';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs/Observable';
 import {ApiServiceResult} from './api-service-result';
@@ -39,10 +41,9 @@ export class AuthenticationService extends ApiService {
         let isSysAdmin: boolean = false;
         let permissions: PermissionData;
 
-
         return this.httpPost('/v2/authentication', {email: email, password: password}).map(
             (result: ApiServiceResult) => {
-                // console.log('AuthenticationService - login - result:', result);
+                console.log('AuthenticationService - login - result:', result);
 
                 const token = result.body && result.body.token;
                 if (token) {
@@ -50,9 +51,10 @@ export class AuthenticationService extends ApiService {
                     this.token = token;
 
                     // check if the user is sysAdmin
-                    this.httpGet('/admin/users/' + encodeURIComponent(email) + '?identifier=email').subscribe(
-                        (res: ApiServiceResult) => {
-                            permissions = res.body.user.permissions;
+                    this._userService.getUserByEmail(email).subscribe(
+                        (user: User) => {
+
+                            permissions = user.permissions;
 
                             // console.log(res);
 
@@ -60,40 +62,43 @@ export class AuthenticationService extends ApiService {
                                 isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
                             }
 
-                            this.projectPermissions(email);
-
-                            // store username and jwt token in local storage to keep user logged in between page refreshes
-                            // and set the system admin property to true or false
-                            localStorage.setItem('currentUser', JSON.stringify({
+                            const currentUserObject: CurrentUser = {
                                 email: email,
                                 token: token,
                                 sysAdmin: isSysAdmin
-                            }));
+                            };
 
-                            localStorage.setItem('lang', res.getBody(UserResponse).lang);
+                            // store username and jwt token in local storage to keep user logged in between page refreshes
+                            // and set the system admin property to true or false
+                            localStorage.setItem('currentUser', JSON.stringify(currentUserObject));
+                            localStorage.setItem('lang', user.lang);
+
+                            // get the project permissions
+                            this.projectPermissions(user);
 
                             isLoading = false;
-
                         },
                         (error: ApiServiceError) => {
                             console.log(error);
+                            console.error('AuthenticationService - login - getUserByEmail error: ' + error);
                             isSysAdmin = false;
-                            // store username and jwt token in local storage to keep user logged in between page refreshes
-                            // and set a system admin property to false
-                            localStorage.setItem('currentUser', JSON.stringify({
-                                email: email,
-                                token: token,
-                                sysAdmin: this.isSysAdmin
-                            }));
+
+                            // there was an error during login. remove anything from local storage
+                            localStorage.removeItem('currentUser');
+                            localStorage.removeItem('lang');
                             isLoading = false;
-                        }
-                    );
+
+                            // throw error
+                            throw error
+                        });
 
                     // return true to indicate successful login
-                    if (!isLoading) {
-                    }
                     return true;
                 } else {
+
+                    // login not successful. remove anything from local storage
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('lang');
 
                     // return false to indicate failed login
                     return false;
@@ -104,7 +109,7 @@ export class AuthenticationService extends ApiService {
                 console.error('AuthenticationService - login - error: ' + errorMessage);
                 throw error;
             }
-        )
+        );
     }
 
     /**
@@ -153,47 +158,46 @@ export class AuthenticationService extends ApiService {
         return activeSession;
     }
 
-    projectPermissions(user?: string): any {
-        // check if the user is sysAdmin
-        this.httpGet('/admin/users/' + encodeURIComponent(user) + '?identifier=email').subscribe(
-            (result: ApiServiceResult) => {
-                const permissions: PermissionData = result.body.user.permissions;
-                const projectsList: string[] = [];
-                let isSysAdmin: boolean = false;
+    /**
+     * Extracts permission information from the user object and writes them to local storage
+     *
+     * @param {User} user
+     * @returns {any}
+     */
+    projectPermissions(user: User): any {
 
-                if (permissions.groupsPerProject[AppConfig.SystemProject]) {
-                    isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
-                }
+        const permissions: PermissionData = user.permissions;
+        const projectsList: string[] = [];
+        let isSysAdmin: boolean = false;
 
-                if (isSysAdmin) {
-                    // the user is system admin and has all permission rights in every project
-                    // get all projects and set projectAdmin to true for every project
-                    this._projectsService.getAllProjects().subscribe(
-                        (projects: Project[]) => {
-                            for (const p of projects) {
-                                projectsList.push(p.id);
-                            }
-                            sessionStorage.setItem('projectAdmin', JSON.stringify(projectsList));
-                        },
-                        (error: ApiServiceError) => {
-                            console.log(error);
-                            sessionStorage.removeItem('projectAdmin');
-                        }
-                    );
-                } else {
-                    // get the projects, where the user is admin of
-                    for (const project in permissions.groupsPerProject) {
-                        if (permissions.groupsPerProject[project].indexOf(AppConfig.ProjectAdminGroup) > -1) {
-                            projectsList.push(project);
-                        }
+        if (permissions.groupsPerProject[AppConfig.SystemProject]) {
+            isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
+        }
+
+        if (isSysAdmin) {
+            // the user is system admin and has all permission rights in every project
+            // get all projects and set projectAdmin to true for every project
+            this._projectsService.getAllProjects().subscribe(
+                (projects: Project[]) => {
+                    for (const p of projects) {
+                        projectsList.push(p.id);
                     }
                     sessionStorage.setItem('projectAdmin', JSON.stringify(projectsList));
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    sessionStorage.removeItem('projectAdmin');
                 }
-            },
-            (error: ApiServiceError) => {
-                console.log(error);
+            );
+        } else {
+            // get the projects, where the user is admin of
+            for (const project in permissions.groupsPerProject) {
+                if (permissions.groupsPerProject[project].indexOf(AppConfig.ProjectAdminGroup) > -1) {
+                    projectsList.push(project);
+                }
             }
-        );
+            sessionStorage.setItem('projectAdmin', JSON.stringify(projectsList));
+        }
 
     }
 

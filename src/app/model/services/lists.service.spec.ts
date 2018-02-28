@@ -14,6 +14,7 @@
  */
 
 import {async, inject, TestBed} from '@angular/core/testing';
+import {CurrentUser} from '../webapi/knora/admin/authentication/current-user';
 
 import {ListsService} from './lists.service';
 import {ApiService} from './api.service';
@@ -38,7 +39,10 @@ import {AuthenticationService} from './authentication.service';
 import {UsersService} from './users.service';
 import {ProjectsService} from './projects.service';
 
-describe('ListsService', () => {
+fdescribe('ListsService', () => {
+
+    let newList: string;
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -82,8 +86,6 @@ describe('ListsService', () => {
 
 
     if (environment.type === 'integration') {
-
-        let newList: string;
 
         fit('should load test data [it]', async(inject(
             [StoreService], (service) => {
@@ -177,39 +179,54 @@ describe('ListsService', () => {
             [ListsService, AuthenticationService], (service, auth) => {
 
                 expect(service).toBeDefined();
+                expect(auth).toBeDefined();
 
-                // need to login
-                auth.login('user01.user1@example.com', 'test');
+                // we need to login as project admin
+                auth.login('user02.user@example.com', 'test').subscribe(
+                    (result: boolean) => {
 
-                const payload: ListCreatePayload = {
-                    projectIri: imagesProjectIri,
-                    labels: [{value: 'Neue Liste', language: 'de'}],
-                    comments: []
-                };
+                        // login successful
+                        expect(result).toEqual(true);
 
-                service.createList(payload)
-                    .subscribe(
-                        (list: List) => {
-                            // console.log('users: ' + JSON.stringify(users));
+                        const currentUser: CurrentUser = JSON.parse(localStorage.getItem('currentUser'));
+                        console.log('currentUser: ', currentUser);
 
-                            const listInfo = list.listinfo;
-                            const labels: StringLiteralV2[] = list.listinfo.labels;
 
-                            const expectedLabel: StringLiteralV2 = {value: 'Neue Liste', language: 'de'};
-                            const children = list.children;
+                        // create payload
+                        const payload: ListCreatePayload = {
+                            projectIri: imagesProjectIri,
+                            labels: [{value: 'Neue Liste', language: 'de'}],
+                            comments: []
+                        };
 
-                            expect(listInfo.projectIri).toEqual(imagesProjectIri);
-                            expect(labels[0].value).toEqual(expectedLabel.value);
-                            expect(labels[0].language).toEqual(expectedLabel.language);
-                            expect(children.length).toEqual(0);
+                        service.createList(payload)
+                            .subscribe(
+                                (list: List) => {
+                                    // console.log('users: ' + JSON.stringify(users));
 
-                            // save for next test
-                            newList = listInfo.id;
-                        },
-                        (error: ApiServiceError) => {
-                            fail(error);
-                        }
-                    );
+                                    const listInfo = list.listinfo;
+                                    const labels: StringLiteralV2[] = list.listinfo.labels;
+
+                                    const expectedLabel: StringLiteralV2 = {value: 'Neue Liste', language: 'de'};
+                                    const children = list.children;
+
+                                    expect(listInfo.projectIri).toEqual(imagesProjectIri);
+                                    expect(labels[0].value).toEqual(expectedLabel.value);
+                                    expect(labels[0].language).toEqual(expectedLabel.language);
+                                    expect(children.length).toEqual(0);
+
+                                    // save for next test
+                                    this.newList = listInfo.id;
+                                },
+                                (error: ApiServiceError) => {
+                                    fail(error);
+                                }
+                            );
+
+
+                    });
+
+
 
             })));
 
@@ -217,7 +234,10 @@ describe('ListsService', () => {
             [ListsService, AuthenticationService], (service, auth) => {
 
                 expect(service).toBeDefined();
-                
+
+                // need the list IRI from the previous test
+                expect(newList).toBeDefined();
+
                 // need to login
                 auth.login('user01.user1@example.com', 'test').subscribe(
                     (result: boolean) => {
