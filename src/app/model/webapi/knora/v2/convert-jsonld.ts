@@ -242,7 +242,7 @@ export module ConvertJSONLD {
                     propValue['@id'],
                     propIri,
                     propValue[AppConfig.hierarchicalListValueAsListNode],
-                    propValue[AppConfig.hierarchicalListValueAsListNodeName]
+                    propValue[AppConfig.hierarchicalListValueAsListNodeLabel]
                 );
 
                 valueSpecificProp = listValue;
