@@ -1,23 +1,28 @@
 <div class="salsah-module with-header">
     <mat-toolbar class="salsah-module-header">
-        <span>Looked for <strong>{{list.restrictedBy}} | # {{counter}}</strong></span>
+        <span>Looked for <strong>{{list.restrictedBy}} | # {{numberOfResults}}</strong></span>
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
         <!-- menu to switch the view: list, grid, table -->
         <mat-button-toggle-group #group="matButtonToggleGroup"
-                                (change)="changeView(group.value)"
-                                [(ngModel)]="selectedView">
+                                 (change)="changeView(group.value)"
+                                 [(ngModel)]="selectedView">
             <mat-button-toggle *ngFor="let view of viewOptions"
-                              [value]=view.name
-                              [title]=view.title
-                              [disabled]="view.isDisabled">
+                               [value]=view.name
+                               [title]=view.title
+                               [disabled]="view.isDisabled">
                 <mat-icon>{{view.icon}}</mat-icon>
             </mat-button-toggle>
         </mat-button-toggle-group>
     </mat-toolbar>
 
-    <div class="salsah-module-scroll-area">
-        <salsah-framework-for-listings [list]="list"></salsah-framework-for-listings>
+    <div class="salsah-module-scroll-area"
+         infiniteScroll
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="50"
+         (scrolled)="onScroll(offset)"
+         [scrollWindow]="false">
+        <salsah-framework-for-listings [list]="list" [offset]="offset"></salsah-framework-for-listings>
     </div>
 
 </div>

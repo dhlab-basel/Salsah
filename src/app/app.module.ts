@@ -2,8 +2,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {LanguageService} from './model/services/language.service';
 import {RouterModule} from '@angular/router';
@@ -14,13 +14,11 @@ import {APP_BASE_HREF} from '@angular/common';
 //
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-
 //
 // import the material design modules
 //
 import {AppMaterialModule} from './app-material-module';
 import 'hammerjs';
-
 //
 // import other third party modules
 //
@@ -37,12 +35,10 @@ import {OntologyCacheService} from './model/services/ontologycache.service';
 import {SearchService} from './model/services/search.service';
 import {IncomingService} from './model/services/incoming.service';
 import {UsersService} from './model/services/users.service';
-
 //
 // import all npm salsah modules
 //
-import { ProgressIndicatorModule } from '@salsah/progress-indicator';
-
+import {ProgressIndicatorModule} from '@salsah/progress-indicator';
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -86,7 +82,6 @@ import {DocumentationComponent} from './view/documentation/documentation.compone
 import {UserProjectsComponent} from './view/dashboard/user/user-projects/user-projects.component';
 import {UserCollectionsComponent} from './view/dashboard/user/user-collections/user-collections.component';
 import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-
 import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {DevelopmentComponent} from './view/test/development/development.component';
@@ -133,8 +128,8 @@ import {OntologiesListComponent} from './view/modules/listing/ontologies-list/on
 import {UsersListItemComponent} from './view/modules/listing/users-list/users-list-item/users-list-item.component';
 import {OntologyFormComponent} from './view/modules/form/ontology-form/ontology-form.component';
 import {SelectPropertyComponent} from './view/modules/search/extended-search/select-property/select-property.component';
-import {SelectClassComponent} from './view/modules/search/extended-search/select-class/select-class.component';
-import {SelectGraphComponent} from './view/modules/search/extended-search/select-graph/select-graph.component';
+import {SelectResourceClassComponent} from './view/modules/search/extended-search/select-resource-class/select-resource-class.component';
+import {SelectOntologyComponent} from './view/modules/search/extended-search/select-ontology/select-ontology.component';
 import {ReadUriValueComponent} from './view/properties/read-uri-value/read-uri-value.component';
 import {ReadBooleanValueComponent} from './view/properties/read-boolean-value/read-boolean-value.component';
 import {ReadIntervalValueComponent} from './view/properties/read-interval-value/read-interval-value.component';
@@ -146,13 +141,24 @@ import {IntegerValueComponent} from './view/modules/search/extended-search/selec
 import {DecimalValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/decimal-value/decimal-value.component';
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
-import {MatNativeDateModule} from '@angular/material';
-import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
-import { EditNodeInfoComponent } from './view/modules/form/edit-node-info/edit-node-info.component';
-import { InternationalizationComponent } from './view/modules/framework/main-framework/internationalization/internationalization.component';
+
+import {KnarqlgenerationService} from './model/services/knarqlgeneration.service';
+import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertiblecalendardateadapter';
+import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+import {TextValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
+import {UriValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
+import {LinkValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/link-value/link-value.component';
+import {EditNodeInfoComponent} from './view/modules/form/edit-node-info/edit-node-info.component';
+import {InternationalizationComponent} from './view/modules/framework/main-framework/internationalization/internationalization.component';
+
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
-import { GndDirective } from './view/modules/other/gnd.directive';
-import { EditListInfoComponent } from './view/modules/form/edit-list-info/edit-list-info.component';
+import {BeolComponent} from './view/templates/beol/beol.component';
+import {BeolService} from './model/services/beol.service';
+import {GndDirective} from './view/modules/other/gnd.directive';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {SearchParamsService} from './model/services/search-params.service';
+import {EditListInfoComponent} from './view/modules/form/edit-list-info/edit-list-info.component';
+
 
 //
 // import all needed services
@@ -247,8 +253,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         UsersListItemComponent,
         OntologyFormComponent,
         SelectPropertyComponent,
-        SelectClassComponent,
-        SelectGraphComponent,
+        SelectResourceClassComponent,
+        SelectOntologyComponent,
         ReadUriValueComponent,
         ReadBooleanValueComponent,
         ReadIntervalValueComponent,
@@ -260,12 +266,15 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         BooleanValueComponent,
         DateValueComponent,
         OntologiesListItemComponent,
+        TextValueComponent,
+        UriValueComponent,
+        LinkValueComponent,
         EditNodeInfoComponent,
         ExistingNameDirective,
+        BeolComponent,
         GndDirective,
         InternationalizationComponent,
-        EditListInfoComponent
-
+        EditListInfoComponent,
     ],
     imports: [
         BrowserModule,
@@ -274,7 +283,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         HttpModule,
         RouterModule,
         AppMaterialModule,
-        MatNativeDateModule,
+        MatJDNConvertibleCalendarDateAdapterModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
@@ -282,6 +291,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ProgressIndicatorModule,
         DndModule.forRoot(),
         HttpClientModule,
+        InfiniteScrollModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -313,7 +323,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,
+        KnarqlgenerationService,
+        BeolService,
         LanguageService,
+        SearchParamsService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

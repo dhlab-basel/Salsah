@@ -49,11 +49,34 @@ export class Utils {
         // split class Iri on "#"
         let segments: string[] = entityIri.split(AppConfig.PathSeparator);
 
-        if (segments.length != 2) console.log(`Error: ${entityIri} is not a valid entity IRI.`)
+        if (segments.length != 2) console.log(`Error: ${entityIri} is not a valid entity IRI.`);
 
         return segments[0];
 
     }
+
+    /**
+     * Converts a complex knora-api entity Iri to a knora-api simple entity Iri.
+     *
+     * @param {string} complexEntityIri
+     * @returns {string}
+     */
+    public static convertComplexKnoraApiEntityIritoSimple(complexEntityIri: string) {
+
+        // split entity Iri on "#"
+        let segments: string[] = complexEntityIri.split('v2' + AppConfig.PathSeparator);
+
+        if (segments.length != 2) console.log(`Error: ${complexEntityIri} is not a valid entity IRI.`);
+
+        // add 'simple' to base path
+        return segments[0] + 'simple/v2' + AppConfig.PathSeparator + segments[1];
+
+    }
+
+    /**
+     * A regex to validate URLs.
+     */
+    public static readonly urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/i;
 
 
 }

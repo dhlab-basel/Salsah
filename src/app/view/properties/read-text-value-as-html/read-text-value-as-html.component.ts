@@ -25,7 +25,7 @@ export class ReadTextValueAsHtmlComponent implements OnInit {
 
     @Input() valueObject: ReadTextValueAsHtml;
     @Input() ontologyInfo: OntologyInformation;
-    @Input() mathJax;
+    @Input('bindEvents') bindEvents: Boolean; // indicates if click and mouseover events have to be bound
 
     constructor() {
     }
