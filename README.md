@@ -1,8 +1,5 @@
 [![Build Status](https://travis-ci.org/dhlab-basel/Salsah.svg?branch=develop)](https://travis-ci.org/dhlab-basel/Salsah)
 
-```
-WARNING (2017/12/22): We updated the node packages to the latest version. If you have already installed Salsah, please update your local node_modules!
-```
 
 # Salsah
 
@@ -42,20 +39,9 @@ After cloning the Salsah code, install the node packages from the Salsah root di
 `yarn install --production=false`
 
 ### Start the Salsah app
-With `ng serve` the Salsah app starts on [localhost:4200](http://localhost:4200)
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 If you have any trouble to start the Salsah app with ng, you should have a look on the [@angular/cli](https://cli.angular.io) website.
-
-#### Update Salsah packages (last Update: December 22 2017)
-From time to time we grab the latest node packages for Salsah. 
-We recommend to update the packages with:
-
-`yarn install --production=false`
-
-In any case of trouble, please also check the Angular-cli update process [here](https://github.com/angular/angular-cli#updating-angular-cli). Normally the global installed angular-cli package needs an update too. 
-
-### Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### Code scaffolding
 
@@ -102,7 +88,6 @@ When writing commit messages, we stick to this schema:
 type (scope): subject
 body
 ```
-
 
 Types:
 
