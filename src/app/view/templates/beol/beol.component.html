@@ -5,8 +5,8 @@
 <div>
 Correspondences:
     <ul>
-    <li *ngFor="let corr of correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd)">
-        {{corr.correspondent1.name}} - {{corr.correspondent2.name}}
+    <li *ngFor="let corr of correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corr.noTranslations)">
+        {{corr.correspondent1.name}} - {{corr.correspondent2.name}} No translations: {{corr.noTranslations}}
     </li>
 </ul>
 </div>

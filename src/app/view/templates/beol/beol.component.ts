@@ -22,7 +22,7 @@ class Correspondent {
  */
 class Correspondence {
 
-    constructor(readonly correspondent1: Correspondent, readonly correspondent2: Correspondent) {
+    constructor(readonly correspondent1: Correspondent, readonly correspondent2: Correspondent, readonly noTranslations: boolean) {
 
 }
 
@@ -56,11 +56,12 @@ export class BeolComponent implements OnInit {
          * Collection of correspondences the user can select from.
          */
         this.correspondences = [
-            new Correspondence(LeonhardEuler, ChristianGoldbach),
-            new Correspondence(Johann_I_Bernoulli, new Correspondent("Johann Jakob Scheuchzer 1672-1733", "(DE-588)118607308")),
-            new Correspondence(Johann_I_Bernoulli, new Correspondent("Johannes Scheuchzer 1667-1748", "(DE-588)120379260")),
-            new Correspondence(Johann_I_Bernoulli, new Correspondent("Christian Wolff 1679-1754", "(DE-588)118634771")),
-            new Correspondence(Johann_I_Bernoulli, Johann_Frick)
+            new Correspondence(LeonhardEuler, ChristianGoldbach, true),
+            new Correspondence(LeonhardEuler, ChristianGoldbach, false),
+            new Correspondence(Johann_I_Bernoulli, new Correspondent("Johann Jakob Scheuchzer 1672-1733", "(DE-588)118607308"), false),
+            new Correspondence(Johann_I_Bernoulli, new Correspondent("Johannes Scheuchzer 1667-1748", "(DE-588)120379260"), false),
+            new Correspondence(Johann_I_Bernoulli, new Correspondent("Christian Wolff 1679-1754", "(DE-588)118634771"), false),
+            new Correspondence(Johann_I_Bernoulli, Johann_Frick, false)
         ];
 
     }
@@ -68,16 +69,22 @@ export class BeolComponent implements OnInit {
 
     /**
      * Generate KnarQL query to search for the correspondence between two persons.
+     *
+     * @param {string} gnd1 GND of the first correspondent.
+     * @param {string} gnd2 GND of the second correspondent.
+     * @param {boolean} noTranslations indicates if translations should be excluded.
      */
-    searchForCorrespondence(gnd1: string, gnd2: string) {
+    searchForCorrespondence(gnd1: string, gnd2: string, noTranslations: boolean) {
 
-        const knarql: string = this._beol.searchForCorrespondence(gnd1, gnd2);
+        const knarql: string = this._beol.searchForCorrespondence(gnd1, gnd2, noTranslations, 0);
 
         this.showCorrespondenceBetweenPersons(knarql);
     }
 
     /**
      * Show a correspondence between two persons.
+     *
+     * @param {string} knarql the KnarQL query to be executed.
      */
     private showCorrespondenceBetweenPersons(knarql: string) {
 

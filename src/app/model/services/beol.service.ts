@@ -12,9 +12,38 @@ export class BeolService {
      *
      * @param {string} gnd1 the GND/IAF identifier for the first correspondent.
      * @param {string} gnd2 the GND/IAF identifier for the second correspondent.
+     * @param noTranslations indicates if the letter is in original language (not a translation).
      * @param {number} offset the offset to be used.
      */
-    searchForCorrespondence(gnd1: string, gnd2: string, offset: number = 0): string {
+    searchForCorrespondence(gnd1: string, gnd2: string, noTranslations: boolean = false, offset: number = 0): string {
+
+        let language = '';
+
+        if (noTranslations) {
+            // original language: must have the property: beol:letterHasTranslation
+
+            language = `
+    ?letter beol:letterHasTranslation ?translation .
+    
+    beol:letterHasTranslation knora-api:objectType knora-api:Resource .
+    ?translation a knora-api:Resource .
+    
+            `;
+        } else {
+            // translation: must not have the property: beol:letterHasTranslation
+
+            language = `
+    
+    FILTER NOT EXISTS {
+        ?letter beol:letterHasTranslation ?translation .
+    }
+    
+    beol:letterHasTranslation knora-api:objectType knora-api:Resource .
+    ?translation a knora-api:Resource .
+    
+            `;
+
+        }
 
         const correspondenceTemplate = `
     PREFIX beol: <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#>
@@ -32,6 +61,8 @@ export class BeolService {
     } WHERE {
         ?letter a knora-api:Resource .
         ?letter a beol:letter .
+        
+        ${language}
         
         ?letter beol:creationDate ?date .
         
