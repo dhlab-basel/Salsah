@@ -10,6 +10,7 @@ import {AppConfig} from '../../app.config';
 import {ProjectsService} from './projects.service';
 import {UsersService} from './users.service';
 import {PermissionData, Project, UserResponse} from '../webapi/knora';
+import {AuthenticationRequestPayload} from '../webapi/knora/admin/authentication/authentication-request-payload';
 
 @Injectable()
 export class AuthenticationService extends ApiService {
@@ -36,20 +37,63 @@ export class AuthenticationService extends ApiService {
     login(email: string, password: string): Observable<boolean> {
 
         // new login, so remove anything stale
+        this.clearEverything();
 
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('lang');
+        const authRequest: AuthenticationRequestPayload = {
+            email: email,
+            password: password
+        };
 
-        let isLoading: boolean = true;
+        return this.doAuthentication(authRequest)
+        // end of first observable. now we need to chain it with the second.
+        // the flatMap has the return value of the first observable as the input parameter.
+            .flatMap(
+                (token: string) => {
+                    // get the user information
+                    return this._userService.getUserByEmail(email)
+                        .map(
+                            (user: User) => {
 
-        // data to check if the user has system admin (sysAdmin) rights
-        let isSysAdmin: boolean = false;
-        let permissions: PermissionData;
+                                // console.log("AuthenticationService - login - user: ", user);
 
-        return this.httpPost('/v2/authentication', {email: email, password: password})
+                                // extract user information and and write them to local storage
+                                this.extractCurrentUser(user, token);
+
+                                // get the project permissions and write them to session storage
+                                this.extractProjectPermissions(user);
+
+                                // return true to indicate successful login
+                                return true;
+                            },
+                            (error: ApiServiceError) => {
+                                console.log(error);
+                                console.error('AuthenticationService - login - getUserByEmail error: ' + error);
+
+                                // there was an error during login. remove anything from local storage
+                                localStorage.removeItem('currentUser');
+                                localStorage.removeItem('lang');
+
+                                // throw error
+                                throw error;
+                            });
+                });
+    };
+
+
+    /**
+     * Sends the authentication payload and returns the authentication token if successful.
+     *
+     * @param {AuthenticationRequestPayload} payload
+     * @returns {Observable<string>}
+     */
+    doAuthentication(payload: AuthenticationRequestPayload): Observable<string> {
+
+        // console.log('AuthenticationService - doAuthentication - payload: ', payload);
+
+        return this.httpPost('/v2/authentication', payload)
             .map(
                 (result: ApiServiceResult) => {
-                    console.log('AuthenticationService - login - result:', result);
+                    // console.log('AuthenticationService - login - result:', result);
 
                     const token = result.body && result.body.token;
 
@@ -63,113 +107,66 @@ export class AuthenticationService extends ApiService {
                 },
                 (error: ApiServiceError) => {
                     const errorMessage = <any>error;
-                    console.error('AuthenticationService - login - error: ' + errorMessage);
-                    throw error;
-                })
-            // end of first observable. now we need to chain it with the second. the second observable hast the return value of the first
-            // observable as the input parameter.
-            .flatMap(
-                (token: string) => {
-
-                    // check if the user is sysAdmin
-                    return this._userService.getUserByEmail(email)
-                        .map(
-                            (user: User) => {
-
-                                permissions = user.permissions;
-
-                                // console.log(res);
-
-                                if (permissions.groupsPerProject[AppConfig.SystemProject]) {
-                                    isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
-                                }
-
-                                const currentUserObject: CurrentUser = {
-                                    email: email,
-                                    token: token,
-                                    sysAdmin: isSysAdmin
-                                };
-
-                                // store username and jwt token in local storage to keep user logged in between page refreshes
-                                // and set the system admin property to true or false
-                                localStorage.setItem('currentUser', JSON.stringify(currentUserObject));
-                                localStorage.setItem('lang', user.lang);
-
-                                // get the project permissions and write them to local storage
-                                this.projectPermissions(user);
-
-                                isLoading = false;
-
-                                // return true to indicate successful login
-                                return true;
-                            },
-                            (error: ApiServiceError) => {
-                                console.log(error);
-                                console.error('AuthenticationService - login - getUserByEmail error: ' + error);
-                                isSysAdmin = false;
-
-                                // there was an error during login. remove anything from local storage
-                                localStorage.removeItem('currentUser');
-                                localStorage.removeItem('lang');
-                                isLoading = false;
-
-                                // throw error
-                                throw error;
-                            });
-                },
-                (error: ApiServiceError) => {
-                    console.log(error);
-                    console.error('AuthenticationService - login - authentication error: ' + error);
+                    console.error('AuthenticationService - doAuthentication - error: ' + errorMessage);
                     throw error;
                 });
-
-
-    };
+    }
 
     /**
      * Checks if the user is logged in or not.
      *
-     * @returns {boolean}
+     * @returns {Observable<boolean>}
      */
-    authenticate(): boolean {
+    authenticate(): Observable<boolean> {
 
-        let status: number = 0;
+        return this.httpGet('/v2/authentication')
+            .map(
+                (result: ApiServiceResult) => {
 
-        let activeSession: boolean = false;
-
-        this.httpGet('/v2/authentication').subscribe(
-            (result: ApiServiceResult) => {
-                status = result.status;
-                if (status === 200) {
-                    // the stored credentials (token) is valid and a user is authenticated by the api server
-                    activeSession = true;
-                    /*
-                    if (!sessionStorage.getItem('projectAdmin') && localStorage.getItem('currentUser')) {
-                        const user: string = JSON.parse(localStorage.getItem('currentUser')).email;
-                        this.projectPermissions(user);
+                    if (result.status === 200) {
+                        // the stored credentials (token) is valid and a user is authenticated by the api server
+                        return true;
+                    } else {
+                        // the session is not valid!
+                        this.clearEverything();
+                        return false;
                     }
-                    */
-                } else {
-                    // the session is not valid!
-                    activeSession = false;
-                    // the session is not valid!
-                    // remove the local stored user profile and return false
-                    localStorage.removeItem('currentUser');
-                    sessionStorage.removeItem('admin');
-                }
-            },
-            (error: ApiServiceError) => {
-                status = error.status;
-                // the session is not valid!
-                activeSession = false;
-                // the session is not valid!
-                // remove the local stored user profile and return false
-                localStorage.removeItem('currentUser');
-                sessionStorage.removeItem('admin');
-            }
-        );
+                },
+                (error: ApiServiceError) => {
+                    const errorMessage = <any>error;
+                    console.error('AuthenticationService - authenticate - error: ' + errorMessage);
+                    throw error;
+                });
+    }
 
-        return activeSession;
+    /**
+     * Extracts email and token, and stores it in local storage under current user.
+     *
+     * @param {User} user
+     * @param {string} token
+     */
+    extractCurrentUser(user: User, token: string): void {
+
+        // console.log('AuthenticationService - extractCurrentUser - user / token ', user, token);
+
+        let isSysAdmin: boolean = false;
+
+        const permissions = user.permissions;
+        if (permissions.groupsPerProject[AppConfig.SystemProject]) {
+            isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
+        }
+
+        const currentUserObject: CurrentUser = {
+            email: user.email,
+            token: token,
+            sysAdmin: isSysAdmin
+        };
+
+        // store username and jwt token in local storage to keep user logged in between page refreshes
+        // and set the system admin property to true or false
+        localStorage.setItem('currentUser', JSON.stringify(currentUserObject));
+        localStorage.setItem('lang', user.lang);
+
     }
 
     /**
@@ -178,7 +175,9 @@ export class AuthenticationService extends ApiService {
      * @param {User} user
      * @returns {any}
      */
-    projectPermissions(user: User): void {
+    extractProjectPermissions(user: User): void {
+
+        // console.log('AuthenticationService - extractProjectPermissions - user ', user);
 
         const permissions: PermissionData = user.permissions;
         const projectsList: string[] = [];
@@ -221,16 +220,16 @@ export class AuthenticationService extends ApiService {
      */
     logout(): void {
 
-        this.httpDelete('/v2/authentication').subscribe(
-            (result: ApiServiceResult) => {
-                console.log('AuthenticationService - logout - result:', result);
-            },
-            (error: ApiServiceError) => {
-                const errorMessage = <any>error;
-                console.error('AuthenticationService - logout - error: ' + errorMessage);
-                throw error;
-            }
-        );
+        this.httpDelete('/v2/authentication')
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    // console.log('AuthenticationService - logout - result:', result);
+                },
+                (error: ApiServiceError) => {
+                    const errorMessage = <any>error;
+                    console.error('AuthenticationService - logout - error: ' + errorMessage);
+                    throw error;
+                });
 
         // clear token remove user from local storage to log user out
         this.clearEverything();
