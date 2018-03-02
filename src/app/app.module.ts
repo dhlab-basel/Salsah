@@ -105,8 +105,6 @@ import {ResizeGridDirective} from './view/modules/other/resize-grid.directive';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
 import {FocusDirective} from './view/modules/other/focus.directive';
 import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
-
-
 import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
 import {ListNodeFormComponent} from './view/modules/form/list-node-form/list-node-form.component';
 import {ListFormComponent} from './view/modules/form/list-form/list-form.component';
@@ -161,8 +159,8 @@ import {BeolComponent} from './view/templates/beol/beol.component';
 import {BeolService} from './model/services/beol.service';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {SearchParamsService} from './model/services/search-params.service';
-import { SelectGroupComponent } from './view/modules/form/user-form/select-group/select-group.component';
-
+import {SelectGroupComponent} from './view/modules/form/user-form/select-group/select-group.component';
+import {GroupsService} from './model/services/groups.service';
 
 //
 // import all needed services
@@ -339,6 +337,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         BeolService,
         LanguageService,
         SearchParamsService,
+        GroupsService,
         {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]

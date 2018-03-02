@@ -12,20 +12,23 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Inject, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
-import {AutocompleteItem} from '../../../../app.interfaces';
+
+import {ApiServiceError} from '../../../../model/services/api-service-error';
 
 import {UsersService} from '../../../../model/services/users.service';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectsService} from '../../../../model/services/projects.service';
+import {GroupsService} from '../../../../model/services/groups.service';
+
+import {AutocompleteItem} from '../../../../app.interfaces';
 import {Project, User} from '../../../../model/webapi/knora';
+
 import {existingNamesValidator} from '../../other/existing-name.directive';
 import {AppConfig} from '../../../../app.config';
-
 
 @Component({
     selector: 'salsah-user-form',
@@ -37,61 +40,104 @@ export class UserFormComponent implements OnInit {
 
     // general stuff
     isLoading: boolean = true;
-    errorMessage: any = undefined;
+
     // step by step form
     step: number;
+    isLinear: boolean = true;
 
-    // user data
-    // the user-form can be used to create new users or to edit existing users
-    // it can have an attribute called iri which opens the edit form
-    // otherwise the form is empty to create new user
-    @Input() userIri?: string;
-    // on error with user data
-    userErrorMessage: ApiServiceError = undefined;
+    // ------------------------------------------------------------------------
+    // first step:
+    //  - select user or set new user by entering an email address (in system and project view)
+    //
+    firstFormGroup: FormGroup;
 
-    userIsValid: boolean = false;
+    // list of all users
+    users: AutocompleteItem[] = [];
 
-    // add' or 'create new' user starts always with the user's email address
-    // it's an auto complete form, which checks, if the user already exists
+    // filter users while typing (autocomplete)
+    filteredUsers: Observable<any>;
 
-    // form controller for mat-autocomplete in user select
-    userCtrl: FormControl;
-    // list of all users in the system
-    allUsers: AutocompleteItem[] = [];
-    // filter users while typing (autocomplete method)
-    filteredUsers: Observable<any[]>;
-    // username of the selected user
-    selectedUser: string;
+    //
+    selectedUser: AutocompleteItem;
     selectedUserProfile: User;
 
-    // project data
-    // project admin view: restrictedBy is the iri of the project
-    // in this case, the project admin adds a new (or existing) person to the project
-    @Input() projectIri?: string;
-    // on error with project data
-    projectErrorMessage: ApiServiceError = undefined;
-
-    // form controller for mat-autocomplete in user select
-    projectCtrl: FormControl;
-
-    // in system admin view, it's possible to add a new created (or an old) user to a project
-    // list of all projects in the system
-    allProjects: AutocompleteItem[] = [];
-    // filter users while typing (autocomplete method)
-    filteredProjects: Observable<any[]>;
-    // project iri
-    selectedProject: string;
+    //
+    // ------------------------------------------------------------------------
 
 
-    // test stepper from material
-    isLinear: boolean = true;
-    firstFormGroup: FormGroup;
+    // ------------------------------------------------------------------------
+    // second step:
+    //  - create new user (in system and project view)
+    //  - edit user, if userIri is defined
     secondFormGroup: FormGroup;
+    @Input() userIri?: string;
+
+    //
+    // ------------------------------------------------------------------------
 
 
+    // ------------------------------------------------------------------------
+    // third step:
+    //  - select project (in system view) / project name (in project view)
+    //
+    thirdFormGroup: FormGroup;
+    @Input() projectIri?: string = undefined;
+
+    // list of all projects
+    projects: AutocompleteItem[] = [];
+
+    // filter projects while typing (auto complete)
+    filteredProjects: Observable<any>;
+
+    //
+    selectedProject: AutocompleteItem;
+    selectedProjectProfile: Project;
+
+    //
+    // ------------------------------------------------------------------------
 
 
+    // ------------------------------------------------------------------------
+    // fourth step:
+    //  - select group (in system and project view)
+    //
 
+    //
+    // ------------------------------------------------------------------------
+
+
+    // ------------------------------------------------------------------------
+    // error handling
+    //
+    // general api error message
+    errorMessage: any = undefined;
+    userErrorMessage: any = undefined;
+    projectErrorMessage: any = undefined;
+    groupErrorMessage: any = undefined;
+
+    //
+    // ------------------------------------------------------------------------
+
+
+    // ------------------------------------------------------------------------
+    // form controller and error handling
+    //
+
+    formErrors = {
+        'username': ''
+    };
+
+    // ...and the error hints
+    validationMessages = {
+        'username': {
+            'required': 'Email address is required.',
+            'pattern': 'This doesn\'t appear to be a valid email address.',
+            'exists': 'This email address exists already.'
+        },
+    };
+
+    //
+    // ------------------------------------------------------------------------
 
     // list of users to prevent duplicate entries
     existingUserNames: [RegExp] = [
@@ -99,13 +145,6 @@ export class UserFormComponent implements OnInit {
     ];
 
 
-    // system admin view: to add a user to a project, we need a list of all projects
-
-//    selectedProject: Project;
-    // form controller for mat-autocomplete in project select
-
-
-    // Form labels and placeholder; will be organised by a i18n json file!
 
     formLabels: any = {
         user: {
@@ -182,78 +221,74 @@ export class UserFormComponent implements OnInit {
         }
     };
 
-
-
-    constructor (public _userService: UsersService,
+    constructor (public _usersService: UsersService,
                  public _projectsService: ProjectsService,
+                 public _groupsService: GroupsService,
                  private _formBuilder: FormBuilder) {
 
-        // auto complete form user
-        this.userCtrl = new FormControl('', Validators.required);
+        /*
+        this.form = this._formBuilder.group({
+            'username': new FormControl({
+                    value: this.selectedUser, disabled: false
+                }, [
+                    Validators.required,
+                    Validators.pattern(AppConfig.RegexEmail)
+//                    existingNamesValidator(this.existingUserNames)
+                ]
+            ),
+            'group': new FormControl({
+                    value: 'Member'
+                }, []
+            )
+        });
+        */
 
-        this.filteredUsers = this.userCtrl.valueChanges
+        /*
+        this.filteredProjects = this.form.controls['projectname'].valueChanges
             .pipe(
-                startWith(this.userCtrl.value),
-                map(user => user ? this.filter(this.allUsers, user) : this.allUsers.slice())
+                startWith(this.form.controls['projectname'].value),
+                map(project => project ? this.filter(this.projects, project) : this.projects.slice())
             );
-
-        // auto complete form project
-        this.projectCtrl = new FormControl();
-
-        this.filteredProjects = this.projectCtrl.valueChanges
-            .pipe(
-                startWith(this.projectCtrl.value),
-                map(project => project ? this.filter(this.allProjects, project) : this.allProjects.slice())
-            );
+            */
     }
 
     ngOnInit () {
 
         this.firstFormGroup = this._formBuilder.group({
-            firstCtrl: ['', Validators.required]
+            'username': new FormControl({
+                    value: this.selectedUser, disabled: false
+                }, [
+                    Validators.required,
+                    Validators.pattern(AppConfig.RegexEmail)
+//                    existingNamesValidator(this.existingUserNames)
+                ]
+            )
         });
+
         this.secondFormGroup = this._formBuilder.group({
             secondCtrl: ['', Validators.required]
         });
 
-        // get a list of all users and create an array of the user name ( = email address)
-        // the user name should be unique and with the array list, we can
-        // prevent to have the same user name twice; proof it with the ForbiddenName directive
-        this._userService.getAllUsers()
+        this._usersService.getAllUsers()
             .subscribe(
-                (users: User[]) => {
+                (result: User[]) => {
 
                     // The email address of the user should be unique.
                     // Therefore we create a list of existingUserNames to avoid multiple use of user names
-                    for (const user of users) {
+                    for (const user of result) {
                         this.existingUserNames.push(
                             new RegExp('(?:^|\W)' + user.email.toLowerCase() + '(?:$|\W)')
                         );
                     }
 
-                    let members: string;
-
-                    if (this.projectIri !== undefined) {
+                    let members: string[];
+                    if (this.projectIri) {
                         // get the members of the project
-                        members = sessionStorage.getItem('currentMembers');
-
-                        // get the project information
-                        let selectedProject = new Project();
-                        this._projectsService.getProjectByIri(this.projectIri)
-                            .subscribe(
-                                (project: Project) => {
-                                    selectedProject = project;
-                                },
-                                (error: ApiServiceError) => {
-                                    console.log(error);
-                                    this.projectErrorMessage = error;
-                                }
-                            );
+                        members = JSON.parse(sessionStorage.getItem('currentMembers'));
                     }
 
-
                     let i: number = 1;
-                    for (const u of users) {
+                    for (const u of result) {
 
                         let exists: string = '';
 
@@ -261,7 +296,7 @@ export class UserFormComponent implements OnInit {
                             exists = '* ';
                         }
 
-                        this.allUsers[i] = {
+                        this.users[i] = {
                             iri: u.id,
                             name: u.email,
                             label: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
@@ -269,96 +304,37 @@ export class UserFormComponent implements OnInit {
                         i++;
                     }
 
-//                    console.log(this.allUsers);
-
-                    this.allUsers.sort(function (u1, u2) {
-                        if (u1.name < u2.name) {
+                    this.users.sort(function (u1, u2) {
+                        if (u1.label < u2.label) {
                             return -1;
-                        } else if (u1.name > u2.name) {
+                        } else if (u1.label > u2.label) {
                             return 1;
                         } else {
                             return 0;
                         }
                     });
 
-                    // in case of project admin:
-                    // get a list of the users which are already team members;
-                    // the list of project members should already be in the session storage
-                    if (this.projectIri !== undefined) {
+                    this.filteredUsers = this.firstFormGroup.controls['username'].valueChanges
+                        .pipe(
+                            startWith(this.firstFormGroup.controls['username'].value),
+                            map(user => user ? this.filter(this.users, user) : this.users.slice())
+                        );
 
-
-
-
-                    }
                     /*
-                    else {
-                        // in case of system admin view:
-                        // get a list of projects to add the new created user
-                        // OR in case of edit user and the user isn't yet a member of a project
-
-                        let projectsList: Project[];
-                        this._projectsService.getAllProjects()
-                            .subscribe(
-                                (res: Project[]) => {
-                                    projectsList = res;
-
-                                    let i: number = 1;
-                                    for (const p of projectsList) {
-                                        this.allProjects[i] = {
-                                            iri: p.id,
-                                            name: p.longname + ' (' + p.shortname + ')'
-                                        };
-                                        i++;
-                                    }
-
-                                    this.allProjects.sort(function (p1, p2) {
-                                        if (p1.name < p2.name) {
-                                            return -1;
-                                        } else if (p1.name > p2.name) {
-                                            return 1;
-                                        } else {
-                                            return 0;
-                                        }
-                                    });
-
-                                },
-                                (error: ApiServiceError) => {
-                                    this.errorMessage = <any>error;
-                                }
-                            );
-
-                        let i: number = 1;
-                        for (const u of users) {
-                            let exists: string = '';
-                            if (members.indexOf(u.id) > -1) {
-                                exists = '* ';
-                            }
-                            this.allUsers[i] = {
-                                iri: u.id,
-                                name: exists + u.givenName + ' ' + u.familyName + ' (' + u.email + ')'
-                            };
-                            i++;
-                        }
-
-                        this.allUsers.sort(function (u1, u2) {
-                            if (u1.name < u2.name) {
-                                return -1;
-                            } else if (u1.name > u2.name) {
-                                return 1;
-                            } else {
-                                return 0;
-                            }
-                        });
-                    }
-                   */
-
+                                        this.filteredUsers = this.form.controls['username'].valueChanges
+                                            .pipe(
+                                                startWith(this.form.controls['username'].value),
+                                                map(user => user ? this.filter(this.users, user) : this.users.slice())
+                                            );
+                    */
                     this.isLoading = false;
+
                 },
                 (error: ApiServiceError) => {
-                    this.userErrorMessage = error;
+                    this.isLoading = false;
+                    this.errorMessage = error;
                 }
             );
-
     }
 
     /**
@@ -377,36 +353,86 @@ export class UserFormComponent implements OnInit {
      * set selected user from auto complete
      * @param {AutocompleteItem} value
      */
-    setSelected(value: any) {
+    setSelected(user?: AutocompleteItem) {
+        // set selected has four possible scenarios
+        // a) the user has selected one user from the auto-complete list, which gives us the user's IRI
+        // b) the user has typed in an eMail address of a new user. It means the user doesn't exist yet
+        // c) the user has typed in an eMail address of an existing user, but has not selected from the auto-complete list
+        // d) the user has typed in something else, which is not a valid eMail address, so the form isn't valid and this method will never start
 
-        if (value.name.startsWith('*')) {
-            // user is already member in the project
-            console.log(value.iri + ' is already a member in this project');
-        }
-        console.log('username: ', value.name.split('(')[1].split(')')[0]);
-        this.selectedUser = value.iri;
+        // check if the form is valid
+        Object.keys(this.formErrors).map(field => {
+            this.formErrors[field] = '';
+            const control = this.firstFormGroup.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                console.log(control.errors);
+                Object.keys(control.errors).map(key => {
+                    this.formErrors[field] += messages[key] + ' ';
+                });
 
-
-
-
-        // if the selected user is already a member in the project, make an alert (or something else)
-/*
-        if (this.members.indexOf(user.id) > -1) {
-            alert('The selected user (' + user.name + ') has already a membership in this project (' + this.project + ')');
-            this.resetSelectedUser();
-        } else {
-            // otherwise take the selected user name and split it by '(' to change the form description into given and family name
-            if (this.userCtrl.valid) {
-                this.selectedUser = user.name.split('(')[0];
-            } else {
-                this.resetSelectedUser();
             }
-        }
-*/
-    }
+        });
 
-    toggleButton(valid: boolean) {
-        this.userIsValid = valid;
+        // which case do we have? option a - d?
+        if (user) {
+            // case a) set selected user
+            console.log('case a) ', user);
+            if (user.name.startsWith('*')) {
+                // user is already member in the project
+                console.log(user.iri + ' is already a member in this project');
+            }
+//        console.log('user\'s email: ', user.name.split('(')[1].split(')')[0]);
+            this.selectedUser = {
+                iri: user.iri,
+                name: user.name,
+                label: ''
+            };
+
+        } else {
+            // case b or c
+            const email: string = this.firstFormGroup.controls['username'].value;
+            console.log('case b or c) not sure if this user exists ', email);
+            // get user by username (email)
+            this._usersService.getUserByEmail(email)
+                .subscribe(
+                    (result: User) => {
+                        console.log(result);
+                    },
+                    (error: ApiServiceError) => {
+                        if (error.status === 404) {
+                            // user doesn't exist
+                            // create new user profile
+                            const newUser: User = new User();
+                            newUser.email = email;
+
+                            console.log(newUser);
+
+                            this._usersService.createUser(this.firstFormGroup.value).subscribe(
+                                (result: User) => {
+                                    console.log(result);
+
+                                    this.selectedUser = {
+                                        iri: result.id,
+                                        name: result.email,
+                                        label: ''
+                                    };
+
+                                },
+                                (postError: ApiServiceError) => {
+                                    this.userErrorMessage = postError;
+                                }
+                            )
+                        } else {
+                            // api error
+                            this.errorMessage = error;
+                        }
+
+                    }
+                );
+        }
+
+
     }
 
     resetSelected(ctrl: FormControl) {
