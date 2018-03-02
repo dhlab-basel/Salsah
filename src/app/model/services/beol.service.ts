@@ -17,6 +17,12 @@ export class BeolService {
     CONSTRUCT {
     
         ?introSection knora-api:isMainResource true .
+        
+        #?intro beol:hasSection ?introSection .
+        
+        #?content biblio:hasIntroduction ?intro .
+        
+        #?book biblio:bookHasContent ?content .
     
     } WHERE { 
     
