@@ -16,13 +16,21 @@ class Correspondent {
     constructor(readonly name: string, readonly gnd: string) {}
 }
 
+class CorrespondenceGroup {
+
+    constructor(readonly mainCorrespondent: Correspondent, readonly correspondences: Correspondence[], readonly noTranslations: boolean) {
+
+    }
+
+}
+
 /**
  * Represents a correspondence between two persons.
  * A correspondence consists of all the letters exchanged between two persons (they are either the author or recipient).
  */
 class Correspondence {
 
-    constructor(readonly correspondent1: Correspondent, readonly correspondent2: Correspondent, readonly noTranslations: boolean) {
+    constructor(readonly correspondent1: Correspondent, readonly correspondent2: Correspondent) {
 
 }
 
@@ -40,28 +48,25 @@ export class BeolComponent implements OnInit {
                 private _beol: BeolService) {
     }
 
-    correspondences: Correspondence[];
+    correspondenceGroups: CorrespondenceGroup[];
 
     ngOnInit() {
 
-        let LeonhardEuler = new Correspondent("Leonhard Euler 1707-1783", "(DE-588)118531379");
+        let LeonhardEuler = new Correspondent("Leonhard Euler", "(DE-588)118531379");
 
-        let ChristianGoldbach = new Correspondent("Christian Goldbach 1690-1764", "(DE-588)118696149");
+        let ChristianGoldbach = new Correspondent("Christian Goldbach", "(DE-588)118696149");
 
-        let Johann_I_Bernoulli = new Correspondent("Johann I Bernoulli 1667-1748", "(DE-588)118509969");
+        let Johann_I_Bernoulli = new Correspondent("Johann I Bernoulli", "(DE-588)118509969");
 
-        let Johann_Frick = new Correspondent("Johann Frick 1670-1739", "(DE-588)123393094");
+        let Johann_Frick = new Correspondent("Johann Frick", "(DE-588)123393094");
 
         /**
          * Collection of correspondences the user can select from.
          */
-        this.correspondences = [
-            new Correspondence(LeonhardEuler, ChristianGoldbach, true),
-            new Correspondence(LeonhardEuler, ChristianGoldbach, false),
-            new Correspondence(Johann_I_Bernoulli, new Correspondent("Johann Jakob Scheuchzer 1672-1733", "(DE-588)118607308"), false),
-            new Correspondence(Johann_I_Bernoulli, new Correspondent("Johannes Scheuchzer 1667-1748", "(DE-588)120379260"), false),
-            new Correspondence(Johann_I_Bernoulli, new Correspondent("Christian Wolff 1679-1754", "(DE-588)118634771"), false),
-            new Correspondence(Johann_I_Bernoulli, Johann_Frick, false)
+        this.correspondenceGroups = [
+            new CorrespondenceGroup(LeonhardEuler, [new Correspondence(LeonhardEuler, ChristianGoldbach)], true),
+            new CorrespondenceGroup(LeonhardEuler, [new Correspondence(LeonhardEuler, ChristianGoldbach)], false),
+            new CorrespondenceGroup(Johann_I_Bernoulli, [new Correspondence(Johann_I_Bernoulli, new Correspondent("John Arnold", "(DE-588)1141832453")), new Correspondence(Johann_I_Bernoulli, new Correspondent("Johann Jakob Scheuchzer", "(DE-588)118607308")), new Correspondence(Johann_I_Bernoulli, new Correspondent("Johannes Scheuchzer", "(DE-588)120379260")), new Correspondence(Johann_I_Bernoulli, new Correspondent("Christian Wolff", "(DE-588)118634771")), new Correspondence(Johann_I_Bernoulli, Johann_Frick)], false)
         ];
 
     }

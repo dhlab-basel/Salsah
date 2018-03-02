@@ -3,10 +3,21 @@
 <br>
 <br>
 <div>
-Correspondences:
-    <ul>
-    <li *ngFor="let corr of correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corr.noTranslations)">
-        {{corr.correspondent1.name}} - {{corr.correspondent2.name}} No translations: {{corr.noTranslations}}
-    </li>
-</ul>
+ Correspondences:
+    <br>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let corrGroup of correspondenceGroups">
+
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{corrGroup.mainCorrespondent.name}} no translations: {{corrGroup.noTranslations}}</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul>
+                <li *ngFor="let corr of corrGroup.correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corrGroup.noTranslations)">
+                    {{corr.correspondent2.name}}
+                </li>
+            </ul>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>
