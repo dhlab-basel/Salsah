@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {User} from '../../../../../model/webapi/knora/admin';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UsersService} from '../../../../../model/services/users.service';
@@ -6,7 +6,6 @@ import {ApiServiceError} from '../../../../../model/services/api-service-error';
 import {Observable} from 'rxjs/Observable';
 import {map, startWith} from 'rxjs/operators';
 import {AutocompleteItem} from '../../../../../app.interfaces';
-import {Project} from '../../../../../model/webapi/knora';
 import {existingNamesValidator} from '../../../other/existing-name.directive';
 import {AppConfig} from '../../../../../app.config';
 
@@ -15,7 +14,7 @@ import {AppConfig} from '../../../../../app.config';
     templateUrl: './select-user.component.html',
     styleUrls: ['./select-user.component.scss']
 })
-export class SelectUserComponent implements OnInit {
+export class SelectUserComponent implements OnInit, OnChanges {
 
     isLoading: boolean = true;
 
@@ -26,12 +25,17 @@ export class SelectUserComponent implements OnInit {
     @Input() project?: string = undefined;
 
     /**
-     * set the step
-     * @type {EventEmitter<number>}
+     * username
+     * @type {EventEmitter<string>}
      */
-    @Output() goTo: EventEmitter<number> = new EventEmitter<number>();
+    @Output() username: EventEmitter<string> = new EventEmitter<string>();
 
-    @Output() setStep: EventEmitter<number> = new EventEmitter<number>();
+    /**
+     * is the form valid?
+     * @type {EventEmitter<boolean>}
+     */
+    @Output() isValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+
 
     // list of all users
     users: AutocompleteItem[] = [];
@@ -56,6 +60,9 @@ export class SelectUserComponent implements OnInit {
     // in case of an API error, set the error message
     errorMessage: any;
 
+    // in case of na API error for single user
+    userErrorMessage: any;
+
     // in case of form error, set the form errors
     formErrors = {
         'username': ''
@@ -66,29 +73,11 @@ export class SelectUserComponent implements OnInit {
         'username': {
             'required': 'Email address is required.',
             'pattern': 'This doesn\'t appear to be a valid email address.',
-            'existingName': 'This email address exists already.'
+            'exists': 'This email address exists already.'
         },
     };
 
-    // permission groups / role of the user in a project
-    groups: AutocompleteItem[] = [
-        {
-            iri: '',
-            name: '',
-            label: 'Member'
-        },
-        {
-            iri: '',
-            name: '',
-            label: 'Administrator'
-        },
-        {
-            iri: '',
-            name: '',
-            label: 'System admin'
-        }
 
-    ];
 
     selectedGroup: string = 'Member';
 
@@ -152,8 +141,6 @@ export class SelectUserComponent implements OnInit {
                         i++;
                     }
 
-                    console.log(this.users);
-
                     this.users.sort(function (u1, u2) {
                         if (u1.label < u2.label) {
                             return -1;
@@ -181,6 +168,9 @@ export class SelectUserComponent implements OnInit {
 
     }
 
+    ngOnChanges() {
+        this.isValid.emit(this.form.valid);
+    }
 
     /**
      *
@@ -192,6 +182,10 @@ export class SelectUserComponent implements OnInit {
         return list.filter(user =>
             user.name.toLowerCase().includes(name.toLowerCase())
         );
+    }
+
+    validateUsername(name: string) {
+        console.log(name);
     }
 
     /**
@@ -211,6 +205,7 @@ export class SelectUserComponent implements OnInit {
             const control = this.form.get(field);
             if (control && control.dirty && !control.valid) {
                 const messages = this.validationMessages[field];
+                console.log(control.errors);
                 Object.keys(control.errors).map(key => {
                     this.formErrors[field] += messages[key] + ' ';
                 });
@@ -221,20 +216,54 @@ export class SelectUserComponent implements OnInit {
         // which case do we have? option a - d?
         if (user) {
             // case a) set selected user
-            console.log('case a) ', user)
+            console.log('case a) ', user);
+            if (user.name.startsWith('*')) {
+                // user is already member in the project
+                console.log(user.iri + ' is already a member in this project');
+            }
+//        console.log('user\'s email: ', user.name.split('(')[1].split(')')[0]);
+            this.selectedUser = user.iri;
+
         } else {
             // case b or c
-            console.log('case b or c) not sure if this user exists ', this.form.controls['username']);
-            // get user by username
+            const email: string = this.form.controls['username'].value;
+            console.log('case b or c) not sure if this user exists ', email);
+            // get user by username (email)
+            this._usersService.getUserByEmail(email)
+                .subscribe(
+                    (result: User) => {
+                        console.log(result);
+                    },
+                    (error: ApiServiceError) => {
+                        if (error.status === 404) {
+                            // user doesn't exist
+                            // create new user profiel
+                            const newUser: User = new User();
+                            newUser.email = email;
+
+                            console.log(newUser);
+
+                            this._usersService.createUser(this.form.value).subscribe(
+                                (result: User) => {
+                                    console.log(result);
+
+                                    this.selectedUser = result.id;
+
+                                },
+                                (postError: ApiServiceError) => {
+                                    this.userErrorMessage = postError;
+                                }
+                            )
+                        } else {
+                            // api error
+                            this.errorMessage = error;
+                        }
+
+                    }
+                );
         }
 
 
-        if (user.name.startsWith('*')) {
-            // user is already member in the project
-            console.log(user.iri + ' is already a member in this project');
-        }
-//        console.log('user\'s email: ', user.name.split('(')[1].split(')')[0]);
-        this.selectedUser = user.iri;
     }
 
     /**
@@ -265,7 +294,7 @@ export class SelectUserComponent implements OnInit {
     navigate(ev, step: string) {
         ev.preventDefault();
         const num: number = (step === 'skip' ? 1 : 3);
-        this.goTo.emit(num)
+        // this.goTo.emit(num)
     }
 
     /**
@@ -273,6 +302,6 @@ export class SelectUserComponent implements OnInit {
      * @param {number} step
      */
     isActive(step: number): void {
-        this.setStep.emit(step);
+
     }
 }

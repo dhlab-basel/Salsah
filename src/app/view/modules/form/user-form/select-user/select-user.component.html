@@ -30,23 +30,18 @@
         <!--
 
         -->
+        <!--
         <button  *ngIf="!selectedUser" mat-raised-button color="primary"
                  [disabled]="!form.valid"
-                 (click)="setSelected()">
+                 (click)="validateUsername(form.controls['username'].value)">
             {{"salsahLabels.userFormLabels.navigation.next" | translate}}
         </button>
+        -->
 
         <!--
 
         -->
-        <mat-form-field *ngIf="selectedUser" class="small">
-            <mat-select placeholder="Project permission" [formControl]="form.controls['group']" [(value)]="form.controls['group'].value" multiple>
-                <mat-option *ngFor="let group of groups; let first = first" [value]="group.label">
-                    {{ group.label }}
-                </mat-option>
-            </mat-select>
 
-        </mat-form-field>
 
 
     </form>

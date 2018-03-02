@@ -25,6 +25,7 @@ import {
     MatSlideToggleModule,
     MatSnackBarModule,
     MatSortModule,
+    MatStepperModule,
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
@@ -62,6 +63,7 @@ import {
         MatSliderModule,
         MatSnackBarModule,
         MatSortModule,
+        MatStepperModule,
         MatTabsModule,
         MatToolbarModule,
         MatTooltipModule
@@ -96,6 +98,7 @@ import {
         MatSliderModule,
         MatSnackBarModule,
         MatSortModule,
+        MatStepperModule,
         MatTabsModule,
         MatToolbarModule,
         MatTooltipModule,

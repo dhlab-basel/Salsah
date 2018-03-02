@@ -1,12 +1,46 @@
 <!--
-    1. add' or 'create new' user starts always with the user's email address
-    2. it's an auto complete form, which checks, if the user already exists
+    1.
 -->
-<div>
 
-    <salsah-select-user [project]="projectIri"></salsah-select-user>
+<mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
+    <!--
+        1.  add' or 'create new' user starts always with the user's email address;
+            it's an auto complete form, which checks, if the user already exists
+    -->
+    <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Start with username</ng-template>
 
-</div>
+            <salsah-select-user [project]="projectIri" (user)="setSelected($event)" (isValid)="toggleButton($event)"></salsah-select-user>
+            <div>
+                <button mat-button matStepperNext [disabled]="!userIsValid">Next</button>
+            </div>
+        </form>
+    </mat-step>
+
+    <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>Fill out your address</ng-template>
+            <mat-form-field>
+                <input matInput placeholder="Address" formControlName="secondCtrl" required>
+            </mat-form-field>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        You are now done.
+        <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>
+
+
 
 
 <!--

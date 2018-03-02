@@ -1,0 +1,9 @@
+<mat-form-field>
+
+    <mat-select placeholder="Project permission" [formControl]="groups" multiple>
+        <mat-option *ngFor="let group of listOfGroups; let first = first" [value]="group.name">
+            {{ group.label }}
+        </mat-option>
+    </mat-select>
+
+</mat-form-field>

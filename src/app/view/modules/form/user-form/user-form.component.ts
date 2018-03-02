@@ -49,6 +49,8 @@ export class UserFormComponent implements OnInit {
     // on error with user data
     userErrorMessage: ApiServiceError = undefined;
 
+    userIsValid: boolean = false;
+
     // add' or 'create new' user starts always with the user's email address
     // it's an auto complete form, which checks, if the user already exists
 
@@ -80,6 +82,11 @@ export class UserFormComponent implements OnInit {
     // project iri
     selectedProject: string;
 
+
+    // test stepper from material
+    isLinear: boolean = true;
+    firstFormGroup: FormGroup;
+    secondFormGroup: FormGroup;
 
 
 
@@ -179,7 +186,7 @@ export class UserFormComponent implements OnInit {
 
     constructor (public _userService: UsersService,
                  public _projectsService: ProjectsService,
-                 private _fb: FormBuilder) {
+                 private _formBuilder: FormBuilder) {
 
         // auto complete form user
         this.userCtrl = new FormControl('', Validators.required);
@@ -201,6 +208,13 @@ export class UserFormComponent implements OnInit {
     }
 
     ngOnInit () {
+
+        this.firstFormGroup = this._formBuilder.group({
+            firstCtrl: ['', Validators.required]
+        });
+        this.secondFormGroup = this._formBuilder.group({
+            secondCtrl: ['', Validators.required]
+        });
 
         // get a list of all users and create an array of the user name ( = email address)
         // the user name should be unique and with the array list, we can
@@ -363,7 +377,7 @@ export class UserFormComponent implements OnInit {
      * set selected user from auto complete
      * @param {AutocompleteItem} value
      */
-    setSelected(value: AutocompleteItem) {
+    setSelected(value: any) {
 
         if (value.name.startsWith('*')) {
             // user is already member in the project
@@ -389,6 +403,10 @@ export class UserFormComponent implements OnInit {
             }
         }
 */
+    }
+
+    toggleButton(valid: boolean) {
+        this.userIsValid = valid;
     }
 
     resetSelected(ctrl: FormControl) {

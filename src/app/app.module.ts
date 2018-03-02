@@ -148,7 +148,6 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
 import {FormTestComponent} from './view/test/development/form-test/form-test.component';
 import {SelectUserComponent} from './view/modules/form/user-form/select-user/select-user.component';
 import {SelectProjectComponent} from './view/modules/form/user-form/select-project/select-project.component';
-import {ProjectPermissionComponent} from './view/modules/form/user-form/project-permission/project-permission.component';
 import {UserDataComponent} from './view/modules/form/user-form/user-data/user-data.component';
 import {EditNodeInfoComponent} from './view/modules/form/edit-node-info/edit-node-info.component';
 import {GndDirective} from './view/modules/other/gnd.directive';
@@ -162,6 +161,7 @@ import {BeolComponent} from './view/templates/beol/beol.component';
 import {BeolService} from './model/services/beol.service';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {SearchParamsService} from './model/services/search-params.service';
+import { SelectGroupComponent } from './view/modules/form/user-form/select-group/select-group.component';
 
 
 //
@@ -273,7 +273,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         FormTestComponent,
         SelectUserComponent,
         SelectProjectComponent,
-        ProjectPermissionComponent,
         UserDataComponent,
         InternationalizationComponent,
         ExistingNameDirective,
@@ -286,6 +285,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         GndDirective,
         InternationalizationComponent,
         EditListInfoComponent,
+        SelectGroupComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProjectPermissionComponent } from './project-permission.component';
+import { SelectGroupComponent } from './select-group.component';
 
-describe('ProjectPermissionComponent', () => {
-  let component: ProjectPermissionComponent;
-  let fixture: ComponentFixture<ProjectPermissionComponent>;
+describe('SelectGroupComponent', () => {
+  let component: SelectGroupComponent;
+  let fixture: ComponentFixture<SelectGroupComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProjectPermissionComponent ]
+      declarations: [ SelectGroupComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProjectPermissionComponent);
+    fixture = TestBed.createComponent(SelectGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
