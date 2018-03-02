@@ -187,6 +187,57 @@ export class BeolComponent implements OnInit {
 
         const Giovanni_Poleni = new Correspondent("Giovanni Poleni", "(DE-588)11887733X");
 
+        const Jakob_Christoph_Ramspeck = new Correspondent("Jakob Christoph Ramspeck", "(DE-588)121471640");
+
+        const Elicagaray_Bernard_Renau = new Correspondent("Bernard Renau d'Éliçagaray", "(DE-588)108987216X");
+
+        // TODO: this seems to be the same person
+        const Elicagaray_Bernard_Renau2 = new Correspondent("Bernard Renau d'Éliçagaray", "(DE-588)102079056");
+
+        const Charles_Rene_Reyneau = new Correspondent("Charles Rene Reyneau", "(DE-588)117526789");
+
+        const Gabriel_Rilliet = new Correspondent("Gabriel_Rilliet","(DE-588)1142279774");
+
+        const Andreas_Ritz = new Correspondent("Andreas Ritz", "(DE-588)1012090132");
+
+        const Michel_Rossal = new Correspondent("Michel Rossal", "(DE-588)1055238948");
+
+        const Johann_Salzmann = new Correspondent("Johann Salzmann","(DE-588)128382058");
+
+        const Alexandre_Saverien = new Correspondent("Alexandre Saverien", "(DE-588)172354366");
+
+        const Johann_Daniel_Schoepflin = new Correspondent("Johann Daniel Schoepflin","(DE-588)118610260");
+
+        const Willem_Jacob_SGravesande = new Correspondent("Willem Jacob SGravesande", "(DE-588)118939297");
+
+        const Thomas_Spleiss = new Correspondent("Thomas Spleiss","(DE-588)138483922");
+
+        const Henry_Sully = new Correspondent("Henry Sully", "(DE-588)122006011");
+
+        const Georges_Joseph_Tacheron = new Correspondent("Georges Joseph Tacheron", "(DE-588)114228039X");
+
+        const de_Thiancourt = new Correspondent("de Thiancourt","(DE-588)1082012769");
+
+        const Ludwig_Philipp_Thuemmig = new Correspondent("Ludwig Philipp Thuemmig","(DE-588)120076276");
+
+        const Abraham_Trommius = new Correspondent("Abraham Trommius","(DE-588)100657672");
+
+        const Giuseppe_Verzaglia = new Correspondent("Giuseppe Verzaglia","(DE-588)1089923198");
+
+        const Burchard_de_Volder = new Correspondent("Burchard de Volder", "(DE-588)120665182");
+
+        const Johann_Friedrich_Weidler = new Correspondent("Johann Friedrich Weidler", "(DE-588)100696198");
+
+        const Johann_Caspar_Wettstein = new Correspondent("Johann Caspar Wettstein", "(DE-588)140645292");
+
+        const Wicher_Wichers = new Correspondent("Wicher Wichers","(DE-588)1089913737");
+
+        const Daniel_Wolleb = new Correspondent("Daniel Wolleb","(DE-588)1055118640");
+
+        const John_Thomas_Woolhouse = new Correspondent("John Thomas Woolhouse","(DE-588)104179619");
+
+        const Francesco_Maria_Zanotti = new Correspondent("Francesco Maria Zanotti","(DE-588)117592307");
+
         /**
          * Collection of correspondences the user can select from.
          */
@@ -247,10 +298,36 @@ export class BeolComponent implements OnInit {
                     new Correspondence(Johann_I_Bernoulli, Leopold_Gottlieb_Graf_von_Pergen),
                     new Correspondence(Johann_I_Bernoulli, Christoph_Pflug),
                     new Correspondence(Johann_I_Bernoulli, Giovanni_Poleni),
-
+                    new Correspondence(Johann_I_Bernoulli, Jakob_Christoph_Ramspeck),
+                    new Correspondence(Johann_I_Bernoulli, Elicagaray_Bernard_Renau),
+                    new Correspondence(Johann_I_Bernoulli, Elicagaray_Bernard_Renau2),
+                    new Correspondence(Johann_I_Bernoulli, Charles_Rene_Reyneau),
+                    new Correspondence(Johann_I_Bernoulli, Gabriel_Rilliet),
+                    new Correspondence(Johann_I_Bernoulli, Andreas_Ritz),
+                    new Correspondence(Johann_I_Bernoulli, Michel_Rossal),
+                    new Correspondence(Johann_I_Bernoulli, Johann_Salzmann),
+                    new Correspondence(Johann_I_Bernoulli, Alexandre_Saverien),
                     new Correspondence(Johann_I_Bernoulli, Johann_Jakob_Scheuchzer),
                     new Correspondence(Johann_I_Bernoulli, Johannes_Scheuchzer),
+                    new Correspondence(Johann_I_Bernoulli, Johann_Daniel_Schoepflin),
+                    new Correspondence(Johann_I_Bernoulli, Willem_Jacob_SGravesande),
+                    new Correspondence(Johann_I_Bernoulli, Thomas_Spleiss),
+                    new Correspondence(Johann_I_Bernoulli, Henry_Sully),
+                    new Correspondence(Johann_I_Bernoulli, Georges_Joseph_Tacheron),
+                    new Correspondence(Johann_I_Bernoulli, de_Thiancourt),
+                    new Correspondence(Johann_I_Bernoulli, Ludwig_Philipp_Thuemmig),
+                    new Correspondence(Johann_I_Bernoulli, Abraham_Trommius),
+                    new Correspondence(Johann_I_Bernoulli, Giuseppe_Verzaglia),
+                    new Correspondence(Johann_I_Bernoulli, Burchard_de_Volder),
+                    new Correspondence(Johann_I_Bernoulli, Johann_Friedrich_Weidler),
+                    new Correspondence(Johann_I_Bernoulli, Johann_Caspar_Wettstein),
+                    new Correspondence(Johann_I_Bernoulli, Wicher_Wichers),
                     new Correspondence(Johann_I_Bernoulli, Christian_Wolf),
+                    new Correspondence(Johann_I_Bernoulli, Daniel_Wolleb),
+                    new Correspondence(Johann_I_Bernoulli, John_Thomas_Woolhouse),
+                    new Correspondence(Johann_I_Bernoulli, Francesco_Maria_Zanotti),
+
+
 
                 ],
                 false)
