@@ -105,6 +105,32 @@ export class BeolComponent implements OnInit {
 
         const Jean_Pierre_de_Crousaz = new Correspondent("Jean Pierre de Crousaz","(DE-588)100097413");
 
+        // TODO Jean Boecler
+
+        // TODO Brandenburgische Sozietät
+
+        // TODO const Gerog_Faeh = new Correspondent("Georg Faeh","");
+
+        const Robert_Falconer = new Correspondent("Robert Falconer", "(DE-588)1141833808");
+
+        const Michelangelo_Fardella = new Correspondent("Michelangelo Fardella", "(DE-588)119291967");
+
+        const Bernard_le_Bouyer_Bovier_de_Fontenelle = new Correspondent("Bernard le Bouyer Bovier de Fontenelle", "(DE-588)118639056");
+
+        const Du_Fresne = new Correspondent("Du Fresne", "(DE-588)1142274934");
+
+        const Amedee_Francois_Frezier = new Correspondent("Amedee Francois Frezier", "(DE-588)117537373");
+
+        const S_J_Vitus_Friesl = new Correspondent("S J Friesl","(DE-588)10012786X");
+
+        const Johann_Caspar_Funck = new Correspondent("Johann Caspar Funck", "(DE-588)143843133");
+
+        const Johannes_Gessner = new Correspondent("Johannes Gessner","(DE-588)119331136");
+
+        const Nicasius_Grammatici = new Correspondent("Nicasius_Grammatici", "(DE-588)100108296");
+
+        const Jean_Paul_Gua_de_Malves = new Correspondent("Jean Paul Gua de Malves", "(DE-588)117572535");
+
         /**
          * Collection of correspondences the user can select from.
          */
@@ -126,10 +152,23 @@ export class BeolComponent implements OnInit {
                     new Correspondence(Johann_I_Bernoulli, George_Cheyne),
                     new Correspondence(Johann_I_Bernoulli, Alexis_Claude_Clairaut),
                     new Correspondence(Johann_I_Bernoulli, Jean_Pierre_de_Crousaz),
+                    new Correspondence(Johann_I_Bernoulli, Robert_Falconer),
+                    new Correspondence(Johann_I_Bernoulli, Michelangelo_Fardella),
+                    new Correspondence(Johann_I_Bernoulli, Bernard_le_Bouyer_Bovier_de_Fontenelle),
+                    new Correspondence(Johann_I_Bernoulli, Du_Fresne),
+                    new Correspondence(Johann_I_Bernoulli, Amedee_Francois_Frezier),
+                    new Correspondence(Johann_I_Bernoulli, Johann_Frick), // TODO: 0000-00-00_Bernoulli_Johann_I-Frick_Johannes has no date and does not show up!
+                    new Correspondence(Johann_I_Bernoulli, S_J_Vitus_Friesl),
+                    new Correspondence(Johann_I_Bernoulli, Johann_Caspar_Funck),
+                    new Correspondence(Johann_I_Bernoulli, Johannes_Gessner),
+                    new Correspondence(Johann_I_Bernoulli, Christian_Goldbach),
+                    new Correspondence(Johann_I_Bernoulli, Nicasius_Grammatici),
+                    new Correspondence(Johann_I_Bernoulli, Jean_Paul_Gua_de_Malves),
+
                     new Correspondence(Johann_I_Bernoulli, Johann_Jakob_Scheuchzer),
                     new Correspondence(Johann_I_Bernoulli, Johannes_Scheuchzer),
                     new Correspondence(Johann_I_Bernoulli, Christian_Wolf),
-                    new Correspondence(Johann_I_Bernoulli, Johann_Frick)
+
                 ],
                 false)
         ];

@@ -171,6 +171,8 @@ export class BeolService {
             this._searchParamsService.changeSearchParamsMsg(new ExtendedSearchParams(generateKnarQLWithCustomOffset));
         }
 
+        // console.log(correspondenceTemplate + offsetTemplate);
+
         return correspondenceTemplate + offsetTemplate;
     }
 }
