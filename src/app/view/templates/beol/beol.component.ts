@@ -2,6 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {BeolService} from "../../../model/services/beol.service";
 
+class Book {
+
+    constructor(readonly title: string, readonly isbn: string) {
+
+    }
+
+}
+
 /**
  * Represents a correspondent.
  */
@@ -48,9 +56,13 @@ export class BeolComponent implements OnInit {
                 private _beol: BeolService) {
     }
 
+    books: Book[];
+
     correspondenceGroups: CorrespondenceGroup[];
 
     ngOnInit() {
+
+        this.books = [new Book("LEOO IVA.IV", "978-3-0348-0880-4")];
 
         let LeonhardEuler = new Correspondent("Leonhard Euler", "(DE-588)118531379");
 
@@ -71,6 +83,12 @@ export class BeolComponent implements OnInit {
 
     }
 
+    searchForBook(isbn: string) {
+
+        const knarql: string = this._beol.searchForBook(isbn);
+
+        this.submitQuery(knarql);
+    }
 
     /**
      * Generate KnarQL query to search for the correspondence between two persons.
@@ -83,7 +101,7 @@ export class BeolComponent implements OnInit {
 
         const knarql: string = this._beol.searchForCorrespondence(gnd1, gnd2, noTranslations, 0);
 
-        this.showCorrespondenceBetweenPersons(knarql);
+        this.submitQuery(knarql);
     }
 
     /**
@@ -91,7 +109,7 @@ export class BeolComponent implements OnInit {
      *
      * @param {string} knarql the KnarQL query to be executed.
      */
-    private showCorrespondenceBetweenPersons(knarql: string) {
+    private submitQuery(knarql: string) {
 
         this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
     }

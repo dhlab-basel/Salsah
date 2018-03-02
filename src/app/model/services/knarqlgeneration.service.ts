@@ -209,6 +209,8 @@ export class KnarqlgenerationService {
             this._searchParamsService.changeSearchParamsMsg(new ExtendedSearchParams(generateKnarQLWithCustomOffset));
         }
 
+        // console.log(knarqlTemplate + offsetTemplate);
+
         return knarqlTemplate + offsetTemplate;
 
     }

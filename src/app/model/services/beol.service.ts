@@ -7,6 +7,52 @@ export class BeolService {
     constructor(private _searchParamsService: SearchParamsService) {
     }
 
+    searchForBook(isbn: string): string {
+
+        const bookTemplate = `
+    PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
+    PREFIX biblio: <http://0.0.0.0:3333/ontology/biblio/simple/v2#>
+    PREFIX beol: <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#>
+      
+    CONSTRUCT {
+    
+        ?introSection knora-api:isMainResource true .
+    
+    } WHERE { 
+    
+        ?book a knora-api:Resource .
+        
+        ?book a biblio:Book .
+       
+        ?book biblio:bookHasISBN ?propVal0 .
+        biblio:bookHasISBN knora-api:objectType <http://www.w3.org/2001/XMLSchema#string> .
+        ?propVal0 a <http://www.w3.org/2001/XMLSchema#string> .
+                
+        FILTER(?propVal0 = "${isbn}"^^<http://www.w3.org/2001/XMLSchema#string>)
+        
+        ?book biblio:bookHasContent ?content .
+        
+        biblio:bookHasContent knora-api:objectType knora-api:Resource .
+        ?content a knora-api:Resource .
+        
+        ?content biblio:hasIntroduction ?intro .
+        
+        biblio:hasIntroduction knora-api:objectType knora-api:Resource .
+        ?intro a knora-api:Resource .
+        
+        ?intro beol:hasSection ?introSection .
+        beol:hasSection knora-api:objectType knora-api:Resource .
+        ?introSection a knora-api:Resource .
+             
+    }
+    
+    OFFSET 0
+        `;
+
+        return bookTemplate;
+
+    }
+
     /**
      * Creates the KnarQL needed for the search for the correspodence between two persons, ordered by date.
      *

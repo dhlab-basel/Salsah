@@ -3,9 +3,19 @@
 <br>
 <br>
 <div>
+    Books:
+    <ul>
+       <li *ngFor="let book of books" (click)="searchForBook(book.isbn)">
+           {{book.title}}
+       </li>
+    </ul>
+</div>
+
+<div>
  Correspondences:
     <br>
     <br>
+
     <mat-accordion>
         <mat-expansion-panel *ngFor="let corrGroup of correspondenceGroups">
 
