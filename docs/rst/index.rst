@@ -19,6 +19,7 @@ SALSAH 2
 ..  toctree::
     :maxdepth: 3
 
+    0-release-notes/index
     introduction
     get-started
     dev-guidelines
