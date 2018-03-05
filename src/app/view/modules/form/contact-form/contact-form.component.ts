@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'dialog-overview-example-dialog',
-    template: 'Your message has been sent. Thank you!',
+    template: '<span>{{data.message}}</span>',
 })
 export class DialogOverviewExampleDialog {
 
@@ -50,10 +50,10 @@ export class ContactFormComponent implements OnInit {
 
     }
 
-    openDialog(): void {
+    openDialog(msg: string): void {
         let dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
             width: '250px',
-            data: { message: 'form submitted' }
+            data: { message: msg }
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -77,15 +77,22 @@ export class ContactFormComponent implements OnInit {
         let formRequest = {name, email, feedback, date};
 
         // send data to Cloud Firestore
-        this.db.collection('/messages').add(formRequest);
+        this.db.collection('/messages').add(formRequest).then(() => {
 
-        this.captchaValid = false;
+            this.captchaValid = false;
 
-        this.openDialog();
+            this.openDialog("Your message has been sent. Thank you.");
 
-        this.form.reset();
+            this.form.reset();
 
-        this._router.navigate(['/'], {relativeTo: this._route});
+            this._router.navigate(['/'], {relativeTo: this._route});
+        }).catch( (error) => {
+            // An error happened.
+
+            this.openDialog("An error occurred. Your message could not be sent.");
+
+        });
+
     }
 
     resolved(captchaResponse: string | null) {
