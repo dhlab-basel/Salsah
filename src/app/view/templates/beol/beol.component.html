@@ -1,4 +1,4 @@
-<div class="salsah-module without-header">
+<div class="salsah-module without-header beoltemplate">
     Books:
     <ul>
        <li *ngFor="let book of leoo">
@@ -24,16 +24,30 @@
 
            <div>Correspondence:</div>
            <mat-accordion>
-               <mat-expansion-panel *ngFor="let corrGroup of book.correspondence">
+               <mat-expansion-panel *ngFor="let corrGroup of book.correspondences">
 
                    <mat-expansion-panel-header>
                        <mat-panel-title>{{corrGroup.mainCorrespondent.name}} {{corrGroup.description}}</mat-panel-title>
                    </mat-expansion-panel-header>
 
                    <ul>
-                        <li *ngFor="let corr of corrGroup.correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corrGroup.noTranslations)">
-                            {{corr.correspondent2.name}}
-                        </li>
+                       <li *ngFor="let section of corrGroup.sections">
+                           <mat-accordion>
+                               <mat-expansion-panel>
+
+                                   <mat-expansion-panel-header>
+                                       <mat-panel-title>{{section.label}}</mat-panel-title>
+                                   </mat-expansion-panel-header>
+
+                                   <ul>
+                                       <li *ngFor="let corr of section.correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corrGroup.noTranslations)">
+                                           {{corr.correspondent2.name}}
+                                       </li>
+                                   </ul>
+
+                               </mat-expansion-panel>
+                           </mat-accordion>
+                       </li>
                    </ul>
 
                 </mat-expansion-panel>
@@ -60,8 +74,22 @@
             </mat-expansion-panel-header>
 
             <ul>
-                <li *ngFor="let corr of corrGroup.correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corrGroup.noTranslations)">
-                    {{corr.correspondent2.name}}
+                <li *ngFor="let section of corrGroup.sections">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{section.label}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <ul>
+                                <li *ngFor="let corr of section.correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corrGroup.noTranslations)">
+                                    {{corr.correspondent2.name}}
+                                </li>
+                            </ul>
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
                 </li>
             </ul>
         </mat-expansion-panel>
