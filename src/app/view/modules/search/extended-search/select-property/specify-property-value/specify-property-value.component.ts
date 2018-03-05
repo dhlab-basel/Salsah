@@ -1,105 +1,210 @@
-import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Property} from 'app/model/services/ontologycache.service';
 import {AppConfig} from "../../../../../../app.config";
 
+/**
+ * An abstract interface representing a comparison operator.
+ * This interface is implemented for the supported comparison operators.
+ */
 interface ComparisonOperator {
 
+    // type of comparison operator
     type: string;
+
+    // the label of the comparison operator to be presented to the user.
     label: string;
 
+    // returns the class name when called on an instance
     getClassName(): string
 }
 
-class Equals implements ComparisonOperator {
-
-    constructor() {
-    }
+export class Equals implements ComparisonOperator {
 
     type = AppConfig.EqualsComparisonOperator;
     label = AppConfig.EqualsComparisonLabel;
 
+    constructor() {
+    }
+
     getClassName() {
         return this.constructor.name;
     };
 }
 
-class NotEquals implements ComparisonOperator {
-
-    constructor() {
-    }
+export class NotEquals implements ComparisonOperator {
 
     type = AppConfig.NotEqualsComparisonOperator;
     label = AppConfig.NotEqualsComparisonLabel;
 
+    constructor() {
+    }
+
     getClassName() {
         return this.constructor.name;
     };
 }
 
-class GreaterThan implements ComparisonOperator {
-
-    constructor() {
-    }
+export class GreaterThanEquals implements ComparisonOperator {
 
     type = AppConfig.GreaterThanEqualsComparisonOperator;
     label = AppConfig.GreaterThanEqualsComparisonLabel;
 
+    constructor() {
+    }
+
     getClassName() {
         return this.constructor.name;
     };
 }
 
-class GreaterThanEquals implements ComparisonOperator {
-
-    constructor() {
-    }
+export class GreaterThan implements ComparisonOperator {
 
     type = AppConfig.GreaterThanComparisonOperator;
     label = AppConfig.GreaterThanComparisonLabel;
 
+    constructor() {
+    }
+
     getClassName() {
         return this.constructor.name;
     };
 }
 
-class LessThan implements ComparisonOperator {
-
-    constructor() {
-    }
+export class LessThan implements ComparisonOperator {
 
     type = AppConfig.LessThanComparisonOperator;
     label = AppConfig.LessThanComparisonLabel;
 
+    constructor() {
+    }
+
     getClassName() {
         return this.constructor.name;
     };
 }
 
-class LessThanEquals implements ComparisonOperator {
-
-    constructor() {
-    }
+export class LessThanEquals implements ComparisonOperator {
 
     type = AppConfig.LessThanEqualsComparisonOperator;
     label = AppConfig.LessThanQualsComparisonLabel;
 
+    constructor() {
+    }
+
     getClassName() {
         return this.constructor.name;
     };
 }
 
-class Exists implements ComparisonOperator {
-
-    constructor() {
-    }
+export class Exists implements ComparisonOperator {
 
     type = AppConfig.ExistsComparisonOperator;
     label = AppConfig.ExistsComparisonLabel;
 
+    constructor() {
+    }
+
     getClassName() {
         return this.constructor.name;
     };
+}
+
+export class Like implements ComparisonOperator {
+
+    type = AppConfig.LikeComparisonOperator;
+    label = AppConfig.LikeComparisonLabel;
+
+    constructor() {
+    }
+
+    getClassName() {
+        return this.constructor.name;
+    };
+
+}
+
+export class Match implements ComparisonOperator {
+
+    type = AppConfig.MatchComparisonOperator;
+    label = AppConfig.MatchComparisonLabel;
+
+    constructor() {
+    }
+
+    getClassName() {
+        return this.constructor.name;
+    };
+
+}
+
+/**
+ * Combination of a comparison operator and a value literal or an IRI.
+ * In case the comparison operator is 'Exists', no value is given.
+ */
+export class ComparisonOperatorAndValue {
+
+    constructor(readonly comparisonOperator: ComparisonOperator, readonly value?: Value) {
+    };
+}
+
+/**
+ * An abstract interface representing a value: an IRI or a literal.
+ */
+export interface Value {
+
+    /**
+     * Turns the value into a Sparql string representation.
+     *
+     * @returns {string}
+     */
+    toSparql(): string;
+
+}
+
+/**
+ * Represents a property's value as a literal with the indication of its type.
+ */
+export class ValueLiteral implements Value {
+
+    /**
+     * Constructs a [ValueLiteral].
+     *
+     * @param {string} value the literal representation of the value.
+     * @param {string} type the type of the value (making use of xsd).
+     */
+    constructor(public readonly value: string, public readonly type: string) {
+    };
+
+
+    /**
+     * Creates a type annotated value literal to be used in a SPARQL query.
+     *
+     * @returns {string}
+     */
+    public toSparql(): string {
+        return `"${this.value}"^^<${this.type}>`;
+    }
+
+}
+
+/**
+ * Represents an IRI.
+ */
+export class IRI implements Value {
+
+    /**
+     * Constructs an [IRI].
+     *
+     * @param {string} iri the IRI of a resource instance.
+     */
+    constructor(readonly iri: string) {
+    };
+
+    public toSparql(): string {
+        return `<${this.iri}>`;
+    }
+
 }
 
 /**
@@ -114,71 +219,68 @@ export interface PropertyValue {
     type: string;
 
     /**
-     * Gets the value (typed).
+     * Returns the value.
      *
-     * @returns {any} the value.
+     * @returns {Value}.
      */
-    getValue(): any;
+    getValue(): Value;
 
 }
+
+// https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
+const resolvedPromise = Promise.resolve(null);
 
 @Component({
     selector: 'specify-property-value',
     templateUrl: './specify-property-value.component.html',
     styleUrls: ['./specify-property-value.component.scss']
 })
-export class SpecifyPropertyValueComponent implements OnInit {
+export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
 
     AppConfig = AppConfig;
 
-    @ViewChild('propertyValue') propertyValue: PropertyValue;
+    // parent FormGroup
+    @Input() formGroup: FormGroup;
 
+    @ViewChild('propertyValue') private propertyValueComponent: PropertyValue;
+
+    // setter method for the property chosen by the user
     @Input()
     set property(prop: Property) {
+        this.comparisonOperatorSelected = undefined; // reset to initial state
         this._property = prop;
-
-        this.initForm();
+        this.resetComparisonOperators(); // reset comparison operators for given property (overwriting any previous selection)
     };
 
-    get property() {
+    // getter method for this._property
+    get property(): Property {
         return this._property
     }
 
     private _property: Property;
 
-    public isReady: Boolean = false;
+    form: FormGroup;
 
-    private form: FormGroup;
-
+    // available comparison operators for the property
     comparisonOperators: Array<ComparisonOperator> = [];
 
-    public propertyValueType;
+    // comparison operator selected by the user
+    comparisonOperatorSelected: ComparisonOperator;
+
+    // the type of the property
+    propertyValueType;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder) {
+    };
 
-    }
-
-    initForm() {
-
-        // build a form for the named graph selection
-        this.form = this.fb.group({
-            comparisonOperator: [null, Validators.required]
-        });
-
-        // emit Iri of named graph when selected
-        this.form.valueChanges.subscribe((data) => {
-            console.log(this.propertyValue);
-        });
-
-        // TODO: depending on the given value type, init a value form field
-
-        // TODO: reset values to default in case the user chose another property
+    /**
+     * Resets the comparison operators for this._property.
+     */
+    resetComparisonOperators() {
 
         // depending on object class, set comparison operators and value entry field
-
-
         if (this._property.isLinkProperty) {
-            this.propertyValueType = AppConfig.LinkValue;
+            this.propertyValueType = AppConfig.Resource;
         } else {
             this.propertyValueType = this._property.objectType;
         }
@@ -186,8 +288,11 @@ export class SpecifyPropertyValueComponent implements OnInit {
         switch (this.propertyValueType) {
 
             case AppConfig.TextValue:
+                this.comparisonOperators = [new Like(), new Match(), new Equals(), new NotEquals(), new Exists()];
+                break;
+
             case AppConfig.BooleanValue:
-            case AppConfig.LinkValue:
+            case AppConfig.Resource:
             case AppConfig.UriValue:
             case AppConfig.IntervalValue:
                 this.comparisonOperators = [new Equals(), new NotEquals(), new Exists()];
@@ -196,7 +301,7 @@ export class SpecifyPropertyValueComponent implements OnInit {
             case AppConfig.IntValue:
             case AppConfig.DecimalValue:
             case AppConfig.DateValue:
-                this.comparisonOperators = [new Equals(), new NotEquals(), new LessThan(), new GreaterThan(), new LessThanEquals(), new GreaterThanEquals(), new Exists()];
+                this.comparisonOperators = [new Equals(), new NotEquals(), new LessThan(), new LessThanEquals(), new GreaterThan(), new GreaterThanEquals(), new Exists()];
                 break;
 
             case AppConfig.ListValue:
@@ -206,25 +311,59 @@ export class SpecifyPropertyValueComponent implements OnInit {
             case AppConfig.StillImageFileValue:
             case AppConfig.DDDFileValue:
             case AppConfig.MovingImageFileValue:
+            case AppConfig.ColorValue:
                 this.comparisonOperators = [new Exists()];
                 break;
 
             default:
-                console.log("ERROR: Unsupported value type " + this._property.objectType)
+                console.log('ERROR: Unsupported value type ' + this._property.objectType)
 
         }
 
+    }
 
-        this.isReady = true;
+    ngOnInit() {}
+
+    ngOnChanges() {
+
+        // build a form for comparison operator selection
+        this.form = this.fb.group({
+            comparisonOperator: [null, Validators.required]
+        });
+
+        // store comparison operator when selected
+        this.form.valueChanges.subscribe((data) => {
+            this.comparisonOperatorSelected = data.comparisonOperator;
+        });
+
+        resolvedPromise.then(() => {
+
+            // remove from the parent form group (clean reset)
+            this.formGroup.removeControl('comparisonOperator');
+
+            // add form to the parent form group
+            this.formGroup.addControl('comparisonOperator', this.form);
+        });
 
     }
 
-    ngOnInit() {
-        this.initForm();
-    }
+    /**
+     * Gets the specified comparison operator and value for the property.
+     *
+     * @returns {ComparisonOperatorAndValue} the comparison operator and the specified value
+     */
+    getComparisonOperatorAndValueLiteralForProperty(): ComparisonOperatorAndValue {
+        // return value (literal or IRI) from the child component
+        let value: Value;
 
-    getFormData() {
-        return this.form.value
+        // comparison operator 'Exists' does not require a value
+        if (this.comparisonOperatorSelected.getClassName() != 'Exists') {
+            value = this.propertyValueComponent.getValue();
+        }
+
+        // return the comparison operator and the specified value
+        return new ComparisonOperatorAndValue(this.comparisonOperatorSelected, value);
+
     }
 
 }
