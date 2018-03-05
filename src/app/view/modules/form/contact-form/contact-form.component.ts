@@ -61,6 +61,11 @@ export class ContactFormComponent implements OnInit {
         });
     }
 
+    resetForm() {
+
+        this.form.reset();
+    }
+
     onSubmit() {
 
         if (!this.form.valid || !this.captchaValid) return;

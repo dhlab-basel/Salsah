@@ -19,7 +19,15 @@
         <re-captcha (resolved)="resolved($event)"></re-captcha>
 
         <div>
-            <button type="submit" [disabled]="form.invalid || !captchaValid">Submit</button>
+            <button mat-icon-button type="button" (click)="resetForm()">
+                <mat-icon aria-label="reset query form">clear</mat-icon>
+            </button>
+
+            <button mat-icon-button type="submit" [disabled]="form.invalid || !captchaValid">
+                <mat-icon aria-label="submit query">send</mat-icon>
+            </button>
         </div>
+
+
     </form>
 </div>
