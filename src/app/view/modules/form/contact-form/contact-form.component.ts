@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from "@angular/forms";
 import {AngularFirestore} from "angularfire2/firestore";
 
 @Component({
@@ -12,10 +12,10 @@ export class ContactFormComponent implements OnInit {
     form: FormGroup;
 
     constructor(private fb: FormBuilder, private db: AngularFirestore) {
-        this.createForm();
     }
 
     ngOnInit() {
+        this.createForm();
     }
 
     createForm() {
