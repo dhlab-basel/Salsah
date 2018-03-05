@@ -5,7 +5,7 @@ import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {AppRoutingModule} from "../../../../app-routing.module";
 import {AppModule} from "../../../../app.module";
 
-fdescribe('ContactFormComponent', () => {
+describe('ContactFormComponent', () => {
   let component: ContactFormComponent;
   let fixture: ComponentFixture<ContactFormComponent>;
 
