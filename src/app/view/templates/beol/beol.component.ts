@@ -73,6 +73,12 @@ export class BeolComponent implements OnInit {
 
         const Johann_I_Bernoulli = new Correspondent("Johann I Bernoulli", "(DE-588)118509969");
 
+        const Johann_II_Bernoulli = new Correspondent("Johann II Bernoulli", "(DE-588)117589136");
+
+        const Nicolaus_I_Bernoulli = new Correspondent("Nicolaus I Bernoulli", "(DE-588)119166895");
+
+        const Nicolaus_II_Bernoulli = new Correspondent("Nicolaus II Bernoulli", "(DE-588)117589144");
+
         const Johannes_Scheuchzer = new Correspondent("Johannes Scheuchzer", "(DE-588)120379260");
 
         const Johann_Jakob_Scheuchzer = new Correspondent("Johann Jakob Scheuchzer", "(DE-588)118607308");
@@ -330,7 +336,12 @@ export class BeolComponent implements OnInit {
 
 
                 ],
-                false)
+                false),
+            new CorrespondenceGroup(Johann_II_Bernoulli, [new Correspondence(Johann_II_Bernoulli, Pierre_Louis_Moreau_de_Maupertuis)], false),
+            new CorrespondenceGroup(Nicolaus_I_Bernoulli, [new Correspondence(Nicolaus_I_Bernoulli, Johann_Jakob_Scheuchzer), new Correspondence(Nicolaus_I_Bernoulli, Johannes_Scheuchzer)], false),
+            new CorrespondenceGroup(Nicolaus_II_Bernoulli, [new Correspondence(Nicolaus_II_Bernoulli, Johann_Jakob_Scheuchzer), new Correspondence(Nicolaus_II_Bernoulli, Johannes_Scheuchzer)], false), // TODO BIBB: no recipient for 1723-03-17_Bernoulli_Nicolaus_II-Scheuchzer_Johann_Jakob
+            new CorrespondenceGroup(Jacob_Hermann, [new Correspondence(Jacob_Hermann, Johann_I_Bernoulli), new Correspondence(Jacob_Hermann, Johann_Jakob_Scheuchzer), new Correspondence(Jacob_Hermann, Johannes_Scheuchzer)], false)
+
         ];
 
     }
