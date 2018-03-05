@@ -67,6 +67,8 @@ export class BeolComponent implements OnInit {
 
         const Leonhard_Euler = new Correspondent("Leonhard Euler", "(DE-588)118531379");
 
+        const Johann_Albrecht_Euler = new Correspondent("Johann Albrecht Euler", "(DE-588)116610832");
+
         const Christian_Goldbach = new Correspondent("Christian Goldbach", "(DE-588)118696149");
 
         const Daniel_I_Bernoulli = new Correspondent("Daniel I Bernoulli", "(DE-588)118656503");
@@ -250,6 +252,8 @@ export class BeolComponent implements OnInit {
         this.correspondenceGroups = [
             new CorrespondenceGroup(Leonhard_Euler, [new Correspondence(Leonhard_Euler, Christian_Goldbach)], true),
             new CorrespondenceGroup(Leonhard_Euler, [new Correspondence(Leonhard_Euler, Christian_Goldbach)], false),
+            new CorrespondenceGroup(Johann_Albrecht_Euler, [new Correspondence(Johann_Albrecht_Euler, Christian_Goldbach)], true),
+            new CorrespondenceGroup(Johann_Albrecht_Euler, [new Correspondence(Johann_Albrecht_Euler, Christian_Goldbach)], false),
             new CorrespondenceGroup(Daniel_I_Bernoulli, [new Correspondence(Daniel_I_Bernoulli, Johannes_Scheuchzer)], false),
             new CorrespondenceGroup(Johann_I_Bernoulli,
                 [
