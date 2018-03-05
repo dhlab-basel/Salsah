@@ -19,6 +19,7 @@ import {MessageData} from '../../message/message.component';
 import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
+import {TreeNode} from "angular-tree-component/dist/models/tree-node.model";
 
 @Component({
     selector: 'salsah-lists-list',
@@ -73,7 +74,6 @@ export class ListsListComponent implements OnInit {
             add: 'Add node',
             remove: 'Remove node'
         }
-
     }
 
     constructor(private _listsService: ListsService,
@@ -81,7 +81,6 @@ export class ListsListComponent implements OnInit {
     }
 
     ngOnInit() {
-
         if (this.restrictedBy) {
             //     get all project lists
             this._listsService.getLists(this.restrictedBy)
@@ -119,7 +118,6 @@ export class ListsListComponent implements OnInit {
 
     }
 
-
     fetchListData(iri: string) {
         // get the specific list data once the list expansion panel is opened
         this._listsService.getList(iri)
@@ -135,12 +133,11 @@ export class ListsListComponent implements OnInit {
                 }
             );
         console.log('fetchListData ');
-        console.log(this.isExpanded);
-
-
     }
 
-    // Methods to expand/collapse list
+
+//LIST METHODS
+
     expandAll(tree) {
         tree.treeModel.expandAll();
         this.isExpanded = true;
@@ -155,10 +152,14 @@ export class ListsListComponent implements OnInit {
         this.currentNodes.push({ id: 'an id', name: 'another node', label: 'a node', children: [], level: 0 , position: 0});
         tree.treeModel.update();
     }
-    removeNode(tree, index: number) {
-        this.currentNodes.splice(index, 1);
-        tree.treeModel.update();
+
+    deleteNode(node: TreeNode, tree) : void {
+        if (node.parent != null) {
+            node.parent.data.children.splice(node.parent.data.children.indexOf(node.data), 1)
+            tree.treeModel.update()
+        }
     }
+
 
     // in the list view, it opens an object on the right hand side detail view
     // open / close user

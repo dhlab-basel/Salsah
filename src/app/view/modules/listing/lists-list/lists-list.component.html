@@ -51,7 +51,7 @@
                         <ng-template #treeNodeTemplate let-node let-index="index">
                             <span>
                                 <mat-icon class="small-icon" (click)="editNode(item.id, node.data)"> edit </mat-icon>
-                                <mat-icon class="small-icon" (click)="removeNode(tree, index)"> delete </mat-icon>
+                                <mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>
                                 {{ node.data.name }}
                             </span>
                             <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
