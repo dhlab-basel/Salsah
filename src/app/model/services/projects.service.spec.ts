@@ -19,7 +19,7 @@ import {
 import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
 import {ProjectsResponse} from '../webapi/knora/admin';
 
-fdescribe('ProjectsService', () => {
+describe('ProjectsService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -34,14 +34,14 @@ fdescribe('ProjectsService', () => {
         });
     });
 
-    fit('should be created', async(inject(
+    it('should be created', async(inject(
         [ProjectsService], (service) => {
             expect(service).toBeDefined();
         }))
     );
 
 
-    fit('should parse projects-response', () => {
+    it('should parse projects-response', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
@@ -50,7 +50,7 @@ fdescribe('ProjectsService', () => {
         expect(result).toBeTruthy();
     });
 
-    fit('should parse project-response (images)', () => {
+    it('should parse project-response (images)', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
@@ -59,7 +59,7 @@ fdescribe('ProjectsService', () => {
         expect(result).toBeTruthy();
     });
 
-    fit('should parse project-response (incunabula)', () => {
+    it('should parse project-response (incunabula)', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
@@ -68,7 +68,7 @@ fdescribe('ProjectsService', () => {
         expect(result).toBeTruthy();
     });
 
-    fit('should parse project-response (anything)', () => {
+    it('should parse project-response (anything)', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
@@ -80,7 +80,7 @@ fdescribe('ProjectsService', () => {
 
     if (environment.type === 'integration') {
 
-        fit('should load test data [it]', async(inject(
+        it('should load test data [it]', async(inject(
             [StoreService], (service) => {
 
                 expect(service).toBeDefined();
@@ -94,7 +94,7 @@ fdescribe('ProjectsService', () => {
             })), 300000);
 
 
-        fit('#getAllProjects should return all projects [it]', async(inject(
+        it('#getAllProjects should return all projects [it]', async(inject(
             [ProjectsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -114,7 +114,7 @@ fdescribe('ProjectsService', () => {
             })));
 
 
-        fit('#getProjectByIri should return project (images) [it]', async(inject(
+        it('#getProjectByIri should return project (images) [it]', async(inject(
             [ProjectsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -132,7 +132,7 @@ fdescribe('ProjectsService', () => {
 
             })));
 
-        fit('#getProjectByIri should return project (incunabula) [it]', async(inject(
+        it('#getProjectByIri should return project (incunabula) [it]', async(inject(
             [ProjectsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -150,7 +150,7 @@ fdescribe('ProjectsService', () => {
 
             })));
 
-        fit('#getProjectByIri should return project (anything) [it]', async(inject(
+        it('#getProjectByIri should return project (anything) [it]', async(inject(
             [ProjectsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -168,7 +168,7 @@ fdescribe('ProjectsService', () => {
 
             })));
 
-        fit('#getProjectByShortname should return project (images) [it]', async(inject(
+        it('#getProjectByShortname should return project (images) [it]', async(inject(
             [ProjectsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -187,7 +187,7 @@ fdescribe('ProjectsService', () => {
             })));
 
 
-        fit('#getProjectByShortcode should return project (images) [it]', async(inject(
+        it('#getProjectByShortcode should return project (images) [it]', async(inject(
             [ProjectsService], (service) => {
 
                 expect(service).toBeDefined();
