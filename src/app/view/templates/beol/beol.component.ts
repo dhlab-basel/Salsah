@@ -1,6 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {BeolService} from "../../../model/services/beol.service";
+import {SearchService} from "../../../model/services/search.service";
+import {MatDialog, MatDialogConfig} from "@angular/material";
+import {ResourceObjectComponent} from "../../modules/object/resource-object/resource-object.component";
+import {ApiServiceResult} from "../../../model/services/api-service-result";
+import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
+import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resources-sequence";
+import {OntologyCacheService, OntologyInformation} from "../../../model/services/ontologycache.service";
 
 class Book {
 
@@ -45,6 +52,9 @@ class Correspondence {
 
 }
 
+declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
+let jsonld = require('jsonld');
+
 @Component({
     selector: 'salsah-beol',
     templateUrl: './beol.component.html',
@@ -54,7 +64,10 @@ export class BeolComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
-                private _beol: BeolService) {
+                private _beol: BeolService,
+                private _searchService: SearchService,
+                private dialog: MatDialog,
+                private _cacheService: OntologyCacheService) {
     }
 
     leoo: Book[];
@@ -353,7 +366,37 @@ export class BeolComponent implements OnInit {
 
         const knarql: string = this._beol.searchForBook(isbn, sectionTitle);
 
-        this.submitQuery(knarql);
+        this._searchService.doExtendedSearch(encodeURIComponent(knarql)).subscribe(
+            (result: ApiServiceResult) => {
+
+                let promises = jsonld.promises;
+                // compact JSON-LD using an empty context: expands all Iris
+                let promise = promises.compact(result.body, {});
+
+                promise.then((compacted) => {
+
+                    let resourceSeq: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+                    if (resourceSeq.resources.length == 1) {
+
+                        let config = new MatDialogConfig();
+                        config.height = '60%';
+                        config.width = '60%';
+
+                        let dialogRef = this.dialog.open(ResourceObjectComponent, config);
+                        // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
+                        dialogRef.componentInstance.iri = resourceSeq.resources[0].id;
+                    }
+
+                }, function (err) {
+
+                    console.log('JSONLD of full resource request could not be expanded:' + err);
+                });
+
+            }
+        );
+
+        // this.submitQuery(knarql);
     }
 
     /**
