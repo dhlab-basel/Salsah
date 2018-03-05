@@ -7,7 +7,7 @@ export class BeolService {
     constructor(private _searchParamsService: SearchParamsService) {
     }
 
-    searchForBook(isbn: string): string {
+    searchForBook(isbn: string, sectionTitle: string): string {
 
         const bookTemplate = `
     PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
@@ -15,15 +15,9 @@ export class BeolService {
     PREFIX beol: <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#>
       
     CONSTRUCT {
-    
+        
         ?introSection knora-api:isMainResource true .
-        
-        #?intro beol:hasSection ?introSection .
-        
-        #?content biblio:hasIntroduction ?intro .
-        
-        #?book biblio:bookHasContent ?content .
-    
+            
     } WHERE { 
     
         ?book a knora-api:Resource .
@@ -49,11 +43,20 @@ export class BeolService {
         ?intro beol:hasSection ?introSection .
         beol:hasSection knora-api:objectType knora-api:Resource .
         ?introSection a knora-api:Resource .
+        
+        ?introSection beol:sectionHasTitle ?sectionTitle .
+        
+        beol:sectionHasTitle knora-api:objectType xsd:string .
+        ?sectionTitle a xsd:string .
+        
+        FILTER(?sectionTitle = "${sectionTitle}")
              
     }
     
     OFFSET 0
         `;
+
+        // console.log(bookTemplate);
 
         return bookTemplate;
 

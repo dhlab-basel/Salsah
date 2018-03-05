@@ -1,26 +1,62 @@
-<br>
-<br>
-<br>
-<br>
-<div>
+<div class="salsah-module without-header">
     Books:
     <ul>
-       <li *ngFor="let book of books" (click)="searchForBook(book.isbn)">
-           {{book.title}}
+       <li *ngFor="let book of leoo">
+           <div>{{book.title}}</div>
+
+           <div>Introduction:</div>
+           <mat-accordion>
+               <mat-expansion-panel>
+
+                   <mat-expansion-panel-header>
+                       <mat-panel-title>{{book.title}} Introduction</mat-panel-title>
+                   </mat-expansion-panel-header>
+
+                   <mat-list>
+                       <mat-list-item (click)="searchForBook(book.isbn, 'Historical and biographical setting')">Introduction 1</mat-list-item>
+                       <mat-list-item (click)="searchForBook(book.isbn, 'Main subjects of the correspondence')">Introduction 2</mat-list-item>
+                       <mat-list-item (click)="searchForBook(book.isbn, 'Editing the Euler-Goldbach correspondence')">Introduction 3</mat-list-item>
+                   </mat-list>
+
+               </mat-expansion-panel>
+
+           </mat-accordion>
+
+           <div>Correspondence:</div>
+           <mat-accordion>
+               <mat-expansion-panel *ngFor="let corrGroup of book.correspondence">
+
+                   <mat-expansion-panel-header>
+                       <mat-panel-title>{{corrGroup.mainCorrespondent.name}} {{corrGroup.description}}</mat-panel-title>
+                   </mat-expansion-panel-header>
+
+                   <ul>
+                        <li *ngFor="let corr of corrGroup.correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corrGroup.noTranslations)">
+                            {{corr.correspondent2.name}}
+                        </li>
+                   </ul>
+
+                </mat-expansion-panel>
+            </mat-accordion>
+
        </li>
     </ul>
+
+
 </div>
 
+
+
 <div>
- Correspondences:
+ Wiki Correspondence:
     <br>
     <br>
 
     <mat-accordion>
-        <mat-expansion-panel *ngFor="let corrGroup of correspondenceGroups">
+        <mat-expansion-panel *ngFor="let corrGroup of wiki">
 
             <mat-expansion-panel-header>
-                <mat-panel-title>{{corrGroup.mainCorrespondent.name}} no translations: {{corrGroup.noTranslations}}</mat-panel-title>
+                <mat-panel-title>{{corrGroup.mainCorrespondent.name}} {{corrGroup.description}}</mat-panel-title>
             </mat-expansion-panel-header>
 
             <ul>

@@ -4,7 +4,7 @@ import {BeolService} from "../../../model/services/beol.service";
 
 class Book {
 
-    constructor(readonly title: string, readonly isbn: string) {
+    constructor(readonly title: string, readonly isbn: string, readonly correspondence: CorrespondenceGroup[]) {
 
     }
 
@@ -27,7 +27,7 @@ class Correspondent {
 
 class CorrespondenceGroup {
 
-    constructor(readonly mainCorrespondent: Correspondent, readonly correspondences: Correspondence[], readonly noTranslations: boolean) {
+    constructor(readonly mainCorrespondent: Correspondent, readonly correspondences: Correspondence[], readonly description: string = "", readonly noTranslations: boolean = false) {
 
     }
 
@@ -57,13 +57,11 @@ export class BeolComponent implements OnInit {
                 private _beol: BeolService) {
     }
 
-    books: Book[];
+    leoo: Book[];
 
-    correspondenceGroups: CorrespondenceGroup[];
+    wiki: CorrespondenceGroup[];
 
     ngOnInit() {
-
-        this.books = [new Book("LEOO IVA.IV", "978-3-0348-0880-4")];
 
         const Leonhard_Euler = new Correspondent("Leonhard Euler", "(DE-588)118531379");
 
@@ -246,15 +244,17 @@ export class BeolComponent implements OnInit {
 
         const Francesco_Maria_Zanotti = new Correspondent("Francesco Maria Zanotti","(DE-588)117592307");
 
+        this.leoo = [new Book("LEOO IVA.IV", "978-3-0348-0880-4", [ new CorrespondenceGroup(Leonhard_Euler, [new Correspondence(Leonhard_Euler, Christian_Goldbach)], "Original", true),
+            new CorrespondenceGroup(Leonhard_Euler, [new Correspondence(Leonhard_Euler, Christian_Goldbach)], "English Translation"),
+            new CorrespondenceGroup(Johann_Albrecht_Euler, [new Correspondence(Johann_Albrecht_Euler, Christian_Goldbach)], "Original", true),
+            new CorrespondenceGroup(Johann_Albrecht_Euler, [new Correspondence(Johann_Albrecht_Euler, Christian_Goldbach)], "English Translation")
+        ])];
+
         /**
          * Collection of correspondences the user can select from.
          */
-        this.correspondenceGroups = [
-            new CorrespondenceGroup(Leonhard_Euler, [new Correspondence(Leonhard_Euler, Christian_Goldbach)], true),
-            new CorrespondenceGroup(Leonhard_Euler, [new Correspondence(Leonhard_Euler, Christian_Goldbach)], false),
-            new CorrespondenceGroup(Johann_Albrecht_Euler, [new Correspondence(Johann_Albrecht_Euler, Christian_Goldbach)], true),
-            new CorrespondenceGroup(Johann_Albrecht_Euler, [new Correspondence(Johann_Albrecht_Euler, Christian_Goldbach)], false),
-            new CorrespondenceGroup(Daniel_I_Bernoulli, [new Correspondence(Daniel_I_Bernoulli, Johannes_Scheuchzer)], false),
+        this.wiki = [
+            new CorrespondenceGroup(Daniel_I_Bernoulli, [new Correspondence(Daniel_I_Bernoulli, Johannes_Scheuchzer)]),
             new CorrespondenceGroup(Johann_I_Bernoulli,
                 [
                     new Correspondence(Johann_I_Bernoulli, John_Arnold),
@@ -339,20 +339,19 @@ export class BeolComponent implements OnInit {
 
 
 
-                ],
-                false),
-            new CorrespondenceGroup(Johann_II_Bernoulli, [new Correspondence(Johann_II_Bernoulli, Pierre_Louis_Moreau_de_Maupertuis)], false),
-            new CorrespondenceGroup(Nicolaus_I_Bernoulli, [new Correspondence(Nicolaus_I_Bernoulli, Johann_Jakob_Scheuchzer), new Correspondence(Nicolaus_I_Bernoulli, Johannes_Scheuchzer)], false),
-            new CorrespondenceGroup(Nicolaus_II_Bernoulli, [new Correspondence(Nicolaus_II_Bernoulli, Johann_Jakob_Scheuchzer), new Correspondence(Nicolaus_II_Bernoulli, Johannes_Scheuchzer)], false), // TODO BIBB: no recipient for 1723-03-17_Bernoulli_Nicolaus_II-Scheuchzer_Johann_Jakob
-            new CorrespondenceGroup(Jacob_Hermann, [new Correspondence(Jacob_Hermann, Johann_I_Bernoulli), new Correspondence(Jacob_Hermann, Johann_Jakob_Scheuchzer), new Correspondence(Jacob_Hermann, Johannes_Scheuchzer)], false)
+                ]),
+            new CorrespondenceGroup(Johann_II_Bernoulli, [new Correspondence(Johann_II_Bernoulli, Pierre_Louis_Moreau_de_Maupertuis)]),
+            new CorrespondenceGroup(Nicolaus_I_Bernoulli, [new Correspondence(Nicolaus_I_Bernoulli, Johann_Jakob_Scheuchzer), new Correspondence(Nicolaus_I_Bernoulli, Johannes_Scheuchzer)]),
+            new CorrespondenceGroup(Nicolaus_II_Bernoulli, [new Correspondence(Nicolaus_II_Bernoulli, Johann_Jakob_Scheuchzer), new Correspondence(Nicolaus_II_Bernoulli, Johannes_Scheuchzer)]), // TODO BIBB: no recipient for 1723-03-17_Bernoulli_Nicolaus_II-Scheuchzer_Johann_Jakob
+            new CorrespondenceGroup(Jacob_Hermann, [new Correspondence(Jacob_Hermann, Johann_I_Bernoulli), new Correspondence(Jacob_Hermann, Johann_Jakob_Scheuchzer), new Correspondence(Jacob_Hermann, Johannes_Scheuchzer)])
 
         ];
 
     }
 
-    searchForBook(isbn: string) {
+    searchForBook(isbn: string, sectionTitle: string) {
 
-        const knarql: string = this._beol.searchForBook(isbn);
+        const knarql: string = this._beol.searchForBook(isbn, sectionTitle);
 
         this.submitQuery(knarql);
     }
