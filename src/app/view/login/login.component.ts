@@ -79,27 +79,6 @@ export class LoginComponent implements OnInit {
 
                 console.log(result);
 
-                /*
-                const session: Session = result.getBody(Session);
-
-                getDocument().cookie = 'sid=' + session.sid;
-                getDocument().cookie = 'KnoraAuthentication=' + session.sid;
-
-                // we had an issue to store the object array from projects_info; it was always empty
-                // so let's create a "real" array of user's projects and add it again to the userProfile
-                const usersProjects: ProjectItem[] = [];
-                for (const k in session.userProfile.projects_info) {
-                    if (session.userProfile.projects_info.hasOwnProperty(k)) {
-                        console.log(session.userProfile.projects_info[k]);
-                        usersProjects.push(session.userProfile.projects_info[k]);
-                    }
-                }
-                session.userProfile.projects_info = usersProjects;
-
-                // now we can store the userProfile as ownProfile locally
-                localStorage.setItem('ownProfile', JSON.stringify(session.userProfile));
-                */
-
                 // after successful login, we want to go back to the previous page e.g. search incl. query
                 // for this case, we stored the previous url parameters in the current login url as query params
                 let goToUrl = '/';

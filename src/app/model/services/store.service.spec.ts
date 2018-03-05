@@ -4,7 +4,7 @@ import {StoreService} from './store.service';
 import {HttpClientModule} from '@angular/common/http';
 
 
-fdescribe('StoreService', () => {
+describe('StoreService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -17,7 +17,7 @@ fdescribe('StoreService', () => {
         });
     });
 
-    fit('should be created', async(inject(
+    it('should be created', async(inject(
         [StoreService], (service) => {
             expect(service).toBeDefined();
         }))
@@ -25,7 +25,7 @@ fdescribe('StoreService', () => {
 
     if (environment.type === 'integration') {
 
-        fit('#resetTriplestoreContent should load test data [it]', async(inject(
+        it('#resetTriplestoreContent should load test data [it]', async(inject(
             [StoreService], (service) => {
 
                 expect(service).toBeDefined();

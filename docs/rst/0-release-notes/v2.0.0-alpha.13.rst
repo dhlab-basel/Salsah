@@ -21,8 +21,13 @@ See the `release`_ on Github.
 New features:
 -------------
 
+- lists service: create new list
+- lists service: update list info
+
 Bugfixes:
 ---------
+
+- race condition during login
 
 
 .. _release: https://github.com/dhlab-basel/Salsah/releases/tag/v2.0.0-alpha.13

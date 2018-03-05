@@ -7,7 +7,7 @@ import {AppModule} from './app.module';
 import {RouterModule} from '@angular/router';
 import {APP_BASE_HREF} from '@angular/common';
 
-fdescribe('AppComponent', () => {
+describe('AppComponent', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -21,7 +21,7 @@ fdescribe('AppComponent', () => {
         TestBed.compileComponents();
     });
 
-    fit('should modify the app', async(() => {
+    it('should modify the app', async(() => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.debugElement.componentInstance;
         expect(app).toBeTruthy();

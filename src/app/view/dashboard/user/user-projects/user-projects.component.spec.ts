@@ -54,7 +54,7 @@ describe('UserProjectsComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should be created', () => {
+    xit('should be created', () => {
         expect<any>(sessionStorage.getItem('currentUser')).toBe(JSON.stringify(testProfile));
         expect(component).toBeTruthy();
     });

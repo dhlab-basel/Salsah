@@ -1,15 +1,15 @@
-import {TestBed, inject} from '@angular/core/testing';
-import {AppModule} from '../../app.module';
-import {AppRoutingModule} from '../../app-routing.module';
+import {async, inject, TestBed} from '@angular/core/testing';
 import {ApiService} from './api.service';
 import {PropertiesService} from './properties.service';
+import {HttpClientModule} from '@angular/common/http';
+import {HttpModule} from '@angular/http';
 
 describe('PropertiesService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                AppModule,
-                AppRoutingModule
+                HttpModule,
+                HttpClientModule
             ],
             providers: [
                 ApiService,
@@ -18,7 +18,11 @@ describe('PropertiesService', () => {
         });
     });
 
-    it('should ...', inject([PropertiesService], (service: PropertiesService) => {
-        expect(service).toBeTruthy();
-    }));
+
+    xit('should be created', async(inject(
+        [PropertiesService], (service) => {
+            expect(service).toBeDefined();
+        }))
+    );
+
 });

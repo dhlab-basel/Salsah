@@ -15,7 +15,7 @@ describe('BasicOntologyService', () => {
         });
     });
 
-    it('should ...', inject([BasicOntologyService], (service: BasicOntologyService) => {
+    xit('nothing tested', inject([BasicOntologyService], (service: BasicOntologyService) => {
         expect(service).toBeTruthy();
     }));
 

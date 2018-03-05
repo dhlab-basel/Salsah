@@ -18,7 +18,7 @@ describe('ResourceTypesService', () => {
         });
     });
 
-    it('should ...', inject([ResourceTypesService], (service: ResourceTypesService) => {
+    xit('should ...', inject([ResourceTypesService], (service: ResourceTypesService) => {
         expect(service).toBeTruthy();
     }));
 });

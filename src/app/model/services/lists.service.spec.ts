@@ -39,6 +39,7 @@ import {UsersService} from './users.service';
 import {ProjectsService} from './projects.service';
 
 describe('ListsService', () => {
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -56,13 +57,13 @@ describe('ListsService', () => {
         });
     });
 
-    fit('should be created', async(inject(
+    it('should be created', async(inject(
         [ListsService], (service) => {
             expect(service).toBeDefined();
         }))
     );
 
-    fit('should parse lists-response', () => {
+    it('should parse lists-response', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
@@ -71,7 +72,7 @@ describe('ListsService', () => {
         expect(result).toBeTruthy();
     });
 
-    fit('should parse list-response', () => {
+    it('should parse list-response', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
@@ -83,9 +84,7 @@ describe('ListsService', () => {
 
     if (environment.type === 'integration') {
 
-        let newList: string;
-
-        fit('should load test data [it]', async(inject(
+        it('should load test data [it]', async(inject(
             [StoreService], (service) => {
 
                 expect(service).toBeDefined();
@@ -98,7 +97,7 @@ describe('ListsService', () => {
 
             })), 300000);
 
-        fit('#getLists should return all lists [it]', async(inject(
+        it('#getLists should return all lists [it]', async(inject(
             [ListsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -117,7 +116,7 @@ describe('ListsService', () => {
 
             })));
 
-        fit('#getList should return a list [it]', async(inject(
+        it('#getList should return a list [it]', async(inject(
             [ListsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -135,7 +134,7 @@ describe('ListsService', () => {
 
             })));
 
-        fit('#getListInfo should return a list info [it]', async(inject(
+        it('#getListInfo should return a list info [it]', async(inject(
             [ListsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -153,7 +152,7 @@ describe('ListsService', () => {
 
             })));
 
-        fit('#getListNodeInfo should return a list node info [it]', async(inject(
+        it('#getListNodeInfo should return a list node info [it]', async(inject(
             [ListsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -173,82 +172,88 @@ describe('ListsService', () => {
 
         /* Create and update tests */
 
-        fit('#createList should create a list [it]', async(inject(
+        it('#createList should create a list [it]', async(inject(
             [ListsService, AuthenticationService], (service, auth) => {
 
                 expect(service).toBeDefined();
+                expect(auth).toBeDefined();
 
-                // need to login
-                auth.login('user01.user1@example.com', 'test');
+                // we need to login as project admin
+                auth.login('user02.user@example.com', 'test')
+                    .map(
+                        (result: boolean) => {
 
-                const payload: ListCreatePayload = {
-                    projectIri: imagesProjectIri,
-                    labels: [{value: 'Neue Liste', language: 'de'}],
-                    comments: []
-                };
+                            // login successful
+                            expect(result).toEqual(true);
 
-                service.createList(payload)
-                    .subscribe(
-                        (list: List) => {
-                            // console.log('users: ' + JSON.stringify(users));
+                            // create payload
+                            const payload: ListCreatePayload = {
+                                projectIri: imagesProjectIri,
+                                labels: [{value: 'Neue Liste', language: 'de'}],
+                                comments: []
+                            };
+                            service.createList(payload).subscribe(
+                                (list: List) => {
+                                    // console.log('users: ' + JSON.stringify(users));
 
-                            const listInfo = list.listinfo;
-                            const labels: StringLiteralV2[] = list.listinfo.labels;
+                                    const listInfo = list.listinfo;
+                                    const labels: StringLiteralV2[] = list.listinfo.labels;
 
-                            const expectedLabel: StringLiteralV2 = {value: 'Neue Liste', language: 'de'};
-                            const children = list.children;
+                                    const expectedLabel: StringLiteralV2 = {value: 'Neue Liste', language: 'de'};
+                                    const children = list.children;
 
-                            expect(listInfo.projectIri).toEqual(imagesProjectIri);
-                            expect(labels[0].value).toEqual(expectedLabel.value);
-                            expect(labels[0].language).toEqual(expectedLabel.language);
-                            expect(children.length).toEqual(0);
+                                    expect(listInfo.projectIri).toEqual(imagesProjectIri);
+                                    expect(labels[0].value).toEqual(expectedLabel.value);
+                                    expect(labels[0].language).toEqual(expectedLabel.language);
+                                    expect(children.length).toEqual(0);
 
-                            // save for next test
-                            newList = listInfo.id;
-                        },
-                        (error: ApiServiceError) => {
-                            fail(error);
-                        }
-                    );
-
+                                    // save for next test. don't know if this is the best approach for storing between tests.
+                                    localStorage.setItem('newListInfoId', listInfo.id) ;
+                                });
+                        });
             })));
 
-        fit('#updateListInfo should update a list info [it]', async(inject(
+        it('#updateListInfo should update a list info [it]', async(inject(
             [ListsService, AuthenticationService], (service, auth) => {
 
                 expect(service).toBeDefined();
-                
+
+                // need the list IRI from the previous test
+                const newList = localStorage.getItem('newListInfoId');
+                expect(newList).toBeDefined();
+
                 // need to login
-                auth.login('user01.user1@example.com', 'test').subscribe(
-                    (result: boolean) => {
-                        expect(result).toEqual(true)
-                    }
-                );
+                auth.login('user01.user1@example.com', 'test')
+                    .map(
+                        (result: boolean) => {
 
-                const updatePayload: ListInfoUpdatePayload = {
-                    listIri: newList,
-                    projectIri: imagesProjectIri,
-                    labels: [{value: 'Neue geänderte Liste', language: 'de'}],
-                    comments: []
-                };
+                            // login successful
+                            expect(result).toEqual(true);
 
-                service.updateListInfo(updatePayload)
-                    .subscribe(
-                        (listinfo: ListInfo) => {
-                            // console.log('users: ' + JSON.stringify(users));
+                            const updatePayload: ListInfoUpdatePayload = {
+                                listIri: newList,
+                                projectIri: imagesProjectIri,
+                                labels: [{value: 'Neue geänderte Liste', language: 'de'}],
+                                comments: []
+                            };
 
-                            const labels: StringLiteralV2[] = listinfo.labels;
+                            service.updateListInfo(updatePayload)
+                                .subscribe(
+                                    (listinfo: ListInfo) => {
+                                        // console.log('users: ' + JSON.stringify(users));
 
-                            const expectedLabel: StringLiteralV2 = {value: 'Neue geänderte Liste', language: 'de'};
+                                        const labels: StringLiteralV2[] = listinfo.labels;
 
-                            expect(labels[0].value).toBe(expectedLabel.value);
-                            expect(labels[0].language).toBe(expectedLabel.language);
-                        },
-                        (error: ApiServiceError) => {
-                            fail(error);
-                        }
-                    );
+                                        const expectedLabel: StringLiteralV2 = {value: 'Neue geänderte Liste', language: 'de'};
 
+                                        expect(labels[0].value).toBe(expectedLabel.value);
+                                        expect(labels[0].language).toBe(expectedLabel.language);
+                                    },
+                                    (error: ApiServiceError) => {
+                                        fail(error);
+                                    });
+
+                        });
             })));
 
     } else {
