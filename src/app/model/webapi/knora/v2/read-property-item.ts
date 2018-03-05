@@ -462,14 +462,14 @@ export class ReadIntervalValue implements ReadPropertyItem {
  */
 export class ReadListValue implements ReadPropertyItem {
 
-    constructor(readonly id: string, readonly propIri: string, readonly listNodeIri: string) {
+    constructor(readonly id: string, readonly propIri: string, readonly listNodeIri: string, readonly listNodeLabel: string,) {
 
     }
 
     readonly type = AppConfig.ListValue;
 
     getContent(): string {
-        return this.listNodeIri;
+        return this.listNodeLabel;
     }
 
     getClassName():string {
