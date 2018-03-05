@@ -15,8 +15,11 @@
                 <textarea matInput placeholder="Feedback" [formControl]="form.controls['feedback']"></textarea>
             </mat-form-field>
         </div>
+
+        <re-captcha (resolved)="resolved($event)"></re-captcha>
+
         <div>
-            <button type="submit" [disabled]="form.invalid">Submit</button>
+            <button type="submit" [disabled]="form.invalid || !captchaValid">Submit</button>
         </div>
     </form>
 </div>

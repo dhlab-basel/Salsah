@@ -162,8 +162,12 @@ import {EditListInfoComponent} from './view/modules/form/edit-list-info/edit-lis
 
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
-import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
+import {
+    ContactFormComponent,
+    DialogOverviewExampleDialog
+} from './view/modules/form/contact-form/contact-form.component';
 import {AngularFirestore} from "angularfire2/firestore";
+import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from "ng-recaptcha";
 
 //
 // import all needed services
@@ -280,6 +284,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         GndDirective,
         InternationalizationComponent,
         ContactFormComponent,
+        DialogOverviewExampleDialog,
         EditListInfoComponent,
     ],
     imports: [
@@ -299,6 +304,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase),
         InfiniteScrollModule,
+        RecaptchaModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -313,7 +319,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ConfirmDialogComponent,
         FormDialogComponent,
         MessageDialogComponent,
-        ResourceClassFormComponent // deprecated!!
+        ResourceClassFormComponent, // deprecated!!
+        DialogOverviewExampleDialog,
     ],
     providers: [
         ApiService,
@@ -335,7 +342,13 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         LanguageService,
         AngularFirestore,
         SearchParamsService,
-        {provide: APP_BASE_HREF, useValue: '/'}
+        {provide: APP_BASE_HREF, useValue: '/'},
+        {
+            provide: RECAPTCHA_SETTINGS,
+            useValue: {
+                siteKey: '6LdmmUoUAAAAAPZ4Z_1xYEIwEgI1d9YdjlZKmVkV',
+            } as RecaptchaSettings,
+        }
     ],
     bootstrap: [AppComponent]
 })

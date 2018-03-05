@@ -42,6 +42,7 @@
         "jdnconvertiblecalendardateadapter": "0.0.2",
         "json2typescript": "^1.0.5",
         "jsonld": "^0.4.12",
+        "ng-recaptcha": "^3.0.3",
         "ng2-dnd": "^5.0.2",
         "ngx-infinite-scroll": "^0.8.2",
         "openseadragon": "^2.3.0",
