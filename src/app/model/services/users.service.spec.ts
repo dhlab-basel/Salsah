@@ -11,7 +11,7 @@ import {multiUser, multiUserResponseJson, usersResponseJson, usersTestData} from
 import {StoreService} from './store.service';
 
 
-fdescribe('UsersService', () => {
+describe('UsersService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -27,13 +27,13 @@ fdescribe('UsersService', () => {
         });
     });
 
-    fit('should be created', async(inject(
+    it('should be created', async(inject(
         [UsersService], (service) => {
             expect(service).toBeDefined();
         }))
     );
 
-    fit('should parse users-response', () => {
+    it('should parse users-response', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
@@ -42,7 +42,7 @@ fdescribe('UsersService', () => {
         expect(result).toBeTruthy();
     });
 
-    fit('should parse user-response', () => {
+    it('should parse user-response', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
@@ -54,7 +54,7 @@ fdescribe('UsersService', () => {
 
     if (environment.type === 'integration') {
 
-        fit('should load test data [it]', async(inject(
+        it('should load test data [it]', async(inject(
             [StoreService], (service) => {
 
                 expect(service).toBeDefined();
@@ -67,7 +67,7 @@ fdescribe('UsersService', () => {
 
             })), 300000);
 
-        fit('#getAllUsers should return all users [it]', async(inject(
+        it('#getAllUsers should return all users [it]', async(inject(
             [UsersService], (service) => {
 
                 expect(service).toBeDefined();
@@ -86,7 +86,7 @@ fdescribe('UsersService', () => {
 
             })));
 
-        fit('#getUserByEmail should return user [it]', async(inject(
+        it('#getUserByEmail should return user [it]', async(inject(
             [UsersService], (service) => {
 
                 expect(service).toBeDefined();
@@ -104,7 +104,7 @@ fdescribe('UsersService', () => {
 
             })));
 
-        fit('#getUserByIri should return user [it]', async(inject(
+        it('#getUserByIri should return user [it]', async(inject(
             [UsersService], (service) => {
 
                 expect(service).toBeDefined();

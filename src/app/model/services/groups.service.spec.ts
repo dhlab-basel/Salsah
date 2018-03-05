@@ -11,7 +11,7 @@ import {HttpModule} from '@angular/http';
 import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
 import {groupsResponseJson, groupsTestData, imagesReviewerGroup, imagesReviewerGroupResponseJson} from '../test-data/shared-test-data';
 
-fdescribe('GroupsService', () => {
+describe('GroupsService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -26,11 +26,11 @@ fdescribe('GroupsService', () => {
         });
     });
 
-    fit('should be created', inject([GroupsService], (service: GroupsService) => {
+    it('should be created', inject([GroupsService], (service: GroupsService) => {
         expect(service).toBeTruthy();
     }));
 
-    fit('should parse groups-response', () => {
+    it('should parse groups-response', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
@@ -42,7 +42,7 @@ fdescribe('GroupsService', () => {
     });
 
 
-    fit('should parse group-response', () => {
+    it('should parse group-response', () => {
 
         const jsonConvert: JsonConvert = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.ALLOW_NULL);
 
@@ -56,7 +56,7 @@ fdescribe('GroupsService', () => {
 
     if (environment.type === 'integration') {
 
-        fit('should load test data [it]', async(inject(
+        it('should load test data [it]', async(inject(
             [StoreService], (service) => {
 
                 expect(service).toBeDefined();
@@ -70,7 +70,7 @@ fdescribe('GroupsService', () => {
             })), 300000);
 
 
-        fit('#getAllGroups should return all groups [it]', async(inject(
+        it('#getAllGroups should return all groups [it]', async(inject(
             [GroupsService], (service) => {
 
                 expect(service).toBeDefined();
@@ -90,7 +90,7 @@ fdescribe('GroupsService', () => {
             })));
 
 
-        fit('#getGroupByIri should return group [it]', async(inject(
+        it('#getGroupByIri should return group [it]', async(inject(
             [GroupsService], (service) => {
 
                 expect(service).toBeDefined();
