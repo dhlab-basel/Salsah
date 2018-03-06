@@ -1,33 +1,43 @@
-<div class="salsah-module without-header">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div>
-            <mat-form-field>
-                <input matInput type="text" placeholder="Name" [formControl]="form.controls['name']">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <input matInput type="text" placeholder="Email" [formControl]="form.controls['email']">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <textarea matInput placeholder="Feedback" [formControl]="form.controls['feedback']"></textarea>
-            </mat-form-field>
-        </div>
+<div class="salsah-module without-header" style="margin-left: 15px;">
+    <div>
+        <h3>Contact Form</h3>
 
-        <re-captcha (resolved)="resolved($event)"></re-captcha>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Name" [formControl]="form.controls['name']">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Email" [formControl]="form.controls['email']">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <textarea matInput placeholder="Feedback" [formControl]="form.controls['feedback']"></textarea>
+                </mat-form-field>
+            </div>
 
-        <div>
-            <button mat-icon-button type="button" (click)="resetForm()">
-                <mat-icon aria-label="reset query form">clear</mat-icon>
-            </button>
+            <div>
+                <re-captcha (resolved)="resolved($event)"></re-captcha>
+            </div>
 
-            <button mat-icon-button type="submit" [disabled]="form.invalid || !captchaValid">
-                <mat-icon aria-label="submit query">send</mat-icon>
-            </button>
-        </div>
+            <div>
+                <button mat-icon-button type="button" (click)="resetForm()">
+                    <mat-icon aria-label="reset query form">clear</mat-icon>
+                </button>
 
+                <button mat-icon-button type="submit" [disabled]="form.invalid || !captchaValid">
+                    <mat-icon aria-label="submit query">send</mat-icon>
+                </button>
+            </div>
 
-    </form>
+        </form>
+    </div>
+
+    <div>
+        <h4>Privacy</h4>
+        <div>Your message will be stored in an <a target="_blank" href="http://firebase.google.com">Angular Firebase database</a>. <br>Please do not submit any sensitive information (e.g., passwords)</div>
+    </div>
 </div>

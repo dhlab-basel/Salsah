@@ -3,19 +3,17 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AngularFirestore} from "angularfire2/firestore";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {ActivatedRoute, Router} from "@angular/router";
+import * as firebase from "firebase/app";
+import DocumentReference = firebase.firestore.DocumentReference;
 
 @Component({
     selector: 'dialog-overview-example-dialog',
     template: '<span>{{data.message}}</span>',
 })
-export class DialogOverviewExampleDialog {
+export class PopUpMessage {
 
-    constructor(
-        public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-    onNoClick(): void {
-        this.dialogRef.close();
+    constructor(public dialogRef: MatDialogRef<PopUpMessage>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
 }
@@ -29,9 +27,12 @@ export class ContactFormComponent implements OnInit {
 
     form: FormGroup;
 
-    captchaValid = false;
+    captchaValid = false; // will be set to true by the re-captcha callback `resolved`
 
-    constructor(private fb: FormBuilder, private db: AngularFirestore, public dialog: MatDialog, private _route: ActivatedRoute,
+    constructor(private fb: FormBuilder,
+                private db: AngularFirestore,
+                private dialog: MatDialog,
+                private _route: ActivatedRoute,
                 private _router: Router) {
     }
 
@@ -39,6 +40,9 @@ export class ContactFormComponent implements OnInit {
         this.createForm();
     }
 
+    /**
+     * Initializes the form.
+     */
     createForm() {
         this.form = this.fb.group({
             name: ['', Validators.required],
@@ -50,24 +54,34 @@ export class ContactFormComponent implements OnInit {
 
     }
 
+    /**
+     * Opens a dilaog to inform the user if his request could be processed successfully.
+     *
+     * @param {string} msg the message to be displayed to the user.
+     */
     openDialog(msg: string): void {
-        let dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+
+        let dialogRef = this.dialog.open(PopUpMessage, {
             width: '250px',
-            data: { message: msg }
+            data: {message: msg}
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-            //console.log('The dialog was closed');
-        });
     }
 
+    /**
+     * Resets the form fields.
+     */
     resetForm() {
 
         this.form.reset();
     }
 
+    /**
+     * Submission of the form.
+     */
     onSubmit() {
 
+        // exit if the form is invalid or the captcha has not been succesfully completed.
         if (!this.form.valid || !this.captchaValid) return;
 
         // destructuring assignment
@@ -77,7 +91,9 @@ export class ContactFormComponent implements OnInit {
         let formRequest = {name, email, feedback, date};
 
         // send data to Cloud Firestore
-        this.db.collection('/messages').add(formRequest).then(() => {
+        this.db.collection('/messages').add(formRequest).then((docRef: DocumentReference) => {
+
+            // success
 
             this.captchaValid = false;
 
@@ -86,8 +102,8 @@ export class ContactFormComponent implements OnInit {
             this.form.reset();
 
             this._router.navigate(['/'], {relativeTo: this._route});
-        }).catch( (error) => {
-            // An error happened.
+        }).catch((error) => {
+            // an error occurred: the message could not be sent
 
             this.openDialog("An error occurred. Your message could not be sent.");
 
@@ -95,10 +111,14 @@ export class ContactFormComponent implements OnInit {
 
     }
 
+    /**
+     * Called when te captcha has been completed succcessfuly.
+     *
+     * @param {string | null} captchaResponse the message sent by the captcha element. `null` if it has not been completed.
+     */
     resolved(captchaResponse: string | null) {
         if (captchaResponse !== null) {
             this.captchaValid = true;
-            //console.log(`Resolved captcha with response ${captchaResponse}:`);
         }
     }
 

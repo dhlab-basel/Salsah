@@ -164,7 +164,7 @@ import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
 import {
     ContactFormComponent,
-    DialogOverviewExampleDialog
+    PopUpMessage
 } from './view/modules/form/contact-form/contact-form.component';
 import {AngularFirestore} from "angularfire2/firestore";
 import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from "ng-recaptcha";
@@ -284,7 +284,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         GndDirective,
         InternationalizationComponent,
         ContactFormComponent,
-        DialogOverviewExampleDialog,
+        PopUpMessage,
         EditListInfoComponent,
     ],
     imports: [
@@ -320,7 +320,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         FormDialogComponent,
         MessageDialogComponent,
         ResourceClassFormComponent, // deprecated!!
-        DialogOverviewExampleDialog,
+        PopUpMessage,
     ],
     providers: [
         ApiService,
