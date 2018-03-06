@@ -108,7 +108,7 @@ export class HeaderToolbarComponent implements OnInit {
 
     ngOnInit() {
         // check if a user is logged-in
-        this.activeSession = this._authenticationService.authenticate();
+        this._authenticationService.authenticate().subscribe(result => this.activeSession = result);
 
         if (JSON.parse(localStorage.getItem('currentUser'))) {
 
