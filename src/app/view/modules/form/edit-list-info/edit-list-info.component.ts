@@ -39,7 +39,7 @@ export class EditListInfoComponent implements OnChanges {
             label: 'Label ',
             project: 'Belongs to project',
             id: 'Id',
-            comments: 'Comments ' ,
+            comments: 'Comments ',
             nodes: {
                 formLabel: 'edit Nodes',
                 formDescription: 'click on the fields to edit',
@@ -102,7 +102,7 @@ export class EditListInfoComponent implements OnChanges {
         return this.listInfoForm.get('comments') as FormArray;
     }
 
-    setLabels(labels: StringLiteralV2[]){
+    setLabels(labels: StringLiteralV2[]) {
         console.log('setLabels: ', labels);
         const labelFGs = labels.map(label => this._fb.group(label));
         const labelFormArray = this._fb.array(labelFGs);
@@ -110,7 +110,7 @@ export class EditListInfoComponent implements OnChanges {
         this.listInfoForm.setControl('labels', labelFormArray);
     }
 
-    setComments(comments: StringLiteralV2[]){
+    setComments(comments: StringLiteralV2[]) {
         console.log('setComments: ', comments);
         const commentFGs = comments.map(comment => this._fb.group(comment));
         const commentFormArray = this._fb.array(commentFGs);
@@ -131,6 +131,7 @@ export class EditListInfoComponent implements OnChanges {
     addLabel() {
         this.labels.push(this.buildValueLangGroup());
     }
+
     addComment() {
         this.comments.push(this.buildValueLangGroup());
     }
@@ -138,30 +139,34 @@ export class EditListInfoComponent implements OnChanges {
     removeLabel(i: number) {
         this.labels.removeAt(i);
     }
+
     removeComment(i: number) {
         this.comments.removeAt(i);
     }
 
-    saveListInfo(){
+    saveListInfo() {
         this.submitted = true; // set form submit to true
         console.log('save:', this.listInfoForm.value);
 
         const payload: ListInfoUpdatePayload = {
-            listIri: this.listInfoForm.value.id,
+            listIri: this.currentListInfo.id, // the id is disabled in the form and cannot be changed, so it won't be saved as a form value
             projectIri: this.listInfoForm.value.belongsToProject,
             labels: this.listInfoForm.value.labels,
             comments: this.listInfoForm.value.comments
         };
 
         this._listsService.updateListInfo(payload).subscribe(
-                (result: any) => {
-                    console.log(result);
-                },
-                (error: ApiServiceError) => {
-                    console.log(error);
-                    this.listInfoErrorMessage = error;
-                }
-            );
+            (result: any) => {
+                console.log(result);
+            },
+            (error: ApiServiceError) => {
+                console.log(error);
+                this.listInfoErrorMessage = error;
+            }
+        );
+
+        // after close form, refresh the page
+        location.reload();
 
     }
 

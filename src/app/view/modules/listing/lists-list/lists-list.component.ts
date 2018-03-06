@@ -149,11 +149,18 @@ export class ListsListComponent implements OnInit {
     }
 
     addNode(tree) {
-        this.currentNodes.push({ id: 'an id', name: 'another node', label: 'a node', children: [], level: 0 , position: 0});
+        this.currentNodes.push({
+            id: 'an id',
+            name: 'another node',
+            label: 'a node',
+            children: [],
+            level: 0,
+            position: 0
+        });
         tree.treeModel.update();
     }
 
-    deleteNode(node: TreeNode, tree) : void {
+    deleteNode(node: TreeNode, tree): void {
         if (node.parent != null) {
             node.parent.data.children.splice(node.parent.data.children.indexOf(node.data), 1)
             tree.treeModel.update()
@@ -178,7 +185,7 @@ export class ListsListComponent implements OnInit {
 
     // TODO: implement proper edit method/component
     editNode(id: string, cNode: ListNode[], title?: string) {
-         let dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+        let dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
                 currentNodes: cNode,
@@ -191,8 +198,9 @@ export class ListsListComponent implements OnInit {
             //TODO: here load the lists service to get the updated nodes - when list service is fixed
         });
     }
+
     editList(id: string, list: ListInfo[], title?: string) {
-         let dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+        let dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
                 currentListInfo: list,
