@@ -206,6 +206,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
             case 'project':
             case 'ontology':
             case 'resource-type':
+            case 'list':
                 dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
                     data: {
                         title: this.add.title,

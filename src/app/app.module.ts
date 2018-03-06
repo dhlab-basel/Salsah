@@ -158,6 +158,7 @@ import {GndDirective} from './view/modules/other/gnd.directive';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {SearchParamsService} from './model/services/search-params.service';
 import {EditListInfoComponent} from './view/modules/form/edit-list-info/edit-list-info.component';
+import { NewListComponent } from './view/modules/form/new-list/new-list.component';
 
 
 //
@@ -275,6 +276,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         GndDirective,
         InternationalizationComponent,
         EditListInfoComponent,
+        NewListComponent,
     ],
     imports: [
         BrowserModule,

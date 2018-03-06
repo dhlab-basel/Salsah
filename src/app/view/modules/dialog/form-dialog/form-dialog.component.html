@@ -59,6 +59,9 @@
                                    [listIri]="data.iri"
                                     [currentListInfo]="data.currentListInfo">
         </salsah-edit-list-info>
+        <salsah-new-list *ngSwitchCase="'list'"
+                                   [listIri]="data.iri">
+        </salsah-new-list>
 
         <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
     </mat-dialog-content>
