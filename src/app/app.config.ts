@@ -114,6 +114,8 @@ export class AppConfig {
     public static dateValueHasCalendar = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasCalendar';
 
     public static linkValueHasTarget = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasTarget';
+    public static linkValueHasSource = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasSource';
+    public static linkValueHasSourceIri = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasSourceIri';
     public static linkValueHasTargetIri = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasTargetIri';
 
     public static integerValueAsInteger = AppConfig.KnoraApiV2WithValueObjectPath + 'intValueAsInt';
@@ -139,6 +141,7 @@ export class AppConfig {
     public static intervalValueHasEnd = AppConfig.KnoraApiV2WithValueObjectPath + 'intervalValueHasEnd';
 
     public static hierarchicalListValueAsListNode = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNode';
+    public static hierarchicalListValueAsListNodeLabel = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNodeLabel';
 
     public static hasGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'hasGeometry';
 

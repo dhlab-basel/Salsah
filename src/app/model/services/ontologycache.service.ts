@@ -274,7 +274,8 @@ export class OntologyInformation {
             if (resClassDef !== undefined && resClassDef.label !== undefined) {
                 return resClassDef.label
             } else {
-                console.log(`OntologyInformation: no resource class ${resClass}  found in resourceClasses`);
+                // console.log(`OntologyInformation: no resource class ${resClass}  found in resourceClasses`);
+                return resClassDef.id;
             }
         } else {
             console.log('call of OntologyInformation.getLabelForResourceClass without argument resClass');
@@ -323,7 +324,8 @@ export class OntologyInformation {
             if (propDef !== undefined && propDef.label !== undefined) {
                 return propDef.label
             } else {
-                console.log(`OntologyInformation: no label found for ${property} in properties`);
+                // console.log(`OntologyInformation: no label found for ${property} in properties`);
+                return propDef.id;
             }
         } else {
             console.log('call of OntologyInformation.getLabelForProperty without argument property');
