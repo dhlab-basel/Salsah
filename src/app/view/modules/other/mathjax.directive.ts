@@ -7,7 +7,8 @@ import {ResourceObjectComponent} from '../object/resource-object/resource-object
 
 declare var MathJax: {
     Hub: {
-        Queue: (param: Object[]) => void;
+        Queue: (param: () => void) => void;
+        Typeset: (param: object) => void;
     }
 };
 
@@ -95,7 +96,9 @@ export class MathJaxDirective implements OnInit {
         this.el.nativeElement.innerHTML = this.html;
 
         // http://docs.mathjax.org/en/latest/advanced/typeset.html#typeset-math
-        MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.el.nativeElement]);
+        MathJax.Hub.Queue(() => {
+            MathJax.Hub.Typeset(this.el.nativeElement);
+        });
 
     }
 
