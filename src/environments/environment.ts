@@ -26,5 +26,13 @@ export const environment = {
     api: 'http://localhost:3333',           // perhaps we have to rename it into knora?
     url: 'http://localhost:4200',           // perhaps we have to rename it into guiUrl or salsah?
     localData: 'data',
-    pagingLimit: 25
+    pagingLimit: 25,
+    firebase: {
+        apiKey: "AIzaSyAGr-TWw1NaycUrL3IaJQ63D2YguVafYTA",
+        authDomain: "test-5034c.firebaseapp.com",
+        databaseURL: "https://test-5034c.firebaseio.com",
+        projectId: "test-5034c",
+        storageBucket: "test-5034c.appspot.com",
+        messagingSenderId: "44326559957"
+    }
 };

@@ -1,0 +1,27 @@
+.salsah-contact-card {
+  margin: 24px auto;
+  max-width: 400px;
+  position: relative;
+
+  .medium {
+    margin-bottom: 12px;
+
+    textarea {
+      height: 150px;
+    }
+  }
+
+  .salsah-contact-actions {
+    display: flex;
+    box-sizing: border-box;
+    width: 320px;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .salsah-contact-footer {
+    font-size: smaller;
+    padding: 12px;
+  }
+}

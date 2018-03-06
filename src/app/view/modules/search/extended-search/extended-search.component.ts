@@ -1,18 +1,17 @@
-import {
-    Component, EventEmitter, Inject, OnChanges, OnInit, Output, QueryList, ViewChild,
-    ViewChildren
-} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {
-    OntologyCacheService, OntologyInformation, OntologyMetadata, Properties,
-    ResourceClass, ResourceClasses
+    OntologyCacheService,
+    OntologyInformation,
+    OntologyMetadata,
+    Properties,
+    ResourceClass
 } from "../../../../model/services/ontologycache.service";
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 import {PropertyWithValue, SelectPropertyComponent} from "./select-property/select-property.component";
 import {SelectResourceClassComponent} from "./select-resource-class/select-resource-class.component";
 import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ExtendedSearchParams, SearchParamsService} from "../../../../model/services/search-params.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 
 @Component({

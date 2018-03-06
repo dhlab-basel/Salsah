@@ -25,5 +25,6 @@ export const environment = {
     api: 'http://localhost:3333',           // perhaps we have to rename it into knora?
     url: 'http://localhost:4200',           // perhaps we have to rename it into guiUrl or salsah?
     localData: 'data',
-    pagingLimit: 25
+    pagingLimit: 25,
+    firebase: {}
 };

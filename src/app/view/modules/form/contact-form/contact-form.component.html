@@ -1,0 +1,64 @@
+<div class="salsah-module without-header" style="margin-left: 15px;">
+    <mat-card class="salsah-contact-card">
+        <mat-card-header>
+            <mat-card-title>
+                <h3>Contact Form</h3>
+            </mat-card-title>
+        </mat-card-header>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="salsah-form-content">
+            <mat-card-content>
+
+                    <div>
+                        <mat-form-field class="medium">
+                            <input matInput type="text" placeholder="Name" [formControl]="form.controls['name']">
+                            <mat-hint *ngIf="formErrors.name">
+                                {{ formErrors.name }}
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field class="medium">
+                            <input matInput type="text" placeholder="Email" [formControl]="form.controls['email']">
+                            <mat-hint *ngIf="formErrors.email">
+                                {{ formErrors.email }}
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field class="medium">
+                            <textarea matInput placeholder="Feedback" [formControl]="form.controls['feedback']"></textarea>
+                            <mat-hint *ngIf="formErrors.feedback">
+                                {{ formErrors.feedback }}
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <re-captcha (resolved)="resolved($event)"></re-captcha>
+                    </div>
+
+            </mat-card-content>
+            <mat-card-actions class="salsah-contact-actions">
+                <span>
+                    <button mat-icon-button type="button" (click)="resetForm()">
+                        <mat-icon aria-label="reset query form">clear</mat-icon>
+                    </button>
+                </span>
+                <span class="fill-remaining-space"></span>
+                <span>
+                    <button mat-icon-button type="submit" [disabled]="form.invalid || !captchaValid">
+                        <mat-icon aria-label="submit query">send</mat-icon>
+                    </button>
+                </span>
+            </mat-card-actions>
+        </form>
+        <mat-divider></mat-divider>
+        <mat-card-footer class="salsah-contact-footer">
+            <h4>Privacy</h4>
+            <p>
+                Your message will be stored in an <a target="_blank" href="http://firebase.google.com">Angular Firebase database</a>.<br>
+                Please do not submit any sensitive information (e.g., passwords)
+            </p>
+        </mat-card-footer>
+    </mat-card>
+</div>
