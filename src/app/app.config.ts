@@ -114,6 +114,8 @@ export class AppConfig {
     public static dateValueHasCalendar = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasCalendar';
 
     public static linkValueHasTarget = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasTarget';
+    public static linkValueHasSource = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasSource';
+    public static linkValueHasSourceIri = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasSourceIri';
     public static linkValueHasTargetIri = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasTargetIri';
 
     public static integerValueAsInteger = AppConfig.KnoraApiV2WithValueObjectPath + 'intValueAsInt';
