@@ -29,6 +29,25 @@ export class ContactFormComponent implements OnInit {
 
     captchaValid = false; // will be set to true by the re-captcha callback `resolved`
 
+    formErrors = {
+        'name': '',
+        'email': '',
+        'feedback': '',
+    };
+
+    // ...with the following messages
+    validationMessages = {
+        'name': {
+            'required': 'Name is required.'
+        },
+        'email': {
+            'email': 'This doesn\'t appear to be a valid email address.'
+        },
+        'feedback': {
+            'required': 'A password is required.'
+        }
+    };
+
     constructor(private fb: FormBuilder,
                 private db: AngularFirestore,
                 private dialog: MatDialog,
@@ -38,6 +57,32 @@ export class ContactFormComponent implements OnInit {
 
     ngOnInit() {
         this.createForm();
+
+        this.form.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+
+        this.onValueChanged(); // (re)set validation messages now
+    }
+
+    onValueChanged(data?: any) {
+
+        if (!this.form) {
+            return;
+        }
+
+        const form = this.form;
+
+        Object.keys(this.formErrors).map(field => {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                Object.keys(control.errors).map(key => {
+                    this.formErrors[field] += messages[key] + ' ';
+                });
+
+            }
+        });
     }
 
     /**
