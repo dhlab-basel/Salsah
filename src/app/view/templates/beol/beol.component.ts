@@ -39,9 +39,17 @@ class Section {
     }
 }
 
-class CorrespondenceGroup {
+class CorrespondenceGroupWithSection {
 
     constructor(readonly mainCorrespondent: Correspondent, readonly sections: Section[], readonly description: string = "", readonly noTranslations: boolean = false) {
+
+    }
+
+}
+
+class CorrespondenceGroup {
+
+    constructor(readonly mainCorrespondent: Correspondent, readonly correspondences: Correspondence[], readonly description: string = "") {
 
     }
 
@@ -53,7 +61,7 @@ class CorrespondenceGroup {
  */
 class Correspondence {
 
-    constructor(readonly correspondent1: Correspondent, readonly correspondent2: Correspondent) {
+    constructor(readonly correspondent1: Correspondent, readonly correspondent2: Correspondent, readonly description: string = "", readonly noTranslation: boolean = false) {
 
     }
 
@@ -79,7 +87,7 @@ export class BeolComponent implements OnInit {
 
     leoo: Book[];
 
-    wiki: CorrespondenceGroup[];
+    wiki: CorrespondenceGroupWithSection[];
 
     ngOnInit() {
 
@@ -264,21 +272,28 @@ export class BeolComponent implements OnInit {
 
         const Francesco_Maria_Zanotti = new Correspondent("Francesco Maria Zanotti", "(DE-588)117592307");
 
-        this.leoo = [new Book("LEOO IVA.IV", "978-3-0348-0880-4", [new CorrespondenceGroup(Leonhard_Euler, [new Section("G", [new Correspondence(Leonhard_Euler, Christian_Goldbach)])], "Original", true),
-            new CorrespondenceGroup(Leonhard_Euler, [new Section("G", [new Correspondence(Leonhard_Euler, Christian_Goldbach)])], "English Translation"),
-            new CorrespondenceGroup(Johann_Albrecht_Euler, [new Section("G", [new Correspondence(Johann_Albrecht_Euler, Christian_Goldbach)])], "Original", true),
-            new CorrespondenceGroup(Johann_Albrecht_Euler, [new Section("G", [new Correspondence(Johann_Albrecht_Euler, Christian_Goldbach)])], "English Translation")
-        ])];
+        this.leoo = [
+            new Book("LEOO IVA.IV", "978-3-0348-0880-4", [
+                new CorrespondenceGroup(Leonhard_Euler, [
+                    new Correspondence(Leonhard_Euler, Christian_Goldbach, "Original", true),
+                    new Correspondence(Leonhard_Euler, Christian_Goldbach, "Translation")
+                ], "Leonhard Euler - Christian Goldbach"),
+                new CorrespondenceGroup(Johann_Albrecht_Euler, [
+                    new Correspondence(Johann_Albrecht_Euler, Christian_Goldbach, "Original", true),
+                    new Correspondence(Johann_Albrecht_Euler, Christian_Goldbach, "Translation")
+                ], "Johann Albrecht Euler - Christian Goldbach")
+            ])
+        ];
 
         /**
          * Collection of correspondences the user can select from.
          */
         this.wiki = [
-            new CorrespondenceGroup(Daniel_I_Bernoulli, [
+            new CorrespondenceGroupWithSection(Daniel_I_Bernoulli, [
                 new Section("S", [
                     new Correspondence(Daniel_I_Bernoulli, Johannes_Scheuchzer)
                 ])]),
-            new CorrespondenceGroup(Johann_I_Bernoulli,
+            new CorrespondenceGroupWithSection(Johann_I_Bernoulli,
                 [
                     new Section("A", [
                         new Correspondence(Johann_I_Bernoulli, John_Arnold)
@@ -394,21 +409,21 @@ export class BeolComponent implements OnInit {
 
 
                 ]),
-            new CorrespondenceGroup(Johann_II_Bernoulli, [
+            new CorrespondenceGroupWithSection(Johann_II_Bernoulli, [
                 new Section("M", [
                     new Correspondence(Johann_II_Bernoulli, Pierre_Louis_Moreau_de_Maupertuis)]
                 )]),
-            new CorrespondenceGroup(Nicolaus_I_Bernoulli, [
+            new CorrespondenceGroupWithSection(Nicolaus_I_Bernoulli, [
                 new Section("S", [
                     new Correspondence(Nicolaus_I_Bernoulli, Johann_Jakob_Scheuchzer),
                     new Correspondence(Nicolaus_I_Bernoulli, Johannes_Scheuchzer)
                 ])]),
-            new CorrespondenceGroup(Nicolaus_II_Bernoulli, [
+            new CorrespondenceGroupWithSection(Nicolaus_II_Bernoulli, [
                 new Section("S", [
                     // new Correspondence(Nicolaus_II_Bernoulli, Johann_Jakob_Scheuchzer), // TODO BIBB: no recipient for 1723-03-17_Bernoulli_Nicolaus_II-Scheuchzer_Johann_Jakob
                     new Correspondence(Nicolaus_II_Bernoulli, Johannes_Scheuchzer)
                 ])]),
-            new CorrespondenceGroup(Jacob_Hermann, [
+            new CorrespondenceGroupWithSection(Jacob_Hermann, [
                 new Section("S", [
                         new Correspondence(Jacob_Hermann, Johann_I_Bernoulli),
                         new Correspondence(Jacob_Hermann, Johann_Jakob_Scheuchzer),
@@ -464,7 +479,7 @@ export class BeolComponent implements OnInit {
      * @param {string} gnd2 GND of the second correspondent.
      * @param {boolean} noTranslations indicates if translations should be excluded.
      */
-    searchForCorrespondence(gnd1: string, gnd2: string, noTranslations: boolean) {
+    searchForCorrespondence(gnd1: string, gnd2: string, noTranslations: boolean = false) {
 
         const knarql: string = this._beol.searchForCorrespondence(gnd1, gnd2, noTranslations, 0);
 
