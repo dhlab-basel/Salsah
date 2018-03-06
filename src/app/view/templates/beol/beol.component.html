@@ -1,8 +1,8 @@
 <div class="salsah-module without-header" style="margin-left: 15px;">
     <h2>BEOL Beta Release</h2>
     <div>
-        <h3>Books:</h3>
-        <ul class="beol">
+        <h3>Leonhardi Euleri Opera Omnia (LEOO)</h3>
+        <ul class="beol-list">
            <li *ngFor="let book of leoo">
                <div>{{book.title}}</div>
                <br>
@@ -15,9 +15,9 @@
                        </mat-expansion-panel-header>
 
                        <mat-list>
-                           <mat-list-item (click)="searchForBook(book.isbn, 'Historical and biographical setting')">Introduction 1</mat-list-item>
-                           <mat-list-item (click)="searchForBook(book.isbn, 'Main subjects of the correspondence')">Introduction 2</mat-list-item>
-                           <mat-list-item (click)="searchForBook(book.isbn, 'Editing the Euler-Goldbach correspondence')">Introduction 3</mat-list-item>
+                           <mat-list-item class="salsah-link" (click)="searchForBook(book.isbn, 'Historical and biographical setting')">Introduction 1</mat-list-item>
+                           <mat-list-item class="salsah-link" (click)="searchForBook(book.isbn, 'Main subjects of the correspondence')">Introduction 2</mat-list-item>
+                           <mat-list-item class="salsah-link" (click)="searchForBook(book.isbn, 'Editing the Euler-Goldbach correspondence')">Introduction 3</mat-list-item>
                        </mat-list>
 
                    </mat-expansion-panel>
@@ -33,7 +33,7 @@
                            <mat-panel-title>{{corrGroup.mainCorrespondent.name}} {{corrGroup.description}}</mat-panel-title>
                        </mat-expansion-panel-header>
 
-                       <ul class="beol">
+                       <ul class="beol-list">
                            <li *ngFor="let section of corrGroup.sections">
                                <mat-accordion>
                                    <mat-expansion-panel>
@@ -43,7 +43,7 @@
                                        </mat-expansion-panel-header>
 
                                        <ul>
-                                           <li *ngFor="let corr of section.correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corrGroup.noTranslations)">
+                                           <li class="salsah-link" *ngFor="let corr of section.correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corrGroup.noTranslations)">
                                                {{corr.correspondent2.name}}
                                            </li>
                                        </ul>
@@ -63,7 +63,7 @@
     </div>
 
     <div>
-        <h3 style="margin-bottom: 10px;">Bernoulli Correspondence:</h3>
+        <h3 style="margin-bottom: 10px;">Basler Edition der Bernoulli-Briefwechsel (BEBB)</h3>
 
         <mat-accordion>
             <mat-expansion-panel *ngFor="let corrGroup of wiki">
@@ -72,7 +72,7 @@
                     <mat-panel-title>{{corrGroup.mainCorrespondent.name}} {{corrGroup.description}}</mat-panel-title>
                 </mat-expansion-panel-header>
 
-                <ul class="beol">
+                <ul class="beol-list">
                     <li *ngFor="let section of corrGroup.sections">
                         <mat-accordion>
                             <mat-expansion-panel>
@@ -82,7 +82,7 @@
                                 </mat-expansion-panel-header>
 
                                 <ul>
-                                    <li *ngFor="let corr of section.correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corrGroup.noTranslations)">
+                                    <li class="salsah-link" *ngFor="let corr of section.correspondences" (click)="searchForCorrespondence(corr.correspondent1.gnd, corr.correspondent2.gnd, corrGroup.noTranslations)">
                                         {{corr.correspondent2.name}}
                                     </li>
                                 </ul>
@@ -96,7 +96,14 @@
     </div>
 
     <div>
-        <h3>Feedback:</h3>
+        <h3>Known Problems</h3>
+        <ul>
+            <li>Mathematics is rendered slowly on the result list of a fulltext search (<a target="_blank" href="https://github.com/dhlab-basel/Salsah/issues/184">#184</a>)</li>
+        </ul>
+    </div>
+
+    <div>
+        <h3>Feedback</h3>
         <div>In case you experience any problems using the BEOL Beta Release or have suggestions how to improve the platform, please contact us using our <a href="/contact">contact form</a> or send an email to a member of  <a target="_blank" href="http://dhlab.unibas.ch/tobias-schweizer">the BEOL team</a>.</div>
 
     </div>
