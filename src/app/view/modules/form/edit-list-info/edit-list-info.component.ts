@@ -4,6 +4,7 @@ import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {List, ListInfo, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 import {StringLiteralV2} from 'app/model/webapi/knora/v2/shared/strings';
+import {ListInfoUpdatePayload} from '../../../../model/webapi/knora/admin/lists/list-info-update-payload';
 
 @Component({
     selector: 'salsah-edit-list-info',
@@ -145,7 +146,14 @@ export class EditListInfoComponent implements OnChanges {
         this.submitted = true; // set form submit to true
         console.log('save:', this.listInfoForm.value);
 
-        this._listsService.updateListInfo(this.listInfoForm.value).subscribe(
+        const payload: ListInfoUpdatePayload = {
+            listIri: this.listInfoForm.value.id,
+            projectIri: this.listInfoForm.value.belongsToProject,
+            labels: this.listInfoForm.value.labels,
+            comments: this.listInfoForm.value.comments
+        };
+
+        this._listsService.updateListInfo(payload).subscribe(
                 (result: any) => {
                     console.log(result);
                 },
