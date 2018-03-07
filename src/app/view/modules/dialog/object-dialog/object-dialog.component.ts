@@ -24,9 +24,6 @@ export class ObjectDialogComponent implements OnInit {
 
     fullSize: boolean = false;
 
-    constructor(public _dialogRef: MatDialogRef<ObjectDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any) {
-    }
 
     /**
      * Creates a configuration object for `MatDialog`.
@@ -50,6 +47,10 @@ export class ObjectDialogComponent implements OnInit {
         config.panelClass = 'resizable';
 
         return config;
+    }
+
+    constructor(public _dialogRef: MatDialogRef<ObjectDialogComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
