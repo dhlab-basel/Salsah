@@ -16,6 +16,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {List, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
+import {TreeNode} from "angular-tree-component/dist/models/tree-node.model";
 
 
 @Component({
@@ -27,6 +28,8 @@ export class EditNodeInfoComponent implements OnChanges {
 
     @Input() nodeIri: string;
     @Input() currentNode: ListNode;
+    @Input() dNode: TreeNode;
+    @Input() dTree;
 
     currentListNodeInfo: ListNodeInfo;
 
@@ -76,6 +79,7 @@ export class EditNodeInfoComponent implements OnChanges {
             skip: 'Skip',
             next: 'Next',
             add: 'Add',
+            remove: 'Remove',
             adNode: 'Add node',
             addChild: 'Add child'
         }
@@ -153,6 +157,17 @@ export class EditNodeInfoComponent implements OnChanges {
         // check if model is valid
         // if valid, call API to save customer
         console.log('save:', listNodeInfo);
+        location.reload();
+
+    }
+
+
+    delNode(){
+        console.log('tree node: ', this.dNode, 'tree', this.dTree);
+        if (this.dNode.parent != null) {
+            this.dNode.parent.data.children.splice(this.dNode.parent.data.children.indexOf(this.dNode.data), 1)
+            this.dTree.treeModel.update()
+        }
     }
 
 
