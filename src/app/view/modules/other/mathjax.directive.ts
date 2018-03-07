@@ -3,7 +3,7 @@ import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angul
 import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-item';
 import {OntologyInformation} from '../../../model/services/ontologycache.service';
 import {AppConfig} from '../../../app.config';
-import {ResourceObjectComponent} from '../object/resource-object/resource-object.component';
+import {ObjectDialogComponent} from '../dialog/object-dialog/object-dialog.component';
 
 declare var MathJax: {
     Hub: {
@@ -33,29 +33,23 @@ export class MathJaxDirective implements OnInit {
      */
     @HostListener('click', ['$event'])
     onClick(event) {
-        
+
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
         if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
-            let config = new MatDialogConfig();
-            config.height = '60%';
-            config.width = '60%';
+            const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(event.target.href);
 
-            let dialogRef = this.dialog.open(ResourceObjectComponent, config);
-            // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
-            dialogRef.componentInstance.iri = event.target.href;
+            this.dialog.open(ObjectDialogComponent, config);
 
             // preventDefault (propagation)
             return false;
         } else if (event.target.parentElement.nodeName.toLowerCase() === 'a' && event.target.parentElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
-            let config = new MatDialogConfig();
-            config.height = '60%';
-            config.width = '60%';
+            const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(event.target.parentElement.href);
 
-            let dialogRef = this.dialog.open(ResourceObjectComponent, config);
-            // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
-            dialogRef.componentInstance.iri = event.target.parentElement.href;
+            config.panelClass = 'resizable';
+
+            this.dialog.open(ObjectDialogComponent, config);
 
             // preventDefault (propagation)
             return false;

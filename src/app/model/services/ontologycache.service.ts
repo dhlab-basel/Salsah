@@ -344,9 +344,11 @@ export class OntologyCacheService {
     constructor(private _ontologyService: OntologyService) {
     }
 
+    private excludedOntologies: Array<string> = [AppConfig.SalsahGuiOntology, AppConfig.StandoffOntology];
+
     // properties that Knora is not responsible for and
     // that have to be ignored because they cannot be resolved at the moment
-    private excludedProperties: Array<string> = [AppConfig.schemaName];
+    private excludedProperties: Array<string> = [AppConfig.schemaName, AppConfig.RdfsLabel];
 
     // class definitions that are not be treated as Knora resource classes
     private nonResourceClasses: Array<string> = [AppConfig.ForbiddenResource, AppConfig.XMLToStandoffMapping, AppConfig.ListNode];
@@ -438,7 +440,7 @@ export class OntologyCacheService {
 
         for (let classDefName in classDefinitions) {
             // check that class name is not listed as a non resource class and that the isValueFlag is not present or set to false
-            if (classDefName !== AppConfig.Resource && this.nonResourceClasses.indexOf(classDefName) == -1 && (classDefinitions[classDefName][AppConfig.IsValueClass] === undefined || classDefinitions[classDefName][AppConfig.IsValueClass] === false)) {
+            if (classDefName !== AppConfig.Resource && this.nonResourceClasses.indexOf(classDefName) == -1 && (classDefinitions[classDefName][AppConfig.IsResourceClass] !== undefined && classDefinitions[classDefName][AppConfig.IsResourceClass] === true)) {
                 // it is not a value class, but a resource class definition
                 resourceClassDefinitions.push(classDefName)
             }
@@ -707,7 +709,10 @@ export class OntologyCacheService {
         if (this.cacheOntology.ontologies.length == 0) {
             return this.getOntologiesMetadataFromKnora().map(
                 ontologies => {
-                    this.convertAndWriteOntologiesMetadataToCache(ontologies[AppConfig.hasOntologies]);
+                    this.convertAndWriteOntologiesMetadataToCache(ontologies[AppConfig.hasOntologies].filter((onto) => {
+                        // ignore excluded ontologies
+                        return this.excludedOntologies.indexOf(onto['@id']) == -1
+                    }));
 
                     return this.getAllOntologiesMetadataFromCache();
 

@@ -1,22 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AngularFirestore} from "angularfire2/firestore";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
-import {ActivatedRoute, Router} from "@angular/router";
-import * as firebase from "firebase/app";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {ActivatedRoute, Router} from '@angular/router';
+import * as firebase from 'firebase/app';
 import DocumentReference = firebase.firestore.DocumentReference;
-
-@Component({
-    selector: 'dialog-overview-example-dialog',
-    template: '<span>{{data.message}}</span>',
-})
-export class PopUpMessage {
-
-    constructor(public dialogRef: MatDialogRef<PopUpMessage>,
-                @Inject(MAT_DIALOG_DATA) public data: any) {
-    }
-
-}
+import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'salsah-contact-form',
@@ -106,10 +95,19 @@ export class ContactFormComponent implements OnInit {
      */
     openDialog(msg: string): void {
 
-        let dialogRef = this.dialog.open(PopUpMessage, {
-            width: '250px',
-            data: {message: msg}
+        // open dialog box
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            data: {
+                title: msg,
+                confirm: false
+            }
         });
+        /*
+                let dialogRef = this.dialog.open(PopUpMessage, {
+                    width: '250px',
+                    data: {message: msg}
+                });
+        */
 
     }
 
@@ -142,15 +140,15 @@ export class ContactFormComponent implements OnInit {
 
             this.captchaValid = false;
 
-            this.openDialog("Your message has been sent. Thank you.");
+            this.openDialog('Your message has been sent. Thank you.');
 
             this.form.reset();
 
-            this._router.navigate(['/'], {relativeTo: this._route});
+            this._router.navigate(['/beol'], {relativeTo: this._route});
         }).catch((error) => {
             // an error occurred: the message could not be sent
 
-            this.openDialog("An error occurred. Your message could not be sent.");
+            this.openDialog('An error occurred. Your message could not be sent.');
 
         });
 
