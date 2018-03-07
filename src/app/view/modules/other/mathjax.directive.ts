@@ -3,7 +3,7 @@ import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angul
 import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-item';
 import {OntologyInformation} from '../../../model/services/ontologycache.service';
 import {AppConfig} from '../../../app.config';
-import {ResourceObjectComponent} from '../object/resource-object/resource-object.component';
+import {ObjectDialogComponent} from '../dialog/object-dialog/object-dialog.component';
 
 declare var MathJax: {
     Hub: {
@@ -33,29 +33,45 @@ export class MathJaxDirective implements OnInit {
      */
     @HostListener('click', ['$event'])
     onClick(event) {
-        
+
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
         if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
-            let config = new MatDialogConfig();
+            const config: MatDialogConfig = new MatDialogConfig();
+
             config.height = '60%';
             config.width = '60%';
 
-            let dialogRef = this.dialog.open(ResourceObjectComponent, config);
+            config.data = {
+                iri: event.target.href
+            };
+
+            config.panelClass = 'resizable';
+
+            let dialogRef = this.dialog.open(ObjectDialogComponent, config);
+//            let dialogRef = this.dialog.open(ResourceObjectComponent, config);
             // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
-            dialogRef.componentInstance.iri = event.target.href;
+//            dialogRef.componentInstance.iri = event.target.href;
 
             // preventDefault (propagation)
             return false;
         } else if (event.target.parentElement.nodeName.toLowerCase() === 'a' && event.target.parentElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
-            let config = new MatDialogConfig();
+            const config: MatDialogConfig = new MatDialogConfig();
+
             config.height = '60%';
             config.width = '60%';
 
-            let dialogRef = this.dialog.open(ResourceObjectComponent, config);
+            config.data = {
+                iri: event.target.parentElement.href
+            };
+
+            config.panelClass = 'resizable';
+
+            let dialogRef = this.dialog.open(ObjectDialogComponent, config);
+//            let dialogRef = this.dialog.open(ResourceObjectComponent, config);
             // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
-            dialogRef.componentInstance.iri = event.target.parentElement.href;
+//            dialogRef.componentInstance.iri = event.target.parentElement.href;
 
             // preventDefault (propagation)
             return false;
