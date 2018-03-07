@@ -162,12 +162,9 @@ import {EditListInfoComponent} from './view/modules/form/edit-list-info/edit-lis
 
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
-import {
-    ContactFormComponent,
-    PopUpMessage
-} from './view/modules/form/contact-form/contact-form.component';
-import {AngularFirestore} from "angularfire2/firestore";
-import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from "ng-recaptcha";
+import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
 
 //
 // import all needed services
@@ -284,7 +281,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         GndDirective,
         InternationalizationComponent,
         ContactFormComponent,
-        PopUpMessage,
         EditListInfoComponent,
     ],
     imports: [
@@ -319,8 +315,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ConfirmDialogComponent,
         FormDialogComponent,
         MessageDialogComponent,
-        ResourceClassFormComponent, // deprecated!!
-        PopUpMessage,
+        ResourceClassFormComponent // deprecated!!
     ],
     providers: [
         ApiService,

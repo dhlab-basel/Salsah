@@ -6,7 +6,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button
+  <button mat-button *ngIf="data.confirm === true"
           mat-dialog-close
           class="cancel-button center">
     Cancel

@@ -8,14 +8,14 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 })
 export class ConfirmDialogComponent implements OnInit {
 
-    values: any;
+//    values: any;
 
     constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: any,
                 private _dialogRef: MatDialogRef<ConfirmDialogComponent>) {
     }
 
     ngOnInit() {
-        this.values = this.data;
+//        this.values = this.data;
     }
 
     confirmDelete() {
