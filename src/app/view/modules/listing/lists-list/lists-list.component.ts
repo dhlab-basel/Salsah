@@ -30,6 +30,7 @@ export class ListsListComponent implements OnInit {
 
     @Input() restrictedBy?: string;
     @Output() toggleItem = new EventEmitter<any>();
+    // @Output() deleteNodeEvent = new EventEmitter<any>();
 
     isLoading: boolean = true;
     isLoadingNodes: boolean = true;
@@ -160,13 +161,14 @@ export class ListsListComponent implements OnInit {
         tree.treeModel.update();
     }
 
-    deleteNode(node: TreeNode, tree): void {
-        if (node.parent != null) {
-            node.parent.data.children.splice(node.parent.data.children.indexOf(node.data), 1)
-            tree.treeModel.update()
-        }
-    }
+    // deleteNode(node: TreeNode, tree): void {
+        // this.deleteNodeEvent.emit({node, tree});
 
+        // if (node.parent != null) {
+        //     node.parent.data.children.splice(node.parent.data.children.indexOf(node.data), 1)
+        //     tree.treeModel.update()
+        // }
+    // }
 
     // in the list view, it opens an object on the right hand side detail view
     // open / close user
@@ -184,15 +186,21 @@ export class ListsListComponent implements OnInit {
     // }
 
     // TODO: implement proper edit method/component
-    editNode(id: string, cNode: ListNode[], title?: string) {
+    editNode(id: string, cNode: ListNode[], node: TreeNode, tree) {
+        // this.deleteNodeEvent.emit({node, tree});
         let dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
             data: {
                 iri: id,
                 currentNodes: cNode,
+                delNode: node,
+                delTree: tree,
                 title: 'Edit ' + id,
                 form: 'nodeInfo'
             }
         });
+        console.log('emit node: ', node);
+        console.log('emit tree: ', tree);
+
         dialogRef.afterClosed().subscribe(result => {
             console.log('The edit node info dialog was closed', result);
             //TODO: here load the lists service to get the updated nodes - when list service is fixed
@@ -211,6 +219,7 @@ export class ListsListComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             console.log('The edit list info dialog was closed', result);
             //TODO: here load the lists service to get the updated list - when list service is fixed
+
         });
 
     }
