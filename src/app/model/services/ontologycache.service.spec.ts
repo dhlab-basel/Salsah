@@ -37,7 +37,7 @@ describe('OntologyCacheService', () => {
 
         // define different mock responses for different API calls
         let responses = {};
-        responses['http://localhost:3333/v2/ontologies/allentities/http%3A%2F%2F0.0.0.0%3A3333%2Fontology%2Fbeol%2Fv2'] = new Response(new ResponseOptions({body: require('./test-data/ontologycache/beol-complex-onto.json')}));
+        responses['http://localhost:3333/v2/ontologies/allentities/http%3A%2F%2F0.0.0.0%3A3333%2Fontology%2F0801%2Fbeol%2Fv2'] = new Response(new ResponseOptions({body: require('./test-data/ontologycache/beol-complex-onto.json')}));
         responses['http://localhost:3333/v2/ontologies/allentities/http%3A%2F%2Fapi.knora.org%2Fontology%2Fknora-api%2Fv2'] = new Response(new ResponseOptions({body: require('./test-data/ontologycache/knora-api-complex-onto.json')}));
 
         mockBackend.connections.subscribe(c => {
@@ -53,14 +53,14 @@ describe('OntologyCacheService', () => {
 
     it('should convert and cache the BEOL ontology complex', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
 
-        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(["http://0.0.0.0:3333/ontology/beol/v2"]);
+        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(["http://0.0.0.0:3333/ontology/0801/beol/v2"]);
 
         ontoResponseObs.subscribe(
             (ontoRes: OntologyInformation) => {
 
                 const resClassesForBEOL = ontoRes.getResourceClassForOntology();
 
-                expect(resClassesForBEOL["http://0.0.0.0:3333/ontology/beol/v2"].sort()).toEqual(resClassesInBEOL.sort())
+                expect(resClassesForBEOL["http://0.0.0.0:3333/ontology/0801/beol/v2"].sort()).toEqual(resClassesInBEOL.sort())
 
             }
         );
@@ -85,9 +85,9 @@ describe('OntologyCacheService', () => {
 });
 
 
-const resClassesInBEOL = ["http://0.0.0.0:3333/ontology/beol/v2#endnote",
-    "http://0.0.0.0:3333/ontology/beol/v2#figure", "http://0.0.0.0:3333/ontology/beol/v2#letter", "http://0.0.0.0:3333/ontology/beol/v2#manuscript",
-    "http://0.0.0.0:3333/ontology/beol/v2#page", "http://0.0.0.0:3333/ontology/beol/v2#person", "http://0.0.0.0:3333/ontology/beol/v2#writtenSource", "http://0.0.0.0:3333/ontology/beol/v2#introduction", "http://0.0.0.0:3333/ontology/beol/v2#section"];
+const resClassesInBEOL = ["http://0.0.0.0:3333/ontology/0801/beol/v2#Archive", "http://0.0.0.0:3333/ontology/0801/beol/v2#publishedLetter", "http://0.0.0.0:3333/ontology/0801/beol/v2#endnote",
+    "http://0.0.0.0:3333/ontology/0801/beol/v2#figure", "http://0.0.0.0:3333/ontology/0801/beol/v2#letter", "http://0.0.0.0:3333/ontology/0801/beol/v2#manuscript",
+    "http://0.0.0.0:3333/ontology/0801/beol/v2#page", "http://0.0.0.0:3333/ontology/0801/beol/v2#person", "http://0.0.0.0:3333/ontology/0801/beol/v2#writtenSource", "http://0.0.0.0:3333/ontology/0801/beol/v2#introduction", "http://0.0.0.0:3333/ontology/0801/beol/v2#section"];
 
 const resClassesInKnoraApi = ["http://api.knora.org/ontology/knora-api/v2#AudioRepresentation",
     "http://api.knora.org/ontology/knora-api/v2#DDDRepresentation",
