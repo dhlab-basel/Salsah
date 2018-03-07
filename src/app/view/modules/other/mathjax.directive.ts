@@ -33,7 +33,7 @@ export class MathJaxDirective implements OnInit {
      */
     @HostListener('click', ['$event'])
     onClick(event) {
-        
+
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
         if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
@@ -58,6 +58,24 @@ export class MathJaxDirective implements OnInit {
             dialogRef.componentInstance.iri = event.target.parentElement.href;
 
             // preventDefault (propagation)
+            return false;
+
+        } else if (this.bindEvents && event.target.parentElement.nodeName.toLowerCase() === 'a' && event.target.parentElement.className.toLowerCase().indexOf(AppConfig.RefMarker) >= 0) {
+
+            const indexOfHashtag = event.target.parentElement.href.indexOf("#", "");
+
+            if (indexOfHashtag != -1) {
+
+                const targetId = event.target.parentElement.href.substr(indexOfHashtag + 1);
+
+                const targetEle = document.getElementById(targetId);
+
+                if (targetEle) {
+                    targetEle.scrollIntoView();
+                }
+
+            }
+
             return false;
 
         } else if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a') {

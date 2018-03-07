@@ -158,6 +158,7 @@ export class AppConfig {
     public static subPropertyOf: string = 'http://www.w3.org/2000/01/rdf-schema#subPropertyOf';
 
     public static SalsahLink = 'salsah-link';
+    public static RefMarker = 'ref_marker';
 
     public static EqualsComparisonOperator = '=';
     public static EqualsComparisonLabel = 'Equals';
