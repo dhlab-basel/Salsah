@@ -53,7 +53,9 @@
         <!-- create new / edit lists class -->
         <salsah-edit-node-info *ngSwitchCase="'nodeInfo'"
                                    [nodeIri]="data.iri"
-                                    [currentNode]="data.currentNodes">
+                                    [currentNode]="data.currentNodes"
+                                    [dNode]="node"
+                                    [dTree]="tree">
         </salsah-edit-node-info>
         <salsah-edit-list-info *ngSwitchCase="'listInfo'"
                                    [listIri]="data.iri"
