@@ -5,7 +5,7 @@ import {ExtendedSearchComponent} from './extended-search.component';
 import {ApiService} from "../../../../model/services/api.service";
 import {MockBackend} from "@angular/http/testing";
 import {BaseRequestOptions, Http, Response, ResponseOptions} from "@angular/http";
-import {OntologyCacheService, OntologyMetadata} from "../../../../model/services/ontologycache.service";
+import {OntologyMetadata} from "../../../../model/services/ontologycache.service";
 
 describe('ExtendedSearchComponent', () => {
 

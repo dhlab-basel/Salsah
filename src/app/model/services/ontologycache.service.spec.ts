@@ -1,14 +1,12 @@
-import {TestBed, inject, async} from '@angular/core/testing';
+import {async, inject, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../app.module';
 import {AppRoutingModule} from '../../app-routing.module';
 import {ApiService} from './api.service';
 import {OntologyCacheService, OntologyInformation} from './ontologycache.service';
 import {OntologyService} from "./ontology.service";
-import {BaseRequestOptions, Http, ResponseOptions, XHRBackend, Response} from "@angular/http"; // https://blog.thecodecampus.de/angular-http-testing-syntaxerror-unexpected-token-o-json-position-1/
+import {BaseRequestOptions, Http, Response, ResponseOptions} from "@angular/http"; // https://blog.thecodecampus.de/angular-http-testing-syntaxerror-unexpected-token-o-json-position-1/
 import {MockBackend} from "@angular/http/testing";
 import {Observable} from "rxjs/Observable";
-import {ExtendedSearchComponent} from "../../view/modules/search/extended-search/extended-search.component";
-import {read} from "fs";
 
 describe('OntologyCacheService', () => {
     beforeEach(async(() => {
