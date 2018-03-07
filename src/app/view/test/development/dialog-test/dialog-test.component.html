@@ -1,0 +1,46 @@
+<mat-list>
+    <h3 mat-subheader>
+        Message Dialog Component<br>
+        (we're using it for error messages)
+    </h3>
+    <mat-list-item>
+        <button mat-button
+            (click)="openMessageDialog()">
+            Open the message dialog
+        </button>
+
+    </mat-list-item>
+
+    <mat-divider></mat-divider>
+
+    <h3 mat-subheader>
+        Confirm Dialog Component<br>
+        it can be used to confirm some action or to give a feedback to the user
+    </h3>
+    <mat-list-item>
+        <button mat-button
+            (click)="openConfirmDialog(true)">
+            Open Confirm Dialog incl. Cancel and OK button
+        </button>
+    </mat-list-item>
+    <mat-list-item>
+        <button mat-button
+            (click)="openConfirmDialog()">
+            Open Confirm Dialog with OK button only
+        </button>
+    </mat-list-item>
+
+    <mat-divider></mat-divider>
+
+    <h3 mat-subheader>
+        Object Dialog Component<br>
+        it opens a salsah object (resource, user, etc) in a dialog box
+    </h3>
+    <mat-list-item>
+        <button mat-button
+            (click)="openObjectDialog(iri)">
+            Open Resource: {{iri}}
+        </button>
+    </mat-list-item>
+
+</mat-list>

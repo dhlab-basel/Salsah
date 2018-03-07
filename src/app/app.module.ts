@@ -165,6 +165,8 @@ import {environment} from '../environments/environment';
 import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
+import { DialogTestComponent } from './view/test/development/dialog-test/dialog-test.component';
+import { ObjectDialogComponent } from './view/modules/dialog/object-dialog/object-dialog.component';
 
 //
 // import all needed services
@@ -282,6 +284,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         InternationalizationComponent,
         ContactFormComponent,
         EditListInfoComponent,
+        DialogTestComponent,
+        ObjectDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -315,6 +319,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ConfirmDialogComponent,
         FormDialogComponent,
         MessageDialogComponent,
+        ObjectDialogComponent,
         ResourceClassFormComponent // deprecated!!
     ],
     providers: [
