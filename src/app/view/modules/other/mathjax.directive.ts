@@ -37,41 +37,19 @@ export class MathJaxDirective implements OnInit {
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
         if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
-            const config: MatDialogConfig = new MatDialogConfig();
+            const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(event.target.href);
 
-            config.height = '60%';
-            config.width = '60%';
-
-            config.data = {
-                iri: event.target.href
-            };
-
-            config.panelClass = 'resizable';
-
-            let dialogRef = this.dialog.open(ObjectDialogComponent, config);
-//            let dialogRef = this.dialog.open(ResourceObjectComponent, config);
-            // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
-//            dialogRef.componentInstance.iri = event.target.href;
+            this.dialog.open(ObjectDialogComponent, config);
 
             // preventDefault (propagation)
             return false;
         } else if (event.target.parentElement.nodeName.toLowerCase() === 'a' && event.target.parentElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
-            const config: MatDialogConfig = new MatDialogConfig();
-
-            config.height = '60%';
-            config.width = '60%';
-
-            config.data = {
-                iri: event.target.parentElement.href
-            };
+            const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(event.target.parentElement.href);
 
             config.panelClass = 'resizable';
 
-            let dialogRef = this.dialog.open(ObjectDialogComponent, config);
-//            let dialogRef = this.dialog.open(ResourceObjectComponent, config);
-            // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
-//            dialogRef.componentInstance.iri = event.target.parentElement.href;
+            this.dialog.open(ObjectDialogComponent, config);
 
             // preventDefault (propagation)
             return false;

@@ -13,7 +13,7 @@
 * */
 
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef} from '@angular/material';
 
 @Component({
     selector: 'salsah-object-dialog',
@@ -26,6 +26,30 @@ export class ObjectDialogComponent implements OnInit {
 
     constructor(public _dialogRef: MatDialogRef<ObjectDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
+    }
+
+    /**
+     * Creates a configuration object for `MatDialog`.
+     *
+     * @param {string} resourceIri the Iri of the resource to be displayed in a dialog.
+     * @param {number} widthPct width of the dialog in percentage.
+     * @param {number} heightPct height of the dialog in percentage.
+     * @returns {MatDialogConfig}
+     */
+    static createConfiguration(resourceIri: string, widthPct: number = 60, heightPct: number = 60) {
+
+        const config: MatDialogConfig = new MatDialogConfig();
+
+        config.height = `${widthPct}%`;
+        config.width = `${heightPct}%`;
+
+        config.data = {
+            iri: resourceIri
+        };
+
+        config.panelClass = 'resizable';
+
+        return config;
     }
 
     ngOnInit() {
