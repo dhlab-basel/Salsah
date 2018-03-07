@@ -1,0 +1,33 @@
+<div class="object-dialog">
+    <!-- header with close (on the left hand side) and resize (on the right hand side) button
+        and with the title in the center -->
+    <div class="dialog-header">
+        <span class="dialog-action-button">
+            <button mat-icon-button class="resize-button" (click)="toggleFullSize()">
+                <mat-icon class="optimize-direction" [innerHtml]="fullSize ? 'call_received' :'call_made'"></mat-icon>
+            </button>
+        </span>
+        <span class="fill-remaining-space"></span>
+        <span>
+            <h3 class="dialog-title" mat-dialog-title>
+                Resource
+                <!--'salsahLabels.frameworkForListings.add.title' | translate -->
+            </h3>
+        </span>
+        <span class="fill-remaining-space"></span>
+        <span class="dialog-action-button">
+            <button mat-icon-button
+                    class="close-button"
+                    (click)="_dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </span>
+    </div>
+
+    <mat-dialog-content class="dialog-content" [class.fullsize]="fullSize">
+
+        <salsah-resource-object [iri]="data.iri"></salsah-resource-object>
+
+    </mat-dialog-content>
+
+</div>

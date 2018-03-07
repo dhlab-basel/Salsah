@@ -17,6 +17,7 @@ import {ReadLinkValue} from '../../../model/webapi/knora/v2/read-property-item';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {OntologyInformation} from '../../../model/services/ontologycache.service';
 import {ResourceObjectComponent} from '../../modules/object/resource-object/resource-object.component';
+import {ObjectDialogComponent} from "../../modules/dialog/object-dialog/object-dialog.component";
 
 @Component({
     selector: 'read-link-value',
@@ -35,13 +36,11 @@ export class ReadLinkValueComponent implements OnInit {
     }
 
     showReferredResourceInDialog() {
-        let config = new MatDialogConfig();
-        config.height = '60%';
-        config.width = '60%';
 
-        let dialogRef = this.dialog.open(ResourceObjectComponent, config);
-        // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
-        dialogRef.componentInstance.iri = this.valueObject.referredResourceIri;
+        const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(this.valueObject.referredResourceIri);
+
+        this.dialog.open(ObjectDialogComponent, config);
+
     }
 
 

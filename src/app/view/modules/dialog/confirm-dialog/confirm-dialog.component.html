@@ -6,16 +6,16 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button
+  <button mat-button *ngIf="data.confirm === true"
           mat-dialog-close
           class="cancel-button center">
     Cancel
   </button>
   <span class="fill-remaining-space"></span>
-  <button mat-button
+  <button mat-button mat-raised-button
           (click)="confirmDelete()"
-          color="warn"
-          class="cancel-button center">
-    OK
+          [color]=confirmButtonColor
+          class="confirm-button center">
+      {{confirmButtonText}}
   </button>
 </mat-dialog-actions>

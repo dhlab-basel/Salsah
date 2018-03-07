@@ -8,14 +8,18 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 })
 export class ConfirmDialogComponent implements OnInit {
 
-    values: any;
+    confirmButtonText: string;
+    confirmButtonColor: string;
 
     constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: any,
                 private _dialogRef: MatDialogRef<ConfirmDialogComponent>) {
     }
 
     ngOnInit() {
-        this.values = this.data;
+
+        this.confirmButtonText = (this.data.confirm ? 'Yes' : 'OK');
+        this.confirmButtonColor = (this.data.confirm ? 'warn' : 'primary');
+
     }
 
     confirmDelete() {
