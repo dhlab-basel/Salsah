@@ -81,7 +81,7 @@ export class EditNodeInfoComponent implements OnChanges {
             skip: 'Skip',
             next: 'Next',
             add: 'Add',
-            remove: 'Remove',
+            remove: 'Remove node',
             adNode: 'Add node',
             addChild: 'Add child'
         }
@@ -174,7 +174,7 @@ export class EditNodeInfoComponent implements OnChanges {
         const config = new MatDialogConfig();
 
         config.data = {
-            title: 'Are you sure to remove this user from the project?',
+            title: 'Are you sure to remove this node from the list?',
             confirm: true
         };
 
