@@ -5,5 +5,24 @@
 }
 
 .small-icon {
-  font-size: 12px;
+  font-size: 14px;
+}
+
+.toggle-icon {
+  height: 10px;
+  width: 10px;
+}
+
+.node-content-wrapper {
+
+  .edit-button {
+    display: none;
+  }
+
+  &:hover {
+
+    .edit-button {
+      display: block;
+    }
+  }
 }

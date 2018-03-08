@@ -132,11 +132,9 @@ export class EditNodeInfoComponent implements OnChanges {
 
     }
 
-    get
-    children(): FormArray {
+    get children(): FormArray {
         return this.listNodeInfoForm.get('children') as FormArray;
-    }
-    ;
+    };
 
     setChildren(children: ListNode[]) {
         console.log('setChildren: ', children);
@@ -172,12 +170,12 @@ export class EditNodeInfoComponent implements OnChanges {
         //     this.dNode.parent.data.children.splice(this.dNode.parent.data.children.indexOf(this.dNode.data), 1)
         //     this.dTree.treeModel.update()
         // }
-        const answer: boolean = false;
+
         const config = new MatDialogConfig();
 
         config.data = {
             title: 'Are you sure to remove this user from the project?',
-            confirm: answer
+            confirm: true
         };
 
         // open dialog box
@@ -191,10 +189,10 @@ export class EditNodeInfoComponent implements OnChanges {
             if (config.data.confirm === true) {
                 // if answer is true: remove the node
                 if (this.dNode.parent != null) {
-                    this.dNode.parent.data.children.splice(this.dNode.parent.data.children.indexOf(this.dNode.data), 1)
+                    this.dNode.parent.data.children.splice(this.dNode.parent.data.children.indexOf(this.dNode.data), 1);
                     this.dTree.treeModel.update()
                 }
-                //TODO: call the service to update list in api
+                // TODO: call the service to update list in api
             }
 
         });

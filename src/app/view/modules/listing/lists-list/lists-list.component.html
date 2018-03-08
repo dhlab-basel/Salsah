@@ -12,9 +12,9 @@
                                  (opened)="fetchListData(item.id); epExpanded=true" (closed)="isExpanded=false">
                 <mat-expansion-panel-header *ngIf="!epExpanded"  matTooltip="Click to open panel and see nodes">
                     <mat-panel-title>
-                            <span (click)="editList(item.id, item)">
-                                <h4>{{item.labels[0].value}}</h4>
-                            </span>
+                        <h4 (click)="editList(item.id, item)">
+                            {{item.labels[0].value}}
+                        </h4>
                     </mat-panel-title>
                     <mat-panel-description>
                         {{item.id}}
@@ -23,9 +23,9 @@
                 </mat-expansion-panel-header>
                 <mat-expansion-panel-header *ngIf="epExpanded" matTooltip="Click list name to edit list info">
                     <mat-panel-title>
-                            <span (click)="editList(item.id, item)">
-                                <h4>{{item.labels[0].value}}</h4>
-                            </span>
+                        <h4 (click)="editList(item.id, item)">
+                            {{item.labels[0].value}}
+                        </h4>
                     </mat-panel-title>
                     <mat-panel-description>
                         {{item.id}}
@@ -51,8 +51,11 @@
 
                     <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
+
+                                <button mat-icon-button (click)="editNode(item.id, node.data, node, tree)" class="edit-button">
+                                    <mat-icon class="small-icon" > edit </mat-icon>
+                                </button>
                             <span>
-                                <mat-icon class="small-icon" (click)="editNode(item.id, node.data, node, tree)"> edit </mat-icon>
                                 <!--<mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>-->
                                 {{ node.data.name }}
                             </span>

@@ -48,10 +48,13 @@ export class FormDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.fullSize = (!this.data.fullSize);
+
         // start in full size
         if (this._dialogRef) {
             this.toggleFullSize();
         }
+
         this.notYetImplemented.route = this.data.form;
     }
 
@@ -70,10 +73,10 @@ export class FormDialogComponent implements OnInit {
         this.fullSize = (!this.fullSize);
 
         if (this.fullSize) {
-            this._dialogRef.updateSize('100%', '80%');
+            this._dialogRef.updateSize('100vw', '100vh');
             this._dialogRef.updatePosition();
         } else {
-            this._dialogRef.updateSize('auto', 'auto');
+            this._dialogRef.updateSize('80vw', 'auto');
             this._dialogRef.updatePosition();
         }
     }

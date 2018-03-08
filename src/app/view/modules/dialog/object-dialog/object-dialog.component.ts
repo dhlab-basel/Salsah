@@ -24,7 +24,6 @@ export class ObjectDialogComponent implements OnInit {
 
     fullSize: boolean = false;
 
-
     /**
      * Creates a configuration object for `MatDialog`.
      *
@@ -56,7 +55,7 @@ export class ObjectDialogComponent implements OnInit {
     ngOnInit() {
         this.fullSize = (!this.data.fullSize);
 
-        // start in fullsize
+        // start in full size
         if (this._dialogRef) {
             this.toggleFullSize();
         }
