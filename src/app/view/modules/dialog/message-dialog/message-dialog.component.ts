@@ -28,8 +28,11 @@ export class MessageDialogComponent implements OnInit {
 
     ngOnInit() {
 
+        const width: string = (this.data.width ? this.data.width : '800px');
+        const height: string = (this.data.width ? this.data.width : '560px');
+
         if (this._dialogRef) {
-            this._dialogRef.updateSize('800px', '560px');
+            this._dialogRef.updateSize(width, height);
         }
 
 

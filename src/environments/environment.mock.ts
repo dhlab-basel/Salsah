@@ -25,5 +25,6 @@ export const environment = {
     api: 'http://localhost/salsah/v2/knora_mockups/v1',
     url: 'http://localhost:4200',
     dataPool: 'data-pool',
-    pagingLimit: 25
+    pagingLimit: 25,
+    firebase: {}
 };

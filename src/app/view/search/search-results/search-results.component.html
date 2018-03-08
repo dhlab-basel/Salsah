@@ -1,6 +1,6 @@
 <div class="salsah-module with-header">
     <mat-toolbar class="salsah-module-header">
-        <span>Looked for <strong>{{list.restrictedBy}} | # {{numberOfResults}}</strong></span>
+        <span *ngIf="list.restrictedBy.length <= 50">Looked for <strong>{{list.restrictedBy}} | # {{numberOfResults}}</strong></span>
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
         <!-- menu to switch the view: list, grid, table -->
