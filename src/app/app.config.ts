@@ -157,7 +157,8 @@ export class AppConfig {
     public static RdfsSubclassOf = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
     public static subPropertyOf: string = 'http://www.w3.org/2000/01/rdf-schema#subPropertyOf';
 
-    public static SalsahLink = 'salsah-link';
+    public static SalsahLink = 'salsah-link'; // class on an HTML <a> element that indicates a link to a Knora resource
+    public static RefMarker = 'ref-marker'; // class on an HTML element that refers to another element in the same document
 
     public static EqualsComparisonOperator = '=';
     public static EqualsComparisonLabel = 'Equals';
