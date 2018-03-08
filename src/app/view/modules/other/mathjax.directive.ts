@@ -31,21 +31,21 @@ export class MathJaxDirective implements OnInit {
      * @param event the event fired on an element inserted by this directive.
      * @returns {boolean} a Boolean indicating if event propagation should be stopped.
      */
-    @HostListener('click', ['$event'])
-    onClick(event) {
+    @HostListener('click', ['$event.target'])
+    onClick(targetElement) {
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+        if (this.bindEvents && targetElement.nodeName.toLowerCase() === 'a' && targetElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
-            const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(event.target.href);
+            const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(targetElement.href);
 
             this.dialog.open(ObjectDialogComponent, config);
 
             // preventDefault (propagation)
             return false;
-        } else if (event.target.parentElement.nodeName.toLowerCase() === 'a' && event.target.parentElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+        } else if (targetElement.parentElement.nodeName.toLowerCase() === 'a' && targetElement.parentElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
-            const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(event.target.parentElement.href);
+            const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(targetElement.parentElement.href);
 
             config.panelClass = 'resizable';
 
@@ -54,9 +54,27 @@ export class MathJaxDirective implements OnInit {
             // preventDefault (propagation)
             return false;
 
-        } else if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a') {
+        } else if (this.bindEvents && targetElement.parentElement.nodeName.toLowerCase() === 'a' && targetElement.parentElement.className.toLowerCase().indexOf(AppConfig.RefMarker) >= 0) {
+
+            const indexOfHashtag = targetElement.parentElement.href.indexOf("#", "");
+
+            if (indexOfHashtag != -1) {
+
+                const targetId = targetElement.parentElement.href.substr(indexOfHashtag + 1);
+
+                const targetEle = document.getElementById(targetId);
+
+                if (targetEle) {
+                    targetEle.scrollIntoView();
+                }
+
+            }
+
+            return false;
+
+        } else if (this.bindEvents && targetElement.nodeName.toLowerCase() === 'a') {
             // open link in a new window
-            window.open(event.target.href, '_blank');
+            window.open(targetElement.href, '_blank');
             return false;
         } else {
             // prevent propagation
@@ -71,14 +89,14 @@ export class MathJaxDirective implements OnInit {
      * @param event the event fired on an element inserted by this directive.
      * @returns {boolean} a Boolean indicating if event propagation should be stopped.
      */
-    @HostListener('mouseover', ['$event'])
-    onMouseEnter(event) {
+    @HostListener('mouseover', ['$event.target'])
+    onMouseEnter(targetElement) {
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+        if (this.bindEvents && targetElement.nodeName.toLowerCase() === 'a' && targetElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
             // console.log("mouseenter: internal link to: " + event.target.href);
 
-            let referredResourceIri = event.target.href;
+            let referredResourceIri = targetElement.href;
 
             let resInfo = this.valueObject.getReferredResourceInfo(referredResourceIri, this.ontologyInfo);
 
