@@ -85,7 +85,8 @@
                        formControlName="position">
             </mat-form-field>
             <mat-action-row>
-                <button mat-button
+                <button mat-button mat-dialog-close
+                        class="save-button"
                         color="warn"
                         (click)="delNode()">
                     {{editLists.buttons.remove}}
