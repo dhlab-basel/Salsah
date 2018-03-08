@@ -44,7 +44,10 @@ import {FormCreateComponent} from './view/test/development/form-create/form-crea
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
 import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
 import {FormTestComponent} from './view/test/development/form-test/form-test.component';
-import {BeolComponent} from './view/templates/beol/beol.component';
+import {ContactFormComponent} from "./view/modules/form/contact-form/contact-form.component";
+import {BeolComponent} from "./view/templates/beol/beol.component";
+import {DialogTestComponent} from './view/test/development/dialog-test/dialog-test.component';
+
 
 const appRoutes: Routes = [
     {
@@ -88,7 +91,11 @@ const appRoutes: Routes = [
         component: ResourceObjectComponent
     },
     {
-        path: 'project/:shortname', component: ProjectComponent,
+        path: 'contact',
+        component: ContactFormComponent
+    },
+    {
+        path: 'project/:pid', component: ProjectComponent,
         children: [
             {
                 path: '', component: ProjectProfileComponent
@@ -198,6 +205,10 @@ const appRoutes: Routes = [
             {
                 path: 'message',
                 component: MessageComponent
+            },
+            {
+                path: 'dialog',
+                component: DialogTestComponent
             },
             {
                 path: 'uploader',

@@ -21,19 +21,17 @@
 export const environment = {
     type: 'dev',
     production: false,
-    url: 'http://localhost:4200',
-    api: 'http://localhost:3333',
-    media: 'http://localhost:1024',
-/*
-    TODO: change the structure of environment object into something like the following:
-    database: {
-        client: 'knora',
-        path: 'http://localhost:3333'
-    },
-    fileserver: {
-        client: 'sipi',
-        path: 'http://localhost:1024'
-    },
-*/
-    pagingLimit: 25
+    media: 'http://localhost:1024/knora',   // perhaps we have to rename it into sipi?
+    api: 'http://localhost:3333',           // perhaps we have to rename it into knora?
+    url: 'http://localhost:4200',           // perhaps we have to rename it into guiUrl or salsah?
+    localData: 'data',
+    pagingLimit: 25,
+    firebase: {
+        apiKey: "AIzaSyAGr-TWw1NaycUrL3IaJQ63D2YguVafYTA",
+        authDomain: "test-5034c.firebaseapp.com",
+        databaseURL: "https://test-5034c.firebaseio.com",
+        projectId: "test-5034c",
+        storageBucket: "test-5034c.appspot.com",
+        messagingSenderId: "44326559957"
+    }
 };

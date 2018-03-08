@@ -132,12 +132,24 @@ export module ConvertJSONLD {
                     let referredResource: ReadResource = constructReadResource(propValue[AppConfig.linkValueHasTarget]);
 
                     linkValue = new ReadLinkValue(propValue['@id'], propIri, referredResource.id, referredResource);
-                } else {
+                } else if (propValue[AppConfig.linkValueHasTargetIri] !== undefined) {
                     // linkValueHasTargetIri contains the resource's Iri
 
                     let referredResourceIri = propValue[AppConfig.linkValueHasTargetIri];
 
                     linkValue = new ReadLinkValue(propValue['@id'], propIri, referredResourceIri);
+                } else if (propValue[AppConfig.linkValueHasSource] !== undefined) {
+                    // linkValueHasSource contains the object
+
+                    let incomingResource: ReadResource = constructReadResource(propValue[AppConfig.linkValueHasSource]);
+
+                    linkValue = new ReadLinkValue(propValue['@id'], propIri, incomingResource.id, incomingResource);
+                } else if (propValue[AppConfig.linkValueHasSourceIri] !== undefined) {
+                    // linkValueHasSourceIri contains the resource's Iri
+
+                    let incomingResourceIri = propValue[AppConfig.linkValueHasSourceIri];
+
+                    linkValue = new ReadLinkValue(propValue['@id'], propIri, incomingResourceIri);
                 }
 
                 valueSpecificProp = linkValue;
@@ -394,6 +406,9 @@ export module ConvertJSONLD {
 
                         // target resource is represented
                         referredResourceClasses.push(referredRes[AppConfig.linkValueHasTarget]['@type']);
+                    } else if (referredRes['@type'] == AppConfig.LinkValue && referredRes[AppConfig.linkValueHasSource] !== undefined) {
+                        // source resource is represented
+                        referredResourceClasses.push(referredRes[AppConfig.linkValueHasSource]['@type']);
                     }
 
                 }
@@ -405,6 +420,9 @@ export module ConvertJSONLD {
 
                     // target resource is represented
                     referredResourceClasses.push(resourceJSONLD[prop][AppConfig.linkValueHasTarget]['@type']);
+                } else if (resourceJSONLD[prop]['@type'] == AppConfig.LinkValue && resourceJSONLD[prop][AppConfig.linkValueHasSource] !== undefined) {
+                    // source resource is represented
+                    referredResourceClasses.push(resourceJSONLD[prop][AppConfig.linkValueHasSource]['@type']);
                 }
             }
 

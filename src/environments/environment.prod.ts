@@ -25,5 +25,6 @@ export const environment = {
     api: 'http://localhost:3333',
     media: 'http://localhost:1024',
     localData: 'data',
-    pagingLimit: 25
+    pagingLimit: 25,
+    firebase: {}
 };

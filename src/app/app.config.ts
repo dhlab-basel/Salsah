@@ -81,11 +81,14 @@ export class AppConfig {
     public static StillImageFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'StillImageFileValue';
     public static MovingImageFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'MovingImageFileValue';
     public static TextFileValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'TextFileValue';
+    public static IsResourceClass: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isResourceClass';
     public static IsValueClass: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isValueClass';
     public static ForbiddenResource: string = AppConfig.KnoraApiV2WithValueObjectPath + 'ForbiddenResource';
     public static XMLToStandoffMapping: string = AppConfig.KnoraApiV2WithValueObjectPath + 'XMLToStandoffMapping';
     public static ListNode: string = AppConfig.KnoraApiV2WithValueObjectPath + 'ListNode';
 
+    public static StandoffOntology = 'http://api.knora.org/ontology/standoff/v2';
+    public static SalsahGuiOntology = 'http://api.knora.org/ontology/salsah-gui/v2';
 
     public static ReadTextValueAsHtml: string = 'ReadTextValueAsHtml';
     public static ReadTextValueAsString: string = 'ReadTextValueAsString';
@@ -121,6 +124,8 @@ export class AppConfig {
     public static dateValueHasCalendar = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasCalendar';
 
     public static linkValueHasTarget = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasTarget';
+    public static linkValueHasSource = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasSource';
+    public static linkValueHasSourceIri = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasSourceIri';
     public static linkValueHasTargetIri = AppConfig.KnoraApiV2WithValueObjectPath + 'linkValueHasTargetIri';
 
     public static integerValueAsInteger = AppConfig.KnoraApiV2WithValueObjectPath + 'intValueAsInt';
