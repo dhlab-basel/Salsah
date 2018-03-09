@@ -116,9 +116,9 @@ export class MessageComponent implements OnInit {
 
     setMessage(msg: MessageData) {
 
-        let tmpMsg: MessageData = <MessageData>{};
+        const tmpMsg: MessageData = <MessageData>{};
 
-        let s: number = (msg.status == 0 ? 503 : msg.status);
+        const s: number = (msg.status === 0 ? 503 : msg.status);
 
         tmpMsg.status = s;
         tmpMsg.route = msg.route;
@@ -169,8 +169,7 @@ export class MessageComponent implements OnInit {
     goToLocation(route) {
         if (route === '<--') {
             this._location.back();
-        }
-        else {
+        } else {
             this._router.navigate([route]);
         }
     }
