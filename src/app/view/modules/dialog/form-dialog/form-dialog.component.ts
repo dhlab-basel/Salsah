@@ -87,7 +87,8 @@ export class FormDialogComponent implements OnInit {
 
         config.data = {
             title: 'You\'re sure to close the form and discard all changes?',
-            confirm: answer
+            confirm: true,
+            answer: answer
         };
 
         // open dialog box

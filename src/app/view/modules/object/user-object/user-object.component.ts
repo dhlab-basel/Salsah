@@ -71,7 +71,8 @@ export class UserObjectComponent implements OnChanges {
 
         config.data = {
             title: 'Are you sure to delete this user?',
-            confirm: answer
+            confirm: true,
+            answer: answer
         };
 
         // open dialog box

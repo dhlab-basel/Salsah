@@ -19,12 +19,12 @@ export class DialogTestComponent implements OnInit {
 
     ngOnInit() {
 
-        /*
+
         setTimeout(() => {
             // start with object dialog
-            this.openObjectDialog(this.iri);
+            this.openMessageDialog();
         }, 1000);
-        */
+
 
 
     }
@@ -43,6 +43,8 @@ export class DialogTestComponent implements OnInit {
             message: message
         };
 
+        config.panelClass = 'resizable';
+
         const dialogRef = this._dialog.open(MessageDialogComponent, config);
     }
 
@@ -53,10 +55,15 @@ export class DialogTestComponent implements OnInit {
         const config: MatDialogConfig = new MatDialogConfig();
         config.data = {
             title: message,
-            confirm: confirm
+            confirm: confirm,
+            answer: false
         };
 
         const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        dialogRef.afterClosed().subscribe(result => {
+            // console.log('answer is: ', result);
+        });
     }
 
     openObjectDialog(iri: string) {
