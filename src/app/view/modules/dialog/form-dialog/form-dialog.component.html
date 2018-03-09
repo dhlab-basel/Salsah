@@ -7,14 +7,17 @@
                 <mat-icon class="optimize-direction" [innerHtml]="fullSize ? 'call_received' :'call_made'"></mat-icon>
             </button>
         </span>
-        <h3 class="fill-remaining-space dialog-title" mat-dialog-title>
-            {{ data.title }}
-            <!--'salsahLabels.frameworkForListings.add.title' | translate -->
-        </h3>
+        <span class="fill-remaining-space"></span>
+        <span>
+            <h3 class="dialog-title" mat-dialog-title>
+                {{ data.title }}
+            </h3>
+        </span>
+        <span class="fill-remaining-space"></span>
         <span class="dialog-action-button">
             <button mat-icon-button
-                    class="cancel-button"
-                    (click)="discardChanges()">
+                    class="close-button"
+                    (click)="_dialogRef.close()">
                 <mat-icon>close</mat-icon>
             </button>
         </span>
@@ -47,17 +50,20 @@
 
         <!-- create new / edit resource class -->
         <salsah-edit-resource-class *ngSwitchCase="'resource-type'"
-                                   [iri]="data.iri">
+                                    [iri]="data.iri">
         </salsah-edit-resource-class>
 
         <!-- create new / edit lists class -->
         <salsah-edit-node-info *ngSwitchCase="'nodeInfo'"
-                                   [nodeIri]="data.iri"
-                                    [currentNode]="data.currentNodes">
+                               [nodeIri]="data.iri"
+                               [currentNode]="data.currentNodes"
+                               [dNode]="data.delNode"
+                               [dTree]="data.delTree">
         </salsah-edit-node-info>
+
         <salsah-edit-list-info *ngSwitchCase="'listInfo'"
-                                   [listIri]="data.iri"
-                                    [currentListInfo]="data.currentListInfo">
+                               [listIri]="data.iri"
+                               [currentListInfo]="data.currentListInfo">
         </salsah-edit-list-info>
 
         <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>

@@ -16,6 +16,9 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {List, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
+import {TreeNode} from "angular-tree-component/dist/models/tree-node.model";
+import {ConfirmDialogComponent} from "../../dialog/confirm-dialog/confirm-dialog.component";
+import {MatDialogConfig, MatDialog} from "@angular/material";
 
 
 @Component({
@@ -27,6 +30,8 @@ export class EditNodeInfoComponent implements OnChanges {
 
     @Input() nodeIri: string;
     @Input() currentNode: ListNode;
+    @Input() dNode: TreeNode;
+    @Input() dTree;
 
     currentListNodeInfo: ListNodeInfo;
 
@@ -76,6 +81,7 @@ export class EditNodeInfoComponent implements OnChanges {
             skip: 'Skip',
             next: 'Next',
             add: 'Add',
+            remove: 'Remove node',
             adNode: 'Add node',
             addChild: 'Add child'
         }
@@ -96,8 +102,8 @@ export class EditNodeInfoComponent implements OnChanges {
     public listNodeInfoForm: FormGroup; // our model driven form
 
 
-    constructor(private _fb: FormBuilder) {
-
+    constructor(private _fb: FormBuilder,
+                public _dialog: MatDialog) {
     }
 
     ngOnChanges() {
@@ -140,6 +146,7 @@ export class EditNodeInfoComponent implements OnChanges {
     addChild() {
         this.children.push(this._fb.group(new ListNode()));
     }
+
     removeChild(i: number) {
         this.children.removeAt(i);
     }
@@ -153,6 +160,42 @@ export class EditNodeInfoComponent implements OnChanges {
         // check if model is valid
         // if valid, call API to save customer
         console.log('save:', listNodeInfo);
+        location.reload();
+    }
+
+
+    delNode() {
+        console.log('tree node: ', this.dNode, 'tree', this.dTree);
+        // if (this.dNode.parent != null) {
+        //     this.dNode.parent.data.children.splice(this.dNode.parent.data.children.indexOf(this.dNode.data), 1)
+        //     this.dTree.treeModel.update()
+        // }
+
+        const config = new MatDialogConfig();
+
+        config.data = {
+            title: 'Are you sure to remove this node from the list?',
+            confirm: true
+        };
+
+        // open dialog box
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, config);
+
+        // after close;
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed', result);
+            console.log(config.data);
+
+            if (config.data.confirm === true) {
+                // if answer is true: remove the node
+                if (this.dNode.parent != null) {
+                    this.dNode.parent.data.children.splice(this.dNode.parent.data.children.indexOf(this.dNode.data), 1);
+                    this.dTree.treeModel.update()
+                }
+                // TODO: call the service to update list in api
+            }
+
+        });
     }
 
 

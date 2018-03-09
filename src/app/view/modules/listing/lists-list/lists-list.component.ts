@@ -19,6 +19,7 @@ import {MessageData} from '../../message/message.component';
 import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
+import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
 
 @Component({
     selector: 'salsah-lists-list',
@@ -29,6 +30,7 @@ export class ListsListComponent implements OnInit {
 
     @Input() restrictedBy?: string;
     @Output() toggleItem = new EventEmitter<any>();
+    // @Output() deleteNodeEvent = new EventEmitter<any>();
 
     isLoading: boolean = true;
     isLoadingNodes: boolean = true;
@@ -70,17 +72,16 @@ export class ListsListComponent implements OnInit {
             expand: 'Expand all',
             collapse: 'Collapse all',
             edit: 'Edit',
-            add: 'Add node'
+            add: 'Add node',
+            remove: 'Remove node'
         }
-
-    }
+    };
 
     constructor(private _listsService: ListsService,
                 public _dialog: MatDialog) {
     }
 
     ngOnInit() {
-
         if (this.restrictedBy) {
             //     get all project lists
             this._listsService.getLists(this.restrictedBy)
@@ -118,7 +119,6 @@ export class ListsListComponent implements OnInit {
 
     }
 
-
     fetchListData(iri: string) {
         // get the specific list data once the list expansion panel is opened
         this._listsService.getList(iri)
@@ -134,12 +134,11 @@ export class ListsListComponent implements OnInit {
                 }
             );
         console.log('fetchListData ');
-        console.log(this.isExpanded);
-
-
     }
 
-    // Methods to expand/collapse list
+
+// LIST METHODS
+
     expandAll(tree) {
         tree.treeModel.expandAll();
         this.isExpanded = true;
@@ -151,10 +150,25 @@ export class ListsListComponent implements OnInit {
     }
 
     addNode(tree) {
-        this.currentNodes.push({ id: 'an id', name: 'another node', label: 'a node', children: [], level: 0 , position: 0});
+        this.currentNodes.push({
+            id: 'an id',
+            name: 'another node',
+            label: 'a node',
+            children: [],
+            level: 0,
+            position: 0
+        });
         tree.treeModel.update();
     }
 
+    // deleteNode(node: TreeNode, tree): void {
+        // this.deleteNodeEvent.emit({node, tree});
+
+        // if (node.parent != null) {
+        //     node.parent.data.children.splice(node.parent.data.children.indexOf(node.data), 1)
+        //     tree.treeModel.update()
+        // }
+    // }
 
     // in the list view, it opens an object on the right hand side detail view
     // open / close user
@@ -172,32 +186,53 @@ export class ListsListComponent implements OnInit {
     // }
 
     // TODO: implement proper edit method/component
-    editNode(id: string, cNode: ListNode[], title?: string) {
-         let dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-            data: {
-                iri: id,
-                currentNodes: cNode,
-                title: 'Edit ' + id,
-                form: 'nodeInfo'
-            }
-        });
+    editNode(id: string, cNode: ListNode[], node: TreeNode, tree) {
+
+        const config: MatDialogConfig = new MatDialogConfig();
+
+        config.data = {
+            iri: id,
+            currentNodes: cNode,
+            delNode: node,
+            delTree: tree,
+            title: 'Edit ' + id,
+            form: 'nodeInfo',
+            fullsize: false
+        };
+
+        config.panelClass = 'resizable';
+
+        const dialogRef = this._dialog.open(FormDialogComponent, config);
+
+        console.log('emit node: ', node);
+        console.log('emit tree: ', tree);
+
         dialogRef.afterClosed().subscribe(result => {
             console.log('The edit node info dialog was closed', result);
-            //TODO: here load the lists service to get the updated nodes - when list service is fixed
+            // TODO: here load the lists service to get the updated nodes - when list service is fixed
         });
     }
+
     editList(id: string, list: ListInfo[], title?: string) {
-         let dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-            data: {
-                iri: id,
-                currentListInfo: list,
-                title: 'Edit list with id:' + id,
-                form: 'listInfo'
-            }
-        });
+
+        const config: MatDialogConfig = new MatDialogConfig();
+
+        config.data = {
+            iri: id,
+            currentListInfo: list,
+            title: 'Edit list with id:' + id,
+            form: 'listInfo',
+            fullsize: false
+        };
+
+        config.panelClass = 'resizable';
+
+        const dialogRef = this._dialog.open(FormDialogComponent, config);
+
         dialogRef.afterClosed().subscribe(result => {
             console.log('The edit list info dialog was closed', result);
-            //TODO: here load the lists service to get the updated list - when list service is fixed
+            // TODO: here load the lists service to get the updated list - when list service is fixed
+
         });
 
     }
