@@ -13,10 +13,35 @@ cache:
 addons:
   chrome: stable
 
-before_script:
-- yarn global add @angular/cli
+services:
+  - docker
 
-script: ng test --reporters=spec --browser=ChromeHeadless --single-run=true
+env:
+  global:
+    - SALSAH2_REPO=dhlabbasel/salsah2
+
+
+stages:
+  - test
+  - name: publish # generally, only publish if we are on 'develop'
+    ## if: branch = develop
+
+jobs:
+    include:
+        - stage: test
+          script:
+            - yarn
+            - $(npm bin)/ng test --reporters=spec --browser=ChromeHeadless --single-run=true
+
+        - stage: publish
+          script:
+            - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+            # salsah2
+            - docker build -t $SALSAH2_REPO:$TRAVIS_BRANCH .
+            - docker tag $SALSAH_REPO:$TRAVIS_BRANCH $SALSAH_REPO:latest
+            - docker push $SALSAH_REPO
+
+
 
 notifications:
   slack:
