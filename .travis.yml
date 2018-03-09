@@ -37,16 +37,16 @@ jobs:
             - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             # salsah2
             - docker build -t $SALSAH2_REPO:$TAG .
-            - docker tag $SALSAH_REPO:$TAG $SALSAH_REPO:latest
-            - docker push $SALSAH_REPO
+            - docker tag $SALSAH2_REPO:$TAG $SALSAH2_REPO:latest
+            - docker push $SALSAH2_REPO
 
         - stage: publish
           script:
             - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             # salsah2
             - docker build -t $SALSAH2_REPO:$TAG .
-            - docker tag $SALSAH_REPO:$TAG $SALSAH_REPO:latest
-            - docker push $SALSAH_REPO
+            - docker tag $SALSAH2_REPO:$TAG $SALSAH2_REPO:latest
+            - docker push $SALSAH2_REPO
 
 
 
