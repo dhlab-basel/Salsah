@@ -7,14 +7,98 @@ export class BeolService {
     constructor(private _searchParamsService: SearchParamsService) {
     }
 
+    searchForBook(isbn: string, sectionTitle: string): string {
+
+        const bookTemplate = `
+    PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
+    PREFIX biblio: <http://0.0.0.0:3333/ontology/biblio/simple/v2#>
+    PREFIX beol: <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#>
+      
+    CONSTRUCT {
+        
+        ?introSection knora-api:isMainResource true .
+            
+    } WHERE { 
+    
+        ?book a knora-api:Resource .
+        
+        ?book a biblio:Book .
+       
+        ?book biblio:bookHasISBN ?propVal0 .
+        biblio:bookHasISBN knora-api:objectType <http://www.w3.org/2001/XMLSchema#string> .
+        ?propVal0 a <http://www.w3.org/2001/XMLSchema#string> .
+                
+        FILTER(?propVal0 = "${isbn}"^^<http://www.w3.org/2001/XMLSchema#string>)
+        
+        ?book biblio:bookHasContent ?content .
+        
+        biblio:bookHasContent knora-api:objectType knora-api:Resource .
+        ?content a knora-api:Resource .
+        
+        ?content biblio:hasIntroduction ?intro .
+        
+        biblio:hasIntroduction knora-api:objectType knora-api:Resource .
+        ?intro a knora-api:Resource .
+        
+        ?intro beol:hasSection ?introSection .
+        beol:hasSection knora-api:objectType knora-api:Resource .
+        ?introSection a knora-api:Resource .
+        
+        ?introSection beol:sectionHasTitle ?sectionTitle .
+        
+        beol:sectionHasTitle knora-api:objectType xsd:string .
+        ?sectionTitle a xsd:string .
+        
+        FILTER(?sectionTitle = "${sectionTitle}")
+             
+    }
+    
+    OFFSET 0
+        `;
+
+        // console.log(bookTemplate);
+
+        return bookTemplate;
+
+    }
+
     /**
      * Creates the KnarQL needed for the search for the correspodence between two persons, ordered by date.
      *
      * @param {string} gnd1 the GND/IAF identifier for the first correspondent.
      * @param {string} gnd2 the GND/IAF identifier for the second correspondent.
+     * @param noTranslations indicates if the letter is in original language (not a translation).
      * @param {number} offset the offset to be used.
      */
-    searchForCorrespondence(gnd1: string, gnd2: string, offset: number = 0): string {
+    searchForCorrespondence(gnd1: string, gnd2: string, noTranslations: boolean = false, offset: number = 0): string {
+
+        let language = '';
+
+        if (noTranslations) {
+            // original language: must have the property: beol:letterHasTranslation
+
+            language = `
+    ?letter beol:letterHasTranslation ?translation .
+    
+    beol:letterHasTranslation knora-api:objectType knora-api:Resource .
+    ?translation a knora-api:Resource .
+    
+            `;
+        } else {
+            // translation: must not have the property: beol:letterHasTranslation
+
+            language = `
+    
+    FILTER NOT EXISTS {
+        ?letter beol:letterHasTranslation ?translation .
+    }
+    
+    beol:letterHasTranslation knora-api:objectType knora-api:Resource .
+    ?translation a knora-api:Resource .
+    
+            `;
+
+        }
 
         const correspondenceTemplate = `
     PREFIX beol: <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#>
@@ -32,6 +116,8 @@ export class BeolService {
     } WHERE {
         ?letter a knora-api:Resource .
         ?letter a beol:letter .
+        
+        ${language}
         
         ?letter beol:creationDate ?date .
         
@@ -87,6 +173,8 @@ export class BeolService {
             // store the function so another KnarQL query can be created with an increased offset
             this._searchParamsService.changeSearchParamsMsg(new ExtendedSearchParams(generateKnarQLWithCustomOffset));
         }
+
+        // console.log(correspondenceTemplate + offsetTemplate);
 
         return correspondenceTemplate + offsetTemplate;
     }

@@ -36,6 +36,7 @@ import {
     ReadStillImageFileValue
 } from "../../../../model/webapi/knora/v2/read-property-item";
 import {Utils} from "../../../../utils";
+import {ObjectDialogComponent} from "../../dialog/object-dialog/object-dialog.component";
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -445,13 +446,9 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
      */
     showSourceOfIncomingLinkInDialog(resourceIri: string) {
 
-        let config = new MatDialogConfig();
-        config.height = '60%';
-        config.width = '60%';
+        const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(resourceIri);
 
-        let dialogRef = this.dialog.open(ResourceObjectComponent, config);
-
-        dialogRef.componentInstance.iri = resourceIri;
+        this.dialog.open(ObjectDialogComponent, config);
 
     }
 

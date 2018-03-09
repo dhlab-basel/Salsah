@@ -1,11 +1,21 @@
 .cdk-overlay-pane {
   margin: auto;
-  max-width: 100vw;
+  max-width: 100vw !important;
+
+  &.resizable {
+
+    .mat-dialog-container {
+      padding: 0;
+
+      .mat-dialog-content {
+        max-height: calc(100vh - 64px);
+      }
+    }
+  }
 
   .mat-dialog-container {
-    max-height: 100vh;
-    max-width: 100vw;
-    min-width: 800px;
+    min-width: 480px;
   }
+
 }
 

@@ -72,6 +72,8 @@
             <!--</button>-->
             <!--</mat-action-row>-->
 
+            <!--Tree Info: {{node}} {{tree}}-->
+            <!--<salsah-lists-list (deleteNodeEvent)="receiveTreeInfo($event, $event)"></salsah-lists-list>-->
             <mat-form-field class="full-width">
                 <input matInput
                        [placeholder]=editLists.list.nodes.level
@@ -82,9 +84,14 @@
                        [placeholder]=editLists.list.nodes.position
                        formControlName="position">
             </mat-form-field>
-
-
             <mat-action-row>
+                <button mat-button mat-dialog-close
+                        class="save-button"
+                        color="warn"
+                        (click)="delNode()">
+                    {{editLists.buttons.remove}}
+                </button>
+                <span class="fill-remaining-space"></span>
                 <button mat-button
                         color="warn"
                         (click)="revertNode()">
