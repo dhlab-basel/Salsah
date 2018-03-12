@@ -16,9 +16,9 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {List, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
-import {TreeNode} from "angular-tree-component/dist/models/tree-node.model";
-import {ConfirmDialogComponent} from "../../dialog/confirm-dialog/confirm-dialog.component";
-import {MatDialogConfig, MatDialog} from "@angular/material";
+import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
+import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
+import {MatDialogConfig, MatDialog} from '@angular/material';
 
 
 @Component({
@@ -175,7 +175,8 @@ export class EditNodeInfoComponent implements OnChanges {
 
         config.data = {
             title: 'Are you sure to remove this node from the list?',
-            confirm: true
+            confirm: true,
+            answer: false
         };
 
         // open dialog box
@@ -186,7 +187,7 @@ export class EditNodeInfoComponent implements OnChanges {
             console.log('The dialog was closed', result);
             console.log(config.data);
 
-            if (config.data.confirm === true) {
+            if (config.data.answer === true) {
                 // if answer is true: remove the node
                 if (this.dNode.parent != null) {
                     this.dNode.parent.data.children.splice(this.dNode.parent.data.children.indexOf(this.dNode.data), 1);

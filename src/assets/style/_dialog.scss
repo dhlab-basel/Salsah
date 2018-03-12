@@ -9,6 +9,17 @@
 
       .mat-dialog-content {
         max-height: calc(100vh - 64px);
+
+        .salsah-error,
+        .salsah-warning,
+        .salsah-note,
+        .salsah-hint {
+          margin: 0 auto 4px;
+        }
+      }
+
+      .mat-dialog-actions {
+        margin-bottom: 0;
       }
     }
   }
