@@ -66,6 +66,17 @@ export class EditListInfoComponent implements OnChanges {
         }
     };
 
+    // the following form fields would have an error check
+    formErrors = {
+        'belongsToProject': '',
+    };
+    // ...with the following messages
+    validationMessages = {
+        'belongsToProject': {
+            'required': 'Project name is required'
+        },
+    };
+
     public listInfoForm: FormGroup; // our model driven form
 
 
@@ -92,6 +103,29 @@ export class EditListInfoComponent implements OnChanges {
         console.log('list info: ', this.currentListInfo);
         this.isLoading = false;
 
+        // validation messages
+        this.listInfoForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+    }
+
+    // build form validation messages
+    onValueChanged(data?: any) {
+        if (!this.listInfoForm) {
+            return;
+        }
+        const form = this.listInfoForm;
+
+        for (const field in this.formErrors) {
+            const control = form.get(field);
+            this.formErrors[field] = '';
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+
+        }
     }
 
     get labels(): FormArray {
