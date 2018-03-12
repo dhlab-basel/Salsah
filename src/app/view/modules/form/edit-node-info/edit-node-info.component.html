@@ -22,6 +22,11 @@
                 <input matInput
                        [placeholder]=editLists.list.nodes.name
                        formControlName="name">
+                <div *ngIf="formErrors.name" class="salsah-placeholder">
+                    {{ formErrors.name }}
+                </div>
+                {{ formErrors.nodeName }}
+
             </mat-form-field>
             <mat-form-field class="full-width">
                 <input matInput
