@@ -84,7 +84,7 @@
         <span class="user-menu">
             <!-- if the user is logged in, show the user profile menu button -->
             <button mat-icon-button (click)="toggleMenu('userMenu')">
-                <img salsahImage [image]="userName" [type]="'user'" class="salsah-avatar-image"/>
+                <img salsahAdminImage [image]="userName" [type]="'user'" class="salsah-avatar-image"/>
             </button>
         </span>
         <div class="salsah-menu user-menu" [@userMenu]="focusOnUserMenu">
