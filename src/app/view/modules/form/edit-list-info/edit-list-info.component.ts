@@ -5,6 +5,7 @@ import {List, ListInfo, ListNodeInfo} from '../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 import {StringLiteralV2} from 'app/model/webapi/knora/v2/shared/strings';
 import {ListInfoUpdatePayload} from '../../../../model/webapi/knora/admin/lists/list-info-update-payload';
+import {ListCreatePayload} from "../../../../model/webapi/knora/admin/lists/list-create-payload";
 
 @Component({
     selector: 'salsah-edit-list-info',
@@ -13,8 +14,16 @@ import {ListInfoUpdatePayload} from '../../../../model/webapi/knora/admin/lists/
 })
 export class EditListInfoComponent implements OnChanges {
 
-    @Input() listIri: string;
+    // the lsit-form can be used to create new lists or to edit existing list info
+    // it can have an attribute called iri which opens the edit form
+    // otherwise the form is empty to create new list
+    @Input() listIri?: string;
     @Input() currentListInfo: ListInfo;
+
+    // project data:
+    // project admin case: restrictedBy is the iri of the project
+    // in this case, the project admin is allowed to add a new or edit a list in this project
+    @Input() restrictedBy?: string = undefined;
 
     errorMessage: string = undefined;
     isLoading: boolean = true;
@@ -24,12 +33,6 @@ export class EditListInfoComponent implements OnChanges {
 
     // language: string ;
     arrayLength: number;
-
-    public ISOlang: any[] = [{
-        label: 'en',
-        name: 'english'
-    },
-    ]
 
 
     public editLists: any = {
@@ -85,22 +88,33 @@ export class EditListInfoComponent implements OnChanges {
     }
 
     ngOnChanges() {
-        console.log('labels: ', this.currentListInfo.labels);
         this.buildListInfoForm();
-        this.setLabels(this.currentListInfo.labels);
-        this.setComments(this.currentListInfo.comments);
+        if(this.listIri){
+            console.log('labels: ', this.currentListInfo.labels);
+            this.setLabels(this.currentListInfo.labels);
+            this.setComments(this.currentListInfo.comments);
+        }
     }
 
     buildListInfoForm() {
-        this.listInfoForm = this._fb.group({
-            id: new FormControl({value: this.currentListInfo.id, disabled: true}),
-            belongsToProject: [this.currentListInfo.projectIri, Validators.required],
-            labels: this._fb.array([]),
-            comments: this._fb.array([])
-        });
-
-        console.log('iri in form: ', this.currentListInfo.id);
-        console.log('list info: ', this.currentListInfo);
+        if (this.listIri){
+            this.listInfoForm = this._fb.group({
+                id: new FormControl({value: this.currentListInfo.id, disabled: true}),
+                belongsToProject: [this.currentListInfo.projectIri, Validators.required],
+                labels: this._fb.array([]),
+                comments: this._fb.array([])
+            });
+            console.log('iri in form: ', this.currentListInfo.id);
+            console.log('list info: ', this.currentListInfo);
+        }
+        else{
+            this.listInfoForm = this._fb.group({
+                id: '',
+                belongsToProject: ['', Validators.required],
+                labels: this._fb.array([]),
+                comments: this._fb.array([])
+            });
+        }
         this.isLoading = false;
 
         // validation messages
@@ -129,7 +143,7 @@ export class EditListInfoComponent implements OnChanges {
     }
 
     get labels(): FormArray {
-        return this.listInfoForm.get('labels') as FormArray;
+            return this.listInfoForm.get('labels') as FormArray;
     }
 
     get comments(): FormArray {
@@ -180,27 +194,45 @@ export class EditListInfoComponent implements OnChanges {
 
     saveListInfo() {
         this.submitted = true; // set form submit to true
-        console.log('save:', this.listInfoForm.value);
 
-        const payload: ListInfoUpdatePayload = {
-            listIri: this.currentListInfo.id, // the id is disabled in the form and cannot be changed, so it won't be saved as a form value
-            projectIri: this.listInfoForm.value.belongsToProject,
-            labels: this.listInfoForm.value.labels,
-            comments: this.listInfoForm.value.comments
-        };
+        if (this.listIri){
+            console.log('save edited list:', this.listInfoForm.value);
+            const payload: ListInfoUpdatePayload = {
+                listIri: this.currentListInfo.id, // the id is disabled in the form and cannot be changed, so it won't be saved as a form value
+                projectIri: this.listInfoForm.value.belongsToProject,
+                labels: this.listInfoForm.value.labels,
+                comments: this.listInfoForm.value.comments
+            };
+            this._listsService.updateListInfo(payload).subscribe(
+                (result: any) => {
+                    console.log(result);
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.listInfoErrorMessage = error;
+                }
+            );
+            // after close form, refresh the page
+            location.reload();
+        }
+        else{
+            console.log('save new list:', this.listInfoForm.value);
+            const payload: ListCreatePayload = {
+                projectIri: this.listInfoForm.value.belongsToProject,
+                labels: this.listInfoForm.value.labels,
+                comments: this.listInfoForm.value.comments
+            };
+            this._listsService.createList(payload).subscribe(
+                (result: any) => {
+                    console.log(result);
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.listInfoErrorMessage = error;
+                }
+            );
+        }
 
-        this._listsService.updateListInfo(payload).subscribe(
-            (result: any) => {
-                console.log(result);
-            },
-            (error: ApiServiceError) => {
-                console.log(error);
-                this.listInfoErrorMessage = error;
-            }
-        );
-
-        // after close form, refresh the page
-        location.reload();
 
     }
 

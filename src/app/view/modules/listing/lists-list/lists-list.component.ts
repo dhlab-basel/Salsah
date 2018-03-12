@@ -221,7 +221,7 @@ export class ListsListComponent implements OnInit {
             iri: id,
             currentListInfo: list,
             title: 'Edit list with id:' + id,
-            form: 'listInfo',
+            form: 'list',
             fullsize: false
         };
 
