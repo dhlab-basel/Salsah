@@ -129,7 +129,10 @@ export class EditNodeInfoComponent implements OnChanges {
 
         console.log('iri in form: ', this.currentNode.id);
         this.isLoading = false;
-
+        
+        // validation messages
+        this.listNodeInfoForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
     }
 
     get children(): FormArray {
@@ -151,6 +154,28 @@ export class EditNodeInfoComponent implements OnChanges {
         this.children.removeAt(i);
     }
 
+        // build form validation messages
+    onValueChanged(form: FormGroup, fErrors: any, msg: any) {
+        if (!form) {
+            return;
+        }
+        Object.keys(fErrors).map(field => {
+            fErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = msg[field];
+                Object.keys(control.errors).map(key => {
+                    fErrors[field] += messages[key] + ' ';
+                });
+            }
+        });
+    }
+
+    onNodeValueChanged(data?: any) {
+        this.onValueChanged(this.listNodeInfoForm, this.formErrors, this.validationMessages);
+    }
+
+//FORM FUNCTIONS    
     revertNode() {
         this.ngOnChanges();
     }
