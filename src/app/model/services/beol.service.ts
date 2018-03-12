@@ -11,8 +11,8 @@ export class BeolService {
 
         const bookTemplate = `
     PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
-    PREFIX biblio: <http://0.0.0.0:3333/ontology/biblio/simple/v2#>
-    PREFIX beol: <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#>
+    PREFIX biblio: <http://app2.02.unibas.dasch.swiss/ontology/biblio/simple/v2#>
+    PREFIX beol: <http://app2.02.unibas.dasch.swiss/ontology/0801/beol/simple/v2#>
       
     CONSTRUCT {
         
@@ -101,7 +101,7 @@ export class BeolService {
         }
 
         const correspondenceTemplate = `
-    PREFIX beol: <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#>
+    PREFIX beol: <http://app2.02.unibas.dasch.swiss/ontology/0801/beol/simple/v2#>
     PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
     
     CONSTRUCT {
