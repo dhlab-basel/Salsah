@@ -164,7 +164,8 @@ export class ProjectsListComponent implements OnInit {
 
         config.data = {
             title: 'Are you sure to remove this user from the project?',
-            confirm: answer
+            confirm: true,
+            answer: answer
         };
 
         // open dialog box
@@ -203,7 +204,8 @@ export class ProjectsListComponent implements OnInit {
 
         config.data = {
             title: 'Are you sure to delete this project? ' + name,
-            confirm: answer
+            confirm: true,
+            answer: answer
         };
 
         // open dialog box
@@ -243,7 +245,8 @@ export class ProjectsListComponent implements OnInit {
 
         config.data = {
             title: 'Reactivate this project? ' + name,
-            confirm: answer
+            confirm: true,
+            answer: answer
         };
 
         // open dialog box

@@ -418,7 +418,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
         config.data = {
             title: 'Are you sure to remove this user from the project?',
-            confirm: answer
+            confirm: true,
+            answer: answer
         };
 
         // open dialog box
@@ -455,7 +456,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
         config.data = {
             title: 'Are you sure to delete this user? ' + name,
-            confirm: answer
+            confirm: true,
+            answer: answer
         };
 
         // open dialog box
@@ -494,7 +496,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
         config.data = {
             title: 'Reactivate this user? ' + name,
-            confirm: answer
+            confirm: true,
+            answer: answer
         };
 
         // open dialog box

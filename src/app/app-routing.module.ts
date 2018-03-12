@@ -204,7 +204,8 @@ const appRoutes: Routes = [
             },
             {
                 path: 'message',
-                component: MessageComponent
+                component: MessageComponent,
+                data: {status: 404}
             },
             {
                 path: 'dialog',

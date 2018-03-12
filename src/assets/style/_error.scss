@@ -44,10 +44,7 @@ mat-card.salsah-api-warning {
 
     //  box-shadow: none;
     max-width: 640px;
-    margin-top: 100px;
-    margin-bottom: 100px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 100px auto;
     mat-icon {
         float: right;
     }
@@ -56,10 +53,7 @@ mat-card.salsah-api-warning {
 mat-card.salsah-page-error {
     box-shadow: none;
     max-width: 640px;
-    margin-top: 60px;
-    margin-bottom: 60px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 60px auto;
 
 }
 
@@ -70,10 +64,7 @@ mat-card.salsah-page-error {
 mat-card.salsah-hint {
 
     max-width: 640px;
-    margin-top: 60px;
-    margin-bottom: 60px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 60px auto;
     mat-icon {
         float: right;
     }
@@ -83,10 +74,7 @@ mat-card.salsah-hint {
 mat-card.salsah-developer-hint {
     background-color: lightgoldenrodyellow;
     max-width: 640px;
-    margin-top: 60px;
-    margin-bottom: 60px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 60px auto;
     mat-icon {
         float: right;
     }

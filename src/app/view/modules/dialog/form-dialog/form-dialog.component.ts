@@ -51,10 +51,13 @@ export class FormDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.fullSize = (!this.data.fullSize);
+
         // start in full size
         if (this._dialogRef) {
             this.toggleFullSize();
         }
+
         this.notYetImplemented.route = this.data.form;
     }
 
@@ -73,10 +76,10 @@ export class FormDialogComponent implements OnInit {
         this.fullSize = (!this.fullSize);
 
         if (this.fullSize) {
-            this._dialogRef.updateSize('100%', '80%');
+            this._dialogRef.updateSize('100vw', '100vh');
             this._dialogRef.updatePosition();
         } else {
-            this._dialogRef.updateSize('auto', 'auto');
+            this._dialogRef.updateSize('80vw', 'auto');
             this._dialogRef.updatePosition();
         }
     }
@@ -87,7 +90,8 @@ export class FormDialogComponent implements OnInit {
 
         config.data = {
             title: 'You\'re sure to close the form and discard all changes?',
-            confirm: answer
+            confirm: true,
+            answer: answer
         };
 
         this._dialogRef.close();
