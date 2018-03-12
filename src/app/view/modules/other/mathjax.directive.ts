@@ -3,11 +3,12 @@ import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angul
 import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-item';
 import {OntologyInformation} from '../../../model/services/ontologycache.service';
 import {AppConfig} from '../../../app.config';
-import {ResourceObjectComponent} from '../object/resource-object/resource-object.component';
+import {ObjectDialogComponent} from '../dialog/object-dialog/object-dialog.component';
 
 declare var MathJax: {
     Hub: {
-        Queue: (param: Object[]) => void;
+        Queue: (param: () => void) => void;
+        Typeset: (param: object) => void;
     }
 };
 
@@ -30,26 +31,50 @@ export class MathJaxDirective implements OnInit {
      * @param event the event fired on an element inserted by this directive.
      * @returns {boolean} a Boolean indicating if event propagation should be stopped.
      */
-    @HostListener('click', ['$event'])
-    onClick(event) {
-        // console.log(event);
+    @HostListener('click', ['$event.target'])
+    onClick(targetElement) {
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+        if (this.bindEvents && targetElement.nodeName.toLowerCase() === 'a' && targetElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
 
-            let config = new MatDialogConfig();
-            config.height = '60%';
-            config.width = '60%';
+            const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(targetElement.href);
 
-            let dialogRef = this.dialog.open(ResourceObjectComponent, config);
-            // https://stackoverflow.com/questions/40648252/angular2-material-mddialog-pass-in-variable
-            dialogRef.componentInstance.iri = event.target.href;
+            this.dialog.open(ObjectDialogComponent, config);
 
             // preventDefault (propagation)
             return false;
-        } else if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a') {
+        } else if (targetElement.parentElement.nodeName.toLowerCase() === 'a' && targetElement.parentElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+
+            const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(targetElement.parentElement.href);
+
+            config.panelClass = 'resizable';
+
+            this.dialog.open(ObjectDialogComponent, config);
+
+            // preventDefault (propagation)
+            return false;
+
+        } else if (this.bindEvents && targetElement.parentElement.nodeName.toLowerCase() === 'a' && targetElement.parentElement.className.toLowerCase().indexOf(AppConfig.RefMarker) >= 0) {
+
+            const indexOfHashtag = targetElement.parentElement.href.indexOf("#", "");
+
+            if (indexOfHashtag != -1) {
+
+                const targetId = targetElement.parentElement.href.substr(indexOfHashtag + 1);
+
+                const targetEle = document.getElementById(targetId);
+
+                if (targetEle) {
+                    targetEle.scrollIntoView();
+                }
+
+            }
+
+            return false;
+
+        } else if (this.bindEvents && targetElement.nodeName.toLowerCase() === 'a') {
             // open link in a new window
-            window.open(event.target.href, '_blank');
+            window.open(targetElement.href, '_blank');
             return false;
         } else {
             // prevent propagation
@@ -64,14 +89,14 @@ export class MathJaxDirective implements OnInit {
      * @param event the event fired on an element inserted by this directive.
      * @returns {boolean} a Boolean indicating if event propagation should be stopped.
      */
-    @HostListener('mouseover', ['$event'])
-    onMouseEnter(event) {
+    @HostListener('mouseover', ['$event.target'])
+    onMouseEnter(targetElement) {
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (this.bindEvents && event.target.nodeName.toLowerCase() === 'a' && event.target.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+        if (this.bindEvents && targetElement.nodeName.toLowerCase() === 'a' && targetElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
             // console.log("mouseenter: internal link to: " + event.target.href);
 
-            let referredResourceIri = event.target.href;
+            let referredResourceIri = targetElement.href;
 
             let resInfo = this.valueObject.getReferredResourceInfo(referredResourceIri, this.ontologyInfo);
 
@@ -95,7 +120,9 @@ export class MathJaxDirective implements OnInit {
         this.el.nativeElement.innerHTML = this.html;
 
         // http://docs.mathjax.org/en/latest/advanced/typeset.html#typeset-math
-        MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.el.nativeElement]);
+        MathJax.Hub.Queue(() => {
+            MathJax.Hub.Typeset(this.el.nativeElement);
+        });
 
     }
 

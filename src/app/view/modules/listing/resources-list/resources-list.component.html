@@ -5,7 +5,7 @@
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
     <div *ngIf="result?.length > 0; else noData" [ngSwitch]="listType">
-                <p>{{numberOfAllResults}}</p>
+                <p>Number of Results: {{numberOfAllResults}}</p>
 
         <!-- show as table if listType === table -->
         <table *ngSwitchCase="'table'" class="salsah-table">

@@ -159,6 +159,14 @@ import {SearchParamsService} from './model/services/search-params.service';
 import {EditListInfoComponent} from './view/modules/form/edit-list-info/edit-list-info.component';
 
 
+import {AngularFireModule} from 'angularfire2';
+import {environment} from '../environments/environment';
+import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
+import { DialogTestComponent } from './view/test/development/dialog-test/dialog-test.component';
+import { ObjectDialogComponent } from './view/modules/dialog/object-dialog/object-dialog.component';
+
 //
 // import all needed services
 //
@@ -272,7 +280,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         BeolComponent,
         GndDirective,
         InternationalizationComponent,
+        ContactFormComponent,
         EditListInfoComponent,
+        DialogTestComponent,
+        ObjectDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -289,7 +300,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ProgressIndicatorModule,
         DndModule.forRoot(),
         HttpClientModule,
+        AngularFireModule.initializeApp(environment.firebase),
         InfiniteScrollModule,
+        RecaptchaModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -304,6 +317,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ConfirmDialogComponent,
         FormDialogComponent,
         MessageDialogComponent,
+        ObjectDialogComponent,
         ResourceClassFormComponent // deprecated!!
     ],
     providers: [
@@ -324,8 +338,15 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         KnarqlgenerationService,
         BeolService,
         LanguageService,
+        AngularFirestore,
         SearchParamsService,
-        {provide: APP_BASE_HREF, useValue: '/'}
+        {provide: APP_BASE_HREF, useValue: '/'},
+        {
+            provide: RECAPTCHA_SETTINGS,
+            useValue: {
+                siteKey: '6LdmmUoUAAAAAPZ4Z_1xYEIwEgI1d9YdjlZKmVkV',
+            } as RecaptchaSettings,
+        }
     ],
     bootstrap: [AppComponent]
 })

@@ -12,7 +12,7 @@
 * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 * */
 
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {MessageData} from '../../message/message.component';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
@@ -48,10 +48,13 @@ export class FormDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.fullSize = (!this.data.fullSize);
+
         // start in full size
         if (this._dialogRef) {
             this.toggleFullSize();
         }
+
         this.notYetImplemented.route = this.data.form;
     }
 
@@ -70,10 +73,10 @@ export class FormDialogComponent implements OnInit {
         this.fullSize = (!this.fullSize);
 
         if (this.fullSize) {
-            this._dialogRef.updateSize('100%', '80%');
+            this._dialogRef.updateSize('100vw', '100vh');
             this._dialogRef.updatePosition();
         } else {
-            this._dialogRef.updateSize('auto', 'auto');
+            this._dialogRef.updateSize('80vw', 'auto');
             this._dialogRef.updatePosition();
         }
     }
@@ -84,7 +87,8 @@ export class FormDialogComponent implements OnInit {
 
         config.data = {
             title: 'You\'re sure to close the form and discard all changes?',
-            confirm: answer
+            confirm: true,
+            answer: answer
         };
 
         // open dialog box

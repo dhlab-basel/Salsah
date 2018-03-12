@@ -1,0 +1,20 @@
+.cdk-overlay-pane {
+  height: auto;
+  width: auto;
+
+  .mat-dialog-container {
+    padding: 0 !important;
+    margin: 0 !important;
+
+    .mat-dialog-content {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .mat-dialog-actions {
+      margin: 0;
+    }
+  }
+}
+
+
