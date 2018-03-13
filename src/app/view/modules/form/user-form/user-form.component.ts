@@ -221,6 +221,8 @@ export class UserFormComponent implements OnInit {
         }
     };
 
+
+
     constructor (public _usersService: UsersService,
                  public _projectsService: ProjectsService,
                  public _groupsService: GroupsService,
@@ -358,7 +360,8 @@ export class UserFormComponent implements OnInit {
         // a) the user has selected one user from the auto-complete list, which gives us the user's IRI
         // b) the user has typed in an eMail address of a new user. It means the user doesn't exist yet
         // c) the user has typed in an eMail address of an existing user, but has not selected from the auto-complete list
-        // d) the user has typed in something else, which is not a valid eMail address, so the form isn't valid and this method will never start
+        // d) the user has typed in something else, which is not a valid eMail address,
+        //    so the form isn't valid; the method for this case will never start
 
         // check if the form is valid
         Object.keys(this.formErrors).map(field => {
@@ -437,6 +440,7 @@ export class UserFormComponent implements OnInit {
 
     resetSelected(ctrl: FormControl) {
         ctrl.reset();
+        this.setSelected();
         this.selectedUser = undefined;
     }
 
