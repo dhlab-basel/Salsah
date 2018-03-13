@@ -39,7 +39,7 @@
         "firebase": "^4.9.1",
         "hammerjs": "^2.0.8",
         "jdnconvertiblecalendar": "0.0.1",
-        "jdnconvertiblecalendardateadapter": "0.0.2",
+        "jdnconvertiblecalendardateadapter": "0.0.5",
         "json2typescript": "^1.0.5",
         "jsonld": "^0.4.12",
         "ng-recaptcha": "^3.0.3",
