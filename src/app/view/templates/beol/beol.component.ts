@@ -162,7 +162,7 @@ export class BeolComponent implements OnInit {
 
         const Johannes_Gessner = new Correspondent("Johannes Gessner", "(DE-588)119331136");
 
-        const Nicasius_Grammatici = new Correspondent("Nicasius_Grammatici", "(DE-588)100108296");
+        const Nicasius_Grammatici = new Correspondent("Nicasius Grammatici", "(DE-588)100108296");
 
         const Jean_Paul_Gua_de_Malves = new Correspondent("Jean Paul Gua de Malves", "(DE-588)117572535");
 
@@ -198,7 +198,7 @@ export class BeolComponent implements OnInit {
 
         const Johann_Rudolf_Mieg = new Correspondent("Johann Rudolf Mieg", "(DE-588)104138556");
 
-        const Pierre_Remond_de_Montmort = new Correspondent("Pierre_Remond_de_Montmort", "(DE-588)117601020");
+        const Pierre_Remond_de_Montmort = new Correspondent("Pierre Remond de Montmort", "(DE-588)117601020");
 
         const Giovanni_Battista_Morgagni = new Correspondent("Giovanni Battista Morgagni", "(DE-588)104265264");
 
@@ -231,7 +231,7 @@ export class BeolComponent implements OnInit {
 
         const Charles_Rene_Reyneau = new Correspondent("Charles Rene Reyneau", "(DE-588)117526789");
 
-        const Gabriel_Rilliet = new Correspondent("Gabriel_Rilliet", "(DE-588)1142279774");
+        const Gabriel_Rilliet = new Correspondent("Gabriel Rilliet", "(DE-588)1142279774");
 
         const Andreas_Ritz = new Correspondent("Andreas Ritz", "(DE-588)1012090132");
 
