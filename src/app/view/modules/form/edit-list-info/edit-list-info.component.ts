@@ -6,6 +6,9 @@ import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angul
 import {StringLiteralV2} from 'app/model/webapi/knora/v2/shared/strings';
 import {ListInfoUpdatePayload} from '../../../../model/webapi/knora/admin/lists/list-info-update-payload';
 import {ListCreatePayload} from "../../../../model/webapi/knora/admin/lists/list-create-payload";
+import {ProjectsService} from "../../../../model/services/projects.service";
+import {Project} from '../../../../model/webapi/knora/';
+
 
 @Component({
     selector: 'salsah-edit-list-info',
@@ -33,6 +36,8 @@ export class EditListInfoComponent implements OnChanges {
 
     // language: string ;
     arrayLength: number;
+
+    allProjects: Project[] = [];
 
 
     public editLists: any = {
@@ -72,18 +77,31 @@ export class EditListInfoComponent implements OnChanges {
     // the following form fields would have an error check
     formErrors = {
         'belongsToProject': '',
+        labels: {
+            'value': '',
+            'language': ''
+        }
     };
     // ...with the following messages
     validationMessages = {
         'belongsToProject': {
             'required': 'Project name is required'
         },
+        labels: {
+            'value': {
+                'required': 'At least one label is required'
+            },
+            'language': {
+                'maxLength': 'Language can be maximum 2 letters'
+            },
+        }
     };
 
     public listInfoForm: FormGroup; // our model driven form
 
 
     constructor(private _listsService: ListsService,
+                private _projectsService: ProjectsService,
                 private _fb: FormBuilder) {
     }
 
@@ -94,6 +112,7 @@ export class EditListInfoComponent implements OnChanges {
             this.setLabels(this.currentListInfo.labels);
             this.setComments(this.currentListInfo.comments);
         }
+        this.getProjects();
     }
 
     buildListInfoForm() {
@@ -101,8 +120,8 @@ export class EditListInfoComponent implements OnChanges {
             this.listInfoForm = this._fb.group({
                 id: new FormControl({value: this.currentListInfo.id, disabled: true}),
                 belongsToProject: [this.currentListInfo.projectIri, Validators.required],
-                labels: this._fb.array([]),
-                comments: this._fb.array([])
+                labels: this._fb.array([this.buildValueLangGroup()]),
+                comments: this._fb.array([this.buildValueLangGroup()])
             });
             console.log('iri in form: ', this.currentListInfo.id);
             console.log('list info: ', this.currentListInfo);
@@ -111,8 +130,8 @@ export class EditListInfoComponent implements OnChanges {
             this.listInfoForm = this._fb.group({
                 id: '',
                 belongsToProject: ['', Validators.required],
-                labels: this._fb.array([]),
-                comments: this._fb.array([])
+                labels: this._fb.array([this.buildValueLangGroup()]),
+                comments: this._fb.array([this.buildValueLangGroup()])
             });
         }
         this.isLoading = false;
@@ -168,7 +187,7 @@ export class EditListInfoComponent implements OnChanges {
     buildValueLangGroup(): FormGroup {
         return this._fb.group({
             value: ['', Validators.required],
-            language: ['', Validators.required]
+            language: ['', Validators.maxLength(2)]
         });
     }
 
@@ -222,6 +241,8 @@ export class EditListInfoComponent implements OnChanges {
                 labels: this.listInfoForm.value.labels,
                 comments: this.listInfoForm.value.comments
             };
+            console.log('payload:', payload);
+
             this._listsService.createList(payload).subscribe(
                 (result: any) => {
                     console.log(result);
@@ -231,8 +252,32 @@ export class EditListInfoComponent implements OnChanges {
                     this.listInfoErrorMessage = error;
                 }
             );
+            // after close form, refresh the page
+            location.reload();
         }
 
+
+    }
+
+    getProjects(){
+        // get all projects from the service
+        this._projectsService.getAllProjects()
+            .subscribe(
+                (result: Project[]) => {
+                    this.allProjects = result;
+                    console.log('projects: ', result);
+
+
+                    // this.filter(this.allProjects);
+
+                    this.isLoading = false;
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.errorMessage = error;
+                    this.isLoading = false;
+                }
+            );
 
     }
 
