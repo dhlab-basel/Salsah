@@ -132,7 +132,7 @@ export class BeolComponent implements OnInit {
 
         const William_Burnet = new Correspondent("William Burnet", "(DE-588)104185643");
 
-        const Johann_Buxtorf = new Correspondent("Johannes Buxtorf", "(DE-588)12068943X");
+        const Johann_Buxtorf = new Correspondent("Johann Buxtorf", "(DE-588)12068943X");
 
         const George_Cheyne = new Correspondent("George Cheyne", "(DE-588)117659606");
 
@@ -154,9 +154,9 @@ export class BeolComponent implements OnInit {
 
         const Du_Fresne = new Correspondent("Du Fresne", "(DE-588)1142274934");
 
-        const Amedee_Francois_Frezier = new Correspondent("Amedee François Frezier", "(DE-588)117537373");
+        const Amedee_Francois_Frezier = new Correspondent("Amédée François Frézier", "(DE-588)117537373");
 
-        const S_J_Vitus_Friesl = new Correspondent("S J Vitus Friesl", "(DE-588)10012786X");
+        const Vitus_Friesl = new Correspondent("Vitus Friesl", "(DE-588)10012786X");
 
         const Johann_Caspar_Funck = new Correspondent("Johann Caspar Funck", "(DE-588)143843133");
 
@@ -321,7 +321,7 @@ export class BeolComponent implements OnInit {
                         new Correspondence(Johann_I_Bernoulli, Du_Fresne),
                         new Correspondence(Johann_I_Bernoulli, Amedee_Francois_Frezier),
                         new Correspondence(Johann_I_Bernoulli, Johann_Frick), // TODO: 0000-00-00_Bernoulli_Johann_I-Frick_Johannes has no date and does not show up!
-                        new Correspondence(Johann_I_Bernoulli, S_J_Vitus_Friesl),
+                        new Correspondence(Johann_I_Bernoulli, Vitus_Friesl),
                         new Correspondence(Johann_I_Bernoulli, Johann_Caspar_Funck)
                     ]),
                     new Section("G", [
