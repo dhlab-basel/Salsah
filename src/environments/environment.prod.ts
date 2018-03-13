@@ -22,7 +22,7 @@ export const environment = {
     type: 'productive',
     production: true,
     url: 'http://salsah.local',
-    api: 'http://localhost:3333',
+    api: 'http://0.0.0.0:3333',
     media: 'http://localhost:1024',
     localData: 'data',
     pagingLimit: 25,
