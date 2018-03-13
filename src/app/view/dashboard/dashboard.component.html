@@ -1,22 +1,29 @@
-<div class="salsah-module without-header">
-    <div class="salsah-module-scroll-area">
-        <div class="salsah-module-content medium salsah-text">
-            <p>
-                {{ 'salsahLabels.dashboardComponent.firstParagraph' | translate }}
+<div [ngSwitch]="startComponent">
 
-            </p>
-            <p>
-                {{ 'salsahLabels.dashboardComponent.secondParagraph' | translate }}
-                <a
-                href="http://knora.org"
-                title="Knora: Knowledge Organization, Representation, and Annotation" target="_new">Knora</a>.
-            </p>
+    <salsah-beol *ngSwitchCase="'beol'"></salsah-beol>
 
-            <!-- list all public projects -->
-            <h3>{{'salsahLabels.dashboardComponent.projectsIntro' | translate}}</h3>
-            <salsah-projects-list [listType]="'grid'"></salsah-projects-list>
+    <div *ngSwitchDefault class="salsah-module without-header">
+        <div class="salsah-module-scroll-area">
+            <div class="salsah-module-content medium salsah-text">
+                <p>
+                    {{ 'salsahLabels.dashboardComponent.firstParagraph' | translate }}
 
+                </p>
+                <p>
+                    {{ 'salsahLabels.dashboardComponent.secondParagraph' | translate }}
+                    <a
+                        href="http://knora.org"
+                        title="Knora: Knowledge Organization, Representation, and Annotation" target="_new">Knora</a>.
+                </p>
+
+                <!-- list all public projects -->
+                <h3>{{'salsahLabels.dashboardComponent.projectsIntro' | translate}}</h3>
+                <salsah-projects-list [listType]="'grid'"></salsah-projects-list>
+
+            </div>
         </div>
     </div>
 </div>
+
+
 

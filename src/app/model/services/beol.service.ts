@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {ExtendedSearchParams, SearchParamsService} from "./search-params.service";
+import {environment} from '../../../environments/environment';
+import {ExtendedSearchParams, SearchParamsService} from './search-params.service';
 
 @Injectable()
 export class BeolService {
@@ -11,8 +12,8 @@ export class BeolService {
 
         const bookTemplate = `
     PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
-    PREFIX biblio: <http://0.0.0.0:3333/ontology/biblio/simple/v2#>
-    PREFIX beol: <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#>
+    PREFIX biblio: <${environment.api}/ontology/biblio/simple/v2#>
+    PREFIX beol: <${environment.api}/ontology/0801/beol/simple/v2#>
       
     CONSTRUCT {
         
@@ -101,7 +102,7 @@ export class BeolService {
         }
 
         const correspondenceTemplate = `
-    PREFIX beol: <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#>
+    PREFIX beol: <${environment.api}/ontology/0801/beol/simple/v2#>
     PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
     
     CONSTRUCT {
@@ -156,13 +157,13 @@ export class BeolService {
 `;
 
         // offset component of the KnarQL query
-        let offsetTemplate = `
+        const offsetTemplate = `
         OFFSET ${offset}
         `;
 
         // function that generates the same KnarQL query with the given offset
         let generateKnarQLWithCustomOffset = (localOffset: number): string => {
-            let offsetCustomTemplate = `
+            const offsetCustomTemplate = `
             OFFSET ${localOffset}
             `;
 
