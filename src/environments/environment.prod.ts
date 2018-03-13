@@ -26,5 +26,6 @@ export const environment = {
     media: 'http://localhost:1024',
     localData: 'data',
     pagingLimit: 25,
+    startComponent: 'dasch',
     firebase: {}
 };

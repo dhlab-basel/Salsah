@@ -27,6 +27,7 @@ export const environment = {
     url: 'http://localhost:4200',           // perhaps we have to rename it into guiUrl or salsah?
     localData: 'data',
     pagingLimit: 25,
+    startComponent: 'dasch',
     firebase: {
         apiKey: "AIzaSyAGr-TWw1NaycUrL3IaJQ63D2YguVafYTA",
         authDomain: "test-5034c.firebaseapp.com",
