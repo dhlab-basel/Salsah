@@ -15,87 +15,26 @@ import {UsersService} from '../../../../../model/services/users.service';
 export class UserDataComponent implements OnInit {
 
     /**
-     *
-     * @type {boolean}
+     * username (email) in the case of edit
+     * @type {string} [ = email address]
      */
-    @Input() expanded?: boolean = true;
+    @Input() username?: string = undefined;
 
     /**
-     * user (iri) in the case of edit
-     * @type {string}
+     * send isValid is true, if the form has no errors
+     * @type {EventEmitter<boolean>}
      */
-    @Input() user?: string = undefined;
 
-    /**
-     * project (iri) in the case of project admin view
-     * @type {string}
-     */
-    @Input() project?: string = undefined;
-
-    /**
-     * set the step
-     * @type {EventEmitter<number>}
-     */
-    @Output() goTo: EventEmitter<number> = new EventEmitter<number>();
-
-    @Output() setStep: EventEmitter<number> = new EventEmitter<number>();
+    @Output() isValid: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     // form group for the form controller
-    form: FormGroup = new FormGroup({});
-
-    // password visibility
-    showPassword: boolean = false;
-
-    // user profile to edit
-    userProfile: User;
-
-    // all existing users
-    existingUsers: [RegExp] = [
-        new RegExp('user')
-    ];
-
-    // in case of an API error
-    errorMessage: any;
-
-    // show the content after every service has loaded and the data is ready
-    isLoading: boolean = true;
-
-    // labels, titles and other texts in the form
-    formLabels: any = {
-        user: {
-            title: {
-                new: 'Create new user',
-                edit: 'Edit user'
-            },
-            form: {
-                givenName: 'First name',
-                familyName: 'Last name',
-                email: 'Email address (will be your login name)',
-                emailHint: 'This will be your login name',
-                emailValidation: 'This doesn\'t appear to be a valid email address.',
-                password: 'Password',
-                passwordHint: 'Use at least 8 characters with one uppercase letter and one number.',
-                avatar: 'Upload a profile pic',
-                language: 'Default language'
-            }
-        },
-        navigation: {
-            next: 'Next',
-            back: 'Back',
-            skip: 'Skip',
-            cancel: 'Cancel',
-            submit: 'Save',
-            close: 'Close',
-            add: 'Add more users',
-            reset: 'Reset'
-        }
-    };
+    userDataForm: FormGroup;
 
     // error checking on the following fields
     formErrors = {
         'givenName': '',
         'familyName': '',
-        'email': '',
+//        'email': '',
         'password': ''
     };
 
@@ -107,11 +46,13 @@ export class UserDataComponent implements OnInit {
         'familyName': {
             'required': 'Last name is required.'
         },
+        /*
         'email': {
             'required': 'Email address is required.',
             'pattern': 'This doesn\'t appear to be a valid email address.',
             'existingName': 'This email address exists already.'
         },
+        */
         'password': {
             'required': 'A password is required.',
             'minlength': 'Use at least 8 characters.',
@@ -119,69 +60,54 @@ export class UserDataComponent implements OnInit {
         }
     };
 
+    // password visibility
+    showPassword: boolean = false;
+
+    // user profile to edit
+    userProfile: User;
+
+    // in case of an API error
+    errorMessage: any;
+
+    // show the content after every service has loaded and the data is ready
+    isLoading: boolean = true;
+
+
+
     constructor(private _usersService: UsersService,
-                private _fb: FormBuilder) {
+                private _formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
 
-
-        if (this.user) {
-            alert(this.user);
-            this.getExistingUsers(this.user);
-            this._usersService.getUserByIri(this.user)
-                .subscribe(
-                    (result: User) => {
-                        this.userProfile = result;
-
-                        const exclude = new RegExp(this.userProfile.email);
-                        this.existingUsers.splice(this.existingUsers.indexOf(exclude), 1);
-
-                        this.buildForm(this.userProfile);
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = error;
-                        console.log(error);
-                    }
-                );
-        } else {
-            this.getExistingUsers();
-            this.buildForm(new User());
-        }
-
-
-    }
-
-    /**
-     * get all existing users from knora
-     */
-    getExistingUsers(exclude?: string): void {
-        this._usersService.getAllUsers()
+        // check if this.username exists already:
+        // if true, we're in the edit mode
+        // otherwise the form should be empty to create new user with this user name
+        this._usersService.getUserByEmail(this.username)
             .subscribe(
-                (users: User[]) => {
-                    // The email address of the user should be unique.
-                    // Therefore we create a list of existingUserNames to avoid multiple use of user names
-                    for (const user of users) {
-                        if (exclude !== user.id) {
-                            this.existingUsers.push(new RegExp('(?:^|\W)' + user.email.toLowerCase() + '(?:$|\W)'));
-                        }
-                    }
+                (result: User) => {
+                    this.userProfile = result;
+
+                    this.buildForm(this.userProfile);
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = error;
+                    this.buildForm(new User());
+//                    console.log(error);
                 }
             );
+
+
     }
+
 
     /**
      *
-     * @param {UserProfile} user
+     * @param {User} user
      */
     buildForm(user?: User): void {
 
-        if (!user) {
-            user = new User();
-        }
-
-
-        this.form = this._fb.group({
+        this.userDataForm = this._formBuilder.group({
             'givenName': new FormControl({
                 value: user.givenName, disabled: false
             }, [
@@ -193,12 +119,8 @@ export class UserDataComponent implements OnInit {
                 Validators.required
             ]),
             'email': new FormControl({
-                value: user.email, disabled: false
-            }, [
-                Validators.required,
-                Validators.pattern(AppConfig.RegexEmail),
-                existingNamesValidator(this.existingUsers)
-            ]),
+                value: this.username, disabled: true
+            }),
             'password': new FormControl({
                 value: user.password, disabled: true
             }, [
@@ -216,7 +138,8 @@ export class UserDataComponent implements OnInit {
 
 //        this.isLoading = false;
 
-        this.form.valueChanges
+
+        this.userDataForm.valueChanges
             .subscribe(data => this.onValueChanged(data));
 
         this.onValueChanged(); // (re)set validation messages now
@@ -230,11 +153,11 @@ export class UserDataComponent implements OnInit {
      */
     onValueChanged(data?: any) {
 
-        if (!this.form) {
+        if (!this.userDataForm) {
             return;
         }
 
-        const form = this.form;
+        const form = this.userDataForm;
 
         Object.keys(this.formErrors).map(field => {
             this.formErrors[field] = '';
@@ -256,22 +179,4 @@ export class UserDataComponent implements OnInit {
         this.showPassword = (!this.showPassword);
     }
 
-    /**
-     * navigate go to the next or the one after that (skip)
-     * @param ev
-     * @param {string} step
-     */
-    navigate(ev, step: string) {
-        ev.preventDefault();
-        const num: number = (step === 'skip' ? 3 : 2);
-        this.goTo.emit(num)
-    }
-
-    /**
-     * get the information / return the information if the expansion panel is active or not
-     * @param {number} step
-     */
-    isActive(step: number): void {
-        this.setStep.emit(step);
-    }
 }

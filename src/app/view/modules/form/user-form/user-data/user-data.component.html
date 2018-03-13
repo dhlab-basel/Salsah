@@ -1,21 +1,19 @@
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
     <!-- content -->
-    <div class="salsah-form-content user-data" [formGroup]="form">
+    <form *ngIf="!isLoading" [formGroup]="userDataForm" class="salsah-form-content user-data">
 
         <!-- email = username -->
         <mat-form-field class="large">
-            <input matInput type="email" class="large"
-                   placeholder="{{ 'salsahLabels.userFormLabels.user.create.email' | translate}} *"
-                   [formControl]="form.controls['email']">
-            <mat-hint *ngIf="formErrors.email">
-                {{ formErrors.email }}
-            </mat-hint>
+            <input matInput type="email"
+                   [formControl]="userDataForm.controls['email']"
+                   placeholder="{{ 'salsahLabels.userFormLabels.user.create.email' | translate}} *">
         </mat-form-field>
 
         <!-- given name -->
         <mat-form-field class="small">
             <input matInput
-                   placeholder="{{ 'salsahLabels.userFormLabels.user.create.givenName' | translate}} *"
-                   [formControl]="form.controls['givenName']">
+                   [formControl]="userDataForm.controls['givenName']"
+                   placeholder="{{ 'salsahLabels.userFormLabels.user.create.givenName' | translate}} *">
             <mat-hint *ngIf="formErrors.givenName">
                 {{ formErrors.givenName }}
             </mat-hint>
@@ -24,8 +22,8 @@
         <!-- family name -->
         <mat-form-field class="medium">
             <input matInput
-                   placeholder="{{ 'salsahLabels.userFormLabels.user.create.familyName' | translate}} *"
-                   [formControl]="form.controls['familyName']">
+                   [formControl]="userDataForm.controls['familyName']"
+                   placeholder="{{ 'salsahLabels.userFormLabels.user.create.familyName' | translate}} *">
             <mat-hint *ngIf="formErrors.familyName">
                 {{ formErrors.familyName }}
             </mat-hint>
@@ -34,8 +32,8 @@
         <!-- password -->
         <mat-form-field class="large">
             <input matInput [type]="showPassword ? 'text' : 'password'"
-                   placeholder="{{ 'salsahLabels.userFormLabels.user.create.password' | translate}} *"
-                   [formControl]="form.controls['password']">
+                   [formControl]="userDataForm.controls['password']"
+                   placeholder="{{ 'salsahLabels.userFormLabels.user.create.password' | translate}} *">
             <mat-icon matSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
                       [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></mat-icon>
             <mat-hint *ngIf="formErrors.password">
@@ -44,15 +42,14 @@
         </mat-form-field>
 
         <mat-select class="large"
-                    [placeholder]="'salsahLabels.userFormLabels.user.create.language' | translate"
-                    [formControl]="form.controls['lang']">
-
+                    [formControl]="userDataForm.controls['lang']"
+                    [placeholder]="'salsahLabels.userFormLabels.user.create.language' | translate">
             <mat-option value="en">english</mat-option>
             <mat-option value="de">deutsch</mat-option>
             <mat-option value="fr">français</mat-option>
             <mat-option value="it">italiano</mat-option>
         </mat-select>
 
-    </div>
+    </form>
 
 

@@ -1,6 +1,3 @@
-<!--
-    1.
--->
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
     <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
         <!--
@@ -46,7 +43,6 @@
         </mat-step>
 
         <mat-step [stepControl]="secondFormGroup">
-            <form [formGroup]="secondFormGroup">
                 <ng-template matStepLabel>User data</ng-template>
 
                 <!-- user data form:
@@ -54,20 +50,24 @@
                     b) empty in case of unknown eMail = the user doesn't exist yet
                 -->
 
-                <salsah-user-data [user]="user?.name"></salsah-user-data>
+
+                    <salsah-user-data *ngIf="firstFormGroup.valid" [username]="firstFormGroup.controls['username'].value"></salsah-user-data>
+
 
 
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button>
                 </div>
-            </form>
+
         </mat-step>
+        <!--
         <mat-step [stepControl]="thirdFormGroup">
             <form [formGroup]="thirdFormGroup">
                 <ng-template matStepLabel>User role</ng-template>
             </form>
         </mat-step>
+        -->
         <mat-step>
             <ng-template matStepLabel>Done</ng-template>
             You are now done.

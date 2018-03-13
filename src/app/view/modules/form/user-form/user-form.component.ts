@@ -71,7 +71,6 @@ export class UserFormComponent implements OnInit {
 
     //
     selectedUser: AutocompleteItem;
-    selectedUserProfile: User;
 
     //
     // ------------------------------------------------------------------------
@@ -350,18 +349,17 @@ export class UserFormComponent implements OnInit {
     }
 
     /**
+     * First form is an input field with an auto complete method to get an existing user
      *
-     * @param {User} user
      */
-    buildFirstForm(user?: User): void {
+    buildFirstForm(): void {
 
-        if (!user) {
-            user = new User();
-        }
+        // for developing only
+        const username: string = 'name@domain.tld';
 
         this.firstFormGroup = this._formBuilder.group({
             'username': new FormControl({
-                value: this.selectedUser, disabled: false
+                value: username, disabled: false
             }, [
                 Validators.required,
                 Validators.pattern(AppConfig.RegexEmail)
