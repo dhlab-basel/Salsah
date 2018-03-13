@@ -116,7 +116,7 @@ export class BeolComponent implements OnInit {
 
         const Christian_Wolf = new Correspondent("Christian Wolff", "(DE-588)118634771");
 
-        const Johann_Frick = new Correspondent("Johann Frick", "(DE-588)123393094");
+        const Johann_Frick = new Correspondent("Johannes Frick", "(DE-588)123393094");
 
         const Henri_Basnage_de_Beauval = new Correspondent("Henri Basnage de Beauval", "(DE-588)12053827X");
 
@@ -124,15 +124,15 @@ export class BeolComponent implements OnInit {
 
         const Georg_Bernhard_Bilfinger = new Correspondent("Georg Bernhard Bilfinger", "(DE-588)118663208");
 
-        const Johann_Wendel_Bilfinger = new Correspondent("Johann Wendel Bilfinger", "(DE-588)104171057");
+        const Johann_Wendel_Bilfinger = new Correspondent("Johann Wendelin Bilfinger", "(DE-588)104171057");
 
         const Pierre_Bouguer = new Correspondent("Pierre Bouguer", "(DE-588)117622974");
 
-        const Marc_Michel_Bousquet = new Correspondent("Marc Michel Bousquet", "(DE-588)136952968");
+        const Marc_Michel_Bousquet = new Correspondent("Marc-Michel Bousquet", "(DE-588)136952968");
 
         const William_Burnet = new Correspondent("William Burnet", "(DE-588)104185643");
 
-        const Johann_Buxtorf = new Correspondent("Johann Buxtorf", "(DE-588)12068943X");
+        const Johann_Buxtorf = new Correspondent("Johannes Buxtorf", "(DE-588)12068943X");
 
         const George_Cheyne = new Correspondent("George Cheyne", "(DE-588)117659606");
 
@@ -144,7 +144,7 @@ export class BeolComponent implements OnInit {
 
         // TODO Brandenburgische Sozietät
 
-        // TODO const Gerog_Faeh = new Correspondent("Georg Faeh","");
+        // TODO const Georg_Faeh = new Correspondent("Georg Faeh","");
 
         const Robert_Falconer = new Correspondent("Robert Falconer", "(DE-588)1141833808");
 
@@ -154,9 +154,9 @@ export class BeolComponent implements OnInit {
 
         const Du_Fresne = new Correspondent("Du Fresne", "(DE-588)1142274934");
 
-        const Amedee_Francois_Frezier = new Correspondent("Amedee Francois Frezier", "(DE-588)117537373");
+        const Amedee_Francois_Frezier = new Correspondent("Amedee François Frezier", "(DE-588)117537373");
 
-        const S_J_Vitus_Friesl = new Correspondent("S J Friesl", "(DE-588)10012786X");
+        const S_J_Vitus_Friesl = new Correspondent("S J Vitus Friesl", "(DE-588)10012786X");
 
         const Johann_Caspar_Funck = new Correspondent("Johann Caspar Funck", "(DE-588)143843133");
 
@@ -182,7 +182,7 @@ export class BeolComponent implements OnInit {
 
         const Christian_Kortholt = new Correspondent("Christian Kortholt", "(DE-588)116341815");
 
-        const Jacques_L_Enfant = new Correspondent("Jacques L Enfant", "(DE-588)117636290");
+        const Jacques_L_Enfant = new Correspondent("Jacques L'Enfant", "(DE-588)117636290");
 
         const Daniel_Le_Clerc = new Correspondent("Daniel Le Clerc", "(DE-588)116850841");
 
@@ -229,7 +229,7 @@ export class BeolComponent implements OnInit {
         // TODO: this seems to be the same person
         const Elicagaray_Bernard_Renau2 = new Correspondent("Bernard Renau d'Éliçagaray", "(DE-588)102079056");
 
-        const Charles_Rene_Reyneau = new Correspondent("Charles Rene Reyneau", "(DE-588)117526789");
+        const Charles_Rene_Reyneau = new Correspondent("Charles René Reyneau", "(DE-588)117526789");
 
         const Gabriel_Rilliet = new Correspondent("Gabriel Rilliet", "(DE-588)1142279774");
 
@@ -243,7 +243,7 @@ export class BeolComponent implements OnInit {
 
         const Johann_Daniel_Schoepflin = new Correspondent("Johann Daniel Schoepflin", "(DE-588)118610260");
 
-        const Willem_Jacob_SGravesande = new Correspondent("Willem Jacob SGravesande", "(DE-588)118939297");
+        const Willem_Jacob_SGravesande = new Correspondent("Willem Jacob sGravesande", "(DE-588)118939297");
 
         const Thomas_Spleiss = new Correspondent("Thomas Spleiss", "(DE-588)138483922");
 
@@ -425,8 +425,10 @@ export class BeolComponent implements OnInit {
                     new Correspondence(Nicolaus_II_Bernoulli, Johannes_Scheuchzer)
                 ])]),
             new CorrespondenceGroupWithSection(Jacob_Hermann, [
+                new Section("B", [
+                    new Correspondence(Jacob_Hermann, Johann_I_Bernoulli)
+                ]),
                 new Section("S", [
-                        new Correspondence(Jacob_Hermann, Johann_I_Bernoulli),
                         new Correspondence(Jacob_Hermann, Johann_Jakob_Scheuchzer),
                         new Correspondence(Jacob_Hermann, Johannes_Scheuchzer)
                     ]
