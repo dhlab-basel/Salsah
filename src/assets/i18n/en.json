@@ -62,12 +62,12 @@
                         "titleDone": "New user",
                         "description": "Create new user profile"
                     },
-                    "givenName": "First name *",
-                    "familyName": "Last  *",
-                    "email": "Email address (will be your login name) *",
+                    "givenName": "First name",
+                    "familyName": "Last",
+                    "email": "Email address (will be your login name)",
                     "emailHint": "This will be your login name",
                     "emailValidation": "This does not appear to be a valid email address.",
-                    "password": "Password *",
+                    "password": "Password",
                     "passwordHint": "Use at least 8 characters with one uppercase letter and one number.",
                     "avatar": "Upload a profile pic",
                     "language": "Default language"
@@ -145,8 +145,8 @@
             "project": {
                 "title": "Project details",
                 "description": "Description",
-                "shortname": "Project short name *",
-                "longname": "Project name *",
+                "shortname": "Project short name",
+                "longname": "Project name",
                 "logo": {
                     "upload": "Upload a logo",
                     "or": "OR",

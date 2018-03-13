@@ -1,24 +1,17 @@
-<mat-expansion-panel *ngIf="!isLoading"
-                     [expanded]="expanded"
-                     (opened)="isActive(1)"
-                     [hideToggle]="true">
-    <!-- header -->
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-            <span *ngIf="!user">{{ 'salsahLabels.userFormLabels.user.title.new' | translate}}</span>
-            <span *ngIf="user">{{ 'salsahLabels.userFormLabels.user.title.edit' | translate}}</span>
-        </mat-panel-title>
-
-        <mat-panel-description>
-            <span>{{form.controls['givenName']?.value}} {{form.controls['familyName']?.value}}</span>
-            <mat-icon *ngIf="!user">person_add</mat-icon>
-            <mat-icon *ngIf="user">edit</mat-icon>
-        </mat-panel-description>
-    </mat-expansion-panel-header>
-
     <!-- content -->
-    <div class="salsah-form new-user" [formGroup]="form">
+    <div class="salsah-form-content user-data" [formGroup]="form">
 
+        <!-- email = username -->
+        <mat-form-field class="large">
+            <input matInput type="email" class="large"
+                   placeholder="{{ 'salsahLabels.userFormLabels.user.create.email' | translate}} *"
+                   [formControl]="form.controls['email']">
+            <mat-hint *ngIf="formErrors.email">
+                {{ formErrors.email }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- given name -->
         <mat-form-field class="small">
             <input matInput
                    placeholder="{{ 'salsahLabels.userFormLabels.user.create.givenName' | translate}} *"
@@ -28,6 +21,7 @@
             </mat-hint>
         </mat-form-field>
 
+        <!-- family name -->
         <mat-form-field class="medium">
             <input matInput
                    placeholder="{{ 'salsahLabels.userFormLabels.user.create.familyName' | translate}} *"
@@ -36,17 +30,9 @@
                 {{ formErrors.familyName }}
             </mat-hint>
         </mat-form-field>
-        <!-- email = username -->
-        <mat-form-field class="large">
-            <input matInput type="email" class="full-width"
-                   placeholder="{{ 'salsahLabels.userFormLabels.user.create.email' | translate}} *"
-                   [formControl]="form.controls['email']">
-            <mat-hint *ngIf="formErrors.email">
-                {{ formErrors.email }}
-            </mat-hint>
-        </mat-form-field>
+
         <!-- password -->
-        <mat-form-field class="large" *ngIf="!user">
+        <mat-form-field class="large">
             <input matInput [type]="showPassword ? 'text' : 'password'"
                    placeholder="{{ 'salsahLabels.userFormLabels.user.create.password' | translate}} *"
                    [formControl]="form.controls['password']">
@@ -69,28 +55,4 @@
 
     </div>
 
-    <!-- footer -->
-    <mat-action-row>
-        <button mat-button
-                color="warn"
-                (click)="form.reset()">
-            {{ 'salsahLabels.userFormLabels.navigation.reset' | translate}}
-        </button>
-        <button mat-button *ngIf="project"
-                class="navigation-button"
-                color="primary"
-                (click)="navigate($event, 'skip')"
-                [disabled]="!form.valid">
-            {{ 'salsahLabels.userFormLabels.navigation.next' | translate}}
-        </button>
-        <button mat-button *ngIf="!project"
-                class="navigation-button"
-                color="primary"
-                (click)="navigate($event, 'next')"
-                [disabled]="!form.valid">
-            {{ 'salsahLabels.userFormLabels.navigation.next' | translate}}
-        </button>
-    </mat-action-row>
 
-
-</mat-expansion-panel>

@@ -440,14 +440,14 @@ export class UserFormComponent implements OnInit {
         //    so the form isn't valid; the method for this case will never start
 
         // check if the form is valid
-        Object.keys(this.formErrors).map(field => {
-            this.formErrors[field] = '';
+        Object.keys(this.firstFormErrors).map(field => {
+            this.firstFormErrors[field] = '';
             const control = this.firstFormGroup.get(field);
             if (control && control.dirty && !control.valid) {
-                const messages = this.validationMessages[field];
+                const messages = this.firstValidationMessages[field];
                 console.log(control.errors);
                 Object.keys(control.errors).map(key => {
-                    this.formErrors[field] += messages[key] + ' ';
+                    this.firstFormErrors[field] += messages[key] + ' ';
                 });
 
             }

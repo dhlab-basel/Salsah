@@ -7,6 +7,7 @@
             1.  add' or 'create new' user starts always with the user's email address;
                 it's an auto complete form, which checks, if the user already exists
         -->
+
         <mat-step [stepControl]="firstFormGroup">
             <form [formGroup]="firstFormGroup" class="salsah-form-content">
                 <ng-template matStepLabel>Start with username</ng-template>
@@ -27,8 +28,6 @@
                     <button mat-button matSuffix matStepperNext [disabled]="!firstFormGroup.valid">
                         Next
                     </button>
-
-
 
                     <mat-autocomplete #user="matAutocomplete">
                         <mat-option *ngFor="let user of filteredUsers | async"
@@ -55,58 +54,9 @@
                     b) empty in case of unknown eMail = the user doesn't exist yet
                 -->
 
-                <!-- given name and family name -->
-                <mat-form-field class="large">
-                    <input matInput
-                           [formControl]="secondFormGroup.controls['username']"
-                           [placeholder]="'salsahLabels.userFormLabels.user.select.autoComplete' | translate">
-                </mat-form-field>
-                <mat-form-field class="small">
-                    <input matInput
-                           placeholder="{{ 'salsahLabels.userFormLabels.user.create.givenName' | translate}} *"
-                           [formControl]="secondFormGroup.controls['givenName']">
-                    <mat-hint *ngIf="secondFormErrors.givenName">
-                        {{ secondFormErrors.givenName }}
-                    </mat-hint>
-                </mat-form-field>
-
-                <mat-form-field class="medium">
-                    <input matInput
-                           placeholder="{{ 'salsahLabels.userFormLabels.user.create.familyName' | translate}} *"
-                           [formControl]="secondFormGroup.controls['familyName']">
-                    <mat-hint *ngIf="secondFormErrors.familyName">
-                        {{ secondFormErrors.familyName }}
-                    </mat-hint>
-                </mat-form-field>
-
-                <!-- password --
-                <mat-form-field class="large">
-                    <input matInput [type]="showPassword ? 'text' : 'password'"
-                           placeholder="{{ 'salsahLabels.userFormLabels.user.create.password' | translate}} *"
-                           [formControl]="form.controls['password']">
-                    <mat-icon matSuffix class="input-icon icon-for-password" (click)="toggleVisibility()"
-                              [innerHtml]="showPassword ? 'visibility_off' :'visibility'"></mat-icon>
-                    <mat-hint *ngIf="formErrors.password">
-                        {{ formErrors.password }}
-                    </mat-hint>
-                </mat-form-field>
-
-                <!-- select prefered language --
-                <mat-select class="large"
-                            [placeholder]="'salsahLabels.userFormLabels.user.create.language' | translate"
-                            [formControl]="form.controls['lang']">
-
-                    <mat-option value="en">english</mat-option>
-                    <mat-option value="de">deutsch</mat-option>
-                    <mat-option value="fr">français</mat-option>
-                    <mat-option value="it">italiano</mat-option>
-                </mat-select>
+                <salsah-user-data [user]="user?.name"></salsah-user-data>
 
 
-                -->
-                <mat-form-field>
-                    <input matInput placeholder="Address" formControlName="secondCtrl" required>
-                </mat-form-field>
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button>

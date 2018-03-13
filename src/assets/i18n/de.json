@@ -53,12 +53,12 @@
                         "titleDone": "Neuer Benutzer",
                         "description": "Füge neues Benutzerprofil hinzu"
                     },
-                    "givenName": "Vorname *",
-                    "familyName": "Nachname *",
-                    "email": "Email Adresse (Wird Dein Login Name sein) *",
+                    "givenName": "Vorname",
+                    "familyName": "Nachname",
+                    "email": "Email Adresse (Wird Dein Login Name sein)",
                     "emailHint": "Das wird Dein Login Name sein",
                     "emailValidation": "Das scheint keine gültige Email Adresse zu sein",
-                    "password": "Passwort *",
+                    "password": "Passwort",
                     "passwordHint": "Benütze mindestens 8 Buchstaben mit einem Grossbuchstaben und einer Zahl",
                     "avatar": "Lade ein Profilbild hoch",
                     "language": "Standardsprache"
@@ -136,8 +136,8 @@
             "project": {
                 "title": "Projekt Details",
                 "description": "Beschreibung",
-                "shortname": "Projekt Kurzname *",
-                "longname": "Projekt Name *",
+                "shortname": "Projekt Kurzname",
+                "longname": "Projekt Name",
                 "logo": {
                     "upload": "Lade ein Logo hoch",
                     "or": "ODER",

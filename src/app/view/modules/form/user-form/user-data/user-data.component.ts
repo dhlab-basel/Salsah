@@ -127,6 +127,7 @@ export class UserDataComponent implements OnInit {
 
 
         if (this.user) {
+            alert(this.user);
             this.getExistingUsers(this.user);
             this._usersService.getUserByIri(this.user)
                 .subscribe(
