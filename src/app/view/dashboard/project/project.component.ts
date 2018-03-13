@@ -70,7 +70,7 @@ export class ProjectComponent implements OnInit {
         this._route.params.subscribe((params: Params) => {
 
             // get the project shortname from the route
-            this.currentProject = params['shortname'];
+            this.currentProject = params['pid'];
 
             // set the root of the project route; it's needed for the first tab
             this.projectRoute = '/project/' + this.currentProject;
@@ -83,11 +83,13 @@ export class ProjectComponent implements OnInit {
             this._projectsService.getProjectByShortname(this.currentProject)
                 .subscribe(
                     (result: Project) => {
+                        console.log(result);
                         this.project = result;
                         sessionStorage.setItem('currentProject', JSON.stringify(this.project));
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
+                        console.log(error);
                         this.errorMessage = <any>error;
                         sessionStorage.removeItem('currentProject');
                         this.isLoading = false;
