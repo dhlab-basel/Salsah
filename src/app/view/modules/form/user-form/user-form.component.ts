@@ -26,8 +26,6 @@ import {GroupsService} from '../../../../model/services/groups.service';
 
 import {AutocompleteItem} from '../../../../app.interfaces';
 import {Project, User} from '../../../../model/webapi/knora';
-
-import {existingNamesValidator} from '../../other/existing-name.directive';
 import {AppConfig} from '../../../../app.config';
 
 @Component({
@@ -51,6 +49,20 @@ export class UserFormComponent implements OnInit {
     //
     firstFormGroup: FormGroup;
 
+    // form errors of first form group
+    firstFormErrors = {
+        'username': ''
+    };
+
+    // ...and the error hints
+    firstValidationMessages = {
+        'username': {
+            'required': 'Email address is required.',
+            'pattern': 'This doesn\'t appear to be a valid email address.',
+            'exists': 'This email address exists already.'
+        }
+    };
+
     // list of all users
     users: AutocompleteItem[] = [];
 
@@ -71,6 +83,27 @@ export class UserFormComponent implements OnInit {
     //  - edit user, if userIri is defined
     secondFormGroup: FormGroup;
     @Input() userIri?: string;
+
+    // form errors of the second form group
+    secondFormErrors = {
+        'givenName': '',
+        'familyName': '',
+        'password': ''
+    };
+
+    secondValidationMessages = {
+        'givenName': {
+            'required': 'First name is required.'
+        },
+        'familyName': {
+            'required': 'Last name is required.'
+        },
+        'password': {
+            'required': 'A password is required.',
+            'minlength': 'Use at least 8 characters.',
+            'pattern': 'The password should have at least one uppercase letter and one number.',
+        }
+    };
 
     //
     // ------------------------------------------------------------------------
@@ -123,18 +156,6 @@ export class UserFormComponent implements OnInit {
     // form controller and error handling
     //
 
-    formErrors = {
-        'username': ''
-    };
-
-    // ...and the error hints
-    validationMessages = {
-        'username': {
-            'required': 'Email address is required.',
-            'pattern': 'This doesn\'t appear to be a valid email address.',
-            'exists': 'This email address exists already.'
-        },
-    };
 
     //
     // ------------------------------------------------------------------------
@@ -143,7 +164,6 @@ export class UserFormComponent implements OnInit {
     existingUserNames: [RegExp] = [
         new RegExp('user')
     ];
-
 
 
     formLabels: any = {
@@ -222,11 +242,10 @@ export class UserFormComponent implements OnInit {
     };
 
 
-
-    constructor (public _usersService: UsersService,
-                 public _projectsService: ProjectsService,
-                 public _groupsService: GroupsService,
-                 private _formBuilder: FormBuilder) {
+    constructor(public _usersService: UsersService,
+                public _projectsService: ProjectsService,
+                public _groupsService: GroupsService,
+                private _formBuilder: FormBuilder) {
 
         /*
         this.form = this._formBuilder.group({
@@ -254,18 +273,9 @@ export class UserFormComponent implements OnInit {
             */
     }
 
-    ngOnInit () {
+    ngOnInit() {
 
-        this.firstFormGroup = this._formBuilder.group({
-            'username': new FormControl({
-                    value: this.selectedUser, disabled: false
-                }, [
-                    Validators.required,
-                    Validators.pattern(AppConfig.RegexEmail)
-//                    existingNamesValidator(this.existingUserNames)
-                ]
-            )
-        });
+        this.buildFirstForm();
 
         this.secondFormGroup = this._formBuilder.group({
             secondCtrl: ['', Validators.required]
@@ -339,6 +349,72 @@ export class UserFormComponent implements OnInit {
             );
     }
 
+    /**
+     *
+     * @param {User} user
+     */
+    buildFirstForm(user?: User): void {
+
+        if (!user) {
+            user = new User();
+        }
+
+        this.firstFormGroup = this._formBuilder.group({
+            'username': new FormControl({
+                value: this.selectedUser, disabled: false
+            }, [
+                Validators.required,
+                Validators.pattern(AppConfig.RegexEmail)
+//                    existingNamesValidator(this.existingUserNames)
+            ])
+        });
+    }
+
+    buildSecondForm(name: string): void {
+
+        // 1. get user by user name
+
+
+        // 2. build form with the data from above in case (a)
+        //    otherwise (case b) build an empty form
+
+
+        /*
+        if (!user) {
+            user = new User();
+        }
+
+        this.firstFormGroup = this._formBuilder.group({
+            'username': new FormControl({
+                value: this.selectedUser, disabled: false
+            }, [
+                Validators.required,
+                Validators.pattern(AppConfig.RegexEmail)
+//                    existingNamesValidator(this.existingUserNames)
+            ]),
+            'givenName': new FormControl({
+                value: user.givenName, disabled: false
+            }, [
+                Validators.required
+            ]),
+            'familyName': new FormControl({
+                value: user.familyName, disabled: false
+            }, [
+                Validators.required
+            ]),
+            'password': new FormControl({
+                value: user.password, disabled: true
+            }, [
+                Validators.required,
+                Validators.minLength(8),
+                Validators.pattern(AppConfig.RegexPassword)
+            ]),
+            'lang': new FormControl({
+                value: user.lang, disabled: false
+            })
+        });
+        */
+    }
     /**
      * filter a list while typing in auto complete input field
      * @param {AutocompleteItem[]} list
