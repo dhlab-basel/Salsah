@@ -120,8 +120,8 @@ export class EditListInfoComponent implements OnChanges {
             this.listInfoForm = this._fb.group({
                 id: new FormControl({value: this.currentListInfo.id, disabled: true}),
                 belongsToProject: [this.currentListInfo.projectIri, Validators.required],
-                labels: this._fb.array([this.buildValueLangGroup()]),
-                comments: this._fb.array([this.buildValueLangGroup()])
+                labels: this._fb.array([this.buildLabelsGroup()]),
+                comments: this._fb.array([this.buildCommentsGroup()])
             });
             console.log('iri in form: ', this.currentListInfo.id);
             console.log('list info: ', this.currentListInfo);
@@ -130,8 +130,8 @@ export class EditListInfoComponent implements OnChanges {
             this.listInfoForm = this._fb.group({
                 id: '',
                 belongsToProject: ['', Validators.required],
-                labels: this._fb.array([this.buildValueLangGroup()]),
-                comments: this._fb.array([this.buildValueLangGroup()])
+                labels: this._fb.array([this.buildLabelsGroup()]),
+                comments: this._fb.array([this.buildCommentsGroup()])
             });
         }
         this.isLoading = false;
@@ -139,6 +139,19 @@ export class EditListInfoComponent implements OnChanges {
         // validation messages
         this.listInfoForm.valueChanges
             .subscribe(data => this.onValueChanged(data));
+    }
+
+    buildLabelsGroup(): FormGroup {
+        return this._fb.group({
+            value: ['', Validators.required],
+            language: ['', Validators.maxLength(2)]
+        });
+    }
+    buildCommentsGroup(): FormGroup {
+        return this._fb.group({
+            value: '',
+            language: ''
+        });
     }
 
     // build form validation messages
@@ -173,7 +186,6 @@ export class EditListInfoComponent implements OnChanges {
         console.log('setLabels: ', labels);
         const labelFGs = labels.map(label => this._fb.group(label));
         const labelFormArray = this._fb.array(labelFGs);
-        this.arrayLength = labelFormArray.length;
         this.listInfoForm.setControl('labels', labelFormArray);
     }
 
@@ -184,23 +196,16 @@ export class EditListInfoComponent implements OnChanges {
         this.listInfoForm.setControl('comments', commentFormArray);
     }
 
-    buildValueLangGroup(): FormGroup {
-        return this._fb.group({
-            value: ['', Validators.required],
-            language: ['', Validators.maxLength(2)]
-        });
-    }
-
     revertListInfo(cList: ListInfo) {
         this.ngOnChanges();
     }
 
     addLabel() {
-        this.labels.push(this.buildValueLangGroup());
+        this.labels.push(this.buildLabelsGroup());
     }
 
     addComment() {
-        this.comments.push(this.buildValueLangGroup());
+        this.comments.push(this.buildCommentsGroup());
     }
 
     removeLabel(i: number) {
@@ -216,6 +221,7 @@ export class EditListInfoComponent implements OnChanges {
 
         if (this.listIri){
             console.log('save edited list:', this.listInfoForm.value);
+            console.log('id:', this.currentListInfo.id);
             const payload: ListInfoUpdatePayload = {
                 listIri: this.currentListInfo.id, // the id is disabled in the form and cannot be changed, so it won't be saved as a form value
                 projectIri: this.listInfoForm.value.belongsToProject,

@@ -32,7 +32,7 @@
                              formControlName="language">
                    </mat-form-field>
                       <mat-hint *ngIf="formErrors.labels.language">{{formErrors.labels.language}}</mat-hint>
-                   <button mat-icon-button aria-label="Clear" (click)="removeLabel(i)">
+                   <button mat-icon-button *ngIf="listInfoForm.get('labels').length > 1" aria-label="Clear" (click)="removeLabel(i)">
                        <mat-icon>close</mat-icon>
                    </button>
                </div>
@@ -79,7 +79,7 @@
                        [placeholder]=editLists.list.id
                        formControlName="id">
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="full-width">
                 <mat-select [placeholder]=editLists.list.project
                             formControlName="belongsToProject">
                     <mat-option *ngFor="let project of allProjects" [value]="project.id">

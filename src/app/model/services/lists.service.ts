@@ -160,6 +160,7 @@ export class ListsService extends ApiService {
      * @returns {Observable<ListInfo>}
      */
     updateListInfo(payload: ListInfoUpdatePayload): Observable<ListInfo> {
+        console.log('service payload: ', payload);
         return this.httpPut('/admin/lists/infos/' + encodeURIComponent(payload.listIri), payload, {}).map(
             (result: ApiServiceResult) => {
                 const received: ListInfo = result.getBody(ListInfoResponse).listinfo;
