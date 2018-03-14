@@ -32,7 +32,8 @@ export interface ListData {
 
 export interface AddData {
     title: string,
-    description: string
+    description: string,
+    type: string
 }
 
 export interface SortItem {
@@ -193,18 +194,24 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
         let dialogRef;
 
         switch (form) {
+            case 'list':
             case 'user':
+            case 'member':
             case 'project':
             case 'ontology':
             case 'resource-type':
-                dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-                    data: {
-                        title: this.add.title,
-                        description: this.add.description,
-                        form: this.list.content,
-                        restriction: this.list.restrictedBy
-                    }
-                });
+                const config: MatDialogConfig = new MatDialogConfig();
+
+                config.data = {
+                    title: this.add.title,
+                    description: this.add.description,
+                    form: form,
+                    restriction: this.list.restrictedBy
+                };
+
+                config.panelClass = 'resizable';
+
+                dialogRef = this._dialog.open(FormDialogComponent, config);
                 break;
 
             default:

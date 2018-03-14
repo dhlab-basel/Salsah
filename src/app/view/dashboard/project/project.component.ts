@@ -83,7 +83,6 @@ export class ProjectComponent implements OnInit {
             this._projectsService.getProjectByShortname(this.currentProject)
                 .subscribe(
                     (result: Project) => {
-                        console.log(result);
                         this.project = result;
                         sessionStorage.setItem('currentProject', JSON.stringify(this.project));
                         this.isLoading = false;

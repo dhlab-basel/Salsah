@@ -37,11 +37,18 @@
                              [iri]="data.iri">
         </salsah-project-form>
 
-        <!-- create new / edit users -->
-        <salsah-user-form *ngSwitchCase="'user'"
+        <!-- add user to the system or to a project -->
+        <salsah-user-form *ngSwitchCase="'member'"
                           [userIri]="data.userIri"
                           [projectIri]="data.restriction">
         </salsah-user-form>
+
+        <!-- edit user profile -->
+        <salsah-user-data *ngSwitchCase="'user'"
+                          [standalone]="true"
+                          [username]="data.username">
+
+        </salsah-user-data>
 
         <!-- create new / edit ontologies -->
         <salsah-ontology-form *ngSwitchCase="'ontology'"

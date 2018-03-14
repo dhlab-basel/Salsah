@@ -76,8 +76,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
     allActiveUsers: User[] = [];
     allInactiveUsers: User[] = [];
 
-    newAllActiveUsers: NewUserData[] = [];
-    newAllInactiveUsers: NewUserData[] = [];
+//    newAllActiveUsers: NewUserData[] = [];
+//    newAllInactiveUsers: NewUserData[] = [];
 
     numberOfItems: number;
     countActive: number;
@@ -196,24 +196,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
                             if (u.status === true) {
                                 this.allActiveUsers.push(u);
-                                const active: NewUserData = {
-                                    email: u.email,
-                                    givenName: u.givenName,
-                                    familyName: u.familyName,
-                                    user_profile: u
-                                };
-                                this.newAllActiveUsers.push(active);
-                                this.countActive = this.newAllActiveUsers.length;
                             } else {
                                 this.allInactiveUsers.push(u);
-                                const inactive: NewUserData = {
-                                    email: u.email,
-                                    givenName: u.givenName,
-                                    familyName: u.familyName,
-                                    user_profile: u
-                                };
-                                this.newAllInactiveUsers.push(inactive);
-                                this.countInactive = this.newAllInactiveUsers.length;
                             }
 
                         }
@@ -244,25 +228,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
                             if (u.status === true) {
                                 this.allActiveUsers.push(u);
-                                const active: NewUserData = {
-                                    email: u.email,
-                                    givenName: u.givenName,
-                                    familyName: u.familyName,
-                                    user_profile: u
-                                };
-                                this.newAllActiveUsers.push(active);
-                                this.countActive = this.newAllActiveUsers.length;
-
                             } else {
                                 this.allInactiveUsers.push(u);
-                                const inactive: NewUserData = {
-                                    email: u.email,
-                                    givenName: u.givenName,
-                                    familyName: u.familyName,
-                                    user_profile: u
-                                };
-                                this.newAllInactiveUsers.push(inactive);
-                                this.countInactive = this.newAllInactiveUsers.length;
                             }
 
                         }

@@ -23,7 +23,7 @@
             it opens the form-dialog-component with the 'new-something-form'-component -->
 
         <button *ngIf="add !== undefined && loggedInAdmin"
-                (click)="openNew(list.content)"
+                (click)="openNew(add.type)"
                 mat-fab class="right"
                 [matTooltip]="add.title"
                 [matTooltipPosition]="'above'"

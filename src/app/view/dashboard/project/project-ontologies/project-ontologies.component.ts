@@ -39,7 +39,8 @@ export class ProjectOntologiesComponent implements OnInit {
     // add new users
     add: AddData = {
         title: 'Create new ontology',
-        description: ''
+        description: '',
+        type: 'ontology'
     };
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------
