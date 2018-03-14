@@ -37,9 +37,9 @@ describe('ExtendedSearchComponent', () => {
 
         // define different mock responses for different API calls
         let responses = {};
-        responses['http://localhost:3333/v2/ontologies/metadata'] = new Response(new ResponseOptions({body: ontologyMetadata}));
-        responses['http://localhost:3333/v2/ontologies/allentities/http%3A%2F%2F0.0.0.0%3A3333%2Fontology%2F0801%2Fbeol%2Fv2'] = new Response(new ResponseOptions({body: require('../../../../model/test-data/ontologycache/beol-complex-onto.json')}));
-        responses['http://localhost:3333/v2/ontologies/allentities/http%3A%2F%2Fapi.knora.org%2Fontology%2Fknora-api%2Fv2'] = new Response(new ResponseOptions({body: require('../../../../model/test-data/ontologycache/beol-complex-onto.json')}));
+        responses['http://0.0.0.0:3333/v2/ontologies/metadata'] = new Response(new ResponseOptions({body: ontologyMetadata}));
+        responses['http://0.0.0.0:3333/v2/ontologies/allentities/http%3A%2F%2F0.0.0.0%3A3333%2Fontology%2F0801%2Fbeol%2Fv2'] = new Response(new ResponseOptions({body: require('../../../../model/test-data/ontologycache/beol-complex-onto.json')}));
+        responses['http://0.0.0.0:3333/v2/ontologies/allentities/http%3A%2F%2Fapi.knora.org%2Fontology%2Fknora-api%2Fv2'] = new Response(new ResponseOptions({body: require('../../../../model/test-data/ontologycache/beol-complex-onto.json')}));
 
         mockBackend.connections.subscribe(c => {
             let response = responses[c.request.url];
