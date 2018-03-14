@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
@@ -27,6 +27,8 @@ import {GroupsService} from '../../../../model/services/groups.service';
 import {AutocompleteItem} from '../../../../app.interfaces';
 import {Project, User} from '../../../../model/webapi/knora';
 import {AppConfig} from '../../../../app.config';
+import {UserDataComponent} from './user-data/user-data.component';
+import {MatStepper} from '@angular/material';
 
 @Component({
     selector: 'salsah-user-form',
@@ -39,8 +41,6 @@ export class UserFormComponent implements OnInit {
     // general stuff
     isLoading: boolean = true;
 
-    // step by step form
-    step: number;
     isLinear: boolean = true;
 
     // ------------------------------------------------------------------------
@@ -58,8 +58,7 @@ export class UserFormComponent implements OnInit {
     firstValidationMessages = {
         'username': {
             'required': 'Email address is required.',
-            'pattern': 'This doesn\'t appear to be a valid email address.',
-            'exists': 'This email address exists already.'
+            'pattern': 'This doesn\'t appear to be a valid email address.'
         }
     };
 
@@ -82,6 +81,8 @@ export class UserFormComponent implements OnInit {
     //  - edit user, if userIri is defined
     secondFormGroup: FormGroup;
     @Input() userIri?: string;
+
+    @ViewChild(UserDataComponent) userData: UserDataComponent;
 
     // form errors of the second form group
     secondFormErrors = {
@@ -355,7 +356,7 @@ export class UserFormComponent implements OnInit {
     buildFirstForm(): void {
 
         // for developing only
-        const username: string = 'name@domain.tld';
+        const username: string = 'root@example.com';
 
         this.firstFormGroup = this._formBuilder.group({
             'username': new FormControl({
@@ -366,6 +367,10 @@ export class UserFormComponent implements OnInit {
 //                    existingNamesValidator(this.existingUserNames)
             ])
         });
+    }
+
+    validateSecondFormGroup(isValid: boolean): void {
+        console.log('Is the second user form valid? ', isValid);
     }
 
     buildSecondForm(name: string): void {
@@ -516,21 +521,6 @@ export class UserFormComponent implements OnInit {
         ctrl.reset();
         this.setSelected();
         this.selectedUser = undefined;
-    }
-
-    /**
-     * navigate go to the next step or the one after that (skip)
-     * @param {Event} ev
-     * @param {string} step
-     */
-    navigate(ev: Event, step: string) {
-        ev.preventDefault();
-        const num: number = (step === 'skip' ? 1 : 3);
-        if (step) {
-            this.step = num;
-        } else {
-            this.step++;
-        }
     }
 
     nextStep(ev: Event) {

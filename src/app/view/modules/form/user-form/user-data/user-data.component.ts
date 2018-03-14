@@ -1,9 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges} from '@angular/core';
 import {AppConfig} from '../../../../../app.config';
-import {User, UserResponse} from '../../../../../model/webapi/knora';
-import {existingNamesValidator} from '../../../other/existing-name.directive';
+import {User} from '../../../../../model/webapi/knora';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ApiServiceResult} from '../../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
 import {UsersService} from '../../../../../model/services/users.service';
 
@@ -12,20 +10,26 @@ import {UsersService} from '../../../../../model/services/users.service';
     templateUrl: './user-data.component.html',
     styleUrls: ['./user-data.component.scss']
 })
-export class UserDataComponent implements OnInit {
+export class UserDataComponent implements OnChanges {
 
     /**
      * username (email) in the case of edit
+     *
      * @type {string} [ = email address]
      */
     @Input() username?: string = undefined;
 
     /**
+     * Is the form a standalone or embedded in a step by step form wizard?
+     *
+     * @type {boolean}
+     */
+    @Input() standalone?: boolean = true;
+
+    /**
      * send isValid is true, if the form has no errors
      * @type {EventEmitter<boolean>}
      */
-
-    @Output() isValid: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     // form group for the form controller
     userDataForm: FormGroup;
@@ -78,8 +82,7 @@ export class UserDataComponent implements OnInit {
                 private _formBuilder: FormBuilder) {
     }
 
-    ngOnInit() {
-
+    ngOnChanges() {
         // check if this.username exists already:
         // if true, we're in the edit mode
         // otherwise the form should be empty to create new user with this user name
@@ -88,24 +91,39 @@ export class UserDataComponent implements OnInit {
                 (result: User) => {
                     this.userProfile = result;
 
-                    this.buildForm(this.userProfile);
+                    this.buildForm(this.userProfile, true);
                 },
                 (error: ApiServiceError) => {
-                    this.errorMessage = error;
-                    this.buildForm(new User());
-//                    console.log(error);
+                    if (error.status === 404) {
+                        // the user doesn't exist yet
+                        // create new one (case b)
+                        const newUser: User = new User();
+                        newUser.email = this.username;
+                        this.buildForm(newUser, false);
+                    } else {
+                        this.errorMessage = error;
+                    }
                 }
             );
-
-
     }
 
+    submitData(): void {
+        if (this.standalone) {
+            // send the data to the api
+            console.log(this.userDataForm.controls);
+        } else {
+            // go to next step, which should be defined in the parent component
+
+
+        }
+    }
 
     /**
      *
      * @param {User} user
+     * @param {boolean} edit
      */
-    buildForm(user?: User): void {
+    buildForm(user: User, edit: boolean): void {
 
         this.userDataForm = this._formBuilder.group({
             'givenName': new FormControl({
@@ -119,10 +137,10 @@ export class UserDataComponent implements OnInit {
                 Validators.required
             ]),
             'email': new FormControl({
-                value: this.username, disabled: true
+                value: user.email, disabled: true
             }),
             'password': new FormControl({
-                value: user.password, disabled: true
+                value: user.password, disabled: (edit && !this.standalone)
             }, [
                 Validators.required,
                 Validators.minLength(8),
@@ -178,5 +196,7 @@ export class UserDataComponent implements OnInit {
     toggleVisibility() {
         this.showPassword = (!this.showPassword);
     }
+
+
 
 }

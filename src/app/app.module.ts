@@ -169,6 +169,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
 import { DialogTestComponent } from './view/test/development/dialog-test/dialog-test.component';
 import { ObjectDialogComponent } from './view/modules/dialog/object-dialog/object-dialog.component';
+import { UserRoleComponent } from './view/modules/form/user-form/user-role/user-role.component';
 
 //
 // import all needed services
@@ -294,7 +295,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         EditListInfoComponent,
         SelectGroupComponent,
         DialogTestComponent,
-        ObjectDialogComponent
+        ObjectDialogComponent,
+        UserRoleComponent
     ],
     imports: [
         BrowserModule,
