@@ -18,7 +18,7 @@ export class InternationalizationComponent implements OnInit, OnDestroy {
     browserLang: string = 'en';
 
 
-    constructor(private translate: TranslateService,
+    constructor(public translate: TranslateService,
                 public _langService: LanguageService) {
 
         this.subscription = this._langService.getLanguage().subscribe(lang => {

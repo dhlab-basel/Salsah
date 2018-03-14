@@ -28,7 +28,7 @@ export class LinkValueComponent implements OnInit, OnDestroy, PropertyValue {
 
     type = AppConfig.LinkValue;
 
-    private form: FormGroup;
+    form: FormGroup;
 
     resources: ReadResource[];
 
