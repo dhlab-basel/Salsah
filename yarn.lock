@@ -4173,9 +4173,9 @@ jdnconvertiblecalendar@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/jdnconvertiblecalendar/-/jdnconvertiblecalendar-0.0.1.tgz#1d6271525696a093a7009524f5528769d992e763"
 
-jdnconvertiblecalendardateadapter@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/jdnconvertiblecalendardateadapter/-/jdnconvertiblecalendardateadapter-0.0.2.tgz#d11fb8d89e720f54159db039f34add3055ed35aa"
+jdnconvertiblecalendardateadapter@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/jdnconvertiblecalendardateadapter/-/jdnconvertiblecalendardateadapter-0.0.5.tgz#9c04c9c06be3ae9d434a504d3fdd4a06479fcd8e"
 
 jquery@^2.2.0:
   version "2.2.4"
