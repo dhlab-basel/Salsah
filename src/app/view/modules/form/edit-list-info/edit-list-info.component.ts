@@ -28,7 +28,6 @@ export class EditListInfoComponent implements OnChanges {
     // in this case, the project admin is allowed to add a new or edit a list in this project
     @Input() restrictedBy?: string = undefined;
 
-    errorMessage: string = undefined;
     isLoading: boolean = true;
     public submitted: boolean; // keep track on whether form is submitted
 
@@ -280,7 +279,6 @@ export class EditListInfoComponent implements OnChanges {
                 },
                 (error: ApiServiceError) => {
                     console.log(error);
-                    this.errorMessage = error;
                     this.isLoading = false;
                 }
             );
