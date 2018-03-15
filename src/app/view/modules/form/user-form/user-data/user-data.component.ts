@@ -76,8 +76,6 @@ export class UserDataComponent implements OnChanges {
     // show the content after every service has loaded and the data is ready
     isLoading: boolean = true;
 
-
-
     constructor(private _usersService: UsersService,
                 private _formBuilder: FormBuilder) {
     }
@@ -113,7 +111,6 @@ export class UserDataComponent implements OnChanges {
             console.log(this.userDataForm.controls);
         } else {
             // go to next step, which should be defined in the parent component
-
 
         }
     }
