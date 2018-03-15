@@ -1,18 +1,18 @@
-<salsah-progress-indicator *ngIf="!userProfile"></salsah-progress-indicator>
+<salsah-progress-indicator *ngIf="!user"></salsah-progress-indicator>
 
 <salsah-message *ngIf="errorMessage" [message]="error"></salsah-message>
 
-<div *ngIf="userProfile">
+<div *ngIf="user">
     <mat-list class="main-list">
         <mat-list-item>
             <img mat-list-icon salsahImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image large"/>
-            <h4 mat-line>{{userProfile?.userData.familyName}}, {{userProfile?.userData.givenName}}</h4>
+            <h4 mat-line>{{user?.familyName}}, {{user?.givenName}}</h4>
             <p mat-line><a [href]="'mailto:' + email">{{email}}</a></p>
         </mat-list-item>
     </mat-list>
     <div class="salsah-groups" >
         <mat-chip-list>
-            <mat-chip *ngFor="let group of userProfile.permissionData.groupsPerProject[currentProject.id]">
+            <mat-chip *ngFor="let group of user?.permissionData.groupsPerProject[currentProject.id]">
                 {{group}}
             </mat-chip>
         </mat-chip-list>
