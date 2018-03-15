@@ -137,7 +137,7 @@ export class UserDataComponent implements OnChanges {
                 Validators.required
             ]),
             'email': new FormControl({
-                value: user.email, disabled: true
+                value: user.email, disabled: !this.standalone
             }),
             'password': new FormControl({
                 value: user.password, disabled: (edit && !this.standalone)
