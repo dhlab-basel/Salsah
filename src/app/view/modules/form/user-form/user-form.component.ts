@@ -38,6 +38,9 @@ import {MatStepper} from '@angular/material';
 
 export class UserFormComponent implements OnInit {
 
+    // dev only:
+    setStep: number = 2;
+
     // general stuff
     isLoading: boolean = true;
 
