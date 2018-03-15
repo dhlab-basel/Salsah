@@ -19,7 +19,7 @@ describe('ListFormComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should be created', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });
