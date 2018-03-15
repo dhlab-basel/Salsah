@@ -246,8 +246,6 @@ export class UserFormComponent implements OnInit {
 
 
     constructor(public _usersService: UsersService,
-                public _projectsService: ProjectsService,
-                public _groupsService: GroupsService,
                 private _formBuilder: FormBuilder) {
 
         /*

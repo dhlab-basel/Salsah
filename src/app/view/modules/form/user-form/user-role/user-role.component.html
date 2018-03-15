@@ -2,15 +2,29 @@
     <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
     <!-- content -->
     <form *ngIf="!isLoading" [formGroup]="userRoleForm" class="salsah-form-content user-data">
-        <mat-form-field>
 
-            <mat-select placeholder="Project permission" [formControl]="groups" multiple>
-                <mat-option *ngFor="let group of listOfGroups; let first = first" [value]="group.name">
+        <mat-form-field class="medium">
+            <mat-select placeholder="Project" [formControl]="userRoleForm.controls['project']">
+                <mat-option *ngFor="let project of projectsList" [value]="project.iri">
+                    {{ project.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="small">
+            <mat-select placeholder="Project permission" [formControl]="userRoleForm.controls['group']" multiple>
+                <mat-option *ngFor="let group of groups; let first = first" [value]="group.name">
                     {{ group.label }}
                 </mat-option>
             </mat-select>
-
         </mat-form-field>
+
+        <div class="salsah-panel large">
+            <button mat-button matStepperPrevious>Back</button>
+            <span class="fill-remaining-space"></span>
+            <button mat-button color="primary" matStepperNext [disabled]="!userRoleForm.valid">Next</button>
+        </div>
+
     </form>
 </div>
 

@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AutocompleteItem} from '../../../../../app.interfaces';
-import {FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AppConfig} from '../../../../../app.config';
+import {ProjectsService} from '../../../../../model/services/projects.service';
+import {Project} from '../../../../../model/webapi/knora/admin';
+import {ApiServiceError} from '../../../../../model/services/api-service-error';
 
 @Component({
     selector: 'salsah-user-role',
@@ -17,9 +21,12 @@ export class UserRoleComponent implements OnInit {
 
     userRoleForm: FormGroup;
 
+    projects: Project[];
+
+    projectsList: any = [];
 
     // permission groups / role of the user in a project
-    listOfGroups: AutocompleteItem[] = [
+    groups: AutocompleteItem[] = [
         {
             iri: '',
             name: '',
@@ -38,10 +45,59 @@ export class UserRoleComponent implements OnInit {
 
     ];
 
-    constructor() {
+    constructor(private _projectsService: ProjectsService,
+                private _formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
+
+        // get all projects to select from list
+        this._projectsService.getAllProjects()
+            .subscribe(
+                (result: Project[]) => {
+                    this.projects = result;
+
+                    let i: number = 0;
+                    for (const p of result) {
+                        this.projectsList[i] = {
+                            iri: p.id,
+                            name: p.longname + ' (' + p.shortname + ')'
+                        };
+                        i++;
+                    }
+
+                    this.projectsList.sort(function (p1, p2) {
+                        if (p1.name < p2.name) {
+                            return -1;
+                        } else if (p1.name > p2.name) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    });
+
+                    // when it's ready: disable the progress loader
+                    this.isLoading = false;
+
+
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                }
+            );
+
+
+        this.userRoleForm = this._formBuilder.group({
+            'project': new FormControl({
+                value: '', disabled: false
+            }),
+            'group': new FormControl({
+                value: '', disabled: false
+            })
+        });
+
+
+
     }
 
 }
