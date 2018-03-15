@@ -293,7 +293,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         AppMaterialModule,
         MatJDNConvertibleCalendarDateAdapterModule,
         AppRoutingModule,
-        Browsgit erAnimationsModule,
+        BrowserAnimationsModule,
         ReactiveFormsModule,
         TreeModule,
         ProgressIndicatorModule,
