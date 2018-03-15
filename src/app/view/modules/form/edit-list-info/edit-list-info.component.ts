@@ -59,6 +59,7 @@ export class EditListInfoComponent implements OnChanges {
                 position: 'Node position',
             }
         },
+        add: 'Create new list',
 
         buttons: {
             save: 'Save',
@@ -82,6 +83,7 @@ export class EditListInfoComponent implements OnChanges {
         }
     };
     // ...with the following messages
+    //TODO: Validation messages don't show
     validationMessages = {
         'belongsToProject': {
             'required': 'Project name is required'

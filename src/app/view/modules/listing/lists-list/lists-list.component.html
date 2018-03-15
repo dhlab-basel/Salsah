@@ -10,7 +10,7 @@
         <mat-accordion>
             <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
                                  (opened)="fetchListData(item.id); epExpanded=true" (closed)="isExpanded=false">
-                <mat-expansion-panel-header *ngIf="!epExpanded"  matTooltip="Click to open panel and see nodes">
+                <mat-expansion-panel-header *ngIf="!epExpanded"  matTooltip="Click to open panel and see nodes, click list name to edit">
                     <mat-panel-title>
                         <h4 (click)="editList(item.id, item)">
                             {{item.labels[0].value}}

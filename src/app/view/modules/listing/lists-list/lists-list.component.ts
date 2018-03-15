@@ -209,7 +209,6 @@ export class ListsListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The edit node info dialog was closed', result);
-            // TODO: here load the lists service to get the updated nodes - when list service is fixed
         });
     }
 
@@ -231,8 +230,6 @@ export class ListsListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The edit list info dialog was closed', result);
-            // TODO: here load the lists service to get the updated list - when list service is fixed
-
         });
 
     }

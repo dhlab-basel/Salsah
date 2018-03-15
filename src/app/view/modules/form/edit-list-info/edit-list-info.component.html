@@ -10,13 +10,14 @@
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <span *ngIf="listIri">{{editLists.label}}: {{ listInfoForm.get('labels').at(0).get('value').value }} </span>
+                <span *ngIf="!listIri">{{ editLists.add }} </span>
             </mat-panel-title>
             <mat-panel-description>
                 <span>{{editLists.description}}</span>
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <form class="salsah-form new-user" [formGroup]="listInfoForm">
 
+        <form class="salsah-form new-user" [formGroup]="listInfoForm">
             <h5>Labels</h5>
             <span *ngIf="labels" formArrayName="labels">
                <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
@@ -32,7 +33,8 @@
                              formControlName="language">
                    </mat-form-field>
                       <mat-hint *ngIf="formErrors.labels.language">{{formErrors.labels.language}}</mat-hint>
-                   <button mat-icon-button *ngIf="listInfoForm.get('labels').length > 1" aria-label="Clear" (click)="removeLabel(i)">
+                   <button mat-icon-button *ngIf="listInfoForm.get('labels').length > 1" aria-label="Clear"
+                           (click)="removeLabel(i)">
                        <mat-icon>close</mat-icon>
                    </button>
                </div>
@@ -79,6 +81,7 @@
                        [placeholder]=editLists.list.id
                        formControlName="id">
             </mat-form-field>
+            <!--TODO: Id should eb given automatically. Should we remove it from here?-->
             <mat-form-field class="full-width">
                 <mat-select [placeholder]=editLists.list.project
                             formControlName="belongsToProject">
@@ -88,13 +91,6 @@
                 </mat-select>
                 <mat-hint *ngIf="formErrors.belongsToProject">{{formErrors.belongsToProject}}</mat-hint>
             </mat-form-field>
-            <!--<mat-form-field class="full-width">-->
-                <!--<input matInput-->
-                       <!--[placeholder]=editLists.list.project-->
-                       <!--formControlName="belongsToProject">-->
-                <!--<mat-hint *ngIf="formErrors.belongsToProject">{{formErrors.belongsToProject}}</mat-hint>-->
-            <!--</mat-form-field>-->
-            <!--TODO: Change this above to a dropdown of projects to choose from-->
             <mat-action-row>
                 <button mat-button
                         color="warn"
