@@ -2,6 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UserPasswordComponent} from './user-password.component';
 import {AppModule} from '../../../../../app.module';
+import {UsersService} from '../../../../../model/services/users.service';
 
 describe('UserPasswordComponent', () => {
     let component: UserPasswordComponent;
@@ -11,6 +12,9 @@ describe('UserPasswordComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppModule
+            ],
+            providers: [
+                UsersService
             ]
         })
             .compileComponents();

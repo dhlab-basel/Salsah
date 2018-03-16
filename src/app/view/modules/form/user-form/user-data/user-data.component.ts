@@ -92,6 +92,13 @@ export class UserDataComponent implements OnInit, OnChanges {
     // in case of an API error
     errorMessage: any;
 
+    // in case of success:
+    success: boolean = false;
+    successMessage: any = {
+        status: 200,
+        statusText: 'You have successfully updated your profile.'
+    };
+
     // show the content after every service has loaded and the data is ready
     isLoading: boolean = true;
 
@@ -175,7 +182,7 @@ export class UserDataComponent implements OnInit, OnChanges {
                 Validators.required
             ]),
             'email': new FormControl({
-                value: user.email, disabled: !this.standalone
+                value: user.email, disabled: true
             }),
             'password': new FormControl({
                 value: user.password, disabled: (edit)
@@ -248,9 +255,11 @@ export class UserDataComponent implements OnInit, OnChanges {
                     this.userProfile = result;
                     this.buildForm(this.userProfile, true);
                     this.isLoading = false;
+                    this.success = true;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = error;
+                    this.success = false;
                 }
             )
         }

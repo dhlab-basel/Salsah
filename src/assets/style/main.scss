@@ -155,7 +155,10 @@ a.facsimile {
 }
 
 .salsah-panel {
-  display: inline-flex;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  white-space: nowrap;
 }
 
 .fill-remaining-space {

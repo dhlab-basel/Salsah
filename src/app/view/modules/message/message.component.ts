@@ -56,6 +56,9 @@ export class MessageComponent implements OnInit {
 
     showLinks: boolean = false;
 
+    // disable message
+    disable: boolean = false;
+
     /**
      *
      * default link list, which will be used in message content to give a user some possibilities
@@ -184,6 +187,10 @@ export class MessageComponent implements OnInit {
         } else {
             this._router.navigate([route]);
         }
+    }
+
+    closeMessage() {
+        this.disable = !this.disable;
     }
 
 }
