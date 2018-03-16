@@ -65,7 +65,7 @@
         <mat-step>
             <ng-template matStepLabel>User role</ng-template>
 
-            <salsah-user-role>
+            <salsah-user-role [projectIri]="projectIri">
 
             </salsah-user-role>
 
@@ -73,6 +73,9 @@
 
         <mat-step>
             <ng-template matStepLabel>Done</ng-template>
+            <div class="salsah-form-content">
+
+            </div>
             You are now done.
             <div>
                 <button mat-button matStepperPrevious>Back</button>

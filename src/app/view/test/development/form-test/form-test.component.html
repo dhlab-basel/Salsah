@@ -1,6 +1,6 @@
 
-<h3>User form in SYSTEM admin view</h3>
-<salsah-user-form></salsah-user-form>
+<h3>User form in PROJECT admin view</h3>
+<salsah-user-form [projectIri]="projectIri"></salsah-user-form>
 
 <hr>
 
@@ -12,7 +12,7 @@
 
 
 <h3>User form EDIT mode in SYSTEM admin view</h3>
-<salsah-user-data [username]="username"></salsah-user-data>
+<salsah-user-data [userIri]="userIri" [standalone]="true"></salsah-user-data>
 
 
 <!--

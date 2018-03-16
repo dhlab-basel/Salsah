@@ -17,6 +17,9 @@
                     {{ group.label }}
                 </mat-option>
             </mat-select>
+            <mat-hint *ngIf="formErrors.group">
+                {{ formErrors.group }}
+            </mat-hint>
         </mat-form-field>
 
         <div class="salsah-panel large">

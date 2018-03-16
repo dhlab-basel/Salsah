@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AutocompleteItem} from '../../../../../app.interfaces';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../../../app.config';
@@ -13,6 +13,8 @@ import {ApiServiceError} from '../../../../../model/services/api-service-error';
 })
 export class UserRoleComponent implements OnInit {
 
+    @Input() projectIri: string;
+
     // in case of an API error
     errorMessage: any;
 
@@ -20,6 +22,18 @@ export class UserRoleComponent implements OnInit {
     isLoading: boolean = true;
 
     userRoleForm: FormGroup;
+
+    // error checking on the following fields
+    formErrors = {
+        'group': ''
+    };
+
+    // ...and the error hints
+    validationMessages = {
+        'group': {
+            'required': 'The user has to be at least in one group.'
+        }
+    };
 
     projects: Project[];
 
@@ -50,6 +64,8 @@ export class UserRoleComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        console.log(this.projectIri);
 
         // get all projects to select from list
         this._projectsService.getAllProjects()
@@ -89,15 +105,40 @@ export class UserRoleComponent implements OnInit {
 
         this.userRoleForm = this._formBuilder.group({
             'project': new FormControl({
-                value: '', disabled: false
+                value: this.projectIri, disabled: (this.projectIri)
             }),
             'group': new FormControl({
                 value: '', disabled: false
-            })
+            }, [
+                Validators.required
+            ])
         });
 
+        this.onValueChanged();
 
 
+
+    }
+
+    onValueChanged(data?: any) {
+
+        if (!this.userRoleForm) {
+            return;
+        }
+
+        const form = this.userRoleForm;
+
+        Object.keys(this.formErrors).map(field => {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                Object.keys(control.errors).map(key => {
+                    this.formErrors[field] += messages[key] + ' ';
+                });
+
+            }
+        });
     }
 
 }

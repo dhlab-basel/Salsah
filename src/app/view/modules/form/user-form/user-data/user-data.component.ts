@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit} from '@angular/core';
 import {AppConfig} from '../../../../../app.config';
 import {User} from '../../../../../model/webapi/knora';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -10,14 +10,20 @@ import {UsersService} from '../../../../../model/services/users.service';
     templateUrl: './user-data.component.html',
     styleUrls: ['./user-data.component.scss']
 })
-export class UserDataComponent implements OnChanges {
+export class UserDataComponent implements OnInit, OnChanges {
 
     /**
-     * username (email) in the case of edit
+     * username (email) in the case of add member
      *
      * @type {string} [ = email address]
      */
     @Input() username?: string = undefined;
+
+    /**
+     * user iri in the case of edit
+     * @type {undefined}
+     */
+    @Input() userIri?: string = undefined;
 
     /**
      * Is the form a standalone or embedded in a step by step form wizard?
@@ -80,6 +86,31 @@ export class UserDataComponent implements OnChanges {
                 private _formBuilder: FormBuilder) {
     }
 
+    ngOnInit() {
+        if (this.userIri) {
+            this._usersService.getUserByIri(this.userIri)
+                .subscribe(
+                    (result: User) => {
+                        this.userProfile = result;
+
+                        this.buildForm(this.userProfile, true);
+                    },
+                    (error: ApiServiceError) => {
+                        if (error.status === 404) {
+                            // the user doesn't exist yet
+                            // create new one (case b)
+                            const newUser: User = new User();
+                            newUser.email = this.username;
+                            this.buildForm(newUser, false);
+                        } else {
+                            this.errorMessage = error;
+                        }
+                    }
+                );
+        }
+
+    }
+
     ngOnChanges() {
         // check if this.username exists already:
         // if true, we're in the edit mode
@@ -103,16 +134,6 @@ export class UserDataComponent implements OnChanges {
                     }
                 }
             );
-    }
-
-    submitData(): void {
-        if (this.standalone) {
-            // send the data to the api
-            console.log(this.userDataForm.controls);
-        } else {
-            // go to next step, which should be defined in the parent component
-
-        }
     }
 
     /**
@@ -194,6 +215,21 @@ export class UserDataComponent implements OnChanges {
         this.showPassword = (!this.showPassword);
     }
 
+    submitData(): void {
+        if (this.standalone && this.userIri) {
+            // this method is only used in standalone user data form
+            // which is used to edit user profile
+            this._usersService.updateUser(this.userIri, this.userDataForm).subscribe(
+                (result: User) => {
+                    this.userProfile = result;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = error;
+                }
+            )
 
+
+        }
+    }
 
 }
