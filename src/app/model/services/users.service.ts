@@ -277,10 +277,10 @@ export class UsersService extends ApiService {
 
     updateUser(iri: string, data: any): Observable<User> {
 
-        return this.httpPut('/admin/users/' + encodeURIComponent(iri), data).map(
+        return this.httpPut('/admin/users/' + encodeURIComponent(iri), data, {}).map(
             (result: ApiServiceResult) => {
-                const user: User = result.getBody(UserResponse).user;
-                return user;
+                const received: User = result.getBody(UserResponse).user;
+                return received;
             },
             (error: ApiServiceError) => {
                 console.error('UsersService - activateUser - error: ' + JSON.stringify(error));

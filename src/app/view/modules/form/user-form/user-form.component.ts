@@ -1,5 +1,4 @@
-/* Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer, Sepideh Alassi
+/* Copyright © 2016 Digital Humanities Lab, University of Basel.
  * This file is part of SALSAH.
  * SALSAH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -39,7 +38,7 @@ import {MatStepper} from '@angular/material';
 export class UserFormComponent implements OnInit {
 
     // dev only:
-    setStep: number = 2;
+    setStep: number = 0;
 
     // general stuff
     isLoading: boolean = true;
