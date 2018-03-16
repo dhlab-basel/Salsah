@@ -68,7 +68,7 @@ export class ReadTextValueAsString implements ReadPropertyItem {
     };
 
     getClassName(): string {
-        return this.constructor.name;
+        return AppConfig.ReadTextValueAsString;
     }
 }
 
@@ -113,7 +113,7 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
     }
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadTextValueAsHtml;
     }
 
 }
@@ -136,7 +136,7 @@ export class ReadTextValueAsXml implements ReadPropertyItem {
     };
 
     getClassName(): string {
-        return this.constructor.name;
+        return AppConfig.ReadTextValueAsXml;
     }
 
 }
@@ -192,7 +192,7 @@ export class ReadDateValue implements ReadPropertyItem {
     };
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadDateValue;
     }
 }
 
@@ -228,7 +228,7 @@ export class ReadLinkValue implements ReadPropertyItem {
     }
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadLinkValue;
     }
 }
 
@@ -248,7 +248,7 @@ export class ReadIntegerValue implements ReadPropertyItem {
     };
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadIntegerValue;
     }
 
 }
@@ -269,7 +269,7 @@ export class ReadDecimalValue implements ReadPropertyItem {
     };
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadDecimalValue;
     }
 }
 
@@ -307,7 +307,7 @@ export class ReadStillImageFileValue implements ReadPropertyItem {
     };
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadStillImageFileValue;
     }
 }
 
@@ -327,7 +327,7 @@ export class ReadColorValue implements ReadPropertyItem {
     };
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadColorValue;
     }
 }
 
@@ -390,7 +390,7 @@ export class ReadGeomValue implements ReadPropertyItem {
     };
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadGeomValue;
     }
 }
 
@@ -410,7 +410,7 @@ export class ReadUriValue implements ReadPropertyItem {
     };
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadUriValue;
     }
 
 }
@@ -431,7 +431,7 @@ export class ReadBooleanValue implements ReadPropertyItem {
     }
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadBooleanValue;
     }
 
 }
@@ -452,7 +452,7 @@ export class ReadIntervalValue implements ReadPropertyItem {
     }
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadIntervalValue;
     }
 
 }
@@ -473,7 +473,7 @@ export class ReadListValue implements ReadPropertyItem {
     }
 
     getClassName():string {
-        return this.constructor.name;
+        return AppConfig.ReadListValue;
     }
 
 }

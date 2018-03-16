@@ -28,7 +28,7 @@ export class Equals implements ComparisonOperator {
     }
 
     getClassName() {
-        return this.constructor.name;
+        return 'Equals';
     };
 }
 
@@ -41,7 +41,7 @@ export class NotEquals implements ComparisonOperator {
     }
 
     getClassName() {
-        return this.constructor.name;
+        return 'NotEquals';
     };
 }
 
@@ -54,7 +54,7 @@ export class GreaterThanEquals implements ComparisonOperator {
     }
 
     getClassName() {
-        return this.constructor.name;
+        return 'GreaterThanEquals';
     };
 }
 
@@ -67,7 +67,7 @@ export class GreaterThan implements ComparisonOperator {
     }
 
     getClassName() {
-        return this.constructor.name;
+        return 'GreaterThan';
     };
 }
 
@@ -80,7 +80,7 @@ export class LessThan implements ComparisonOperator {
     }
 
     getClassName() {
-        return this.constructor.name;
+        return 'LessThan';
     };
 }
 
@@ -93,7 +93,7 @@ export class LessThanEquals implements ComparisonOperator {
     }
 
     getClassName() {
-        return this.constructor.name;
+        return 'LessThanEquals';
     };
 }
 
@@ -106,7 +106,7 @@ export class Exists implements ComparisonOperator {
     }
 
     getClassName() {
-        return this.constructor.name;
+        return 'Exists';
     };
 }
 
@@ -119,7 +119,7 @@ export class Like implements ComparisonOperator {
     }
 
     getClassName() {
-        return this.constructor.name;
+        return 'Like';
     };
 
 }
@@ -133,7 +133,7 @@ export class Match implements ComparisonOperator {
     }
 
     getClassName() {
-        return this.constructor.name;
+        return 'Match';
     };
 
 }
