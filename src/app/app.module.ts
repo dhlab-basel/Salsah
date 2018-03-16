@@ -109,7 +109,6 @@ import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confi
 
 import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
 import {ListNodeFormComponent} from './view/modules/form/list-node-form/list-node-form.component';
-import {ListFormComponent} from './view/modules/form/list-form/list-form.component';
 import {MathJaxDirective} from './view/modules/other/mathjax.directive';
 import {ReadTextValueAsHtmlComponent} from './view/properties/read-text-value-as-html/read-text-value-as-html.component';
 import {ReadDateValueComponent} from './view/properties/read-date-value/read-date-value.component';
@@ -231,7 +230,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         NewResourceClassComponent,
         ProjectListsAdminComponent,
         ListNodeFormComponent,
-        ListFormComponent,
         EditResourceClassComponent,
         SortByPipe,
         SystemComponent,
