@@ -361,17 +361,17 @@ export class UsersListComponent implements OnInit, OnDestroy {
     // in the table view, it opens an object in a dialog box
     // open / close user
     edit(id: string) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-            data: {
-                iri: id,
-                form: 'user'
-            }
-        });
-        /*
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
-        });
-        */
+
+        const config: MatDialogConfig = new MatDialogConfig();
+
+        config.data = {
+            userIri: id,
+            form: 'user'
+        };
+
+        config.panelClass = 'resizable';
+
+        const dialogRef = this._dialog.open(FormDialogComponent, config);
 
     }
 

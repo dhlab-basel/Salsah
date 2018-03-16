@@ -96,7 +96,7 @@ export class UserDataComponent implements OnInit, OnChanges {
     success: boolean = false;
     successMessage: any = {
         status: 200,
-        statusText: 'You have successfully updated your profile.'
+        statusText: 'You have successfully updated the user profile.'
     };
 
     // show the content after every service has loaded and the data is ready
