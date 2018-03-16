@@ -78,8 +78,6 @@ export class UserRoleComponent implements OnInit {
 
     ngOnInit() {
 
-        console.log(this.projectIri);
-
         // get all projects to select from list
         this._projectsService.getAllProjects()
             .subscribe(

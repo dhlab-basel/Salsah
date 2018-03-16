@@ -101,7 +101,7 @@ export class UserDataComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         if (this.userIri) {
-            console.log(this.userIri);
+
             this._usersService.getUserByIri(this.userIri)
                 .subscribe(
                     (result: User) => {
@@ -228,12 +228,15 @@ export class UserDataComponent implements OnInit, OnChanges {
     }
 
     /**
-     * toggel the visibility of the password
+     * toggle the visibility of the password
      */
     toggleVisibility() {
         this.showPassword = (!this.showPassword);
     }
 
+    /**
+     *
+     */
     submitData(): void {
         this.isLoading = true;
 
@@ -250,8 +253,6 @@ export class UserDataComponent implements OnInit, OnChanges {
                     this.errorMessage = error;
                 }
             )
-
-
         }
     }
 

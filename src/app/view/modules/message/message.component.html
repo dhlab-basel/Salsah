@@ -1,6 +1,6 @@
 <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
-<mat-card *ngIf="!isLoading && message !== undefined" class="fix-width salsah-message" [ngClass]="'salsah-' + message?.type">
+<mat-card *ngIf="!isLoading && !short" class="fix-width salsah-message" [ngClass]="'salsah-' + message?.type">
 
     <mat-card-subtitle class="message-subtitle">
         <span class="left">{{message?.type | uppercase }} {{message?.status}} | {{message?.statusMsg}}</span>
@@ -33,4 +33,9 @@
     <mat-card-footer class="message-footnote"
                     [innerHtml]="message?.footnote"></mat-card-footer>
 
+</mat-card>
+
+
+<mat-card *ngIf="!isLoading && short" class="fix-width salsah-short-message" [ngClass]="'salsah-' + message?.type">
+    <div class="salsah-short-message-text">{{message?.statusText}}</div>
 </mat-card>

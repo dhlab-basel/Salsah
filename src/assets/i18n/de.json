@@ -42,6 +42,10 @@
                     "autoCompleteHint": "",
                     "skip": "Überspringen und einen neuen Benutzer hinzufügen"
                 },
+                "password": {
+                    "old": "Altes Passwort",
+                    "new": "Neues Passwort"
+                },
                 "create": {
                     "projectAdmin": {
                         "title": "Oder einen neuen Benutzer hinzufügen",

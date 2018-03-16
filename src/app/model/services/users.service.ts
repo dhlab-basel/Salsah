@@ -287,7 +287,6 @@ export class UsersService extends ApiService {
                 throw error;
             }
         )
-
     }
 
 

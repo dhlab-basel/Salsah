@@ -51,6 +51,10 @@
                     "autoCompleteHint": "",
                     "skip": "Skip and create new user instead"
                 },
+                "password": {
+                    "old": "Old password",
+                    "new": "New password"
+                },
                 "create": {
                     "projectAdmin": {
                         "title": "Or create new user",

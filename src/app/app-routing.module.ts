@@ -44,8 +44,8 @@ import {FormCreateComponent} from './view/test/development/form-create/form-crea
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
 import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
 import {FormTestComponent} from './view/test/development/form-test/form-test.component';
-import {ContactFormComponent} from "./view/modules/form/contact-form/contact-form.component";
-import {BeolComponent} from "./view/templates/beol/beol.component";
+import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
+import {BeolComponent} from './view/templates/beol/beol.component';
 import {DialogTestComponent} from './view/test/development/dialog-test/dialog-test.component';
 
 
@@ -205,7 +205,7 @@ const appRoutes: Routes = [
             {
                 path: 'message',
                 component: MessageComponent,
-                data: {status: 404}
+                data: {status: 400}
             },
             {
                 path: 'dialog',
