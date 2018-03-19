@@ -65,7 +65,7 @@
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
@@ -204,7 +204,7 @@
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
@@ -375,7 +375,7 @@
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
@@ -457,7 +457,7 @@
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
@@ -617,7 +617,7 @@
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "owl:cardinality" : 1,
@@ -792,7 +792,7 @@
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "owl:minCardinality" : 1,
@@ -852,7 +852,7 @@
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
@@ -907,7 +907,7 @@
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
@@ -948,7 +948,7 @@
         }, {
           "@type" : "owl:Restriction",
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "owl:cardinality" : 1,
@@ -1036,7 +1036,7 @@
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
@@ -1121,7 +1121,7 @@
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
           "owl:minCardinality" : 0,
-          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLinks"
+          "owl:onProperty" : "http://api.knora.org/ontology/knora-api/v2#hasIncomingLink"
         }, {
           "@type" : "owl:Restriction",
           "knora-api:isInherited" : true,
@@ -1492,8 +1492,8 @@
         "rdfs:label" : "Geometry",
         "rdfs:subPropertyOf" : "http://api.knora.org/ontology/knora-api/v2#hasValue"
       },
-      "knora-api:hasIncomingLinks" : {
-        "@id" : "knora-api:hasIncomingLinks",
+      "knora-api:hasIncomingLink" : {
+        "@id" : "knora-api:hasIncomingLink",
         "@type" : "owl:ObjectProperty",
         "knora-api:isEditable" : true,
         "knora-api:isLinkValueProperty" : true,
