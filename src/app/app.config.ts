@@ -143,8 +143,8 @@ export class AppConfig {
     public static intervalValueHasStart = AppConfig.KnoraApiV2WithValueObjectPath + 'intervalValueHasStart';
     public static intervalValueHasEnd = AppConfig.KnoraApiV2WithValueObjectPath + 'intervalValueHasEnd';
 
-    public static hierarchicalListValueAsListNode = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNode';
-    public static hierarchicalListValueAsListNodeLabel = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNodeLabel';
+    public static listValueAsListNode = AppConfig.KnoraApiV2WithValueObjectPath + 'listValueAsListNode';
+    public static listValueAsListNodeLabel = AppConfig.KnoraApiV2WithValueObjectPath + 'listValueAsListNodeLabel';
 
     public static hasGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'hasGeometry';
 
