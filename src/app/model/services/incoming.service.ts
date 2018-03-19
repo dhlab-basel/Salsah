@@ -68,7 +68,7 @@ export class IncomingService extends SearchService {
             
             ?page knora-api:seqnum ?seqnum .
             
-            ?page knora-api:hasStillImageFileValue ?file .
+            ?page knora-api:hasStillImageFile ?file .
         } WHERE {
         
             ?page a knora-api:StillImageRepresentation .
@@ -84,10 +84,10 @@ export class IncomingService extends SearchService {
         
             ?seqnum a xsd:integer .
         
-            ?page knora-api:hasStillImageFileValue ?file .
-            knora-api:hasStillImageFileValue knora-api:objectType knora-api:StillImageFile .
+            ?page knora-api:hasStillImageFile ?file .
+            knora-api:hasStillImageFile knora-api:objectType knora-api:File .
             
-            ?file a knora-api:StillImageFile .
+            ?file a knora-api:File .
         
         } ORDER BY ?seqnum 
           OFFSET ${offset}
