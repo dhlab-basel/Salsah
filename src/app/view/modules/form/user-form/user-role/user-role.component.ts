@@ -11,7 +11,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {AutocompleteItem} from '../../../../../app.interfaces';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../../../app.config';
@@ -28,6 +28,8 @@ import {GroupsService} from '../../../../../model/services/groups.service';
 export class UserRoleComponent implements OnInit {
 
     @Input() projectIri: string;
+
+    projectSelected: boolean = false;
 
     // in case of an API error
     errorMessage: any;
@@ -53,8 +55,8 @@ export class UserRoleComponent implements OnInit {
 
     projectsList: any = [];
 
-    // permission groups / role of the user in a project
-    groups: AutocompleteItem[] = [
+    // default permission groups / role of the user in a project
+    defaultGroups: AutocompleteItem[] = [
         {
             iri: AppConfig.ProjectMemberGroup,
             name: '',
@@ -75,8 +77,8 @@ export class UserRoleComponent implements OnInit {
 
     ];
 
-    // preselect the member group
-    selected: string[] = [this.groups[0].iri];
+    // the list of groups which will be used in the select group field
+    groups: AutocompleteItem[] = [];
 
     constructor(private _projectsService: ProjectsService,
                 private _groupsService: GroupsService,
@@ -84,6 +86,8 @@ export class UserRoleComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.projectSelected = (!!this.projectIri);
 
         // get all projects to select from list
         this._projectsService.getAllProjects()
@@ -120,26 +124,18 @@ export class UserRoleComponent implements OnInit {
                 }
             );
 
-        // TODO: get list of groups and add the result to this.groups list, but the additional group depends on the selected project!
-        // use the method expandGroupsList()
-
-
-
-
         this.userRoleForm = this._formBuilder.group({
             'project': new FormControl({
                 value: this.projectIri, disabled: (this.projectIri)
             }),
             'group': new FormControl({
-                value: [this.groups[0].iri], disabled: false
+                value: [this.defaultGroups[0].iri], disabled: false
             }, [
                 Validators.required
             ])
         });
 
         this.onValueChanged();
-
-
 
     }
 
@@ -149,7 +145,16 @@ export class UserRoleComponent implements OnInit {
             return;
         }
 
-        // TODO: expand the list of groups, after selecting a project
+        // expand the list of groups, after selecting a project
+        if (!this.projectIri) {
+            // update the selected project and the depending list of groups
+            this.userRoleForm.controls['project'].valueChanges.subscribe(() => {
+                this.projectSelected = (!!this.userRoleForm.controls['project'].value);
+                this.expandGroupsList(this.userRoleForm.controls['project'].value);
+            });
+        } else {
+            this.expandGroupsList(this.projectIri);
+        }
 
         const form = this.userRoleForm;
 
@@ -166,7 +171,13 @@ export class UserRoleComponent implements OnInit {
         });
     }
 
-    expandGroupsList(projectIri: string) {
+    expandGroupsList(project?: string) {
+
+        // reset groups
+
+        this.groups = this.defaultGroups;
+
+        console.log(project);
 
         // const selectedProject: string = this.userRoleForm.controls['project'].value;
 
@@ -177,7 +188,16 @@ export class UserRoleComponent implements OnInit {
                     for (const group of result) {
                         console.log(group.id);
                         console.log(group.project.id);
-                    };
+
+                        if (group.project.id === project) {
+                            this.groups.push({
+                                iri: group.id,
+                                name: group.name,
+                                label: group.name
+                            })
+                        }
+
+                    }
 
                     /*
                     let i: number = 0;
