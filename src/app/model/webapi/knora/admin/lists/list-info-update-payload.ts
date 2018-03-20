@@ -4,9 +4,6 @@ import {StringLiteralV2} from '../../v2';
 export interface ListInfoUpdatePayload {
 
     // required
-    listIri: string
-
-    // required
     projectIri: string
 
     // can be an empty array

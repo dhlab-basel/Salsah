@@ -156,11 +156,12 @@ export class ListsService extends ApiService {
     /**
      * Updates the list's basic information.
      *
+     * @param listIri
      * @param {ListInfoUpdatePayload} payload
      * @returns {Observable<ListInfo>}
      */
-    updateListInfo(payload: ListInfoUpdatePayload): Observable<ListInfo> {
-        return this.httpPut('/admin/lists/infos/' + encodeURIComponent(payload.listIri), payload, {}).map(
+    updateListInfo(listIri: string, payload: ListInfoUpdatePayload): Observable<ListInfo> {
+        return this.httpPut(`/admin/lists/infos/${encodeURIComponent(listIri)}`, payload, {}).map(
             (result: ApiServiceResult) => {
                 const received: ListInfo = result.getBody(ListInfoResponse).listinfo;
                 // console.log('ListsService - updateListInfo - result:', result);

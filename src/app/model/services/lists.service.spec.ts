@@ -208,19 +208,19 @@ describe('ListsService', () => {
                                     expect(children.length).toEqual(0);
 
                                     // save for next test. don't know if this is the best approach for storing between tests.
-                                    localStorage.setItem('newListInfoId', listInfo.id) ;
+                                    localStorage.setItem('newListIri', listInfo.id) ;
                                 });
                         });
             })));
 
-        it('#updateListInfo should update a list info [it]', async(inject(
+        it('#updateListInfo should update a list info (newly created) [it]', async(inject(
             [ListsService, AuthenticationService], (service, auth) => {
 
                 expect(service).toBeDefined();
 
                 // need the list IRI from the previous test
-                const newList = localStorage.getItem('newListInfoId');
-                expect(newList).toBeDefined();
+                const newListIri = localStorage.getItem('newListIri');
+                expect(newListIri).toBeDefined();
 
                 // need to login
                 auth.login('user01.user1@example.com', 'test')
@@ -231,13 +231,54 @@ describe('ListsService', () => {
                             expect(result).toEqual(true);
 
                             const updatePayload: ListInfoUpdatePayload = {
-                                listIri: newList,
                                 projectIri: imagesProjectIri,
                                 labels: [{value: 'Neue geänderte Liste', language: 'de'}],
                                 comments: []
                             };
 
-                            service.updateListInfo(updatePayload)
+                            service.updateListInfo(newListIri, updatePayload)
+                                .subscribe(
+                                    (listinfo: ListInfo) => {
+                                        // console.log('users: ' + JSON.stringify(users));
+
+                                        const labels: StringLiteralV2[] = listinfo.labels;
+
+                                        const expectedLabel: StringLiteralV2 = {value: 'Neue geänderte Liste', language: 'de'};
+
+                                        expect(labels[0].value).toBe(expectedLabel.value);
+                                        expect(labels[0].language).toBe(expectedLabel.language);
+                                    },
+                                    (error: ApiServiceError) => {
+                                        fail(error);
+                                    });
+
+                        });
+            })));
+
+        it('#updateListInfo should update a list info (newly created) [it]', async(inject(
+            [ListsService, AuthenticationService], (service, auth) => {
+
+                expect(service).toBeDefined();
+
+                // need the list IRI from the previous test
+                const newListIri = localStorage.getItem('newListIri');
+                expect(newListIri).toBeDefined();
+
+                // need to login
+                auth.login('user01.user1@example.com', 'test')
+                    .map(
+                        (result: boolean) => {
+
+                            // login successful
+                            expect(result).toEqual(true);
+
+                            const updatePayload: ListInfoUpdatePayload = {
+                                projectIri: imagesProjectIri,
+                                labels: [{value: 'Neue geänderte Liste', language: 'de'}],
+                                comments: []
+                            };
+
+                            service.updateListInfo(newListIri, updatePayload)
                                 .subscribe(
                                     (listinfo: ListInfo) => {
                                         // console.log('users: ' + JSON.stringify(users));
