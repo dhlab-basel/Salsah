@@ -5,7 +5,7 @@ import {List, ListInfo} from '../../../../model/webapi/knora';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {StringLiteralV2} from 'app/model/webapi/knora/v2/shared/strings';
 import {ListInfoUpdatePayload} from '../../../../model/webapi/knora/admin/lists/list-info-update-payload';
-import {ListCreatePayload} from '../../../../model/webapi/knora/admin/lists/list-create-payload';
+import {ListCreatePayload} from '../../../../model/webapi/knora/';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {Project} from '../../../../model/webapi/knora/';
 
