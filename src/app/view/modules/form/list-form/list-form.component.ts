@@ -1,12 +1,12 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {ListsService} from '../../../../model/services/lists.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {List, ListInfo, ListNodeInfo} from '../../../../model/webapi/knora';
-import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
+import {List, ListInfo} from '../../../../model/webapi/knora';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {StringLiteralV2} from 'app/model/webapi/knora/v2/shared/strings';
 import {ListInfoUpdatePayload} from '../../../../model/webapi/knora/admin/lists/list-info-update-payload';
-import {ListCreatePayload} from "../../../../model/webapi/knora/admin/lists/list-create-payload";
-import {ProjectsService} from "../../../../model/services/projects.service";
+import {ListCreatePayload} from '../../../../model/webapi/knora/admin/lists/list-create-payload';
+import {ProjectsService} from '../../../../model/services/projects.service';
 import {Project} from '../../../../model/webapi/knora/';
 
 
@@ -83,7 +83,7 @@ export class ListFormComponent implements OnChanges {
         }
     };
     // ...with the following messages
-    //TODO: Validation messages don't show
+    // TODO: Validation messages don't show
     validationMessages = {
         'belongsToProject': {
             'required': 'Project name is required'
@@ -108,7 +108,7 @@ export class ListFormComponent implements OnChanges {
 
     ngOnChanges() {
         this.buildListInfoForm();
-        if(this.listIri){
+        if (this.listIri) {
             console.log('labels: ', this.currentListInfo.labels);
             this.setLabels(this.currentListInfo.labels);
             this.setComments(this.currentListInfo.comments);
@@ -117,7 +117,7 @@ export class ListFormComponent implements OnChanges {
     }
 
     buildListInfoForm() {
-        if (this.listIri){
+        if (this.listIri) {
             this.listInfoForm = this._fb.group({
                 id: new FormControl({value: this.currentListInfo.id, disabled: true}),
                 belongsToProject: [this.currentListInfo.projectIri, Validators.required],
@@ -126,8 +126,7 @@ export class ListFormComponent implements OnChanges {
             });
             console.log('iri in form: ', this.currentListInfo.id);
             console.log('list info: ', this.currentListInfo);
-        }
-        else{
+        } else {
             this.listInfoForm = this._fb.group({
                 id: '',
                 belongsToProject: ['', Validators.required],
@@ -148,6 +147,7 @@ export class ListFormComponent implements OnChanges {
             language: ['', Validators.maxLength(2)]
         });
     }
+
     buildCommentsGroup(): FormGroup {
         return this._fb.group({
             value: '',
@@ -220,7 +220,7 @@ export class ListFormComponent implements OnChanges {
     saveListInfo() {
         this.submitted = true; // set form submit to true
 
-        if (this.listIri){
+        if (this.listIri) {
             console.log('save edited list:', this.listInfoForm.value);
             console.log('id:', this.currentListInfo.id);
             const payload: ListInfoUpdatePayload = {
@@ -240,8 +240,7 @@ export class ListFormComponent implements OnChanges {
             );
             // after close form, refresh the page
             location.reload();
-        }
-        else{
+        } else {
             console.log('save new list:', this.listInfoForm.value);
             const payload: ListCreatePayload = {
                 projectIri: this.listInfoForm.value.belongsToProject,
@@ -266,7 +265,7 @@ export class ListFormComponent implements OnChanges {
 
     }
 
-    getProjects(){
+    getProjects() {
         // get all projects from the service
         this._projectsService.getAllProjects()
             .subscribe(
