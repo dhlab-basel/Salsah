@@ -16,8 +16,9 @@ import {AutocompleteItem} from '../../../../../app.interfaces';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../../../app.config';
 import {ProjectsService} from '../../../../../model/services/projects.service';
-import {Project} from '../../../../../model/webapi/knora/admin';
+import {Group, Project} from '../../../../../model/webapi/knora/admin';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
+import {GroupsService} from '../../../../../model/services/groups.service';
 
 @Component({
     selector: 'salsah-user-role',
@@ -55,24 +56,30 @@ export class UserRoleComponent implements OnInit {
     // permission groups / role of the user in a project
     groups: AutocompleteItem[] = [
         {
-            iri: '',
+            iri: AppConfig.ProjectMemberGroup,
             name: '',
             label: 'Member'
         },
         {
-            iri: '',
+            iri: AppConfig.ProjectAdminGroup,
             name: '',
             label: 'Administrator'
-        },
+        }
+        /* use the following in system view only!
         {
-            iri: '',
+            iri: AppConfig.SystemAdminGroup,
             name: '',
             label: 'System admin'
         }
+        */
 
     ];
 
+    // preselect the member group
+    selected: string[] = [this.groups[0].iri];
+
     constructor(private _projectsService: ProjectsService,
+                private _groupsService: GroupsService,
                 private _formBuilder: FormBuilder) {
     }
 
@@ -113,13 +120,18 @@ export class UserRoleComponent implements OnInit {
                 }
             );
 
+        // TODO: get list of groups and add the result to this.groups list, but the additional group depends on the selected project!
+        // use the method expandGroupsList()
+
+
+
 
         this.userRoleForm = this._formBuilder.group({
             'project': new FormControl({
                 value: this.projectIri, disabled: (this.projectIri)
             }),
             'group': new FormControl({
-                value: '', disabled: false
+                value: [this.groups[0].iri], disabled: false
             }, [
                 Validators.required
             ])
@@ -137,6 +149,8 @@ export class UserRoleComponent implements OnInit {
             return;
         }
 
+        // TODO: expand the list of groups, after selecting a project
+
         const form = this.userRoleForm;
 
         Object.keys(this.formErrors).map(field => {
@@ -150,6 +164,53 @@ export class UserRoleComponent implements OnInit {
 
             }
         });
+    }
+
+    expandGroupsList(projectIri: string) {
+
+        // const selectedProject: string = this.userRoleForm.controls['project'].value;
+
+        this._groupsService.getAllGroups()
+            .subscribe(
+                (result: Group[]) => {
+
+                    for (const group of result) {
+                        console.log(group.id);
+                        console.log(group.project.id);
+                    };
+
+                    /*
+                    let i: number = 0;
+                    for (const p of result) {
+                        this.projectsList[i] = {
+                            iri: p.id,
+                            name: p.longname + ' (' + p.shortname + ')'
+                        };
+                        i++;
+                    }
+                    */
+
+                    /*
+                    this.projectsList.sort(function (p1, p2) {
+                        if (p1.name < p2.name) {
+                            return -1;
+                        } else if (p1.name > p2.name) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    });
+                    */
+
+                    // when it's ready: disable the progress loader
+                    this.isLoading = false;
+
+
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                }
+            );
     }
 
 }

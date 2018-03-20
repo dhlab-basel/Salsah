@@ -12,8 +12,8 @@
         </mat-form-field>
 
         <mat-form-field class="small">
-            <mat-select placeholder="Project permission" [formControl]="userRoleForm.controls['group']" multiple>
-                <mat-option *ngFor="let group of groups; let first = first" [value]="group.name">
+            <mat-select placeholder="Project permission" [formControl]="userRoleForm.controls['group']" multiple > <!--[(value)]="selected">-->
+                <mat-option *ngFor="let group of groups; let first = first" [value]="group.iri" [disabled]="first">
                     {{ group.label }}
                 </mat-option>
             </mat-select>
