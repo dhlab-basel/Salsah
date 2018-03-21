@@ -11,7 +11,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {AppConfig} from '../../../../../app.config';
 import {User} from '../../../../../model/webapi/knora';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -132,7 +132,6 @@ export class UserDataComponent implements OnInit, OnChanges {
     /**
      *
      * @param {User} user
-     * @param {boolean} edit
      */
     buildForm(user: User): void {
 
