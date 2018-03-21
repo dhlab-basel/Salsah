@@ -26,17 +26,15 @@ import {UsersService} from '../../../../../model/services/users.service';
 export class UserDataComponent implements OnInit, OnChanges {
 
     /**
-     * username (email) in the case of add member
-     *
-     * @type {string} [ = email address]
-     */
-    @Input() username?: string;
-
-    /**
      * user iri in the case of edit
      * @type {undefined}
      */
     @Input() userIri?: string;
+
+    /**
+     * user profile in case of edit?
+     */
+    @Input() user?: User;
 
     /**
      * Is the form a standalone or embedded in a step by step form wizard?
@@ -44,11 +42,6 @@ export class UserDataComponent implements OnInit, OnChanges {
      * @type {boolean}
      */
     @Input() standalone?: boolean = true;
-
-    /**
-     * send isValid is true, if the form has no errors
-     * @type {EventEmitter<boolean>}
-     */
 
     // form group for the form controller
     userDataForm: FormGroup;
@@ -86,9 +79,6 @@ export class UserDataComponent implements OnInit, OnChanges {
     // password visibility
     showPassword: boolean = false;
 
-    // user profile to edit
-    userProfile: User;
-
     // in case of an API error
     errorMessage: any;
 
@@ -107,68 +97,48 @@ export class UserDataComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-        if (this.userIri) {
+
+        if (!this.user && this.userIri) {
 
             this._usersService.getUserByIri(this.userIri)
                 .subscribe(
                     (result: User) => {
-                        this.userProfile = result;
+                        this.user = result;
 
-                        this.buildForm(this.userProfile, true);
+                        this.buildForm(this.user);
 
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
-                        if (error.status === 404) {
-                            // the user doesn't exist yet
-                            // create new one (case b)
-                            const newUser: User = new User();
-                            newUser.email = this.username;
-                            this.buildForm(newUser, false);
-                        } else {
-                            this.errorMessage = error;
-                        }
+                        this.errorMessage = error;
                     }
                 );
+        } else {
+
+            this.buildForm(this.user);
+
+            this.isLoading = false;
         }
 
     }
 
     ngOnChanges() {
-        if (!this.userIri) {
-            // check if this.username exists already:
-            // if true, we're in the edit mode
-            // otherwise the form should be empty to create new user with this user name
-            this._usersService.getUserByEmail(this.username)
-                .subscribe(
-                    (result: User) => {
-                        this.userProfile = result;
-
-                        this.buildForm(this.userProfile, true);
-                        this.isLoading = false;
-                    },
-                    (error: ApiServiceError) => {
-                        if (error.status === 404) {
-                            // the user doesn't exist yet
-                            // create new one (case b)
-                            const newUser: User = new User();
-                            newUser.email = this.username;
-                            this.buildForm(newUser, false);
-                            this.isLoading = false;
-                        } else {
-                            this.errorMessage = error;
-                        }
-                    }
-                );
+        if (this.user) {
+            this.buildForm(this.user)
         }
     }
+
 
     /**
      *
      * @param {User} user
      * @param {boolean} edit
      */
-    buildForm(user: User, edit: boolean): void {
+    buildForm(user: User): void {
+
+        // if user.id is defined, we're in the edit mode
+        // otherwise "create new user" mode is active
+        const edit: boolean = (!!user.id);
 
         this.userDataForm = this._formBuilder.group({
             'givenName': new FormControl({
@@ -247,18 +217,19 @@ export class UserDataComponent implements OnInit, OnChanges {
     submitData(): void {
         this.isLoading = true;
 
-        if (this.standalone && this.userIri) {
+        if (this.standalone && this.user) {
             // this method is only used in standalone user data form
-            // which is used to edit user profile
-            this._usersService.updateUser(this.userIri, this.userDataForm.value).subscribe(
+            // to edit user profile
+            this._usersService.updateUser(this.user.id, this.userDataForm.value).subscribe(
                 (result: User) => {
-                    this.userProfile = result;
-                    this.buildForm(this.userProfile, true);
+                    this.user = result;
+                    this.buildForm(this.user);
                     this.isLoading = false;
                     this.success = true;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = error;
+                    this.isLoading = false;
                     this.success = false;
                 }
             )

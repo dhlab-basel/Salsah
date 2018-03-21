@@ -11,12 +11,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AutocompleteItem} from '../../../../../app.interfaces';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../../../app.config';
 import {ProjectsService} from '../../../../../model/services/projects.service';
-import {Group, Project} from '../../../../../model/webapi/knora/admin';
+import {Group, Project, User} from '../../../../../model/webapi/knora/admin';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
 import {GroupsService} from '../../../../../model/services/groups.service';
 
@@ -28,6 +28,8 @@ import {GroupsService} from '../../../../../model/services/groups.service';
 export class UserRoleComponent implements OnInit {
 
     @Input() projectIri: string;
+
+    @Input() user: User;
 
     projectSelected: boolean = false;
 
@@ -124,6 +126,12 @@ export class UserRoleComponent implements OnInit {
                 }
             );
 
+        if (this.user) {
+
+            console.log(this.user);
+
+        }
+
         this.userRoleForm = this._formBuilder.group({
             'project': new FormControl({
                 value: this.projectIri, disabled: (this.projectIri)
@@ -174,20 +182,14 @@ export class UserRoleComponent implements OnInit {
     expandGroupsList(project?: string) {
 
         // reset groups
-
         this.groups = this.defaultGroups;
 
-        console.log(project);
-
         // const selectedProject: string = this.userRoleForm.controls['project'].value;
-
         this._groupsService.getAllGroups()
             .subscribe(
                 (result: Group[]) => {
 
                     for (const group of result) {
-                        console.log(group.id);
-                        console.log(group.project.id);
 
                         if (group.project.id === project) {
                             this.groups.push({
@@ -196,35 +198,10 @@ export class UserRoleComponent implements OnInit {
                                 label: group.name
                             })
                         }
-
                     }
-
-                    /*
-                    let i: number = 0;
-                    for (const p of result) {
-                        this.projectsList[i] = {
-                            iri: p.id,
-                            name: p.longname + ' (' + p.shortname + ')'
-                        };
-                        i++;
-                    }
-                    */
-
-                    /*
-                    this.projectsList.sort(function (p1, p2) {
-                        if (p1.name < p2.name) {
-                            return -1;
-                        } else if (p1.name > p2.name) {
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    });
-                    */
 
                     // when it's ready: disable the progress loader
                     this.isLoading = false;
-
 
                 },
                 (error: ApiServiceError) => {

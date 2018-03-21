@@ -60,7 +60,8 @@ export class UserFormComponent implements OnInit {
     firstValidationMessages = {
         'username': {
             'required': 'Email address is required.',
-            'pattern': 'This doesn\'t appear to be a valid email address.'
+            'pattern': 'This doesn\'t appear to be a valid email address.',
+            'member': 'This user is already a member of the project.'
         }
     };
 
@@ -71,7 +72,7 @@ export class UserFormComponent implements OnInit {
     filteredUsers: Observable<any>;
 
     //
-    selectedUser: AutocompleteItem;
+    selectedUser: User;
 
     //
     // ------------------------------------------------------------------------
@@ -367,57 +368,14 @@ export class UserFormComponent implements OnInit {
 //                    existingNamesValidator(this.existingUserNames)
             ])
         });
+
+        this.firstFormGroup.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+
+        this.onValueChanged(); // (re)set validation messages now
+
     }
 
-    validateSecondFormGroup(isValid: boolean): void {
-        console.log('Is the second user form valid? ', isValid);
-    }
-
-    buildSecondForm(name: string): void {
-
-        // 1. get user by user name
-
-
-        // 2. build form with the data from above in case (a)
-        //    otherwise (case b) build an empty form
-
-
-        /*
-        if (!user) {
-            user = new User();
-        }
-
-        this.firstFormGroup = this._formBuilder.group({
-            'username': new FormControl({
-                value: this.selectedUser, disabled: false
-            }, [
-                Validators.required,
-                Validators.pattern(AppConfig.RegexEmail)
-//                    existingNamesValidator(this.existingUserNames)
-            ]),
-            'givenName': new FormControl({
-                value: user.givenName, disabled: false
-            }, [
-                Validators.required
-            ]),
-            'familyName': new FormControl({
-                value: user.familyName, disabled: false
-            }, [
-                Validators.required
-            ]),
-            'password': new FormControl({
-                value: user.password, disabled: true
-            }, [
-                Validators.required,
-                Validators.minLength(8),
-                Validators.pattern(AppConfig.RegexPassword)
-            ]),
-            'lang': new FormControl({
-                value: user.lang, disabled: false
-            })
-        });
-        */
-    }
     /**
      * filter a list while typing in auto complete input field
      * @param {AutocompleteItem[]} list
@@ -431,16 +389,18 @@ export class UserFormComponent implements OnInit {
     }
 
     /**
-     * set selected user from auto complete
-     * @param {AutocompleteItem} value
+     * set the error messages on value changed
+     *
+     * @param data
      */
-    setSelected(user?: AutocompleteItem) {
-        // set selected has four possible scenarios
-        // a) the user has selected one user from the auto-complete list, which gives us the user's IRI
-        // b) the user has typed in an eMail address of a new user. It means the user doesn't exist yet
-        // c) the user has typed in an eMail address of an existing user, but has not selected from the auto-complete list
-        // d) the user has typed in something else, which is not a valid eMail address,
-        //    so the form isn't valid; the method for this case will never start
+    onValueChanged(data?: any) {
+
+        if (!this.firstFormGroup) {
+            return;
+        }
+
+        // reset selected user
+        this.selectedUser = undefined;
 
         // check if the form is valid
         Object.keys(this.firstFormErrors).map(field => {
@@ -448,78 +408,68 @@ export class UserFormComponent implements OnInit {
             const control = this.firstFormGroup.get(field);
             if (control && control.dirty && !control.valid) {
                 const messages = this.firstValidationMessages[field];
-                console.log(control.errors);
                 Object.keys(control.errors).map(key => {
                     this.firstFormErrors[field] += messages[key] + ' ';
                 });
-
             }
         });
+    }
 
-        // which case do we have? option a - d?
-        if (user) {
-            // case a) set selected user
-            console.log('case a) ', user);
-            if (user.name.startsWith('*')) {
-                // user is already member in the project
-                console.log(user.iri + ' is already a member in this project');
-            }
-//        console.log('user\'s email: ', user.name.split('(')[1].split(')')[0]);
-            this.selectedUser = {
-                iri: user.iri,
-                name: user.name,
-                label: ''
-            };
+    /**
+     * set selected user from auto complete
+     * @param {AutocompleteItem} value
+     */
+    setSelected(username?: string) {
+        // set selected has four possible scenarios
+        // a) the user selected one user from the auto-complete list, which gives us the user's IRI
+        // b) the user typed in an eMail address of a new user. It means the user doesn't exist yet
+        // c) the user typed in an eMail address of an existing user, but has not selected from the auto-complete list
+        // d) the user typed in something else, which is not a valid eMail address,
+        //    so the form isn't valid; the method for this case will never start
 
-        } else {
-            // case b or c
-            const email: string = this.firstFormGroup.controls['username'].value;
-            console.log('case b or c) not sure if this user exists ', email);
-            // get user by username (email)
-            this._usersService.getUserByEmail(email)
-                .subscribe(
-                    (result: User) => {
-                        console.log(result);
-                    },
-                    (error: ApiServiceError) => {
-                        if (error.status === 404) {
-                            // user doesn't exist
-                            // create new user profile
-                            const newUser: User = new User();
-                            newUser.email = email;
-
-                            console.log(newUser);
-
-                            this._usersService.createUser(this.firstFormGroup.value).subscribe(
-                                (result: User) => {
-                                    console.log(result);
-
-                                    this.selectedUser = {
-                                        iri: result.id,
-                                        name: result.email,
-                                        label: ''
-                                    };
-
-                                },
-                                (postError: ApiServiceError) => {
-                                    this.userErrorMessage = postError;
-                                }
-                            )
-                        } else {
-                            // api error
-                            this.errorMessage = error;
-                        }
-
-                    }
-                );
+        if (this.selectedUser !== undefined) {
+            return;
         }
 
+        // which case do we have? option a - d?
+        const email: string = (username ? username : this.firstFormGroup.controls['username'].value);
+
+        // get user by username (email)
+        this._usersService.getUserByEmail(email)
+            .subscribe(
+                (result: User) => {
+                    // case b) result in case the user exists
+                    this.selectedUser = result;
+                },
+                (error: ApiServiceError) => {
+                    if (error.status === 404) {
+                        // case c) user doesn't exist
+                        // create new user profile
+                        this.selectedUser = new User();
+
+                        this.selectedUser.email = email;
+
+                        this._usersService.createUser(this.selectedUser).subscribe(
+                            (result: User) => {
+
+                                this.selectedUser = result;
+
+                            },
+                            (postError: ApiServiceError) => {
+                                this.userErrorMessage = postError;
+                            }
+                        )
+                    } else {
+                        // api error
+                        this.errorMessage = error;
+                    }
+
+                }
+            );
 
     }
 
-    resetSelected(ctrl: FormControl) {
-        ctrl.reset();
-        this.setSelected();
+    resetSelected() {
         this.selectedUser = undefined;
     }
 

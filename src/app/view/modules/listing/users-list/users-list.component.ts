@@ -23,7 +23,6 @@ import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.componen
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
-import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
 import {User} from '../../../../model/webapi/knora';
 
 import {LanguageService} from '../../../../model/services/language.service';
@@ -360,12 +359,12 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
     // in the table view, it opens an object in a dialog box
     // open / close user
-    edit(id: string) {
+    edit(user: User) {
 
         const config: MatDialogConfig = new MatDialogConfig();
 
         config.data = {
-            userIri: id,
+            user: user,
             form: 'user'
         };
 

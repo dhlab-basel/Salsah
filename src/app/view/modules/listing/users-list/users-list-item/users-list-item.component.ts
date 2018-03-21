@@ -37,11 +37,11 @@ export class UsersListItemComponent implements OnInit {
     }
 
 
-    edit(id: string) {
+    edit(user: User) {
         const config: MatDialogConfig = new MatDialogConfig();
 
         config.data = {
-            userIri: id,
+            user: user,
             form: 'user'
         };
 

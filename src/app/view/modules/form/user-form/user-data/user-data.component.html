@@ -7,6 +7,11 @@
     <!-- content -->
     <form *ngIf="!isLoading" [formGroup]="userDataForm" class="salsah-form-content user-data">
 
+        <h3 class="large center">
+            <span *ngIf="user?.id">Edit existing user profile</span>
+            <span *ngIf="!user?.id">Create new user</span>
+        </h3>
+
         <!-- email = username -->
         <mat-form-field class="large">
             <input matInput type="email"
