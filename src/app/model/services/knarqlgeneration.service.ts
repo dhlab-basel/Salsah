@@ -35,13 +35,13 @@ export class KnarqlgenerationService {
         [AppConfig.ColorValue]: AppConfig.colorSimple,
         [AppConfig.GeonameValue]: AppConfig.geonameSimple,
         [AppConfig.UriValue]: AppConfig.xsdUri,
-        [AppConfig.StillImageFileValue]: AppConfig.stillImageFileSimple,
+        [AppConfig.StillImageFileValue]: AppConfig.fileSimple,
         [AppConfig.FileValue]: AppConfig.fileSimple,
-        [AppConfig.MovingImageFileValue]: AppConfig.movingFileSimple,
-        [AppConfig.DDDFileValue]: AppConfig.dddFileSimple,
-        [AppConfig.AudioFileValue]: AppConfig.audioFileSimple,
-        [AppConfig.DocumentFileValue]: AppConfig.documentFileSimple,
-        [AppConfig.TextFileValue]: AppConfig.textFileSimple,
+        [AppConfig.MovingImageFileValue]: AppConfig.fileSimple,
+        [AppConfig.DDDFileValue]: AppConfig.fileSimple,
+        [AppConfig.AudioFileValue]: AppConfig.fileSimple,
+        [AppConfig.DocumentFileValue]: AppConfig.fileSimple,
+        [AppConfig.TextFileValue]: AppConfig.fileSimple,
         [AppConfig.ListValue]: AppConfig.xsdString
     };
 

@@ -201,13 +201,7 @@ export class AppConfig {
     public static geomSimple = AppConfig.KnoraApiV2SimplePath + 'Geom';
     public static colorSimple = AppConfig.KnoraApiV2SimplePath + 'Color';
     public static geonameSimple = AppConfig.KnoraApiV2SimplePath + 'Geoname';
-    public static stillImageFileSimple = AppConfig.KnoraApiV2SimplePath + 'StillImageFile';
     public static fileSimple = AppConfig.KnoraApiV2SimplePath + 'File';
-    public static movingFileSimple = AppConfig.KnoraApiV2SimplePath + 'MovingImageFile';
-    public static audioFileSimple = AppConfig.KnoraApiV2SimplePath + 'AudioFile';
-    public static dddFileSimple = AppConfig.KnoraApiV2SimplePath + 'DDDFile';
-    public static textFileSimple = AppConfig.KnoraApiV2SimplePath + 'TextFile';
-    public static documentFileSimple = AppConfig.KnoraApiV2SimplePath + 'DocumentFile';
 
     public static GNDPrefix = '(DE-588)';
     public static GNDResolver = 'http://d-nb.info/gnd/';
