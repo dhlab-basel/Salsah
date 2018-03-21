@@ -143,8 +143,8 @@ export class AppConfig {
     public static intervalValueHasStart = AppConfig.KnoraApiV2WithValueObjectPath + 'intervalValueHasStart';
     public static intervalValueHasEnd = AppConfig.KnoraApiV2WithValueObjectPath + 'intervalValueHasEnd';
 
-    public static hierarchicalListValueAsListNode = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNode';
-    public static hierarchicalListValueAsListNodeLabel = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNodeLabel';
+    public static listValueAsListNode = AppConfig.KnoraApiV2WithValueObjectPath + 'listValueAsListNode';
+    public static listValueAsListNodeLabel = AppConfig.KnoraApiV2WithValueObjectPath + 'listValueAsListNodeLabel';
 
     public static hasGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'hasGeometry';
 
@@ -201,13 +201,7 @@ export class AppConfig {
     public static geomSimple = AppConfig.KnoraApiV2SimplePath + 'Geom';
     public static colorSimple = AppConfig.KnoraApiV2SimplePath + 'Color';
     public static geonameSimple = AppConfig.KnoraApiV2SimplePath + 'Geoname';
-    public static stillImageFileSimple = AppConfig.KnoraApiV2SimplePath + 'StillImageFile';
     public static fileSimple = AppConfig.KnoraApiV2SimplePath + 'File';
-    public static movingFileSimple = AppConfig.KnoraApiV2SimplePath + 'MovingImageFile';
-    public static audioFileSimple = AppConfig.KnoraApiV2SimplePath + 'AudioFile';
-    public static dddFileSimple = AppConfig.KnoraApiV2SimplePath + 'DDDFile';
-    public static textFileSimple = AppConfig.KnoraApiV2SimplePath + 'TextFile';
-    public static documentFileSimple = AppConfig.KnoraApiV2SimplePath + 'DocumentFile';
 
     public static GNDPrefix = '(DE-588)';
     public static GNDResolver = 'http://d-nb.info/gnd/';
