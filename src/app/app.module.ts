@@ -144,8 +144,6 @@ import {FileService} from './model/services/file.service';
 import {InternationalizationComponent} from './view/modules/framework/main-framework/internationalization/internationalization.component';
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 import {FormTestComponent} from './view/test/development/form-test/form-test.component';
-import {SelectUserComponent} from './view/modules/form/user-form/select-user/select-user.component';
-import {SelectProjectComponent} from './view/modules/form/user-form/select-project/select-project.component';
 import {UserDataComponent} from './view/modules/form/user-form/user-data/user-data.component';
 import {EditNodeInfoComponent} from './view/modules/form/edit-node-info/edit-node-info.component';
 import {GndDirective} from './view/modules/other/gnd.directive';
@@ -159,7 +157,6 @@ import {BeolComponent} from './view/templates/beol/beol.component';
 import {BeolService} from './model/services/beol.service';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {SearchParamsService} from './model/services/search-params.service';
-import {SelectGroupComponent} from './view/modules/form/user-form/select-group/select-group.component';
 import {GroupsService} from './model/services/groups.service';
 
 import {AngularFireModule} from 'angularfire2';
@@ -279,8 +276,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         DateValueComponent,
         OntologiesListItemComponent,
         FormTestComponent,
-        SelectUserComponent,
-        SelectProjectComponent,
         UserDataComponent,
         InternationalizationComponent,
         ExistingNameDirective,
@@ -294,7 +289,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         InternationalizationComponent,
         ContactFormComponent,
         EditListInfoComponent,
-        SelectGroupComponent,
         DialogTestComponent,
         ObjectDialogComponent,
         UserRoleComponent,
