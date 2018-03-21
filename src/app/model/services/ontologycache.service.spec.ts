@@ -87,7 +87,9 @@ const resClassesInBEOL = ["http://0.0.0.0:3333/ontology/0801/beol/v2#Archive", "
     "http://0.0.0.0:3333/ontology/0801/beol/v2#figure", "http://0.0.0.0:3333/ontology/0801/beol/v2#letter", "http://0.0.0.0:3333/ontology/0801/beol/v2#manuscript",
     "http://0.0.0.0:3333/ontology/0801/beol/v2#page", "http://0.0.0.0:3333/ontology/0801/beol/v2#person", "http://0.0.0.0:3333/ontology/0801/beol/v2#writtenSource", "http://0.0.0.0:3333/ontology/0801/beol/v2#introduction", "http://0.0.0.0:3333/ontology/0801/beol/v2#section"];
 
-const resClassesInKnoraApi = ["http://api.knora.org/ontology/knora-api/v2#AudioRepresentation",
+const resClassesInKnoraApi = [
+    "http://api.knora.org/ontology/knora-api/v2#Annotation",
+    "http://api.knora.org/ontology/knora-api/v2#AudioRepresentation",
     "http://api.knora.org/ontology/knora-api/v2#DDDRepresentation",
     "http://api.knora.org/ontology/knora-api/v2#DocumentRepresentation",
     "http://api.knora.org/ontology/knora-api/v2#LinkObj",
@@ -95,8 +97,7 @@ const resClassesInKnoraApi = ["http://api.knora.org/ontology/knora-api/v2#AudioR
     "http://api.knora.org/ontology/knora-api/v2#Region",
     "http://api.knora.org/ontology/knora-api/v2#Representation",
     "http://api.knora.org/ontology/knora-api/v2#StillImageRepresentation",
-    "http://api.knora.org/ontology/knora-api/v2#TextRepresentation"];
-
-
+    "http://api.knora.org/ontology/knora-api/v2#TextRepresentation"
+];
 
 
