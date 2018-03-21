@@ -253,8 +253,8 @@ export module ConvertJSONLD {
                 let listValue: ReadListValue = new ReadListValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.hierarchicalListValueAsListNode],
-                    propValue[AppConfig.hierarchicalListValueAsListNodeLabel]
+                    propValue[AppConfig.listValueAsListNode],
+                    propValue[AppConfig.listValueAsListNodeLabel]
                 );
 
                 valueSpecificProp = listValue;

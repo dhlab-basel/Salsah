@@ -439,7 +439,7 @@ export class OntologyCacheService {
         let resourceClassDefinitions: string[] = [];
 
         for (let classDefName in classDefinitions) {
-            // check that class name is not listed as a non resource class and that the isValueFlag is not present or set to false
+            // check that class name is not listed as a non resource class and that the isResourceClass flag is present and set to true
             if (classDefName !== AppConfig.Resource && this.nonResourceClasses.indexOf(classDefName) == -1 && (classDefinitions[classDefName][AppConfig.IsResourceClass] !== undefined && classDefinitions[classDefName][AppConfig.IsResourceClass] === true)) {
                 // it is not a value class, but a resource class definition
                 resourceClassDefinitions.push(classDefName)
