@@ -126,12 +126,6 @@ export class UserRoleComponent implements OnInit {
                 }
             );
 
-        if (this.user) {
-
-            console.log(this.user);
-
-        }
-
         this.userRoleForm = this._formBuilder.group({
             'project': new FormControl({
                 value: this.projectIri, disabled: (this.projectIri)
@@ -155,7 +149,7 @@ export class UserRoleComponent implements OnInit {
 
         // expand the list of groups, after selecting a project
         if (!this.projectIri) {
-            // update the selected project and the depending list of groups
+            // update the selected project and the list of groups for this project
             this.userRoleForm.controls['project'].valueChanges.subscribe(() => {
                 this.projectSelected = (!!this.userRoleForm.controls['project'].value);
                 this.expandGroupsList(this.userRoleForm.controls['project'].value);
@@ -180,6 +174,31 @@ export class UserRoleComponent implements OnInit {
     }
 
     expandGroupsList(project?: string) {
+
+
+        // compare the membership of the user (from @Input) with the selected project
+        if (this.user) {
+            console.log(this.user);
+
+            const permissions = this.user.permissions;
+            if (permissions.groupsPerProject[project]) {
+                // is the user member of the project?
+                // if true, get the permissions
+                let i = 0;
+                for (const perm of permissions.groupsPerProject[project]) {
+                    console.log (perm);
+                    if (this.defaultGroups[i].iri === perm) {
+                        console.log('Permission: ', this.defaultGroups[i].label)
+                    }
+                    i++;
+                }
+
+
+                const isAdmin = permissions.groupsPerProject[project].indexOf(AppConfig.ProjectAdminGroup) > -1;
+                console.log('project admin? ', isAdmin);
+            }
+        }
+
 
         // reset groups
         this.groups = this.defaultGroups;

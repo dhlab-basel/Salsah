@@ -357,7 +357,7 @@ export class UserFormComponent implements OnInit {
     buildFirstForm(): void {
 
         // for developing only
-        const username: string = 'root@example.com';
+        const username: string = 'multi.user@example.com';
 
         this.firstFormGroup = this._formBuilder.group({
             'username': new FormControl({
