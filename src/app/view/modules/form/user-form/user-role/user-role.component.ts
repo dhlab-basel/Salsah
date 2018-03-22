@@ -11,7 +11,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {AutocompleteItem} from '../../../../../app.interfaces';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../../../app.config';
@@ -27,11 +27,9 @@ import {GroupsService} from '../../../../../model/services/groups.service';
 })
 export class UserRoleComponent implements OnInit {
 
-    @Input() projectIri: string;
+    @Input() projectIri?: string;
 
     @Input() user: User;
-
-    projectSelected: boolean = false;
 
     // in case of an API error
     errorMessage: any;
@@ -39,19 +37,9 @@ export class UserRoleComponent implements OnInit {
     // show the content after every service has loaded and the data is ready
     isLoading: boolean = true;
 
+    isLoadingGroups: boolean = false;
+
     userRoleForm: FormGroup;
-
-    // error checking on the following fields
-    formErrors = {
-        'group': ''
-    };
-
-    // ...and the error hints
-    validationMessages = {
-        'group': {
-            'required': 'The user has to be at least in one group.'
-        }
-    };
 
     projects: Project[];
 
@@ -80,7 +68,11 @@ export class UserRoleComponent implements OnInit {
     ];
 
     // the list of groups which will be used in the select group field
-    groups: AutocompleteItem[] = [];
+    groups: Group[];
+    groupsList: AutocompleteItem[];
+
+    usersDefaultGroup: string = AppConfig.ProjectMemberGroup;
+    selectedGroups: string[] = [this.usersDefaultGroup];
 
     constructor(private _projectsService: ProjectsService,
                 private _groupsService: GroupsService,
@@ -88,8 +80,6 @@ export class UserRoleComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        this.projectSelected = (!!this.projectIri);
 
         // get all projects to select from list
         this._projectsService.getAllProjects()
@@ -126,107 +116,85 @@ export class UserRoleComponent implements OnInit {
                 }
             );
 
-        this.userRoleForm = this._formBuilder.group({
-            'project': new FormControl({
-                value: this.projectIri, disabled: (this.projectIri)
-            }),
-            'group': new FormControl({
-                value: [this.defaultGroups[0].iri], disabled: false
-            }, [
-                Validators.required
-            ])
-        });
-
-        this.onValueChanged();
-
-    }
-
-    onValueChanged(data?: any) {
-
-        if (!this.userRoleForm) {
-            return;
-        }
-
-        // expand the list of groups, after selecting a project
-        if (!this.projectIri) {
-            // update the selected project and the list of groups for this project
-            this.userRoleForm.controls['project'].valueChanges.subscribe(() => {
-                this.projectSelected = (!!this.userRoleForm.controls['project'].value);
-                this.expandGroupsList(this.userRoleForm.controls['project'].value);
-            });
-        } else {
-            this.expandGroupsList(this.projectIri);
-        }
-
-        const form = this.userRoleForm;
-
-        Object.keys(this.formErrors).map(field => {
-            this.formErrors[field] = '';
-            const control = form.get(field);
-            if (control && control.dirty && !control.valid) {
-                const messages = this.validationMessages[field];
-                Object.keys(control.errors).map(key => {
-                    this.formErrors[field] += messages[key] + ' ';
-                });
-
-            }
-        });
-    }
-
-    expandGroupsList(project?: string) {
-
-
-        // compare the membership of the user (from @Input) with the selected project
-        if (this.user) {
-            console.log(this.user);
-
-            const permissions = this.user.permissions;
-            if (permissions.groupsPerProject[project]) {
-                // is the user member of the project?
-                // if true, get the permissions
-                let i = 0;
-                for (const perm of permissions.groupsPerProject[project]) {
-                    console.log (perm);
-                    if (this.defaultGroups[i].iri === perm) {
-                        console.log('Permission: ', this.defaultGroups[i].label)
-                    }
-                    i++;
-                }
-
-
-                const isAdmin = permissions.groupsPerProject[project].indexOf(AppConfig.ProjectAdminGroup) > -1;
-                console.log('project admin? ', isAdmin);
-            }
-        }
-
-
-        // reset groups
-        this.groups = this.defaultGroups;
-
-        // const selectedProject: string = this.userRoleForm.controls['project'].value;
+        // get all additional groups to select from list
         this._groupsService.getAllGroups()
             .subscribe(
                 (result: Group[]) => {
-
-                    for (const group of result) {
-
-                        if (group.project.id === project) {
-                            this.groups.push({
-                                iri: group.id,
-                                name: group.name,
-                                label: group.name
-                            })
-                        }
-                    }
-
-                    // when it's ready: disable the progress loader
-                    this.isLoading = false;
-
+                    this.groups = result;
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                 }
             );
+
+        // build the form
+        this.userRoleForm = this._formBuilder.group({
+            'project': new FormControl({
+                value: this.projectIri, disabled: (this.projectIri)
+            }),
+            'group': new FormControl({
+                value: this.selectedGroups, disabled: false
+            })
+        });
+
+        // expand the list of groups, after selecting a project
+        if (!this.projectIri) {
+            // update the "selected project" status and the list of groups for this project
+            this.userRoleForm.controls['project'].valueChanges.subscribe(() => {
+                this.groupsList = this.setGroupsList(this.userRoleForm.controls['project'].value);
+            });
+        } else {
+            this.groupsList = this.setGroupsList(this.projectIri);
+        }
+
+    }
+
+    setGroupsList(project: string): AutocompleteItem[] {
+
+        this.isLoadingGroups = true;
+
+        const groupsList: AutocompleteItem[] = this.defaultGroups;
+
+        for (const group of this.groups) {
+            if (group.project.id === project) {
+                groupsList.push({
+                    iri: group.id,
+                    name: group.name,
+                    label: group.name
+                })
+            }
+        }
+
+        // compare the membership of the user (from @Input) with the selected project
+        if (this.user.permissions) {
+
+            this.selectedGroups = [];
+
+            const permissions = this.user.permissions;
+            if (permissions.groupsPerProject[project]) {
+                // is the user a member of the project?
+                // if true, get the permissions
+                for (const perm of permissions.groupsPerProject[project]) {
+
+                    groupsList.find(item => {
+                        if (item.iri === perm) {
+                            this.selectedGroups.push(item.iri);
+                        }
+                        return item.iri === perm;
+                    });
+                }
+                this.userRoleForm.controls['group'].reset(this.selectedGroups);
+            }
+            this.isLoadingGroups = false;
+        } else {
+            // new user without any permissions yet
+            this.selectedGroups = [this.usersDefaultGroup];
+            this.userRoleForm.controls['group'].reset(this.selectedGroups);
+            this.isLoadingGroups = false;
+        }
+
+        return groupsList;
+
     }
 
 }

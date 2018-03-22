@@ -163,11 +163,6 @@ export class UserFormComponent implements OnInit {
     //
     // ------------------------------------------------------------------------
 
-    // list of users to prevent duplicate entries
-    existingUserNames: [RegExp] = [
-        new RegExp('user')
-    ];
-
 
     formLabels: any = {
         user: {
@@ -282,14 +277,28 @@ export class UserFormComponent implements OnInit {
             secondCtrl: ['', Validators.required]
         });
 
+
+    }
+
+    /**
+     * First form is an input field with an auto complete method to get an existing user
+     *
+     */
+    buildFirstForm(): void {
+
         this._usersService.getAllUsers()
             .subscribe(
                 (result: User[]) => {
 
+                    // list of users to prevent duplicate entries
+                    let existingUserNames: [RegExp] = [
+                        new RegExp('user')
+                    ];
+
                     // The email address of the user should be unique.
                     // Therefore we create a list of existingUserNames to avoid multiple use of user names
                     for (const user of result) {
-                        this.existingUserNames.push(
+                        existingUserNames.push(
                             new RegExp('(?:^|\W)' + user.email.toLowerCase() + '(?:$|\W)')
                         );
                     }
@@ -348,15 +357,8 @@ export class UserFormComponent implements OnInit {
                     this.errorMessage = error;
                 }
             );
-    }
 
-    /**
-     * First form is an input field with an auto complete method to get an existing user
-     *
-     */
-    buildFirstForm(): void {
-
-        // for developing only
+        // for developing only --> TODO: remove before publishing!!!
         const username: string = 'multi.user@example.com';
 
         this.firstFormGroup = this._formBuilder.group({

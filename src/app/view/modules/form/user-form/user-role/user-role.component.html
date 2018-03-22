@@ -1,5 +1,6 @@
 <div *ngIf="!errorMessage; else errorMsg">
     <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
     <!-- content -->
     <form *ngIf="!isLoading" [formGroup]="userRoleForm" class="salsah-form-content user-data">
 
@@ -11,15 +12,13 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="small" *ngIf="projectSelected">
-            <mat-select placeholder="Project permission" [formControl]="userRoleForm.controls['group']" multiple > <!--[(value)]="selected">-->
-                <mat-option *ngFor="let group of groups; let first = first" [value]="group.iri" [disabled]="first">
-                    {{ group.label }}
+        <salsah-progress-indicator *ngIf="isLoadingGroups"></salsah-progress-indicator>
+        <mat-form-field class="small" *ngIf="groupsList && !isLoadingGroups">
+            <mat-select placeholder="Project permission" [formControl]="userRoleForm.controls['group']" multiple>
+                <mat-option *ngFor="let item of groupsList; let first = first" [value]="item.iri" [disabled]="first">
+                    {{ item.label }}
                 </mat-option>
             </mat-select>
-            <mat-hint *ngIf="formErrors.group">
-                {{ formErrors.group }}
-            </mat-hint>
         </mat-form-field>
 
         <div class="salsah-panel large">
