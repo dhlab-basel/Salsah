@@ -61,10 +61,13 @@
                                [dTree]="data.delTree">
         </salsah-edit-node-info>
 
-        <salsah-edit-list-info *ngSwitchCase="'listInfo'"
+        <salsah-list-form *ngSwitchCase="'list'"
                                [listIri]="data.iri"
                                [currentListInfo]="data.currentListInfo">
-        </salsah-edit-list-info>
+        </salsah-list-form>
+        <!--<salsah-list-form *ngSwitchCase="'list'"-->
+                         <!--[listIri]="data.iri">-->
+        <!--</salsah-list-form>-->
 
         <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
     </mat-dialog-content>

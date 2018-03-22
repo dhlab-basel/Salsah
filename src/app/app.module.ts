@@ -109,7 +109,6 @@ import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confi
 
 import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
 import {ListNodeFormComponent} from './view/modules/form/list-node-form/list-node-form.component';
-import {ListFormComponent} from './view/modules/form/list-form/list-form.component';
 import {MathJaxDirective} from './view/modules/other/mathjax.directive';
 import {ReadTextValueAsHtmlComponent} from './view/properties/read-text-value-as-html/read-text-value-as-html.component';
 import {ReadDateValueComponent} from './view/properties/read-date-value/read-date-value.component';
@@ -157,8 +156,6 @@ import {BeolService} from './model/services/beol.service';
 import {GndDirective} from './view/modules/other/gnd.directive';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {SearchParamsService} from './model/services/search-params.service';
-import {EditListInfoComponent} from './view/modules/form/edit-list-info/edit-list-info.component';
-
 
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
@@ -167,6 +164,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
 import { DialogTestComponent } from './view/test/development/dialog-test/dialog-test.component';
 import { ObjectDialogComponent } from './view/modules/dialog/object-dialog/object-dialog.component';
+import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 
 //
 // import all needed services
@@ -231,7 +229,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         NewResourceClassComponent,
         ProjectListsAdminComponent,
         ListNodeFormComponent,
-        ListFormComponent,
         EditResourceClassComponent,
         SortByPipe,
         SystemComponent,
@@ -283,9 +280,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         GndDirective,
         InternationalizationComponent,
         ContactFormComponent,
-        EditListInfoComponent,
         DialogTestComponent,
         ObjectDialogComponent,
+        ListFormComponent,
     ],
     imports: [
         BrowserModule,

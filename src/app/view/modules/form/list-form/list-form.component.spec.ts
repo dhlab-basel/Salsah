@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListFormComponent } from './list-form.component';
+import {AppModule} from '../../../../app.module';
+import {ListsService} from '../../../../model/services/lists.service';
+import {ProjectsService} from '../../../../model/services/projects.service';
 
 describe('ListFormComponent', () => {
   let component: ListFormComponent;
@@ -8,7 +11,13 @@ describe('ListFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListFormComponent ]
+        imports: [
+            AppModule
+        ],
+        providers: [
+            ListsService,
+            ProjectsService
+        ]
     })
     .compileComponents();
   }));
@@ -19,7 +28,7 @@ describe('ListFormComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should be created', () => {
+  xit('should create', () => {
     expect(component).toBeTruthy();
   });
 });

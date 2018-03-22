@@ -59,20 +59,6 @@ export class EditNodeInfoComponent implements OnChanges {
                 position: 'Node position',
             }
         },
-        // addNode: {
-        //     addLabel: 'Add new properties',
-        //     label: 'or create new property',
-        //     description: 'Create a custom property',
-        //     selectLabel: 'Select node',
-        //     selectedLabel: 'Selected node',
-        //     selectDescript: 'Select an existing node to add to this resource',
-        //     selectedDescript: 'You have selected the node:',
-        //     autoComplete: 'Start typing a node name here',
-        //     skip: 'Skip and create custom node',
-        //     customize: 'Customize node',
-        //     customizeDescript: 'Select a unique name and id for your new node'
-        //
-        // },
         buttons: {
             save: 'Save',
             reset: 'Reset',
@@ -89,11 +75,11 @@ export class EditNodeInfoComponent implements OnChanges {
 
     // the following form fields would have an error check
     formErrors = {
-        'nodeName': ''
+        'name': ''
     };
     // ...with the following messages
     validationMessages = {
-        'nodeName': {
+        'name': {
             'required': 'Node name is required'
         },
     };
@@ -130,6 +116,9 @@ export class EditNodeInfoComponent implements OnChanges {
         console.log('iri in form: ', this.currentNode.id);
         this.isLoading = false;
 
+        // validation messages
+        this.listNodeInfoForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
     }
 
     get children(): FormArray {
@@ -151,6 +140,28 @@ export class EditNodeInfoComponent implements OnChanges {
         this.children.removeAt(i);
     }
 
+    // build form validation messages
+    onValueChanged(data?: any) {
+        if (!this.listNodeInfoForm) {
+            return;
+        }
+        const form = this.listNodeInfoForm;
+
+        for (const field in this.formErrors) {
+            const control = form.get(field);
+            this.formErrors[field] = '';
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+
+        }
+    }
+
+
+//FORM FUNCTIONS
     revertNode() {
         this.ngOnChanges();
     }
