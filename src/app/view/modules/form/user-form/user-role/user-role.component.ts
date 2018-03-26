@@ -141,34 +141,56 @@ export class UserRoleComponent implements OnInit {
         if (!this.projectIri) {
             // update the "selected project" status and the list of groups for this project
             this.userRoleForm.controls['project'].valueChanges.subscribe(() => {
-                this.groupsList = this.setGroupsList(this.userRoleForm.controls['project'].value);
+                this.projectIri = this.userRoleForm.controls['project'].value;
+                this.groupsList = this.setGroupsList(this.projectIri);
+                this.selectUsersGroups(this.projectIri);
             });
+
         } else {
             this.groupsList = this.setGroupsList(this.projectIri);
+            this.selectUsersGroups(this.projectIri);
         }
 
     }
 
+
     setGroupsList(project: string): AutocompleteItem[] {
+
+        console.log('project is set: ', project);
 
         this.isLoadingGroups = true;
 
-        const groupsList: AutocompleteItem[] = this.defaultGroups;
+        // reset the list of groups
+        const listOfGroups: AutocompleteItem[] = [];
 
-        for (const group of this.groups) {
-            if (group.project.id === project) {
-                groupsList.push({
-                    iri: group.id,
-                    name: group.name,
-                    label: group.name
-                })
+        // initialize a new list of groups with the default Knora groups (Member and Admin)
+        for (const group of this.defaultGroups) {
+            listOfGroups.push(group)
+        }
+
+        // add more groups, depending on the selected project
+        if (this.groups) {
+            for (const group of this.groups) {
+                if (group.project.id === project) {
+                    listOfGroups.push({
+                        iri: group.id,
+                        name: group.name,
+                        label: group.name
+                    })
+                }
             }
         }
 
-        // compare the membership of the user (from @Input) with the selected project
+        return listOfGroups;
+    }
+
+    selectUsersGroups(project: string) {
+        // compare the membership of the user (from @Input) with the selected project and their groups
+
         if (this.user.permissions) {
 
             this.selectedGroups = [];
+            this.userRoleForm.controls['group'].reset(this.selectedGroups);
 
             const permissions = this.user.permissions;
             if (permissions.groupsPerProject[project]) {
@@ -176,7 +198,7 @@ export class UserRoleComponent implements OnInit {
                 // if true, get the permissions
                 for (const perm of permissions.groupsPerProject[project]) {
 
-                    groupsList.find(item => {
+                    this.groupsList.find(item => {
                         if (item.iri === perm) {
                             this.selectedGroups.push(item.iri);
                         }
@@ -184,6 +206,9 @@ export class UserRoleComponent implements OnInit {
                     });
                 }
                 this.userRoleForm.controls['group'].reset(this.selectedGroups);
+            } else {
+                // preselect member only
+                this.userRoleForm.controls['group'].reset([this.usersDefaultGroup]);
             }
             this.isLoadingGroups = false;
         } else {
@@ -192,9 +217,5 @@ export class UserRoleComponent implements OnInit {
             this.userRoleForm.controls['group'].reset(this.selectedGroups);
             this.isLoadingGroups = false;
         }
-
-        return groupsList;
-
     }
-
 }

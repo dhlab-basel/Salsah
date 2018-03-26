@@ -8,7 +8,7 @@ import {Component, OnInit} from '@angular/core';
 export class FormTestComponent implements OnInit {
 
     userIri: string = 'http://rdfh.ch/users/root';
-    projectIri: string = 'http://rdfh.ch/projects/77275339';   // incunabula
+    projectIri: string = 'http://rdfh.ch/projects/00FF';   // images
 
     constructor() {
     }
