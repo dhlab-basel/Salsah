@@ -51,6 +51,7 @@
 
             <salsah-user-data *ngIf="firstFormGroup.valid && selectedUser"
                               [user]="selectedUser"
+                              (userData)="getUserData($event)"
                               [standalone]="false">
             </salsah-user-data>
 
@@ -66,13 +67,28 @@
         <mat-step [editable]="selectedUser">
             <ng-template matStepLabel>User role</ng-template>
 
-            <salsah-user-role *ngIf="selectedUser" [projectIri]="projectIri" [user]="selectedUser">
+            <salsah-user-role *ngIf="selectedUser"
+                              [projectIri]="projectIri"
+                              [user]="selectedUser"
+                              (userRole)="getUserRole($event)">
 
             </salsah-user-role>
 
         </mat-step>
 
         <mat-step>
+
+            <p>{{userIri}}</p>
+            <hr>
+            <p>{{selectedUser?.email}}</p>
+            <p>{{selectedUser?.familyName}}</p>
+            <p>{{selectedUser?.givenName}}</p>
+            <p>{{selectedUser?.id}}</p>
+
+            <hr>
+            <p>{{projectIri}}</p>
+            <p *ngFor="let group of groups">{{group}}</p>
+
             <ng-template matStepLabel>Done</ng-template>
             <div class="salsah-form-content">
 

@@ -11,7 +11,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AppConfig} from '../../../../../app.config';
 import {User} from '../../../../../model/webapi/knora';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -42,6 +42,12 @@ export class UserDataComponent implements OnInit, OnChanges {
      * @type {boolean}
      */
     @Input() standalone?: boolean = true;
+
+    /**
+     *
+     * @type {EventEmitter<User>}
+     */
+    @Output() userData = new EventEmitter<User>();
 
     // form group for the form controller
     userDataForm: FormGroup;
@@ -174,7 +180,7 @@ export class UserDataComponent implements OnInit, OnChanges {
         this.userDataForm.valueChanges
             .subscribe(data => this.onValueChanged(data));
 
-        this.onValueChanged(); // (re)set validation messages now
+//        this.onValueChanged(); // (re)set validation messages now
 
     }
 
@@ -214,9 +220,9 @@ export class UserDataComponent implements OnInit, OnChanges {
      *
      */
     submitData(): void {
-        this.isLoading = true;
 
-        if (this.standalone && this.user) {
+        if (this.standalone) {
+            this.isLoading = true;
             // this method is only used in standalone user data form
             // to edit user profile
             this._usersService.updateUser(this.user.id, this.userDataForm.value).subscribe(
@@ -232,6 +238,8 @@ export class UserDataComponent implements OnInit, OnChanges {
                     this.success = false;
                 }
             )
+        } else {
+            this.userData.emit(this.userDataForm.value);
         }
     }
 

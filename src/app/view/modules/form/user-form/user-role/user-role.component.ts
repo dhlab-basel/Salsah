@@ -11,7 +11,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AutocompleteItem} from '../../../../../app.interfaces';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../../../app.config';
@@ -30,6 +30,8 @@ export class UserRoleComponent implements OnInit {
     @Input() projectIri?: string;
 
     @Input() user: User;
+
+    @Output() userRole = new EventEmitter<any>();
 
     // in case of an API error
     errorMessage: any;
@@ -109,7 +111,6 @@ export class UserRoleComponent implements OnInit {
                     // when it's ready: disable the progress loader
                     this.isLoading = false;
 
-
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -121,6 +122,21 @@ export class UserRoleComponent implements OnInit {
             .subscribe(
                 (result: Group[]) => {
                     this.groups = result;
+
+                    // expand the list of groups, after selecting a project
+                    if (!this.projectIri) {
+                        // update the "selected project" status and the list of groups for this project
+                        this.userRoleForm.controls['project'].valueChanges.subscribe(() => {
+                            this.projectIri = this.userRoleForm.controls['project'].value;
+                            this.groupsList = this.setGroupsList(this.projectIri);
+                            this.selectUsersGroups(this.projectIri);
+                        });
+
+                    } else {
+                        this.groupsList = this.setGroupsList(this.projectIri);
+                        this.selectUsersGroups(this.projectIri);
+                    }
+
                 },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
@@ -137,23 +153,24 @@ export class UserRoleComponent implements OnInit {
             })
         });
 
-        // expand the list of groups, after selecting a project
-        if (!this.projectIri) {
-            // update the "selected project" status and the list of groups for this project
-            this.userRoleForm.controls['project'].valueChanges.subscribe(() => {
-                this.projectIri = this.userRoleForm.controls['project'].value;
-                this.groupsList = this.setGroupsList(this.projectIri);
-                this.selectUsersGroups(this.projectIri);
-            });
-
-        } else {
-            this.groupsList = this.setGroupsList(this.projectIri);
-            this.selectUsersGroups(this.projectIri);
-        }
+        this.userRoleForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
 
     }
 
+    onValueChanged(data?: any) {
 
+        if (this.userRoleForm.valid) {
+            this.userRole.emit(this.userRoleForm.value);
+        }
+    }
+
+    /**
+     * set the list of groups depending on the selected project
+     *
+     * @param {string} project
+     * @returns {AutocompleteItem[]}
+     */
     setGroupsList(project: string): AutocompleteItem[] {
 
         console.log('project is set: ', project);
@@ -184,8 +201,13 @@ export class UserRoleComponent implements OnInit {
         return listOfGroups;
     }
 
+    /**
+     * compare the membership of the selected user (from @Input)
+     * with the selected project and select the user's groups
+     *
+     * @param {string} project
+     */
     selectUsersGroups(project: string) {
-        // compare the membership of the user (from @Input) with the selected project and their groups
 
         if (this.user.permissions) {
 

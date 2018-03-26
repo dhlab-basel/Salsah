@@ -20,14 +20,10 @@ import {map} from 'rxjs/operators/map';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 
 import {UsersService} from '../../../../model/services/users.service';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {GroupsService} from '../../../../model/services/groups.service';
 
 import {AutocompleteItem} from '../../../../app.interfaces';
-import {Project, User} from '../../../../model/webapi/knora';
+import {User} from '../../../../model/webapi/knora';
 import {AppConfig} from '../../../../app.config';
-import {UserDataComponent} from './user-data/user-data.component';
-import {MatStepper} from '@angular/material';
 
 @Component({
     selector: 'salsah-user-form',
@@ -82,31 +78,12 @@ export class UserFormComponent implements OnInit {
     // second step:
     //  - create new user (in system and project view)
     //  - edit user, if userIri is defined
-    secondFormGroup: FormGroup;
+
     @Input() userIri?: string;
 
-    @ViewChild(UserDataComponent) userData: UserDataComponent;
+    email: string;
 
-    // form errors of the second form group
-    secondFormErrors = {
-        'givenName': '',
-        'familyName': '',
-        'password': ''
-    };
-
-    secondValidationMessages = {
-        'givenName': {
-            'required': 'First name is required.'
-        },
-        'familyName': {
-            'required': 'Last name is required.'
-        },
-        'password': {
-            'required': 'A password is required.',
-            'minlength': 'Use at least 8 characters.',
-            'pattern': 'The password should have at least one uppercase letter and one number.',
-        }
-    };
+//    @ViewChild(UserDataComponent) userData: UserDataComponent;
 
     //
     // ------------------------------------------------------------------------
@@ -122,12 +99,8 @@ export class UserFormComponent implements OnInit {
     // list of all projects
     projects: AutocompleteItem[] = [];
 
-    // filter projects while typing (auto complete)
-    filteredProjects: Observable<any>;
-
-    //
-    selectedProject: AutocompleteItem;
-    selectedProjectProfile: Project;
+    // selected groups
+    groups: string[];
 
     //
     // ------------------------------------------------------------------------
@@ -148,135 +121,19 @@ export class UserFormComponent implements OnInit {
     // general api error message
     errorMessage: any = undefined;
     userErrorMessage: any = undefined;
-    projectErrorMessage: any = undefined;
-    groupErrorMessage: any = undefined;
 
     //
     // ------------------------------------------------------------------------
-
-
-    // ------------------------------------------------------------------------
-    // form controller and error handling
-    //
-
-
-    //
-    // ------------------------------------------------------------------------
-
-
-    formLabels: any = {
-        user: {
-            form: {
-                autoComplete: 'Select user or set new one by email address',
-                projectAdmin: {
-                    title: 'Or create new user',
-                    titleDone: 'New user',
-                    description: 'If the user doesn\'t exist, create a new one'
-                },
-                systemAdmin: {
-                    title: 'Add user',
-                    titleDone: 'New user',
-                    description: 'Create new user profile'
-                },
-                edit: {
-                    title: 'Edit user',
-                    titleDone: 'Done',
-                    description: 'Edit this user profile'
-                },
-                givenName: 'First name',
-                familyName: 'Last name',
-                email: 'Email address (will be your login name)',
-                emailHint: 'This will be your login name',
-                emailValidation: 'This doesn\'t appear to be a valid email address.',
-                password: 'Password',
-                passwordHint: 'Use at least 8 characters with one uppercase letter and one number.',
-                avatar: 'Upload a profile pic',
-                language: 'Default language'
-            }
-        },
-        project: {
-            select: {
-                title: 'Project membership',
-                description: 'Add this user to a project',
-                autoComplete: 'Just type a project name here',
-                autoCompleteHint: '',
-                skip: 'Skip this step'
-            },
-            existing: {
-                title: 'You\'re adding the user to the project ',
-                description: ''
-            },
-        },
-        permissions: {
-            title: 'Permissions',
-            description: 'Set user\'s permissions',
-            group: {
-                title: 'Group',
-                description: 'Group permissions'
-            },
-            project: {
-                title: 'Set project permissions',
-                description: 'Administrative rights in ',
-            },
-            system: {
-                title: 'Set system permissions',
-                description: 'Administrative rights in system (Knora)'
-            }
-        },
-        overview: {
-            title: 'Submit data',
-            description: 'The following data will be sent to Knora'
-        },
-        navigation: {
-            next: 'Next',
-            back: 'Back',
-            skip: 'Skip',
-            cancel: 'Cancel',
-            submit: 'Save',
-            close: 'Close',
-            add: 'Add more users',
-            reset: 'Reset'
-        }
-    };
 
 
     constructor(public _usersService: UsersService,
                 private _formBuilder: FormBuilder) {
 
-        /*
-        this.form = this._formBuilder.group({
-            'username': new FormControl({
-                    value: this.selectedUser, disabled: false
-                }, [
-                    Validators.required,
-                    Validators.pattern(AppConfig.RegexEmail)
-//                    existingNamesValidator(this.existingUserNames)
-                ]
-            ),
-            'group': new FormControl({
-                    value: 'Member'
-                }, []
-            )
-        });
-        */
-
-        /*
-        this.filteredProjects = this.form.controls['projectname'].valueChanges
-            .pipe(
-                startWith(this.form.controls['projectname'].value),
-                map(project => project ? this.filter(this.projects, project) : this.projects.slice())
-            );
-            */
     }
 
     ngOnInit() {
 
         this.buildFirstForm();
-
-        this.secondFormGroup = this._formBuilder.group({
-            secondCtrl: ['', Validators.required]
-        });
-
 
     }
 
@@ -419,7 +276,8 @@ export class UserFormComponent implements OnInit {
 
     /**
      * set selected user from auto complete
-     * @param {AutocompleteItem} value
+     *
+     * @param {string} username
      */
     setSelected(username?: string) {
         // set selected has four possible scenarios
@@ -434,10 +292,10 @@ export class UserFormComponent implements OnInit {
         }
 
         // which case do we have? option a - d?
-        const email: string = (username ? username : this.firstFormGroup.controls['username'].value);
+        this.email = (username ? username : this.firstFormGroup.controls['username'].value);
 
         // get user by username (email)
-        this._usersService.getUserByEmail(email)
+        this._usersService.getUserByEmail(this.email)
             .subscribe(
                 (result: User) => {
                     // case b) result in case the user exists
@@ -449,13 +307,11 @@ export class UserFormComponent implements OnInit {
                         // create new user profile
                         this.selectedUser = new User();
 
-                        this.selectedUser.email = email;
+                        this.selectedUser.email = this.email;
 
                         this._usersService.createUser(this.selectedUser).subscribe(
                             (result: User) => {
-
                                 this.selectedUser = result;
-
                             },
                             (postError: ApiServiceError) => {
                                 this.userErrorMessage = postError;
@@ -475,11 +331,24 @@ export class UserFormComponent implements OnInit {
         this.selectedUser = undefined;
     }
 
-    nextStep(ev: Event) {
-        // check some values here
-        // new user or existing one?
-        console.log(this.selectedUser);
-        // if undefined, check if  the value is a valid email address
+    getUserData(user: User) {
+        // update the selectedUser data from UserDataComponent (child)
+        if (this.selectedUser.id) {
+            const id = this.selectedUser.id;
+            // in case of update user profile:
+            // change the selectedUser data
+            this.selectedUser = user;
+            this.selectedUser.email = this.email;
+            this.selectedUser.id = id;
+        } else {
+            this.selectedUser = user;
+            this.selectedUser.email = this.email;
+        }
+    }
+
+    getUserRole(data: any) {
+        this.projectIri = data.project;
+        this.groups = data.group;
     }
 
 

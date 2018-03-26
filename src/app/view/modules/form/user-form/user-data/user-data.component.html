@@ -80,7 +80,7 @@
             <div class="salsah-panel large">
                 <button mat-button matStepperPrevious>Back</button>
                 <span class="fill-remaining-space"></span>
-                <button mat-button color="primary" matStepperNext [disabled]="!userDataForm.valid">Next</button>
+                <button mat-button color="primary" matStepperNext [disabled]="!userDataForm.valid" (click)="submitData()">Next</button>
             </div>
         </ng-template>
 
