@@ -120,6 +120,9 @@
                         <p mat-line>
                             {{selectedProject?.name}}
                         </p>
+                        <mat-hint mat-line *ngIf="isAlreadyMember" class="salsah-warning">
+                            (The user is already a member of this project)
+                        </mat-hint>
                         <mat-hint mat-line *ngIf="membershipErrorMessage" class="salsah-error-message">
                             {{membershipErrorMessage?.statusText}}
                         </mat-hint>

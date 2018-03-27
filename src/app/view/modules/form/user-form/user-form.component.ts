@@ -81,7 +81,7 @@ export class UserFormComponent implements OnInit {
     //  - edit user, if userIri is defined
 
     @Input() userIri?: string;
-
+    isAlreadyMember: boolean = false;
     email: string;
 
     //
@@ -311,6 +311,8 @@ export class UserFormComponent implements OnInit {
                 (result: User) => {
                     // case b) result in case the user exists
                     this.selectedUser = result;
+
+                    this.isAlreadyMember = (!!result.projects.find(p => p.id === this.projectIri));
                 },
                 (error: ApiServiceError) => {
                     if (error.status === 404) {
@@ -373,7 +375,14 @@ export class UserFormComponent implements OnInit {
 
                     // next step: add user (by iri) to the project (if any is selected)
                     if (this.selectedProject) {
-                        this.addUserToProject(result.id);
+                        console.log(this.isAlreadyMember);
+                        if (!this.isAlreadyMember) {
+                            this.addUserToProject(result.id);
+                        } else {
+                            // the user is already a member of the group;
+                            // update the groups permissions only
+                            this.setGroupsPermissions(result.id);
+                        }
                     }
 
                 },
@@ -411,6 +420,10 @@ export class UserFormComponent implements OnInit {
 
     addUserToProject(userIri: string) {
         // next step: add user (by iri) to the selected project
+        // if he's not yet a member
+
+        console.log(this.selectedUser);
+
         this.submitMembershipStatus = 0;
         this._usersService.addUserToProject(userIri, this.selectedProject.iri).subscribe(
             (result: User) => {
@@ -419,22 +432,8 @@ export class UserFormComponent implements OnInit {
                 // and set the permissions in a second step
                 this.submitPermissionsStatus = 0;
 
-                const projectAdmin: boolean = (!!this.selectedGroups.find( ad => ad.iri === AppConfig.ProjectAdminGroup));
+                this.setGroupsPermissions(userIri);
 
-                if (projectAdmin) {
-                    this._usersService.addUserToProjectAdmin(userIri, this.selectedProject.iri).subscribe(
-                        (res: User) => {
-                            this.submitPermissionsStatus = 1;
-                        },
-                        (error: ApiServiceError) => {
-                            console.log(error);
-                            this.submitPermissionsStatus = 400;
-                            this.permissionsErrorMessage = error;
-                        }
-                    )
-                } else {
-                    this.submitPermissionsStatus = 1;
-                }
 
                 /*
                 if (this.sysAdminPermission) {
@@ -461,6 +460,26 @@ export class UserFormComponent implements OnInit {
                 this.membershipErrorMessage = error;
             }
         );
+    }
+
+    setGroupsPermissions(userIri: string) {
+
+        const projectAdmin: boolean = (!!this.selectedGroups.find( ad => ad === AppConfig.ProjectAdminGroup));
+
+        if (projectAdmin) {
+            this._usersService.addUserToProjectAdmin(userIri, this.selectedProject.iri).subscribe(
+                (res: User) => {
+                    this.submitPermissionsStatus = 1;
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.submitPermissionsStatus = 400;
+                    this.permissionsErrorMessage = error;
+                }
+            )
+        } else {
+            this.submitPermissionsStatus = 1;
+        }
     }
 
 
