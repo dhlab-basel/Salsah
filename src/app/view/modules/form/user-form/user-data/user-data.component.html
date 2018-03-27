@@ -61,10 +61,9 @@
 
             <mat-select [formControl]="userDataForm.controls['lang']"
                         [placeholder]="'salsahLabels.userFormLabels.user.create.language' | translate">
-                <mat-option value="en">english</mat-option>
-                <mat-option value="de">deutsch</mat-option>
-                <mat-option value="fr">français</mat-option>
-                <mat-option value="it">italiano</mat-option>
+                <mat-option *ngFor="let lang of languagesList" [value]="lang.id">
+                    {{ lang.name }}
+                </mat-option>
             </mat-select>
 
         </mat-form-field>

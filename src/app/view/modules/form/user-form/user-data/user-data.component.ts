@@ -98,6 +98,26 @@ export class UserDataComponent implements OnInit, OnChanges {
     // show the content after every service has loaded and the data is ready
     isLoading: boolean = true;
 
+
+    languagesList: any[] = [
+        {
+            id: 'en',
+            name: 'english'
+        },
+        {
+            id: 'de',
+            name: 'deutsch'
+        },
+        {
+            id: 'fr',
+            name: 'français'
+        },
+        {
+            id: 'it',
+            name: 'italiano'
+        }
+    ];
+
     constructor(private _usersService: UsersService,
                 private _formBuilder: FormBuilder) {
     }
@@ -141,9 +161,13 @@ export class UserDataComponent implements OnInit, OnChanges {
      */
     buildForm(user: User): void {
 
-        // if user.id is defined, we're in the edit mode
+        // if user is defined, we're in the edit mode
         // otherwise "create new user" mode is active
-        const edit: boolean = (!!user.id);
+        const edit: boolean = (!!user);
+
+        if (!edit) {
+            user = new User();
+        }
 
         this.userDataForm = this._formBuilder.group({
             'givenName': new FormControl({
@@ -167,7 +191,7 @@ export class UserDataComponent implements OnInit, OnChanges {
                 Validators.pattern(AppConfig.RegexPassword)
             ]),
             'lang': new FormControl({
-                value: user.lang, disabled: false
+                value: (user.lang ? user.lang : 'en'), disabled: false
             })
 //            'status': user.userData.status,
 //            'systemAdmin': this.sysAdminPermission,

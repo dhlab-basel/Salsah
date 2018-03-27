@@ -204,7 +204,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
                     data: {
                         title: this.add.title,
                         description: this.add.description,
-                        form: this.list.content,
+                        form: this.add.type,
                         restriction: this.list.restrictedBy
                     }
                 });

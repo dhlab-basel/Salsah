@@ -229,12 +229,9 @@ export class UserFormComponent implements OnInit {
                 }
             );
 
-        // for developing only --> TODO: remove before publishing!!!
-        const username: string = 'multi.user@example.com';
-
         this.userFormGroup = this._formBuilder.group({
             'username': new FormControl({
-                value: username, disabled: false
+                value: '', disabled: false
             }, [
                 Validators.required,
                 Validators.pattern(AppConfig.RegexEmail)
@@ -363,20 +360,107 @@ export class UserFormComponent implements OnInit {
 
     submitData() {
 
-        console.log('user', this.selectedUser);
-        console.log('project', this.selectedProject);
-        console.log('groups', this.selectedGroups);
-/*
-        this._usersService.createUser(this.selectedUser).subscribe(
+        const userIri: string = this.selectedUser.id;
+
+        // create or update the selected user
+        this.submitUserStatus = 0;
+        if (userIri) {
+            // update user
+            this._usersService.updateUser(userIri, this.selectedUser).subscribe(
+                (result: User) => {
+
+                    this.submitUserStatus = 1;
+
+                    // next step: add user (by iri) to the project (if any is selected)
+                    if (this.selectedProject) {
+                        this.addUserToProject(result.id);
+                    }
+
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.submitUserStatus = 400;
+                    this.userErrorMessage = error;
+                }
+            )
+        } else {
+            // create user
+            this.selectedUser.status = true;
+            this.selectedUser.systemAdmin = false;
+            this._usersService.createUser(this.selectedUser).subscribe(
+                (result: User) => {
+
+                    this.submitUserStatus = 1;
+
+                    // next step: add user (by iri) to the project (if any is selected)
+                    if (this.selectedProject) {
+                        this.addUserToProject(result.id);
+                    }
+
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.submitUserStatus = 400;
+                    this.userErrorMessage = error;
+                }
+            )
+
+        }
+
+    }
+
+    addUserToProject(userIri: string) {
+        // next step: add user (by iri) to the selected project
+        this.submitMembershipStatus = 0;
+        this._usersService.addUserToProject(userIri, this.selectedProject.iri).subscribe(
             (result: User) => {
-                this.selectedUser = result;
-                console.log(result);
+                this.submitMembershipStatus = 1;
+
+                // and set the permissions in a second step
+                this.submitPermissionsStatus = 0;
+
+                const projectAdmin: boolean = (!!this.selectedGroups.find( ad => ad.iri === AppConfig.ProjectAdminGroup));
+
+                if (projectAdmin) {
+                    this._usersService.addUserToProjectAdmin(userIri, this.selectedProject.iri).subscribe(
+                        (res: User) => {
+                            this.submitPermissionsStatus = 1;
+                        },
+                        (error: ApiServiceError) => {
+                            console.log(error);
+                            this.submitPermissionsStatus = 400;
+                            this.permissionsErrorMessage = error;
+                        }
+                    )
+                } else {
+                    this.submitPermissionsStatus = 1;
+                }
+
+                /*
+                if (this.sysAdminPermission) {
+                    this.submitPermissionsStatus = 0;
+                    const data: any = {
+                        systemAdmin: true
+                    };
+                    this._userService.addUserToSystemAdmin(uIri, data).subscribe(
+                        (res: User) => {
+                            this.submitPermissionsStatus = 1;
+                        },
+                        (error: ApiServiceError) => {
+                            console.log(error);
+                            this.submitPermissionsStatus = 400;
+                            this.permissionsErrorMessage = error;
+                        }
+                    )
+                }
+                */
             },
-            (postError: ApiServiceError) => {
-                this.userErrorMessage = postError;
+            (error: ApiServiceError) => {
+                console.log(error);
+                this.submitMembershipStatus = 400;
+                this.membershipErrorMessage = error;
             }
-        )
-*/
+        );
     }
 
 

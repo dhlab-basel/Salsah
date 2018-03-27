@@ -137,6 +137,7 @@ export class UsersService extends ApiService {
         return this.httpPost('/admin/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri)).map(
             (result: ApiServiceResult) => {
                 const user: User = result.getBody(UserResponse).user;
+
                 // console.log('UsersService - addUserToProject: ' + JSON.stringify(user));
                 return user;
             },
