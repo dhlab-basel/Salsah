@@ -66,11 +66,14 @@ export class ListsListComponent implements OnInit {
     // iri of the selected list
     iri: string;
 
+    nodeDrag: boolean = false;
+    nodeDrop: boolean = false;
+
     options = {
         useVirtualScroll: false,
         nodeHeight: 22,
-        allowDrag: true,
-        allowDrop: true,
+        allowDrag: this.nodeDrag,
+        allowDrop: this.nodeDrop,
     };
 
     public listLists: any = {
@@ -129,6 +132,18 @@ export class ListsListComponent implements OnInit {
         console.log('logged in user is: ');
         console.log(this.loggedInUser);
 
+        if (this.loggedInUser == null){
+            this.nodeDrag = false;
+            this.nodeDrop = false;
+        } else {
+            if(this.loggedInUser.projectAdmin || this.loggedInUser.sysAdmin){
+                this.nodeDrag = true;
+                this.nodeDrop = true;
+            } else {
+                this.nodeDrag = false;
+                this.nodeDrop = false;
+            }
+        }
 
     }
 

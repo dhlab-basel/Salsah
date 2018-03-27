@@ -11,9 +11,9 @@
             <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
                                  (opened)="fetchListData(item.id); epExpanded=true" (closed)="isExpanded=false">
                 <mat-expansion-panel-header *ngIf="!epExpanded"
-                                            matTooltip="Click to open panel and see nodes, click list name to edit">
+                                            matTooltip="Click to open panel and see nodes">
                     <mat-panel-title>
-                        <h4 (click)="editList(item.id, item)">
+                        <h4>
                             {{item.labels[0].value}}
                         </h4>
                     </mat-panel-title>
@@ -22,19 +22,26 @@
                         <mat-icon>list</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <mat-expansion-panel-header *ngIf="epExpanded" matTooltip="Click list name to edit list info">
+                <mat-expansion-panel-header *ngIf="epExpanded">
                     <mat-panel-title>
-                        <span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">
-                            <h4 (click)="editList(item.id, item)">
-                                {{item.labels[0].value}}
-                            </h4>
-                        </span>
-                        <span>
+                        <span *ngIf="loggedInUser == null" matTooltip="Log in to edit list">
                             <h4>
                                 {{item.labels[0].value}}
                             </h4>
+                            <!--<mat-hint>Log in to edit list</mat-hint>-->
                         </span>
-
+                        <span *ngIf="loggedInUser != null">
+                            <span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">
+                                <h4>
+                                    {{item.labels[0].value}}
+                                    <button mat-icon-button
+                                            (click)="editList(item.id, item)"
+                                            class="edit-button">
+                                        <mat-icon class="small-icon"> edit</mat-icon>
+                                    </button>
+                                </h4>
+                            </span>
+                        </span>
                     </mat-panel-title>
                     <mat-panel-description>
                         {{item.id}}
@@ -42,7 +49,10 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <span><b>{{listLists.nodesLabel}}</b>
-                    <span class="subtitle">Drag and drop the nodes to reorder</span>
+                    <span *ngIf="loggedInUser != null">
+                        <span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin" class="subtitle">Drag and drop the nodes to reorder
+                        </span>
+                    </span>
                 </span>
                 <salsah-progress-indicator *ngIf="isLoadingNodes"></salsah-progress-indicator>
                 <div *ngIf="currentListInfo" #tree>
@@ -52,24 +62,37 @@
                     <button class="right" mat-button color="primary" *ngIf="isExpanded" (click)="collapseAll(tree)">
                         {{listLists.buttons.collapse}}
                     </button>
-                    <button class="right" mat-button color="primary" (click)="addNode(tree)">
-                        <mat-icon>add</mat-icon>
-                        {{listLists.buttons.add}}
-                    </button>
+                    <span *ngIf="loggedInUser != null">
+                        <span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">
+                            <button class="right" mat-button color="primary" (click)="addNode(tree)">
+                                <mat-icon>add</mat-icon>
+                                {{listLists.buttons.add}}
+                            </button>
+                        </span>
+                    </span>
+
                     <!--<salsah-edit-node-info [node]="node" [tree]="tree"></salsah-edit-node-info>-->
 
                     <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
-                            <div *ngIf="!loggedInUser.projectAdmin || !loggedInUser.sysAdmin">
-                                <button mat-icon-button
-                                        (click)="editNode(item.id, node.data, node, tree)"
-                                        class="edit-button">
-                                    <mat-icon class="small-icon"> edit</mat-icon>
-                                </button>
-                            </div>
+                            <span *ngIf="loggedInUser != null">
+                                <span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">
+                                    <button mat-icon-button
+                                            (click)="editNode(item.id, node.data, node, tree)"
+                                            class="edit-button">
+                                        <mat-icon class="small-icon"> edit</mat-icon>
+                                    </button>
+                                </span>
                             <span>
-                                <!--<mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>-->
-                                {{ node.data.name }}
+                                    <!--<mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>-->
+                                    {{ node.data.name }}
+                                </span>
+                            </span>
+                            <span *ngIf="loggedInUser == null" matTooltip="Log in to edit node">
+                                <span>
+                                    <!--<mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>-->
+                                    {{ node.data.name }}
+                                </span>
                             </span>
                             <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
                             <!--     <button>{{node.data.name}}</button>
