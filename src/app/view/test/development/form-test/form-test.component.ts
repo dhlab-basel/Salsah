@@ -11,7 +11,7 @@ import {ApiServiceError} from '../../../../model/services/api-service-error';
 export class FormTestComponent implements OnInit {
 
     userIri: string = 'http://rdfh.ch/users/multiuser';
-    projectIri: string = 'http://rdfh.ch/projects/00FF';   // images
+    projectIri: string; // = 'http://rdfh.ch/projects/00FF';   // images
 
     user: User;
 

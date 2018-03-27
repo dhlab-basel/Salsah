@@ -17,8 +17,8 @@
         -->
         <mat-form-field class="small" *ngIf="projectIri">
             <mat-select placeholder="Project permission" [formControl]="userRoleForm.controls['group']" multiple>
-                <mat-option *ngFor="let item of groupsList; let first = first" [value]="item.iri" [disabled]="first">
-                    {{ item.label }}
+                <mat-option *ngFor="let group of groupsList; let first = first" [value]="group.iri" [disabled]="first">
+                    {{ group.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>

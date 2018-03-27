@@ -5,6 +5,6 @@
 export interface AutocompleteItem {
     iri: string,
     name: string,
-    label: string
+    label?: string
 }
 

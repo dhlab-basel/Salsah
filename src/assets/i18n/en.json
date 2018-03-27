@@ -39,9 +39,9 @@
         },
         "userFormLabels": {
             "user": {
-                "tile": {
-                    "new": "Create new user",
-                    "edit": "Edit user"
+                "title": {
+                    "new": "Create user",
+                    "edit": "Update user"
                 },
                 "select": {
                     "title": "Select user",

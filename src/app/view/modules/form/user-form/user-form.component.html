@@ -81,88 +81,84 @@
         <!-- ------------------------------------------------------------------
             4. confirm the setup before submit
         ------------------------------------------------------------------- -->
-        <mat-step>
+        <mat-step [editable]="selectedUser && selectedProject && selectedGroups">
 
-            <mat-list>
+            <ng-template matStepLabel>Submit</ng-template>
 
-                <!-- from step 1 and 2) user data -->
-                <mat-list-item *ngIf="selectedUser">
-                    <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
-                                               [status]="submitUserStatus"></salsah-progress-indicator>
-                    <h4 mat-line>
-                        <span *ngIf="userIri">
-                            {{ 'salsahLabels.userFormLabels.user.edit.title' | translate }}
+            <div class="salsah-form-content">
+                <mat-list class="form-overview">
+
+                    <!-- from step 1 and 2) user data -->
+                    <mat-list-item *ngIf="selectedUser">
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
+                                                   [status]="submitUserStatus"></salsah-progress-indicator>
+                        <h4 mat-line>
+                        <span *ngIf="selectedUser.id">
+                            {{ 'salsahLabels.userFormLabels.user.title.edit' | translate }}
                         </span>
-                        <span *ngIf="!userIri">
-                            {{ 'salsahLabels.userFormLabels.user.create.title' | translate }}
+                            <span *ngIf="!selectedUser.id">
+                            {{ 'salsahLabels.userFormLabels.user.title.new' | translate }}
                         </span>
-                    </h4>
-                    <p mat-line>
+                        </h4>
+                        <p mat-line>
                         <span>
                             {{selectedUser?.givenName}} {{selectedUser?.familyName}}, {{selectedUser?.email}}
                         </span>
-                    </p>
-                    <mat-hint mat-line *ngIf="userErrorMessage" class="salsah-error-message">
-                        {{userErrorMessage?.statusText}}
-                    </mat-hint>
-                </mat-list-item>
+                        </p>
+                        <mat-hint mat-line *ngIf="userErrorMessage" class="salsah-error-message">
+                            {{userErrorMessage?.statusText}}
+                        </mat-hint>
+                    </mat-list-item>
 
-                <!-- from step 3a) membership in project -->
-                <mat-list-item *ngIf="selectedProject">
-                    <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
-                                               [status]="submitMembershipStatus"></salsah-progress-indicator>
-                    <h4 mat-line>
-                        {{ 'salsahLabels.userFormLabels.project.select.title' | translate}}
-                    </h4>
-                    <p mat-line>
-                        {{selectedProject?.label}}
-                    </p>
-                    <mat-hint mat-line *ngIf="membershipErrorMessage" class="salsah-error-message">
-                        {{membershipErrorMessage?.statusText}}
-                    </mat-hint>
-                </mat-list-item>
+                    <!-- from step 3a) membership in project -->
+                    <mat-list-item *ngIf="selectedProject">
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
+                                                   [status]="submitMembershipStatus"></salsah-progress-indicator>
+                        <h4 mat-line>
+                            {{ 'salsahLabels.userFormLabels.project.select.title' | translate}}
+                        </h4>
+                        <p mat-line>
+                            {{selectedProject?.name}}
+                        </p>
+                        <mat-hint mat-line *ngIf="membershipErrorMessage" class="salsah-error-message">
+                            {{membershipErrorMessage?.statusText}}
+                        </mat-hint>
+                    </mat-list-item>
 
-                <!-- from step 3b) project permission: groups -->
-                <mat-list-item *ngIf="selectedProject && selectedGroups">
-                    <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
-                                               [status]="submitPermissionsStatus"></salsah-progress-indicator>
-                    <h4 mat-line>
-                        {{ 'salsahLabels.userFormLabels.permissions.title' | translate}}
-                    </h4>
-                    <p mat-line>
-                        <span *ngFor="let group of selectedGroups; let last = last">{{group}} <br *ngIf="!last"></span>
-                        <!--
-                        <span *ngIf="adminPermission">&bull; {{ 'salsahLabels.userFormLabels.permissions.project.description' | translate}} <i>&nbsp;{{selectedProject?.longname}}</i></span>
-                        <span *ngIf="sysAdminPermission"><br>&bull; {{ 'salsahLabels.userFormLabels.permissions.system.description' | translate}}</span>
-                        -->
-                    </p>
-                    <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
-                        {{permissionsErrorMessage?.statusText}}
-                    </mat-hint>
-                </mat-list-item>
-            </mat-list>
+                    <!-- from step 3b) project permission: groups -->
+                    <mat-list-item *ngIf="selectedProject && selectedGroups">
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
+                                                   [status]="submitPermissionsStatus"></salsah-progress-indicator>
+                        <h4 mat-line>
+                            {{ 'salsahLabels.userFormLabels.permissions.title' | translate}}
+                        </h4>
+                        <p mat-line>
+                            <span *ngFor="let group of selectedGroups; let last = last">{{group.name}} <br
+                                *ngIf="!last"></span>
+                            <!--
+                            <span *ngIf="adminPermission">&bull; {{ 'salsahLabels.userFormLabels.permissions.project.description' | translate}} <i>&nbsp;{{selectedProject?.longname}}</i></span>
+                            <span *ngIf="sysAdminPermission"><br>&bull; {{ 'salsahLabels.userFormLabels.permissions.system.description' | translate}}</span>
+                            -->
+                        </p>
+                        <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
+                            {{permissionsErrorMessage?.statusText}}
+                        </mat-hint>
+                    </mat-list-item>
+
+                </mat-list>
 
 
-            <p>{{userIri}}</p>
-            <hr>
-            <p>{{selectedUser?.email}}</p>
-            <p>{{selectedUser?.familyName}}</p>
-            <p>{{selectedUser?.givenName}}</p>
-            <p>{{selectedUser?.id}}</p>
-
-            <hr>
-            <p>{{projectIri}}</p>
-            <p *ngFor="let group of groups">{{group}}</p>
-
-            <ng-template matStepLabel>Done</ng-template>
-            <div class="salsah-form-content">
-
-            </div>
-            You are now done.
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-
-                <button mat-button (click)="stepper.reset()">Add more user</button>
+                <div class="salsah-panel large">
+                    <button mat-button matStepperPrevious>Back</button>
+                    <span class="fill-remaining-space"></span>
+                    <button mat-raised-button type="button" color="primary" (click)="submitData()"
+                            [disabled]="!selectedUser && !selectedProject && !selectedGroups">
+                        {{ 'salsahLabels.userFormLabels.navigation.submit' | translate }}
+                    </button>
+                    <!-- after submit
+                    <button mat-button (click)="stepper.reset()">Add more user</button>
+                    -->
+                </div>
             </div>
         </mat-step>
     </mat-horizontal-stepper>

@@ -323,14 +323,6 @@ export class UserFormComponent implements OnInit {
 
                         this.selectedUser.email = this.email;
 
-                        this._usersService.createUser(this.selectedUser).subscribe(
-                            (result: User) => {
-                                this.selectedUser = result;
-                            },
-                            (postError: ApiServiceError) => {
-                                this.userErrorMessage = postError;
-                            }
-                        )
                     } else {
                         // api error
                         this.errorMessage = error;
@@ -362,13 +354,29 @@ export class UserFormComponent implements OnInit {
 
     getUserRole(data: any) {
 
-        // TODO: fix it now (2018-03-27)
-        // get an object with project of type AutocompleteItem
-        // and with groups of AutocompleteItem as well
+        // get an object with project information
+        // and with selected groups information
 
-        console.log(data);
+        this.selectedProject = data.project;
+        this.selectedGroups = data.groups;
+    }
 
-        this.selectedGroups = data.group;
+    submitData() {
+
+        console.log('user', this.selectedUser);
+        console.log('project', this.selectedProject);
+        console.log('groups', this.selectedGroups);
+/*
+        this._usersService.createUser(this.selectedUser).subscribe(
+            (result: User) => {
+                this.selectedUser = result;
+                console.log(result);
+            },
+            (postError: ApiServiceError) => {
+                this.userErrorMessage = postError;
+            }
+        )
+*/
     }
 
 

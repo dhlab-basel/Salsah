@@ -59,8 +59,6 @@ export class UserRoleComponent implements OnInit {
     // show the content after every service has loaded and the data is ready
     isLoading: boolean = true;
 
-    isLoadingGroups: boolean = false;
-
     userRoleForm: FormGroup;
 
     projects: Project[];
@@ -71,13 +69,11 @@ export class UserRoleComponent implements OnInit {
     defaultGroups: AutocompleteItem[] = [
         {
             iri: AppConfig.ProjectMemberGroup,
-            name: '',
-            label: 'Member'
+            name: 'Member'
         },
         {
             iri: AppConfig.ProjectAdminGroup,
-            name: '',
-            label: 'Administrator'
+            name: 'Administrator'
         }
         /* use the following in system view only!
         {
@@ -193,8 +189,6 @@ export class UserRoleComponent implements OnInit {
      */
     setGroupsList(project: string): AutocompleteItem[] {
 
-        this.isLoadingGroups = true;
-
         // reset the list of groups
         const listOfGroups: AutocompleteItem[] = [];
 
@@ -209,8 +203,7 @@ export class UserRoleComponent implements OnInit {
                 if (group.project.id === project) {
                     listOfGroups.push({
                         iri: group.id,
-                        name: group.name,
-                        label: group.name
+                        name: group.name
                     })
                 }
             }
@@ -251,18 +244,42 @@ export class UserRoleComponent implements OnInit {
                 // preselect member only
                 this.userRoleForm.controls['group'].reset([this.usersDefaultGroup]);
             }
-            this.isLoadingGroups = false;
         } else {
             // new user without any permissions yet
             this.selectedGroups = [this.usersDefaultGroup];
             this.userRoleForm.controls['group'].reset(this.selectedGroups);
-            this.isLoadingGroups = false;
         }
     }
 
     submitData(): void {
-        // submit the selected project and groups
+        // create an object with project info (type AutocompleteItem)
+        // and with groups (AutocompleteItem as well)
+        // and submit them
 
-        this.userRole.emit(this.userRoleForm.value);
+        // collect project information
+        let project: AutocompleteItem;
+        const piri: string = (!this.projectIri ? this.userRoleForm.value['project'] : this.projectIri);
+        project = this.projectsList.find( p => p.iri === piri );
+
+        // collect groups information
+        const groups: any = [];
+        for (const giri of this.userRoleForm.value['group']) {
+            const group: AutocompleteItem = this.groupsList.find( g => g.iri === giri);
+            groups.push(group);
+        }
+
+        // combine the project and groups data
+        const data: any = {
+            'project': project,
+            'groups': groups
+        };
+
+        // and submit it
+
+        if (!this.standalone) {
+            // to parent
+            this.userRole.emit(data);
+        }
+
     }
 }

@@ -30,8 +30,8 @@
         },
         "userFormLabels": {
             "user": {
-                "tile": {
-                    "new": "Neuen Benutzer erstellen",
+                "title": {
+                    "new": "Benutzer erstellen",
                     "edit": "Benutzer bearbeiten"
                 },
                 "select": {
