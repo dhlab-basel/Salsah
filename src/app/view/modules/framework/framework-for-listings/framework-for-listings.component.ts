@@ -194,24 +194,20 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
         let dialogRef;
 
         switch (form) {
-            case 'list':
             case 'user':
             case 'member':
             case 'project':
             case 'ontology':
             case 'resource-type':
-                const config: MatDialogConfig = new MatDialogConfig();
-
-                config.data = {
-                    title: this.add.title,
-                    description: this.add.description,
-                    form: form,
-                    restriction: this.list.restrictedBy
-                };
-
-                config.panelClass = 'resizable';
-
-                dialogRef = this._dialog.open(FormDialogComponent, config);
+            case 'list':
+                dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+                    data: {
+                        title: this.add.title,
+                        description: this.add.description,
+                        form: this.list.content,
+                        restriction: this.list.restrictedBy
+                    }
+                });
                 break;
 
             default:

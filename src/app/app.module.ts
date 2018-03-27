@@ -107,7 +107,6 @@ import {FocusDirective} from './view/modules/other/focus.directive';
 import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
 import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
 import {ListNodeFormComponent} from './view/modules/form/list-node-form/list-node-form.component';
-import {ListFormComponent} from './view/modules/form/list-form/list-form.component';
 import {MathJaxDirective} from './view/modules/other/mathjax.directive';
 import {ReadTextValueAsHtmlComponent} from './view/properties/read-text-value-as-html/read-text-value-as-html.component';
 import {ReadDateValueComponent} from './view/properties/read-date-value/read-date-value.component';
@@ -157,6 +156,7 @@ import {BeolComponent} from './view/templates/beol/beol.component';
 import {BeolService} from './model/services/beol.service';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {SearchParamsService} from './model/services/search-params.service';
+
 import {GroupsService} from './model/services/groups.service';
 
 import {AngularFireModule} from 'angularfire2';
@@ -168,6 +168,7 @@ import { DialogTestComponent } from './view/test/development/dialog-test/dialog-
 import { ObjectDialogComponent } from './view/modules/dialog/object-dialog/object-dialog.component';
 import { UserRoleComponent } from './view/modules/form/user-form/user-role/user-role.component';
 import { UserPasswordComponent } from './view/modules/form/user-form/user-password/user-password.component';
+import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 
 //
 // import all needed services
@@ -232,7 +233,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         NewResourceClassComponent,
         ProjectListsAdminComponent,
         ListNodeFormComponent,
-        ListFormComponent,
         EditResourceClassComponent,
         SortByPipe,
         SystemComponent,
@@ -288,11 +288,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         GndDirective,
         InternationalizationComponent,
         ContactFormComponent,
-        EditListInfoComponent,
         DialogTestComponent,
         ObjectDialogComponent,
         UserRoleComponent,
-        UserPasswordComponent
+        UserPasswordComponent,
+        ListFormComponent
     ],
     imports: [
         BrowserModule,
