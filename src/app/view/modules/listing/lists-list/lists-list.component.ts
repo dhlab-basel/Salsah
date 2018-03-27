@@ -68,13 +68,7 @@ export class ListsListComponent implements OnInit {
 
     nodeDrag: boolean = false;
     nodeDrop: boolean = false;
-
-    options = {
-        useVirtualScroll: false,
-        nodeHeight: 22,
-        allowDrag: this.nodeDrag,
-        allowDrop: this.nodeDrop,
-    };
+    options: any = {};
 
     public listLists: any = {
         nodesLabel: 'Nodes',
@@ -144,6 +138,13 @@ export class ListsListComponent implements OnInit {
                 this.nodeDrop = false;
             }
         }
+
+        this.options = {
+            useVirtualScroll: false,
+            nodeHeight: 22,
+            allowDrag: this.nodeDrag,
+            allowDrop: this.nodeDrop,
+        };
 
     }
 
