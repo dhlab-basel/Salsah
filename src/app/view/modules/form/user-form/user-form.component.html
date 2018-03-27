@@ -5,8 +5,8 @@
             1.  add' or 'create new' user starts always with the user's email address;
                 it's an auto complete form, which checks, if the user already exists
         ------------------------------------------------------------------- -->
-        <mat-step [stepControl]="firstFormGroup">
-            <form [formGroup]="firstFormGroup" class="salsah-form-content">
+        <mat-step [stepControl]="userFormGroup">
+            <form [formGroup]="userFormGroup" class="salsah-form-content">
                 <ng-template matStepLabel>Start with username</ng-template>
 
                 <!-- auto complete list to select user -->
@@ -14,10 +14,10 @@
 
                     <input matInput
                            [matAutocomplete]="user"
-                           [formControl]="firstFormGroup.controls['username']"
+                           [formControl]="userFormGroup.controls['username']"
                            [placeholder]="'salsahLabels.userFormLabels.user.select.autoComplete' | translate">
 
-                    <button mat-button color="primary" matSuffix matStepperNext [disabled]="!firstFormGroup.valid"
+                    <button mat-button color="primary" matSuffix matStepperNext [disabled]="!userFormGroup.valid"
                             (click)="setSelected()">
                         Next
                     </button>
@@ -30,8 +30,8 @@
                         </mat-option>
                     </mat-autocomplete>
 
-                    <mat-hint *ngIf="firstFormErrors.username">
-                        {{ firstFormErrors.username }}
+                    <mat-hint *ngIf="userFormErrors.username">
+                        {{ userFormErrors.username }}
                     </mat-hint>
 
                 </mat-form-field>
@@ -49,7 +49,7 @@
         <mat-step [editable]="selectedUser">
             <ng-template matStepLabel>User data</ng-template>
 
-            <salsah-user-data *ngIf="firstFormGroup.valid && selectedUser"
+            <salsah-user-data *ngIf="userFormGroup.valid && selectedUser"
                               [user]="selectedUser"
                               (userData)="getUserData($event)"
                               [standalone]="false">
@@ -70,13 +70,78 @@
             <salsah-user-role *ngIf="selectedUser"
                               [projectIri]="projectIri"
                               [user]="selectedUser"
-                              (userRole)="getUserRole($event)">
-
+                              (userRole)="getUserRole($event)"
+                              [standalone]="false">
             </salsah-user-role>
 
         </mat-step>
+        <!-- -------------------------------------------------------------- -->
+        <!-- -------------------------------------------------------------- -->
 
+        <!-- ------------------------------------------------------------------
+            4. confirm the setup before submit
+        ------------------------------------------------------------------- -->
         <mat-step>
+
+            <mat-list>
+
+                <!-- from step 1 and 2) user data -->
+                <mat-list-item *ngIf="selectedUser">
+                    <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
+                                               [status]="submitUserStatus"></salsah-progress-indicator>
+                    <h4 mat-line>
+                        <span *ngIf="userIri">
+                            {{ 'salsahLabels.userFormLabels.user.edit.title' | translate }}
+                        </span>
+                        <span *ngIf="!userIri">
+                            {{ 'salsahLabels.userFormLabels.user.create.title' | translate }}
+                        </span>
+                    </h4>
+                    <p mat-line>
+                        <span>
+                            {{selectedUser?.givenName}} {{selectedUser?.familyName}}, {{selectedUser?.email}}
+                        </span>
+                    </p>
+                    <mat-hint mat-line *ngIf="userErrorMessage" class="salsah-error-message">
+                        {{userErrorMessage?.statusText}}
+                    </mat-hint>
+                </mat-list-item>
+
+                <!-- from step 3a) membership in project -->
+                <mat-list-item *ngIf="selectedProject">
+                    <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
+                                               [status]="submitMembershipStatus"></salsah-progress-indicator>
+                    <h4 mat-line>
+                        {{ 'salsahLabels.userFormLabels.project.select.title' | translate}}
+                    </h4>
+                    <p mat-line>
+                        {{selectedProject?.label}}
+                    </p>
+                    <mat-hint mat-line *ngIf="membershipErrorMessage" class="salsah-error-message">
+                        {{membershipErrorMessage?.statusText}}
+                    </mat-hint>
+                </mat-list-item>
+
+                <!-- from step 3b) project permission: groups -->
+                <mat-list-item *ngIf="selectedProject && selectedGroups">
+                    <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
+                                               [status]="submitPermissionsStatus"></salsah-progress-indicator>
+                    <h4 mat-line>
+                        {{ 'salsahLabels.userFormLabels.permissions.title' | translate}}
+                    </h4>
+                    <p mat-line>
+                        <span *ngFor="let group of selectedGroups; let last = last">{{group}} <br *ngIf="!last"></span>
+                        <!--
+                        <span *ngIf="adminPermission">&bull; {{ 'salsahLabels.userFormLabels.permissions.project.description' | translate}} <i>&nbsp;{{selectedProject?.longname}}</i></span>
+                        <span *ngIf="sysAdminPermission"><br>&bull; {{ 'salsahLabels.userFormLabels.permissions.system.description' | translate}}</span>
+                        -->
+                    </p>
+                    <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
+                        {{permissionsErrorMessage?.statusText}}
+                    </mat-hint>
+                </mat-list-item>
+            </mat-list>
+
 
             <p>{{userIri}}</p>
             <hr>

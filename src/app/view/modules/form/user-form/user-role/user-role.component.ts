@@ -27,10 +27,30 @@ import {GroupsService} from '../../../../../model/services/groups.service';
 })
 export class UserRoleComponent implements OnInit {
 
-    @Input() projectIri?: string;
+    /**
+     * project iri in case of project admin view;
+     * in the system view, we have to select a project first
+     */
+    @Input() projectIri: string;
 
+    /**
+     * user data
+     */
     @Input() user: User;
 
+
+    /**
+     * Is the form a standalone or embedded in a step by step form wizard?
+     *
+     * @type {boolean}
+     */
+    @Input() standalone?: boolean = true;
+
+    /**
+     * submit user role to parent
+     *
+     * @type {EventEmitter<any>}
+     */
     @Output() userRole = new EventEmitter<any>();
 
     // in case of an API error
@@ -83,7 +103,8 @@ export class UserRoleComponent implements OnInit {
 
     ngOnInit() {
 
-        // get all projects to select from list
+        // create a list of projects to select from there;
+        // in case of defined projectIri: select this project and disable to edit
         this._projectsService.getAllProjects()
             .subscribe(
                 (result: Project[]) => {
@@ -108,8 +129,7 @@ export class UserRoleComponent implements OnInit {
                         }
                     });
 
-                    // when it's ready: disable the progress loader
-                    this.isLoading = false;
+
 
                 },
                 (error: ApiServiceError) => {
@@ -117,25 +137,34 @@ export class UserRoleComponent implements OnInit {
                 }
             );
 
-        // get all additional groups to select from list
+        this.buildForm(this.projectIri);
+
+        this.isLoading = false;
+
+        // update the form on value change:
+        // "selected project" status and the list of groups for this project
+        this.userRoleForm.controls['project'].valueChanges.subscribe(() => {
+
+            this.projectIri = this.userRoleForm.controls['project'].value;
+            this.groupsList = this.setGroupsList(this.projectIri);
+            this.selectUsersGroups(this.projectIri, this.user);
+        });
+
+    }
+
+    buildForm(piri: string) {
+
+        // get all (additional) groups to select from list
         this._groupsService.getAllGroups()
             .subscribe(
                 (result: Group[]) => {
                     this.groups = result;
 
-                    // expand the list of groups, after selecting a project
-                    if (!this.projectIri) {
-                        // update the "selected project" status and the list of groups for this project
-                        this.userRoleForm.controls['project'].valueChanges.subscribe(() => {
-                            this.projectIri = this.userRoleForm.controls['project'].value;
-                            this.groupsList = this.setGroupsList(this.projectIri);
-                            this.selectUsersGroups(this.projectIri);
-                        });
+                    // build the list of groups for the specified project
+                    this.groupsList = this.setGroupsList(piri);
 
-                    } else {
-                        this.groupsList = this.setGroupsList(this.projectIri);
-                        this.selectUsersGroups(this.projectIri);
-                    }
+                    // update the selection of all active groups for this user
+                    this.selectUsersGroups(piri, this.user);
 
                 },
                 (error: ApiServiceError) => {
@@ -146,24 +175,15 @@ export class UserRoleComponent implements OnInit {
         // build the form
         this.userRoleForm = this._formBuilder.group({
             'project': new FormControl({
-                value: this.projectIri, disabled: (this.projectIri)
+                value: piri, disabled: (piri)
             }),
             'group': new FormControl({
                 value: this.selectedGroups, disabled: false
             })
         });
 
-        this.userRoleForm.valueChanges
-            .subscribe(data => this.onValueChanged(data));
-
     }
 
-    onValueChanged(data?: any) {
-
-        if (this.userRoleForm.valid) {
-            this.userRole.emit(this.userRoleForm.value);
-        }
-    }
 
     /**
      * set the list of groups depending on the selected project
@@ -172,8 +192,6 @@ export class UserRoleComponent implements OnInit {
      * @returns {AutocompleteItem[]}
      */
     setGroupsList(project: string): AutocompleteItem[] {
-
-        console.log('project is set: ', project);
 
         this.isLoadingGroups = true;
 
@@ -207,18 +225,18 @@ export class UserRoleComponent implements OnInit {
      *
      * @param {string} project
      */
-    selectUsersGroups(project: string) {
+    selectUsersGroups(projectIri: string, user: User) {
 
-        if (this.user.permissions) {
+        if (user.permissions) {
 
             this.selectedGroups = [];
             this.userRoleForm.controls['group'].reset(this.selectedGroups);
 
-            const permissions = this.user.permissions;
-            if (permissions.groupsPerProject[project]) {
+            const permissions = user.permissions;
+            if (permissions.groupsPerProject[projectIri]) {
                 // is the user a member of the project?
                 // if true, get the permissions
-                for (const perm of permissions.groupsPerProject[project]) {
+                for (const perm of permissions.groupsPerProject[projectIri]) {
 
                     this.groupsList.find(item => {
                         if (item.iri === perm) {
@@ -227,6 +245,7 @@ export class UserRoleComponent implements OnInit {
                         return item.iri === perm;
                     });
                 }
+
                 this.userRoleForm.controls['group'].reset(this.selectedGroups);
             } else {
                 // preselect member only
@@ -239,5 +258,11 @@ export class UserRoleComponent implements OnInit {
             this.userRoleForm.controls['group'].reset(this.selectedGroups);
             this.isLoadingGroups = false;
         }
+    }
+
+    submitData(): void {
+        // submit the selected project and groups
+
+        this.userRole.emit(this.userRoleForm.value);
     }
 }

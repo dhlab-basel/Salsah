@@ -24,6 +24,7 @@ import {UsersService} from '../../../../model/services/users.service';
 import {AutocompleteItem} from '../../../../app.interfaces';
 import {User} from '../../../../model/webapi/knora';
 import {AppConfig} from '../../../../app.config';
+import {Project} from '../../../../model/webapi/knora/admin';
 
 @Component({
     selector: 'salsah-user-form',
@@ -45,10 +46,10 @@ export class UserFormComponent implements OnInit {
     // first step:
     //  - select user or set new user by entering an email address (in system and project view)
     //
-    firstFormGroup: FormGroup;
+    userFormGroup: FormGroup;
 
     // form errors of first form group
-    firstFormErrors = {
+    userFormErrors = {
         'username': ''
     };
 
@@ -67,7 +68,7 @@ export class UserFormComponent implements OnInit {
     // filter users while typing (autocomplete)
     filteredUsers: Observable<any>;
 
-    //
+    // user data of selected user
     selectedUser: User;
 
     //
@@ -83,8 +84,6 @@ export class UserFormComponent implements OnInit {
 
     email: string;
 
-//    @ViewChild(UserDataComponent) userData: UserDataComponent;
-
     //
     // ------------------------------------------------------------------------
 
@@ -92,15 +91,16 @@ export class UserFormComponent implements OnInit {
     // ------------------------------------------------------------------------
     // third step:
     //  - select project (in system view) / project name (in project view)
+    //  - depending on the select project: select permission groups
     //
-    thirdFormGroup: FormGroup;
+
     @Input() projectIri?: string = undefined;
 
-    // list of all projects
-    projects: AutocompleteItem[] = [];
-
     // selected groups
-    groups: string[];
+    selectedGroups: string[];
+
+    // project data of selected project
+    selectedProject: AutocompleteItem;
 
     //
     // ------------------------------------------------------------------------
@@ -108,8 +108,22 @@ export class UserFormComponent implements OnInit {
 
     // ------------------------------------------------------------------------
     // fourth step:
-    //  - select group (in system and project view)
+    //  - send all the data to the api server
     //
+
+    // from step 2: submit user data; activate the progress loader
+    submitUserStatus: number = -1;
+    // on error with user data
+    userErrorMessage: ApiServiceError = undefined;
+
+    // from step 3: submit project membership; activate the progress loader
+    submitMembershipStatus: number = -1;
+    membershipErrorMessage: ApiServiceError = undefined;
+
+    // from step 3: submit group permissions; activate the progress loader
+    submitPermissionsStatus: number = -1;
+    // on error with permissions data
+    permissionsErrorMessage: ApiServiceError = undefined;
 
     //
     // ------------------------------------------------------------------------
@@ -120,7 +134,6 @@ export class UserFormComponent implements OnInit {
     //
     // general api error message
     errorMessage: any = undefined;
-    userErrorMessage: any = undefined;
 
     //
     // ------------------------------------------------------------------------
@@ -148,7 +161,8 @@ export class UserFormComponent implements OnInit {
                 (result: User[]) => {
 
                     // list of users to prevent duplicate entries
-                    let existingUserNames: [RegExp] = [
+                    // TODO: it's never used in this component. What should we do?
+                    const existingUserNames: [RegExp] = [
                         new RegExp('user')
                     ];
 
@@ -193,9 +207,9 @@ export class UserFormComponent implements OnInit {
                         }
                     });
 
-                    this.filteredUsers = this.firstFormGroup.controls['username'].valueChanges
+                    this.filteredUsers = this.userFormGroup.controls['username'].valueChanges
                         .pipe(
-                            startWith(this.firstFormGroup.controls['username'].value),
+                            startWith(this.userFormGroup.controls['username'].value),
                             map(user => user ? this.filter(this.users, user) : this.users.slice())
                         );
 
@@ -218,7 +232,7 @@ export class UserFormComponent implements OnInit {
         // for developing only --> TODO: remove before publishing!!!
         const username: string = 'multi.user@example.com';
 
-        this.firstFormGroup = this._formBuilder.group({
+        this.userFormGroup = this._formBuilder.group({
             'username': new FormControl({
                 value: username, disabled: false
             }, [
@@ -228,7 +242,7 @@ export class UserFormComponent implements OnInit {
             ])
         });
 
-        this.firstFormGroup.valueChanges
+        this.userFormGroup.valueChanges
             .subscribe(data => this.onValueChanged(data));
 
         this.onValueChanged(); // (re)set validation messages now
@@ -254,7 +268,7 @@ export class UserFormComponent implements OnInit {
      */
     onValueChanged(data?: any) {
 
-        if (!this.firstFormGroup) {
+        if (!this.userFormGroup) {
             return;
         }
 
@@ -262,13 +276,13 @@ export class UserFormComponent implements OnInit {
         this.selectedUser = undefined;
 
         // check if the form is valid
-        Object.keys(this.firstFormErrors).map(field => {
-            this.firstFormErrors[field] = '';
-            const control = this.firstFormGroup.get(field);
+        Object.keys(this.userFormErrors).map(field => {
+            this.userFormErrors[field] = '';
+            const control = this.userFormGroup.get(field);
             if (control && control.dirty && !control.valid) {
                 const messages = this.firstValidationMessages[field];
                 Object.keys(control.errors).map(key => {
-                    this.firstFormErrors[field] += messages[key] + ' ';
+                    this.userFormErrors[field] += messages[key] + ' ';
                 });
             }
         });
@@ -292,7 +306,7 @@ export class UserFormComponent implements OnInit {
         }
 
         // which case do we have? option a - d?
-        this.email = (username ? username : this.firstFormGroup.controls['username'].value);
+        this.email = (username ? username : this.userFormGroup.controls['username'].value);
 
         // get user by username (email)
         this._usersService.getUserByEmail(this.email)
@@ -347,8 +361,14 @@ export class UserFormComponent implements OnInit {
     }
 
     getUserRole(data: any) {
-        this.projectIri = data.project;
-        this.groups = data.group;
+
+        // TODO: fix it now (2018-03-27)
+        // get an object with project of type AutocompleteItem
+        // and with groups of AutocompleteItem as well
+
+        console.log(data);
+
+        this.selectedGroups = data.group;
     }
 
 

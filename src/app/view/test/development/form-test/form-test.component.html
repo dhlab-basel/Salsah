@@ -1,11 +1,13 @@
+<!--
+<h3>User role form in <span *ngIf="projectIri">PROJECT</span><span *ngIf="!projectIri">SYSTEM</span> admin view</h3>
+<salsah-user-role *ngIf="user" [projectIri]="projectIri" [user]="user"></salsah-user-role>
 
-<h3>User form in SYSTEM admin view</h3>
-<salsah-user-form></salsah-user-form>
+-->
 
-<hr>
-
-<h3>User form in PROJECT admin view</h3>
+<h3>User form in <span *ngIf="projectIri">PROJECT</span><span *ngIf="!projectIri">SYSTEM</span> admin view</h3>
 <salsah-user-form [projectIri]="projectIri"></salsah-user-form>
+
+<!--
 <hr>
 
 <h3>User form to update password</h3>
