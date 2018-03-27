@@ -20,6 +20,7 @@ import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
+import {AuthenticationService} from "../../../../model/services/authentication.service";
 
 @Component({
     selector: 'salsah-lists-list',
@@ -37,6 +38,12 @@ export class ListsListComponent implements OnInit {
     errorMessage: any;
 
     isExpanded: boolean = false;
+    epExpanded: boolean = false;
+    // is there a logged-in user?
+    // look at localStorage and the object currentUser with email, token and sysAdmin (?) info
+    loggedInUser: any;
+
+    projectAdmin: boolean = false;
 
 
     // in the case of no data, but with a working API
@@ -78,6 +85,7 @@ export class ListsListComponent implements OnInit {
     };
 
     constructor(private _listsService: ListsService,
+                private _authenticationService: AuthenticationService,
                 public _dialog: MatDialog) {
     }
 
@@ -116,6 +124,11 @@ export class ListsListComponent implements OnInit {
         }
 
         this.isExpanded = false;
+
+        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+        console.log('logged in user is: ');
+        console.log(this.loggedInUser);
+
 
     }
 
@@ -160,6 +173,7 @@ export class ListsListComponent implements OnInit {
         });
         tree.treeModel.update();
     }
+
 
     // deleteNode(node: TreeNode, tree): void {
         // this.deleteNodeEvent.emit({node, tree});

@@ -10,7 +10,8 @@
         <mat-accordion>
             <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
                                  (opened)="fetchListData(item.id); epExpanded=true" (closed)="isExpanded=false">
-                <mat-expansion-panel-header *ngIf="!epExpanded"  matTooltip="Click to open panel and see nodes, click list name to edit">
+                <mat-expansion-panel-header *ngIf="!epExpanded"
+                                            matTooltip="Click to open panel and see nodes, click list name to edit">
                     <mat-panel-title>
                         <h4 (click)="editList(item.id, item)">
                             {{item.labels[0].value}}
@@ -23,9 +24,17 @@
                 </mat-expansion-panel-header>
                 <mat-expansion-panel-header *ngIf="epExpanded" matTooltip="Click list name to edit list info">
                     <mat-panel-title>
-                        <h4 (click)="editList(item.id, item)">
-                            {{item.labels[0].value}}
-                        </h4>
+                        <span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">
+                            <h4 (click)="editList(item.id, item)">
+                                {{item.labels[0].value}}
+                            </h4>
+                        </span>
+                        <span>
+                            <h4>
+                                {{item.labels[0].value}}
+                            </h4>
+                        </span>
+
                     </mat-panel-title>
                     <mat-panel-description>
                         {{item.id}}
@@ -51,10 +60,13 @@
 
                     <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
-
-                                <button mat-icon-button (click)="editNode(item.id, node.data, node, tree)" class="edit-button">
-                                    <mat-icon class="small-icon" > edit </mat-icon>
+                            <div *ngIf="!loggedInUser.projectAdmin || !loggedInUser.sysAdmin">
+                                <button mat-icon-button
+                                        (click)="editNode(item.id, node.data, node, tree)"
+                                        class="edit-button">
+                                    <mat-icon class="small-icon"> edit</mat-icon>
                                 </button>
+                            </div>
                             <span>
                                 <!--<mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>-->
                                 {{ node.data.name }}
