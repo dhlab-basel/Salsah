@@ -12,19 +12,17 @@
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
 
+************************************************
+v2.0.0-alpha.14 Release Notes (not released yet)
+************************************************
 
-#############
-Release Notes
-#############
+See the `release`_ on Github.
 
+New features:
+-------------
 
-.. toctree::
-   :maxdepth: 2
-
-   v2.0.0-alpha.7
-   v2.0.0-alpha.8
-   v2.0.0-alpha.12
-   v2.0.0-alpha.13
-   v2.0.0-alpha.14
+Bugfixes:
+---------
 
 
+.. _release: https://github.com/dhlab-basel/Salsah/releases/tag/v2.0.0-alpha.14

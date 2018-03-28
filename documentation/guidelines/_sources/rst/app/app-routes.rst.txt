@@ -41,7 +41,7 @@ The app routes are defined in app-routing.module.ts which has the following setu
 Project dashboard
 =================
 In Salsah v1 the project dashboard was the /admin interface.
-    - path: /project/:pid
+    - path: /project/:shortname
         component: ProjectComponent --> This component has a <router-outlet> for sub components; child routes
 
         - path: /

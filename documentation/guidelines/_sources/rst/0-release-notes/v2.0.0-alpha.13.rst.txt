@@ -12,17 +12,23 @@
     License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 
 
-************************************************
-v2.0.0-alpha.13 Release Notes (not released yet)
-************************************************
+*****************************
+v2.0.0-alpha.13 Release Notes
+*****************************
 
 See the `release`_ on Github.
 
 New features:
 -------------
 
+- lists service: create new list
+- lists service: update list info
+- contact form: implementation of a form to contact us to make hints about gui issues
+
 Bugfixes:
 ---------
+
+- race condition during login
 
 
 .. _release: https://github.com/dhlab-basel/Salsah/releases/tag/v2.0.0-alpha.13
