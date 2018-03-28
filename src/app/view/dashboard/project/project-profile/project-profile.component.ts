@@ -17,6 +17,8 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ProjectsService} from '../../../../model/services/projects.service';
 import {Project} from '../../../../model/webapi/knora';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {FormDialogComponent} from '../../../modules/dialog/form-dialog/form-dialog.component';
 
 
 @Component({
@@ -27,37 +29,82 @@ import {Project} from '../../../../model/webapi/knora';
 export class ProjectProfileComponent implements OnInit {
 
     errorMessage: string = undefined;
-    project: Project = new Project();
+    isLoading: boolean = true;
 
-    projectLogoPath: string = '/data-pool/projects/';
+    project: Project = new Project();
+    session: string = 'currentProject';
+
+    loggedInAdmin: boolean;
+
+    edit: any = {
+        title: 'Edit Project'
+    };
 
     constructor(private _route: ActivatedRoute,
-                private _projectsService: ProjectsService) {
+                private _projectsService: ProjectsService,
+                public _dialog: MatDialog) {
 
+        _dialog.afterAllClosed
+            .subscribe(() => {
+                    // update a variable or call a function when the dialog closes
+                    // get the project information
+                    _route.params.subscribe((params: Params) => {
+                        this.updateSession(params['pid']);
+                    });
+                }
+            );
     }
 
     ngOnInit() {
+        // get the project information
         this._route.params.subscribe((params: Params) => {
-            const projectFromRoute: string = params['pid'];
-            let projectFromSession: string;
-            if (sessionStorage.getItem('currentProject') !== null) {
-                projectFromSession = JSON.parse(sessionStorage.getItem('currentProject')).shortname;
-            }
-            if(projectFromSession === projectFromRoute) {
-                this.project = JSON.parse(sessionStorage.getItem('currentProject'));
-            } else {
-                this._projectsService.getProjectByShortname(params['pid'])
-                    .subscribe((result: Project) => {
-                            this.project = result;
-                        },
-                        (error: ApiServiceError) => {
-                            this.errorMessage = <any>error;
-                            sessionStorage.removeItem('currentProject');
-                        }
-                    )
-            }
+            this.getProject(params['pid']);
         });
 
     }
+
+    getProject(id: string) {
+        // bad hack to get the project admin information
+        if (localStorage.getItem('currentUser') !== null) {
+            this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+        }
+        if (sessionStorage.getItem(this.session) !== null) {
+            this.project = JSON.parse(sessionStorage.getItem(this.session));
+            this.isLoading = false;
+        } else {
+            this.updateSession(id);
+        }
+
+    }
+
+    updateSession(id: string) {
+        sessionStorage.removeItem(this.session);
+        this._projectsService.getProjectByShortname(id)
+            .subscribe((result: Project) => {
+                    this.project = result;
+                    sessionStorage.setItem(this.session, JSON.stringify(this.project));
+                    this.isLoading = false;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                    sessionStorage.removeItem(this.session);
+                }
+            )
+
+    }
+
+    editProject() {
+        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
+            data: {
+                iri: this.project.id,
+                form: 'project'
+            }
+        });
+
+        dialogRef.beforeClose().subscribe(result => {
+            this.isLoading = true;
+        });
+    }
+
 
 }

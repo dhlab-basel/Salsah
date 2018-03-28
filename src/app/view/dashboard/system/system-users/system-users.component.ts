@@ -39,7 +39,8 @@ export class SystemUsersComponent implements OnInit {
     // add new users
     add: AddData = {
         title: 'Create new user',
-        description: ''
+        description: '',
+        type: 'member'
     };
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------

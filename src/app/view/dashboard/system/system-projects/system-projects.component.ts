@@ -40,7 +40,8 @@ export class SystemProjectsComponent implements OnInit {
     // add new projects
     add: AddData = {
         title: 'Create new project',
-        description: ''
+        description: '',
+        type: 'project'
     };
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------

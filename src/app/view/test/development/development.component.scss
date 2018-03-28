@@ -1,5 +1,7 @@
 .salsah-overlay {
   background-color: gray;
+  height: 100vh;
+  overflow-y: scroll;
 
   h1,
   h2,
@@ -10,15 +12,15 @@
 }
 
 .salsah-developer {
-  height: 768px;
+  height: auto;
+  margin-bottom: 120px;
   margin-left: auto;
   margin-right: auto;
-  overflow: auto;
+  overflow-x: auto;
   width: 1024px;
 
   &.test-area {
     background-color: white;
     border: 1px solid darkgray;
-
   }
 }

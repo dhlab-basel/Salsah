@@ -14,6 +14,8 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../../../../model/webapi/knora';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {FormDialogComponent} from '../../../dialog/form-dialog/form-dialog.component';
 
 @Component({
     selector: 'salsah-users-list-item',
@@ -26,12 +28,25 @@ export class UsersListItemComponent implements OnInit {
     @Input() sortProp: string;
     @Input() project?: string;
 
-    constructor() {
+    constructor(public _dialog: MatDialog) {
     }
 
     ngOnInit() {
 
-        // console.log(this.listData);
+//        console.log(this.listData);
     }
 
+
+    edit(user: User) {
+        const config: MatDialogConfig = new MatDialogConfig();
+
+        config.data = {
+            user: user,
+            form: 'user'
+        };
+
+        config.panelClass = 'resizable';
+
+        const dialogRef = this._dialog.open(FormDialogComponent, config);
+    }
 }

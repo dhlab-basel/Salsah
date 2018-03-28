@@ -137,6 +137,7 @@ export class UsersService extends ApiService {
         return this.httpPost('/admin/users/projects/' + encodeURIComponent(uIri) + '/' + encodeURIComponent(pIri)).map(
             (result: ApiServiceResult) => {
                 const user: User = result.getBody(UserResponse).user;
+
                 // console.log('UsersService - addUserToProject: ' + JSON.stringify(user));
                 return user;
             },
@@ -274,6 +275,21 @@ export class UsersService extends ApiService {
             }
         );
     }
+
+    updateUser(iri: string, data: any): Observable<User> {
+
+        return this.httpPut('/admin/users/' + encodeURIComponent(iri), data, {}).map(
+            (result: ApiServiceResult) => {
+                const received: User = result.getBody(UserResponse).user;
+                return received;
+            },
+            (error: ApiServiceError) => {
+                console.error('UsersService - activateUser - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        )
+    }
+
 
 
 }

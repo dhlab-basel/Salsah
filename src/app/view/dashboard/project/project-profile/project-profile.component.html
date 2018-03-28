@@ -1,5 +1,19 @@
-<div class="salsah-module-content medium" *ngIf="project">
-    <img salsahImage [image]="project?.logo" [type]="'project'">
+<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+<div class="salsah-module-content medium" *ngIf="project && !isLoading">
+    <!-- cover image: project logo -->
+    <img salsahImage [image]="project?.logo" [type]="'admin'">
+
+    <!-- edit button -->
+    <button *ngIf="loggedInAdmin"
+            (click)="editProject()"
+            mat-fab class="right"
+            [matTooltip]="edit.title"
+            [matTooltipPosition]="'above'"
+            color="primary">
+        <mat-icon>edit</mat-icon>
+    </button>
+
     <h2 mat-header>{{project.longname}}</h2>
     <div [innerHTML]="project.description[0].value" class="salsah-text"></div>
 </div>

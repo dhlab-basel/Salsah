@@ -1,42 +1,50 @@
 {
-  "salsahLabels": {
-      "dashboardComponent": {
-          "firstParagraph": "Willkommen bei Salsah – einer web-basierten virtuellen Forschungsumgebung, die Forschern in den Humanities bei der Arbeit mit digitalen Daten unterstützt. Salsah erlaubt die Annotation und die Verknüpfung mit beliebigen Quellen, seien es digitale Texte, bewegte oder unbewegte Bilder oder Ton.",
-          "secondParagraph": "SALSAH ist eine (generische) Benutzerschnittstelle um auf Daten von einem Haupt-Repository zuzugreifen, das hier beschrieben ist: ",
-          "projectsIntro": "Öffentliche Projekte in Knora"
-      },
+    "salsahLabels": {
+        "dashboardComponent": {
+            "firstParagraph": "Willkommen bei Salsah – einer web-basierten virtuellen Forschungsumgebung, die Forschern in den Humanities bei der Arbeit mit digitalen Daten unterstützt. Salsah erlaubt die Annotation und die Verknüpfung mit beliebigen Quellen, seien es digitale Texte, bewegte oder unbewegte Bilder oder Ton.",
+            "secondParagraph": "SALSAH ist eine (generische) Benutzerschnittstelle um auf Daten von einem Haupt-Repository zuzugreifen, das hier beschrieben ist: ",
+            "projectsIntro": "Öffentliche Projekte in Knora"
+        },
         "frameworkForListings": {
-          "list":{
-              "title": "Mitglieder in diesem Projekt",
-              "description": "",
-              "content": "user",
-              "showAs": "expansion",
-              "restrictedBy": ""
-          },
-          "add": {
-              "title": "Füge neues Team Mitglied hinzu",
-              "description": ""
-          }
+            "list": {
+                "title": "Mitglieder in diesem Projekt",
+                "description": "",
+                "content": "user",
+                "showAs": "expansion",
+                "restrictedBy": ""
+            },
+            "add": {
+                "title": "Füge neues Team Mitglied hinzu",
+                "description": ""
+            }
         },
         "usersList": {
-          "sortProps": {
-              "familyName": "Nachname",
-              "givenName": "Vorname",
-              "sortTitle": "Sortieren nach "
-          }
+            "sortProps": {
+                "familyName": "Nachname",
+                "givenName": "Vorname",
+                "sortTitle": "Sortieren nach "
+            }
         },
         "formDialog": {
-          "discard": "Wollen Sie wirklich alle Änderungen verwerfen?"
+            "discard": "Wollen Sie wirklich alle Änderungen verwerfen?"
         },
         "userFormLabels": {
             "user": {
+                "title": {
+                    "new": "Benutzer erstellen",
+                    "edit": "Benutzer bearbeiten"
+                },
                 "select": {
                     "title": "Wähle Benutzer",
                     "titleDone": "Ausgewählter Benutzer",
                     "description": "Füge einen bestehenden hinzu",
-                    "autoComplete": "Namen hier einfügen",
+                    "autoComplete": "Wähle einen Benutzer oder kreiere einen neuen über die Email Adresse",
                     "autoCompleteHint": "",
                     "skip": "Überspringen und einen neuen Benutzer hinzufügen"
+                },
+                "password": {
+                    "old": "Altes Passwort",
+                    "new": "Neues Passwort"
                 },
                 "create": {
                     "projectAdmin": {
@@ -49,12 +57,12 @@
                         "titleDone": "Neuer Benutzer",
                         "description": "Füge neues Benutzerprofil hinzu"
                     },
-                    "givenName": "Vorname *",
-                    "familyName": "Nachname *",
-                    "email": "Email Adresse (Wird Dein Login Name sein) *",
+                    "givenName": "Vorname",
+                    "familyName": "Nachname",
+                    "email": "Email Adresse (Wird Dein Login Name sein)",
                     "emailHint": "Das wird Dein Login Name sein",
                     "emailValidation": "Das scheint keine gültige Email Adresse zu sein",
-                    "password": "Passwort *",
+                    "password": "Passwort",
                     "passwordHint": "Benütze mindestens 8 Buchstaben mit einem Grossbuchstaben und einer Zahl",
                     "avatar": "Lade ein Profilbild hoch",
                     "language": "Standardsprache"
@@ -104,10 +112,10 @@
                 "reset": "Zurücksetzen"
             },
             "formErrors": {
-              "givenName": "",
-              "familyName": "",
-              "email": "",
-              "password": ""
+                "givenName": "",
+                "familyName": "",
+                "email": "",
+                "password": ""
             },
             "validationMessages": {
                 "givenName": {
@@ -132,8 +140,8 @@
             "project": {
                 "title": "Projekt Details",
                 "description": "Beschreibung",
-                "shortname": "Projekt Kurzname *",
-                "longname": "Projekt Name *",
+                "shortname": "Projekt Kurzname",
+                "longname": "Projekt Name",
                 "logo": {
                     "upload": "Lade ein Logo hoch",
                     "or": "ODER",
@@ -175,11 +183,10 @@
                 "description": {
                     "maxlength_p1": "Die Beschreibung darf nicht mehr als ",
                     "maxlenght_p2": " Zeichen lang sein."
-              },
+                },
                 "keywords": {
-
                 }
             }
         }
-  }
+    }
 }

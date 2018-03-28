@@ -1,8 +1,11 @@
 <div class="salsah-module-content medium">
-    <h3 mat-subheader>User profile settings...</h3>
+    <h3 mat-subheader>Your Profile</h3>
 
-    <!-- a hint for developers -->
-    <salsah-message [message]="developerInfo"></salsah-message>
-    <!-- /end of developer hint -->
+    <salsah-user-data [user]="user" [standalone]="true"></salsah-user-data>
+
+    <mat-divider></mat-divider>
+
+
+    <salsah-user-password [userIri]="user.id"></salsah-user-password>
 
 </div>

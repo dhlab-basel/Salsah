@@ -47,8 +47,9 @@ import {User} from '../../../../model/webapi/knora/admin';
 export class ProjectsListComponent implements OnInit {
 
     // restrictedBy can be a user; to show a list of the user's projects
-    @Input('restrictedBy') user: string;
+    @Input() restrictedBy: string;
     @Input() listType?: string;
+    @Input() admin?: boolean;
 
     // send the number of entries to the parent component (framework-for-listings) to us it there in the title
     @Output() counter: EventEmitter<number> = new EventEmitter<number>();
@@ -89,10 +90,10 @@ export class ProjectsListComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.user !== undefined) {
+        if (this.restrictedBy !== undefined) {
             // we have a user id
             // get all the projects where the user is member of
-            this._userService.getUserByIri(this.user)
+            this._userService.getUserByIri(this.restrictedBy)
                 .subscribe(
                     (result: User) => {
                         this.allProjects = result.projects;
@@ -112,8 +113,8 @@ export class ProjectsListComponent implements OnInit {
                 .subscribe(
                     (result: Project[]) => {
                         this.allProjects = result;
-                        //console.log('projects: ', result);
 
+                        // console.log('projects: ', result);
 
                         this.filter(this.allProjects);
 

@@ -13,14 +13,14 @@
     <div class="salsah-form-content" *ngIf="!isLoading">
         <mat-accordion class="headers-align">
 
-            <mat-expansion-panel [expanded]="step === 0" *ngIf="!iri"
-                                hideToggle="false">
+            <mat-expansion-panel [expanded]="step === 0" hideToggle="true">
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         {{ 'salsahLabels.projectFormLabels.project.title' | translate }}
                     </mat-panel-title>
                     <mat-panel-description>
+                        {{formLabels.project.subtitle}}
                         <mat-icon>content_paste</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
@@ -37,6 +37,8 @@
                             {{ formErrors.shortcode }}
                         </mat-hint>
                     </mat-form-field>
+
+                    <!-- short name -->
                     <mat-form-field class="medium">
                         <input matInput [salsahFocus]="step === 1"
                                [maxlength]="shortnameMaxLength"
@@ -46,6 +48,8 @@
                             {{ formErrors.shortname }}
                         </mat-hint>
                     </mat-form-field>
+
+                    <!-- long name -->
                     <mat-form-field class="large">
                         <input matInput
                                [placeholder]=" 'salsahLabels.projectFormLabels.project.longname' | translate "
@@ -61,8 +65,19 @@
                                   [placeholder]=" 'salsahLabels.projectFormLabels.project.description' | translate "
                                   [formControl]="form.controls['description']">
                         </textarea>
+                        <br>
                         <mat-hint *ngIf="formErrors.description">
                             {{ formErrors.description }}
+                        </mat-hint>
+                    </mat-form-field>
+
+                    <!-- institution -->
+                    <mat-form-field class="large">
+                        <input matInput
+                               [placeholder]="formLabels.project.institution"
+                               [formControl]="form.controls['institution']">
+                        <mat-hint *ngIf="formErrors.institution">
+                            {{ formErrors.institution }}
                         </mat-hint>
                     </mat-form-field>
 
@@ -77,15 +92,33 @@
                     </mat-form-field>
 
                     <!-- upload logo -->
-                    <salsah-file-uploader [file]="logo" (setFiles)="getFiles($event)"></salsah-file-uploader>
+                    <salsah-file-uploader (uploadStatus)="sipiUpload($event)"></salsah-file-uploader>
                     <!-- the form needs an input field for the logo name
                         the following input will be hidden and it gets the file name from the salsah-file-uploader -->
                     <br>
-                    <input [placeholder]=" 'salsahLabels.projectFormLabels.project.logo.name' | translate "
+
+                    <input matInput [hidden]="false"
+                           [placeholder]=" 'salsahLabels.projectFormLabels.project.logo.name' | translate "
+                           [formControl]="form.controls['logo']"
                            formControlName="logo">
 
                     <!-- footer -->
                     <mat-action-row>
+                        <div *ngIf="iri">
+                            <!-- delete project -->
+                            <button *ngIf="project.status === true"
+                                    mat-button color="warn"
+                                    (click)="deactivateProject($event, iri)">
+                                {{formLabels.navigation.deactivate}}
+                            </button>
+                            <!-- activate project -->
+                            <button *ngIf="project.status !== true"
+                                    mat-button color="warn"
+                                    (click)="activateProject($event, iri)">
+                                {{formLabels.navigation.activate}}
+                            </button>
+                        </div>
+                        <span class="fill-remaining-space"></span>
                         <!-- checkbox, which activates the add user dialog form -->
                         <button mat-raised-button
                                 [disabled]="!form.valid"

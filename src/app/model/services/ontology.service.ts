@@ -53,4 +53,65 @@ export class OntologyService extends ApiService {
 
     }
 
+    /**
+     * Requests information about the given resource classes from Knora's ontologies route.
+     *
+     * @param resourceClassIris the Iris of the resource classes to be queried.
+     * @returns {any}
+     */
+    getResourceClasses(resourceClassIris: Array<string>): Observable<any> {
+
+        if (resourceClassIris.length === 0) {
+            // no resource class Iris are given to query for, return a failed Observer
+            return Observable.create(observer => observer.error('No resource class Iris given for call of OntologyService.getResourceClasses'));
+        }
+
+        let resClassUriEnc = '';
+
+        resourceClassIris.forEach(function (resClassIri) {
+            resClassUriEnc = resClassUriEnc + '/' + encodeURIComponent(resClassIri.toString())
+        });
+
+        return this.httpGetV2('/ontologies/classes' + resClassUriEnc);
+    }
+
+    /**
+     * Requests properties from Knora's ontologies route.
+     *
+     * @param propertyIris the Iris of the properties to be queried.
+     * @returns {any}
+     */
+    getProperties(propertyIris: string[]) {
+
+        if (propertyIris.length === 0) {
+            // no resource class Iris are given to query for, return a failed Observer
+            return Observable.create(observer => observer.error('No property Iris given for call of OntologyService.getProperties'));
+        }
+
+        let propertiesUriEnc = '';
+
+        propertyIris.forEach(function (resClassIri) {
+            propertiesUriEnc = propertiesUriEnc + '/' + encodeURIComponent(resClassIri.toString())
+        });
+
+        return this.httpGetV2('/ontologies/properties' + propertiesUriEnc);
+
+    }
+
+    newOntology() {
+        /*
+
+        // post route: /v2/ontologies/
+
+        // the knora api needs the following data:
+        {
+            "knora-api:ontologyName": "example",
+            "knora-api:projectIri": "$projectWithProjectID",
+            "@context": {
+                "knora-api": "${OntologyConstants.KnoraApiV2WithValueObjects.KnoraApiV2PrefixExpansion}"    // e.g. knora-api url incl. #
+            }
+        }
+         */
+    }
+
 }

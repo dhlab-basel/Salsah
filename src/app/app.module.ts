@@ -105,8 +105,6 @@ import {ResizeGridDirective} from './view/modules/other/resize-grid.directive';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
 import {FocusDirective} from './view/modules/other/focus.directive';
 import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
-
-
 import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
 import {ListNodeFormComponent} from './view/modules/form/list-node-form/list-node-form.component';
 import {MathJaxDirective} from './view/modules/other/mathjax.directive';
@@ -140,22 +138,25 @@ import {IntegerValueComponent} from './view/modules/search/extended-search/selec
 import {DecimalValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/decimal-value/decimal-value.component';
 import {BooleanValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import {DateValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
-
+import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
+import {FileService} from './model/services/file.service';
+import {InternationalizationComponent} from './view/modules/framework/main-framework/internationalization/internationalization.component';
+import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
+import {FormTestComponent} from './view/test/development/form-test/form-test.component';
+import {UserDataComponent} from './view/modules/form/user-form/user-data/user-data.component';
+import {EditNodeInfoComponent} from './view/modules/form/edit-node-info/edit-node-info.component';
+import {GndDirective} from './view/modules/other/gnd.directive';
 import {KnarqlgenerationService} from './model/services/knarqlgeneration.service';
 import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertiblecalendardateadapter';
-import {OntologiesListItemComponent} from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
 import {TextValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
 import {UriValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
 import {LinkValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/link-value/link-value.component';
-import {EditNodeInfoComponent} from './view/modules/form/edit-node-info/edit-node-info.component';
-import {InternationalizationComponent} from './view/modules/framework/main-framework/internationalization/internationalization.component';
-
-import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 import {BeolComponent} from './view/templates/beol/beol.component';
 import {BeolService} from './model/services/beol.service';
-import {GndDirective} from './view/modules/other/gnd.directive';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {SearchParamsService} from './model/services/search-params.service';
+
+import {GroupsService} from './model/services/groups.service';
 
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
@@ -164,6 +165,8 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
 import { DialogTestComponent } from './view/test/development/dialog-test/dialog-test.component';
 import { ObjectDialogComponent } from './view/modules/dialog/object-dialog/object-dialog.component';
+import { UserRoleComponent } from './view/modules/form/user-form/user-role/user-role.component';
+import { UserPasswordComponent } from './view/modules/form/user-form/user-password/user-password.component';
 import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 
 //
@@ -271,6 +274,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         BooleanValueComponent,
         DateValueComponent,
         OntologiesListItemComponent,
+        FormTestComponent,
+        UserDataComponent,
+        InternationalizationComponent,
+        ExistingNameDirective,
         TextValueComponent,
         UriValueComponent,
         LinkValueComponent,
@@ -282,7 +289,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ContactFormComponent,
         DialogTestComponent,
         ObjectDialogComponent,
-        ListFormComponent,
+        UserRoleComponent,
+        UserPasswordComponent,
+        ListFormComponent
     ],
     imports: [
         BrowserModule,
@@ -334,11 +343,13 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ListsService,
         StatusMsgServiceService,
         AuthenticationService,
+        FileService,
         KnarqlgenerationService,
         BeolService,
         LanguageService,
         AngularFirestore,
         SearchParamsService,
+        GroupsService,
         {provide: APP_BASE_HREF, useValue: '/'},
         {
             provide: RECAPTCHA_SETTINGS,

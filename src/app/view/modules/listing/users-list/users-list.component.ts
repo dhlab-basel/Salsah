@@ -23,7 +23,6 @@ import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.componen
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
-import {NewUserData} from '../../../../model/webapi/knora/admin/users/users-list';
 import {User} from '../../../../model/webapi/knora';
 
 import {LanguageService} from '../../../../model/services/language.service';
@@ -49,6 +48,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
     @Input('restrictedBy') project: string;
     @Input() index: number;
     @Input() listType?: string;
+    @Input() admin?: boolean;
 
     @Output() toggleItem = new EventEmitter<any>();
     // send the number of entries to the parent component (framework-for-listings) to us it there in the title
@@ -75,8 +75,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
     allActiveUsers: User[] = [];
     allInactiveUsers: User[] = [];
 
-    newAllActiveUsers: NewUserData[] = [];
-    newAllInactiveUsers: NewUserData[] = [];
+//    newAllActiveUsers: NewUserData[] = [];
+//    newAllInactiveUsers: NewUserData[] = [];
 
     numberOfItems: number;
     countActive: number;
@@ -183,11 +183,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
         if (this.project !== undefined) {
 
-            // hack to get the project admin information
-            if (localStorage.getItem('currentUser') !== null) {
-                this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-            }
-
             // get project members
             this._projectsService.getProjectMembersByIri(this.project)
                 .subscribe(
@@ -200,24 +195,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
                             if (u.status === true) {
                                 this.allActiveUsers.push(u);
-                                const active: NewUserData = {
-                                    email: u.email,
-                                    givenName: u.givenName,
-                                    familyName: u.familyName,
-                                    user_profile: u
-                                };
-                                this.newAllActiveUsers.push(active);
-                                this.countActive = this.newAllActiveUsers.length;
                             } else {
                                 this.allInactiveUsers.push(u);
-                                const inactive: NewUserData = {
-                                    email: u.email,
-                                    givenName: u.givenName,
-                                    familyName: u.familyName,
-                                    user_profile: u
-                                };
-                                this.newAllInactiveUsers.push(inactive);
-                                this.countInactive = this.newAllInactiveUsers.length;
                             }
 
                         }
@@ -248,25 +227,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
                             if (u.status === true) {
                                 this.allActiveUsers.push(u);
-                                const active: NewUserData = {
-                                    email: u.email,
-                                    givenName: u.givenName,
-                                    familyName: u.familyName,
-                                    user_profile: u
-                                };
-                                this.newAllActiveUsers.push(active);
-                                this.countActive = this.newAllActiveUsers.length;
-
                             } else {
                                 this.allInactiveUsers.push(u);
-                                const inactive: NewUserData = {
-                                    email: u.email,
-                                    givenName: u.givenName,
-                                    familyName: u.familyName,
-                                    user_profile: u
-                                };
-                                this.newAllInactiveUsers.push(inactive);
-                                this.countInactive = this.newAllInactiveUsers.length;
                             }
 
                         }
@@ -397,18 +359,18 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
     // in the table view, it opens an object in a dialog box
     // open / close user
-    edit(id: string) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-            data: {
-                iri: id,
-                form: 'user'
-            }
-        });
-        /*
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
-        });
-        */
+    edit(user: User) {
+
+        const config: MatDialogConfig = new MatDialogConfig();
+
+        config.data = {
+            user: user,
+            form: 'user'
+        };
+
+        config.panelClass = 'resizable';
+
+        const dialogRef = this._dialog.open(FormDialogComponent, config);
 
     }
 

@@ -41,7 +41,8 @@ export class UserProjectsComponent implements OnInit {
     // add new project
     add: AddData = {
         title: 'Create new project',
-        description: ''
+        description: '',
+        type: 'project'
     };
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------

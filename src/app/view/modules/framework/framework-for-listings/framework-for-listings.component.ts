@@ -15,6 +15,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ActivatedRoute, Params} from '@angular/router';
+
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {UsersListComponent} from '../../listing/users-list/users-list.component';
@@ -31,7 +32,8 @@ export interface ListData {
 
 export interface AddData {
     title: string,
-    description: string
+    description: string,
+    type: string
 }
 
 export interface SortItem {
@@ -93,6 +95,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     // two progress loader:
     // 1) for the main module
     isLoading: boolean = true;
+
     // 2) for the sub module: detail view
     isLoadingSubModule: boolean = true;
 
@@ -122,46 +125,33 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
 //    @ViewChild(OntologiesListComponent) ontologies;
     counter: number;
 
+    session: string;
+
 //    constructor(@Inject(ElementRef) elementRef: ElementRef, @Inject(Injector) injector: Injector)
     constructor(private _dialog: MatDialog,
                 private _route: ActivatedRoute,
                 private _cdRef: ChangeDetectorRef) {
+
+        _dialog.afterAllClosed
+            .subscribe(() => {
+                    // update the session storage
+//                    this.updateSession();
+                }
+            );
     }
 
     ngOnInit() {
-        // bad hack to get the project admin information
-        if (localStorage.getItem('currentUser') !== null) {
-            this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-        }
-
-        if (this.list === undefined || this.list === null) {
-            // list is not optional! show an error message
-            this.errorMessage = <any>{
-                status: 424,
-                statusText: 'There\'s no specified list data in FrameworkForListings!'
-            };
-            this.list = <ListData>{};
-        } else {
-            this.notYetImplemented.route = this.list.content;
-
-            if (this.list.content === 'resource') {
-
-                // reload component when activated route changes
-                this._route.params.subscribe((params: Params) => {
-                    this.rerender = true;
-                    this._cdRef.detectChanges();
-                    this.rerender = false;
-                });
-            }
-        }
+        this.getData(this.list.restrictedBy);
     }
 
     ngOnChanges() {
 //        console.log(this.list);
+//        console.log('ngOnChanges');
     }
 
     ngAfterViewInit() {
         this._cdRef.detectChanges();
+//        console.log('ngAfterViewInit')
     }
 
     //
@@ -198,11 +188,14 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
 
     //
     // if the input "add" is set, this method opens a form dialog box with the new-XYZ-form component
-    // the form-dialog component handles which nex-XYZ-form to use
+    // the form-dialog component handles which new-XYZ-form to use
     openNew(form: string) {
+
         let dialogRef;
+
         switch (form) {
             case 'user':
+            case 'member':
             case 'project':
             case 'ontology':
             case 'resource-type':
@@ -211,7 +204,7 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
                     data: {
                         title: this.add.title,
                         description: this.add.description,
-                        form: this.list.content,
+                        form: this.add.type,
                         restriction: this.list.restrictedBy
                     }
                 });
@@ -229,11 +222,76 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
                         message: message
                     }
                 });
+                const sub = dialogRef.componentInstance.refreshComponent.subscribe(() => {
+                    // do something
+                    console.log('framework-for-listing: dialogRef refreshComponent');
+                });
+                dialogRef.afterClosed().subscribe(() => {
+                    // unsubscribe onAdd
+                    console.log('framework-for-listing: dialogRef afterClosed');
+                });
         }
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
+        dialogRef.afterClosed().subscribe(() => {
+            console.log('afterClosed: ', this.list.restrictedBy);
+            this.getData(this.list.restrictedBy);
         });
+
+    }
+
+    getData(id?: string) {
+        // get the logged-in user information and check if the user has (system) admin rights
+        if (localStorage.getItem('currentUser') !== null) {
+            this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+        }
+
+        if (this.list === undefined || this.list === null) {
+            // list is not optional! show an error message
+            this.errorMessage = <any>{
+                status: 424,
+                statusText: 'There\'s no specified list data in FrameworkForListings!'
+            };
+            this.list = <ListData>{};
+        } else {
+            this.notYetImplemented.route = this.list.content;
+
+            if (this.list.content === 'resource') {
+
+                // reload component when activated route changes
+                this._route.params.subscribe((params: Params) => {
+                    this.rerender = true;
+                    this._cdRef.detectChanges();
+                    this.rerender = false;
+                });
+            }
+        }
+
+
+    }
+
+    updateSession() {
+        this.rerender = true;
+        console.log('update session ', this.list);
+        if (this.list) {
+            this.getData(this.list.restrictedBy);
+            this.rerender = false;
+        }
+
+        /*
+
+        sessionStorage.removeItem(this.session);
+        this._projectsService.getProjectByShortname(id)
+            .subscribe((result: Project) => {
+                    this.project = result;
+                    sessionStorage.setItem(this.session, JSON.stringify(this.project));
+                    this.isLoading = false;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                    sessionStorage.removeItem(this.session);
+                }
+            )
+            */
     }
 
 }

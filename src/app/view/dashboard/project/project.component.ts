@@ -31,11 +31,11 @@ export class ProjectComponent implements OnInit {
     errorMessage: any = undefined;
     project: Project = new Project();
 
-    projectRoute = '/project/';
+    projectRoute: string;
 
     projectAdmin: boolean = false;
 
-    firstTabClass: string = 'active';
+    firstTab: boolean;
 
     public menu: any = [
         {
@@ -58,11 +58,6 @@ export class ProjectComponent implements OnInit {
 
     public currentProject: string = undefined;
 
-    auth: any = {
-        user: undefined,
-        session: undefined
-    };
-
     constructor(private _title: Title,
                 private _router: Router,
                 private _route: ActivatedRoute,
@@ -73,16 +68,16 @@ export class ProjectComponent implements OnInit {
         sessionStorage.removeItem('currentProject');
 
         this._route.params.subscribe((params: Params) => {
+
             // get the project shortname from the route
             this.currentProject = params['pid'];
-            // set the root of the project route
-            this.projectRoute += this.currentProject;
+
+            // set the root of the project route; it's needed for the first tab
+            this.projectRoute = '/project/' + this.currentProject;
+            this.firstTab = (this._router.url === this.projectRoute);
 
             // set the metadata page title
             this._title.setTitle('Salsah | Project (' + this.currentProject + ')');
-
-
-            // this.firstTabClass = (this._router.url === this.projectRoute ? 'active' : undefined);
 
             // get the project information
             this._projectsService.getProjectByShortname(this.currentProject)
@@ -90,27 +85,10 @@ export class ProjectComponent implements OnInit {
                     (result: Project) => {
                         this.project = result;
                         sessionStorage.setItem('currentProject', JSON.stringify(this.project));
-
-
-                        // TODO: do we still need the following lines
-                        if (sessionStorage.getItem('projectAdmin')) {
-                            if (JSON.parse(sessionStorage.getItem('projectAdmin')).length > 0) {
-                                this.projectAdmin = (JSON.parse(sessionStorage.getItem('projectAdmin')).indexOf(this.project.id) > -1);
-                                // bad hack to get the project admin information
-                                if (this.projectAdmin) {
-                                    sessionStorage.setItem('admin', JSON.stringify(true));
-                                }
-                                // end of bad hack. TODO: we have to find a better solution
-                                this.isLoading = false;
-                            } else {
-                                this.isLoading = false;
-                            }
-                        } else {
-                            this.isLoading = false;
-                        }
-
+                        this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
+                        console.log(error);
                         this.errorMessage = <any>error;
                         sessionStorage.removeItem('currentProject');
                         this.isLoading = false;
@@ -125,12 +103,9 @@ export class ProjectComponent implements OnInit {
 
     }
 
-    disableFirstTab() {
-        this.firstTabClass = undefined;
-    }
 
-    enableFirstTab() {
-        this.firstTabClass = 'active';
+    toggleFirstTab(first: boolean) {
+        this.firstTab = first === true;
     }
 
 }

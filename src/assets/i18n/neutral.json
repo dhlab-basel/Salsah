@@ -6,7 +6,7 @@
             "projectsIntro": ""
         },
         "frameworkForListings": {
-            "list":{
+            "list": {
                 "title": "",
                 "description": "",
                 "content": "user",
@@ -28,17 +28,17 @@
         "formDialog": {
             "discard": ""
         },
-	    "userFormLabels": {
-			"user": {
-			    "select": {
-					"title": "",
-					"titleDone": "",
-					"description": "",
-					"autoComplete": "",
-					"autoCompleteHint": "",
-					"skip": ""
-			    },
-			    "create": {
+        "userFormLabels": {
+            "user": {
+                "select": {
+                    "title": "",
+                    "titleDone": "",
+                    "description": "",
+                    "autoComplete": "",
+                    "autoCompleteHint": "",
+                    "skip": ""
+                },
+                "create": {
                     "projectAdmin": {
                         "title": "",
                         "titleDone": "",
@@ -127,58 +127,59 @@
                     "pattern": ""
                 }
             }
-	    },
-	    "projectFormLabels": {
-			"project": {
-				"title": "",
-				"description": "",
-				"shortname": "",
-				"longname": "",
-				"logo": {
-					"upload": "",
-					"or": "",
-					"url": "",
-					"name": ""
-				},
-				"keywords": ""
-			},
-			"user": {
-				"select": ""
-			},
-			"navigation": {
-				"next": "",
-				"back": "",
-				"skip": "",
-				"cancel": "",
-				"submit": "",
-				"close": "",
-				"add": "",
-				"reset": ""
-			},
-			"formErrors": {
-				"shortname": "",
-				"longname": "",
-				"description": "",
-				"keywords": ""
-			},
-			"validationMessages": {
-				"shortname": {
+        },
+        "projectFormLabels": {
+            "project": {
+                "title": "",
+                "description": "",
+                "shortname": "",
+                "longname": "",
+                "logo": {
+                    "upload": "",
+                    "or": "",
+                    "url": "",
+                    "name": ""
+                },
+                "keywords": ""
+            },
+            "user": {
+                "select": ""
+            },
+            "navigation": {
+                "next": "",
+                "back": "",
+                "skip": "",
+                "cancel": "",
+                "submit": "",
+                "close": "",
+                "add": "",
+                "reset": ""
+            },
+            "formErrors": {
+                "shortname": "",
+                "longname": "",
+                "description": "",
+                "keywords": ""
+            },
+            "validationMessages": {
+                "shortname": {
                     "required": "",
                     "minlength": "",
                     "maxlength": "",
                     "pattern": "",
                     "existingName": ""
-			    },
-			    "longname": {
-				    "required": ""
-			    },
+                },
+                "longname": {
+                    "required": ""
+                },
                 "description": {
-                    "maxlength_p1": "", // + this.descriptionMaxLength +
+                    "maxlength_p1": "",
+                    // + this.descriptionMaxLength +
                     "maxlenght_p2": ""
                 },
-			    "keywords": {
+                "keywords": {
                 }
             }
-		}
+        }
     }
 }

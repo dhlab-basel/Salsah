@@ -89,9 +89,9 @@ a.facsimile {
 //
 // general elements
 
-.salsah-error-message {
+.salsah-error-text {
   color: $warn;
-  font-size: small;
+//  font-size: small;
 }
 
 .salsah-text {
@@ -155,7 +155,10 @@ a.facsimile {
 }
 
 .salsah-panel {
-  display: inline-flex;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  white-space: nowrap;
 }
 
 .fill-remaining-space {

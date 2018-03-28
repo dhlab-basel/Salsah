@@ -11,6 +11,7 @@
                 <!--
                 <span *ngIf="users">{{users?.countAll}}</span>
                 -->
+
                 {{ list.title }}
                 <!-- 'salsahLabels.frameworkForListings.project.list.title' | translate Das funktioniert noch nicht-->
             </h3>
@@ -20,15 +21,26 @@
         <!-- add button? -->
         <!-- this list has an 'add button' to add new stuff;
             it opens the form-dialog-component with the 'new-something-form'-component -->
+
+        <button *ngIf="add !== undefined && loggedInAdmin"
+                (click)="openNew(add.type)"
+                mat-fab class="right"
+                [matTooltip]="add.title"
+                [matTooltipPosition]="'above'"
+                color="primary">
+            <mat-icon>add</mat-icon>
+        </button>
+
+        <!-- older button with label --
         <button *ngIf="add !== undefined && loggedInAdmin"
                 (click)="openNew(list.content)"
                 mat-raised-button class="right"
                 color="primary">
-<!--                style="margin-top: 60px">   -->
             <mat-icon>add</mat-icon>
             {{ add.title }}
-            <!-- 'salsahLabels.frameworkForListings.add.title' | translate-->
+            <!-- 'salsahLabels.frameworkForListings.add.title' | translate--
         </button>
+        -->
         <!-- end of 'add button' -->
 
         <!-- main list incl. sort button and number of items -->
@@ -37,15 +49,18 @@
             <salsah-users-list *ngSwitchCase="'user'"
                                [listType]="list.showAs"
                                [restrictedBy]="list.restrictedBy"
-                               [index]="selectedRow"
-                               (toggleItem)="toggleDetail($event, $event)">
+                               (refreshComponent)="updateSession()"
+                               [admin]="loggedInAdmin">
             </salsah-users-list>
 
 
-            <salsah-projects-list *ngSwitchCase="'project'"
-                                  [listType]="list.showAs"
-                                  [restrictedBy]="list.restrictedBy">
-            </salsah-projects-list>
+            <div *ngSwitchCase="'project'">
+                <salsah-projects-list *ngIf="!rerender"
+                                      [listType]="list.showAs"
+                                      [restrictedBy]="list.restrictedBy"
+                                      [admin]="loggedInAdmin">
+                </salsah-projects-list>
+            </div>
 
             <salsah-ontologies-list *ngSwitchCase="'ontology'"
                                     [restrictedBy]="list.restrictedBy"
@@ -58,7 +73,7 @@
             </salsah-resource-types-list>
 
             <salsah-lists-list *ngSwitchCase="'list'"
-                                [restrictedBy]="list.restrictedBy"
+                               [restrictedBy]="list.restrictedBy"
                                (toggleItem)="toggleDetail($event, $event)">
             </salsah-lists-list>
 

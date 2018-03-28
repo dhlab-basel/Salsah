@@ -1,0 +1,289 @@
+
+<!-- deprecated template -->
+<div class="salsah-step-by-step-form">
+
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
+    <div class="salsah-form-content" *ngIf="!isLoading">
+        <mat-accordion class="headers-align">
+
+            <!-- 1) user profile -->
+
+            <!-- 1a) project admin view: select existing user OR create new user profile => b) -->
+            <salsah-select-user *ngIf="projectIri"
+                                [expanded]="step === 0"
+                                [project]="projectIri"
+                                (setStep)="setStep($event)"
+                                (goTo)="nextStep($event)">
+            </salsah-select-user>
+
+            <!-- 1b) project and system admin view: main form to create new user profile or to edit existing one -->
+            <salsah-user-data [expanded]="step === 1"
+                              [user]="userIri"
+                              [project]="projectIri"
+                              (setStep)="setStep($event)"
+                              (goTo)="nextStep($event)">
+            </salsah-user-data>
+
+
+            <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+
+            <!-- 2) project membership -->
+
+            <!-- 2a) view: system admin: select project AND set the permissions => b) -->
+            <mat-expansion-panel [expanded]="step === 2" *ngIf="!projectIri"
+                                 (opened)="setStep(2)"
+                                 hideToggle="true">
+                <!-- header -->
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{ 'salsahLabels.userFormLabels.project.select.title' | translate}}
+                    </mat-panel-title>
+                    <!-- 2a) show the project short name only -->
+                    <mat-panel-description>
+                        {{ 'salsahLabels.userFormLabels.project.select.description' | translate}}
+                        <mat-icon>assignment</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-form-field class="large">
+                    <input matInput
+                           [placeholder]="formLabels.project.select.autoComplete"
+                           [matAutocomplete]="autoProject"
+                           [formControl]="projectCtrl">
+                    <mat-icon matSuffix class="input-icon icon-for-autocomplete" (click)="projectCtrl.reset()"
+                              *ngIf="projectCtrl.value && projectCtrl.dirty">close
+                    </mat-icon>
+                    <mat-autocomplete #autoProject="matAutocomplete"> <!-- [displayWith]="displayFn"> -->
+                        <mat-option *ngFor="let project of filteredProjects | async" [value]="project?.name"
+                                    (onSelectionChange)="setSelectedProject(project?.iri, $event)">
+                            {{ project?.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <!-- footer -->
+                <mat-action-row>
+                    <button mat-button
+                            class="navigation-button left"
+                            color="warn"
+                            (click)="skipStep($event, 4, 'project')">
+                        {{ 'salsahLabels.userFormLabels.project.select.skip' | translate}}
+                    </button>
+                    <button mat-button
+                            class="navigation-button"
+                            color="primary"
+                            (click)="nextStep($event)"
+                            [disabled]="!projectCtrl.valid">
+                        {{ 'salsahLabels.userFormLabels.navigation.next' | translate}}
+                    </button>
+                </mat-action-row>
+
+
+                <!--
+
+                <mat-input-container class="full-width">
+                    <input matInput
+                           [matAutocomplete]="users"
+                           [formControl]="userCtrl"
+                           [placeholder]="formLabels.select">
+                    <mat-icon matSuffix class="input-icon icon-for-autocomplete" (click)="userCtrl.reset()"
+                             *ngIf="userCtrl.value && userCtrl.dirty">close</mat-icon>
+                </mat-input-container>
+                <mat-autocomplete #users="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let user of filteredUsers | async" [value]="user.name"
+                               (onSelectionChange)="getUser(user?.iri)">
+                        {{ user?.name }}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-action-row>
+                    <button mat-button
+                            class="navigation-button center"
+                            color="primary"
+                            (click)="nextStep($event)"
+                            [disabled]="!form.valid">
+                        {{formLabels.navigation.next}}
+                    </button>
+                </mat-action-row>
+                -->
+
+            </mat-expansion-panel>
+
+            <!-- 2b) view: project and system admin: set permissions -->
+            <mat-expansion-panel [expanded]="step === 3"
+                                 (opened)="setStep(3)"
+                                 hideToggle="true">
+                <!-- header -->
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{ 'salsahLabels.userFormLabels.permissions.title' | translate}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <span>{{ 'salsahLabels.userFormLabels.permissions.description' | translate}}</span>
+                        <mat-icon>accessibility</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-list>
+
+                    <div>
+                        <h3 mat-subheader>
+                            {{ 'salsahLabels.userFormLabels.permissions.project.title' | translate}}
+                        </h3>
+                        <mat-list-item>
+                            <mat-slide-toggle [(ngModel)]="adminPermission"
+                                             [disabled]="!projectIri && (!selectedUser && !form.valid)"
+                                             color="primary">
+                                {{ 'salsahLabels.userFormLabels.permissions.project.description' | translate}}
+                                <span *ngIf="selectedProject"><i>&nbsp;{{selectedProject?.longname}}</i></span>
+                            </mat-slide-toggle>
+                        </mat-list-item>
+                    </div>
+
+                    <!-- set system wide permissions, if the editor has system admin rights too -->
+                    <div *ngIf="sysAdmin && !userIri">
+                        <h3 mat-subheader>{{ 'salsahLabels.userFormLabels.permissions.system.title' | translate}}</h3>
+                        <mat-list-item>
+                            <mat-slide-toggle [(ngModel)]="sysAdminPermission"
+                                             [disabled]="!projectIri && (!selectedUser && !form.valid)"
+                                             color="primary">
+                                {{ 'salsahLabels.userFormLabels.permissions.system.description' | translate}}
+                            </mat-slide-toggle>
+                        </mat-list-item>
+                    </div>
+
+
+                </mat-list>
+
+                <!-- footer -->
+                <mat-action-row>
+                    <button mat-button
+                            class="navigation-button"
+                            color="primary"
+                            (click)="nextStep($event)">
+                        {{ 'salsahLabels.userFormLabels.navigation.next' | translate}}
+                    </button>
+                </mat-action-row>
+
+            </mat-expansion-panel>
+
+            <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+
+            <!-- 3) overview or additional form stuff -->
+            <mat-expansion-panel [expanded]="step === 4"
+                                 (opened)="setStep(4)"
+                                 [hideToggle]="true">
+                <!-- header -->
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{ 'salsahLabels.userFormLabels.overview.title' | translate}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{ 'salsahLabels.userFormLabels.overview.description' | translate}}
+                        <mat-icon>done</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <!-- name / email of selected user -->
+                <mat-list>
+                    <mat-list-item *ngIf="selectedUser || form.valid">
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
+                                                   [status]="submitUserStatus"></salsah-progress-indicator>
+                        <h4 mat-line>
+                            <!--
+                            <span *ngIf="selectedUser">
+                                {{ 'salsahLabels.userFormLabels.user.select.titleDone' | translate}}
+                            </span>
+                            <span *ngIf="!selectedUser && form.valid">
+                                {{ 'salsahLabels.userFormLabels.user.create.projectAdmin.titleDone' | translate}}
+                            </span>
+                            -->
+                        </h4>
+                        <p mat-line>
+                            <span *ngIf="selectedUser">
+                                {{selectedUser.userData?.givenName}} {{selectedUser.userData?.familyName}}, {{selectedUser.userData?.email}}
+                            </span>
+                            <span *ngIf="!selectedUser && form.valid">
+                                {{ form.controls['givenName'].value}} {{form.controls['familyName'].value}}, {{form.controls['email'].value}}
+                            </span>
+                        </p>
+                        <mat-hint mat-line *ngIf="userErrorMessage" class="salsah-error-message">
+                            {{userErrorMessage?.statusText}}
+                        </mat-hint>
+                    </mat-list-item>
+                </mat-list>
+
+                <mat-list *ngIf="projectIri || selectedProject">
+                    <mat-list-item *ngIf="projectIri || selectedProject">
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
+                                                   [status]="submitProjectStatus"></salsah-progress-indicator>
+                        <h4 mat-line>
+                            {{ 'salsahLabels.userFormLabels.project.select.title' | translate}}
+                        </h4>
+                        <p mat-line>
+                            {{selectedProject?.longname}} ({{selectedProject?.shortname}})
+                        </p>
+                        <mat-hint mat-line *ngIf="projectErrorMessage" class="salsah-error-message">
+                            {{projectErrorMessage?.statusText}}
+                        </mat-hint>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
+                                                   [status]="submitPermissionsStatus"></salsah-progress-indicator>
+                        <h4 mat-line>
+                            {{ 'salsahLabels.userFormLabels.permissions.title' | translate}}
+                        </h4>
+                        <p mat-line>
+                            <span *ngIf="adminPermission">&bull; {{ 'salsahLabels.userFormLabels.permissions.project.description' | translate}} <i>&nbsp;{{selectedProject?.longname}}</i></span>
+                            <span *ngIf="sysAdminPermission"><br>&bull; {{ 'salsahLabels.userFormLabels.permissions.system.description' | translate}}</span>
+                        </p>
+                        <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
+                            {{permissionsErrorMessage?.statusText}}
+                        </mat-hint>
+                    </mat-list-item>
+                </mat-list>
+
+                <!-- footer -->
+                <mat-action-row>
+                    <!-- two buttons for both cases and to submit the data with the method -->
+                    <div *ngIf="!afterSubmit">
+                        <button mat-raised-button *ngIf="!selectedUser" [disabled]="!form.valid"
+                                color="primary"
+                                (click)="submitData()">
+                            {{ 'salsahLabels.userFormLabels.navigation.submit' | translate}}
+                        </button>
+                        <button mat-raised-button *ngIf="selectedUser" [disabled]="!selectedUser?.userData?.user_id"
+                                color="primary"
+                                (click)="submitData()">
+                            {{ 'salsahLabels.userFormLabels.navigation.submit' | translate}}
+                        </button>
+                    </div>
+                    <!-- one button to add more users and one button to close the form;
+                        both button are shown after submit -->
+                    <div *ngIf="(!userErrorMessage && !projectErrorMessage && !permissionsErrorMessage) && afterSubmit">
+                        <button mat-button
+                                color="primary"
+                                (click)="resetForm()">
+                            {{ 'salsahLabels.userFormLabels.navigation.add' | translate}}
+                        </button>
+                        <button mat-button mat-dialog-close
+                                class="navigation-button-center"
+                                color="warn">
+                            <!--
+                                (click)="updateView()">
+                            -->
+                            {{ 'salsahLabels.userFormLabels.navigation.close' | translate}}
+                        </button>
+                    </div>
+                    <!--
+                    <button mat-button (click)="resetForm()">
+                        TEST
+                    </button>
+                    -->
+
+                </mat-action-row>
+
+            </mat-expansion-panel>
+
+
+        </mat-accordion>
+    </div>
+
+</div>

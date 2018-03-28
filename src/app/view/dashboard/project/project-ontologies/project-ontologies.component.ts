@@ -32,14 +32,15 @@ export class ProjectOntologiesComponent implements OnInit {
         title: 'Ontologies in this project',
         description: '',
         content: 'ontology',
-        showAs: 'expansion',
+        showAs: 'accordion',
         restrictedBy: ''
     };
 
     // add new users
     add: AddData = {
         title: 'Create new ontology',
-        description: ''
+        description: '',
+        type: 'ontology'
     };
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------

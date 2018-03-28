@@ -8,7 +8,7 @@ import {environment} from '../../../environments/environment';
 export class StatusMsgServiceService  extends ApiService {
 
     getStatusMsg(): Observable<any> {
-        let url = environment.url;
+        const url = environment.url;
         return this.httpGet(url + '/assets/i18n/statusMsg.json', {withCredentials: false});
     };
 
