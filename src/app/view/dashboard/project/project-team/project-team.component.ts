@@ -41,14 +41,15 @@ export class ProjectTeamComponent implements OnInit, OnDestroy {
         title: '',
         description: '',
         content: 'user',
-        showAs: 'expansion',
+        showAs: 'accordion',
         restrictedBy: ''
     };
 
     // add new users
     add: AddData = {
         title: '',
-        description: ''
+        description: '',
+        type: 'member'
     };
 
     // Language translation

@@ -35,15 +35,30 @@ export interface MessageData {
 })
 export class MessageComponent implements OnInit {
 
-    @Input('message') input: MessageData;
+    /**
+     * message content
+     * @type {MessageData}
+     */
+    @Input() message: MessageData;
 
-    message: MessageData;
+    /**
+     * show a short message only
+     *
+     * @type {boolean}
+     */
+    @Input() short?: boolean = false;
+
+//    message: MessageData;
 
     statusMsg: any;
 
     isLoading: boolean = true;
 
     showLinks: boolean = false;
+
+    // disable message
+    disable: boolean = false;
+
     /**
      *
      * default link list, which will be used in message content to give a user some possibilities
@@ -93,19 +108,19 @@ export class MessageComponent implements OnInit {
             .subscribe(
                 (result: ApiServiceResult) => {
                     this.statusMsg = result.getBody();
-//                    console.log(this.input);
-                    if (this.input == null) {
+
+                    if (!this.message) {
                         this._activatedRoute
                             .data
                             .subscribe(
                                 (v: any) => {
-                                    this.input = <MessageData>{
+                                    this.message = <MessageData>{
                                         status: v.status
                                     };
                                 }
                             );
                     }
-                    this.message = this.setMessage(this.input);
+                    this.message = this.setMessage(this.message);
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
@@ -172,6 +187,10 @@ export class MessageComponent implements OnInit {
         } else {
             this._router.navigate([route]);
         }
+    }
+
+    closeMessage() {
+        this.disable = !this.disable;
     }
 
 }

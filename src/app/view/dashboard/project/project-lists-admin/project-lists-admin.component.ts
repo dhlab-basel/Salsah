@@ -43,7 +43,8 @@ export class ProjectListsAdminComponent implements OnInit {
     // add new users
     add: AddData = {
         title: 'Add new list to the project',
-        description: ''
+        description: '',
+        type: 'list'
     };
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------

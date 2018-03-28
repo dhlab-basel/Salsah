@@ -5,7 +5,7 @@
 <div *ngIf="user">
     <mat-list class="main-list">
         <mat-list-item>
-            <img mat-list-icon salsahImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image large"/>
+            <img mat-list-icon salsahAdminImage *ngIf="email" [image]="email" [type]="'user'" class="salsah-avatar-image large"/>
             <h4 mat-line>{{user?.familyName}}, {{user?.givenName}}</h4>
             <p mat-line><a [href]="'mailto:' + email">{{email}}</a></p>
         </mat-list-item>
@@ -26,7 +26,7 @@
 
     <mat-divider></mat-divider>
 
-    <button mat-button color="warn" (click)="deleteUser(iri)">
+    <button mat-button color="warn" (click)="deactivateUser(iri)">
         Delete user
     </button>
 </div>

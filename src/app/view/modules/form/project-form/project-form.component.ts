@@ -18,7 +18,14 @@ import {ProjectsService} from '../../../../model/services/projects.service';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {Project} from '../../../../model/webapi/knora/';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
+
+import {ActivatedRoute} from '@angular/router';
 import {existingNamesValidator, notAllowed} from '../../other/existing-name.directive';
+import {MatDialogConfig} from '@angular/material';
+import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
+import {MessageData} from '../../message/message.component';
+import {AppConfig} from '../../../../app.config';
+import {OntologyInfoShort} from '../../../../model/webapi/knora/admin/ontologies/ontology-info-short';
 
 @Component({
     selector: 'salsah-project-form',
@@ -32,6 +39,8 @@ export class ProjectFormComponent implements OnInit {
     // otherwise the form is empty to create a new project
 
     @Input() iri?: string;
+
+    @Output() closeForm = new EventEmitter<any>();
 
     // @Output() submitData = new EventEmitter<any>();
 
@@ -50,14 +59,14 @@ export class ProjectFormComponent implements OnInit {
     existingShortNames: [RegExp] = [
         new RegExp('project')
     ];
-    shortnameRegexp = /^[a-zA-Z]+\S*$/;
+    shortnameRegex = /^[a-zA-Z]+\S*$/;
 
     existingShortcodes: [RegExp] = [
         new RegExp('project')
     ];
-    shortcodeRegexp = /^[0-9A-Fa-f]+$/;
+    shortcodeRegex = /^[0-9A-Fa-f]+$/;
 
-    form: FormGroup;
+    form: FormGroup = new FormGroup({});
 
     descriptionMaxLength: number = 2000;
     shortcodeMinLength: number = 4;
@@ -69,10 +78,12 @@ export class ProjectFormComponent implements OnInit {
     formLabels = {
         project: {
             title: 'Project details',
+            subtitle: 'Create new',    // depends on the form type: Create new or Edit
             description: 'Description',
             shortname: 'Project short name',
             longname: 'Project name',
             shortcode: 'Shortcode',
+            institution: 'Institution',
             logo: {
                 upload: 'Upload a logo',
                 or: 'OR',
@@ -92,7 +103,9 @@ export class ProjectFormComponent implements OnInit {
             submit: 'Save',
             close: 'Close',
             add: 'Add more users',
-            reset: 'Reset'
+            reset: 'Reset',
+            activate: 'Activate',
+            deactivate: 'Deactivate'
         }
 
     };
@@ -102,6 +115,7 @@ export class ProjectFormComponent implements OnInit {
         'longname': '',
         'shortcode': '',
         'description': '',
+        'institution': '',
         'keywords': '',
     };
 
@@ -120,17 +134,20 @@ export class ProjectFormComponent implements OnInit {
             'required': 'Shortcode is required',
             'maxlength': 'Shortcode cannot be more than ' + this.shortcodeMaxLength + ' characters long.',
             'minlength': 'Shortcode cannot be less than ' + this.shortcodeMinLength + ' characters long.',
-            'pattern': 'This is not a hexadecimal value!'
-//            'existingName': 'This shortcode is already taken.'
+            'pattern': 'This is not a hexadecimal value!',
+            'existingName': 'This shortcode is already taken.'
         },
         'description': {
+            'required': 'A description is required.',
             'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.'
         },
+        'institution': {},
         'keywords': {}
     };
 
     constructor(public _projectsService: ProjectsService,
-                private _fb: FormBuilder) {
+                private _fb: FormBuilder,
+                private _route: ActivatedRoute) {
     }
 
 
@@ -144,7 +161,9 @@ export class ProjectFormComponent implements OnInit {
                     const projects: Project[] = result;
                     for (const p of projects) {
                         this.existingShortNames.push(new RegExp('(?:^|\W)' + p.shortname.toLowerCase() + '(?:$|\W)'));
-//                        this.existingShortcodes.push(new RegExp('(?:^|\W)' + p.shortcode.toLowerCase() + '(?:$|\W)'));
+                        if (p.shortcode !== null) {
+                            this.existingShortcodes.push(new RegExp('(?:^|\W)' + p.shortcode.toLowerCase() + '(?:$|\W)'));
+                        }
                     }
                 },
                 (error: ApiServiceError) => {
@@ -155,16 +174,19 @@ export class ProjectFormComponent implements OnInit {
 
         if (this.iri) {
             // edit existing project; get the data first
+            this.formLabels.project.subtitle = 'Edit ';
             this._projectsService.getProjectByIri(this.iri)
                 .subscribe(
                     (result: Project) => {
                         this.project = result;
+                        this.formLabels.project.subtitle += this.project.shortname;
 
-                        const short = new RegExp(this.project.shortname);
-                        this.existingShortNames.splice(this.existingShortNames.indexOf(short), 1);
+                        const shortN = new RegExp(this.project.shortname);
+                        const shortC = new RegExp(this.project.shortcode);
+                        this.existingShortNames.splice(this.existingShortNames.indexOf(shortN), 1);
+                        this.existingShortcodes.splice(this.existingShortcodes.indexOf(shortC), 1);
 
                         const sc = new RegExp(this.project.shortcode);
-//                        this.existingShortcodes.splice(this.existingShortcodes.indexOf(sc), 1);
 
                         this.buildForm(this.project);
                     },
@@ -182,21 +204,22 @@ export class ProjectFormComponent implements OnInit {
 
     buildForm(proj: Project): void {
         // formControllName
-        this.form = new FormGroup({
-            'shortname': new FormControl({value: proj.shortname}),
-            'shortcode': new FormControl({value: proj.shortcode}),
-            'longname': new FormControl({value: proj.longname}),
-            'description': new FormControl({value: proj.description}),
-            'logo': new FormControl({value: proj.logo})
-        });
+        /*
+                this.form = new FormGroup({
+                    'shortname': new FormControl({value: proj.shortname}),
+                    'shortcode': new FormControl({value: proj.shortcode}),
+                    'longname': new FormControl({value: proj.longname}),
+                    'longname': new FormControl({value: proj.institution}),
+                    'description': new FormControl({value: proj.description}),
+                    'logo': new FormControl({value: proj.logo})
+                });
 
-        console.log(this.form);
+                        if (proj.logo !== undefined) {
+                    this.logo = proj.logo;
+                }
 
-        console.log(proj.logo);
+        */
 
-        if (proj.logo !== undefined) {
-            this.logo = proj.logo;
-        }
 
         this.form = this._fb.group({
 
@@ -207,34 +230,42 @@ export class ProjectFormComponent implements OnInit {
                 Validators.minLength(this.shortnameMinLength),
                 Validators.maxLength(this.shortnameMaxLength),
                 existingNamesValidator(this.existingShortNames),
-                Validators.pattern(this.shortnameRegexp)
+                Validators.pattern(this.shortnameRegex)
             ]),
 
-            'longname': [proj.longname, Validators.required],
+            'longname': new FormControl({
+                value: proj.longname, disabled: false
+            }, [
+                Validators.required
+            ]),
             'shortcode': new FormControl({
-                value: proj.shortcode, disabled: this.iri !== undefined
+                value: proj.shortcode, disabled: (this.iri !== undefined && proj.shortcode !== null)
             }, [
                 Validators.required,
                 Validators.minLength(this.shortcodeMinLength),
                 Validators.maxLength(this.shortcodeMaxLength),
-//                existingNamesValidator(this.existingShortcodes),
-                Validators.pattern(this.shortcodeRegexp)
+                existingNamesValidator(this.existingShortcodes),
+                Validators.pattern(this.shortcodeRegex)
             ]),
-            'description': [proj.description, Validators.maxLength(this.descriptionMaxLength)],
-            'institution': [proj.institution],
-            'logo': [proj.logo],
+            'description': new FormControl({
+                value: proj.description, disabled: false
+            }, [
+                Validators.required,
+                Validators.maxLength(this.descriptionMaxLength)
+            ]),
+            'institution': new FormControl({
+                value: proj.institution, disabled: false
+            }),
+            'logo': new FormControl({
+                value: proj.logo, disabled: false
+            }),
             'id': [proj.id],
             'status': [true],
             'selfjoin': [false],
             'keywords': [proj.keywords]
         });
 
-        console.log(this.form);
-
-        // console.log(this.form);
-
         this.isLoading = false;
-
 
         this.form.valueChanges
             .subscribe(data => this.onValueChanged(data));
@@ -249,7 +280,6 @@ export class ProjectFormComponent implements OnInit {
         }
         const form = this.form;
 
-
         Object.keys(this.formErrors).map(field => {
             this.formErrors[field] = '';
             const control = form.get(field);
@@ -261,21 +291,6 @@ export class ProjectFormComponent implements OnInit {
 
             }
         });
-
-/*
-        for (const field in Object.keys(this.formErrors)) {
-            // clear previous error message (if any)
-            this.formErrors[field] = '';
-            const control = form.get(field);
-
-            if (control && control.dirty && !control.valid) {
-                const messages = this.validationMessages[field];
-                for (const key in control.errors) {
-                    this.formErrors[field] += messages[key] + ' ';
-                }
-            }
-        }
-        */
     }
 
     onSubmit(value: any, iri?: string): void {
@@ -287,24 +302,68 @@ export class ProjectFormComponent implements OnInit {
         // this.submitData.emit({value, iri});
 
         if (!this.iri) {
-            // create project
-            this._projectsService.createProject(this.project).subscribe(
-                (result: ApiServiceResult) => {
-//                    console.log('service: ', result);
-                    this.isLoading = true;
+            this.project.ontologies = [];
+            const ontology: OntologyInfoShort = {
+                ontologyIri: AppConfig.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname,
+                ontologyName: value.shortname
+            };
+            this.project.ontologies.push(ontology);
 
-                    window.location.replace('/project/' + value.shortname);
-//                    location.reload();
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = error;
-                }
-            );
+            console.log('project info before post ', this.project);
+
+            // create project
+            this._projectsService.createProject(this.project)
+                .subscribe(
+                    (result: ApiServiceResult) => {
+                        const newProject: Project = result.getBody();
+                        console.log('project info after post ', newProject);
+
+                        // create new ontology with iri of the new project and shortname;
+                        // we have to store it in the session/local storage,
+                        // because the knora api isn't ready yet for new ontology creation;
+                        // TODO: needs coordination with knora api
+
+                        const newOntology: any = {
+                            '@context': {
+                                'dc': 'http://www.knora.org/ontology/dc#',
+                                'foaf': 'http://xmlns.com/foaf/0.1/',
+                                'knora-base': 'http://www.knora.org/ontology/knora-base#',
+                                'owl': 'http://www.w3.org/2002/07/owl#',
+                                'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                                'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+                                'salsah-gui': 'http://www.knora.org/ontology/salsah-gui#',
+                                'xsd': 'http://www.w3.org/2001/XMLSchema#'
+                            },
+                            '@graph': [
+                                {
+                                    '@id': this.project.ontologies[0],
+                                    '@type': 'owl:Ontology'
+                                }
+                            ]
+                        };
+
+                        localStorage.setItem('newOntology', JSON.stringify(newOntology));
+
+                        // this.isLoading = true;
+
+                        // TODO: find a better solution: reload the component only, not the whole application; implement @Output as discussed here: https://stackoverflow.com/questions/41231557/refresh-component-in-angular-2
+
+//                    window.location.replace('/project/' + value.shortname);
+
+                        // IN PRGOGRESS:
+                        this.closeForm.emit('/project/' + value.shortname);
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = error;
+                    }
+                );
         } else {
             // update project
             this._projectsService.updateProject(this.iri, this.project).subscribe(
                 (result: ApiServiceResult) => {
-
+                    this.closeForm.emit();
+//                    this.isLoading = true;
+//                    window.location.reload();
 //                    console.log('service: ', result);
                 },
                 (error: ApiServiceError) => {
@@ -314,57 +373,78 @@ export class ProjectFormComponent implements OnInit {
         }
 
         if (this.submitted) {
-            console.log('submitted');
+//            console.log('submitted');
             location.reload();
         }
     }
 
 
-    /**
-     * saveProject()
-     * check validity of the data in the form
-     * if everything's fine, send the data to the api
-     * and change the view from modify project to the project admin view
-     */
-
-        //
-        // ngX file upload settings
-        //
-    uploadFile: any;
-    hasBaseDropZoneOver: boolean = false;
-    /*
-     options: NgUploaderOptions = {
-     url: 'http://localhost:10050/upload'
-     };
-     */
-    sizeLimit = 2000000;
-
-    handleUpload(data): void {
-        if (data && data.response) {
-            data = JSON.parse(data.response);
-            this.uploadFile = data;
+    sipiUpload(success: any): void {
+        if (success !== false) {
+            this.form.patchValue({'logo': success.files[0]});
+//            this.form.controls['logo'].value = success.files[0];
+        } else {
+            console.log('error on file upload');
         }
-    }
 
-    fileOverBase(e: any): void {
-        this.hasBaseDropZoneOver = e;
-    }
-
-    beforeUpload(uploadingFile): void {
-        if (uploadingFile.size > this.sizeLimit) {
-            uploadingFile.setAbort();
-            alert('File is too large');
-        }
-    }
-
-    getFiles(files: any): void {
-        this.logo = files[0].name;
-        console.log('getFile: ', files[0].name);
     }
 
 
     submitData() {
         console.log(this.form);
+    }
+
+    deactivateProject(ev, id: string) {
+        ev.preventDefault();
+        // TODO: "are you sure?"-dialog
+
+        // if true
+        this._projectsService.deleteProject(id).subscribe(
+            (res: Project) => {
+                // reload page
+                this.isLoading = false;
+                window.location.reload();
+            },
+            (error: ApiServiceError) => {
+                const message: MessageData = error;
+                console.log(message);
+                /*
+                const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
+                    data: {
+                        message: message
+                    }
+                });
+                */
+            }
+        )
+
+        // close dialog box
+
+        // else: cancel action
+    }
+
+    activateProject(ev, id: string) {
+        ev.preventDefault();
+        // TODO: "are you sure?"-dialog
+
+        this._projectsService.activateProject(id).subscribe(
+            (res: Project) => {
+                // reload page
+                window.location.reload();
+                this.isLoading = false;
+            },
+            (error: ApiServiceError) => {
+                const message: MessageData = error;
+                console.log(message);
+                /*
+                const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
+                    data: {
+                        message: message
+                    }
+                });
+                */
+            }
+        )
     }
 
 }

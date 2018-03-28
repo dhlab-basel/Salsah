@@ -1,83 +1,66 @@
-/*
- * Copyright © 2016 Lukas Rosenthaler, André Kilchenmann, Andreas Aeschlimann,
- * Sofia Georgakopoulou, Ivan Subotic, Benjamin Geer, Tobias Schweizer.
- * This file is part of SALSAH.
- * SALSAH is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * SALSAH is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * You should have received a copy of the GNU Affero General Public
- * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-// DEPRECATED
-
 import {Component, Input, OnChanges} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ListsService} from '../../../../model/services/lists.service';
-import {List, ListInfo, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
-import {ListNodeFormComponent} from '../list-node-form/list-node-form.component';
+import {ApiServiceError} from '../../../../model/services/api-service-error';
+import {List, ListInfo} from '../../../../model/webapi/knora';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {StringLiteralV2} from 'app/model/webapi/knora/v2/shared/strings';
+import {ListInfoUpdatePayload} from '../../../../model/webapi/knora/admin/lists/list-info-update-payload';
+import {ListCreatePayload} from '../../../../model/webapi/knora/';
+import {ProjectsService} from '../../../../model/services/projects.service';
+import {Project} from '../../../../model/webapi/knora/';
+
 
 @Component({
-  selector: 'salsah-list-form',
-  templateUrl: './list-form.component.html',
-  styleUrls: ['./list-form.component.scss']
+    selector: 'salsah-list-form',
+    templateUrl: './list-form.component.html',
+    styleUrls: ['./list-form.component.scss']
 })
 export class ListFormComponent implements OnChanges {
 
-    @Input() listIri: string;
-    @Input() listOp: string; // view, edit, create
+    // the lsit-form can be used to create new lists or to edit existing list info
+    // it can have an attribute called iri which opens the edit form
+    // otherwise the form is empty to create new list
+    @Input() listIri?: string;
+    @Input() currentListInfo: ListInfo;
 
-    currentListInfo: ListInfo;
-    currentNodes: ListNode[];
-    currentListNodeInfo: ListNodeInfo;
-    currentListNodeIri: string;
-
-    errorMessage: string = undefined;
-    selectedRow: number;
+    // project data:
+    // project admin case: restrictedBy is the iri of the project
+    // in this case, the project admin is allowed to add a new or edit a list in this project
+    @Input() restrictedBy?: string = undefined;
 
     isLoading: boolean = true;
-    editList: boolean = true;
+    public submitted: boolean; // keep track on whether form is submitted
 
-    index: number = 0;
+    listInfoErrorMessage: ApiServiceError = undefined;
+
+    // language: string ;
+    arrayLength: number;
+
+    allProjects: Project[] = [];
+
 
     public editLists: any = {
         label: 'List',
-        description: 'Click to edit the list data',
+        description: 'Click on the fields to edit',
         list: {
-            label: 'Label',
+            label: 'Label ',
             project: 'Belongs to project',
             id: 'Id',
-            comments: 'Comments',
+            comments: 'Comments ',
             nodes: {
-                formLabel: 'has Nodes',
-                formDescription: 'Click to edit the node',
+                formLabel: 'edit Nodes',
+                formDescription: 'click on the fields to edit',
                 id: 'Node ID',
                 name: 'Node name',
                 label: 'Node label',
                 children: 'has children',
+                childName: 'Child name',
                 level: 'Node level',
+                position: 'Node position',
             }
         },
-        // addNode: {
-        //     addLabel: 'Add new properties',
-        //     label: 'or create new property',
-        //     description: 'Create a custom property',
-        //     selectLabel: 'Select node',
-        //     selectedLabel: 'Selected node',
-        //     selectDescript: 'Select an existing node to add to this resource',
-        //     selectedDescript: 'You have selected the node:',
-        //     autoComplete: 'Start typing a node name here',
-        //     skip: 'Skip and create custom node',
-        //     customize: 'Customize node',
-        //     customizeDescript: 'Select a unique name and id for your new node'
-        //
-        // },
+        add: 'Create new list',
+
         buttons: {
             save: 'Save',
             reset: 'Reset',
@@ -85,224 +68,222 @@ export class ListFormComponent implements OnChanges {
             edit: 'Edit',
             skip: 'Skip',
             next: 'Next',
-            add: 'Add'
+            add: 'Add',
+            adNode: 'Add node',
+            addChild: 'Add child'
         }
     };
 
-    options = {
-        useVirtualScroll: false,
-        nodeHeight: 0,
-        allowDrag: true,
-        allowDrop: true,
-
-    }
+    // the following form fields would have an error check
+    formErrors = {
+        'belongsToProject': '',
+        labels: {
+            'value': '',
+            'language': ''
+        }
+    };
+    // ...with the following messages
+    // TODO: Validation messages don't show
+    validationMessages = {
+        'belongsToProject': {
+            'required': 'Project name is required'
+        },
+        labels: {
+            'value': {
+                'required': 'At least one label is required'
+            },
+            'language': {
+                'maxLength': 'Language can be maximum 2 letters'
+            },
+        }
+    };
 
     public listInfoForm: FormGroup; // our model driven form
-    public listNodeInfoForm: FormGroup; // our model driven form
-    public labels: FormArray = undefined;
-    public comments: FormArray = undefined;
 
-    public submitted: boolean; // keep track on whether form is submitted
 
     constructor(private _listsService: ListsService,
-                private _dialog: MatDialog,
-                private _fb: FormBuilder,
-                private _fbn: FormBuilder) {
+                private _projectsService: ProjectsService,
+                private _fb: FormBuilder) {
     }
 
     ngOnChanges() {
-        console.log('0. onChanges', this.listIri, this.currentListNodeIri);
-
-        this.buildListNodeInfoForm();
-        this.fetchDataAndUpdateForm(this.listIri);
-
-        // this.isLoading = false;
-        // build form
+        this.buildListInfoForm();
+        if (this.listIri) {
+            console.log('labels: ', this.currentListInfo.labels);
+            this.setLabels(this.currentListInfo.labels);
+            this.setComments(this.currentListInfo.comments);
+        }
+        this.getProjects();
     }
 
     buildListInfoForm() {
-        this.listInfoForm = this._fb.group({
-            id: '',
-            projectIri: '',
-            labels: this.buildLabelsArray(),
-            comments: this.buildCommentsArray()
-        });
-
-        console.log('2. buildListInfoForm', this.listInfoForm);
-
-    }
-    buildListNodeInfoForm() {
-
-        if(!this.isLoading){
-            this.listNodeInfoForm = this._fbn.group({
-                id: this.currentNodes[0].id,
-                name: this.currentNodes[0].id,
-                labels: this.currentNodes[0].id,
-                children: this.currentNodes[0].id,
-                level: this.currentNodes[0].id,
+        if (this.listIri) {
+            this.listInfoForm = this._fb.group({
+                id: new FormControl({value: this.currentListInfo.id, disabled: true}),
+                belongsToProject: [this.currentListInfo.projectIri, Validators.required],
+                labels: this._fb.array([this.buildLabelsGroup()]),
+                comments: this._fb.array([this.buildCommentsGroup()])
+            });
+            console.log('iri in form: ', this.currentListInfo.id);
+            console.log('list info: ', this.currentListInfo);
+        } else {
+            this.listInfoForm = this._fb.group({
+                id: '',
+                belongsToProject: ['', Validators.required],
+                labels: this._fb.array([this.buildLabelsGroup()]),
+                comments: this._fb.array([this.buildCommentsGroup()])
             });
         }
-        else{
-            this.listNodeInfoForm = this._fbn.group({
-                id:'',
-                name:'',
-                labels:'',
-                children:'',
-                level:'',
-            });
-        }
+        this.isLoading = false;
 
-        console.log('5. buildListNodeInfoForm', this.listNodeInfoForm);
-
-        // this.listInfoForm.controls['id'].disable();
-        // this.listInfoForm.controls['projectIri'].disable();
+        // validation messages
+        this.listInfoForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
     }
 
-    buildLabelsArray(): FormArray {
-        this.labels = this._fb.array([]);
-        return this.labels;
-    }
-
-    buildCommentsArray(): FormArray {
-        this.comments = this._fb.array([]);
-        return this.comments;
-    }
-
-    buildValueLangGroup(): FormGroup {
+    buildLabelsGroup(): FormGroup {
         return this._fb.group({
             value: ['', Validators.required],
-            language: ['']
+            language: ['', Validators.maxLength(2)]
         });
     }
 
-    addNeededNumberOfLabels() {
-        for (let i in this.currentListInfo.labels) {
-            this.addLabel();
+    buildCommentsGroup(): FormGroup {
+        return this._fb.group({
+            value: '',
+            language: ''
+        });
+    }
+
+    // build form validation messages
+    onValueChanged(data?: any) {
+        if (!this.listInfoForm) {
+            return;
+        }
+        const form = this.listInfoForm;
+
+        for (const field in this.formErrors) {
+            const control = form.get(field);
+            this.formErrors[field] = '';
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+
         }
     }
 
-    addNeededNumberOfComments() {
-        for (let i in this.currentListInfo.comments) {
-            this.addComment();
-        }
+    get labels(): FormArray {
+        return this.listInfoForm.get('labels') as FormArray;
+    }
+
+    get comments(): FormArray {
+        return this.listInfoForm.get('comments') as FormArray;
+    }
+
+    setLabels(labels: StringLiteralV2[]) {
+        console.log('setLabels: ', labels);
+        const labelFGs = labels.map(label => this._fb.group(label));
+        const labelFormArray = this._fb.array(labelFGs);
+        this.listInfoForm.setControl('labels', labelFormArray);
+    }
+
+    setComments(comments: StringLiteralV2[]) {
+        console.log('setComments: ', comments);
+        const commentFGs = comments.map(comment => this._fb.group(comment));
+        const commentFormArray = this._fb.array(commentFGs);
+        this.listInfoForm.setControl('comments', commentFormArray);
+    }
+
+    revertListInfo(cList: ListInfo) {
+        this.ngOnChanges();
     }
 
     addLabel() {
-        this.labels.push(this.buildValueLangGroup());
+        this.labels.push(this.buildLabelsGroup());
     }
 
     addComment() {
-        this.comments.push(this.buildValueLangGroup());
+        this.comments.push(this.buildCommentsGroup());
     }
 
-    updateFormValues() {
+    removeLabel(i: number) {
+        this.labels.removeAt(i);
+    }
 
-        if (this.currentListInfo) {
-            (<FormGroup>this.listInfoForm)
-                .setValue(this.currentListInfo, { onlySelf: true });
+    removeComment(i: number) {
+        this.comments.removeAt(i);
+    }
+
+    saveListInfo() {
+        this.submitted = true; // set form submit to true
+
+        if (this.listIri) {
+            console.log('save edited list:', this.listInfoForm.value);
+            console.log('id:', this.currentListInfo.id);
+            const payload: ListInfoUpdatePayload = {
+                listIri: this.currentListInfo.id, // the id is disabled in the form and cannot be changed, so it won't be saved as a form value
+                projectIri: this.listInfoForm.value.belongsToProject,
+                labels: this.listInfoForm.value.labels,
+                comments: this.listInfoForm.value.comments
+            };
+            this._listsService.updateListInfo(payload).subscribe(
+                (result: any) => {
+                    console.log(result);
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.listInfoErrorMessage = error;
+                }
+            );
+            // after close form, refresh the page
+            location.reload();
+        } else {
+            console.log('save new list:', this.listInfoForm.value);
+            const payload: ListCreatePayload = {
+                projectIri: this.listInfoForm.value.belongsToProject,
+                labels: this.listInfoForm.value.labels,
+                comments: this.listInfoForm.value.comments
+            };
+            console.log('payload:', payload);
+
+            this._listsService.createList(payload).subscribe(
+                (result: any) => {
+                    console.log(result);
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.listInfoErrorMessage = error;
+                }
+            );
+            // after close form, refresh the page
+            location.reload();
         }
-        this.isLoading=false;
-        console.log('3. updateFormValues:  current list info',this.currentListInfo);
+
 
     }
 
-    // viewDetails(nodeIri: string) {
-    //     const dialogRef = this._dialog.open(ListNodeFormComponent, <MatDialogConfig>{
-    //         height: '500px',
-    //         width: '600px',
-    //         data: nodeIri
-    //     });
-    //
-    //     dialogRef.afterClosed().subscribe(result => {
-    //
-    //         // only if we have changed the list node, go and fetch the updated version
-    //         if (result === true) {
-    //             this.fetchDataAndUpdateForm(this.listIri);
-    //             this.fetchNodeDataAndUpdateForm(this.currentListNodeIri);
-    //         }
-    //     });
-    //
-    // }
-
-    fetchDataAndUpdateForm(iri: string) {
-
-        this._listsService.getList(iri)
+    getProjects() {
+        // get all projects from the service
+        this._projectsService.getAllProjects()
             .subscribe(
-                (list: List) => {
-                    this.currentNodes = list.children;
-                    this.currentListNodeIri = this.currentNodes[this.index].id;
-                    this.currentListInfo = list.listinfo;
+                (result: Project[]) => {
+                    this.allProjects = result;
+                    console.log('projects: ', result);
 
-                    this.buildListInfoForm();
-                    this.addNeededNumberOfLabels();
-                    this.addNeededNumberOfComments();
-                    this.updateFormValues();
+
+                    // this.filter(this.allProjects);
+
+                    this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
+                    console.log(error);
+                    this.isLoading = false;
                 }
             );
 
-        console.log('1. fetchDataAndUpdateForm:  current nodes',this.currentNodes);
-
-    }
-
-    fetchNodeDataAndUpdateForm(iri: string) {
-
-        this._listsService.getListNodeInfo(iri)
-            .subscribe(
-                (nodeInfo: ListNodeInfo) => {
-                    this.currentListNodeInfo = nodeInfo;
-                    // this.buildListNodeInfoForm();
-
-                    // this.viewDetails(this.currentListNodeIri);
-
-
-                    // (<FormGroup>this.listNodeInfoForm)
-                    //     .setValue(this.currentListNodeInfo, { onlySelf: true });
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                }
-            );
-        console.log('4. fetchNodeDataAndUpdateForm: nodes info:', this.currentListNodeInfo );
-
-    }
-
-    setIndex(index: number) {
-
-        this.index = index;
-        this.fetchNodeDataAndUpdateForm(this.currentListNodeIri);
-        this.buildListNodeInfoForm();
-
-        console.log('6. setIndex: index:', this.index );
-
-    }
-
-
-    revert() {
-        (<FormGroup>this.listInfoForm)
-            .setValue(this.currentListInfo, { onlySelf: true });
-    }
-
-    save(listInfo: ListInfo) {
-        this.submitted = true; // set form submit to true
-        // check if model is valid
-        // if valid, call API to save customer
-        console.log('save:', listInfo);
-    }
-
-    revertNode() {
-        (<FormGroup>this.listNodeInfoForm)
-            .setValue(this.currentListNodeInfo, { onlySelf: true });
-    }
-
-    saveNode(listNodeInfo: ListNodeInfo) {
-        this.submitted = true; // set form submit to true
-
-        // check if model is valid
-        // if valid, call API to save customer
-        console.log('save:', listNodeInfo);
     }
 
 }

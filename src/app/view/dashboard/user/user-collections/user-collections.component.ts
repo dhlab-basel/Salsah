@@ -40,7 +40,8 @@ export class UserCollectionsComponent implements OnInit {
     // add new project
     add: AddData = {
         title: 'Create new collection',
-        description: ''
+        description: '',
+        type: 'collection'
     };
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------

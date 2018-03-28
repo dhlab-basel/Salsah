@@ -7,10 +7,9 @@
         },
         "frameworkForListings": {
             "project": {
-                "list":{
+                "list": {
                     "title": "Projects",
                     "description": ""
-
                 },
                 "add": {
                     "title": "Add a new team member",
@@ -18,17 +17,15 @@
                 }
             },
             "user": {
-                "list":{
+                "list": {
                     "title": "Members in this project",
                     "description": ""
-
                 },
                 "add": {
                     "title": "Add a new team member",
                     "description": ""
                 }
             }
-
         },
         "usersList": {
             "sortProps": {
@@ -40,15 +37,23 @@
         "formDialog": {
             "discard": "You're sure to close the form and discard all changes?"
         },
-	    "userFormLabels": {
+        "userFormLabels": {
             "user": {
+                "title": {
+                    "new": "Create user",
+                    "edit": "Update user"
+                },
                 "select": {
                     "title": "Select user",
                     "titleDone": "Selected user",
                     "description": "Add an existing one",
-                    "autoComplete": "just type a name here",
+                    "autoComplete": "Select user or set new one by email address",
                     "autoCompleteHint": "",
                     "skip": "Skip and create new user instead"
+                },
+                "password": {
+                    "old": "Old password",
+                    "new": "New password"
                 },
                 "create": {
                     "projectAdmin": {
@@ -61,12 +66,12 @@
                         "titleDone": "New user",
                         "description": "Create new user profile"
                     },
-                    "givenName": "First name *",
-                    "familyName": "Last  *",
-                    "email": "Email address (will be your login name) *",
+                    "givenName": "First name",
+                    "familyName": "Last",
+                    "email": "Email address (will be your login name)",
                     "emailHint": "This will be your login name",
                     "emailValidation": "This does not appear to be a valid email address.",
-                    "password": "Password *",
+                    "password": "Password",
                     "passwordHint": "Use at least 8 characters with one uppercase letter and one number.",
                     "avatar": "Upload a profile pic",
                     "language": "Default language"
@@ -140,40 +145,40 @@
                 }
             }
         },
-	    "projectFormLabels": {
-			"project": {
-				"title": "Project details",
-				"description": "Description",
-				"shortname": "Project short name *",
-				"longname": "Project name *",
-				"logo": {
-					"upload": "Upload a logo",
-					"or": "OR",
-					"url": "Set an URL",
-					"name": "Logo file name or URL"
-				},
-				"keywords": "Keywords"
-			},
-			"user": {
-				"select": "Select user to add"
-			},
-			"navigation": {
-				"next": "Next",
-				"back": "Back",
-				"skip": "Skip",
-				"cancel": "Cancel",
-				"submit": "Save",
-				"close": "Close",
-				"add": "Add more users",
-				"reset": "Reset"
-			},
-			"formErrors": {
-				"shortname": "",
-				"longname": "",
-				"description": "",
-				"keywords": ""
-			},
-			"validationMessages": {
+        "projectFormLabels": {
+            "project": {
+                "title": "Project details",
+                "description": "Description",
+                "shortname": "Project short name",
+                "longname": "Project name",
+                "logo": {
+                    "upload": "Upload a logo",
+                    "or": "OR",
+                    "url": "Set an URL",
+                    "name": "Logo file name or URL"
+                },
+                "keywords": "Keywords"
+            },
+            "user": {
+                "select": "Select user to add"
+            },
+            "navigation": {
+                "next": "Next",
+                "back": "Back",
+                "skip": "Skip",
+                "cancel": "Cancel",
+                "submit": "Save",
+                "close": "Close",
+                "add": "Add more users",
+                "reset": "Reset"
+            },
+            "formErrors": {
+                "shortname": "",
+                "longname": "",
+                "description": "",
+                "keywords": ""
+            },
+            "validationMessages": {
                 "shortname": {
                     "required": "Short name is required.",
                     "minlength": "Short name must be at least 3 characters long.",
@@ -191,6 +196,6 @@
                 "keywords": {
                 }
             }
-		}
+        }
     }
 }

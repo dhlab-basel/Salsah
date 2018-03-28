@@ -56,5 +56,8 @@ export class User {
     @JsonProperty('permissions', PermissionData)
     public permissions: PermissionData = undefined;
 
+    @JsonProperty('systemAdmin', Boolean, true)
+    public systemAdmin?: boolean = false;
+
 
 }

@@ -22,6 +22,9 @@
                 <input matInput
                        [placeholder]=editLists.list.nodes.name
                        formControlName="name">
+                <mat-hint *ngIf="formErrors.name">
+                    {{ formErrors.name }}
+                </mat-hint>
             </mat-form-field>
             <mat-form-field class="full-width">
                 <input matInput

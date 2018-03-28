@@ -12,9 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+import {environment} from '../environments/environment';
+
 export class AppConfig {
 
-    public static KnoraBase: string = 'http://www.knora.org/ontology/knora-base';
+    public static FileServer: string = environment.media;
+    public static AdminFileServer: string = environment.media + '/server/admin';
+
+    public static KnoraOntologyPath: string = 'http://www.knora.org/ontology';
+    public static KnoraBase: string = AppConfig.KnoraOntologyPath + '/knora-base';
 
     public static SystemProject: string = AppConfig.KnoraBase + '#SystemProject';
     public static SystemAdminGroup: string = AppConfig.KnoraBase + '#SystemAdmin';
@@ -26,6 +32,7 @@ export class AppConfig {
     public static PathSeparator = '#';
 
     public static KnoraApiV2WithValueObjectPath: string = AppConfig.KnoraApi + '/v2' + AppConfig.PathSeparator;
+
     public static KnoraApiV2SimplePath: string = AppConfig.KnoraApi + '/simple/v2' + AppConfig.PathSeparator;
 
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
@@ -143,8 +150,8 @@ export class AppConfig {
     public static intervalValueHasStart = AppConfig.KnoraApiV2WithValueObjectPath + 'intervalValueHasStart';
     public static intervalValueHasEnd = AppConfig.KnoraApiV2WithValueObjectPath + 'intervalValueHasEnd';
 
-    public static hierarchicalListValueAsListNode = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNode';
-    public static hierarchicalListValueAsListNodeLabel = AppConfig.KnoraApiV2WithValueObjectPath + 'hierarchicalListValueAsListNodeLabel';
+    public static listValueAsListNode = AppConfig.KnoraApiV2WithValueObjectPath + 'listValueAsListNode';
+    public static listValueAsListNodeLabel = AppConfig.KnoraApiV2WithValueObjectPath + 'listValueAsListNodeLabel';
 
     public static hasGeometry = AppConfig.KnoraApiV2WithValueObjectPath + 'hasGeometry';
 
@@ -201,17 +208,19 @@ export class AppConfig {
     public static geomSimple = AppConfig.KnoraApiV2SimplePath + 'Geom';
     public static colorSimple = AppConfig.KnoraApiV2SimplePath + 'Color';
     public static geonameSimple = AppConfig.KnoraApiV2SimplePath + 'Geoname';
-    public static stillImageFileSimple = AppConfig.KnoraApiV2SimplePath + 'StillImageFile';
     public static fileSimple = AppConfig.KnoraApiV2SimplePath + 'File';
-    public static movingFileSimple = AppConfig.KnoraApiV2SimplePath + 'MovingImageFile';
-    public static audioFileSimple = AppConfig.KnoraApiV2SimplePath + 'AudioFile';
-    public static dddFileSimple = AppConfig.KnoraApiV2SimplePath + 'DDDFile';
-    public static textFileSimple = AppConfig.KnoraApiV2SimplePath + 'TextFile';
-    public static documentFileSimple = AppConfig.KnoraApiV2SimplePath + 'DocumentFile';
 
     public static GNDPrefix = '(DE-588)';
     public static GNDResolver = 'http://d-nb.info/gnd/';
 
     public static VIAFPrefix = '(VIAF)';
     public static VIAFResolver = 'https://viaf.org/viaf/';
+
+    // regular expression
+    public static RegexEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    public static RegexUrl = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/i;
+    public static RegexPassword = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/i;
+    public static RegexHex = /^[0-9A-Fa-f]+$/;
+    public static RegexShortname = /^[a-zA-Z]+\S*$/;
+
 }
