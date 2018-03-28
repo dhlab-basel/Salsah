@@ -163,11 +163,7 @@ export class UserDataComponent implements OnInit, OnChanges {
 
         // if user is defined, we're in the edit mode
         // otherwise "create new user" mode is active
-        const edit: boolean = (!!user);
-
-        if (!edit) {
-            user = new User();
-        }
+        const edit: boolean = (!!user.id);
 
         this.userDataForm = this._formBuilder.group({
             'givenName': new FormControl({
