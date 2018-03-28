@@ -41,7 +41,8 @@ export class ProjectResourcesComponent implements OnInit {
     // add new users
     add: AddData = {
         title: 'Create new resource type',
-        description: ''
+        description: '',
+        type: 'resource-type'
     };
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------

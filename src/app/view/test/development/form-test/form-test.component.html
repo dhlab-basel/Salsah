@@ -1,0 +1,30 @@
+
+
+
+<h3>User form in <span *ngIf="projectIri">PROJECT</span><span *ngIf="!projectIri">SYSTEM</span> admin view</h3>
+<salsah-user-form [projectIri]="projectIri"></salsah-user-form>
+<!--
+<h3>User role form in <span *ngIf="projectIri">PROJECT</span><span *ngIf="!projectIri">SYSTEM</span> admin view</h3>
+<salsah-user-role *ngIf="user" [projectIri]="projectIri" [user]="user"></salsah-user-role>
+
+
+<!--
+<hr>
+
+<h3>User form to update password</h3>
+<salsah-user-password [userIri]="userIri"></salsah-user-password>
+
+<hr>
+
+<h3>User form EDIT mode in SYSTEM admin view</h3>
+<salsah-user-data [userIri]="userIri" [standalone]="true"></salsah-user-data>
+
+<!--
+
+<hr>
+<hr>
+
+<h3>User form EDIT mode in PROJECT admin view</h3>
+<salsah-user-form [userIri]="user" [projectIri]="project"></salsah-user-form>
+-->
+

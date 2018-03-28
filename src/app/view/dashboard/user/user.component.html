@@ -1,8 +1,8 @@
 <!-- case a) -->
 <!-- if ownProfile is not defined; show user's profile only; -->
 <div class="salsah-module without-header" *ngIf="!showOwnProfile">
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
     <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
-    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
     <salsah-user-profile *ngIf="!errorMessage && !isLoading"></salsah-user-profile>
 </div>
 
@@ -10,22 +10,21 @@
 <!-- show the logged in user profile incl. projects list, collections and settings -->
 <div class="salsah-module with-header" *ngIf="showOwnProfile">
 
-    <mat-toolbar class="salsah-module-header">
+    <!-- this component has his own toolbar header
+        with tabs for navigation through the settings
+    -->
 
-        <!-- type of the current dashboard -->
+    <mat-toolbar class="salsah-module-header">
+        <!-- current dashboard type -->
         <h4 mat-subheader>
             Person
         </h4>
-        <!--
-        <mat-icon>person</mat-icon>
-        -->
 
         <!-- This fills the remaining space of the current row -->
         <span class="fill-remaining-space"></span>
 
         <!-- Tab menu -->
         <nav class="salsah-tab-group" *ngIf="!errorMessage">
-
             <button *ngFor="let item of menu; let i = index; let first = first"
                     mat-button
                     class="salsah-tab-item"
@@ -45,19 +44,16 @@
 
         <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 
-        <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
-
-        <!-- switch view; not with a second router-outlet, because of the direct (parent) routes like
-            "/settings", "/projects" and "/collections
-        -->
         <salsah-user-projects *ngSwitchCase="'/projects'"></salsah-user-projects>
         <salsah-user-collections *ngSwitchCase="'/collections'"></salsah-user-collections>
         <salsah-user-settings *ngSwitchCase="'/settings'"></salsah-user-settings>
         <salsah-user-profile *ngSwitchCase="'/profile'"></salsah-user-profile>
+
     </div>
+
 </div>
 
-<!-- variant c) -->
+<!-- case c) -->
 <!-- access denied: show the possibilities for the user: go back, go to start or go to login page -->
 
 

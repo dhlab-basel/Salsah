@@ -12,9 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+import {environment} from '../environments/environment';
+
 export class AppConfig {
 
-    public static KnoraBase: string = 'http://www.knora.org/ontology/knora-base';
+    public static FileServer: string = environment.media;
+    public static AdminFileServer: string = environment.media + '/server/admin';
+
+    public static KnoraOntologyPath: string = 'http://www.knora.org/ontology';
+    public static KnoraBase: string = AppConfig.KnoraOntologyPath + '/knora-base';
 
     public static SystemProject: string = AppConfig.KnoraBase + '#SystemProject';
     public static SystemAdminGroup: string = AppConfig.KnoraBase + '#SystemAdmin';
@@ -26,6 +32,7 @@ export class AppConfig {
     public static PathSeparator = '#';
 
     public static KnoraApiV2WithValueObjectPath: string = AppConfig.KnoraApi + '/v2' + AppConfig.PathSeparator;
+
     public static KnoraApiV2SimplePath: string = AppConfig.KnoraApi + '/simple/v2' + AppConfig.PathSeparator;
 
     public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
@@ -208,4 +215,12 @@ export class AppConfig {
 
     public static VIAFPrefix = '(VIAF)';
     public static VIAFResolver = 'https://viaf.org/viaf/';
+
+    // regular expression
+    public static RegexEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    public static RegexUrl = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/i;
+    public static RegexPassword = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/i;
+    public static RegexHex = /^[0-9A-Fa-f]+$/;
+    public static RegexShortname = /^[a-zA-Z]+\S*$/;
+
 }

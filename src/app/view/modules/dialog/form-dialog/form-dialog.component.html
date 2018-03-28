@@ -33,14 +33,21 @@
 
         <!-- create new / edit projects -->
         <salsah-project-form *ngSwitchCase="'project'"
+                             (closeForm)="closeAndRefresh($event)"
                              [iri]="data.iri">
         </salsah-project-form>
 
-        <!-- create new / edit users -->
-        <salsah-user-form *ngSwitchCase="'user'"
-                          [iri]="data.iri"
-                          [restrictedBy]="data.restriction">
+        <!-- add user to the system or to a project -->
+        <salsah-user-form *ngSwitchCase="'member'"
+                          [userIri]="data.userIri"
+                          [projectIri]="data.restriction">
         </salsah-user-form>
+
+        <!-- edit user profile -->
+        <salsah-user-data *ngSwitchCase="'user'"
+                          [standalone]="true"
+                          [user]="data.user">
+        </salsah-user-data>
 
         <!-- create new / edit ontologies -->
         <salsah-ontology-form *ngSwitchCase="'ontology'"

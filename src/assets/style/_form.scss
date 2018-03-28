@@ -1,19 +1,22 @@
 $form-width: 472;
-$gc-large: decimal-floor($form-width / 1.618, 0);
-$gc-small: $form-width - $gc-large - 1;
+$gc-large: decimal-floor($form-width / 1.618, 0) - 2;
+$gc-small: $form-width - $gc-large - 4;
 
 .salsah-form-content {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 24px auto;
   padding: 0 20px;
-  width: $form-width + 60 + px;
+  width: $form-width + px;
+
+  .small, .medium, .large {
+    margin-bottom: 24px;
+  }
 
   .small {
     width: $gc-small + px;
   }
 
   .medium {
-    width: decimal-floor($gc-large, 0) + px;
+    width: $gc-large + px;
   }
 
   .large {
@@ -23,10 +26,11 @@ $gc-small: $form-width - $gc-large - 1;
   .input-icon {
     color: $black-60-opacity;
   }
+
+  .salsah-panel {
+    width: $form-width + px;
+  }
 }
-
-
-
 
 // old style... TODO: please clean up!
 
@@ -65,7 +69,6 @@ $gc-small: $form-width - $gc-large - 1;
   display: none;
 }
 
-
 .salsah-form {
 
   .mat-input-container {
@@ -97,9 +100,9 @@ $gc-small: $form-width - $gc-large - 1;
 }
 
 .form-table {
-  margin-top: 24px;
-  margin-bottom: 24px;
   border-spacing: 0;
+  margin-bottom: 24px;
+  margin-top: 24px;
   td, th {
     padding: 12px;
     text-align: center;
@@ -161,33 +164,35 @@ div.salsah-checkbox {
     height: 48px;
     span {
       display: inline-flex;
+
       &.checkbox-label {
-        margin-top: 12px;
         color: darken($bright, 50%);
+        margin-top: 12px;
       }
+
       &.checkbox-fake {
-        position: relative;
-        width: 21px;
-        height: 21px;
-        top: -12px;
-        left: -12px;
         background: none;
         border: 2px solid darken($bright, 50%);
         border-radius: 2px;
+        height: 21px;
+        left: -12px;
+        position: relative;
+        top: -12px;
+        width: 21px;
         &:after {
-          opacity: 0.2;
-          content: '';
-          position: relative;
-          width: 12px;
-          height: 5px;
           background: transparent;
-          top: 5px;
-          left: 4px;
           border: 2px solid $bright;
-          border-top: none;
-          border-right: none;
-
+          border-right-style: none;
+          border-top-style: none;
+          content: '';
+          height: 5px;
+          left: 4px;
+          opacity: 0.2;
+          position: relative;
+          top: 5px;
           transform: rotate(-45deg);
+
+          width: 12px;
         }
         :hover::after {
           opacity: 0.5;

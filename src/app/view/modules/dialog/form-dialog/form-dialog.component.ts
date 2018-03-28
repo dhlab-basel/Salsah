@@ -12,7 +12,7 @@
 * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
 * */
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {MessageData} from '../../message/message.component';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
@@ -32,6 +32,10 @@ export interface FormSteps {
 
 export class FormDialogComponent implements OnInit {
 
+    @Output() refreshComponent = new EventEmitter<any>();
+
+//    refreshComponent = new EventEmitter<any>();
+
     fullSize: boolean = false;
 
 //    formIsValid: boolean = false;
@@ -43,8 +47,7 @@ export class FormDialogComponent implements OnInit {
     };
 
     constructor(public _dialogRef: MatDialogRef<FormDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any,
-                public _dialog: MatDialog) {
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
@@ -91,6 +94,18 @@ export class FormDialogComponent implements OnInit {
             answer: answer
         };
 
+        this._dialogRef.close();
+        this._dialogRef.beforeClose().subscribe(() => {
+            // update parent component
+//            this.refreshComponent.emit();
+            console.log('dialog before close');
+        });
+        this._dialogRef.afterClosed().subscribe(() => {
+//            this.refreshComponent.emit();
+            console.log('dialog after closed');
+        });
+
+        /*
         // open dialog box
         const dialogRefConfirm = this._dialog.open(ConfirmDialogComponent, config);
 
@@ -104,5 +119,33 @@ export class FormDialogComponent implements OnInit {
             }
 
         });
+        */
     }
+
+    /**
+     * This method closes the dialog box and refresh the parent component
+     * or with the event parameter it could redirect the user to the defined route
+     * e.g. /project/[shortname] in the "create project case"
+     * @param $event
+     */
+    closeAndRefresh($event): void {
+        // do we have a value?
+        const route: string = $event;
+
+        // close the dialog box
+        this._dialogRef.close();
+
+        if (route !== undefined) {
+            // go to the defined route
+            window.location.replace(route);
+        } else {
+
+            console.log('closeAndRefresh: refreshComponent.emit in form-dialog');
+            // refresh the component only
+            // emit event to the parent component and refresh it there
+            this.refreshComponent.emit();
+
+        }
+    }
+
 }

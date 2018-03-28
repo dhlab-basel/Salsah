@@ -20,7 +20,6 @@
 
 export const environment = {
     type: 'dev',
-    description: 'developer',
     production: false,
     media: 'http://localhost:1024/knora',   // perhaps we have to rename it into sipi?
     apiExternal: 'http://0.0.0.0:3333',

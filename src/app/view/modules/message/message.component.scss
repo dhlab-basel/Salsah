@@ -1,18 +1,16 @@
-$color-error: #ff3a13;
-$color-warning: #ffc400;
-$color-note: #00695c;
+@import '../../../../assets/style/config';
 
 .salsah-error {
-  background-color: rgba($color-error, .4);
+  background-color: rgba($warn, .5);
 }
 
 .salsah-warning {
-  background-color: rgba($color-warning, .4);
+  background-color: rgba($accent, .5);
 }
 
 .salsah-note,
 .salsah-hint {
-  background-color: rgba($color-note, .4);
+  background-color: rgba($primary, .4);
 }
 
 .salsah-error,
@@ -51,4 +49,13 @@ $color-note: #00695c;
   .message-footnote {
     padding: 24px;
   }
+}
+
+.salsah-short-message {
+
+  .salsah-short-message-text {
+    font-weight: bolder;
+    text-align: center;
+  }
+
 }
