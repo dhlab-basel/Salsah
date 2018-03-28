@@ -85,6 +85,9 @@ export class SearchComponent implements OnInit {
         if (this.searchQuery && (event.key === 'Enter' || event.keyCode === 13 || event.which === 13)) {
             this.doSearch(search_ele);
         }
+        if (event.key === 'Escape' || event.keyCode === 27 || event.which === 27) {
+            this.resetSearch(search_ele);
+        }
     }
 
     doSearch(search_ele: HTMLElement) {
@@ -107,8 +110,7 @@ export class SearchComponent implements OnInit {
             localStorage.setItem('prevSearch', JSON.stringify(existingPrevSearch));
             // TODO: save the previous search queries somewhere in the user's profile
 
-        }
-        else {
+        } else {
             search_ele.focus();
             this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
         }
