@@ -14,15 +14,19 @@
 }
 
 .node-content-wrapper {
+  //position: relative;
 
   .edit-button {
     display: none;
   }
 
   &:hover {
-
+    background-color: darken(rgba(249, 249, 249, 1), 25%);
     .edit-button {
       display: block;
+      //position: absolute;
+      //right: 0px;
+      //top: 0px;
     }
   }
 }

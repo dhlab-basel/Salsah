@@ -21,6 +21,8 @@ import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.componen
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
 import {AuthenticationService} from "../../../../model/services/authentication.service";
+import {AppConfig} from "../../../../app.config";
+import {AutocompleteItem} from "../../../../app.interfaces";
 
 @Component({
     selector: 'salsah-lists-list',
@@ -39,12 +41,30 @@ export class ListsListComponent implements OnInit {
 
     isExpanded: boolean = false;
     epExpanded: boolean = false;
+
     // is there a logged-in user?
     // look at localStorage and the object currentUser with email, token and sysAdmin (?) info
     loggedInUser: any;
 
-    projectAdmin: boolean = false;
+    // default permission groups / role of the user in a project
+    defaultGroups: AutocompleteItem[] = [
+        {
+            iri: AppConfig.ProjectMemberGroup,
+            name: 'Member'
+        },
+        {
+            iri: AppConfig.ProjectAdminGroup,
+            name: 'Administrator'
+        }
+        /* use the following in system view only!
+        {
+            iri: AppConfig.SystemAdminGroup,
+            name: '',
+            label: 'System admin'
+        }
+        */
 
+    ];
 
     // in the case of no data, but with a working API
     noDataMessage: MessageData = {
@@ -125,6 +145,9 @@ export class ListsListComponent implements OnInit {
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
         console.log('logged in user is: ');
         console.log(this.loggedInUser);
+        console.log(AppConfig.ProjectMemberGroup);
+        console.log(AppConfig.ProjectAdminGroup);
+        console.log(AppConfig.SystemAdminGroup);
 
         if (this.loggedInUser == null){
             this.nodeDrag = false;

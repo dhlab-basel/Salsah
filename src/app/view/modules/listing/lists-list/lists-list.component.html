@@ -75,7 +75,9 @@
 
                     <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
-                            <span *ngIf="loggedInUser != null">
+                            <span class="node-content-wrapper" *ngIf="loggedInUser != null">
+                                {{ node.data.name }}
+                                <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
                                 <span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">
                                     <button mat-icon-button
                                             (click)="editNode(item.id, node.data, node, tree)"
@@ -83,21 +85,11 @@
                                         <mat-icon class="small-icon"> edit</mat-icon>
                                     </button>
                                 </span>
-                            <span>
-                                    <!--<mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>-->
-                                    {{ node.data.name }}
-                                </span>
                             </span>
                             <span *ngIf="loggedInUser == null" matTooltip="Log in to edit node">
-                                <span>
-                                    <!--<mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>-->
-                                    {{ node.data.name }}
-                                </span>
+                                {{ node.data.name }}
+                                <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
                             </span>
-                            <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
-                            <!--     <button>{{node.data.name}}</button>
-                               <button (click)="viewDetails(node.data.id)">Node Name</button>
-                              -->
                         </ng-template>
                     </tree-root>
                 </div>
