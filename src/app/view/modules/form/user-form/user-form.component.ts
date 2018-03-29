@@ -97,7 +97,7 @@ export class UserFormComponent implements OnInit {
     @Input() projectIri?: string = undefined;
 
     // selected groups
-    selectedGroups: string[];
+    selectedGroups: AutocompleteItem[];
 
     // project data of selected project
     selectedProject: AutocompleteItem;
@@ -464,7 +464,7 @@ export class UserFormComponent implements OnInit {
 
     setGroupsPermissions(userIri: string) {
 
-        const projectAdmin: boolean = (!!this.selectedGroups.find( ad => ad === AppConfig.ProjectAdminGroup));
+        const projectAdmin: boolean = (!!this.selectedGroups.find( ad => ad.iri === AppConfig.ProjectAdminGroup));
 
         if (projectAdmin) {
             this._usersService.addUserToProjectAdmin(userIri, this.selectedProject.iri).subscribe(
@@ -472,7 +472,6 @@ export class UserFormComponent implements OnInit {
                     this.submitPermissionsStatus = 1;
                 },
                 (error: ApiServiceError) => {
-                    console.log(error);
                     this.submitPermissionsStatus = 400;
                     this.permissionsErrorMessage = error;
                 }

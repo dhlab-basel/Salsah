@@ -17,7 +17,8 @@
                 <!-- header -->
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        {{ 'salsahLabels.projectFormLabels.project.title' | translate }}
+                        <span *ngIf="!iri">{{ 'salsahLabels.form.project.title.new' | translate }}</span>
+                        <span *ngIf="iri">{{ 'salsahLabels.form.project.title.edit' | translate }}</span>
                     </mat-panel-title>
                     <mat-panel-description>
                         {{formLabels.project.subtitle}}
@@ -29,9 +30,8 @@
                     <!-- short and long name -->
                     <mat-form-field class="small">
                         <input matInput [salsahFocus]="step === 1"
-                               [placeholder]=" 'salsahLabels.projectFormLabels.project.shortname' | translate "
+                               placeholder="{{'salsahLabels.form.project.general.shortCode' | translate}} * "
                                [maxlength]="shortcodeMaxLength"
-                               [placeholder]="formLabels.project.shortcode + ' *'"
                                [formControl]="form.controls['shortcode']">
                         <mat-hint *ngIf="formErrors.shortcode">
                             {{ formErrors.shortcode }}
@@ -42,7 +42,7 @@
                     <mat-form-field class="medium">
                         <input matInput [salsahFocus]="step === 1"
                                [maxlength]="shortnameMaxLength"
-                               [placeholder]="formLabels.project.shortname + ' *'"
+                               placeholder="{{'salsahLabels.form.project.general.shortName' | translate}} * "
                                [formControl]="form.controls['shortname']">
                         <mat-hint *ngIf="formErrors.shortname">
                             {{ formErrors.shortname }}
@@ -52,7 +52,7 @@
                     <!-- long name -->
                     <mat-form-field class="large">
                         <input matInput
-                               [placeholder]=" 'salsahLabels.projectFormLabels.project.longname' | translate "
+                               [placeholder]=" 'salsahLabels.form.project.general.longName' | translate "
                                [formControl]="form.controls['longname']">
                         <mat-hint *ngIf="formErrors.longname">
                             {{ formErrors.longname }}
@@ -62,7 +62,7 @@
                     <!-- description -->
                     <mat-form-field class="large">
                         <textarea matInput rows="6"
-                                  [placeholder]=" 'salsahLabels.projectFormLabels.project.description' | translate "
+                                  [placeholder]=" 'salsahLabels.form.project.general.description' | translate "
                                   [formControl]="form.controls['description']">
                         </textarea>
                         <br>
@@ -74,7 +74,7 @@
                     <!-- institution -->
                     <mat-form-field class="large">
                         <input matInput
-                               [placeholder]="formLabels.project.institution"
+                               placeholder="{{'salsahLabels.form.project.general.institution' | translate}}"
                                [formControl]="form.controls['institution']">
                         <mat-hint *ngIf="formErrors.institution">
                             {{ formErrors.institution }}
@@ -84,7 +84,7 @@
                     <!-- keywords -->
                     <mat-form-field class="large">
                         <input matInput
-                               [placeholder]=" 'salsahLabels.projectFormLabels.project.keywords' | translate "
+                               [placeholder]=" 'salsahLabels.form.project.general.keywords' | translate "
                                [formControl]="form.controls['keywords']">
                         <mat-hint *ngIf="formErrors.keywords">
                             {{ formErrors.keywords }}
@@ -98,7 +98,7 @@
                     <br>
 
                     <input matInput [hidden]="false"
-                           [placeholder]=" 'salsahLabels.projectFormLabels.project.logo.name' | translate "
+                           [placeholder]=" 'salsahLabels.form.project.general.logo.name' | translate "
                            [formControl]="form.controls['logo']"
                            formControlName="logo">
 
@@ -109,13 +109,13 @@
                             <button *ngIf="project.status === true"
                                     mat-button color="warn"
                                     (click)="deactivateProject($event, iri)">
-                                {{formLabels.navigation.deactivate}}
+                                {{ 'salsahLabels.form.general.deactivate' | translate }}
                             </button>
                             <!-- activate project -->
                             <button *ngIf="project.status !== true"
                                     mat-button color="warn"
                                     (click)="activateProject($event, iri)">
-                                {{formLabels.navigation.activate}}
+                                {{ 'salsahLabels.form.general.activate' | translate }}
                             </button>
                         </div>
                         <span class="fill-remaining-space"></span>
@@ -124,7 +124,9 @@
                                 [disabled]="!form.valid"
                                 color="primary"
                                 (click)="submitData()">
-                            {{ 'salsahLabels.projectFormLabels.navigation.submit' | translate }}
+                            <span *ngIf="!iri">{{ 'salsahLabels.form.navigation.submit' | translate }}</span>
+                            <span *ngIf="iri">{{ 'salsahLabels.form.navigation.update' | translate }}</span>
+
                         </button>
                     </mat-action-row>
                 </form>

@@ -32,9 +32,13 @@
 
         <ng-template #stepperNav>
             <div class="salsah-panel large" *ngIf="!standalone">
-                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperPrevious>
+                    {{ 'salsahLabels.form.action.back' | translate }}
+                </button>
                 <span class="fill-remaining-space"></span>
-                <button mat-button color="primary" matStepperNext [disabled]="!userRoleForm.valid" (click)="submitData()">Next</button>
+                <button mat-button color="primary" matStepperNext [disabled]="!userRoleForm.valid" (click)="submitData()">
+                    {{ 'salsahLabels.form.action.next' | translate }}
+                </button>
             </div>
         </ng-template>
 
