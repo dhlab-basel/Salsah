@@ -83,8 +83,8 @@
                 <ul class="beol-list">
                     <li *ngFor="let section of corrGroup.sections">
                         <mat-accordion>
-                            <mat-expansion-panel (opened)="corrGroup.panelOpenState = true"
-                                                 (closed)="corrGroup.panelOpenState = false">
+                            <mat-expansion-panel (opened)="section.panelOpenState = true"
+                                                 (closed)="section.panelOpenState = false">
 
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>{{section.label}}</mat-panel-title>
