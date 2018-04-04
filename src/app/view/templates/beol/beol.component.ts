@@ -12,7 +12,7 @@ import {ObjectDialogComponent} from "../../modules/dialog/object-dialog/object-d
 
 class Book {
 
-    constructor(readonly title: string, readonly isbn: string, readonly correspondences: CorrespondenceGroup[]) {
+    constructor(readonly title: string, readonly isbn: string, readonly correspondences: CorrespondenceGroup[], public panelOpenState: boolean = false) {
 
     }
 
@@ -35,14 +35,14 @@ class Correspondent {
 
 class Section {
 
-    constructor(readonly label: string, readonly correspondences: Correspondence[]) {
+    constructor(readonly label: string, readonly correspondences: Correspondence[], public panelOpenState: boolean = false) {
 
     }
 }
 
 class CorrespondenceGroupWithSection {
 
-    constructor(readonly mainCorrespondent: Correspondent, readonly sections: Section[], readonly description: string = "", readonly noTranslations: boolean = false) {
+    constructor(readonly mainCorrespondent: Correspondent, readonly sections: Section[], readonly description: string = "", readonly noTranslations: boolean = false, public panelOpenState: boolean = false) {
 
     }
 
@@ -50,7 +50,7 @@ class CorrespondenceGroupWithSection {
 
 class CorrespondenceGroup {
 
-    constructor(readonly mainCorrespondent: Correspondent, readonly correspondences: Correspondence[], readonly description: string = "") {
+    constructor(readonly mainCorrespondent: Correspondent, readonly correspondences: Correspondence[], readonly description: string = "", public panelOpenState: boolean = false) {
 
     }
 
