@@ -14,28 +14,7 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
-
-import {JsonObject, JsonProperty} from 'json2typescript';
-import {OntologyInfoShort} from '../../../../model/webapi/knora';
-import {ResourceTypeItem} from '../../../../model/webapi/knora/v1/resource-types/resource-type-item';
 import {MessageData} from '../../message/message.component';
-
-@JsonObject
-export class OntologyInfo {
-
-    @JsonProperty('iri', String)
-    public iri: string = undefined;
-
-    @JsonProperty('resourcetypes', [ResourceTypeItem])
-    public resourcetypes: ResourceTypeItem[] = undefined;
-}
-
-@JsonObject
-export class Ontologies {
-
-    @JsonProperty('ontologies', [OntologyInfo])
-    public ontologies: OntologyInfo[] = undefined;
-}
 
 
 @Component({
@@ -74,8 +53,7 @@ export class OntologiesListComponent implements OnInit {
 
         if (this.restrictedBy !== undefined) {
             // list of ontologies in a project dashboard
-            const ontologyInfos: OntologyInfoShort[] = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
-            this.ontologiesList = ontologyInfos.map(value => value.ontologyIri);
+            this.ontologiesList = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
             this.numberOfItems = this.ontologiesList.length;
             this.isLoading = false;
 
