@@ -13,7 +13,6 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {OntologyInfoShort} from '../ontologies/ontology-info-short';
 import {StringLiteralV2} from '../../v2/shared/strings';
 
 @JsonObject
