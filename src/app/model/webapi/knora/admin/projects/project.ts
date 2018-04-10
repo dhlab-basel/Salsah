@@ -43,8 +43,8 @@ export class Project {
     @JsonProperty('institution', String, true)
     public institution: string = undefined;
 
-    @JsonProperty('ontologies', [OntologyInfoShort])
-    public ontologies: OntologyInfoShort[] = undefined;
+    @JsonProperty('ontologies', [String], true)
+    public ontologies: string[] = undefined;
 
     @JsonProperty('status', Boolean)
     public status: boolean = undefined;
