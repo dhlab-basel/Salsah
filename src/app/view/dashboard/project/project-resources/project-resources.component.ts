@@ -13,7 +13,6 @@
  * */
 
 import {Component, OnInit} from '@angular/core';
-import {OntologyInfoShort} from '../../../../model/webapi/knora';
 import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 
 
@@ -51,8 +50,8 @@ export class ProjectResourcesComponent implements OnInit {
     }
 
     ngOnInit() {
-        const ontologyInfos: OntologyInfoShort[] = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
-        this.list.restrictedBy = ontologyInfos[0].ontologyIri;
+        const ontologyInfos: string[] = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
+        this.list.restrictedBy = ontologyInfos[0];
     }
 
 }
