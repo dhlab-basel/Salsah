@@ -13,7 +13,6 @@
  * */
 
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {OntologyInfoShort} from '../ontologies/ontology-info-short';
 import {StringLiteralV2} from '../../v2/shared/strings';
 
 @JsonObject
@@ -43,8 +42,8 @@ export class Project {
     @JsonProperty('institution', String, true)
     public institution: string = undefined;
 
-    @JsonProperty('ontologies', [OntologyInfoShort])
-    public ontologies: OntologyInfoShort[] = undefined;
+    @JsonProperty('ontologies', [String])
+    public ontologies: string[] = undefined;
 
     @JsonProperty('status', Boolean)
     public status: boolean = undefined;

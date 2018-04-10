@@ -25,7 +25,6 @@ import {MatDialogConfig} from '@angular/material';
 import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
 import {MessageData} from '../../message/message.component';
 import {AppConfig} from '../../../../app.config';
-import {OntologyInfoShort} from '../../../../model/webapi/knora/admin/ontologies/ontology-info-short';
 
 @Component({
     selector: 'salsah-project-form',
@@ -303,11 +302,13 @@ export class ProjectFormComponent implements OnInit {
 
         if (!this.iri) {
             this.project.ontologies = [];
+            /*
             const ontology: OntologyInfoShort = {
                 ontologyIri: AppConfig.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname,
                 ontologyName: value.shortname
             };
-            this.project.ontologies.push(ontology);
+            */
+            this.project.ontologies.push(AppConfig.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname);
 
             console.log('project info before post ', this.project);
 
