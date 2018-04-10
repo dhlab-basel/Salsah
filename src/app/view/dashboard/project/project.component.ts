@@ -45,7 +45,7 @@ export class ProjectComponent implements OnInit {
         {
             name: 'Ontologies',
             route: 'ontologies'
-        }
+        },
         {
             name: 'Lists',
             route: 'lists'
