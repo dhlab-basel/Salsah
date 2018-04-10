@@ -40,11 +40,10 @@
 
         <!-- description -->
         <mat-form-field class="large">
-                        <textarea matInput matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="12"
-                                  [placeholder]=" 'salsahLabels.form.project.general.description' | translate "
-                                  [formControl]="projectDataForm.controls['description']">
-                        </textarea>
-            <br>
+            <textarea matInput matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="12"
+                      [placeholder]=" 'salsahLabels.form.project.general.description' | translate "
+                      [formControl]="projectDataForm.controls['description']">
+            </textarea>
             <mat-hint *ngIf="formErrors.description">
                 {{ formErrors.description }}
             </mat-hint>
@@ -62,15 +61,15 @@
 
         <!-- keywords -->
         <mat-form-field class="large">
-            <mat-chip-list #kwList>
-                <mat-chip *ngFor="let kw of keywords" [selectable]="selectable"
-                          [removable]="removable" (remove)="removeKeyword(kw)">
-                    {{kw?.name}}
+            <mat-chip-list #tagsList>
+                <mat-chip *ngFor="let tag of keywords" [selectable]="selectable"
+                          [removable]="removable" (remove)="removeKeyword(tag)">
+                    {{tag}}
                     <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                 </mat-chip>
                 <input [placeholder]=" 'salsahLabels.form.project.general.keywords' | translate "
                        [formControl]="projectDataForm.controls['keywords']"
-                       [matChipInputFor]="kwList"
+                       [matChipInputFor]="tagsList"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                        [matChipInputAddOnBlur]="addOnBlur"
                        (matChipInputTokenEnd)="addKeyword($event)" />
@@ -92,6 +91,25 @@
                [formControl]="projectDataForm.controls['logo']"
                formControlName="logo">
                -->
+
+        <div class="salsah-panel large" *ngIf="standalone; else stepperNav">
+            <span class="fill-remaining-space"></span>
+            <button mat-button type="button" color="primary" (click)="submitData()" [disabled]="!projectDataForm.valid">
+                <span *ngIf="edit">{{ 'salsahLabels.form.action.update' | translate }}</span>
+                <span *ngIf="!edit">{{ 'salsahLabels.form.action.submit' | translate }}</span>
+            </button>
+        </div>
+
+
+        <ng-template #stepperNav>
+            <div class="salsah-panel large">
+                <button mat-button matStepperPrevious>{{ 'salsahLabels.form.action.back' | translate }}</button>
+                <span class="fill-remaining-space"></span>
+                <button mat-button color="primary" matStepperNext [disabled]="!projectDataForm.valid" (click)="submitData()">
+                    {{ 'salsahLabels.form.action.next' | translate }}
+                </button>
+            </div>
+        </ng-template>
     </form>
 
 </div>

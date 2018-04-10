@@ -19,6 +19,7 @@ import {ApiServiceError} from '../../../../../model/services/api-service-error';
 import {existingNamesValidator} from '../../../other/existing-name.directive';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material';
+import {ApiServiceResult} from '../../../../../model/services/api-service-result';
 
 @Component({
     selector: 'salsah-project-data',
@@ -46,6 +47,11 @@ export class ProjectDataComponent implements OnInit, OnChanges {
      * @type {EventEmitter<User>}
      */
     @Output() projectData = new EventEmitter<Project>();
+
+    @Output() closeForm = new EventEmitter<any>();
+
+    // quick hack:
+    edit: boolean = false;
 
     // form group for the form controller
     projectDataForm: FormGroup;
@@ -106,7 +112,7 @@ export class ProjectDataComponent implements OnInit, OnChanges {
 
     // keywords input field:
     // keywords is an array of objects of {name: 'string'}
-    keywords: any[] = [];
+    keywords: string[] = [];
     // Enter, comma
     separatorKeysCodes = [ENTER, COMMA];
     visible: boolean = true;
@@ -134,6 +140,26 @@ export class ProjectDataComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        // get a list of all projects and create an array of the short names
+        // the short name should be unique and with the array list, we can prevent
+        // to have the same short name; proof it with the ForbiddenName directive
+        this._projectsService.getAllProjects()
+            .subscribe(
+                (result: Project[]) => {
+                    for (const project of result) {
+                        this.existingShortNames.push(new RegExp('(?:^|\W)' + project.shortname.toLowerCase() + '(?:$|\W)'));
+                        if (project.shortcode !== null) {
+                            this.existingShortcodes.push(new RegExp('(?:^|\W)' + project.shortcode.toLowerCase() + '(?:$|\W)'));
+                        }
+                    }
+                },
+                (error: ApiServiceError) => {
+                    console.log(error);
+                    this.errorMessage = error;
+                }
+            );
+
+
         if (!this.project && this.projectIri) {
 
             this._projectsService.getProjectByIri(this.projectIri)
@@ -151,8 +177,9 @@ export class ProjectDataComponent implements OnInit, OnChanges {
                 );
         } else {
 
-            console.log(this.project);
-
+            if (this.project === undefined) {
+                this.project = new Project();
+            }
             this.buildForm(this.project);
 
             this.isLoading = false;
@@ -170,11 +197,14 @@ export class ProjectDataComponent implements OnInit, OnChanges {
     buildForm(project: Project): void {
         // if project is defined, we're in the edit mode
         // otherwise "create new project" mode is active
-        const edit: boolean = (!!project.id);
+        this.edit = (!!project.id);
+
+        // separate list of keywords
+        this.keywords = project.keywords;
 
         this.projectDataForm = this._formBuilder.group({
             'shortname': new FormControl({
-                value: project.shortname, disabled: this.projectIri !== undefined
+                value: project.shortname, disabled: this.edit
             }, [
                 Validators.required,
                 Validators.minLength(this.shortnameMinLength),
@@ -189,7 +219,7 @@ export class ProjectDataComponent implements OnInit, OnChanges {
                 Validators.required
             ]),
             'shortcode': new FormControl({
-                value: project.shortcode, disabled: (this.projectIri !== undefined && project.shortcode !== null)
+                value: project.shortcode, disabled: (this.edit && project.shortcode !== null)
             }, [
                 Validators.required,
                 Validators.minLength(this.shortcodeMinLength),
@@ -198,7 +228,7 @@ export class ProjectDataComponent implements OnInit, OnChanges {
                 Validators.pattern(this.shortcodeRegex)
             ]),
             'description': new FormControl({
-                value: project.description, disabled: false
+                value: project.description[0].value, disabled: false
             }, [
                 Validators.required,
                 Validators.maxLength(this.descriptionMaxLength)
@@ -212,7 +242,7 @@ export class ProjectDataComponent implements OnInit, OnChanges {
             'id': [project.id],
             'status': [true],
             'selfjoin': [false],
-            'keywords': [project.keywords]
+            'keywords': []      // must be empty, because of the mat-chip-list
         });
 
         this.projectDataForm.valueChanges
@@ -244,13 +274,52 @@ export class ProjectDataComponent implements OnInit, OnChanges {
         });
     }
 
+    /**
+     *
+     */
+    submitData(): void {
+        if (this.standalone) {
+            this.isLoading = true;
+            // this method is only used in standalone user data form
+            // to edit user profile
+            // update keyowrds from mat-chip-list
+            this.projectDataForm.controls['keywords'].setValue(this.keywords);
+
+            // update description field / multi language preparation
+            this.projectDataForm.controls['description'].setValue([{'language': 'en', 'value': this.projectDataForm.controls['description'].value}]);
+
+            this._projectsService.updateProject(this.project.id, this.projectDataForm.value).subscribe(
+                (result: Project) => {
+                    this.project = result;
+                    this.buildForm(this.project);
+                    this.isLoading = false;
+                    this.success = true;
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = error;
+                    this.isLoading = false;
+                    this.success = false;
+                }
+            )
+        } else {
+            this.projectData.emit(this.projectDataForm.value);
+        }
+    }
+
+    //
+    // add or remove keyword from mat-chip-list
+
+    /**
+     *
+     * @param {MatChipInputEvent} event
+     */
     addKeyword(event: MatChipInputEvent): void {
         const input = event.input;
         const value = event.value;
 
         // Add our fruit
         if ((value || '').trim()) {
-            this.keywords.push({ name: value.trim() });
+            this.keywords.push( value.trim() );
         }
 
         // Reset the input value
@@ -259,6 +328,10 @@ export class ProjectDataComponent implements OnInit, OnChanges {
         }
     }
 
+    /**
+     *
+     * @param keyword
+     */
     removeKeyword(keyword: any): void {
         const index = this.keywords.indexOf(keyword);
 

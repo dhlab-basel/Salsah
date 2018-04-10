@@ -152,8 +152,8 @@ export class ProjectFormComponent implements OnInit {
 
     ngOnInit() {
         // get a list of all projects and create an array of the short names
-        // the short name should be unique and with the array list, we can
-        // prevent to have the same short name; proof it with the ForbiddenName directive
+        // the short name should be unique and with the array list, we can prevent
+        // to have the same short name; proof it with the ForbiddenName directive
         this._projectsService.getAllProjects()
             .subscribe(
                 (result: Project[]) => {
