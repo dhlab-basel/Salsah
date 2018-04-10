@@ -42,7 +42,7 @@ export class Project {
     @JsonProperty('institution', String, true)
     public institution: string = undefined;
 
-    @JsonProperty('ontologies', [String], true)
+    @JsonProperty('ontologies', [String])
     public ontologies: string[] = undefined;
 
     @JsonProperty('status', Boolean)
