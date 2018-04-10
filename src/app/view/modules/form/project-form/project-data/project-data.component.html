@@ -1,0 +1,92 @@
+<div *ngIf="!errorMessage; else errorMsg">
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
+    <!-- success message after updating -->
+    <salsah-message *ngIf="success" [message]="successMessage" [short]="true"></salsah-message>
+
+    <!-- content -->
+    <form *ngIf="!isLoading" [formGroup]="projectDataForm" class="salsah-form-content project-data">
+        <!-- short and long name -->
+        <mat-form-field class="small">
+            <input matInput
+                   placeholder="{{'salsahLabels.form.project.general.shortCode' | translate}} * "
+                   [maxlength]="shortcodeMaxLength"
+                   [formControl]="projectDataForm.controls['shortcode']">
+            <mat-hint *ngIf="formErrors.shortcode">
+                {{ formErrors.shortcode }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- short name -->
+        <mat-form-field class="medium">
+            <input matInput
+                   [maxlength]="shortnameMaxLength"
+                   placeholder="{{'salsahLabels.form.project.general.shortName' | translate}} * "
+                   [formControl]="projectDataForm.controls['shortname']">
+            <mat-hint *ngIf="formErrors.shortname">
+                {{ formErrors.shortname }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- long name -->
+        <mat-form-field class="large">
+            <input matInput
+                   placeholder="{{'salsahLabels.form.project.general.longName' | translate}} *"
+                   [formControl]="projectDataForm.controls['longname']">
+            <mat-hint *ngIf="formErrors.longname">
+                {{ formErrors.longname }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- description -->
+        <mat-form-field class="large">
+                        <textarea matInput rows="6"
+                                  [placeholder]=" 'salsahLabels.form.project.general.description' | translate "
+                                  [formControl]="projectDataForm.controls['description']">
+                        </textarea>
+            <br>
+            <mat-hint *ngIf="formErrors.description">
+                {{ formErrors.description }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- institution -->
+        <mat-form-field class="large">
+            <input matInput
+                   placeholder="{{'salsahLabels.form.project.general.institution' | translate}}"
+                   [formControl]="projectDataForm.controls['institution']">
+            <mat-hint *ngIf="formErrors.institution">
+                {{ formErrors.institution }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- keywords -->
+        <mat-form-field class="large">
+            <input matInput
+                   [placeholder]=" 'salsahLabels.form.project.general.keywords' | translate "
+                   [formControl]="projectDataForm.controls['keywords']">
+            <mat-hint *ngIf="formErrors.keywords">
+                {{ formErrors.keywords }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- upload logo -->
+        <!--
+        <salsah-file-uploader (uploadStatus)="sipiUpload($event)"></salsah-file-uploader>
+        <!-- the form needs an input field for the logo name
+            the following input will be hidden and it gets the file name from the salsah-file-uploader -->
+        <br>
+<!-- dev control for image uploader
+        <input matInput [hidden]="false"
+               [placeholder]=" 'salsahLabels.form.project.general.logo.name' | translate "
+               [formControl]="projectDataForm.controls['logo']"
+               formControlName="logo">
+               -->
+    </form>
+
+</div>
+
+<!-- in the case of an API error: show the error message -->
+<ng-template #errorMsg>
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+</ng-template>

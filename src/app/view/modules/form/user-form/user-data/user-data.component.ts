@@ -27,7 +27,6 @@ export class UserDataComponent implements OnInit, OnChanges {
 
     /**
      * user iri in the case of edit
-     * @type {undefined}
      */
     @Input() userIri?: string;
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../../../../model/webapi/knora/admin';
+import {Project, User} from '../../../../model/webapi/knora/admin';
 import {UsersService} from '../../../../model/services/users.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 
@@ -13,6 +13,8 @@ export class FormTestComponent implements OnInit {
     userIri: string = 'http://rdfh.ch/users/multiuser';
     projectIri: string; // = 'http://rdfh.ch/projects/00FF';   // images
 
+    project: Project = new Project();
+
     user: User;
 
     constructor(private _usersService: UsersService) {
@@ -20,6 +22,7 @@ export class FormTestComponent implements OnInit {
 
     ngOnInit() {
 
+        /*
         this._usersService.getUserByIri(this.userIri)
             .subscribe(
                 (result: User) => {
@@ -29,6 +32,8 @@ export class FormTestComponent implements OnInit {
                     console.log(error);
                 }
             )
+
+            */
     }
 
 }

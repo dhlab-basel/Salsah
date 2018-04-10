@@ -1,0 +1,234 @@
+/* Copyright © 2016 Digital Humanities Lab, University of Basel.
+ * This file is part of SALSAH.
+ * SALSAH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * SALSAH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You should have received a copy of the GNU Affero General Public
+ * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
+ * */
+
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Project, User} from '../../../../../model/webapi/knora';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ProjectsService} from '../../../../../model/services/projects.service';
+import {ApiServiceError} from '../../../../../model/services/api-service-error';
+import {existingNamesValidator} from '../../../other/existing-name.directive';
+
+@Component({
+    selector: 'salsah-project-data',
+    templateUrl: './project-data.component.html',
+    styleUrls: ['./project-data.component.scss']
+})
+export class ProjectDataComponent implements OnInit, OnChanges {
+
+    @Input() projectIri?: string;
+
+    /**
+     * user profile in case of edit?
+     */
+    @Input() project?: Project;
+
+    /**
+     * Is the form a standalone or embedded in a step by step form wizard?
+     *
+     * @type {boolean}
+     */
+    @Input() standalone?: boolean = true;
+
+    /**
+     *
+     * @type {EventEmitter<User>}
+     */
+    @Output() projectData = new EventEmitter<Project>();
+
+    // form group for the form controller
+    projectDataForm: FormGroup;
+
+    logo: string = null;
+
+    existingShortNames: [RegExp] = [
+        new RegExp('project')
+    ];
+    shortnameRegex = /^[a-zA-Z]+\S*$/;
+
+    existingShortcodes: [RegExp] = [
+        new RegExp('project')
+    ];
+    shortcodeRegex = /^[0-9A-Fa-f]+$/;
+
+    descriptionMaxLength: number = 2000;
+    shortcodeMinLength: number = 4;
+    shortcodeMaxLength: number = this.shortcodeMinLength;
+
+    shortnameMinLength: number = 3;
+    shortnameMaxLength: number = 16;
+
+    formErrors = {
+        'shortname': '',
+        'longname': '',
+        'shortcode': '',
+        'description': '',
+        'institution': '',
+        'keywords': '',
+    };
+
+    validationMessages = {
+        'shortname': {
+            'required': 'Short name is required.',
+            'minlength': 'Short name must be at least ' + this.shortnameMinLength + ' characters long.',
+            'maxlength': 'Short name cannot be more than ' + this.shortnameMaxLength + ' characters long.',
+            'pattern': 'Short name shouldn\'t start with a number; Spaces are not allowed.',
+            'existingName': 'This short name is already taken.'
+        },
+        'longname': {
+            'required': 'Project (long) name is required.'
+        },
+        'shortcode': {
+            'required': 'Shortcode is required',
+            'maxlength': 'Shortcode cannot be more than ' + this.shortcodeMaxLength + ' characters long.',
+            'minlength': 'Shortcode cannot be less than ' + this.shortcodeMinLength + ' characters long.',
+            'pattern': 'This is not a hexadecimal value!',
+            'existingName': 'This shortcode is already taken.'
+        },
+        'description': {
+            'required': 'A description is required.',
+            'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.'
+        },
+        'institution': {},
+        'keywords': {}
+    };
+
+    // in case of an API error
+    errorMessage: any;
+
+    // in case of success:
+    success: boolean = false;
+    successMessage: any = {
+        status: 200,
+        statusText: 'You have successfully updated the project data.'
+    };
+
+
+    // show the content after every service has loaded and the data is ready
+    isLoading: boolean = true;
+
+    constructor(private _projectsService: ProjectsService,
+                private _formBuilder: FormBuilder) {
+    }
+
+    ngOnInit() {
+        if (!this.project && this.projectIri) {
+
+            this._projectsService.getProjectByIri(this.projectIri)
+                .subscribe(
+                    (result: Project) => {
+                        this.project = result;
+
+                        this.buildForm(this.project);
+
+                        this.isLoading = false;
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = error;
+                    }
+                );
+        } else {
+
+            console.log(this.project);
+
+            this.buildForm(this.project);
+
+            this.isLoading = false;
+        }
+    }
+
+
+    ngOnChanges() {
+        if (this.project) {
+            this.buildForm(this.project)
+        }
+    }
+
+
+    buildForm(project: Project): void {
+        // if project is defined, we're in the edit mode
+        // otherwise "create new project" mode is active
+        const edit: boolean = (!!project.id);
+
+        this.projectDataForm = this._formBuilder.group({
+            'shortname': new FormControl({
+                value: project.shortname, disabled: this.projectIri !== undefined
+            }, [
+                Validators.required,
+                Validators.minLength(this.shortnameMinLength),
+                Validators.maxLength(this.shortnameMaxLength),
+                existingNamesValidator(this.existingShortNames),
+                Validators.pattern(this.shortnameRegex)
+            ]),
+
+            'longname': new FormControl({
+                value: project.longname, disabled: false
+            }, [
+                Validators.required
+            ]),
+            'shortcode': new FormControl({
+                value: project.shortcode, disabled: (this.projectIri !== undefined && project.shortcode !== null)
+            }, [
+                Validators.required,
+                Validators.minLength(this.shortcodeMinLength),
+                Validators.maxLength(this.shortcodeMaxLength),
+                existingNamesValidator(this.existingShortcodes),
+                Validators.pattern(this.shortcodeRegex)
+            ]),
+            'description': new FormControl({
+                value: project.description, disabled: false
+            }, [
+                Validators.required,
+                Validators.maxLength(this.descriptionMaxLength)
+            ]),
+            'institution': new FormControl({
+                value: project.institution, disabled: false
+            }),
+            'logo': new FormControl({
+                value: project.logo, disabled: false
+            }),
+            'id': [project.id],
+            'status': [true],
+            'selfjoin': [false],
+            'keywords': [project.keywords]
+        });
+
+        this.projectDataForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+    }
+
+    /**
+     *
+     * @param data
+     */
+    onValueChanged(data?: any) {
+
+        if (!this.projectDataForm) {
+            return;
+        }
+
+        const form = this.projectDataForm;
+
+        Object.keys(this.formErrors).map(field => {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                Object.keys(control.errors).map(key => {
+                    this.formErrors[field] += messages[key] + ' ';
+                });
+
+            }
+        });
+    }
+
+}
