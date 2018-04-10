@@ -313,6 +313,7 @@ export class ProjectFormComponent implements OnInit {
             console.log('project info before post ', this.project);
 
             // create project
+/*
             this._projectsService.createProject(this.project)
                 .subscribe(
                     (result: ApiServiceResult) => {
@@ -357,9 +358,12 @@ export class ProjectFormComponent implements OnInit {
                     (error: ApiServiceError) => {
                         this.errorMessage = error;
                     }
+
                 );
+*/
         } else {
             // update project
+            /*
             this._projectsService.updateProject(this.iri, this.project).subscribe(
                 (result: ApiServiceResult) => {
                     this.closeForm.emit();
@@ -371,6 +375,7 @@ export class ProjectFormComponent implements OnInit {
                     this.errorMessage = error;
                 }
             );
+            */
         }
 
         if (this.submitted) {
