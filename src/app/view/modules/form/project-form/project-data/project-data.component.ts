@@ -17,6 +17,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectsService} from '../../../../../model/services/projects.service';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
 import {existingNamesValidator} from '../../../other/existing-name.directive';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material';
 
 @Component({
     selector: 'salsah-project-data',
@@ -101,6 +103,17 @@ export class ProjectDataComponent implements OnInit, OnChanges {
         'institution': {},
         'keywords': {}
     };
+
+    // keywords input field:
+    // keywords is an array of objects of {name: 'string'}
+    keywords: any[] = [];
+    // Enter, comma
+    separatorKeysCodes = [ENTER, COMMA];
+    visible: boolean = true;
+    selectable: boolean = true;
+    removable: boolean = true;
+    addOnBlur: boolean = true;
+
 
     // in case of an API error
     errorMessage: any;
@@ -229,6 +242,29 @@ export class ProjectDataComponent implements OnInit, OnChanges {
 
             }
         });
+    }
+
+    addKeyword(event: MatChipInputEvent): void {
+        const input = event.input;
+        const value = event.value;
+
+        // Add our fruit
+        if ((value || '').trim()) {
+            this.keywords.push({ name: value.trim() });
+        }
+
+        // Reset the input value
+        if (input) {
+            input.value = '';
+        }
+    }
+
+    removeKeyword(keyword: any): void {
+        const index = this.keywords.indexOf(keyword);
+
+        if (index >= 0) {
+            this.keywords.splice(index, 1);
+        }
     }
 
 }

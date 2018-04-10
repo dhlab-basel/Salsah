@@ -40,7 +40,7 @@
 
         <!-- description -->
         <mat-form-field class="large">
-                        <textarea matInput rows="6"
+                        <textarea matInput matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="12"
                                   [placeholder]=" 'salsahLabels.form.project.general.description' | translate "
                                   [formControl]="projectDataForm.controls['description']">
                         </textarea>
@@ -62,9 +62,19 @@
 
         <!-- keywords -->
         <mat-form-field class="large">
-            <input matInput
-                   [placeholder]=" 'salsahLabels.form.project.general.keywords' | translate "
-                   [formControl]="projectDataForm.controls['keywords']">
+            <mat-chip-list #kwList>
+                <mat-chip *ngFor="let kw of keywords" [selectable]="selectable"
+                          [removable]="removable" (remove)="removeKeyword(kw)">
+                    {{kw?.name}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input [placeholder]=" 'salsahLabels.form.project.general.keywords' | translate "
+                       [formControl]="projectDataForm.controls['keywords']"
+                       [matChipInputFor]="kwList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addKeyword($event)" />
+            </mat-chip-list>
             <mat-hint *ngIf="formErrors.keywords">
                 {{ formErrors.keywords }}
             </mat-hint>
