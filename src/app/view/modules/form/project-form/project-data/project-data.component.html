@@ -50,6 +50,7 @@
         </mat-form-field>
 
         <!-- institution -->
+        <!--
         <mat-form-field class="large">
             <input matInput
                    placeholder="{{'salsahLabels.form.project.general.institution' | translate}}"
@@ -58,6 +59,7 @@
                 {{ formErrors.institution }}
             </mat-hint>
         </mat-form-field>
+        -->
 
         <!-- keywords -->
         <mat-form-field class="large">
@@ -74,9 +76,11 @@
                        [matChipInputAddOnBlur]="addOnBlur"
                        (matChipInputTokenEnd)="addKeyword($event)"/>
             </mat-chip-list>
+            <!--
             <mat-hint *ngIf="formErrors.keywords">
                 {{ formErrors.keywords }}
             </mat-hint>
+            -->
         </mat-form-field>
 
         <!-- upload logo -->

@@ -182,8 +182,6 @@ export class HeaderToolbarComponent implements OnInit {
                         route: 'Missing item type: ' + item
                     };
                     dialogRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{data: {message: message}});
-
-
             }
         }
     }

@@ -80,9 +80,9 @@ export class ProjectDataComponent implements OnInit, OnChanges {
         'shortname': '',
         'longname': '',
         'shortcode': '',
-        'description': '',
-        'institution': '',
-        'keywords': '',
+        'description': ''
+//        'institution': '',
+//        'keywords': '',
     };
 
     validationMessages = {
@@ -106,11 +106,11 @@ export class ProjectDataComponent implements OnInit, OnChanges {
         'description': {
             'required': 'A description is required.',
             'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.'
-        },
-        'institution': {},
-        'keywords': {
-            'required': 'At least one keyword is required.'
         }
+//        'institution': {},
+//        'keywords': {
+//            'required': 'At least one keyword is required.'
+//        }
     };
 
     // keywords input field:
@@ -236,20 +236,16 @@ export class ProjectDataComponent implements OnInit, OnChanges {
                 Validators.required,
                 Validators.maxLength(this.descriptionMaxLength)
             ]),
-            'institution': new FormControl({
-                value: project.institution, disabled: false
-            }),
+//            'institution': new FormControl({
+//                value: project.institution, disabled: false
+//            }),
             'logo': new FormControl({
                 value: project.logo, disabled: false
             }),
             'id': [project.id],
             'status': [true],
             'selfjoin': [false],
-            'keywords': new FormControl({
-                value: null,      // must be empty (even in edit mode), because of the mat-chip-list
-            }, [
-                Validators.required
-            ])
+            'keywords': []          // must be empty (even in edit mode), because of the mat-chip-list
         });
 
         this.projectDataForm.valueChanges
@@ -288,6 +284,9 @@ export class ProjectDataComponent implements OnInit, OnChanges {
         this.isLoading = true;
 
         // a) update keyowrds from mat-chip-list
+        if (!this.keywords) {
+            this.keywords = [];
+        }
         this.projectDataForm.controls['keywords'].setValue(this.keywords);
 
         // b) update description field / multi language preparation
