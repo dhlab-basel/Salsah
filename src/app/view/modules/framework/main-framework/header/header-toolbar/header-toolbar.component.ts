@@ -153,17 +153,25 @@ export class HeaderToolbarComponent implements OnInit {
                 break;
         }
         if (item) {
+
+            const config: MatDialogConfig = new MatDialogConfig();
+
             let dialogRef;
+
             let title: string;
+
             switch (item) {
                 case 'project':
                     title = 'Create new project';
-                    dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-                        data: {
-                            title: title,
-                            form: 'project'
-                        }
-                    });
+                    config.data = {
+                        title: 'Create new project',
+                        form: 'project'
+                    };
+
+                    config.panelClass = 'resizable';
+
+                    dialogRef = this._dialog.open(FormDialogComponent, config);
+
                     break;
 
                 default:
