@@ -20,6 +20,7 @@ import {existingNamesValidator} from '../../../other/existing-name.directive';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material';
 import {ApiServiceResult} from '../../../../../model/services/api-service-result';
+import {MessageData} from '../../../message/message.component';
 
 @Component({
     selector: 'salsah-project-data',
@@ -107,7 +108,9 @@ export class ProjectDataComponent implements OnInit, OnChanges {
             'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.'
         },
         'institution': {},
-        'keywords': {}
+        'keywords': {
+            'required': 'At least one keyword is required.'
+        }
     };
 
     // keywords input field:
@@ -242,7 +245,11 @@ export class ProjectDataComponent implements OnInit, OnChanges {
             'id': [project.id],
             'status': [true],
             'selfjoin': [false],
-            'keywords': []      // must be empty, because of the mat-chip-list
+            'keywords': new FormControl({
+                value: null,      // must be empty (even in edit mode), because of the mat-chip-list
+            }, [
+                Validators.required
+            ])
         });
 
         this.projectDataForm.valueChanges
@@ -278,16 +285,22 @@ export class ProjectDataComponent implements OnInit, OnChanges {
      *
      */
     submitData(): void {
-        if (this.standalone) {
-            this.isLoading = true;
-            // this method is only used in standalone user data form
-            // to edit user profile
-            // update keyowrds from mat-chip-list
-            this.projectDataForm.controls['keywords'].setValue(this.keywords);
+        this.isLoading = true;
 
-            // update description field / multi language preparation
-            this.projectDataForm.controls['description'].setValue([{'language': 'en', 'value': this.projectDataForm.controls['description'].value}]);
+        // a) update keyowrds from mat-chip-list
+        this.projectDataForm.controls['keywords'].setValue(this.keywords);
 
+        // b) update description field / multi language preparation
+        // FIXME: this is a quick (hardcoded) hack:
+        // TODO: create multi language input fields
+        this.projectDataForm.controls['description'].setValue([{
+            'language': 'en',
+            'value': this.projectDataForm.controls['description'].value
+        }]);
+
+
+        if (this.edit) {
+            // edit / update project data
             this._projectsService.updateProject(this.project.id, this.projectDataForm.value).subscribe(
                 (result: Project) => {
                     this.project = result;
@@ -302,7 +315,20 @@ export class ProjectDataComponent implements OnInit, OnChanges {
                 }
             )
         } else {
-            this.projectData.emit(this.projectDataForm.value);
+            // create new project
+            this._projectsService.createProject(this.projectDataForm.value).subscribe(
+                (result: Project) => {
+                    this.project = result;
+                    this.buildForm(this.project);
+                    this.isLoading = false;
+                    this.closeForm.emit('/project/' + this.projectDataForm.controls['shortname'].value);
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = error;
+                    this.isLoading = false;
+                    this.success = false;
+                }
+            )
         }
     }
 
@@ -317,9 +343,13 @@ export class ProjectDataComponent implements OnInit, OnChanges {
         const input = event.input;
         const value = event.value;
 
-        // Add our fruit
+        if (!this.keywords) {
+            this.keywords = [];
+        }
+
+        // Add keyword
         if ((value || '').trim()) {
-            this.keywords.push( value.trim() );
+            this.keywords.push(value.trim());
         }
 
         // Reset the input value
@@ -338,6 +368,59 @@ export class ProjectDataComponent implements OnInit, OnChanges {
         if (index >= 0) {
             this.keywords.splice(index, 1);
         }
+    }
+
+    deactivateProject(ev, id: string) {
+        ev.preventDefault();
+        // TODO: "are you sure?"-dialog
+
+        // if true
+        this._projectsService.deleteProject(id).subscribe(
+            (res: Project) => {
+                // reload page
+                this.isLoading = false;
+                window.location.reload();
+            },
+            (error: ApiServiceError) => {
+                const message: MessageData = error;
+                console.log(message);
+                /*
+                const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
+                    data: {
+                        message: message
+                    }
+                });
+                */
+            }
+        )
+
+        // close dialog box
+
+        // else: cancel action
+    }
+
+    activateProject(ev, id: string) {
+        ev.preventDefault();
+        // TODO: "are you sure?"-dialog
+
+        this._projectsService.activateProject(id).subscribe(
+            (res: Project) => {
+                // reload page
+                window.location.reload();
+                this.isLoading = false;
+            },
+            (error: ApiServiceError) => {
+                const message: MessageData = error;
+                console.log(message);
+                /*
+                const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
+                    data: {
+                        message: message
+                    }
+                });
+                */
+            }
+        )
     }
 
 }

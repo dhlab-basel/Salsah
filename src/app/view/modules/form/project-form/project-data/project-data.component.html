@@ -72,7 +72,7 @@
                        [matChipInputFor]="tagsList"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                        [matChipInputAddOnBlur]="addOnBlur"
-                       (matChipInputTokenEnd)="addKeyword($event)" />
+                       (matChipInputTokenEnd)="addKeyword($event)"/>
             </mat-chip-list>
             <mat-hint *ngIf="formErrors.keywords">
                 {{ formErrors.keywords }}
@@ -85,15 +85,33 @@
         <!-- the form needs an input field for the logo name
             the following input will be hidden and it gets the file name from the salsah-file-uploader -->
         <br>
-<!-- dev control for image uploader
-        <input matInput [hidden]="false"
-               [placeholder]=" 'salsahLabels.form.project.general.logo.name' | translate "
-               [formControl]="projectDataForm.controls['logo']"
-               formControlName="logo">
-               -->
+        <!-- dev control for image uploader
+                <input matInput [hidden]="false"
+                       [placeholder]=" 'salsahLabels.form.project.general.logo.name' | translate "
+                       [formControl]="projectDataForm.controls['logo']"
+                       formControlName="logo">
+                       -->
 
         <div class="salsah-panel large" *ngIf="standalone; else stepperNav">
+            <!-- delete / activate buttons in case of edit -->
+            <div *ngIf="edit">
+                <!-- delete project -->
+                <button *ngIf="project.status"
+                        mat-button color="warn"
+                        (click)="deactivateProject($event, projectIri)">
+                    {{ 'salsahLabels.form.action.deactivate' | translate }}
+                </button>
+                <!-- activate project -->
+                <button *ngIf="!project.status"
+                        mat-button color="warn"
+                        (click)="activateProject($event, projectIri)">
+                    {{ 'salsahLabels.form.action.activate' | translate }}
+                </button>
+            </div>
+
+
             <span class="fill-remaining-space"></span>
+
             <button mat-button type="button" color="primary" (click)="submitData()" [disabled]="!projectDataForm.valid">
                 <span *ngIf="edit">{{ 'salsahLabels.form.action.update' | translate }}</span>
                 <span *ngIf="!edit">{{ 'salsahLabels.form.action.submit' | translate }}</span>
@@ -105,7 +123,8 @@
             <div class="salsah-panel large">
                 <button mat-button matStepperPrevious>{{ 'salsahLabels.form.action.back' | translate }}</button>
                 <span class="fill-remaining-space"></span>
-                <button mat-button color="primary" matStepperNext [disabled]="!projectDataForm.valid" (click)="submitData()">
+                <button mat-button color="primary" matStepperNext [disabled]="!projectDataForm.valid"
+                        (click)="submitData()">
                     {{ 'salsahLabels.form.action.next' | translate }}
                 </button>
             </div>

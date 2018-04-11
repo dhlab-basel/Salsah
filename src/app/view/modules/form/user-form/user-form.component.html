@@ -1,6 +1,6 @@
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
-    <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper" [selectedIndex]="setStep">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
         <!-- ------------------------------------------------------------------
             1.  add' or 'create new' user starts always with the user's email address;
                 it's an auto complete form, which checks, if the user already exists

@@ -34,9 +34,6 @@ import {Project} from '../../../../model/webapi/knora/admin';
 
 export class UserFormComponent implements OnInit {
 
-    // dev only:
-    setStep: number = 0;
-
     // general stuff
     isLoading: boolean = true;
 

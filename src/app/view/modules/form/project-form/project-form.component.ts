@@ -37,13 +37,15 @@ export class ProjectFormComponent implements OnInit {
     // it can have an attribute called iri which creates the edit form
     // otherwise the form is empty to create a new project
 
-    @Input() iri?: string;
+    @Input() projectIri?: string;
 
     @Output() closeForm = new EventEmitter<any>();
 
-    // @Output() submitData = new EventEmitter<any>();
-
+    // general stuff
     isLoading: boolean = true;
+
+    isLinear: boolean = true;
+
 
     errorMessage: any;
 
@@ -171,10 +173,10 @@ export class ProjectFormComponent implements OnInit {
                 }
             );
 
-        if (this.iri) {
+        if (this.projectIri) {
             // edit existing project; get the data first
             this.formLabels.project.subtitle = 'Edit ';
-            this._projectsService.getProjectByIri(this.iri)
+            this._projectsService.getProjectByIri(this.projectIri)
                 .subscribe(
                     (result: Project) => {
                         this.project = result;
@@ -223,7 +225,7 @@ export class ProjectFormComponent implements OnInit {
         this.form = this._fb.group({
 
             'shortname': new FormControl({
-                value: proj.shortname, disabled: this.iri !== undefined
+                value: proj.shortname, disabled: this.projectIri !== undefined
             }, [
                 Validators.required,
                 Validators.minLength(this.shortnameMinLength),
@@ -238,7 +240,7 @@ export class ProjectFormComponent implements OnInit {
                 Validators.required
             ]),
             'shortcode': new FormControl({
-                value: proj.shortcode, disabled: (this.iri !== undefined && proj.shortcode !== null)
+                value: proj.shortcode, disabled: (this.projectIri !== undefined && proj.shortcode !== null)
             }, [
                 Validators.required,
                 Validators.minLength(this.shortcodeMinLength),
@@ -300,7 +302,7 @@ export class ProjectFormComponent implements OnInit {
 
         // this.submitData.emit({value, iri});
 
-        if (!this.iri) {
+        if (!this.projectIri) {
             this.project.ontologies = [];
             /*
             const ontology: OntologyInfoShort = {
@@ -400,57 +402,6 @@ export class ProjectFormComponent implements OnInit {
         console.log(this.form);
     }
 
-    deactivateProject(ev, id: string) {
-        ev.preventDefault();
-        // TODO: "are you sure?"-dialog
 
-        // if true
-        this._projectsService.deleteProject(id).subscribe(
-            (res: Project) => {
-                // reload page
-                this.isLoading = false;
-                window.location.reload();
-            },
-            (error: ApiServiceError) => {
-                const message: MessageData = error;
-                console.log(message);
-                /*
-                const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
-                    data: {
-                        message: message
-                    }
-                });
-                */
-            }
-        )
-
-        // close dialog box
-
-        // else: cancel action
-    }
-
-    activateProject(ev, id: string) {
-        ev.preventDefault();
-        // TODO: "are you sure?"-dialog
-
-        this._projectsService.activateProject(id).subscribe(
-            (res: Project) => {
-                // reload page
-                window.location.reload();
-                this.isLoading = false;
-            },
-            (error: ApiServiceError) => {
-                const message: MessageData = error;
-                console.log(message);
-                /*
-                const errorRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{
-                    data: {
-                        message: message
-                    }
-                });
-                */
-            }
-        )
-    }
 
 }

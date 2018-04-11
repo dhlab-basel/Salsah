@@ -1,3 +1,52 @@
+<div *ngIf="!isLoading && !errorMessage; else errorMsg">
+
+    <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
+        <!-- ------------------------------------------------------------------
+            1.  add' or 'create new' user starts always with the user's email address;
+                it's an auto complete form, which checks, if the user already exists
+        ------------------------------------------------------------------- -->
+        <mat-step [stepControl]="userFormGroup">
+            <form [formGroup]="userFormGroup" class="salsah-form-content">
+                <ng-template matStepLabel>{{ 'salsahLabels.form.user.title.formWizard.step_1' | translate }}</ng-template>
+
+                <!-- auto complete list to select user -->
+                <mat-form-field class="large">
+
+                    <input matInput
+                           [matAutocomplete]="user"
+                           [formControl]="userFormGroup.controls['username']"
+                           [placeholder]="'salsahLabels.form.user.title.select' | translate">
+
+                    <button mat-button color="primary" matSuffix matStepperNext [disabled]="!userFormGroup.valid"
+                            (click)="setSelected()">
+                        {{ 'salsahLabels.form.action.next' | translate }}
+                    </button>
+
+                    <mat-autocomplete #user="matAutocomplete">
+                        <mat-option *ngFor="let user of filteredUsers | async"
+                                    [value]="user?.name"
+                                    (onSelectionChange)="resetSelected()">
+                            {{ user?.label }}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <mat-hint *ngIf="userFormErrors.username">
+                        {{ userFormErrors.username }}
+                    </mat-hint>
+
+                </mat-form-field>
+            </form>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>
+
+
+<!-- in the case of an API error: show the error message -->
+<ng-template #errorMsg>
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+</ng-template>
+
+<!--
 <div class="salsah-step-by-step-form">
     <!-- form header with form stepper -->
     <!--
@@ -6,7 +55,7 @@
                                  [counter]="counter"></salsah-progress-stepper>
     </div>
     <br>
-    -->
+    --
 
     <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 
@@ -14,7 +63,7 @@
         <mat-accordion class="headers-align">
 
             <mat-expansion-panel [expanded]="step === 0" hideToggle="true">
-                <!-- header -->
+                <!-- header --
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         <span *ngIf="!iri">{{ 'salsahLabels.form.project.title.new' | translate }}</span>
@@ -27,7 +76,7 @@
                 </mat-expansion-panel-header>
 
                 <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
-                    <!-- short and long name -->
+                    <!-- short and long name --
                     <mat-form-field class="small">
                         <input matInput [salsahFocus]="step === 1"
                                placeholder="{{'salsahLabels.form.project.general.shortCode' | translate}} * "
@@ -38,7 +87,7 @@
                         </mat-hint>
                     </mat-form-field>
 
-                    <!-- short name -->
+                    <!-- short name --
                     <mat-form-field class="medium">
                         <input matInput [salsahFocus]="step === 1"
                                [maxlength]="shortnameMaxLength"
@@ -49,7 +98,7 @@
                         </mat-hint>
                     </mat-form-field>
 
-                    <!-- long name -->
+                    <!-- long name --
                     <mat-form-field class="large">
                         <input matInput
                                [placeholder]=" 'salsahLabels.form.project.general.longName' | translate "
@@ -59,7 +108,7 @@
                         </mat-hint>
                     </mat-form-field>
 
-                    <!-- description -->
+                    <!-- description --
                     <mat-form-field class="large">
                         <textarea matInput rows="6"
                                   [placeholder]=" 'salsahLabels.form.project.general.description' | translate "
@@ -71,7 +120,7 @@
                         </mat-hint>
                     </mat-form-field>
 
-                    <!-- institution -->
+                    <!-- institution --
                     <mat-form-field class="large">
                         <input matInput
                                placeholder="{{'salsahLabels.form.project.general.institution' | translate}}"
@@ -81,7 +130,7 @@
                         </mat-hint>
                     </mat-form-field>
 
-                    <!-- keywords -->
+                    <!-- keywords --
                     <mat-form-field class="large">
                         <input matInput
                                [placeholder]=" 'salsahLabels.form.project.general.keywords' | translate "
@@ -91,10 +140,10 @@
                         </mat-hint>
                     </mat-form-field>
 
-                    <!-- upload logo -->
+                    <!-- upload logo --
                     <salsah-file-uploader (uploadStatus)="sipiUpload($event)"></salsah-file-uploader>
                     <!-- the form needs an input field for the logo name
-                        the following input will be hidden and it gets the file name from the salsah-file-uploader -->
+                        the following input will be hidden and it gets the file name from the salsah-file-uploader --
                     <br>
 
                     <input matInput [hidden]="false"
@@ -102,16 +151,16 @@
                            [formControl]="form.controls['logo']"
                            formControlName="logo">
 
-                    <!-- footer -->
+                    <!-- footer --
                     <mat-action-row>
                         <div *ngIf="iri">
-                            <!-- delete project -->
+                            <!-- delete project --
                             <button *ngIf="project.status === true"
                                     mat-button color="warn"
                                     (click)="deactivateProject($event, iri)">
                                 {{ 'salsahLabels.form.general.deactivate' | translate }}
                             </button>
-                            <!-- activate project -->
+                            <!-- activate project --
                             <button *ngIf="project.status !== true"
                                     mat-button color="warn"
                                     (click)="activateProject($event, iri)">
@@ -119,7 +168,7 @@
                             </button>
                         </div>
                         <span class="fill-remaining-space"></span>
-                        <!-- checkbox, which activates the add user dialog form -->
+                        <!-- checkbox, which activates the add user dialog form --
                         <button mat-raised-button
                                 [disabled]="!form.valid"
                                 color="primary"
@@ -136,3 +185,4 @@
     </div>
 </div>
 
+-->
