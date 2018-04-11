@@ -4,17 +4,24 @@
     <!-- cover image: project logo -->
     <img salsahImage [image]="project?.logo" [type]="'admin'">
 
-    <!-- edit button -->
-    <button *ngIf="loggedInAdmin"
-            (click)="editProject()"
-            mat-fab class="right"
-            [matTooltip]="edit.title"
-            [matTooltipPosition]="'above'"
-            color="primary">
-        <mat-icon>edit</mat-icon>
-    </button>
+    <div class="salsah-profile-header">
+        <span class="profile-title">
+            <h2 mat-header>{{project.longname}}</h2>
+        </span>
+        <span class="fill-remaining-space"></span>
+        <span class="profile-action-button">
+            <!-- edit button -->
+            <button *ngIf="loggedInAdmin"
+                    (click)="editProject()"
+                    mat-raised-button
+                    [matTooltip]="edit.title"
+                    [matTooltipPosition]="'above'"
+                    color="primary">
+                Edit &nbsp; <mat-icon>edit</mat-icon>
+            </button>
+        </span>
+    </div>
 
-    <h2 mat-header>{{project.longname}}</h2>
     <div [innerHTML]="project.description[0].value" class="salsah-text"></div>
 </div>
 

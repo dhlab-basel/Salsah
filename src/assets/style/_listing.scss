@@ -3,6 +3,21 @@
 // b) grid list
 // c) table list
 
+// general stuff
+.salsah-list-toolbar {
+  display: flex;
+  flex-direction: row;
+
+  .salsah-list-title {
+
+  }
+
+  .salsah-list-action {
+
+  }
+}
+
+
 // a) simple list
 .salsah-list {
 

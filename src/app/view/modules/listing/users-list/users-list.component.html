@@ -9,6 +9,7 @@
         <div *ngSwitchCase="'table'">
             <!-- table with all active users -->
             <h4>Active users</h4>
+
             <table class="salsah-table">
                 <tr>
                     <th># {{allActiveUsers.length}}</th>
@@ -86,22 +87,44 @@
         </div>
 
         <div *ngSwitchCase="'accordion'">
-            <mat-form-field>
-                <mat-select [placeholder]="'salsahLabels.usersList.sortProps.sortTitle' | translate " [(value)]="sortKey">
-                    <mat-option *ngFor="let item of sortProps" [value]="item.key">
-                        {{item.label}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
 
             <div *ngIf="allActiveUsers.length > 0">
-                <h4 class="salsah-sub-header">{{allActiveUsers.length}} Active user<span *ngIf="allActiveUsers.length > 1">s</span></h4>
+                <div class="salsah-list-toolbar">
+                    <span class="salsah-list-title">
+                        <h4 class="salsah-sub-header">{{allActiveUsers.length}} Active user<span
+                            *ngIf="allActiveUsers.length > 1">s</span></h4>
+                    </span>
+                    <span class="fill-remaining-space"></span>
+                    <span class="salsah-list-action">
+                        <button mat-icon-button *ngIf="allActiveUsers.length > 1" [matMenuTriggerFor]="sortActive">
+                            <mat-icon>sort</mat-icon>
+                        </button>
+                        <mat-menu #sortActive="matMenu" xPosition="before">
+                            <button mat-menu-item *ngFor="let item of sortProps" (click)="sortBy(item.key, 'active')">{{item.label}}</button>
+                        </mat-menu>
+                    </span>
+                </div>
+
                 <salsah-users-list-item [listData]="allActiveUsers" [sortProp]="sortKey"
                                         [project]="project"></salsah-users-list-item>
             </div>
             <br><br>
             <div *ngIf="allInactiveUsers.length > 0">
-                <h4 class="salsah-sub-header">{{allInactiveUsers.length}} Inactive user<span *ngIf="allInactiveUsers.length > 1">s</span></h4>
+                <div class="salsah-list-toolbar">
+                    <span class="salsah-list-title">
+                        <h4 class="salsah-sub-header">{{allInactiveUsers.length}} Inactive user<span
+                            *ngIf="allInactiveUsers.length > 1">s</span></h4>
+                    </span>
+                    <span class="fill-remaining-space"></span>
+                    <span class="salsah-list-action">
+                        <button mat-icon-button *ngIf="allInactiveUsers.length > 1" [matMenuTriggerFor]="sortInactive">
+                            <mat-icon>sort</mat-icon>
+                        </button>
+                        <mat-menu #sortInactive="matMenu" xPosition="before">
+                            <button mat-menu-item *ngFor="let item of sortProps" (click)="sortBy(item.key, 'inactive')">{{item.label}}</button>
+                        </mat-menu>
+                    </span>
+                </div>
                 <salsah-users-list-item [listData]="allInactiveUsers" [sortProp]="sortKey"
                                         [project]="project"></salsah-users-list-item>
             </div>
