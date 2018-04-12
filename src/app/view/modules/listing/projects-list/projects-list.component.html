@@ -21,7 +21,7 @@
                 </tr>
                 <tr *ngFor="let item of allActive | sortBy: sortKey; let i = index;">
                     <td class="salsah-avatar-cell">
-                        <img salsahImage [image]="item.logo" [type]="'admin'" class="salsah-project-logo"/>
+                        <img salsahAdminImage [image]="item.logo" [type]="'project'" class="salsah-project-logo"/>
                     </td>
                     <td>{{item.shortname}}</td>
                     <td>{{item.longname}}</td>
@@ -59,7 +59,7 @@
                 </tr>
                 <tr *ngFor="let item of allInactive | sortBy: sortKey; let i = index;">
                     <td class="salsah-avatar-cell">
-                        <img salsahImage [image]="item.logo" [type]="'admin'" class="salsah-project-logo"/>
+                        <img salsahAdminImage [image]="item.logo" [type]="'project'" class="salsah-project-logo"/>
                     </td>
                     <td>{{item.shortname}}</td>
                     <td>{{item.longname}}</td>
@@ -102,7 +102,7 @@
                     <img mat-card-image [src]="project.value.logo" class="salsah-preview-image"/>
                     -->
                     <!-- fake test data -->
-                    <img salsahImage [image]="item.logo" [type]="'admin'"
+                    <img salsahAdminImage [image]="item.logo" [type]="'project'"
                          [class.salsah-preview-image]="item.logo"
                          [class.salsah-preview-icon]="!item.logo"/>
                     <div class="salsah-preview-content">
@@ -121,7 +121,7 @@
         <mat-list class="salsah-list" *ngSwitchDefault>
             <h3 mat-subheader># Projects: {{countAll}}</h3>
             <mat-list-item *ngFor="let item of allProjects | key">
-                <img mat-list-icon salsahImage [image]="item?.logo" [type]="'admin'" class="salsah-project-logo"/>
+                <img mat-list-icon salsahAdminImage [image]="item?.logo" [type]="'project'" class="salsah-project-logo"/>
                 <h4 mat-line>{{item.value.longname}} ({{item.value.shortname}})</h4>
                 <div mat-line [innerHtml]="item.value.description[0].value | slice:0:128"></div>
                 <button mat-icon-button

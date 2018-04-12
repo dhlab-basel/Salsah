@@ -28,9 +28,8 @@
         <!-- AND after upload: 3) show the file (in the case of an image) -->
         <div class="file-preview-zone" *ngSwitchCase="'preview'">
             <div *ngFor="let file of files">
-                <img salsahImage [image]="file" [type]="formType" />
+                <img salsahAdminImage [image]="file" [type]="'project'" />
             </div>
-
         </div>
 
         <!-- some buttons to switch the different kind of views above -->

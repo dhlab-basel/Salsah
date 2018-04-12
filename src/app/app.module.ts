@@ -38,7 +38,9 @@ import {UsersService} from './model/services/users.service';
 //
 // import all npm salsah modules
 //
+import {AdminImageModule} from '@salsah/admin-image';
 import {ProgressIndicatorModule} from '@salsah/progress-indicator';
+
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -47,7 +49,6 @@ import {StatusMsgServiceService} from './model/services/status-msg-service.servi
 // import directives, pipes etc.
 //
 import {ForbiddenNameDirective} from './view/modules/other/forbidden-name.directive';
-import {ImageDirective} from './view/modules/other/image.directive';
 import {KeyPipe} from './view/modules/other/key.pipe';
 import {OverlayDirective} from './view/modules/other/overlay.directive';
 import {ReversePipe} from './view/modules/other/reverse.pipe';
@@ -171,6 +172,7 @@ import { UserPasswordComponent } from './view/modules/form/user-form/user-passwo
 import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
 
+
 //
 // import all needed services
 //
@@ -198,7 +200,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         HeaderToolbarComponent,
         HeaderProjectsComponent,
         DashboardComponent,
-        ImageDirective,
         UserSettingsComponent,
         ProjectSettingsComponent,
         UserProfileComponent,
@@ -306,6 +307,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         AppMaterialModule,
         MatJDNConvertibleCalendarDateAdapterModule,
         AppRoutingModule,
+        AdminImageModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
         TreeModule,

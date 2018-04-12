@@ -2,7 +2,7 @@
 
 <div class="salsah-module-content medium" *ngIf="project && !isLoading">
     <!-- cover image: project logo -->
-    <img salsahImage [image]="project?.logo" [type]="'admin'">
+    <img salsahAdminImage [image]="project?.logo" [type]="'project'">
 
     <!-- edit button -->
     <button *ngIf="loggedInAdmin"
