@@ -372,7 +372,7 @@ export class UserFormComponent implements OnInit {
 
                     // next step: add user (by iri) to the project (if any is selected)
                     if (this.selectedProject) {
-                        console.log(this.isAlreadyMember);
+//                        console.log(this.isAlreadyMember);
                         if (!this.isAlreadyMember) {
                             this.addUserToProject(result.id);
                         } else {
@@ -418,8 +418,6 @@ export class UserFormComponent implements OnInit {
     addUserToProject(userIri: string) {
         // next step: add user (by iri) to the selected project
         // if he's not yet a member
-
-        console.log(this.selectedUser);
 
         this.submitMembershipStatus = 0;
         this._usersService.addUserToProject(userIri, this.selectedProject.iri).subscribe(
