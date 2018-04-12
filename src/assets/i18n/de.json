@@ -1,192 +1,123 @@
 {
-    "salsahLabels": {
-        "dashboardComponent": {
-            "firstParagraph": "Willkommen bei Salsah – einer web-basierten virtuellen Forschungsumgebung, die Forschern in den Humanities bei der Arbeit mit digitalen Daten unterstützt. Salsah erlaubt die Annotation und die Verknüpfung mit beliebigen Quellen, seien es digitale Texte, bewegte oder unbewegte Bilder oder Ton.",
-            "secondParagraph": "SALSAH ist eine (generische) Benutzerschnittstelle um auf Daten von einem Haupt-Repository zuzugreifen, das hier beschrieben ist: ",
-            "projectsIntro": "Öffentliche Projekte in Knora"
+  "salsahLabels": {
+    "dashboardComponent": {
+      "firstParagraph": "Willkommen bei Salsah – einer web-basierten virtuellen Forschungsumgebung, die Forschern in den Humanities bei der Arbeit mit digitalen Daten unterstützt. Salsah erlaubt die Annotation und die Verknüpfung mit beliebigen Quellen, seien es digitale Texte, bewegte oder unbewegte Bilder oder Ton.",
+      "secondParagraph": "SALSAH ist eine (generische) Benutzerschnittstelle um auf Daten von einem Haupt-Repository zuzugreifen, das hier beschrieben ist: ",
+      "projectsIntro": "Öffentliche Projekte in Knora"
+    },
+    "frameworkForListings": {
+      "list": {
+        "title": "Mitglieder in diesem Projekt",
+        "description": "",
+        "content": "user",
+        "showAs": "expansion",
+        "restrictedBy": ""
+      },
+      "add": {
+        "title": "Füge neues Team Mitglied hinzu",
+        "description": ""
+      }
+    },
+    "usersList": {
+      "sortProps": {
+        "familyName": "Nachname",
+        "givenName": "Vorname",
+        "sortTitle": "Sortieren nach "
+      }
+    },
+    "formDialog": {
+      "discard": "Wollen Sie wirklich alle Änderungen verwerfen?"
+    },
+    "form": {
+      "action": {
+        "cancel": "Abbrechen",
+        "close": "Schliessen",
+        "submit": "Speichern",
+        "update": "Aktualisieren",
+        "next": "Weiter",
+        "back": "Zurück",
+        "skip": "Überspringen",
+        "reset": "Zurücksetzen",
+        "activate": "Aktivieren",
+        "deactivate": "Deaktivieren",
+        "confirm": "Ja"
+      },
+      "user": {
+        "general": {
+          "givenName": "Vorname",
+          "familyName": "Nachname",
+          "email": "Email Adresse (ist zugleich Benutzername)",
+          "emailHint": "Dies wird dein Benutzername",
+          "emailValidation": "Das ist keine gültige Email Adresse",
+          "password": "Passwort",
+          "passwordHint": "Mindestens 8 Zeichen, wobein ein Grossbuchstabe und eine Zahl vorhanden sein müssen.",
+          "oldPassword": "Altes Passwort",
+          "newPassword": "Neues Passwort",
+          "avatar": "Profilbild hochladen",
+          "language": "Sprache"
         },
-        "frameworkForListings": {
-            "list": {
-                "title": "Mitglieder in diesem Projekt",
-                "description": "",
-                "content": "user",
-                "showAs": "expansion",
-                "restrictedBy": ""
-            },
-            "add": {
-                "title": "Füge neues Team Mitglied hinzu",
-                "description": ""
-            }
-        },
-        "usersList": {
-            "sortProps": {
-                "familyName": "Nachname",
-                "givenName": "Vorname",
-                "sortTitle": "Sortieren nach "
-            }
-        },
-        "formDialog": {
-            "discard": "Wollen Sie wirklich alle Änderungen verwerfen?"
-        },
-        "userFormLabels": {
-            "user": {
-                "title": {
-                    "new": "Benutzer erstellen",
-                    "edit": "Benutzer bearbeiten"
-                },
-                "select": {
-                    "title": "Wähle Benutzer",
-                    "titleDone": "Ausgewählter Benutzer",
-                    "description": "Füge einen bestehenden hinzu",
-                    "autoComplete": "Wähle einen Benutzer oder kreiere einen neuen über die Email Adresse",
-                    "autoCompleteHint": "",
-                    "skip": "Überspringen und einen neuen Benutzer hinzufügen"
-                },
-                "password": {
-                    "old": "Altes Passwort",
-                    "new": "Neues Passwort"
-                },
-                "create": {
-                    "projectAdmin": {
-                        "title": "Oder einen neuen Benutzer hinzufügen",
-                        "titleDone": "Neuer Benutzer",
-                        "description": "Wenn der Benutzer nicht existiert, füge einen neuen hinzu"
-                    },
-                    "systemAdmin": {
-                        "title": "Benutzer hinzufügen",
-                        "titleDone": "Neuer Benutzer",
-                        "description": "Füge neues Benutzerprofil hinzu"
-                    },
-                    "givenName": "Vorname",
-                    "familyName": "Nachname",
-                    "email": "Email Adresse (Wird Dein Login Name sein)",
-                    "emailHint": "Das wird Dein Login Name sein",
-                    "emailValidation": "Das scheint keine gültige Email Adresse zu sein",
-                    "password": "Passwort",
-                    "passwordHint": "Benütze mindestens 8 Buchstaben mit einem Grossbuchstaben und einer Zahl",
-                    "avatar": "Lade ein Profilbild hoch",
-                    "language": "Standardsprache"
-                }
-            },
-            "project": {
-                "select": {
-                    "title": "Projekt Mitgliedschaft",
-                    "description": "Füge diesen Benutzer einem Projekt hinzu",
-                    "autoComplete": "Projektname eingeben",
-                    "autoCompleteHint": "",
-                    "skip": "Überspringe diesen Schritt"
-                },
-                "existing": {
-                    "title": "Du fügst den Benutzer zum Projekt ",
-                    "description": ""
-                }
-            },
-            "permissions": {
-                "title": "Berechtigungen",
-                "description": "Setze die Berechtigungen des Benutzers",
-                "group": {
-                    "title": "Gruppe",
-                    "description": "Gruppenberechtigungen"
-                },
-                "project": {
-                    "title": "Projekt",
-                    "description": "Administrationsrechte im Projekt"
-                },
-                "system": {
-                    "title": "System",
-                    "description": "Administrationsrechte im System"
-                }
-            },
-            "overview": {
-                "title": "Daten senden",
-                "description": "Die folgenden Daten werden an KNORA gesendet"
-            },
-            "navigation": {
-                "next": "Weiter",
-                "back": "Zurück",
-                "skip": "Überspringen",
-                "cancel": "Abbrechen",
-                "submit": "Speichern",
-                "close": "Schliessen",
-                "add": "Mehr Benutzer hinzufügen",
-                "reset": "Zurücksetzen"
-            },
-            "formErrors": {
-                "givenName": "",
-                "familyName": "",
-                "email": "",
-                "password": ""
-            },
-            "validationMessages": {
-                "givenName": {
-                    "required": "Der Vorname ist verlangt."
-                },
-                "familyName": {
-                    "required": "Der Nachname ist verlangt."
-                },
-                "email": {
-                    "required": "Die Email Adresse ist verlangt.",
-                    "pattern": "Das scheint keine gültige Email Adresse zu sein.",
-                    "existingName": "Diese Email Adresse gibt es bereits."
-                },
-                "password": {
-                    "required": "Das Passwort ist verlangt",
-                    "minlength": "Benutze mindestens 8 Zeichen",
-                    "pattern": "Das Passwort sollte mindestens einen Grossbuchstaben und eine Zahl aufweisen."
-                }
-            }
-        },
-        "projectFormLabels": {
-            "project": {
-                "title": "Projekt Details",
-                "description": "Beschreibung",
-                "shortname": "Projekt Kurzname",
-                "longname": "Projekt Name",
-                "logo": {
-                    "upload": "Lade ein Logo hoch",
-                    "or": "ODER",
-                    "url": "Setze eine URL",
-                    "name": "Logo Dateiname oder URL"
-                },
-                "keywords": "Schlagworte"
-            },
-            "user": {
-                "select": "Wähle einen Benutzer zum Hinzufügen"
-            },
-            "navigation": {
-                "next": "Weiter",
-                "back": "Zurück",
-                "skip": "Überspringen",
-                "cancel": "Abbrechen",
-                "submit": "Speichern",
-                "close": "Schliessen",
-                "add": "Füge mehr Benutzer hinzu",
-                "reset": "Zurücksetzen"
-            },
-            "formErrors": {
-                "shortname": "",
-                "longname": "",
-                "description": "",
-                "keywords": ""
-            },
-            "validationMessages": {
-                "shortname": {
-                    "required": "Kurzname ist verlangt",
-                    "minlength": "Der Kurzname muss mindestens 3 Zeichen lang sein.",
-                    "maxlength": "Der Kurzname darf nicht länger als 16 Zeichen lang sein.",
-                    "pattern": "Leerschläge sind nicht erlaubt.",
-                    "existingName": "Dieser Kurzname existiert bereits."
-                },
-                "longname": {
-                    "required": "Der Langname ist verlangt."
-                },
-                "description": {
-                    "maxlength_p1": "Die Beschreibung darf nicht mehr als ",
-                    "maxlenght_p2": " Zeichen lang sein."
-                },
-                "keywords": {
-                }
-            }
+        "title": {
+          "new": "Neuen Benutzer erstellen",
+          "edit": "Benutzer anpassen",
+          "editSuccess": "Das Profil wurde erfolgreich aktualisiert",
+          "delete": "Benutzer löschen",
+          "deleteHint": "Bist du sicher, dass du diesen Benutzer löschen willst?",
+          "password": "Passwort ändern",
+          "passwordSuccess": "Du hast das Passwort erfolgreich geändert.",
+          "formWizard": {
+            "step_1": "Benutzername",
+            "step_2": "Profil",
+            "step_3": "Berechtigung",
+            "step_4": "Bestätigen",
+            "more": "Mehr Benutzer hinzufügen"
+          },
+          "select": "Benutzer wählen, oder mit Email Adresse neuen erstellen"
         }
+      },
+      "project": {
+        "general": {
+          "description": "Projektbeschrieb",
+          "shortCode": "Kurzcode",
+          "shortName": "Abkürzung",
+          "longName": "Projekttitel",
+          "institution": "Institution",
+          "logo": {
+            "upload": "Logo hochladen",
+            "or": "ODER",
+            "url": "URL zur Logo-Datei",
+            "name": "Logo Dateiname oder URL"
+          },
+          "keywords": "Stichworte"
+        },
+        "title": {
+          "new": "Projekt erstellen",
+          "edit": "Projekt aktualisieren",
+          "editSuccess": "Das Projekt wurde erfolgreich aktualisiert",
+          "delete": "Projekt löschen",
+          "deleteHint": "Möchtest du das Projekt wirklich löschen?",
+          "formWizard": {
+            "step_1": "Projektdaten",
+            "step_2": "Mitlgieder hinzufügen",
+            "step_3": "Bestätgien",
+            "more": "Ein weiteres Projekt erstellen"
+          }
+        }
+      },
+      "member": {
+        "select": {
+          "project": "Projekt wählen",
+          "user": "Benutzer wählen",
+          "group": "Berechtigungsgruppe wählen"
+        },
+        "title": {
+          "project": "Mitglied im Projekt",
+          "user": "Mitglieder im Projekt",
+          "group": "Berechtigungen"
+        },
+        "hint": {
+          "alreadyMember": "Der Benutzer ist bereits in diesem Projekt"
+        }
+      }
     }
+  }
 }

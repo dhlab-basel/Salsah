@@ -284,7 +284,7 @@ export class UsersService extends ApiService {
                 return received;
             },
             (error: ApiServiceError) => {
-                console.error('UsersService - activateUser - error: ' + JSON.stringify(error));
+                console.error('UsersService - updateUser - error: ' + JSON.stringify(error));
                 throw error;
             }
         )

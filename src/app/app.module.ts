@@ -169,6 +169,7 @@ import { ObjectDialogComponent } from './view/modules/dialog/object-dialog/objec
 import { UserRoleComponent } from './view/modules/form/user-form/user-role/user-role.component';
 import { UserPasswordComponent } from './view/modules/form/user-form/user-password/user-password.component';
 import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
+import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
 
 //
 // import all needed services
@@ -293,6 +294,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         UserRoleComponent,
         UserPasswordComponent,
         ListFormComponent,
+        ProjectDataComponent,
         ReadTextfileValueComponent
     ],
     imports: [

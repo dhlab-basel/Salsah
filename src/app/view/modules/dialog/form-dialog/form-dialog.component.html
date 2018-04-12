@@ -32,10 +32,10 @@
             - the restrictedBy attribute is for e.g. a project iri; it's used in the project admin -->
 
         <!-- create new / edit projects -->
-        <salsah-project-form *ngSwitchCase="'project'"
+        <salsah-project-data *ngSwitchCase="'project'"
                              (closeForm)="closeAndRefresh($event)"
-                             [iri]="data.iri">
-        </salsah-project-form>
+                             [projectIri]="data.iri">
+        </salsah-project-data>
 
         <!-- add user to the system or to a project -->
         <salsah-user-form *ngSwitchCase="'member'"

@@ -145,12 +145,17 @@ export class ProjectsListComponent implements OnInit {
 
 
     edit(id: string) {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-            data: {
-                iri: id,
-                form: 'project'
-            }
-        });
+        const config: MatDialogConfig = new MatDialogConfig();
+
+        config.data = {
+            iri: id,
+            form: 'project'
+        };
+
+        config.panelClass = 'resizable';
+
+        const dialogRef = this._dialog.open(FormDialogComponent, config);
+
     }
 
     open(id: string) {

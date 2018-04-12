@@ -1,13 +1,13 @@
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
-    <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper" [selectedIndex]="setStep">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
         <!-- ------------------------------------------------------------------
             1.  add' or 'create new' user starts always with the user's email address;
                 it's an auto complete form, which checks, if the user already exists
         ------------------------------------------------------------------- -->
         <mat-step [stepControl]="userFormGroup">
             <form [formGroup]="userFormGroup" class="salsah-form-content">
-                <ng-template matStepLabel>Start with username</ng-template>
+                <ng-template matStepLabel>{{ 'salsahLabels.form.user.title.formWizard.step_1' | translate }}</ng-template>
 
                 <!-- auto complete list to select user -->
                 <mat-form-field class="large">
@@ -15,11 +15,11 @@
                     <input matInput
                            [matAutocomplete]="user"
                            [formControl]="userFormGroup.controls['username']"
-                           [placeholder]="'salsahLabels.userFormLabels.user.select.autoComplete' | translate">
+                           [placeholder]="'salsahLabels.form.user.title.select' | translate">
 
                     <button mat-button color="primary" matSuffix matStepperNext [disabled]="!userFormGroup.valid"
                             (click)="setSelected()">
-                        Next
+                        {{ 'salsahLabels.form.action.next' | translate }}
                     </button>
 
                     <mat-autocomplete #user="matAutocomplete">
@@ -47,7 +47,7 @@
         ------------------------------------------------------------------- -->
 
         <mat-step [editable]="selectedUser">
-            <ng-template matStepLabel>User data</ng-template>
+            <ng-template matStepLabel>{{ 'salsahLabels.form.user.title.formWizard.step_2' | translate }}</ng-template>
 
             <salsah-user-data *ngIf="userFormGroup.valid && selectedUser"
                               [user]="selectedUser"
@@ -65,7 +65,7 @@
                 b) in project view: select role only
         ------------------------------------------------------------------- -->
         <mat-step [editable]="selectedUser">
-            <ng-template matStepLabel>User role</ng-template>
+            <ng-template matStepLabel>{{ 'salsahLabels.form.user.title.formWizard.step_3' | translate }}</ng-template>
 
             <salsah-user-role *ngIf="selectedUser"
                               [projectIri]="projectIri"
@@ -83,7 +83,7 @@
         ------------------------------------------------------------------- -->
         <mat-step [editable]="false">
 
-            <ng-template matStepLabel>Submit</ng-template>
+            <ng-template matStepLabel>{{ 'salsahLabels.form.user.title.formWizard.step_4' | translate }}</ng-template>
 
             <div class="salsah-form-content">
                 <mat-list class="form-overview">
@@ -94,10 +94,10 @@
                                                    [status]="submitUserStatus"></salsah-progress-indicator>
                         <h4 mat-line>
                         <span *ngIf="selectedUser.id">
-                            {{ 'salsahLabels.userFormLabels.user.title.edit' | translate }}
+                            {{ 'salsahLabels.form.user.title.edit' | translate }}
                         </span>
                             <span *ngIf="!selectedUser.id">
-                            {{ 'salsahLabels.userFormLabels.user.title.new' | translate }}
+                            {{ 'salsahLabels.form.user.title.new' | translate }}
                         </span>
                         </h4>
                         <p mat-line>
@@ -115,13 +115,13 @@
                         <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
                                                    [status]="submitMembershipStatus"></salsah-progress-indicator>
                         <h4 mat-line>
-                            {{ 'salsahLabels.userFormLabels.project.select.title' | translate}}
+                            {{ 'salsahLabels.form.member.title.project' | translate }}
                         </h4>
                         <p mat-line>
-                            {{selectedProject?.name}}
+                            &bull; {{selectedProject?.name}}
                         </p>
                         <mat-hint mat-line *ngIf="isAlreadyMember" class="salsah-warning">
-                            (The user is already a member of this project)
+                            ({{ 'salsahLabels.form.member.hint.alreadyMember' | translate }})
                         </mat-hint>
                         <mat-hint mat-line *ngIf="membershipErrorMessage" class="salsah-error-message">
                             {{membershipErrorMessage?.statusText}}
@@ -133,15 +133,11 @@
                         <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
                                                    [status]="submitPermissionsStatus"></salsah-progress-indicator>
                         <h4 mat-line>
-                            {{ 'salsahLabels.userFormLabels.permissions.title' | translate}}
+                            {{ 'salsahLabels.form.member.title.group' | translate}}
                         </h4>
                         <p mat-line>
-                            <span *ngFor="let group of selectedGroups; let last = last">{{group.name}} <br
+                            <span *ngFor="let group of selectedGroups; let last = last">&bull; {{group.name}} <br
                                 *ngIf="!last"></span>
-                            <!--
-                            <span *ngIf="adminPermission">&bull; {{ 'salsahLabels.userFormLabels.permissions.project.description' | translate}} <i>&nbsp;{{selectedProject?.longname}}</i></span>
-                            <span *ngIf="sysAdminPermission"><br>&bull; {{ 'salsahLabels.userFormLabels.permissions.system.description' | translate}}</span>
-                            -->
                         </p>
                         <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
                             {{permissionsErrorMessage?.statusText}}
@@ -152,11 +148,13 @@
 
 
                 <div class="salsah-panel large">
-                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperPrevious>
+                        {{ 'salsahLabels.form.action.back' | translate }}
+                    </button>
                     <span class="fill-remaining-space"></span>
                     <button mat-raised-button type="button" color="primary" (click)="submitData()"
                             [disabled]="!selectedUser && !selectedProject && !selectedGroups">
-                        {{ 'salsahLabels.userFormLabels.navigation.submit' | translate }}
+                        {{ 'salsahLabels.form.action.submit' | translate }}
                     </button>
                     <!-- after submit
                     <button mat-button (click)="stepper.reset()">Add more user</button>
@@ -189,9 +187,3 @@
     3) special stuff like "add the user to system project" and set system permissions
 
 -->
-
-
-
-
-
-

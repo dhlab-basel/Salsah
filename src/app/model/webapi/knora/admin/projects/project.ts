@@ -31,7 +31,7 @@ export class Project {
     public longname: string = undefined;
 
     @JsonProperty('description', [StringLiteralV2], true)
-    public description: StringLiteralV2[] = undefined;
+    public description: StringLiteralV2[] = [new StringLiteralV2()];
 
     @JsonProperty('keywords', [String], true)
     public keywords: string[] = undefined;

@@ -6,13 +6,14 @@
 }
 
 .form-dialog {
-  position: relative;
   overflow: hidden;
+  position: relative;
+
   .dialog-header {
     display: flex;
     flex-direction: row;
-    padding: 12px 12px 0;
     height: 64px;
+    padding: 12px 12px 0;
 
     .dialog-title {
       margin-top: 8px;
