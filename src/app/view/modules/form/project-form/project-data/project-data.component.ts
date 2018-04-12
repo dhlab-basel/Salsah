@@ -143,28 +143,34 @@ export class ProjectDataComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-        // get a list of all projects and create an array of the short names
+        // get a list of all projects and create an array of the short names, but only in "create new" mode
         // the short name should be unique and with the array list, we can prevent
         // to have the same short name; proof it with the ForbiddenName directive
-        this._projectsService.getAllProjects()
-            .subscribe(
-                (result: Project[]) => {
-                    for (const project of result) {
-                        this.existingShortNames.push(new RegExp('(?:^|\W)' + project.shortname.toLowerCase() + '(?:$|\W)'));
-                        if (project.shortcode !== null) {
-                            this.existingShortcodes.push(new RegExp('(?:^|\W)' + project.shortcode.toLowerCase() + '(?:$|\W)'));
+        if (!this.projectIri) {
+            this._projectsService.getAllProjects()
+                .subscribe(
+                    (result: Project[]) => {
+                        for (const project of result) {
+                            this.existingShortNames.push(new RegExp('(?:^|\W)' + project.shortname.toLowerCase() + '(?:$|\W)'));
+                            if (project.shortcode !== null) {
+                                this.existingShortcodes.push(new RegExp('(?:^|\W)' + project.shortcode.toLowerCase() + '(?:$|\W)'));
+                            }
                         }
+                    },
+                    (error: ApiServiceError) => {
+                        console.log(error);
+                        this.errorMessage = error;
                     }
-                },
-                (error: ApiServiceError) => {
-                    console.log(error);
-                    this.errorMessage = error;
-                }
-            );
+                );
 
+            if (this.project === undefined) {
+                this.project = new Project();
+            }
+            this.buildForm(this.project);
 
-        if (!this.project && this.projectIri) {
+            this.isLoading = false;
 
+        } else {
             this._projectsService.getProjectByIri(this.projectIri)
                 .subscribe(
                     (result: Project) => {
@@ -178,15 +184,8 @@ export class ProjectDataComponent implements OnInit, OnChanges {
                         this.errorMessage = error;
                     }
                 );
-        } else {
-
-            if (this.project === undefined) {
-                this.project = new Project();
-            }
-            this.buildForm(this.project);
-
-            this.isLoading = false;
         }
+
     }
 
 
