@@ -21,10 +21,12 @@
                <br>
                <div style="margin-bottom: 10px;">Introduction:</div>
                <mat-accordion>
-                   <mat-expansion-panel>
+                   <mat-expansion-panel  (opened)="book.panelOpenState = true"
+                                         (closed)="book.panelOpenState = false">
 
                        <mat-expansion-panel-header>
                            <mat-panel-title>{{book.title}} Introduction</mat-panel-title>
+                           <mat-panel-description>{{book.panelOpenState ? 'Hide' : 'Show'}} the sections of the introduction</mat-panel-description>
                        </mat-expansion-panel-header>
 
                        <mat-list>
@@ -40,10 +42,13 @@
                <br>
                <div style="margin-bottom: 10px;">Correspondence:</div>
                <mat-accordion>
-                   <mat-expansion-panel *ngFor="let corrGroup of book.correspondences">
+                   <mat-expansion-panel *ngFor="let corrGroup of book.correspondences"
+                                        (opened)="corrGroup.panelOpenState = true"
+                                        (closed)="corrGroup.panelOpenState = false">
 
                        <mat-expansion-panel-header>
                            <mat-panel-title>{{corrGroup.description}}</mat-panel-title>
+                           <mat-panel-description>{{corrGroup.panelOpenState ? 'Hide' : 'Show'}} correspondence {{corrGroup.description}}</mat-panel-description>
                        </mat-expansion-panel-header>
 
                        <ul class="beol-list">
@@ -66,19 +71,26 @@
         <h3 style="margin-bottom: 10px;">Basler Edition der Bernoulli-Briefwechsel (BEBB)</h3>
 
         <mat-accordion>
-            <mat-expansion-panel *ngFor="let corrGroup of wiki">
+            <mat-expansion-panel *ngFor="let corrGroup of wiki"
+                                 (opened)="corrGroup.panelOpenState = true"
+                                 (closed)="corrGroup.panelOpenState = false">
 
                 <mat-expansion-panel-header>
                     <mat-panel-title>{{corrGroup.mainCorrespondent.name}} {{corrGroup.description}}</mat-panel-title>
+                    <mat-panel-description>{{corrGroup.panelOpenState ? 'Hide' : 'Show'}} correspondents for {{corrGroup.mainCorrespondent.name}}</mat-panel-description>
                 </mat-expansion-panel-header>
 
                 <ul class="beol-list">
                     <li *ngFor="let section of corrGroup.sections">
                         <mat-accordion>
-                            <mat-expansion-panel>
+                            <mat-expansion-panel (opened)="section.panelOpenState = true"
+                                                 (closed)="section.panelOpenState = false">
 
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>{{section.label}}</mat-panel-title>
+                                    <mat-panel-description>
+                                        {{section.panelOpenState ? 'Hide' : 'Show'}} correspondents whose last names start with {{section.label}}
+                                    </mat-panel-description>
                                 </mat-expansion-panel-header>
 
                                 <ul>

@@ -32,6 +32,7 @@
                 <read-boolean-value *ngSwitchCase="AppConfig.ReadBooleanValue" [valueObject]="val.value"></read-boolean-value>
                 <read-interval-value *ngSwitchCase="AppConfig.ReadIntervalValue" [valueObject]="val.value"></read-interval-value>
                 <read-list-value *ngSwitchCase="AppConfig.ReadListValue" [valueObject]="val.value"></read-list-value>
+                <read-textfile-value *ngSwitchCase="AppConfig.TextFileValue" [valueObject]="val.value"></read-textfile-value>
                 <span *ngSwitchDefault="">Not supported {{val.value.getClassName()}}</span>
             </span>
             </li></ul>

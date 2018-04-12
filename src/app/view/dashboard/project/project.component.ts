@@ -47,10 +47,6 @@ export class ProjectComponent implements OnInit {
             route: 'ontologies'
         },
         {
-            name: 'Resources',
-            route: 'resources'
-        },
-        {
             name: 'Lists',
             route: 'lists'
         }
