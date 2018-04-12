@@ -312,6 +312,31 @@ export class ReadStillImageFileValue implements ReadPropertyItem {
 }
 
 /**
+ * Represents a text representation value object
+ */
+export class ReadTextFileValue implements ReadPropertyItem {
+
+    constructor(readonly id:string, readonly propIri, readonly textFilename:string, readonly textFileURL:string) {
+
+    }
+
+    readonly type = AppConfig.TextFileValue;
+
+    private makeUrl = function(): string {
+        return `${this.textFileURL}`;
+    };
+
+    getContent(): string {
+        return this.makeUrl();
+    };
+
+    getClassName():string {
+        return AppConfig.TextFileValue;
+    }
+
+}
+
+/**
  * Represents a color value object.
  */
 export class ReadColorValue implements ReadPropertyItem {
