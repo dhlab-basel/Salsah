@@ -24,12 +24,12 @@ import {
     ReadIntegerValue, ReadIntervalValue,
     ReadLinkValue, ReadListValue,
     ReadPropertyItem,
-    ReadStillImageFileValue,
+    ReadStillImageFileValue, ReadTextFileValue,
     ReadTextValueAsHtml,
     ReadTextValueAsString,
     ReadTextValueAsXml, ReadUriValue,
     ReferredResourcesByStandoffLink
-} from "./read-property-item";
+} from './read-property-item';
 import {AppConfig} from "../../../../app.config";
 import {Utils} from "../../../../utils";
 
@@ -183,6 +183,19 @@ export module ConvertJSONLD {
                 );
 
                 valueSpecificProp = stillImageFileValue;
+
+                break;
+
+            case AppConfig.TextFileValue:
+
+                let textFileValue = new ReadTextFileValue(
+                    propValue['@id'],
+                    propIri,
+                    propValue[AppConfig.fileValueHasFilename],
+                    propValue[AppConfig.fileValueAsUrl]
+                );
+
+                valueSpecificProp = textFileValue;
 
                 break;
 
