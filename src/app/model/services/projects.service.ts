@@ -14,7 +14,7 @@
 
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Project, ProjectMembersResponse, ProjectResponse, ProjectsResponse} from '../webapi/knora';
+import {Project, ProjectMembersResponse, ProjectResponse, ProjectsResponse, UserResponse} from '../webapi/knora';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 
@@ -95,9 +95,8 @@ export class ProjectsService extends ApiService {
         return this.httpGet(url).map(
             (result: ApiServiceResult) => {
                 // console.log('ProjectsService - getProject - result: ', JSON.stringify(result));
-                const project: Project = result.getBody(ProjectResponse).project;
                 // console.log('ProjectsService - getProject: ' + url + ' , project: ', JSON.stringify(project));
-                return project;
+                return result.getBody(ProjectResponse).project;
             },
             (error: ApiServiceError) => {
                 console.error(error);
@@ -155,20 +154,31 @@ export class ProjectsService extends ApiService {
         )
     }
 
-    // FIXME: refactor to return specific object.
-    createProject(data: any): Observable<any> {
-        const headers: Headers = new Headers();
-        console.log(headers);
-        console.log(data);
-        return this.httpPost('/admin/projects', data);
+    createProject(data: any): Observable<Project> {
+        return this.httpPost('/admin/projects', data).map(
+            (result: ApiServiceResult) => {
+                const received: Project = result.getBody(ProjectResponse).project;
+                return received;
+            },
+            (error: ApiServiceError) => {
+                console.error('ProjectsService - createProject - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        )
     }
 
-    // FIXME: refactor to return specific object.
-    updateProject(iri: string, data: any): Observable<any> {
-        const headers: Headers = new Headers();
-        console.log(headers);
-        console.log(data);
-        return this.httpPut('/admin/projects/' + encodeURIComponent(iri), data);
+    updateProject(iri: string, data: any): Observable<Project> {
+
+        return this.httpPut('/admin/projects/' + encodeURIComponent(iri), data, {}).map(
+            (result: ApiServiceResult) => {
+                const received: Project = result.getBody(ProjectResponse).project;
+                return received;
+            },
+            (error: ApiServiceError) => {
+                console.error('ProjectsService - updateProject - error: ' + JSON.stringify(error));
+                throw error;
+            }
+        )
     }
 
     /**

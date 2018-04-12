@@ -5,7 +5,8 @@
     <form *ngIf="!isLoading" [formGroup]="userRoleForm" class="salsah-form-content user-data">
 
         <mat-form-field class="medium">
-            <mat-select placeholder="Project" [formControl]="userRoleForm.controls['project']">
+            <mat-select placeholder="{{ 'salsahLabels.form.member.select.project' | translate }}"
+                        [formControl]="userRoleForm.controls['project']">
                 <mat-option *ngFor="let project of projectsList" [value]="project.iri">
                     {{ project.name }}
                 </mat-option>
@@ -16,7 +17,8 @@
         <salsah-progress-indicator *ngIf="isLoadingGroups"></salsah-progress-indicator>
         -->
         <mat-form-field class="small" *ngIf="projectIri">
-            <mat-select placeholder="Project permission" [formControl]="userRoleForm.controls['group']" multiple>
+            <mat-select placeholder="{{ 'salsahLabels.form.member.select.group' | translate }}"
+                        [formControl]="userRoleForm.controls['group']" multiple>
                 <mat-option *ngFor="let group of groupsList; let first = first" [value]="group.iri" [disabled]="first">
                     {{ group.name }}
                 </mat-option>
@@ -26,15 +28,19 @@
         <div class="salsah-panel large" *ngIf="standalone; else stepperNav">
             <span class="fill-remaining-space"></span>
             <button mat-button type="button" color="primary" (click)="submitData()" [disabled]="!userRoleForm.valid">
-                Submit
+                {{ 'salsahLabels.form.action.submit' | translate }}
             </button>
         </div>
 
         <ng-template #stepperNav>
             <div class="salsah-panel large" *ngIf="!standalone">
-                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperPrevious>
+                    {{ 'salsahLabels.form.action.back' | translate }}
+                </button>
                 <span class="fill-remaining-space"></span>
-                <button mat-button color="primary" matStepperNext [disabled]="!userRoleForm.valid" (click)="submitData()">Next</button>
+                <button mat-button color="primary" matStepperNext [disabled]="!userRoleForm.valid" (click)="submitData()">
+                    {{ 'salsahLabels.form.action.next' | translate }}
+                </button>
             </div>
         </ng-template>
 
