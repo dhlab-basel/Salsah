@@ -34,9 +34,6 @@ import {Project} from '../../../../model/webapi/knora/admin';
 
 export class UserFormComponent implements OnInit {
 
-    // dev only:
-    setStep: number = 0;
-
     // general stuff
     isLoading: boolean = true;
 
@@ -97,7 +94,7 @@ export class UserFormComponent implements OnInit {
     @Input() projectIri?: string = undefined;
 
     // selected groups
-    selectedGroups: string[];
+    selectedGroups: AutocompleteItem[];
 
     // project data of selected project
     selectedProject: AutocompleteItem;
@@ -375,7 +372,7 @@ export class UserFormComponent implements OnInit {
 
                     // next step: add user (by iri) to the project (if any is selected)
                     if (this.selectedProject) {
-                        console.log(this.isAlreadyMember);
+//                        console.log(this.isAlreadyMember);
                         if (!this.isAlreadyMember) {
                             this.addUserToProject(result.id);
                         } else {
@@ -422,8 +419,6 @@ export class UserFormComponent implements OnInit {
         // next step: add user (by iri) to the selected project
         // if he's not yet a member
 
-        console.log(this.selectedUser);
-
         this.submitMembershipStatus = 0;
         this._usersService.addUserToProject(userIri, this.selectedProject.iri).subscribe(
             (result: User) => {
@@ -464,7 +459,7 @@ export class UserFormComponent implements OnInit {
 
     setGroupsPermissions(userIri: string) {
 
-        const projectAdmin: boolean = (!!this.selectedGroups.find( ad => ad === AppConfig.ProjectAdminGroup));
+        const projectAdmin: boolean = (!!this.selectedGroups.find( ad => ad.iri === AppConfig.ProjectAdminGroup));
 
         if (projectAdmin) {
             this._usersService.addUserToProjectAdmin(userIri, this.selectedProject.iri).subscribe(
@@ -472,7 +467,6 @@ export class UserFormComponent implements OnInit {
                     this.submitPermissionsStatus = 1;
                 },
                 (error: ApiServiceError) => {
-                    console.log(error);
                     this.submitPermissionsStatus = 400;
                     this.permissionsErrorMessage = error;
                 }

@@ -85,6 +85,9 @@ export class SearchComponent implements OnInit {
         if (this.searchQuery && (event.key === 'Enter' || event.keyCode === 13 || event.which === 13)) {
             this.doSearch(search_ele);
         }
+        if (event.key === 'Escape' || event.keyCode === 27 || event.which === 27) {
+            this.resetSearch(search_ele);
+        }
     }
 
     doSearch(search_ele: HTMLElement) {
@@ -95,11 +98,11 @@ export class SearchComponent implements OnInit {
             // push the search query into the local storage prevSearch array (previous search)
             // to have a list of recent search requests
             let existingPrevSearch: string[] = JSON.parse(localStorage.getItem('prevSearch'));
-            if (existingPrevSearch === null) existingPrevSearch = [];
+            if (existingPrevSearch === null) { existingPrevSearch = []; }
             let i: number = 0;
-            for (let entry of existingPrevSearch) {
+            for (const entry of existingPrevSearch) {
                 // remove entry, if exists already
-                if (this.searchQuery === entry) existingPrevSearch.splice(i, 1);
+                if (this.searchQuery === entry) { existingPrevSearch.splice(i, 1); }
                 i++;
             }
 
@@ -107,8 +110,7 @@ export class SearchComponent implements OnInit {
             localStorage.setItem('prevSearch', JSON.stringify(existingPrevSearch));
             // TODO: save the previous search queries somewhere in the user's profile
 
-        }
-        else {
+        } else {
             search_ele.focus();
             this.prevSearch = JSON.parse(localStorage.getItem('prevSearch'));
         }
@@ -130,11 +132,10 @@ export class SearchComponent implements OnInit {
     resetPrevSearch(name: string = null) {
         if (name) {
             // delete only this item with the name ...
-            let i: number = this.prevSearch.indexOf(name);
+            const i: number = this.prevSearch.indexOf(name);
             this.prevSearch.splice(i, 1);
             localStorage.setItem('prevSearch', JSON.stringify(this.prevSearch));
-        }
-        else {
+        } else {
             // delete the whole "previous search" array
             localStorage.removeItem('prevSearch');
         }
