@@ -94,12 +94,16 @@ export class ProjectProfileComponent implements OnInit {
     }
 
     editProject() {
-        const dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-            data: {
-                iri: this.project.id,
-                form: 'project'
-            }
-        });
+        const config: MatDialogConfig = new MatDialogConfig();
+
+        config.data = {
+            iri: this.project.id,
+            form: 'project'
+        };
+
+        config.panelClass = 'resizable';
+
+        const dialogRef = this._dialog.open(FormDialogComponent, config);
 
         dialogRef.beforeClose().subscribe(result => {
             this.isLoading = true;
