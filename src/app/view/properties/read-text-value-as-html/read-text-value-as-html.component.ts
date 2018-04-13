@@ -26,6 +26,7 @@ export class ReadTextValueAsHtmlComponent implements OnInit {
     @Input() valueObject: ReadTextValueAsHtml;
     @Input() ontologyInfo: OntologyInformation;
     @Input('bindEvents') bindEvents: Boolean; // indicates if click and mouseover events have to be bound
+    @Input('searchTerms') searchTerms: string[];
 
     constructor() {
     }

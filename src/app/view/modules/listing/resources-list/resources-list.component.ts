@@ -82,11 +82,16 @@ export class ResourcesListComponent implements OnInit, OnChanges {
     numberOfItems: number; // number of items actually returned by the query (using paging)
     numberOfAllResults: number; // total number of results (count query)
 
+    searchParamAsArray: string[] = [];
+
     constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService, private _searchParamsService: SearchParamsService, private _knarqlgenerationService: KnarqlgenerationService) {
     }
 
     ngOnInit() {
 
+        if (this.searchMode === 'fulltext' && this.searchParam !== undefined) {
+            this.searchParamAsArray = this.searchParam.split(" ");
+        }
     }
 
     ngOnChanges() {

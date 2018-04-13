@@ -39,6 +39,12 @@
   dependencies:
     tslib "^1.7.1"
 
+"@angular/cdk@^5.2.4":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-5.2.4.tgz#c0a429a8710d8fedb157f546e21cb49d4335f7f7"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/cli@~1.6.0":
   version "1.6.8"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-1.6.8.tgz#963b48086ee3e9584a136d3c45893260f516dd75"
@@ -132,6 +138,12 @@
 "@angular/forms@^5.2.2":
   version "5.2.7"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-5.2.7.tgz#a0c41fdb6b8ba2c32653cc3058d5fa47db91fbf8"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/forms@^5.2.8":
+  version "5.2.9"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-5.2.9.tgz#12c45b3a02c398b354f09cc740d914cd904c0c9c"
   dependencies:
     tslib "^1.7.1"
 
@@ -467,6 +479,7 @@ angular-tree-component@^6.1.0:
 angularfire2@^5.0.0-rc.6:
   version "5.0.0-rc.6"
   resolved "https://registry.yarnpkg.com/angularfire2/-/angularfire2-5.0.0-rc.6.tgz#99dfecaf7fd9e6979e3c09f4dcf7e6768a8f91d1"
+
 ansi-escapes@^1.1.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-1.4.0.tgz#d3a8a83b319aa67793662b13e761c7911422306e"
@@ -2818,12 +2831,6 @@ figures@^2.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
-figures@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/figures/-/figures-2.0.0.tgz#3ab1a2d2a62c8bfb431a0c94cb797a2fce27c962"
-  dependencies:
-    escape-string-regexp "^1.0.5"
-
 file-loader@^1.1.5:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-1.1.11.tgz#6fe886449b0f2a936e43cabaac0cdbfb369506f8"
@@ -5095,6 +5102,14 @@ ngx-infinite-scroll@^0.8.2:
   resolved "https://registry.yarnpkg.com/ngx-infinite-scroll/-/ngx-infinite-scroll-0.8.3.tgz#387000fc5e34ee5ee5164db6cb0a959c77bd3819"
   dependencies:
     opencollective "^1.0.3"
+
+nie-ine@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/nie-ine/-/nie-ine-0.0.19.tgz#a3272fbf5da922bb10ded8d0da24c28cc8391715"
+  dependencies:
+    "@angular/cdk" "^5.2.4"
+    "@angular/forms" "^5.2.8"
+    tslib "^1.9.0"
 
 no-case@^2.2.0:
   version "2.3.2"

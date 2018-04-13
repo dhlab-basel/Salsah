@@ -4,6 +4,7 @@ import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-
 import {OntologyInformation} from '../../../model/services/ontologycache.service';
 import {AppConfig} from '../../../app.config';
 import {ObjectDialogComponent} from '../dialog/object-dialog/object-dialog.component';
+import {HighlightSearchTermService} from 'nie-ine';
 
 declare var MathJax: {
     Hub: {
@@ -17,12 +18,13 @@ declare var MathJax: {
  */
 @Directive({selector: '[mathJax]'})
 export class MathJaxDirective implements OnInit {
-    @Input('mathJax') private html: string = ''; // the HTML to be inserted
+    @Input('mathJax') private html: string; // the HTML to be inserted
     @Input('valueObject') private valueObject: ReadTextValueAsHtml;
     @Input('ontologyInfo') private ontologyInfo: OntologyInformation;
     @Input('bindEvents') private bindEvents: Boolean; // indicates if click and mouseover events have to be bound
+    @Input('searchTerms') private searchTerms: string[];
 
-    constructor(private el: ElementRef, private dialog: MatDialog, private snackBar: MatSnackBar) {
+    constructor(private el: ElementRef, private dialog: MatDialog, private snackBar: MatSnackBar, private highlight: HighlightSearchTermService) {
     }
 
     /**
@@ -117,7 +119,13 @@ export class MathJaxDirective implements OnInit {
     ngOnInit() {
         // console.log(this.bindEvents);
 
-        this.el.nativeElement.innerHTML = this.html;
+        if (this.searchTerms !== undefined && this.searchTerms.length > 0) {
+            const text = this.highlight.highlight(this.html, this.searchTerms);
+
+            this.el.nativeElement.innerHTML = text;
+        } else {
+            this.el.nativeElement.innerHTML = this.html;
+        }
 
         // http://docs.mathjax.org/en/latest/advanced/typeset.html#typeset-math
         MathJax.Hub.Queue(() => {

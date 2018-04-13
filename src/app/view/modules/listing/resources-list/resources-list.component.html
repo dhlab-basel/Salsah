@@ -59,7 +59,7 @@
                     <ul>
                         <li *ngFor="let val of prop.value | key">
                             <span [ngSwitch]="val.value.getClassName()">
-                                <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo" [bindEvents]="false"></read-text-value-as-html>
+                                <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo" [bindEvents]="false" [searchTerms]="searchParamAsArray"></read-text-value-as-html>
                                 <span *ngSwitchDefault="">{{val.value.getContent()}}</span>
                             </span>
                         </li>
