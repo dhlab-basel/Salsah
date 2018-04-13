@@ -24,7 +24,7 @@ export class MathJaxDirective implements OnInit {
     @Input('bindEvents') private bindEvents: Boolean; // indicates if click and mouseover events have to be bound
     @Input('searchTerms') private searchTerms: string[];
 
-    constructor(private el: ElementRef, private dialog: MatDialog, private snackBar: MatSnackBar, private highlight: HighlightSearchTermService) {
+    constructor(private el: ElementRef, private dialog: MatDialog, private snackBar: MatSnackBar, private _highlightService: HighlightSearchTermService) {
     }
 
     /**
@@ -120,7 +120,7 @@ export class MathJaxDirective implements OnInit {
         // console.log(this.bindEvents);
 
         if (this.searchTerms !== undefined && this.searchTerms.length > 0) {
-            const text = this.highlight.highlight(this.html, this.searchTerms);
+            const text = this._highlightService.highlight(this.html, this.searchTerms);
 
             this.el.nativeElement.innerHTML = text;
         } else {
