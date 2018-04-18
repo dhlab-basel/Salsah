@@ -2,13 +2,15 @@
 <!------------------------------------------------------------------------------------------------------->
 <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
 <section class="salsah-form-content" *ngIf="!isLoading">
-    <!------------------------------------------------------------------------------------------------------->
-    <!-----------Here we will use expansion panels for each node, which will be collapsible------------------>
-    <!-----------Each expansion panels will have its own save button----------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------------->
+    <!-----------Here we edit the list information only. ---------------------------------------------------------------------------->
+    <!-----------We use an open expansion panel to keep homogeneity with other forms (resources / properties edit) ------------------>
+    <!-----------Each expansion panels will have its own save button----------------------------------------------------------------->
 
     <mat-expansion-panel class="full-width" [expanded]="true">
         <mat-expansion-panel-header>
             <mat-panel-title>
+                <!-- Depending on whether we are editing an existing list info or creating a new list, we have a different title -->
                 <span *ngIf="listIri">{{editLists.label}}: {{ listInfoForm.get('labels').at(0).get('value').value }} </span>
                 <span *ngIf="!listIri">{{ editLists.add }} </span>
             </mat-panel-title>
@@ -17,8 +19,9 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
 
+        <!-- Form starts here: we can edit list label and comments only  -->
         <form class="salsah-form new-user" [formGroup]="listInfoForm">
-            <h5>Labels</h5>
+            <h5>{{editLists.list.label}}</h5>
             <span *ngIf="labels" formArrayName="labels">
                <div *ngFor="let label of labels.controls; let i=index" [formGroupName]="i">
                    <mat-form-field class="width-70">
@@ -48,7 +51,7 @@
                 </mat-action-row>
             </span>
 
-            <h5>Comments</h5>
+            <h5>{{editLists.list.comments}}</h5>
             <span *ngIf="comments" formArrayName="comments">
                 <div *ngFor="let comment of comments.controls; let i=index" [formGroupName]="i">
                     <mat-form-field class="width-70">
@@ -81,10 +84,11 @@
                        [placeholder]=editLists.list.id
                        formControlName="id">
             </mat-form-field>
-            <!--TODO: Id should eb given automatically. Should we remove it from here?-->
+            <!--TODO: Id should be given automatically. Should we remove it from here?-->
             <mat-form-field class="full-width">
                 <mat-select [placeholder]=editLists.list.project
-                            formControlName="belongsToProject">
+                            formControlName="belongsToProject"
+                            [disabled]="true" >
                     <mat-option *ngFor="let project of allProjects" [value]="project.id">
                         {{project.shortname}} : {{ project.id }}
                     </mat-option>
