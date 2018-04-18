@@ -16,16 +16,21 @@
                     <th (click)="sortKey='givenName'" class="salsah-link">Firstname</th>
                     <th (click)="sortKey='familyName'" class="salsah-link">Lastname</th>
                     <th (click)="sortKey='email'" class="salsah-link">eMail</th>
-                    <th></th>
+                    <th class="salsah-table-tools">
+                        <salsah-sort-button *ngIf="allActiveUsers.length > 1"
+                                            [sortProps]="sortProps"
+                                            [(sortKey)]="sortKey">
+                        </salsah-sort-button>
+                    </th>
                 </tr>
-                <tr *ngFor="let item of allActiveUsers | sortBy: sortKey; let i = index;">
+                <tr *ngFor="let item of allActiveUsers | sortBy: sortKey;">
                     <td class="salsah-avatar-cell">
                         <img salsahImage [image]="item?.email" [type]="'avatar'" class="salsah-avatar-image square"/>
                     </td>
                     <td>{{item?.givenName}}</td>
                     <td>{{item?.familyName}}</td>
                     <td>{{item?.email}}</td>
-                    <td>
+                    <td class="salsah-table-tools">
                         <div class="hidden">
 
                             <button mat-icon-button
@@ -55,7 +60,12 @@
                     <th (click)="sortKeyIA='givenName'" class="salsah-link">Firstname</th>
                     <th (click)="sortKeyIA='familyName'" class="salsah-link">Lastname</th>
                     <th (click)="sortKeyIA='email'" class="salsah-link">eMail</th>
-                    <th></th>
+                    <th class="salsah-table-tools">
+                        <salsah-sort-button *ngIf="allInactiveUsers.length > 1"
+                                            [sortProps]="sortProps"
+                                            [(sortKey)]="sortKeyIA">
+                        </salsah-sort-button>
+                    </th>
                 </tr>
                 <tr *ngFor="let item of allInactiveUsers | sortBy: sortKeyIA">
                     <td class="salsah-avatar-cell">
@@ -96,12 +106,10 @@
                     </span>
                     <span class="fill-remaining-space"></span>
                     <span class="salsah-list-action">
-                        <button mat-icon-button *ngIf="allActiveUsers.length > 1" [matMenuTriggerFor]="sortActive">
-                            <mat-icon>sort</mat-icon>
-                        </button>
-                        <mat-menu #sortActive="matMenu" xPosition="before">
-                            <button mat-menu-item *ngFor="let item of sortProps" (click)="sortBy(item.key, 'active')">{{item.label}}</button>
-                        </mat-menu>
+                        <salsah-sort-button *ngIf="allActiveUsers.length > 1"
+                                            [sortProps]="sortProps"
+                                            [(sortKey)]="sortKey">
+                        </salsah-sort-button>
                     </span>
                 </div>
 
@@ -117,12 +125,10 @@
                     </span>
                     <span class="fill-remaining-space"></span>
                     <span class="salsah-list-action">
-                        <button mat-icon-button *ngIf="allInactiveUsers.length > 1" [matMenuTriggerFor]="sortInactive">
-                            <mat-icon>sort</mat-icon>
-                        </button>
-                        <mat-menu #sortInactive="matMenu" xPosition="before">
-                            <button mat-menu-item *ngFor="let item of sortProps" (click)="sortBy(item.key, 'inactive')">{{item.label}}</button>
-                        </mat-menu>
+                        <salsah-sort-button *ngIf="allInactiveUsers.length > 1"
+                                            [sortProps]="sortProps"
+                                            [(sortKey)]="sortKeyIA">
+                        </salsah-sort-button>
                     </span>
                 </div>
                 <salsah-users-list-item [listData]="allInactiveUsers" [sortProp]="sortKey"

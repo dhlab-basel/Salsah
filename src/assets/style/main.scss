@@ -102,6 +102,10 @@ a.facsimile {
   cursor: pointer;
 }
 
+.optimize-direction {
+  transform: scale(-1, 1);
+}
+
 .salsah-link {
   cursor: pointer;
 
@@ -242,6 +246,14 @@ a.facsimile {
 
 .full-height {
   height: 100%;
+}
+
+// button, menu and selection
+.salsah-select-button {
+
+  &.active {
+    background: $mute;
+  }
 }
 
 // -- material hacks --
