@@ -10,7 +10,8 @@
         <mat-accordion>
             <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
                                  (opened)="fetchListData(item.id); epExpanded=true" (closed)="isExpanded=false">
-                <mat-expansion-panel-header *ngIf="!epExpanded"  matTooltip="Click to open panel and see nodes, click list name to edit">
+                <mat-expansion-panel-header *ngIf="!epExpanded"
+                                            matTooltip="Click to open panel and see nodes, click list name to edit">
                     <mat-panel-title>
                         <h4 (click)="editList(item.id, item)">
                             {{item.labels[0].value}}
@@ -51,20 +52,55 @@
 
                     <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeTemplate let-node let-index="index">
+                            <span class="node-content-wrapper">
+                                    {{ node.data.name }}
+                                    <span class="subtitle" *ngIf="node.children.length != 0">Number of sub-nodes: {{node.children.length}}</span>
 
-                                <button mat-icon-button (click)="editNode(item.id, node.data, node, tree)" class="edit-button">
-                                    <mat-icon class="small-icon" > edit </mat-icon>
-                                </button>
-                            <span>
-                                <!--<mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>-->
-                                {{ node.data.name }}
+                                            <button mat-icon-button
+                                                (click)="editNode(item.id, node.data, node, tree)" class="edit-button">
+                                              <mat-icon class="small-icon"> edit</mat-icon>
+                                            </button>
+
+
                             </span>
-                            <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
-                            <!--     <button>{{node.data.name}}</button>
-                               <button (click)="viewDetails(node.data.id)">Node Name</button>
-                              -->
+                            <!--<span class="node-content-wrapper">-->
+                                <!--{{ node.data.name }}-->
+                                <!--<span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>-->
+                                <!--&lt;!&ndash;<span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">&ndash;&gt;-->
+                                    <!--<button mat-icon-button-->
+                                            <!--(click)="editNode(item.id, node.data, node, tree)"-->
+                                            <!--class="edit-button">-->
+                                        <!--<mat-icon class="small-icon"> edit</mat-icon>-->
+                                    <!--</button>-->
+                                <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                            <!--</span>-->
+                            <!--<span *ngIf="loggedInUser == null" matTooltip="Log in to edit node">-->
+                            <!--{{ node.data.name }}-->
+                            <!--<span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>-->
+                            <!--</span>-->
                         </ng-template>
                     </tree-root>
+
+
+                    <!--<tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">-->
+                        <!--<ng-template #treeNodeTemplate let-node let-index="index">-->
+                            <!--<span class="node-content-wrapper">-->
+                                <!--<button mat-icon-button-->
+                                        <!--(click)="editNode(item.id, node.data, node, tree)"-->
+                                        <!--class="edit-button">-->
+                                    <!--<mat-icon class="small-icon"> edit </mat-icon>-->
+                                <!--</button>-->
+                                <!--</span>-->
+                            <!--<span>-->
+                                <!--&lt;!&ndash;<mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>&ndash;&gt;-->
+                                <!--{{ node.data.name }}-->
+                            <!--</span>-->
+                            <!--<span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>-->
+                            <!--&lt;!&ndash;     <button>{{node.data.name}}</button>-->
+                               <!--<button (click)="viewDetails(node.data.id)">Node Name</button>-->
+                              <!--&ndash;&gt;-->
+                        <!--</ng-template>-->
+                    <!--</tree-root>-->
                 </div>
             </mat-expansion-panel>
         </mat-accordion>

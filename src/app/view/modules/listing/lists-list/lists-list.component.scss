@@ -1,7 +1,7 @@
 .subtitle {
   color: rgba(0,0,0,.54);
   font-size: 14px;
-  padding-left:40px
+  padding-left:40px;
 }
 
 .small-icon {
@@ -14,13 +14,14 @@
 }
 
 .node-content-wrapper {
+  //position: relative;
 
   .edit-button {
     display: none;
   }
 
   &:hover {
-
+    background-color: darken(rgba(249, 249, 249, 1), 25%);
     .edit-button {
       display: block;
     }
