@@ -9,22 +9,28 @@
         <div *ngSwitchCase="'table'">
             <!-- table with all active users -->
             <h4>Active users</h4>
+
             <table class="salsah-table">
                 <tr>
                     <th># {{allActiveUsers.length}}</th>
                     <th (click)="sortKey='givenName'" class="salsah-link">Firstname</th>
                     <th (click)="sortKey='familyName'" class="salsah-link">Lastname</th>
                     <th (click)="sortKey='email'" class="salsah-link">eMail</th>
-                    <th></th>
+                    <th class="salsah-table-tools">
+                        <salsah-sort-button *ngIf="allActiveUsers.length > 1"
+                                            [sortProps]="sortProps"
+                                            [(sortKey)]="sortKey">
+                        </salsah-sort-button>
+                    </th>
                 </tr>
-                <tr *ngFor="let item of allActiveUsers | sortBy: sortKey; let i = index;">
+                <tr *ngFor="let item of allActiveUsers | sortBy: sortKey;">
                     <td class="salsah-avatar-cell">
                         <img salsahImage [image]="item?.email" [type]="'avatar'" class="salsah-avatar-image square"/>
                     </td>
                     <td>{{item?.givenName}}</td>
                     <td>{{item?.familyName}}</td>
                     <td>{{item?.email}}</td>
-                    <td>
+                    <td class="salsah-table-tools">
                         <div class="hidden">
 
                             <button mat-icon-button
@@ -54,7 +60,12 @@
                     <th (click)="sortKeyIA='givenName'" class="salsah-link">Firstname</th>
                     <th (click)="sortKeyIA='familyName'" class="salsah-link">Lastname</th>
                     <th (click)="sortKeyIA='email'" class="salsah-link">eMail</th>
-                    <th></th>
+                    <th class="salsah-table-tools">
+                        <salsah-sort-button *ngIf="allInactiveUsers.length > 1"
+                                            [sortProps]="sortProps"
+                                            [(sortKey)]="sortKeyIA">
+                        </salsah-sort-button>
+                    </th>
                 </tr>
                 <tr *ngFor="let item of allInactiveUsers | sortBy: sortKeyIA">
                     <td class="salsah-avatar-cell">
@@ -86,22 +97,40 @@
         </div>
 
         <div *ngSwitchCase="'accordion'">
-            <mat-form-field>
-                <mat-select [placeholder]="'salsahLabels.usersList.sortProps.sortTitle' | translate " [(value)]="sortKey">
-                    <mat-option *ngFor="let item of sortProps" [value]="item.key">
-                        {{item.label}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
 
             <div *ngIf="allActiveUsers.length > 0">
-                <h4 class="salsah-sub-header">{{allActiveUsers.length}} Active user<span *ngIf="allActiveUsers.length > 1">s</span></h4>
+                <div class="salsah-list-toolbar">
+                    <span class="salsah-list-title">
+                        <h4 class="salsah-sub-header">{{allActiveUsers.length}} Active user<span
+                            *ngIf="allActiveUsers.length > 1">s</span></h4>
+                    </span>
+                    <span class="fill-remaining-space"></span>
+                    <span class="salsah-list-action">
+                        <salsah-sort-button *ngIf="allActiveUsers.length > 1"
+                                            [sortProps]="sortProps"
+                                            [(sortKey)]="sortKey">
+                        </salsah-sort-button>
+                    </span>
+                </div>
+
                 <salsah-users-list-item [listData]="allActiveUsers" [sortProp]="sortKey"
                                         [project]="project"></salsah-users-list-item>
             </div>
             <br><br>
             <div *ngIf="allInactiveUsers.length > 0">
-                <h4 class="salsah-sub-header">{{allInactiveUsers.length}} Inactive user<span *ngIf="allInactiveUsers.length > 1">s</span></h4>
+                <div class="salsah-list-toolbar">
+                    <span class="salsah-list-title">
+                        <h4 class="salsah-sub-header">{{allInactiveUsers.length}} Inactive user<span
+                            *ngIf="allInactiveUsers.length > 1">s</span></h4>
+                    </span>
+                    <span class="fill-remaining-space"></span>
+                    <span class="salsah-list-action">
+                        <salsah-sort-button *ngIf="allInactiveUsers.length > 1"
+                                            [sortProps]="sortProps"
+                                            [(sortKey)]="sortKeyIA">
+                        </salsah-sort-button>
+                    </span>
+                </div>
                 <salsah-users-list-item [listData]="allInactiveUsers" [sortProp]="sortKey"
                                         [project]="project"></salsah-users-list-item>
             </div>

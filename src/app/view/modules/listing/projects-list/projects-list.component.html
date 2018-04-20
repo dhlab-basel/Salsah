@@ -14,18 +14,23 @@
             <table *ngSwitchCase="'table'" class="salsah-table">
                 <tr>
                     <th># {{countActive}}</th>
+                    <th (click)="sortKey='shortcode'" class="salsah-link">Short code</th>
                     <th (click)="sortKey='shortname'" class="salsah-link">Short name</th>
                     <th (click)="sortKey='longname'" class="salsah-link">Long name</th>
-                    <th (click)="sortKey='institution'" class="salsah-link">Institution</th>
-                    <th></th>
+                    <th class="salsah-table-tools">
+                        <salsah-sort-button *ngIf="allActive.length > 1"
+                                            [sortProps]="sortProps"
+                                            [(sortKey)]="sortKey">
+                        </salsah-sort-button>
+                    </th>
                 </tr>
                 <tr *ngFor="let item of allActive | sortBy: sortKey; let i = index;">
                     <td class="salsah-avatar-cell">
                         <img salsahImage [image]="item.logo" [type]="'admin'" class="salsah-project-logo"/>
                     </td>
+                    <td>{{item.shortcode}}</td>
                     <td>{{item.shortname}}</td>
                     <td>{{item.longname}}</td>
-                    <td>{{item.institution}}</td>
                     <td>
                         <div class="hidden">
                         <span *ngIf="admin">
@@ -52,18 +57,23 @@
             <table class="salsah-table">
                 <tr>
                     <th># {{countInactive}}</th>
-                    <th (click)="sortKey='shortname'" class="salsah-link">Short name</th>
-                    <th (click)="sortKey='longname'" class="salsah-link">Long name</th>
-                    <th (click)="sortKey='institution'" class="salsah-link">Institution</th>
-                    <th></th>
+                    <th (click)="sortKeyIA='shortcode'" class="salsah-link">Short code</th>
+                    <th (click)="sortKeyIA='shortname'" class="salsah-link">Short name</th>
+                    <th (click)="sortKeyIA='longname'" class="salsah-link">Long name</th>
+                    <th class="salsah-table-tools">
+                        <salsah-sort-button *ngIf="allInactive.length > 1"
+                                            [sortProps]="sortProps"
+                                            [(sortKey)]="sortKeyIA">
+                        </salsah-sort-button>
+                    </th>
                 </tr>
-                <tr *ngFor="let item of allInactive | sortBy: sortKey; let i = index;">
+                <tr *ngFor="let item of allInactive | sortBy: sortKeyIA">
                     <td class="salsah-avatar-cell">
                         <img salsahImage [image]="item.logo" [type]="'admin'" class="salsah-project-logo"/>
                     </td>
+                    <td>{{item.shortcode}}</td>
                     <td>{{item.shortname}}</td>
                     <td>{{item.longname}}</td>
-                    <td>{{item.institution}}</td>
                     <td>
                         <div class="hidden">
                         <span *ngIf="admin">
