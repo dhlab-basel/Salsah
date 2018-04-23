@@ -95,17 +95,6 @@
       }
     }
 
-    .edit-button {
-      display: none;
-    }
-
-    &:hover {
-      background-color: darken(rgba(249, 249, 249, 1), 25%);
-      .edit-button {
-        display: block;
-      }
-    }
-
     td,
     th {
 

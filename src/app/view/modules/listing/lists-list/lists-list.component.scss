@@ -1,29 +1,30 @@
-.subtitle {
-  color: rgba(0,0,0,.54);
-  font-size: 14px;
-  padding-left:40px;
-}
-
-.small-icon {
-  font-size: 14px;
-}
-
 .toggle-icon {
   height: 10px;
   width: 10px;
 }
 
-.node-content-wrapper {
-  //position: relative;
+.subtitle {
+  color: rgba(0,0,0,.54);
+  font-size: 14px;
+  padding-left:80px;
+}
 
-  .edit-button {
-    display: none;
+.node-content-wrapper {
+
+  .small-icon {
+    font-size: 20px;
   }
 
+  .edit-button {
+    visibility: hidden;
+  }
+
+
   &:hover {
-    background-color: darken(rgba(249, 249, 249, 1), 25%);
     .edit-button {
-      display: block;
+      padding-left:80px;
+      visibility: visible;
+
     }
   }
 }
