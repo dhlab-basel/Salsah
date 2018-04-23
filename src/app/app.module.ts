@@ -170,6 +170,7 @@ import { UserPasswordComponent } from './view/modules/form/user-form/user-passwo
 import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
 import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
+import { SortButtonComponent } from './view/modules/action/sort-button/sort-button.component';
 
 //
 // import all needed services
@@ -296,6 +297,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ProjectDataComponent,
         ReadTextfileValueComponent,
         NodeFormComponent
+        SortButtonComponent
     ],
     imports: [
         BrowserModule,

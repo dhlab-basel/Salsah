@@ -81,7 +81,23 @@ export class ProjectsListComponent implements OnInit {
     countActive: number;
     countInactive: number;
 
+    sortProps: any = [
+        {
+            key: 'shortcode',
+            label: 'Short code'
+        },
+        {
+            key: 'shortname',
+            label: 'Short name'
+        },
+        {
+            key: 'longname',
+            label: 'Long name'
+        }
+    ];
+
     sortKey: string = 'longname';
+    sortKeyIA: string = this.sortKey;
 
     constructor(private _router: Router,
                 private _projectsService: ProjectsService,
