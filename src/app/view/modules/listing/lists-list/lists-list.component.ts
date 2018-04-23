@@ -161,6 +161,7 @@ export class ListsListComponent implements OnInit {
         tree.treeModel.update();
     }
 
+    //The code below is depricated because we moved the delete node button to the edit node form
     // deleteNode(node: TreeNode, tree): void {
         // this.deleteNodeEvent.emit({node, tree});
 
@@ -168,21 +169,6 @@ export class ListsListComponent implements OnInit {
         //     node.parent.data.children.splice(node.parent.data.children.indexOf(node.data), 1)
         //     tree.treeModel.update()
         // }
-    // }
-
-    // in the list view, it opens an object on the right hand side detail view
-    // open / close user
-    // toggle(id: string, index: number) {
-    //     if (this.selectedRow === index) {
-    //         // close the detail view
-    //         this.selectedRow = undefined;
-    //         this.toggleItem.emit({id, index});
-    //     } else {
-    //         // open the detail view
-    //         this.selectedRow = index;
-    //         this.toggleItem.emit({id, index});
-    //     }
-    //
     // }
 
     // TODO: implement proper edit method/component

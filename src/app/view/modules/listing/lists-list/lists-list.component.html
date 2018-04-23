@@ -22,8 +22,8 @@
                         <mat-icon>list</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <mat-expansion-panel-header *ngIf="epExpanded" matTooltip="Click list name to edit list info">
-                    <mat-panel-title>
+                <mat-expansion-panel-header *ngIf="epExpanded" >
+                    <mat-panel-title matTooltip="Click list name to edit list info" >
                         <h4 (click)="editList(item.id, item)">
                             {{item.labels[0].value}}
                         </h4>
@@ -58,7 +58,7 @@
                                      (treeDrop)="node.onDrop($event)"
                                      [treeAllowDrop]="node.allowDrop"
                                      [treeDrag]="node"
-                                     [treeDragEnabled]="node.allowDrag()"> <!-- Drag and drop is enabled here and not in the options because we are using the treeNodeWrapperTemplate, which allows for more formatting options -->
+                                     [treeDragEnabled]="node.allowDrag()"> <!-- Drag and drop is enabled here and not in the options because we are using the treeNodeWrapperTemplate, which allows for more formating options -->
                                         <tree-node-content [node]="node" [index]="index"></tree-node-content> <!--displays the node name (same as {{ node.data.name }} ) -->
                                         <span class="subtitle" *ngIf="node.children.length != 0">Number of sub-nodes: {{node.children.length}}</span>
                                         <span class="edit-button">
