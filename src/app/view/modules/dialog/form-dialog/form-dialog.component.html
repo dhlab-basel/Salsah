@@ -61,12 +61,12 @@
         </salsah-edit-resource-class>
 
         <!-- create new / edit lists class -->
-        <salsah-edit-node-info *ngSwitchCase="'nodeInfo'"
+        <salsah-node-form *ngSwitchCase="'nodeInfo'"
                                [nodeIri]="data.iri"
                                [currentNode]="data.currentNodes"
                                [dNode]="data.delNode"
                                [dTree]="data.delTree">
-        </salsah-edit-node-info>
+        </salsah-node-form>
 
         <salsah-list-form *ngSwitchCase="'list'"
                                [listIri]="data.iri"

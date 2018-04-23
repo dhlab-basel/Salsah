@@ -145,7 +145,6 @@ import {InternationalizationComponent} from './view/modules/framework/main-frame
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 import {FormTestComponent} from './view/test/development/form-test/form-test.component';
 import {UserDataComponent} from './view/modules/form/user-form/user-data/user-data.component';
-import {EditNodeInfoComponent} from './view/modules/form/edit-node-info/edit-node-info.component';
 import {GndDirective} from './view/modules/other/gnd.directive';
 import {KnarqlgenerationService} from './model/services/knarqlgeneration.service';
 import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertiblecalendardateadapter';
@@ -170,6 +169,7 @@ import { UserRoleComponent } from './view/modules/form/user-form/user-role/user-
 import { UserPasswordComponent } from './view/modules/form/user-form/user-password/user-password.component';
 import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
+import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
 
 //
 // import all needed services
@@ -283,7 +283,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TextValueComponent,
         UriValueComponent,
         LinkValueComponent,
-        EditNodeInfoComponent,
         ExistingNameDirective,
         BeolComponent,
         GndDirective,
@@ -295,7 +294,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         UserPasswordComponent,
         ListFormComponent,
         ProjectDataComponent,
-        ReadTextfileValueComponent
+        ReadTextfileValueComponent,
+        NodeFormComponent
     ],
     imports: [
         BrowserModule,

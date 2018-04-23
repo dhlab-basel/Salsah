@@ -14,19 +14,18 @@
  */
 
 import {Component, Input, OnChanges} from '@angular/core';
-import {List, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
+import {List, ListNode, ListNodeInfo} from '../../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
-import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogComponent} from '../../../dialog/confirm-dialog/confirm-dialog.component';
 import {MatDialogConfig, MatDialog} from '@angular/material';
 
-
 @Component({
-    selector: 'salsah-edit-node-info',
-    templateUrl: './edit-node-info.component.html',
-    styleUrls: ['./edit-node-info.component.scss']
+    selector: 'salsah-node-form',
+    templateUrl: './node-form.component.html',
+    styleUrls: ['./node-form.component.scss']
 })
-export class EditNodeInfoComponent implements OnChanges {
+export class NodeFormComponent implements OnChanges {
 
     @Input() nodeIri: string;
     @Input() currentNode: ListNode;
