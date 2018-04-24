@@ -106,7 +106,6 @@ import {FormCreateComponent} from './view/test/development/form-create/form-crea
 import {FocusDirective} from './view/modules/other/focus.directive';
 import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
 import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
-import {ListNodeFormComponent} from './view/modules/form/list-node-form/list-node-form.component';
 import {MathJaxDirective} from './view/modules/other/mathjax.directive';
 import {ReadTextValueAsHtmlComponent} from './view/properties/read-text-value-as-html/read-text-value-as-html.component';
 import {ReadDateValueComponent} from './view/properties/read-date-value/read-date-value.component';
@@ -234,7 +233,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         StillImageOSDViewerComponent,
         NewResourceClassComponent,
         ProjectListsAdminComponent,
-        ListNodeFormComponent,
         EditResourceClassComponent,
         SortByPipe,
         SystemComponent,
@@ -327,7 +325,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ],
     // we need the entryComponents for every component inside of a mat-dialog module
     entryComponents: [
-        ListNodeFormComponent,
         ConfirmDialogComponent,
         FormDialogComponent,
         MessageDialogComponent,

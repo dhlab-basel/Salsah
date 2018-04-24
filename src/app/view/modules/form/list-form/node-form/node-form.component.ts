@@ -106,7 +106,7 @@ export class NodeFormComponent implements OnChanges {
             id: new FormControl({value: this.currentNode.id, disabled: true}),
             name: [this.currentNode.name, Validators.required],
             labels: this.currentNode.label,
-            children: [this._fb.array([]), Validators.required],
+            children:  new FormControl({value: this._fb.array([]), disabled:true}, Validators.required),
             numberOfChildren: new FormControl({value: this.currentNode.children.length, disabled: true}),
             level: this.currentNode.level,
             position: this.currentNode.position
@@ -131,13 +131,14 @@ export class NodeFormComponent implements OnChanges {
         this.listNodeInfoForm.setControl('children', childFormArray);
     }
 
-    addChild() {
-        this.children.push(this._fb.group(new ListNode()));
-    }
-
-    removeChild(i: number) {
-        this.children.removeAt(i);
-    }
+    //We add and remove children in the lists-list and in the node-edit respectively, so this is deprecated
+    // addChild() {
+    //     this.children.push(this._fb.group(new ListNode()));
+    // }
+    //
+    // removeChild(i: number) {
+    //     this.children.removeAt(i);
+    // }
 
     // build form validation messages
     onValueChanged(data?: any) {
