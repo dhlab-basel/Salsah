@@ -294,7 +294,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ListFormComponent,
         ProjectDataComponent,
         ReadTextfileValueComponent,
-        NodeFormComponent
+        NodeFormComponent,
         SortButtonComponent
     ],
     imports: [
