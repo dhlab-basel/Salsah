@@ -10,7 +10,8 @@
         <mat-accordion>
             <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
                                  (opened)="fetchListData(item.id); epExpanded=true" (closed)="isExpanded=false">
-                <mat-expansion-panel-header *ngIf="!epExpanded"  matTooltip="Click to open panel and see nodes, click list name to edit">
+                <mat-expansion-panel-header *ngIf="!epExpanded"
+                                            matTooltip="Click to open panel and see nodes, click list name to edit">
                     <mat-panel-title>
                         <h4 (click)="editList(item.id, item)">
                             {{item.labels[0].value}}
@@ -21,8 +22,8 @@
                         <mat-icon>list</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <mat-expansion-panel-header *ngIf="epExpanded" matTooltip="Click list name to edit list info">
-                    <mat-panel-title>
+                <mat-expansion-panel-header *ngIf="epExpanded" >
+                    <mat-panel-title matTooltip="Click list name to edit list info" >
                         <h4 (click)="editList(item.id, item)">
                             {{item.labels[0].value}}
                         </h4>
@@ -47,22 +48,27 @@
                         <mat-icon>add</mat-icon>
                         {{listLists.buttons.add}}
                     </button>
-                    <!--<salsah-edit-node-info [node]="node" [tree]="tree"></salsah-edit-node-info>-->
 
-                    <tree-root class="tree-node-expanded" #tree [nodes]="currentNodes" [options]="options">
-                        <ng-template #treeNodeTemplate let-node let-index="index">
-
-                                <button mat-icon-button (click)="editNode(item.id, node.data, node, tree)" class="edit-button">
-                                    <mat-icon class="small-icon" > edit </mat-icon>
-                                </button>
-                            <span>
-                                <!--<mat-icon class="small-icon" (click)="deleteNode(node, tree)"> delete </mat-icon>-->
-                                {{ node.data.name }}
-                            </span>
-                            <span class="subtitle" *ngIf="node.children.length != 0"> Number of sub-nodes: {{node.children.length}}</span>
-                            <!--     <button>{{node.data.name}}</button>
-                               <button (click)="viewDetails(node.data.id)">Node Name</button>
-                              -->
+                    <!-----Here comes the part where the tree is built and displayed --->
+                    <tree-root #tree [nodes]="currentNodes" [options]="options">
+                        <ng-template #treeNodeWrapperTemplate let-node let-index="index">
+                            <div class="node-wrapper" [style.padding-left]="node.getNodePadding()">
+                                <div class="node-content-wrapper"
+                                     (treeDrop)="node.onDrop($event)"
+                                     [treeAllowDrop]="node.allowDrop"
+                                     [treeDrag]="node"
+                                     [treeDragEnabled]="node.allowDrag()"> <!-- Drag and drop is enabled here and not in the options because we are using the treeNodeWrapperTemplate, which allows for more formating options -->
+                                        <tree-node-content [node]="node" [index]="index"></tree-node-content> <!--displays the node name (same as {{ node.data.name }} ) -->
+                                        <span class="subtitle" *ngIf="node.children.length != 0">Number of sub-nodes: {{node.children.length}}</span>
+                                        <span class="edit-button">
+                                        <tree-node-expander [node]="node"></tree-node-expander>  <!--displays the expansion arrow -->
+                                        <button mat-icon-button
+                                                (click)="editNode(item.id, node.data, node, tree)">
+                                            <mat-icon class="small-icon"> edit</mat-icon>
+                                        </button> <!--displays the edit node info button -->
+                                    </span>
+                                </div>
+                            </div>
                         </ng-template>
                     </tree-root>
                 </div>
@@ -81,33 +87,4 @@
 <ng-template #errorMsg>
     <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 </ng-template>
-
-
-<!--
-<!-- single list operations --
-<div *ngIf="listOp === 'view' || listOp === 'edit' || listOp === 'create'"
-     class="salsah-module-detail"
-     [ngClass]="position.detail">
-    <mat-progress-bar mode="indeterminate" *ngIf="isLoadingSubModule"></mat-progress-bar>
-
-    <div class="salsah-module-detail-header">
-        <!-- close button --
-        <button mat-mini-fab (click)="closeDetailView()">
-            <mat-icon>close</mat-icon>
-        </button>
-    </div>
-
-</div>
-
-
-    <div class="salsah-module-detail-content">
-        <!-- if an error occurs: show the error message --
-<salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
-
-<!-- view selected list --
-<div class="view-list" *ngIf="!errorMessage">
-    <salsah-list-form [listIri]="selectedList.id" [listOp]="listOp"></salsah-list-form>
-</div>
-</div>
--->
 

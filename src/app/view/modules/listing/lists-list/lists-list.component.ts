@@ -90,8 +90,6 @@ export class ListsListComponent implements OnInit {
                         this.lists = lists.map(value => value.listinfo);
                         this.numberOfItems = lists.length;
                         this.isLoading = false;
-                        console.log('items: ', this.numberOfItems);
-
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
@@ -99,7 +97,6 @@ export class ListsListComponent implements OnInit {
                     }
                 );
             // this.numberOfItems = this.lists.length;
-            console.log('items now: ', this.numberOfItems);
         } else {
             // get all system lists
             this._listsService.getLists()
@@ -133,7 +130,6 @@ export class ListsListComponent implements OnInit {
                     this.errorMessage = <any>error;
                 }
             );
-        console.log('fetchListData ');
     }
 
 
@@ -161,6 +157,7 @@ export class ListsListComponent implements OnInit {
         tree.treeModel.update();
     }
 
+    //The code below is deprecated because we moved the delete node button to the edit node form
     // deleteNode(node: TreeNode, tree): void {
         // this.deleteNodeEvent.emit({node, tree});
 
@@ -170,32 +167,17 @@ export class ListsListComponent implements OnInit {
         // }
     // }
 
-    // in the list view, it opens an object on the right hand side detail view
-    // open / close user
-    // toggle(id: string, index: number) {
-    //     if (this.selectedRow === index) {
-    //         // close the detail view
-    //         this.selectedRow = undefined;
-    //         this.toggleItem.emit({id, index});
-    //     } else {
-    //         // open the detail view
-    //         this.selectedRow = index;
-    //         this.toggleItem.emit({id, index});
-    //     }
-    //
-    // }
-
     // TODO: implement proper edit method/component
     editNode(id: string, cNode: ListNode[], node: TreeNode, tree) {
 
         const config: MatDialogConfig = new MatDialogConfig();
 
-        config.data = {
+        config.data = { // this data is sent to the form-dialog.component
             iri: id,
             currentNodes: cNode,
             delNode: node,
             delTree: tree,
-            title: 'Edit ' + id,
+            title: 'Edit node with id: ' + id,
             form: 'nodeInfo',
             fullsize: false
         };
@@ -204,11 +186,11 @@ export class ListsListComponent implements OnInit {
 
         const dialogRef = this._dialog.open(FormDialogComponent, config);
 
-        console.log('emit node: ', node);
-        console.log('emit tree: ', tree);
+        // console.log('emit node: ', node);
+        // console.log('emit tree: ', tree);
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The edit node info dialog was closed', result);
+            // console.log('The edit node info dialog was closed', result);
         });
     }
 
@@ -216,10 +198,10 @@ export class ListsListComponent implements OnInit {
 
         const config: MatDialogConfig = new MatDialogConfig();
 
-        config.data = {
+        config.data = { // this data is sent to the form-dialog.component
             iri: id,
             currentListInfo: list,
-            title: 'Edit list with id:' + id,
+            title: 'Edit list with id: ' + id,
             form: 'list',
             fullsize: false
         };
@@ -229,7 +211,7 @@ export class ListsListComponent implements OnInit {
         const dialogRef = this._dialog.open(FormDialogComponent, config);
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The edit list info dialog was closed', result);
+            // console.log('The edit list info dialog was closed', result);
         });
 
     }

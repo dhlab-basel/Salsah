@@ -1,28 +1,30 @@
-.subtitle {
-  color: rgba(0,0,0,.54);
-  font-size: 14px;
-  padding-left:40px
-}
-
-.small-icon {
-  font-size: 14px;
-}
-
 .toggle-icon {
   height: 10px;
   width: 10px;
 }
 
+.subtitle {
+  color: rgba(0,0,0,.54);
+  font-size: 14px;
+  padding-left:80px;
+}
+
 .node-content-wrapper {
 
-  .edit-button {
-    display: none;
+  .small-icon {
+    font-size: 20px;
   }
 
-  &:hover {
+  .edit-button {
+    visibility: hidden;
+  }
 
+
+  &:hover {
     .edit-button {
-      display: block;
+      padding-left:80px;
+      visibility: visible;
+
     }
   }
 }
