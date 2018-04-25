@@ -115,6 +115,7 @@ import {ReadTextValueAsStringComponent} from './view/properties/read-text-value-
 import {ReadTextValueAsXmlComponent} from './view/properties/read-text-value-as-xml/read-text-value-as-xml.component';
 import {ReadIntegerValueComponent} from './view/properties/read-integer-value/read-integer-value.component';
 import {ReadDecimalValueComponent} from './view/properties/read-decimal-value/read-decimal-value.component';
+import { ReadTextfileValueComponent } from './view/properties/read-textfile-value/read-textfile-value.component';
 import {StillImageOSDViewerComponent} from './view/properties/still-image-osdviewer/still-image-osdviewer.component';
 import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geom-value.component';
 import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
@@ -168,6 +169,8 @@ import { ObjectDialogComponent } from './view/modules/dialog/object-dialog/objec
 import { UserRoleComponent } from './view/modules/form/user-form/user-role/user-role.component';
 import { UserPasswordComponent } from './view/modules/form/user-form/user-password/user-password.component';
 import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
+import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
+import { SortButtonComponent } from './view/modules/action/sort-button/sort-button.component';
 
 //
 // import all needed services
@@ -291,7 +294,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ObjectDialogComponent,
         UserRoleComponent,
         UserPasswordComponent,
-        ListFormComponent
+        ListFormComponent,
+        ProjectDataComponent,
+        ReadTextfileValueComponent,
+        SortButtonComponent
     ],
     imports: [
         BrowserModule,

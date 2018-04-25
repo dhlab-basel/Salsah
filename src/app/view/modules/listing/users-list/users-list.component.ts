@@ -292,15 +292,11 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    sortBy(key: string) {
-
-
-        if (key === this.sortProps[0].key) {
-            this.sortKey = this.sortProps[1].key;
-            this.sortLabel = this.sortProps[0].label;
+    sortBy(key: string, list: string = 'active') {
+        if (list === 'active') {
+            this.sortKey = key;
         } else {
-            this.sortKey = this.sortProps[0].key;
-            this.sortLabel = this.sortProps[1].label;
+            this.sortKeyIA = key;
         }
     }
 

@@ -191,6 +191,8 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     // the form-dialog component handles which new-XYZ-form to use
     openNew(form: string) {
 
+        const config: MatDialogConfig = new MatDialogConfig();
+
         let dialogRef;
 
         switch (form) {
@@ -200,14 +202,16 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
             case 'ontology':
             case 'resource-type':
             case 'list':
-                dialogRef = this._dialog.open(FormDialogComponent, <MatDialogConfig>{
-                    data: {
-                        title: this.add.title,
-                        description: this.add.description,
-                        form: this.add.type,
-                        restriction: this.list.restrictedBy
-                    }
-                });
+                config.data = {
+                    title: this.add.title,
+                    description: this.add.description,
+                    form: this.add.type,
+                    restriction: this.list.restrictedBy
+                };
+                config.panelClass = 'resizable';
+
+                dialogRef = this._dialog.open(FormDialogComponent, config);
+
                 break;
 
             default:

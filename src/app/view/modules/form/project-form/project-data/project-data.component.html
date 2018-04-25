@@ -1,0 +1,143 @@
+<div *ngIf="!errorMessage; else errorMsg">
+    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+
+    <!-- success message after updating -->
+    <salsah-message *ngIf="success" [message]="successMessage" [short]="true"></salsah-message>
+
+    <!-- content -->
+    <form *ngIf="!isLoading" [formGroup]="projectDataForm" class="salsah-form-content project-data">
+        <!-- short and long name -->
+        <mat-form-field class="small">
+            <input matInput
+                   placeholder="{{'salsahLabels.form.project.general.shortCode' | translate}} * "
+                   [maxlength]="shortcodeMaxLength"
+                   [formControl]="projectDataForm.controls['shortcode']">
+            <mat-hint *ngIf="formErrors.shortcode">
+                {{ formErrors.shortcode }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- short name -->
+        <mat-form-field class="medium">
+            <input matInput
+                   [maxlength]="shortnameMaxLength"
+                   placeholder="{{'salsahLabels.form.project.general.shortName' | translate}} * "
+                   [formControl]="projectDataForm.controls['shortname']">
+            <mat-hint *ngIf="formErrors.shortname">
+                {{ formErrors.shortname }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- long name -->
+        <mat-form-field class="large">
+            <input matInput
+                   placeholder="{{'salsahLabels.form.project.general.longName' | translate}} *"
+                   [formControl]="projectDataForm.controls['longname']">
+            <mat-hint *ngIf="formErrors.longname">
+                {{ formErrors.longname }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- description -->
+        <mat-form-field class="large">
+            <textarea matInput matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="12"
+                      [placeholder]=" 'salsahLabels.form.project.general.description' | translate "
+                      [formControl]="projectDataForm.controls['description']">
+            </textarea>
+            <mat-hint *ngIf="formErrors.description">
+                {{ formErrors.description }}
+            </mat-hint>
+        </mat-form-field>
+
+        <!-- institution -->
+        <!--
+        <mat-form-field class="large">
+            <input matInput
+                   placeholder="{{'salsahLabels.form.project.general.institution' | translate}}"
+                   [formControl]="projectDataForm.controls['institution']">
+            <mat-hint *ngIf="formErrors.institution">
+                {{ formErrors.institution }}
+            </mat-hint>
+        </mat-form-field>
+        -->
+
+        <!-- keywords -->
+        <mat-form-field class="large">
+            <mat-chip-list #tagsList>
+                <mat-chip *ngFor="let tag of keywords" [selectable]="selectable"
+                          [removable]="removable" (remove)="removeKeyword(tag)">
+                    {{tag}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input [placeholder]=" 'salsahLabels.form.project.general.keywords' | translate "
+                       [formControl]="projectDataForm.controls['keywords']"
+                       [matChipInputFor]="tagsList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addKeyword($event)"/>
+            </mat-chip-list>
+            <!--
+            <mat-hint *ngIf="formErrors.keywords">
+                {{ formErrors.keywords }}
+            </mat-hint>
+            -->
+        </mat-form-field>
+
+        <!-- upload logo -->
+        <!--
+        <salsah-file-uploader (uploadStatus)="sipiUpload($event)"></salsah-file-uploader>
+        <!-- the form needs an input field for the logo name
+            the following input will be hidden and it gets the file name from the salsah-file-uploader -->
+        <br>
+        <!-- dev control for image uploader
+                <input matInput [hidden]="false"
+                       [placeholder]=" 'salsahLabels.form.project.general.logo.name' | translate "
+                       [formControl]="projectDataForm.controls['logo']"
+                       formControlName="logo">
+                       -->
+
+        <div class="salsah-panel large" *ngIf="standalone; else stepperNav">
+            <!-- delete / activate buttons in case of edit -->
+            <div *ngIf="edit">
+                <!-- delete project -->
+                <button *ngIf="project.status"
+                        mat-button color="warn"
+                        (click)="deactivateProject($event, projectIri)">
+                    {{ 'salsahLabels.form.action.deactivate' | translate }}
+                </button>
+                <!-- activate project -->
+                <button *ngIf="!project.status"
+                        mat-button color="warn"
+                        (click)="activateProject($event, projectIri)">
+                    {{ 'salsahLabels.form.action.activate' | translate }}
+                </button>
+            </div>
+
+
+            <span class="fill-remaining-space"></span>
+
+            <button mat-button type="button" color="primary" (click)="submitData()" [disabled]="!projectDataForm.valid">
+                <span *ngIf="edit">{{ 'salsahLabels.form.action.update' | translate }}</span>
+                <span *ngIf="!edit">{{ 'salsahLabels.form.action.submit' | translate }}</span>
+            </button>
+        </div>
+
+
+        <ng-template #stepperNav>
+            <div class="salsah-panel large">
+                <button mat-button matStepperPrevious>{{ 'salsahLabels.form.action.back' | translate }}</button>
+                <span class="fill-remaining-space"></span>
+                <button mat-button color="primary" matStepperNext [disabled]="!projectDataForm.valid"
+                        (click)="submitData()">
+                    {{ 'salsahLabels.form.action.next' | translate }}
+                </button>
+            </div>
+        </ng-template>
+    </form>
+
+</div>
+
+<!-- in the case of an API error: show the error message -->
+<ng-template #errorMsg>
+    <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
+</ng-template>
