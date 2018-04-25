@@ -161,7 +161,7 @@ export class ListsListComponent implements OnInit {
         tree.treeModel.update();
     }
 
-    //The code below is depricated because we moved the delete node button to the edit node form
+    //The code below is deprecated because we moved the delete node button to the edit node form
     // deleteNode(node: TreeNode, tree): void {
         // this.deleteNodeEvent.emit({node, tree});
 
@@ -176,7 +176,7 @@ export class ListsListComponent implements OnInit {
 
         const config: MatDialogConfig = new MatDialogConfig();
 
-        config.data = {
+        config.data = { // this data is sent to the form-dialog.component
             iri: id,
             currentNodes: cNode,
             delNode: node,
@@ -202,7 +202,7 @@ export class ListsListComponent implements OnInit {
 
         const config: MatDialogConfig = new MatDialogConfig();
 
-        config.data = {
+        config.data = { // this data is sent to the form-dialog.component
             iri: id,
             currentListInfo: list,
             title: 'Edit list with id: ' + id,

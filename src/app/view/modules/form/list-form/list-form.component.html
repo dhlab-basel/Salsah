@@ -38,7 +38,7 @@
                       <mat-hint *ngIf="formErrors.labels.language">{{formErrors.labels.language}}</mat-hint>
                    <button mat-icon-button *ngIf="listInfoForm.get('labels').length > 1" aria-label="Clear"
                            (click)="removeLabel(i)">
-                       <mat-icon>close</mat-icon>
+                       <mat-icon class="small-icon">close</mat-icon>
                    </button>
                </div>
                 <mat-action-row>
@@ -65,7 +65,7 @@
                                formControlName="language">
                     </mat-form-field>
                     <button mat-icon-button aria-label="Clear" (click)="removeComment(i)">
-                       <mat-icon>close</mat-icon>
+                       <mat-icon class="small-icon">close</mat-icon>
                     </button>
                 </div>
                 <mat-action-row>
@@ -79,6 +79,7 @@
             </span>
             <br>
             <br>
+            <!-- ID and project can for the moment not be changed by the users, so they are disabled -->
             <mat-form-field class="full-width">
                 <input matInput
                        [placeholder]=editLists.list.id
