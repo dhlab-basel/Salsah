@@ -42,7 +42,7 @@
                        [placeholder]=editLists.list.nodes.children
                        formControlName="numberOfChildren">
                 </mat-form-field>
-            <mat-form-field> <!--names of children-->
+            <mat-form-field *ngIf="listNodeInfoForm.get('children').length > 0"> <!--if there are children, show their names-->
                 <span formArrayName="children">
                     <span *ngFor="let child of children.controls; let i=index" [formGroupName]="i">
                         <input matInput

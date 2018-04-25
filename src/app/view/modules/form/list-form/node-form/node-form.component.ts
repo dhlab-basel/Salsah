@@ -90,10 +90,10 @@ export class NodeFormComponent implements OnChanges {
     }
 
     ngOnChanges() {
-        console.log('list iri: ', this.nodeIri);
-        console.log('node iri: ', this.currentNode.id);
-        console.log('node: ', this.currentNode);
-        console.log('children: ', this.currentNode.children);
+        // console.log('list iri: ', this.nodeIri);
+        // console.log('node iri: ', this.currentNode.id);
+        // console.log('node: ', this.currentNode);
+        // console.log('children: ', this.currentNode.children);
 
         this.buildListNodeInfoForm();
         this.setChildren(this.currentNode.children);
@@ -154,7 +154,7 @@ export class NodeFormComponent implements OnChanges {
         this.ngOnChanges();
     }
 
-    saveNode(listNodeInfo: ListNodeInfo) {
+    saveNode(listNodeInfo: ListNodeInfo) { //the service for this is not ready yet
         this.submitted = true; // set form submit to true
         // check if model is valid
         // if valid, call API to save customer
@@ -176,8 +176,8 @@ export class NodeFormComponent implements OnChanges {
 
         // after close;
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed', result);
-            console.log(config.data);
+            // console.log('The dialog was closed', result);
+            // console.log(config.data);
 
             if (config.data.answer === true) {
                 // if answer is true: remove the node

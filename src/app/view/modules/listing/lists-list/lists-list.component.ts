@@ -90,8 +90,6 @@ export class ListsListComponent implements OnInit {
                         this.lists = lists.map(value => value.listinfo);
                         this.numberOfItems = lists.length;
                         this.isLoading = false;
-                        console.log('items: ', this.numberOfItems);
-
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
@@ -99,7 +97,6 @@ export class ListsListComponent implements OnInit {
                     }
                 );
             // this.numberOfItems = this.lists.length;
-            console.log('items now: ', this.numberOfItems);
         } else {
             // get all system lists
             this._listsService.getLists()
@@ -133,7 +130,6 @@ export class ListsListComponent implements OnInit {
                     this.errorMessage = <any>error;
                 }
             );
-        console.log('fetchListData ');
     }
 
 
@@ -190,11 +186,11 @@ export class ListsListComponent implements OnInit {
 
         const dialogRef = this._dialog.open(FormDialogComponent, config);
 
-        console.log('emit node: ', node);
-        console.log('emit tree: ', tree);
+        // console.log('emit node: ', node);
+        // console.log('emit tree: ', tree);
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The edit node info dialog was closed', result);
+            // console.log('The edit node info dialog was closed', result);
         });
     }
 
@@ -215,7 +211,7 @@ export class ListsListComponent implements OnInit {
         const dialogRef = this._dialog.open(FormDialogComponent, config);
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The edit list info dialog was closed', result);
+            // console.log('The edit list info dialog was closed', result);
         });
 
     }

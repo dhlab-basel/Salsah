@@ -104,7 +104,6 @@ export class ListFormComponent implements OnChanges {
     ngOnChanges() {
         this.buildListInfoForm(); //build the form
         if (this.listIri) { //check if the list exists to get the labels adn comments
-            console.log('labels: ', this.currentListInfo.labels);
             this.setLabels(this.currentListInfo.labels);
             this.setComments(this.currentListInfo.comments);
         }
@@ -119,8 +118,6 @@ export class ListFormComponent implements OnChanges {
                 labels: this._fb.array([this.buildLabelsGroup()]),
                 comments: this._fb.array([this.buildCommentsGroup()])
             });
-            console.log('iri in form: ', this.currentListInfo.id);
-            console.log('list info: ', this.currentListInfo);
         } else { //if the list does not exist make a form with empty fields
             this.listInfoForm = this._fb.group({
                 id: '',
@@ -180,13 +177,11 @@ export class ListFormComponent implements OnChanges {
         return this.listInfoForm.get('comments') as FormArray;
     }
     setLabels(labels: StringLiteralV2[]) {
-        console.log('setLabels: ', labels);
         const labelFGs = labels.map(label => this._fb.group(label));
         const labelFormArray = this._fb.array(labelFGs);
         this.listInfoForm.setControl('labels', labelFormArray);
     }
     setComments(comments: StringLiteralV2[]) {
-        console.log('setComments: ', comments);
         const commentFGs = comments.map(comment => this._fb.group(comment));
         const commentFormArray = this._fb.array(commentFGs);
         this.listInfoForm.setControl('comments', commentFormArray);
@@ -214,8 +209,6 @@ export class ListFormComponent implements OnChanges {
         this.submitted = true; // set form submit to true
 
         if (this.listIri) { //if the list already exists use the update list service to save the new values
-            console.log('save edited list:', this.listInfoForm.value);
-            console.log('id:', this.currentListInfo.id);
             const payload: ListInfoUpdatePayload = {
                 listIri: this.currentListInfo.id, // the id is disabled in the form and cannot be changed, so it won't be saved as a form value
                 projectIri: this.listInfoForm.value.belongsToProject,
@@ -224,30 +217,27 @@ export class ListFormComponent implements OnChanges {
             };
             this._listsService.updateListInfo(payload).subscribe(
                 (result: any) => {
-                    console.log(result);
+                    // console.log(result);
                 },
                 (error: ApiServiceError) => {
-                    console.log(error);
+                    // console.log(error);
                     this.listInfoErrorMessage = error;
                 }
             );
             // after close form, refresh the page
             location.reload();
         } else { //for a new list use the create list service to save it
-            console.log('save new list:', this.listInfoForm.value);
             const payload: ListCreatePayload = {
                 projectIri: this.listInfoForm.value.belongsToProject,
                 labels: this.listInfoForm.value.labels,
                 comments: this.listInfoForm.value.comments
             };
-            console.log('payload:', payload);
-
             this._listsService.createList(payload).subscribe(
                 (result: any) => {
-                    console.log(result);
+                    // console.log(result);
                 },
                 (error: ApiServiceError) => {
-                    console.log(error);
+                    // console.log(error);
                     this.listInfoErrorMessage = error;
                 }
             );
@@ -262,15 +252,9 @@ export class ListFormComponent implements OnChanges {
             .subscribe(
                 (result: Project[]) => {
                     this.allProjects = result;
-                    console.log('projects: ', result);
-
-
-                    // this.filter(this.allProjects);
-
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
-                    console.log(error);
                     this.isLoading = false;
                 }
             );
