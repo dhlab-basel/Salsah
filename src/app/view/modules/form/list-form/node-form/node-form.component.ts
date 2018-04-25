@@ -32,8 +32,6 @@ export class NodeFormComponent implements OnChanges {
     @Input() dNode: TreeNode;
     @Input() dTree;
 
-    currentListNodeInfo: ListNodeInfo;
-
     errorMessage: string = undefined;
     isLoading: boolean = true;
     public submitted: boolean; // keep track on whether form is submitted
@@ -93,6 +91,7 @@ export class NodeFormComponent implements OnChanges {
 
     ngOnChanges() {
         console.log('list iri: ', this.nodeIri);
+        console.log('node iri: ', this.currentNode.id);
         console.log('node: ', this.currentNode);
         console.log('children: ', this.currentNode.children);
 
@@ -109,10 +108,9 @@ export class NodeFormComponent implements OnChanges {
             children:  new FormControl({value: this._fb.array([]), disabled:true}, Validators.required),
             numberOfChildren: new FormControl({value: this.currentNode.children.length, disabled: true}),
             level: this.currentNode.level,
-            position: this.currentNode.position
+            // position: this.currentNode.position
         });
 
-        console.log('iri in form: ', this.currentNode.id);
         this.isLoading = false;
 
         // validation messages
@@ -125,20 +123,10 @@ export class NodeFormComponent implements OnChanges {
     };
 
     setChildren(children: ListNode[]) {
-        console.log('setChildren: ', children);
         const childFGs = children.map(child => this._fb.group(child));
         const childFormArray = this._fb.array(childFGs);
         this.listNodeInfoForm.setControl('children', childFormArray);
     }
-
-    //We add and remove children in the lists-list and in the node-edit respectively, so this is deprecated
-    // addChild() {
-    //     this.children.push(this._fb.group(new ListNode()));
-    // }
-    //
-    // removeChild(i: number) {
-    //     this.children.removeAt(i);
-    // }
 
     // build form validation messages
     onValueChanged(data?: any) {
@@ -174,14 +162,7 @@ export class NodeFormComponent implements OnChanges {
         location.reload();
     }
 
-
     delNode() {
-        console.log('tree node: ', this.dNode, 'tree', this.dTree);
-        // if (this.dNode.parent != null) {
-        //     this.dNode.parent.data.children.splice(this.dNode.parent.data.children.indexOf(this.dNode.data), 1)
-        //     this.dTree.treeModel.update()
-        // }
-
         const config = new MatDialogConfig();
 
         config.data = {

@@ -181,7 +181,7 @@ export class ListsListComponent implements OnInit {
             currentNodes: cNode,
             delNode: node,
             delTree: tree,
-            title: 'Edit ' + id,
+            title: 'Edit node with id: ' + id,
             form: 'nodeInfo',
             fullsize: false
         };
@@ -205,7 +205,7 @@ export class ListsListComponent implements OnInit {
         config.data = {
             iri: id,
             currentListInfo: list,
-            title: 'Edit list with id:' + id,
+            title: 'Edit list with id: ' + id,
             form: 'list',
             fullsize: false
         };
