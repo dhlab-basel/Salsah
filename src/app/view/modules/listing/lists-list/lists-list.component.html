@@ -29,10 +29,9 @@
                             <h4>
                                 {{item.labels[0].value}}
                             </h4>
-                            <!--<mat-hint>Log in to edit list</mat-hint>-->
                         </span>
                         <span *ngIf="loggedInUser != null">
-                            <span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">
+                            <span class="showOnHover" *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">
                                 <h4>
                                     {{item.labels[0].value}}
                                     <button mat-icon-button
@@ -76,7 +75,7 @@
                     <tree-root #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeWrapperTemplate let-node let-index="index">
                             <div class="node-wrapper" [style.padding-left]="node.getNodePadding()">
-                                <div class="node-content-wrapper"
+                                <div class="showOnHover"
                                      (treeDrop)="node.onDrop($event)"
                                      [treeAllowDrop]="node.allowDrop"
                                      [treeDrag]="node"
