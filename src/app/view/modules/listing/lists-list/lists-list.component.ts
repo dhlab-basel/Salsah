@@ -16,15 +16,13 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ListsService} from '../../../../model/services/lists.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MessageData} from '../../message/message.component';
-import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
+import {List, ListInfo, ListNode, User} from '../../../../model/webapi/knora';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
-import {AuthenticationService} from "../../../../model/services/authentication.service";
-import {AppConfig} from "../../../../app.config";
-import {AutocompleteItem} from "../../../../app.interfaces";
-import {User} from "../../../../model/webapi/knora/admin/users/user";
-import {UsersService} from "../../../../model/services/users.service";
+import {AuthenticationService} from '../../../../model/services/authentication.service';
+import {AppConfig} from '../../../../app.config';
+import {UsersService} from '../../../../model/services/users.service';
 
 @Component({
     selector: 'salsah-lists-list',
@@ -62,15 +60,16 @@ export class ListsListComponent implements OnInit {
     //         iri: AppConfig.ProjectAdminGroup,
     //         name: 'Administrator'
     //     }
-        /* use the following in system view only!
-        {
-            iri: AppConfig.SystemAdminGroup,
-            name: '',
-            label: 'System admin'
-        }
-        */
+    /* use the following in system view only!
+    {
+        iri: AppConfig.SystemAdminGroup,
+        name: '',
+        label: 'System admin'
+    }
+    */
 
-    ];
+    // ];
+
 
     // in the case of no data, but with a working API
     noDataMessage: MessageData = {
@@ -146,29 +145,43 @@ export class ListsListComponent implements OnInit {
 
         this.isExpanded = false;
 
+        // get the user data only if a user is logged in
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
-        console.log('logged in user is: ');
-        console.log(this.loggedInUser);
-        console.log(this.loggedInUser.email);
 
-        this.currentUser = this._usersService.getUserByEmail(this.loggedInUser.email);
-        // this.userAdmin = this._authenticationService.extractCurrentUser(this.currentUser, this.currentUser.token);
+        if (this.loggedInUser !== null) {
+            console.log('logged in user is: ', this.loggedInUser);
 
-        console.log(this.currentUser.permissions.administrativePermissionsPerProject);
-        console.log(this.currentUser.permissions);
+            this._usersService.getUserByEmail(this.loggedInUser.email).subscribe(
+                (result: User) => {
+                    // case b) result in case the user exists
+                    this.currentUser = result;
+                    console.log(this.currentUser.permissions.administrativePermissionsPerProject);
+                    console.log(this.currentUser.permissions);
 
-        console.log(this.userAdmin);
+                    console.log(this.userAdmin);
 
 
-        console.log(AppConfig.ProjectMemberGroup);
-        console.log(AppConfig.ProjectAdminGroup);
-        console.log(AppConfig.SystemAdminGroup);
+                    console.log(AppConfig.ProjectMemberGroup);
+                    console.log(AppConfig.ProjectAdminGroup);
+                    console.log(AppConfig.SystemAdminGroup);
 
-        if (this.loggedInUser == null){
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = error;
+                }
+            );
+            // this.userAdmin = this._authenticationService.extractCurrentUser(this.currentUser, this.currentUser.token);
+
+
+        }
+
+        // TODO: @sofia: you can merge the following if / else with the one above...
+
+        if (this.loggedInUser === null) {
             this.nodeDrag = false;
             this.nodeDrop = false;
         } else {
-            if(this.loggedInUser.projectAdmin || this.loggedInUser.sysAdmin){
+            if (this.loggedInUser.projectAdmin || this.loggedInUser.sysAdmin) {
                 this.nodeDrag = true;
                 this.nodeDrop = true;
             } else {
@@ -228,14 +241,14 @@ export class ListsListComponent implements OnInit {
     }
 
 
-    //The code below is deprecated because we moved the delete node button to the edit node form
+    // The code below is deprecated because we moved the delete node button to the edit node form
     // deleteNode(node: TreeNode, tree): void {
-        // this.deleteNodeEvent.emit({node, tree});
+    // this.deleteNodeEvent.emit({node, tree});
 
-        // if (node.parent != null) {
-        //     node.parent.data.children.splice(node.parent.data.children.indexOf(node.data), 1)
-        //     tree.treeModel.update()
-        // }
+    // if (node.parent != null) {
+    //     node.parent.data.children.splice(node.parent.data.children.indexOf(node.data), 1)
+    //     tree.treeModel.update()
+    // }
     // }
 
     // TODO: implement proper edit method/component
