@@ -23,6 +23,8 @@ import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
 import {AuthenticationService} from "../../../../model/services/authentication.service";
 import {AppConfig} from "../../../../app.config";
 import {AutocompleteItem} from "../../../../app.interfaces";
+import {User} from "../../../../model/webapi/knora/admin/users/user";
+import {UsersService} from "../../../../model/services/users.service";
 
 @Component({
     selector: 'salsah-lists-list',
@@ -42,20 +44,24 @@ export class ListsListComponent implements OnInit {
     isExpanded: boolean = false;
     epExpanded: boolean = false;
 
+    checkUserStatus: boolean;
     // is there a logged-in user?
     // look at localStorage and the object currentUser with email, token and sysAdmin (?) info
     loggedInUser: any;
+    currentUser: User = undefined;
+    userAdmin: boolean;
+
 
     // default permission groups / role of the user in a project
-    defaultGroups: AutocompleteItem[] = [
-        {
-            iri: AppConfig.ProjectMemberGroup,
-            name: 'Member'
-        },
-        {
-            iri: AppConfig.ProjectAdminGroup,
-            name: 'Administrator'
-        }
+    // defaultGroups: AutocompleteItem[] = [
+    //     {
+    //         iri: AppConfig.ProjectMemberGroup,
+    //         name: 'Member'
+    //     },
+    //     {
+    //         iri: AppConfig.ProjectAdminGroup,
+    //         name: 'Administrator'
+    //     }
         /* use the following in system view only!
         {
             iri: AppConfig.SystemAdminGroup,
@@ -103,6 +109,7 @@ export class ListsListComponent implements OnInit {
 
     constructor(private _listsService: ListsService,
                 private _authenticationService: AuthenticationService,
+                private _usersService: UsersService,
                 public _dialog: MatDialog) {
     }
 
@@ -142,6 +149,17 @@ export class ListsListComponent implements OnInit {
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
         console.log('logged in user is: ');
         console.log(this.loggedInUser);
+        console.log(this.loggedInUser.email);
+
+        this.currentUser = this._usersService.getUserByEmail(this.loggedInUser.email);
+        // this.userAdmin = this._authenticationService.extractCurrentUser(this.currentUser, this.currentUser.token);
+
+        console.log(this.currentUser.permissions.administrativePermissionsPerProject);
+        console.log(this.currentUser.permissions);
+
+        console.log(this.userAdmin);
+
+
         console.log(AppConfig.ProjectMemberGroup);
         console.log(AppConfig.ProjectAdminGroup);
         console.log(AppConfig.SystemAdminGroup);
