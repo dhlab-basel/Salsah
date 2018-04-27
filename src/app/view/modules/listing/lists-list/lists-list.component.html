@@ -85,7 +85,8 @@
                                         <span class="edit-button">
                                         <tree-node-expander [node]="node"></tree-node-expander>  <!--displays the expansion arrow -->
                                         <button mat-icon-button
-                                                (click)="editNode(item.id, node.data, node, tree)">
+                                                (click)="editNode(item.id, node.data, node, tree)"
+                                                *ngIf="loggedInUser != null && (loggedInUser.projectAdmin || loggedInUser.sysAdmin)">
                                             <mat-icon class="small-icon"> edit</mat-icon>
                                         </button> <!--displays the edit node info button -->
                                     </span>
