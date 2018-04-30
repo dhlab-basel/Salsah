@@ -32,6 +32,7 @@ import {UsersService} from '../../../../model/services/users.service';
 export class ListsListComponent implements OnInit {
 
     @Input() restrictedBy?: string;
+    // @Input() projectIri: string;
     @Output() toggleItem = new EventEmitter<any>();
     // @Output() deleteNodeEvent = new EventEmitter<any>();
 
@@ -47,6 +48,7 @@ export class ListsListComponent implements OnInit {
     // look at localStorage and the object currentUser with email, token and sysAdmin (?) info
     loggedInUser: any;
     currentUser: User = undefined;
+    projectAdmin: any;
     userAdmin: boolean;
 
 
@@ -143,27 +145,27 @@ export class ListsListComponent implements OnInit {
                 );
         }
 
+        console.log('projectIri:', this.restrictedBy);
+
         this.isExpanded = false;
 
         // get the user data only if a user is logged in
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
 
-        if (this.loggedInUser !== null) {
+        if (this.loggedInUser === null) {
+            this.nodeDrag = false;
+            this.nodeDrop = false;
+        }else {
             console.log('logged in user is: ', this.loggedInUser);
 
             this._usersService.getUserByEmail(this.loggedInUser.email).subscribe(
                 (result: User) => {
                     // case b) result in case the user exists
                     this.currentUser = result;
-                    console.log(this.currentUser.permissions.administrativePermissionsPerProject);
-                    console.log(this.currentUser.permissions);
 
-                    console.log(this.userAdmin);
+                    this.projectAdmin = this.currentUser.permissions.administrativePermissionsPerProject[this.restrictedBy];
 
-
-                    console.log(AppConfig.ProjectMemberGroup);
-                    console.log(AppConfig.ProjectAdminGroup);
-                    console.log(AppConfig.SystemAdminGroup);
+                    // console.log('full user details: ', this.currentUser);
 
                 },
                 (error: ApiServiceError) => {
@@ -172,16 +174,7 @@ export class ListsListComponent implements OnInit {
             );
             // this.userAdmin = this._authenticationService.extractCurrentUser(this.currentUser, this.currentUser.token);
 
-
-        }
-
-        // TODO: @sofia: you can merge the following if / else with the one above...
-
-        if (this.loggedInUser === null) {
-            this.nodeDrag = false;
-            this.nodeDrop = false;
-        } else {
-            if (this.loggedInUser.projectAdmin || this.loggedInUser.sysAdmin) {
+            if (this.projectAdmin || this.loggedInUser.sysAdmin) {
                 this.nodeDrag = true;
                 this.nodeDrop = true;
             } else {
@@ -190,13 +183,28 @@ export class ListsListComponent implements OnInit {
             }
         }
 
-        this.options = {
-            useVirtualScroll: false,
-            nodeHeight: 22,
-            allowDrag: this.nodeDrag,
-            allowDrop: this.nodeDrop,
-        };
-
+    //     // TODO: @sofia: you can merge the following if / else with the one above...
+    //
+    //     if (this.loggedInUser === null) {
+    //         this.nodeDrag = false;
+    //         this.nodeDrop = false;
+    //     } else {
+    //         if (this.projectAdmin || this.loggedInUser.sysAdmin) {
+    //             this.nodeDrag = true;
+    //             this.nodeDrop = true;
+    //         } else {
+    //             this.nodeDrag = false;
+    //             this.nodeDrop = false;
+    //         }
+    //     }
+    //
+    //     this.options = {
+    //         useVirtualScroll: false,
+    //         nodeHeight: 22,
+    //         allowDrag: this.nodeDrag,
+    //         allowDrop: this.nodeDrop,
+    //     };
+    //
     }
 
     fetchListData(iri: string) {

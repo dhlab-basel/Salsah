@@ -30,8 +30,13 @@
                                 {{item.labels[0].value}}
                             </h4>
                         </span>
-                        <span *ngIf="loggedInUser != null">
-                            <span class="showOnHover" *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">
+                        <span *ngIf="loggedInUser != null && !projectAdmin && !loggedInUser.sysAdmin" matTooltip="You need administrator rights to edit list">
+                            <h4>
+                                {{item.labels[0].value}}
+                            </h4>
+                        </span>
+                        <span *ngIf="loggedInUser != null && (projectAdmin || loggedInUser.sysAdmin)">
+                            <span class="showOnHover" >
                                 <h4>
                                     {{item.labels[0].value}}
                                     <button mat-icon-button
@@ -50,7 +55,7 @@
                 </mat-expansion-panel-header>
                 <span><b>{{listLists.nodesLabel}}</b>
                     <span *ngIf="loggedInUser != null">
-                        <span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin" class="subtitle">Drag and drop the nodes to reorder
+                        <span *ngIf="projectAdmin || loggedInUser.sysAdmin" class="subtitle">Drag and drop the nodes to reorder
                         </span>
                     </span>
                 </span>
@@ -63,7 +68,7 @@
                         {{listLists.buttons.collapse}}
                     </button>
                     <span *ngIf="loggedInUser != null">
-                        <span *ngIf="loggedInUser.projectAdmin || loggedInUser.sysAdmin">
+                        <span *ngIf="projectAdmin || loggedInUser.sysAdmin">
                             <button class="right" mat-button color="primary" (click)="addNode(tree)">
                                 <mat-icon>add</mat-icon>
                                 {{listLists.buttons.add}}
@@ -79,14 +84,14 @@
                                      (treeDrop)="node.onDrop($event)"
                                      [treeAllowDrop]="node.allowDrop"
                                      [treeDrag]="node"
-                                     [treeDragEnabled]="node.allowDrag()"> <!-- Drag and drop is enabled here and not in the options because we are using the treeNodeWrapperTemplate, which allows for more formating options -->
+                                     [treeDragEnabled]="node.allowDrag()"> <!-- Drag and drop is enabled here and not in the options because we are using the treeNodeWrapperTemplate, which allows for more formatting options -->
                                         <tree-node-content [node]="node" [index]="index"></tree-node-content> <!--displays the node name (same as {{ node.data.name }} ) -->
                                         <span class="subtitle" *ngIf="node.children.length != 0">Number of sub-nodes: {{node.children.length}}</span>
                                         <span class="edit-button">
                                         <tree-node-expander [node]="node"></tree-node-expander>  <!--displays the expansion arrow -->
                                         <button mat-icon-button
                                                 (click)="editNode(item.id, node.data, node, tree)"
-                                                *ngIf="loggedInUser != null && (loggedInUser.projectAdmin || loggedInUser.sysAdmin)">
+                                                *ngIf="loggedInUser != null && (projectAdmin || loggedInUser.sysAdmin)">
                                             <mat-icon class="small-icon"> edit</mat-icon>
                                         </button> <!--displays the edit node info button -->
                                     </span>
