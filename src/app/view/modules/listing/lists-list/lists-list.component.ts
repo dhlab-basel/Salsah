@@ -152,59 +152,52 @@ export class ListsListComponent implements OnInit {
         // get the user data only if a user is logged in
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
 
-        if (this.loggedInUser === null) {
-            this.nodeDrag = false;
-            this.nodeDrop = false;
-        }else {
-            console.log('logged in user is: ', this.loggedInUser);
-
-            this._usersService.getUserByEmail(this.loggedInUser.email).subscribe(
-                (result: User) => {
-                    // case b) result in case the user exists
-                    this.currentUser = result;
-
-                    this.projectAdmin = this.currentUser.permissions.administrativePermissionsPerProject[this.restrictedBy];
-
-                    // console.log('full user details: ', this.currentUser);
-
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = error;
-                }
-            );
-            // this.userAdmin = this._authenticationService.extractCurrentUser(this.currentUser, this.currentUser.token);
-
-            if (this.projectAdmin || this.loggedInUser.sysAdmin) {
+        if (this.loggedInUser != null) {
+            if (this.loggedInUser.sysAdmin) { // if the logged in user is a system admin, allow drag and drop here
                 this.nodeDrag = true;
                 this.nodeDrop = true;
-            } else {
-                this.nodeDrag = false;
-                this.nodeDrop = false;
+                this.options = {
+                    useVirtualScroll: false,
+                    nodeHeight: 22,
+                    allowDrag: this.nodeDrag,
+                    allowDrop: this.nodeDrop,
+                };
+            }
+            else {
+                this._usersService.getUserByEmail(this.loggedInUser.email).subscribe(
+                    (result: User) => {
+                        // return full user details and check if they have administrative permissions for this project
+                        this.currentUser = result;
+                        this.projectAdmin = this.currentUser.permissions.administrativePermissionsPerProject[this.restrictedBy];
+                        console.log('full user details: ', this.currentUser);
+                        console.log('project Admin details: ', this.projectAdmin);
+
+                        if (this.projectAdmin.length > 0) {
+                            // console.log('projectAdmin ');
+                            this.nodeDrag = true;
+                            this.nodeDrop = true;
+                        } else {
+                            // console.log('NO project or sys Admin');
+                            this.nodeDrag = false;
+                            this.nodeDrop = false;
+                        }
+                        this.options = {
+                            useVirtualScroll: false,
+                            nodeHeight: 22,
+                            allowDrag: this.nodeDrag,
+                            allowDrop: this.nodeDrop,
+                        };
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = error;
+                    }
+                );
             }
         }
-
-    //     // TODO: @sofia: you can merge the following if / else with the one above...
-    //
-    //     if (this.loggedInUser === null) {
-    //         this.nodeDrag = false;
-    //         this.nodeDrop = false;
-    //     } else {
-    //         if (this.projectAdmin || this.loggedInUser.sysAdmin) {
-    //             this.nodeDrag = true;
-    //             this.nodeDrop = true;
-    //         } else {
-    //             this.nodeDrag = false;
-    //             this.nodeDrop = false;
-    //         }
-    //     }
-    //
-    //     this.options = {
-    //         useVirtualScroll: false,
-    //         nodeHeight: 22,
-    //         allowDrag: this.nodeDrag,
-    //         allowDrop: this.nodeDrop,
-    //     };
-    //
+        else{ //if there is no logged in user don't allow drag and drop
+            this.nodeDrag = false;
+            this.nodeDrop = false;
+        }
     }
 
     fetchListData(iri: string) {
