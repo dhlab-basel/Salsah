@@ -1,3 +1,5 @@
+@import '../../../../../assets/style/config';
+
 .toggle-icon {
   height: 10px;
   width: 10px;
@@ -9,18 +11,27 @@
   padding-left:80px;
 }
 
-.node-content-wrapper {
+.small-icon {
+  font-size: 20px;
+}
 
-  .small-icon {
-    font-size: 20px;
-  }
+.showOnHover {
+  //position: relative;
+  padding-left: 4px;
+  height: 40px;
+  width: 100%;
 
   .edit-button {
     visibility: hidden;
+    float: right;
   }
 
-
   &:hover {
+
+    &.salsah-node {
+      background: $mute;
+    }
+
     .edit-button {
       padding-left:80px;
       visibility: visible;
