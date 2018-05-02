@@ -80,7 +80,7 @@
                     <tree-root #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeWrapperTemplate let-node let-index="index">
                             <div class="node-wrapper" [style.padding-left]="node.getNodePadding()">
-                                <div class="showOnHover"
+                                <div class="showOnHover salsah-node"
                                      (treeDrop)="node.onDrop($event)"
                                      [treeAllowDrop]="node.allowDrop"
                                      [treeDrag]="node"
