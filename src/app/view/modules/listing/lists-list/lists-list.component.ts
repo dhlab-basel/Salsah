@@ -16,10 +16,13 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ListsService} from '../../../../model/services/lists.service';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MessageData} from '../../message/message.component';
-import {List, ListInfo, ListNode} from '../../../../model/webapi/knora';
+import {List, ListInfo, ListNode, User} from '../../../../model/webapi/knora';
 import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
+import {AuthenticationService} from '../../../../model/services/authentication.service';
+import {AppConfig} from '../../../../app.config';
+import {UsersService} from '../../../../model/services/users.service';
 
 @Component({
     selector: 'salsah-lists-list',
@@ -29,6 +32,7 @@ import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
 export class ListsListComponent implements OnInit {
 
     @Input() restrictedBy?: string;
+    // @Input() projectIri: string;
     @Output() toggleItem = new EventEmitter<any>();
     // @Output() deleteNodeEvent = new EventEmitter<any>();
 
@@ -37,6 +41,36 @@ export class ListsListComponent implements OnInit {
     errorMessage: any;
 
     isExpanded: boolean = false;
+    epExpanded: boolean = false;
+
+    checkUserStatus: boolean;
+    // is there a logged-in user?
+    // look at localStorage and the object currentUser with email, token and sysAdmin (?) info
+    loggedInUser: any;
+    currentUser: User = undefined;
+    projectAdmin: any;
+    userAdmin: boolean;
+
+
+    // default permission groups / role of the user in a project
+    // defaultGroups: AutocompleteItem[] = [
+    //     {
+    //         iri: AppConfig.ProjectMemberGroup,
+    //         name: 'Member'
+    //     },
+    //     {
+    //         iri: AppConfig.ProjectAdminGroup,
+    //         name: 'Administrator'
+    //     }
+    /* use the following in system view only!
+    {
+        iri: AppConfig.SystemAdminGroup,
+        name: '',
+        label: 'System admin'
+    }
+    */
+
+    // ];
 
 
     // in the case of no data, but with a working API
@@ -59,12 +93,9 @@ export class ListsListComponent implements OnInit {
     // iri of the selected list
     iri: string;
 
-    options = {
-        useVirtualScroll: false,
-        nodeHeight: 22,
-        allowDrag: true,
-        allowDrop: true,
-    };
+    nodeDrag: boolean = false;
+    nodeDrop: boolean = false;
+    options: any = {};
 
     public listLists: any = {
         nodesLabel: 'Nodes',
@@ -78,6 +109,8 @@ export class ListsListComponent implements OnInit {
     };
 
     constructor(private _listsService: ListsService,
+                private _authenticationService: AuthenticationService,
+                private _usersService: UsersService,
                 public _dialog: MatDialog) {
     }
 
@@ -90,8 +123,6 @@ export class ListsListComponent implements OnInit {
                         this.lists = lists.map(value => value.listinfo);
                         this.numberOfItems = lists.length;
                         this.isLoading = false;
-                        console.log('items: ', this.numberOfItems);
-
                     },
                     (error: ApiServiceError) => {
                         this.errorMessage = <any>error;
@@ -99,7 +130,6 @@ export class ListsListComponent implements OnInit {
                     }
                 );
             // this.numberOfItems = this.lists.length;
-            console.log('items now: ', this.numberOfItems);
         } else {
             // get all system lists
             this._listsService.getLists()
@@ -115,8 +145,59 @@ export class ListsListComponent implements OnInit {
                 );
         }
 
+        console.log('projectIri:', this.restrictedBy);
+
         this.isExpanded = false;
 
+        // get the user data only if a user is logged in
+        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        if (this.loggedInUser != null) {
+            if (this.loggedInUser.sysAdmin) { // if the logged in user is a system admin, allow drag and drop here
+                this.nodeDrag = true;
+                this.nodeDrop = true;
+                this.options = {
+                    useVirtualScroll: false,
+                    nodeHeight: 22,
+                    allowDrag: this.nodeDrag,
+                    allowDrop: this.nodeDrop,
+                };
+            }
+            else {
+                this._usersService.getUserByEmail(this.loggedInUser.email).subscribe(
+                    (result: User) => {
+                        // return full user details and check if they have administrative permissions for this project
+                        this.currentUser = result;
+                        this.projectAdmin = this.currentUser.permissions.administrativePermissionsPerProject[this.restrictedBy];
+                        console.log('full user details: ', this.currentUser);
+                        console.log('project Admin details: ', this.projectAdmin);
+
+                        if (this.projectAdmin.length > 0) {
+                            // console.log('projectAdmin ');
+                            this.nodeDrag = true;
+                            this.nodeDrop = true;
+                        } else {
+                            // console.log('NO project or sys Admin');
+                            this.nodeDrag = false;
+                            this.nodeDrop = false;
+                        }
+                        this.options = {
+                            useVirtualScroll: false,
+                            nodeHeight: 22,
+                            allowDrag: this.nodeDrag,
+                            allowDrop: this.nodeDrop,
+                        };
+                    },
+                    (error: ApiServiceError) => {
+                        this.errorMessage = error;
+                    }
+                );
+            }
+        }
+        else{ //if there is no logged in user don't allow drag and drop
+            this.nodeDrag = false;
+            this.nodeDrop = false;
+        }
     }
 
     fetchListData(iri: string) {
@@ -133,7 +214,6 @@ export class ListsListComponent implements OnInit {
                     this.errorMessage = <any>error;
                 }
             );
-        console.log('fetchListData ');
     }
 
 
@@ -161,28 +241,15 @@ export class ListsListComponent implements OnInit {
         tree.treeModel.update();
     }
 
+
+    // The code below is deprecated because we moved the delete node button to the edit node form
     // deleteNode(node: TreeNode, tree): void {
-        // this.deleteNodeEvent.emit({node, tree});
+    // this.deleteNodeEvent.emit({node, tree});
 
-        // if (node.parent != null) {
-        //     node.parent.data.children.splice(node.parent.data.children.indexOf(node.data), 1)
-        //     tree.treeModel.update()
-        // }
+    // if (node.parent != null) {
+    //     node.parent.data.children.splice(node.parent.data.children.indexOf(node.data), 1)
+    //     tree.treeModel.update()
     // }
-
-    // in the list view, it opens an object on the right hand side detail view
-    // open / close user
-    // toggle(id: string, index: number) {
-    //     if (this.selectedRow === index) {
-    //         // close the detail view
-    //         this.selectedRow = undefined;
-    //         this.toggleItem.emit({id, index});
-    //     } else {
-    //         // open the detail view
-    //         this.selectedRow = index;
-    //         this.toggleItem.emit({id, index});
-    //     }
-    //
     // }
 
     // TODO: implement proper edit method/component
@@ -190,12 +257,12 @@ export class ListsListComponent implements OnInit {
 
         const config: MatDialogConfig = new MatDialogConfig();
 
-        config.data = {
+        config.data = { // this data is sent to the form-dialog.component
             iri: id,
             currentNodes: cNode,
             delNode: node,
             delTree: tree,
-            title: 'Edit ' + id,
+            title: 'Edit node with id: ' + id,
             form: 'nodeInfo',
             fullsize: false
         };
@@ -204,11 +271,11 @@ export class ListsListComponent implements OnInit {
 
         const dialogRef = this._dialog.open(FormDialogComponent, config);
 
-        console.log('emit node: ', node);
-        console.log('emit tree: ', tree);
+        // console.log('emit node: ', node);
+        // console.log('emit tree: ', tree);
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The edit node info dialog was closed', result);
+            // console.log('The edit node info dialog was closed', result);
         });
     }
 
@@ -216,10 +283,10 @@ export class ListsListComponent implements OnInit {
 
         const config: MatDialogConfig = new MatDialogConfig();
 
-        config.data = {
+        config.data = { // this data is sent to the form-dialog.component
             iri: id,
             currentListInfo: list,
-            title: 'Edit list with id:' + id,
+            title: 'Edit list with id: ' + id,
             form: 'list',
             fullsize: false
         };
@@ -229,7 +296,7 @@ export class ListsListComponent implements OnInit {
         const dialogRef = this._dialog.open(FormDialogComponent, config);
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The edit list info dialog was closed', result);
+            // console.log('The edit list info dialog was closed', result);
         });
 
     }

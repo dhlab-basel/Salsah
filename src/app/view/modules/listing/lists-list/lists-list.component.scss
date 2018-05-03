@@ -1,28 +1,41 @@
-.subtitle {
-  color: rgba(0,0,0,.54);
-  font-size: 14px;
-  padding-left:40px
-}
-
-.small-icon {
-  font-size: 14px;
-}
+@import '../../../../../assets/style/config';
 
 .toggle-icon {
   height: 10px;
   width: 10px;
 }
 
-.node-content-wrapper {
+.subtitle {
+  color: rgba(0,0,0,.54);
+  font-size: 14px;
+  padding-left:80px;
+}
+
+.small-icon {
+  font-size: 20px;
+}
+
+.showOnHover {
+  //position: relative;
+  padding-left: 4px;
+  height: 40px;
+  width: 100%;
 
   .edit-button {
-    display: none;
+    visibility: hidden;
+    float: right;
   }
 
   &:hover {
 
+    &.salsah-node {
+      background: $mute;
+    }
+
     .edit-button {
-      display: block;
+      padding-left:80px;
+      visibility: visible;
+
     }
   }
 }
