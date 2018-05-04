@@ -32,7 +32,6 @@
         "@firebase/app-types": "^0.1.2",
         "@ngx-translate/core": "^8.0.0",
         "@ngx-translate/http-loader": "^2.0.0",
-        "@salsah/progress-indicator": "^1.0.0-beta.3",
         "angular-tree-component": "^6.1.0",
         "angularfire2": "^5.0.0-rc.6",
         "core-js": "^2.5.1",
