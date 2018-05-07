@@ -14,26 +14,23 @@
  */
 
 import {Component, Input, OnChanges} from '@angular/core';
-import {List, ListNode, ListNodeInfo} from '../../../../model/webapi/knora';
+import {List, ListNode, ListNodeInfo} from '../../../../../model/webapi/knora';
 import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
-import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogComponent} from '../../../dialog/confirm-dialog/confirm-dialog.component';
 import {MatDialogConfig, MatDialog} from '@angular/material';
 
-
 @Component({
-    selector: 'salsah-edit-node-info',
-    templateUrl: './edit-node-info.component.html',
-    styleUrls: ['./edit-node-info.component.scss']
+    selector: 'salsah-node-form',
+    templateUrl: './node-form.component.html',
+    styleUrls: ['./node-form.component.scss']
 })
-export class EditNodeInfoComponent implements OnChanges {
+export class NodeFormComponent implements OnChanges {
 
     @Input() nodeIri: string;
     @Input() currentNode: ListNode;
     @Input() dNode: TreeNode;
     @Input() dTree;
-
-    currentListNodeInfo: ListNodeInfo;
 
     errorMessage: string = undefined;
     isLoading: boolean = true;
@@ -93,9 +90,10 @@ export class EditNodeInfoComponent implements OnChanges {
     }
 
     ngOnChanges() {
-        console.log('list iri: ', this.nodeIri);
-        console.log('node: ', this.currentNode);
-        console.log('children: ', this.currentNode.children);
+        // console.log('list iri: ', this.nodeIri);
+        // console.log('node iri: ', this.currentNode.id);
+        // console.log('node: ', this.currentNode);
+        // console.log('children: ', this.currentNode.children);
 
         this.buildListNodeInfoForm();
         this.setChildren(this.currentNode.children);
@@ -107,13 +105,12 @@ export class EditNodeInfoComponent implements OnChanges {
             id: new FormControl({value: this.currentNode.id, disabled: true}),
             name: [this.currentNode.name, Validators.required],
             labels: this.currentNode.label,
-            children: [this._fb.array([]), Validators.required],
+            children:  new FormControl({value: this._fb.array([]), disabled:true}, Validators.required),
             numberOfChildren: new FormControl({value: this.currentNode.children.length, disabled: true}),
             level: this.currentNode.level,
-            position: this.currentNode.position
+            // position: this.currentNode.position
         });
 
-        console.log('iri in form: ', this.currentNode.id);
         this.isLoading = false;
 
         // validation messages
@@ -126,18 +123,9 @@ export class EditNodeInfoComponent implements OnChanges {
     };
 
     setChildren(children: ListNode[]) {
-        console.log('setChildren: ', children);
         const childFGs = children.map(child => this._fb.group(child));
         const childFormArray = this._fb.array(childFGs);
         this.listNodeInfoForm.setControl('children', childFormArray);
-    }
-
-    addChild() {
-        this.children.push(this._fb.group(new ListNode()));
-    }
-
-    removeChild(i: number) {
-        this.children.removeAt(i);
     }
 
     // build form validation messages
@@ -166,7 +154,7 @@ export class EditNodeInfoComponent implements OnChanges {
         this.ngOnChanges();
     }
 
-    saveNode(listNodeInfo: ListNodeInfo) {
+    saveNode(listNodeInfo: ListNodeInfo) { //the service for this is not ready yet
         this.submitted = true; // set form submit to true
         // check if model is valid
         // if valid, call API to save customer
@@ -174,14 +162,7 @@ export class EditNodeInfoComponent implements OnChanges {
         location.reload();
     }
 
-
     delNode() {
-        console.log('tree node: ', this.dNode, 'tree', this.dTree);
-        // if (this.dNode.parent != null) {
-        //     this.dNode.parent.data.children.splice(this.dNode.parent.data.children.indexOf(this.dNode.data), 1)
-        //     this.dTree.treeModel.update()
-        // }
-
         const config = new MatDialogConfig();
 
         config.data = {
@@ -195,8 +176,8 @@ export class EditNodeInfoComponent implements OnChanges {
 
         // after close;
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed', result);
-            console.log(config.data);
+            // console.log('The dialog was closed', result);
+            // console.log(config.data);
 
             if (config.data.answer === true) {
                 // if answer is true: remove the node

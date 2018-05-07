@@ -10,7 +10,6 @@
     <mat-expansion-panel class="full-width" [expanded]="true">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                <!--<span> {{ currentNode.name }} </span>-->
                 <span>{{ listNodeInfoForm.get('name').value }} </span>
             </mat-panel-title>
             <mat-panel-description>
@@ -38,55 +37,58 @@
             </mat-form-field>
 
             <!----Show children with no edit control--->
-            <mat-form-field class="full-width">
+            <mat-form-field> <!--number of children-->
                 <input matInput
                        [placeholder]=editLists.list.nodes.children
                        formControlName="numberOfChildren">
-                <div class="salsah-placeholder"  *ngIf="listNodeInfoForm.get('numberOfChildren').value > 0" formArrayName="children">
-                    <span>Children names:</span>
-                    <span *ngFor="let child of children.controls; let i=index"
-                          [formGroupName]="i">
-                        <div matPrefix> #{{i+1}}
-                            <span>{{child.get('name').value}}</span>
-                        </div>
+                </mat-form-field>
+            <mat-form-field *ngIf="listNodeInfoForm.get('children').length > 0"> <!--if there are children, show their names-->
+                <span formArrayName="children">
+                    <span *ngFor="let child of children.controls; let i=index" [formGroupName]="i">
+                        <input matInput
+                               [placeholder]=editLists.list.nodes.childName
+                               formControlName="name">
+                        <!--TODO this should be disabled, cannot find how to disable when it is a formArray, what is now in the ts is not working | I also want the node names to appear next to each other in a row, separated by commas or semicolumns -->
                     </span>
-                </div>
+                </span>
             </mat-form-field>
 
-            <!-----Show + add + remove children, edit names ------>
+            <!-------Show + add + remove children, edit names:  This is deprecated because each node should be editable individually------->
             <!--<div *ngIf="listNodeInfoForm.get('numberOfChildren').value > 0" formArrayName="children">-->
-            <!--<mat-form-field class="full-width" *ngFor="let child of children.controls; let i=index"-->
-            <!--[formGroupName]="i">-->
-            <!--<span matPrefix>#{{i+1}} &nbsp;</span>-->
-            <!--<input matInput-->
-            <!--[placeholder]=editLists.list.nodes.childName-->
-            <!--formControlName="name">-->
-            <!--&lt;!&ndash;{{child.get('name').value}}&ndash;&gt;-->
-            <!--<button mat-button matSuffix mat-icon-button aria-label="Clear" disabled (click)="removeChild(i)">-->
-            <!--<mat-icon>close</mat-icon>-->
-            <!--</button>-->
-            <!--</mat-form-field>-->
+                <!--<mat-form-field class="full-width" *ngFor="let child of children.controls; let i=index"-->
+                                <!--[formGroupName]="i">-->
+                    <!--<span matPrefix>#{{i+1}} &nbsp;</span>-->
+                    <!--<input matInput-->
+                           <!--[placeholder]=editLists.list.nodes.childName-->
+                           <!--formControlName="name">-->
+                    <!--&lt;!&ndash;{{child.get('name').value}}&ndash;&gt;-->
+                    <!--<button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeChild(i)">-->
+                        <!--<mat-icon>close</mat-icon>-->
+                    <!--</button>-->
+                <!--</mat-form-field>-->
             <!--</div>-->
             <!--<mat-action-row>-->
-            <!--<button mat-button-->
-            <!--color="primary"-->
-            <!--(click)="addChild()">-->
-            <!--{{editLists.buttons.addChild}}-->
-            <!--</button>-->
+                <!--<button mat-button-->
+                        <!--color="primary"-->
+                        <!--(click)="addChild()">-->
+                    <!--{{editLists.buttons.addChild}}-->
+                <!--</button>-->
             <!--</mat-action-row>-->
 
-            <!--Tree Info: {{node}} {{tree}}-->
-            <!--<salsah-lists-list (deleteNodeEvent)="receiveTreeInfo($event, $event)"></salsah-lists-list>-->
+
             <mat-form-field class="full-width">
                 <input matInput
                        [placeholder]=editLists.list.nodes.level
                        formControlName="level">
             </mat-form-field>
-            <mat-form-field class="full-width">
-                <input matInput
-                       [placeholder]=editLists.list.nodes.position
-                       formControlName="position">
-            </mat-form-field>
+            <!-- Node position is handled by the drag and drop, so we don't need to show it here-->
+            <!--<mat-form-field class="full-width">-->
+                <!--<input matInput-->
+                       <!--[placeholder]=editLists.list.nodes.position-->
+                       <!--formControlName="position">-->
+            <!--</mat-form-field>-->
+
+            <!-- Here are all the buttons for revert, delete and save-->
             <mat-action-row>
                 <button mat-button mat-dialog-close
                         class="save-button"

@@ -3,8 +3,13 @@ img {
   display: block;
   max-height: 120px;
   object-fit: contain;
-//  margin-left: auto;
-//  margin-right: auto;
+  //  margin-left: auto;
+  //  margin-right: auto;
   padding-bottom: 48px;
   width: 100%;
+}
+
+.salsah-profile-header {
+  display: flex;
+  flex-direction: row;
 }

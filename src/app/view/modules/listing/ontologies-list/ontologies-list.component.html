@@ -6,7 +6,23 @@
 
     <div *ngIf="numberOfItems > 0; else noData">
         <div *ngFor="let item of ontologiesList">
+            <div class="salsah-list-toolbar">
+                    <span class="salsah-list-title">
+                        <h4 class="salsah-sub-header">{{item}}</h4>
+                    </span>
+                <span class="fill-remaining-space"></span>
+                <span class="salsah-list-action">
+                    <!--
+                    <salsah-sort-button [sortProps]="sortProps"
+                                        [(sortKey)]="sortKey">
+                    </salsah-sort-button>
+                    -->
+                </span>
+            </div>
+
+
             <h3>{{item}}</h3>
+
 
             <!-- an ontology has a list of resource types -->
             <salsah-resource-types-list [restrictedBy]="item"></salsah-resource-types-list>
