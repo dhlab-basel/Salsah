@@ -13,6 +13,7 @@
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
+import {BasicOntology, PropertyObject, ResourceClass} from '../../../../model/test-data/basic-ontology';
 
 @Component({
     selector: 'salsah-ontology-form',
@@ -34,11 +35,126 @@ export class OntologyFormComponent implements OnInit {
 
     isLoading: boolean = true;
 
+    direction: string = 'horizontal'
+
+    isDisabled: boolean = false
+    useTransition: boolean = true
+    areas = [
+        {size: 20, order: 1, content: 'Ontologies'},
+        {size: 40, order: 2, content: 'Resource Classes'},
+        {size: 40, order: 3, content: 'Properties'},
+    ]
+
+    // result to send to the server
+    newResource: ResourceClass = new ResourceClass();
+
+
+    public createOntologyLabels: any = {
+        label: 'Ontology',
+        resource: {
+            label: 'Resource label',
+            description: 'Resource description',
+            icon: 'Resource icon',
+        },
+        addProp: {
+            select:'Select a property',
+            label: 'Create new property',
+            description: 'Create a custom property',
+            gui: 'GUI element',
+            attributes: 'GUI attributes',
+            id: 'Property ID',
+            occurrence: 'Occurrence',
+            valuetype_id: 'Value type ID',
+            vocabulary: 'Vocabulary',
+            icon: 'Icon'
+        },
+        buttons: {
+            save: 'Save',
+            reset: 'Reset',
+            close: 'Close',
+            edit: 'Edit',
+            skip: 'Skip',
+            next: 'Next',
+            add: 'Add'
+        }
+    };
+
+    guiItems: string[] = [
+        'text',
+        'richtext',
+        'textarea',
+        'number',
+        'searchbox',
+        'fileupload',
+        'date',
+        'radio',
+        'hlist',
+        'pulldown',
+        'spinbox',
+        'richtext',
+        'checkbox',
+        'interval',
+        'colorpicker',
+        'geometry'
+    ];
+
+    cardinalityList: string[] = [
+        '1',
+        '1-n',
+        '0-1',
+        '0-n'
+    ];
+
+    gutterClick(e: {gutterNum: number, sizes: Array<number>}) {
+        if(e.gutterNum === 1) {
+            if(this.areas[0].size > 0) {
+                this.areas[1].size += this.areas[0].size;
+                this.areas[0].size = 0;
+            }
+            else if(this.areas[1].size > 25) {
+                this.areas[1].size -= 25;
+                this.areas[0].size = 25;
+            }
+            else {
+                this.areas[0].size = 25;
+                this.areas[1].size = 50;
+                this.areas[2].size = 25;
+            }
+        }
+        else if(e.gutterNum === 2) {
+            if(this.areas[2].size > 0) {
+                this.areas[1].size += this.areas[2].size;
+                this.areas[2].size = 0;
+            }
+            else if(this.areas[1].size > 25) {
+                this.areas[1].size -= 25;
+                this.areas[2].size = 25;
+            }
+            else {
+                this.areas[0].size = 25;
+                this.areas[1].size = 50;
+                this.areas[2].size = 25;
+            }
+        }
+    }
+
+    dragEnd(e: {gutterNum: number, sizes: Array<number>}) {
+        this.areas[0].size = e.sizes[0];
+        this.areas[1].size = e.sizes[1];
+        this.areas[2].size = e.sizes[2];
+    }
+
+
+
     constructor() {
     }
 
     ngOnInit() {
         this.isLoading = false;
+
+
+
+
     }
 
 }
