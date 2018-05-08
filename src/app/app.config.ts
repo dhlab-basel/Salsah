@@ -210,6 +210,8 @@ export class AppConfig {
     public static geonameSimple = AppConfig.KnoraApiV2SimplePath + 'Geoname';
     public static fileSimple = AppConfig.KnoraApiV2SimplePath + 'File';
 
+    public static matchFunction = AppConfig.KnoraApiV2SimplePath + "match";
+
     public static GNDPrefix = '(DE-588)';
     public static GNDResolver = 'http://d-nb.info/gnd/';
 

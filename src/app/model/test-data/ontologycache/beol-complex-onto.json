@@ -2287,7 +2287,7 @@
                 "knora-api:isEditable" : true,
                 "knora-api:isLinkProperty" : true,
                 "knora-api:isResourceProperty" : true,
-                "knora-api:objectType" : "http://0.0.0.0:3333/ontology/biblio/v2#EditedBook",
+                "knora-api:objectType" : "http://0.0.0.0:3333/ontology/0802/biblio/v2#EditedBook",
                 "knora-api:subjectType" : "http://0.0.0.0:3333/ontology/0801/beol/v2#publishedLetter",
                 "salsah-gui:guiElement" : "http://api.knora.org/ontology/salsah-gui/v2#Searchbox",
                 "rdfs:comment" : "Letter is published in",
@@ -2764,6 +2764,6 @@
         "p0801-beol" : "http://0.0.0.0:3333/ontology/0801/beol/v2#",
         "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
         "xsd" : "http://www.w3.org/2001/XMLSchema#",
-        "biblio" : "http://0.0.0.0:3333/ontology/biblio/v2#"
+        "biblio" : "http://0.0.0.0:3333/ontology/0802/biblio/v2#"
     }
 }
