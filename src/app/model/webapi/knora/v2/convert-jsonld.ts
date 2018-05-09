@@ -266,7 +266,7 @@ export module ConvertJSONLD {
                 let listValue: ReadListValue = new ReadListValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.listValueAsListNode],
+                    propValue[AppConfig.listValueAsListNode]['@id'],
                     propValue[AppConfig.listValueAsListNodeLabel]
                 );
 
