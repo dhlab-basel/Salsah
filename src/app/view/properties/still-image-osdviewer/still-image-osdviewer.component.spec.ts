@@ -144,10 +144,10 @@ function createTestRegionRectangle() {
               "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget":{
                 "@id":"http://data.knora.org/9d626dc76c03",
                 "@type":"http://api.knora.org/ontology/incunabula/v2#page",
-                "http://schema.org/name":"u1r"
+                "http://www.w3.org/2000/01/rdf-schema#label":"u1r"
               }
             },
-            "http://schema.org/name":"Derselbe Holzschnitt wird auf Seite c5v verwendet."
+            "http://www.w3.org/2000/01/rdf-schema#label":"Derselbe Holzschnitt wird auf Seite c5v verwendet."
           },
           "http://schema.org/numberOfItems":1
         }
@@ -186,10 +186,10 @@ function createTestRegionPolygon() {
               "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget":{
                 "@id":"http://data.knora.org/3a757e9e3003",
                 "@type":"http://api.knora.org/ontology/incunabula/v2#page",
-                "http://schema.org/name":"c5v"
+                "http://www.w3.org/2000/01/rdf-schema#label":"c5v"
               }
             },
-            "http://schema.org/name":"Derselbe Holzschnitt wird auf Seite u1r verwendet."
+            "http://www.w3.org/2000/01/rdf-schema#label":"Derselbe Holzschnitt wird auf Seite u1r verwendet."
           },
           "http://schema.org/numberOfItems":1
         }
@@ -227,10 +227,10 @@ function createTestRegionCircle() {
               "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget":{
                 "@id":"http://data.knora.org/1a01fe39e701",
                 "@type":"http://api.knora.org/ontology/incunabula/v2#page",
-                "http://schema.org/name":"o6r"
+                "http://www.w3.org/2000/01/rdf-schema#label":"o6r"
               }
             },
-            "http://schema.org/name":"Kolorierung in Rot"
+            "http://www.w3.org/2000/01/rdf-schema#label":"Kolorierung in Rot"
           },
           "http://schema.org/numberOfItems":1
         }
@@ -275,10 +275,10 @@ function createTestRegionMulti() {
              "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget": {
                "@id": "http://data.knora.org/9ee8aa313503",
                "@type": "http://api.knora.org/ontology/incunabula/v2#page",
-               "http://schema.org/name": "d7v"
+               "http://www.w3.org/2000/01/rdf-schema#label": "d7v"
              }
            },
-           "http://schema.org/name": "TESTREGION JUNI"
+           "http://www.w3.org/2000/01/rdf-schema#label": "TESTREGION JUNI"
          },
          "http://schema.org/numberOfItems": 1
        }
