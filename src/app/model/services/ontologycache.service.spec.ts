@@ -6,7 +6,7 @@ import {
     Cardinality,
     CardinalityOccurrence,
     OntologyCacheService,
-    OntologyInformation,
+    OntologyInformation, Property,
     ResourceClass
 } from './ontologycache.service';
 import {OntologyService} from "./ontology.service";
@@ -237,6 +237,59 @@ describe('OntologyCacheService', () => {
 
     })));
 
+    it('should get an internal representation of a property from the cache', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
+
+        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(["http://0.0.0.0:3333/ontology/0801/beol/v2"]);
+
+        ontoResponseObs.subscribe(
+            (ontoRes: OntologyInformation) => {
+
+                const props = ontoRes.getProperties();
+
+                const commentExpected = new Property(
+                    'http://0.0.0.0:3333/ontology/0801/beol/v2#comment',
+                    'http://api.knora.org/ontology/knora-api/v2#TextValue',
+                    'Comment',
+                    'Comment',
+                    ['http://api.knora.org/ontology/knora-api/v2#hasComment'],
+                    true,
+                    false,
+                    false
+                );
+
+                expect(props['http://0.0.0.0:3333/ontology/0801/beol/v2#comment']).toEqual(commentExpected);
+
+                const sonExpected = new Property(
+                    'http://0.0.0.0:3333/ontology/0801/beol/v2#hasSon',
+                    'http://0.0.0.0:3333/ontology/0801/beol/v2#person',
+                    'Repräsentiert eine Vater-Sohn Beziehung',
+                    'has son',
+                    ['http://api.knora.org/ontology/knora-api/v2#hasLinkTo'],
+                    true,
+                    true,
+                    false
+                );
+
+                expect(props['http://0.0.0.0:3333/ontology/0801/beol/v2#hasSon']).toEqual(sonExpected);
+
+                const sonValueExpected = new Property(
+                    'http://0.0.0.0:3333/ontology/0801/beol/v2#hasSonValue',
+                    'http://api.knora.org/ontology/knora-api/v2#LinkValue',
+                    'Repräsentiert eine Vater-Sohn Beziehung',
+                    'has son',
+                    ['http://api.knora.org/ontology/knora-api/v2#hasLinkToValue'],
+                    true,
+                    false,
+                    true
+                );
+
+                expect(props['http://0.0.0.0:3333/ontology/0801/beol/v2#hasSonValue']).toEqual(sonValueExpected);
+
+            }
+        );
+
+
+    })));
 
 
     it('should convert and cache the Knora-API ontology complex',  async(inject([OntologyCacheService], (service: OntologyCacheService) => {
