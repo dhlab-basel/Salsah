@@ -4,38 +4,30 @@ import {ResourceService} from '../../../services/resource.service';
 import {ConvertJSONLD} from './convert-jsonld';
 import {ReadResourcesSequence} from './read-resources-sequence';
 import {ReadResource} from './read-resource';
-import {ReadDateValue, ReadLinkValue} from './read-property-item';
+import {ReadDateValue, ReadLinkValue, ReadListValue, ReadTextValueAsString} from './read-property-item';
 import {ReadProperties} from './read-properties';
 
 describe('ConvertJSONLD', () => {
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                AppModule
-            ],
-            providers: [ResourceService]
-        }).compileComponents();
-    }));
+    it('parse a JSON-LD document representing letter 176-O', async(() => {
 
-    it('parse a JSON-LD document representing letter 176-O', () => {
-
-        let jsonld = require('jsonld');
+        const jsonld = require('jsonld');
 
         const EulerLetter: any = require('../../../test-data/resources/EulerLetter_176-O.json');
 
-        let promises = jsonld.promises;
+        const promises = jsonld.promises;
         // compact JSON-LD using an empty context: expands all Iris
-        let promise = promises.compact(EulerLetter, {});
+        const promise = promises.compact(EulerLetter, {});
 
         promise.then((compacted) => {
 
-            const res: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+            const receivedResource: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
-            expect(res.numberOfResources).toEqual(1);
+            expect(receivedResource.numberOfResources).toEqual(1);
 
             const expectedProps: ReadProperties = {
-                'http://0.0.0.0:3333/ontology/0801/beol/v2#creationDate': [new ReadDateValue(
+                'http://0.0.0.0:3333/ontology/0801/beol/v2#creationDate': [
+                    new ReadDateValue(
                     'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/w3ZlkuU2T0-0DMrvW8HLJA',
                     'http://0.0.0.0:3333/ontology/0801/beol/v2#creationDate',
                     'GREGORIAN',
@@ -47,10 +39,89 @@ describe('ConvertJSONLD', () => {
                     1,
                     3,
                     3
-                )]
+                )],
+                'http://0.0.0.0:3333/ontology/0801/beol/v2#hasAuthorValue': [
+                    new ReadLinkValue(
+                        'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/-dzjDkhPRzy-9q0v7QtI7w',
+                        'http://0.0.0.0:3333/ontology/0801/beol/v2#hasAuthorValue',
+                        'http://rdfh.ch/biblio/QNWEqmjxQ9W-_hTwKlKP-Q',
+                        new ReadResource(
+                            'http://rdfh.ch/biblio/QNWEqmjxQ9W-_hTwKlKP-Q',
+                            'http://0.0.0.0:3333/ontology/0801/beol/v2#person',
+                            'Leonhard Euler',
+                            [],
+                            [],
+                            [],
+                            [],
+                            {}
+                        )
+                    )
+                ],
+                'http://0.0.0.0:3333/ontology/0801/beol/v2#hasRecipientValue': [
+                    new ReadLinkValue(
+                        'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/gkdrd8ZXQhucrNLXIf2-qw',
+                        'http://0.0.0.0:3333/ontology/0801/beol/v2#hasRecipientValue',
+                        'http://rdfh.ch/biblio/Yv2elBDtSMqoJeKRcxsW8A',
+                        new ReadResource(
+                            'http://rdfh.ch/biblio/Yv2elBDtSMqoJeKRcxsW8A',
+                            'http://0.0.0.0:3333/ontology/0801/beol/v2#person',
+                            'Christian Goldbach',
+                            [],
+                            [],
+                            [],
+                            [],
+                            {}
+                        )
+                    )
+                ],
+                'http://0.0.0.0:3333/ontology/0801/beol/v2#hasSubject': [
+                    new ReadListValue(
+                        'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/JpGklfqZSxuu7VI1zIyucw',
+                        'http://0.0.0.0:3333/ontology/0801/beol/v2#hasSubject',
+                        'http://rdfh.ch/lists/0801/other_quadratic_forms',
+                        'Other quadratic forms'
+                    ),
+                    new ReadListValue(
+                        'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/SiEBL-EASQSNeFBprbjY3A',
+                        'http://0.0.0.0:3333/ontology/0801/beol/v2#hasSubject',
+                        'http://rdfh.ch/lists/0801/berlin_academy',
+                        'Berlin Academy'
+                    ),
+                    new ReadListValue(
+                        'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/H4IZDQ1eS2WBrMhZRX-vkA',
+                        'http://0.0.0.0:3333/ontology/0801/beol/v2#hasSubject',
+                        'http://rdfh.ch/lists/0801/other_professional_tasks',
+                        'Other professional tasks'
+                    ),
+                    new ReadListValue(
+                        'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/MdjXlOTNRfqYKEWNIh6kfg',
+                        'http://0.0.0.0:3333/ontology/0801/beol/v2#hasSubject',
+                        'http://rdfh.ch/lists/0801/errands',
+                        'Errands'
+                    ),
+                    new ReadListValue(
+                        'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/rfao0tqnQTiYyLdlJrNF6w',
+                        'http://0.0.0.0:3333/ontology/0801/beol/v2#hasSubject',
+                        'http://rdfh.ch/lists/0801/book_trade_orders',
+                        'Book trade, orders'
+                    ),
+                    new ReadListValue(
+                        'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/_fCIiKjzRYqjXkEhykto5A',
+                        'http://0.0.0.0:3333/ontology/0801/beol/v2#hasSubject',
+                        'http://rdfh.ch/lists/0801/johann_albrecht_euler',
+                        'Johann Albrecht Euler'
+                    )
+                ],
+                'http://0.0.0.0:3333/ontology/0801/beol/v2#letterHasLanguage': [
+                    new ReadTextValueAsString(
+                        'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/ilKXhfZnS9uAYDNQzi6m8Q',
+                        'http://0.0.0.0:3333/ontology/0801/beol/v2#letterHasLanguage',
+                        'German'
+                    )
+                ]
             };
 
-            const EulerLetterResource = new ReadResource(
+            const EulerLetterResourceExpected = new ReadResource(
                 'http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w',
                     'http://0.0.0.0:3333/ontology/0801/beol/v2#letter',
                     'L176-O',
@@ -61,17 +132,23 @@ describe('ConvertJSONLD', () => {
                 expectedProps
             );
 
+            expect(receivedResource.resources[0].id).toEqual(EulerLetterResourceExpected.id);
 
-            expect(res.resources[0].id).toEqual(EulerLetterResource.id);
+            expect(receivedResource.resources[0].type).toEqual(EulerLetterResourceExpected.type);
 
-            expect(res.resources[0].type).toEqual(EulerLetterResource.type);
+            expect(receivedResource.resources[0].label).toEqual(EulerLetterResourceExpected.label);
 
-            expect(res.resources[0].label).toEqual(EulerLetterResource.label);
+            expect(receivedResource.resources[0].properties['http://0.0.0.0:3333/ontology/0801/beol/v2#creationDate']).toEqual(EulerLetterResourceExpected.properties['http://0.0.0.0:3333/ontology/0801/beol/v2#creationDate']);
 
-            expect(res.resources[0].properties['http://0.0.0.0:3333/ontology/0801/beol/v2#creationDate']).toEqual(EulerLetterResource.properties['http://0.0.0.0:3333/ontology/0801/beol/v2#creationDate']);
+            expect(receivedResource.resources[0].properties['http://0.0.0.0:3333/ontology/0801/beol/v2#hasAuthorValue']).toEqual(EulerLetterResourceExpected.properties['http://0.0.0.0:3333/ontology/0801/beol/v2#hasAuthorValue']);
 
+            expect(receivedResource.resources[0].properties['http://0.0.0.0:3333/ontology/0801/beol/v2#hasRecipientValue']).toEqual(EulerLetterResourceExpected.properties['http://0.0.0.0:3333/ontology/0801/beol/v2#hasRecipientValue']);
+
+            expect(receivedResource.resources[0].properties['http://0.0.0.0:3333/ontology/0801/beol/v2#hasSubject']).toEqual(EulerLetterResourceExpected.properties['http://0.0.0.0:3333/ontology/0801/beol/v2#hasSubject']);
+
+            expect(receivedResource.resources[0].properties['http://0.0.0.0:3333/ontology/0801/beol/v2#letterHasLanguage']).toEqual(EulerLetterResourceExpected.properties['http://0.0.0.0:3333/ontology/0801/beol/v2#letterHasLanguage']);
 
         });
-    });
+    }));
 
 });
