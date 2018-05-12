@@ -1,117 +1,35 @@
-# Salsah Documentation Generation #
+# Landing Page Jekyll theme
 
-## 1 Install Python 3 ##
+Jekyll theme based on [landing-page bootstrap theme ](http://startbootstrap.com/templates/landing-page/)
 
-On Mac OS X:
+## How to use
+ - Place a image in `/img/services/`
+ - Create posts to display your services. Use the follow as an example:
 
-```
-$ brew install python3
-```
-
-On Linux, use your distribution's package manager, or see [the Python web site](https://www.python.org).
-
-## 2 Installing Sphinx ##
-
-### 2.1 Globally ###
-
-```
-$ pip3 install sphinx
+```txt
+---
+layout: default
+img: ipad.png
+category: Services
+title: The service title
+---
+The description of this service
 ```
 
-### 2.2 In a separate environment ###
-To create your own environment, run inside the docs folder:
+## Demo
+View this jekyll theme in action [here](https://swcool.github.io/landing-page-theme)
 
-```
-$ python3 -m venv env
-```
+## Screenshot
+![screenshot](https://raw.githubusercontent.com/swcool/landing-page-theme/master/img/screenshot.png)
 
-**Remark for Anaconda users on Mac OS and Linux**
+===
 
-Anaconda3/2 for Linux and Mac OS do not have ensurepip installed.
-So instead of running pyvenv env, you can first run pyvenv env --without-pip, then download the get-pip.py from [pip's homepage](https://pip.pypa.io/en/stable/installing/#installing-with-get-pip-py), and install the pip in activated env venv.
+For more Jekyll details, read [documentation](http://jekyllrb.com/).
+This Jekyll theme used [Freelancer Jekyll theme](https://github.com/jeromelachaud/freelancer-theme/) as reference.
 
-To create virtual environment without pip, run inside  doc folder:
+## License
+The contents of this repository are licensed under the [Apache
+2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
-```
-$ pyvenv env --without-pip
-```
-
-Activating the env:
-
-```
-$ source ./env/bin/activate
-```
-
-Install pip in your venv, run inside the env folder:
-
-```
-$ python ~/Downloads/get-pip.py
-```
-
-Now you can continue with pip commands below   
-
-Then, each developer will set up their own virtualenv and run:
-
-```
-$ ./env/bin/pip install -r requirements.txt
-```
-
-To activate the environment, do:
-
-```
-$ source ./env/bin/activate
-```
-
-To generate a "requirements" file (usually requirements.txt), that you commit with your project, do:
-
-```
-$ ./env/bin/pip freeze > requirements.txt
-```
-
-## 3 Install Graphviz ##
-
-You will need [Graphviz](http://www.graphviz.org/). On Mac OS X:
-
-```
-$ brew install graphviz
-```
-
-On Linux, use your distribution's package manager.
-
-## 4 Generating Documentation ##
-
-### 4.1 Bulding the Documentation ###
-
-Inside the docs folder type for the html documentation type
-
-```
-$ make html
-```
-
-or
-
-```
-$ make latex
-$ make latexpdf
-```
-
-for generating a PDF. If there are errors during the latex compilation, skip them with 'R'. Also, run ```make latex``` a
-few times, so that the index is properly generated.
-
-The generated documentation can be found under  ```_build/latex```
-
-### 4.2 Problems with Locales ###
-
-Error message when trying to generate the documentation:
-
-```
-ValueError: unknown locale: UTF-8
-```
-
-Set the locales as environment variables (e.g. in ~/.bash_profile):
-
-```
-export LC_ALL=de_CH.UTF-8
-export LANG=de_CH.UTF-8
-```
-
+## Version
+1.0.1
