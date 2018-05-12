@@ -10,7 +10,7 @@ It is developed by the [Digital Humanities Lab](http://www.dhlab.unibas.ch/) at 
 
 Salsah is [free software](http://www.gnu.org/philosophy/free-sw.en.html), released under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.en.html).
 
-The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.5.4 (will be updated from time to time!)
+The project was generated with [angular-cli](https://github.com/angular/angular-cli).
 
 You find more information about Salsah on: 
 
@@ -25,7 +25,7 @@ If you're a developer and you want to improve the app, please have a look at the
 
 ### Prerequisites
 
-We develop the Salsah app with Angular (v4), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) 6.9.0 or higher and [NPM](https://www.npmjs.com) 3 or higher. Btw we're using [yarn](https://yarnpkg.com/en/docs/cli/install) to install the node packages. As a Salsah developer we recommend to use Yarn instead of npm!
+We develop the Salsah app with Angular (v5), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) (version >=4 <=9 6.9.0) and [NPM](https://www.npmjs.com) or [yarn](https://yarnpkg.com/en/docs/cli/install). We recommend to use Yarn instead of npm!
 
 **Install [angular-cli](https://github.com/angular/angular-cli) globally**
 
