@@ -164,7 +164,10 @@ export module ConvertJSONLD {
 
             case AppConfig.DecimalValue:
 
-                let decimalValue = new ReadDecimalValue(propValue['@id'], propIri, propValue[AppConfig.decimalValueAsDecimal]);
+                // a decimal value is represented as a string in order to preserve its precision
+                const decVal: number = parseFloat(propValue[AppConfig.decimalValueAsDecimal]);
+
+                let decimalValue = new ReadDecimalValue(propValue['@id'], propIri, decVal);
                 valueSpecificProp = decimalValue;
 
                 break;
@@ -250,11 +253,15 @@ export module ConvertJSONLD {
 
             case AppConfig.IntervalValue:
 
+                // represented as strings to preserve precision
+                const intStart = parseFloat(propValue[AppConfig.intervalValueHasStart]);
+                const intEnd = parseFloat(propValue[AppConfig.intervalValueHasEnd]);
+
                 let intervalValue: ReadIntervalValue = new ReadIntervalValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.intervalValueHasStart],
-                    propValue[AppConfig.intervalValueHasEnd]
+                    intStart,
+                    intEnd
                 );
 
                 valueSpecificProp = intervalValue;
