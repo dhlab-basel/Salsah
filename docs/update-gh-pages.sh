@@ -11,47 +11,42 @@
 
 set -e
 
-TMP_HTML="/tmp/salsah-html" # The temporary directory where we store built HTML.
+TMP_HTML="/tmp/salsah-docs" # The temporary directory where we store the docs.
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) # The current git branch.
 
 if [ "$CURRENT_BRANCH" != "develop" ]
 then
     echo "Current branch is $CURRENT_BRANCH, not develop"
-    exit 1
+#    exit 1
 fi
 
-# Build the HTML docs.
-
-make html
-#make jsonformat
-
-# Copy the built HTML docs to a temporary directory.
+# Copy the jekyll docs content to a temporary directory.
 
 rm -rf $TMP_HTML
 mkdir $TMP_HTML
-cp -R _build/html $TMP_HTML/guidelines
-
-# Copy the search html file to an index
-
-cp _build/html/search.html $TMP_HTML/guidelines/index.html
-
+cp -R jekyll/_docs $TMP_HTML/
+cp -R jekyll/_posts $TMP_HTML/
+cp -R jekyll/assets $TMP_HTML/
+cp -R jekyll/_config.yml $TMP_HTML/
 
 # Switch to the gh-pages branch and remove the existing HTML docs from it.
 
 git checkout gh-pages
-git rm -rf ../documentation/guidelines
+git rm -rf ../_docs
+git rm -rf ../_posts
+git rm -rf ../_assets
+git rm -rf ../_config.yml
 
 # Move the new docs from the temporary directory into the git repository tree.
 
-mv $TMP_HTML/ ../documentation
+mv $TMP_HTML/* ../
 
 # Commit the changes to the gh-pages branch, and push to origin.
 
-git add ../documentation/guidelines
-git commit -m "Update documentation on gh-pages"
-git push origin gh-pages
+git add ../_docs ../_posts ../assets ../_config.yml
+# git commit -m "Update documentation on gh-pages"
+# git push origin gh-pages
 
 # Switch back to the develop branch, and remove the leftover documentation directory.
 
-git checkout develop
-rm -rf ../documentation
+# git checkout develop
