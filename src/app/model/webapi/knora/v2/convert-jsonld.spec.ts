@@ -295,4 +295,25 @@ describe('ConvertJSONLD', () => {
         });
     }));
 
+    it('parse a JSON-LD document representing a list of resources', async(() => {
+
+        const jsonld = require('jsonld');
+
+        const resultsForEuler: any = require('../../../test-data/resources/SearchResultEuler.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(resultsForEuler, {});
+
+        promise.then((compacted) => {
+
+            const receivedResource: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+            expect(receivedResource.numberOfResources).toEqual(25);
+
+            expect(receivedResource.resources.length).toEqual(25);
+
+        });
+    }));
+
 });
