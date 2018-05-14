@@ -1,5 +1,5 @@
 ---
-title: Install
+title: Start the app
 category: Getting Started
 order: 2
 ---

@@ -12,13 +12,13 @@ logo: /assets/images/salsah-logo-white.png
 description: System for Annotation and Linkage of Sources in Arts and Humanities (Salsah) — the generic user interface for Knora
 author:
   name: Digital Humanities Lab, University of Basel
+  url: http://dhlab.unibas.ch
   email: info@knora.org
   twitter: DHLabBasel
-social:
-  name: Salsah Documentation
+git:
+  name: github
   title: GitHub
-  links:
-    - https://github.com/dhlab-basel/Salsah
+  url: https://github.com/dhlab-basel/Salsah
 
 # -----
 # Build

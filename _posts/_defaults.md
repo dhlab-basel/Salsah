@@ -1,9 +1,9 @@
 ---
 title:
-type: major
+type: major || minor || pre-release
 ---
 
-This release introduces
+See the [release](https://github.com/dhlab-basel/Salsah/releases/tag/) on Github.
 
 **Features:**
 

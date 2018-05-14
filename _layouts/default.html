@@ -83,10 +83,25 @@
                 <a href="{{ site.baseurl }}/releasenotes/">{{ releasenotes.title }}</a>
             </li>
         </ul>
+
+        <ul>
+            <li class="nav-item top-level">
+                <a href="{{site.git.url}}" target="_blank">Preview on {{site.git.title}}</a>
+            </li>
+        </ul>
     </nav>
+
+    <footer>
+        {{ "now" | date: "%Y" }} &copy; <a href="{{site.author.url}}" target="_blank">{{site.author.name}}</a>
+    </footer>
 </header>
 
 <section class="main">
+    <div class="github button fix-position">
+        <a href="{{site.git.url}}" target="_blank">
+            <button>Preview on {{site.git.title}}</button>
+        </a>
+    </div>
     <div class="page-header">
         <h2>{% if page.category %}{{ page.category }}{% else %}{{ site.title }}{% endif %}</h2>
         <h3>{{ page.title }}</h3>

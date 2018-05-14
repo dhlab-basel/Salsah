@@ -32,6 +32,41 @@ body {
     z-index: -1;
   }
 
+  footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.075);
+    color: rgba($body-background-color, .5);
+    font-size: x-small;
+    text-align: center;
+    padding: $space / 2 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    a {
+      color: rgba($body-background-color, .5);
+      text-decoration: none;
+    }
+
+  }
+
+  .button.github {
+
+    &.fix-position {
+      position: absolute;
+      right: 24px;
+      top: 24px;
+    }
+
+    button {
+      background: rgb(96,125,139);
+      color: #fff;
+      font-family: "Open Sans", sans-serif;
+      border-radius: 4px;
+      padding: 0 12px;
+
+    }
+  }
+
   @media (min-width: $mobile-break) {
     padding: 0 0 0 $nav-width;
 
@@ -400,12 +435,18 @@ h4 svg {
   padding: 2px 5px;
   text-transform: uppercase;
   font-size: 0.8rem;
-  border-radius: 2px;
+  border-radius: 4px;
   background: #eee;
   font-weight: bold;
 
   &.major {
     background: $brand-colour;
+    color: #fff;
+  }
+
+  &.pre-release {
+//    border: 1px solid #f06a33;
+    background: #f06a33;
     color: #fff;
   }
 }
