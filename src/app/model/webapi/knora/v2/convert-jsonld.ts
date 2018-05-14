@@ -52,7 +52,7 @@ export module ConvertJSONLD {
         return new ReadResource(
             resourceJSONLD['@id'],
             resourceJSONLD['@type'],
-            resourceJSONLD[AppConfig.schemaName],
+            resourceJSONLD[AppConfig.RdfsLabel],
             [],
             [],
             [],
@@ -266,7 +266,7 @@ export module ConvertJSONLD {
                 let listValue: ReadListValue = new ReadListValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.listValueAsListNode],
+                    propValue[AppConfig.listValueAsListNode]['@id'],
                     propValue[AppConfig.listValueAsListNodeLabel]
                 );
 
@@ -315,7 +315,7 @@ export module ConvertJSONLD {
 
         let propNames = Object.keys(resourceJSONLD);
         // filter out everything that is not a Knora property name
-        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConfig.schemaName);
+        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConfig.RdfsLabel);
 
         let properties: ReadProperties = {};
 
@@ -403,7 +403,7 @@ export module ConvertJSONLD {
 
         let propNames = Object.keys(resourceJSONLD);
         // filter out everything that is not a Knora property name
-        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConfig.schemaName);
+        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConfig.RdfsLabel);
 
         let referredResourceClasses = [];
 
