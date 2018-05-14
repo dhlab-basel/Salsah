@@ -60,14 +60,15 @@
                                     [iri]="data.iri">
         </salsah-edit-resource-class>
 
-        <!-- create new / edit lists class -->
-        <salsah-edit-node-info *ngSwitchCase="'nodeInfo'"
+        <!-- create new / edit list node -->
+        <salsah-node-form *ngSwitchCase="'nodeInfo'"
                                [nodeIri]="data.iri"
                                [currentNode]="data.currentNodes"
                                [dNode]="data.delNode"
                                [dTree]="data.delTree">
-        </salsah-edit-node-info>
+        </salsah-node-form>
 
+        <!-- create new / edit lists class -->
         <salsah-list-form *ngSwitchCase="'list'"
                                [listIri]="data.iri"
                                [currentListInfo]="data.currentListInfo">

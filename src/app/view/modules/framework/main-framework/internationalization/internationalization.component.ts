@@ -12,11 +12,9 @@ import {LanguageService} from '../../../../../model/services/language.service';
 export class InternationalizationComponent implements OnInit, OnDestroy {
 
     localStorage: any;
-    langString: string;
+    selectedLang: string;
     lang: Array<any>;
     subscription: Subscription;
-    browserLang: string = 'en';
-
 
     constructor(public translate: TranslateService,
                 public _langService: LanguageService) {
@@ -31,18 +29,18 @@ export class InternationalizationComponent implements OnInit, OnDestroy {
         translate.addLangs(['de', 'en']);
         translate.setDefaultLang('en');
 
-        this.browserLang = translate.getBrowserLang();
-        translate.use(this.browserLang.match(/en|de/) ? this.browserLang : 'en');
+        this.selectedLang = translate.getBrowserLang();
+        translate.use(this.selectedLang.match(/en|de/) ? this.selectedLang : 'en');
         // console.log('BrowserLang: ' + this.browserLang);
-        this._langService.setLanguage(this.browserLang);
+        this._langService.setLanguage(this.selectedLang);
 
     }
 
-    setLanguage(event: any, langSelect: string) {
-        this.translate.use(langSelect);
+    setLanguage(language: string) {
+        this.translate.use(language);
         // localStorage.setItem('lang', langSelect);
-        this.langString = langSelect;
-        this._langService.setLanguage(langSelect);
+        this.selectedLang = language;
+        this._langService.setLanguage(language);
         // console.log('langSelect, i18n: ' + langSelect);
     }
 

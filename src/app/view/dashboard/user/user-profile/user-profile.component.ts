@@ -29,7 +29,7 @@ export class UserProfileComponent implements OnInit {
     developerInfo: MessageData = {
         status: 304,
         statusMsg: 'User profile dashboard',
-        statusText: 'TODO: What should be in the user\'s dashboard? List of last edited instances? Social network?',
+        statusText: 'TODO: What should be in the user\'s dashboard? List of last edited instances? Social network? List of Projects!?',
         route: 'dashboard/user/user-profile/'
     };
 

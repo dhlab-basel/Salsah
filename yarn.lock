@@ -303,10 +303,6 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@ngx-translate/http-loader/-/http-loader-2.0.1.tgz#aa67788e64bfa8652691a77b022b3b4031209113"
 
-"@salsah/progress-indicator@^1.0.0-beta.3":
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@salsah/progress-indicator/-/progress-indicator-1.0.0-beta.3.tgz#8c7d5b80b54f7b1caeb2a9e2fca75aeda9364c60"
-
 "@schematics/angular@0.1.17":
   version "0.1.17"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-0.1.17.tgz#084a7cbe2de6f94a856bd08d95c9d35ef8905e2b"

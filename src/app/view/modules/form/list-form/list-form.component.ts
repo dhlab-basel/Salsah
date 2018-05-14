@@ -17,12 +17,11 @@ import {Project} from '../../../../model/webapi/knora/';
 })
 export class ListFormComponent implements OnChanges {
 
-    // the lsit-form can be used to create new lists or to edit existing list info
+    // the list-form can be used to create new lists or to edit existing list info
     // it can have an attribute called iri which opens the edit form
     // otherwise the form is empty to create new list
     @Input() listIri?: string;
     @Input() currentListInfo: ListInfo;
-
     // project data:
     // project admin case: restrictedBy is the iri of the project
     // in this case, the project admin is allowed to add a new or edit a list in this project
@@ -33,13 +32,10 @@ export class ListFormComponent implements OnChanges {
 
     listInfoErrorMessage: ApiServiceError = undefined;
 
-    // language: string ;
-    arrayLength: number;
 
-    allProjects: Project[] = [];
+    allProjects: Project[] = []; //To be used mainly for selecting which project the list should belongs. Currently disabled
 
-
-    public editLists: any = {
+    public editLists: any = {       //To use for all text in the html, so that translation will be easier when more languages are supported
         label: 'List',
         description: 'Click on the fields to edit',
         list: {
@@ -60,7 +56,6 @@ export class ListFormComponent implements OnChanges {
             }
         },
         add: 'Create new list',
-
         buttons: {
             save: 'Save',
             reset: 'Reset',
@@ -107,26 +102,23 @@ export class ListFormComponent implements OnChanges {
     }
 
     ngOnChanges() {
-        this.buildListInfoForm();
-        if (this.listIri) {
-            console.log('labels: ', this.currentListInfo.labels);
+        this.buildListInfoForm(); //build the form
+        if (this.listIri) { //check if the list exists to get the labels adn comments
             this.setLabels(this.currentListInfo.labels);
             this.setComments(this.currentListInfo.comments);
         }
-        this.getProjects();
+        this.getProjects(); // get projects - the feature of selecting a different project to which the list belongs is currently disabled
     }
 
-    buildListInfoForm() {
-        if (this.listIri) {
+    buildListInfoForm() { //build a reactive form to edit the list fields
+        if (this.listIri) { //if the list exists, get the filed with the list info
             this.listInfoForm = this._fb.group({
                 id: new FormControl({value: this.currentListInfo.id, disabled: true}),
                 belongsToProject: [this.currentListInfo.projectIri, Validators.required],
                 labels: this._fb.array([this.buildLabelsGroup()]),
                 comments: this._fb.array([this.buildCommentsGroup()])
             });
-            console.log('iri in form: ', this.currentListInfo.id);
-            console.log('list info: ', this.currentListInfo);
-        } else {
+        } else { //if the list does not exist make a form with empty fields
             this.listInfoForm = this._fb.group({
                 id: '',
                 belongsToProject: ['', Validators.required],
@@ -141,6 +133,7 @@ export class ListFormComponent implements OnChanges {
             .subscribe(data => this.onValueChanged(data));
     }
 
+    //There can be labels in several languages so we make a FormGroup of labels
     buildLabelsGroup(): FormGroup {
         return this._fb.group({
             value: ['', Validators.required],
@@ -148,6 +141,7 @@ export class ListFormComponent implements OnChanges {
         });
     }
 
+    //There can be comments in several languages so we make a FormGroup of comments
     buildCommentsGroup(): FormGroup {
         return this._fb.group({
             value: '',
@@ -175,54 +169,46 @@ export class ListFormComponent implements OnChanges {
         }
     }
 
+    //Since we can have labels and comments in many languages we need to make arrays for them
     get labels(): FormArray {
         return this.listInfoForm.get('labels') as FormArray;
     }
-
     get comments(): FormArray {
         return this.listInfoForm.get('comments') as FormArray;
     }
-
     setLabels(labels: StringLiteralV2[]) {
-        console.log('setLabels: ', labels);
         const labelFGs = labels.map(label => this._fb.group(label));
         const labelFormArray = this._fb.array(labelFGs);
         this.listInfoForm.setControl('labels', labelFormArray);
     }
-
     setComments(comments: StringLiteralV2[]) {
-        console.log('setComments: ', comments);
         const commentFGs = comments.map(comment => this._fb.group(comment));
         const commentFormArray = this._fb.array(commentFGs);
         this.listInfoForm.setControl('comments', commentFormArray);
     }
-
-    revertListInfo(cList: ListInfo) {
-        this.ngOnChanges();
-    }
-
     addLabel() {
         this.labels.push(this.buildLabelsGroup());
     }
-
     addComment() {
         this.comments.push(this.buildCommentsGroup());
     }
-
     removeLabel(i: number) {
         this.labels.removeAt(i);
     }
-
     removeComment(i: number) {
         this.comments.removeAt(i);
     }
 
+    //reset list values to original
+    revertListInfo(cList: ListInfo) {
+        this.ngOnChanges();
+    }
+
+    //save new values
     saveListInfo() {
         this.submitted = true; // set form submit to true
 
-        if (this.listIri) {
-            console.log('save edited list:', this.listInfoForm.value);
-            console.log('id:', this.currentListInfo.id);
+        if (this.listIri) { //if the list already exists use the update list service to save the new values
             const payload: ListInfoUpdatePayload = {
                 listIri: this.currentListInfo.id, // the id is disabled in the form and cannot be changed, so it won't be saved as a form value
                 projectIri: this.listInfoForm.value.belongsToProject,
@@ -231,38 +217,33 @@ export class ListFormComponent implements OnChanges {
             };
             this._listsService.updateListInfo(payload).subscribe(
                 (result: any) => {
-                    console.log(result);
+                    // console.log(result);
                 },
                 (error: ApiServiceError) => {
-                    console.log(error);
+                    // console.log(error);
                     this.listInfoErrorMessage = error;
                 }
             );
             // after close form, refresh the page
             location.reload();
-        } else {
-            console.log('save new list:', this.listInfoForm.value);
+        } else { //for a new list use the create list service to save it
             const payload: ListCreatePayload = {
                 projectIri: this.listInfoForm.value.belongsToProject,
                 labels: this.listInfoForm.value.labels,
                 comments: this.listInfoForm.value.comments
             };
-            console.log('payload:', payload);
-
             this._listsService.createList(payload).subscribe(
                 (result: any) => {
-                    console.log(result);
+                    // console.log(result);
                 },
                 (error: ApiServiceError) => {
-                    console.log(error);
+                    // console.log(error);
                     this.listInfoErrorMessage = error;
                 }
             );
             // after close form, refresh the page
             location.reload();
         }
-
-
     }
 
     getProjects() {
@@ -271,15 +252,9 @@ export class ListFormComponent implements OnChanges {
             .subscribe(
                 (result: Project[]) => {
                     this.allProjects = result;
-                    console.log('projects: ', result);
-
-
-                    // this.filter(this.allProjects);
-
                     this.isLoading = false;
                 },
                 (error: ApiServiceError) => {
-                    console.log(error);
                     this.isLoading = false;
                 }
             );

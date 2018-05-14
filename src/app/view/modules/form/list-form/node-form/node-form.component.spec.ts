@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditNodeInfoComponent } from './edit-node-info.component';
+import { NodeFormComponent } from './node-form.component';
 
-describe('EditNodeInfoComponent', () => {
-  let component: EditNodeInfoComponent;
-  let fixture: ComponentFixture<EditNodeInfoComponent>;
+describe('NodeFormComponent', () => {
+  let component: NodeFormComponent;
+  let fixture: ComponentFixture<NodeFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditNodeInfoComponent ]
+      declarations: [ NodeFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditNodeInfoComponent);
+    fixture = TestBed.createComponent(NodeFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

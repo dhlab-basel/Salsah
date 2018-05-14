@@ -38,7 +38,6 @@ import {UsersService} from './model/services/users.service';
 //
 // import all npm salsah modules
 //
-import {ProgressIndicatorModule} from '@salsah/progress-indicator';
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -106,7 +105,6 @@ import {FormCreateComponent} from './view/test/development/form-create/form-crea
 import {FocusDirective} from './view/modules/other/focus.directive';
 import {ConfirmDialogComponent} from './view/modules/dialog/confirm-dialog/confirm-dialog.component';
 import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
-import {ListNodeFormComponent} from './view/modules/form/list-node-form/list-node-form.component';
 import {MathJaxDirective} from './view/modules/other/mathjax.directive';
 import {ReadTextValueAsHtmlComponent} from './view/properties/read-text-value-as-html/read-text-value-as-html.component';
 import {ReadDateValueComponent} from './view/properties/read-date-value/read-date-value.component';
@@ -145,7 +143,6 @@ import {InternationalizationComponent} from './view/modules/framework/main-frame
 import {ExistingNameDirective} from './view/modules/other/existing-name.directive';
 import {FormTestComponent} from './view/test/development/form-test/form-test.component';
 import {UserDataComponent} from './view/modules/form/user-form/user-data/user-data.component';
-import {EditNodeInfoComponent} from './view/modules/form/edit-node-info/edit-node-info.component';
 import {GndDirective} from './view/modules/other/gnd.directive';
 import {KnarqlgenerationService} from './model/services/knarqlgeneration.service';
 import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertiblecalendardateadapter';
@@ -171,6 +168,9 @@ import { UserPasswordComponent } from './view/modules/form/user-form/user-passwo
 import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
 import {HighlightSearchTermService} from 'nie-ine';
+import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
+import { SortButtonComponent } from './view/modules/action/sort-button/sort-button.component';
+import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
 
 //
 // import all needed services
@@ -234,7 +234,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         StillImageOSDViewerComponent,
         NewResourceClassComponent,
         ProjectListsAdminComponent,
-        ListNodeFormComponent,
         EditResourceClassComponent,
         SortByPipe,
         SystemComponent,
@@ -284,7 +283,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TextValueComponent,
         UriValueComponent,
         LinkValueComponent,
-        EditNodeInfoComponent,
         ExistingNameDirective,
         BeolComponent,
         GndDirective,
@@ -296,7 +294,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         UserPasswordComponent,
         ListFormComponent,
         ProjectDataComponent,
-        ReadTextfileValueComponent
+        ReadTextfileValueComponent,
+        NodeFormComponent,
+        SortButtonComponent,
+        ProgressIndicatorComponent
     ],
     imports: [
         BrowserModule,
@@ -310,7 +311,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         TreeModule,
-        ProgressIndicatorModule,
         DndModule.forRoot(),
         HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase),
@@ -326,7 +326,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ],
     // we need the entryComponents for every component inside of a mat-dialog module
     entryComponents: [
-        ListNodeFormComponent,
         ConfirmDialogComponent,
         FormDialogComponent,
         MessageDialogComponent,

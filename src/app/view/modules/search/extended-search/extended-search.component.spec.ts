@@ -75,7 +75,7 @@ describe('ExtendedSearchComponent', () => {
                 'http://0.0.0.0:3333/ontology/0801/beol/v2',
                 'The BEOL ontology'
             ), new OntologyMetadata(
-                'http://0.0.0.0:3333/ontology/biblio/v2',
+                'http://0.0.0.0:3333/ontology/0802/biblio/v2',
                 'The Biblio ontology'
             ), new OntologyMetadata(
                 'http://0.0.0.0:3333/ontology/incunabula/v2',
@@ -125,7 +125,7 @@ const ontologyMetadata =
             "@type": "http://www.w3.org/2002/07/owl#Ontology",
             "rdfs:label": "The BEOL ontology"
         }, {
-            "@id": "http://0.0.0.0:3333/ontology/biblio/v2",
+            "@id": "http://0.0.0.0:3333/ontology/0802/biblio/v2",
             "@type": "http://www.w3.org/2002/07/owl#Ontology",
             "rdfs:label": "The Biblio ontology"
         }, {

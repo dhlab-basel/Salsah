@@ -19,9 +19,12 @@
   }
 
   .salsah-list-header {
-    display: inline-flex;
+    display: flex;
+    flex-direction: row;
+//    height: 64px;
+//    padding: 12px 12px 0;
 
-    h3.has-border {
+    .has-border {
       border-right: 2px solid $black-60-opacity;
       padding-right: 16px;
     }

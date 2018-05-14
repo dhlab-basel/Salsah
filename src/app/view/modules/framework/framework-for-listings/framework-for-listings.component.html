@@ -7,41 +7,30 @@
     <!-- this module has a list with different positions: left or center (= default) -->
     <div class="salsah-list" [ngClass]="[position, listSize]">
         <div class="salsah-list-header">
-            <h3 mat-header [class.has-border]="list.description">
-                <!--
-                <span *ngIf="users">{{users?.countAll}}</span>
-                -->
+            <span class="list-title">
+                <h3 [class.has-border]="list.description">
+                    {{ list.title }}
+                </h3>
+                <p>{{list.description}}</p>
+            </span>
+            <span class="fill-remaining-space"></span>
+            <span class="list-action-button">
+                <!-- add button? -->
+                <!-- this list has an 'add button' to add new stuff;
+                    it opens the form-dialog-component with the defined form-component -->
 
-                {{ list.title }}
-                <!-- 'salsahLabels.frameworkForListings.project.list.title' | translate Das funktioniert noch nicht-->
-            </h3>
-            <p mat-subheader>{{list.description}}</p>
+                <button *ngIf="add !== undefined && loggedInAdmin"
+                        (click)="openNew(add.type)"
+                        mat-raised-button
+                        [matTooltip]="add.title"
+                        [matTooltipPosition]="'above'"
+                        color="primary">
+                    <!-- <mat-icon>add</mat-icon> {{ 'salsahLabela.form.general.new' | translate }} -->
+                    <mat-icon>add</mat-icon> New
+                </button>
+            </span>
         </div>
 
-        <!-- add button? -->
-        <!-- this list has an 'add button' to add new stuff;
-            it opens the form-dialog-component with the 'new-something-form'-component -->
-
-        <button *ngIf="add !== undefined && loggedInAdmin"
-                (click)="openNew(add.type)"
-                mat-fab class="right"
-                [matTooltip]="add.title"
-                [matTooltipPosition]="'above'"
-                color="primary">
-            <mat-icon>add</mat-icon>
-        </button>
-
-        <!-- older button with label --
-        <button *ngIf="add !== undefined && loggedInAdmin"
-                (click)="openNew(list.content)"
-                mat-raised-button class="right"
-                color="primary">
-            <mat-icon>add</mat-icon>
-            {{ add.title }}
-            <!-- 'salsahLabels.frameworkForListings.add.title' | translate--
-        </button>
-        -->
-        <!-- end of 'add button' -->
 
         <!-- main list incl. sort button and number of items -->
         <div class="salsah-module-content-list" [ngSwitch]="list.content">
@@ -117,7 +106,7 @@
             <salsah-edit-resource-class *ngSwitchCase="'resource-type'" [iri]="id"></salsah-edit-resource-class>
 
             <salsah-resource-object *ngSwitchCase="'resource'" [iri]="id"></salsah-resource-object>
-            
+
         </div>
 
     </div>

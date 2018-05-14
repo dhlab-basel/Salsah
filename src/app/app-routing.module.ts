@@ -47,6 +47,7 @@ import {FormTestComponent} from './view/test/development/form-test/form-test.com
 import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
 import {BeolComponent} from './view/templates/beol/beol.component';
 import {DialogTestComponent} from './view/test/development/dialog-test/dialog-test.component';
+import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 
 
 const appRoutes: Routes = [
@@ -173,6 +174,10 @@ const appRoutes: Routes = [
             {
                 path: 'progress-stepper',
                 component: ProgressStepperComponent
+            },
+            {
+                path: 'progress-indicator',
+                component: ProgressIndicatorComponent
             },
             {
                 path: 'upload',
