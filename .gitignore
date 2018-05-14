@@ -1,40 +1,10 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+_site/
+.sass-cache/
+.jekyll-metadata
 
-# compiled output
-/dist
-/tmp
+# Editor files
+.idea/
 
-# dependencies
-/node_modules
-/bower_components
-
-# IDEs and editors
-/.idea
-/.vscode
-.project
-.classpath
-*.launch
-.settings/
-
-# misc
-**/.sass-cache
-**.css.map
-/connect.lock
-/coverage/*
-/libpeerconnection.log
-npm-debug.log
-testem.log
-/typings
-
-# e2e
-/e2e/*.js
-/e2e/*.map
-
-#System Files
+# System files
 .DS_Store
 Thumbs.db
-
-# docs
-docs/env
-docs/_build
-docs/_format_docu
