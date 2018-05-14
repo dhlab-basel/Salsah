@@ -78,7 +78,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
     ngOnInit() {
         this._route.params.subscribe((params: Params) => {
-            let resIri = ( params['rid'] !== undefined ? params['rid'] : this.iri );
+            let resIri = ( params['rid'] !== undefined ? params['rid'] : encodeURIComponent(this.iri) );
             this.requestResource(resIri);
         });
     }

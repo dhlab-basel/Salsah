@@ -48,6 +48,7 @@ import {ContactFormComponent} from './view/modules/form/contact-form/contact-for
 import {BeolComponent} from './view/templates/beol/beol.component';
 import {DialogTestComponent} from './view/test/development/dialog-test/dialog-test.component';
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
+import {LeooComponent} from './view/templates/leoo/leoo.component';
 
 
 const appRoutes: Routes = [
@@ -228,7 +229,11 @@ const appRoutes: Routes = [
     },
     { // path to specific component for the BEOL project
         path: 'beol',
-        component: BeolComponent
+        component: BeolComponent,
+    },
+    { // path to specific component for the BEOL project
+        path: 'leoo/:rn',
+        component: LeooComponent
     },
     {
         path: '**',

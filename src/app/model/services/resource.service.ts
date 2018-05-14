@@ -19,8 +19,14 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class ResourceService extends ApiService {
 
+    /**
+     * Given the Iri, requests the representation of a resource.
+     *
+     * @param iri Iri of the resource (already URL encoded).
+     * @returns {Observable<any>}
+     */
     getResource(iri): Observable<any> {
-        return this.httpGetV2("/resources/" + encodeURIComponent(iri) );
+        return this.httpGetV2("/resources/" + iri );
     }
 
 }
