@@ -4,14 +4,29 @@ category: Developer Hints
 order: 3
 ---
 
-Sync your Facebook contacts with ChatApp. Any of your Facebook friends with ChatApp accounts are automatically added to your contact list!
+When writing commit messages, we stick to this schema:
 
-> Signing up with Facebook automatically starts syncing contacts.
+```
+type (scope): subject
+body
+```
 
-To sync your contacts:
+Types:
 
-1. Open your *User Settings*
-2. Select the **Connect Facebook** button
-3. Authorise ChatApp
+- feature (new feature for the user)
+- fix (bug fix for the user)
+- docs (changes to the documentation)
+- style (formatting, etc; no production code change)
+- refactor (refactoring production code, eg. renaming a variable)
+- test (adding missing tests, refactoring tests; no production code change)
+- build (changes to node, node_modules, angular, etc.; no production code changes)
+- enhancement (residual category)
 
-![](//placehold.it/800x600)
+Example:
+
+```
+feature (resources route): add route for resource creation
+- add path for multipart request
+- adapt handling of resources responder
+
+```
