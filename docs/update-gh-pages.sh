@@ -34,7 +34,7 @@ cp -R jekyll/_config.yml $TMP_HTML/
 git checkout gh-pages
 git rm -rf ../_docs
 git rm -rf ../_posts
-git rm -rf ../_assets
+git rm -rf ../assets
 git rm -rf ../_config.yml
 
 # Move the new docs from the temporary directory into the git repository tree.
