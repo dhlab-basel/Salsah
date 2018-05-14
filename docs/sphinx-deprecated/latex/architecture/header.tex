@@ -1,0 +1,85 @@
+\usepackage{cmap}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman, english]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage[dmyy]{datetime}
+\renewcommand{\dateseparator}{.}
+
+\usepackage{geometry} % Required to change the page size to A4
+\geometry{a4paper} % Set the page size to be A4 as opposed to the default US Letter
+
+\usepackage{graphicx} % Required for including pictures
+\graphicspath{{images/}{images/mockups/}{images/inspiration/}} % Specifies the directory where pictures are stored
+\usepackage[font=footnotesize]{caption} % smaller image description
+
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\usepackage{wrapfig} % Allows in-line images such as the example fish picture
+
+\usepackage{anysize} %Damit man Raender leicht einstellen kann
+%\marginsize{3cm}{3cm}{2cm}{2.0cm} %Raender
+
+\usepackage{setspace} %Zeilenabstand
+\linespread{1.5} % Line spacing
+%\onehalfspacing % One half line spacing
+
+\setlength{\parindent}{0pt} % damit wird die erste Zeile nicht eingerückt!
+
+\newcommand{\HRule}{\rule{\linewidth}{0.2mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\usepackage{fancyheadings} % Header and Footer
+% 1. clear de default layout
+\fancyhead{}
+\fancyfoot{}
+% 2. create your own header and footer style in your document
+
+
+% setting for widows and orphans
+\widowpenalty=10000
+\clubpenalty=10000
+
+% {myquote} long citations with a smaller font size
+\newenvironment{myquote}{\begin{quote}\singlespacing\small} {\end{quote}}
+
+% item bullet style
+\def\labelitemi{--}
+
+% date form DD. MM. YYYY
+\newcommand{\leadingzero}[1]{\ifnum #1<10 0\the#1\else\the#1\fi}
+\newcommand{\todayDDMMYYYY}{\leadingzero{\day}.\leadingzero{\month}.\the\year}
+
+% colour setting for code snippets
+
+\usepackage{color}
+\definecolor{editorLightGray}{cmyk}{0.05, 0.05, 0.05, 0.1}
+\definecolor{editorGray}{cmyk}{0.6, 0.55, 0.55, 0.2}
+\definecolor{editorPurple}{cmyk}{0.5, 1, 0, 0}
+\definecolor{editorWhite}{cmyk}{0, 0, 0, 0}
+\definecolor{editorBlack}{cmyk}{1, 1, 1, 1}
+\definecolor{editorOrange}{cmyk}{0, 0.8, 1, 0}
+\definecolor{editorBlue}{cmyk}{1, 0.6, 0, 0}
+\definecolor{editorPink}{cmyk}{0, 1, 0, 0}
+
+\usepackage{upquote}
+\usepackage{listings}
+
+\lstset{
+  	language=html,
+  	tagstyle=\color{editorBlue},
+  	identifierstyle=\color{editorOrange},
+  	keywordstyle=\color{editorPink},
+  	commentstyle=\color{editorGray},
+  	stringstyle=\color{editorPurple},
+  	% Basic design
+    backgroundcolor=\color{editorLightGray},
+    basicstyle={\small\ttfamily},   
+    frame=l,
+    % Line numbers
+    xleftmargin={0.75cm},
+    numbers=left,
+    stepnumber=1,
+    firstnumber=1,
+    numberfirstline=true,
+    tabsize=2,
+    breaklines=true,
+}

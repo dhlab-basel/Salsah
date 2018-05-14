@@ -1,0 +1,25 @@
+\newpage
+\subsection{salsahExchange}
+\subsubsection{importTools}
+The SALSAH module ``importTools'' includes all kind of tools to add new objects into a project repository. They could be: createNewResource (single file upload \textit{(or addNewResource ?)}), addNewResources (multiple file upload\footnote{In SALSAH v1 we're using special PHP scripts to upload more than one file per time. These scripts are able to read csv-, filemaker- or other exported files. For SALSAH 2 it should be possible to have a feature like this in the front end. But at the moment it has a low priority status, because it's awkward to implement.}), but also createNewCollection, createNewLink and createNewProject (here we're not sure yet).
+
+We're using the importTools with the top-level menu button ``add'' (+) -- selection menu -- and a modal box.
+
+
+\subsubsection{exportTools}
+Export a dataset as CSV...
+
+\subsubsection{Some notes about the import (and export) process} % TITLE
+
+\textbf{Three possible cases to transfer or to create data} % Major section
+
+It's important to understand, at least to some degree, the subject or research of each project. This is necessary in order to translate (in the case of post mortem or in vivo) or create (ab ovo) an adequate data model to represent the data in the platform. The task of creating a data model requires considerable direct interaction with the researchers.
+In the case of planned or starting projects (``ab ovo''), one difficulty is that researchers are not always familiar with the important concepts for their data models. Several examples (e.g. the Schweizerische Gesellschaft für Volkskunde, and the Anton Webern Edition) have shown that creating an adequate and efficient data model is essential for the success of a research project.
+
+Already active projects (``in vivo'') often use tools and data models that are not optimal for the given task. Migration into the platform is often an opportunity to clean up the project's data models.
+
+Post-mortem integration poses the biggest challenge. In one of the major test cases, the Lexicon Iconographicum Mythologiæ Classicæ, there is no documentation avail- able, and the people that created the data models and software are no longer available. However, there are still many active users who can help us to understand the concepts. Still, such projects require a great deal of time-consuming reverse engineering.
+
+The two last cases (``in vivo'' and ``post mortem'') need special support from our side. Here we have to write an import script depending on the existing data. Perhaps it's possible to have an import button, where the user can upload the data exported from his previous database (Filemaker, MySQL, etc.).
+
+
