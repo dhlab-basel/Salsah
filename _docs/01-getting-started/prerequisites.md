@@ -28,5 +28,5 @@ To start the app or to create new components and services, you need [angular-cli
 If there are some permission issues, try to fix the writing rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}` 
 -->
 
-### [&rarr; Start the app](01-getting-started/start/)
+### [&rarr; Start the app]({{ site.baseurl }}/01-getting-started/start/)
 
