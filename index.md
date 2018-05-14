@@ -21,4 +21,4 @@ All the tools (Salsah, Knora and Sipi) are developed by the [Digital humanities 
 Salsah is free software, released under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.en.html) and is available on [GitHub](https://github.com/dhlab-basel/Salsah).
 
 
-### [&rarr; Getting Started](/01-getting-started/prerequisites/)
+### [&rarr; Getting Started](01-getting-started/prerequisites/)
