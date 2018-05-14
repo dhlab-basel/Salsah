@@ -140,7 +140,7 @@ header {
     color: #fff;
     margin: 0;
     font-size: 1.7rem;
-    line-height: 0.8;
+//    line-height: 0.8;
     letter-spacing: 0;
     font-weight: 600;
     text-indent: 0;
@@ -148,6 +148,13 @@ header {
     @include flex-direction(row);
     @include align-items(center);
     border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+//    line-height: 1.1;
+
+    span {
+      font-size: smaller;
+      font-weight: normal;
+      display: contents;
+    }
 
     img {
       height: $emblem-size;
