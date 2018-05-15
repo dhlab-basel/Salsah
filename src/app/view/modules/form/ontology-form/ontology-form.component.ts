@@ -105,6 +105,14 @@ export class OntologyFormComponent implements OnInit {
         '0-n'
     ];
 
+
+    constructor() {
+    }
+
+    ngOnInit() {
+        this.isLoading = false;
+    }
+
     gutterClick(e: {gutterNum: number, sizes: Array<number>}) {
         if(e.gutterNum === 1) {
             if(this.areas[0].size > 0) {
@@ -142,19 +150,6 @@ export class OntologyFormComponent implements OnInit {
         this.areas[0].size = e.sizes[0];
         this.areas[1].size = e.sizes[1];
         this.areas[2].size = e.sizes[2];
-    }
-
-
-
-    constructor() {
-    }
-
-    ngOnInit() {
-        this.isLoading = false;
-
-
-
-
     }
 
 }
