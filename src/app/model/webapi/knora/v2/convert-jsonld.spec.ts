@@ -457,4 +457,132 @@ describe('ConvertJSONLD', () => {
         });
     }));
 
+    it('parse a JSON-LD document representing a book with incoming pages', async(() => {
+
+        const jsonld = require('jsonld');
+
+        const resultsForBookWithIncomingLink: any = require('../../../test-data/resources/BookWithIncomingPages.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(resultsForBookWithIncomingLink, {});
+
+        promise.then((compacted) => {
+
+            const receivedResource: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+            expect(receivedResource.numberOfResources).toEqual(1);
+
+            const expectedProps: ReadProperties = {
+                'http://0.0.0.0:3333/ontology/0803/incunabula/v2#title': [
+                    new ReadTextValueAsString(
+                        'http://rdfh.ch/8be1b7cf7103/values/463b6498b70d',
+                        'http://0.0.0.0:3333/ontology/0803/incunabula/v2#title',
+                        '[Das] Narrenschiff (lat.)'
+                    ),
+                    new ReadTextValueAsString(
+                        'http://rdfh.ch/8be1b7cf7103/values/0965b7d1b70d',
+                        'http://0.0.0.0:3333/ontology/0803/incunabula/v2#title',
+                        'Stultifera navis (...)'
+                    )
+                ],
+                'http://api.knora.org/ontology/knora-api/v2#hasIncomingLink': [
+                    new ReadLinkValue(
+                        'http://rdfh.ch/50e7460a7203/values/8bdc04c8-b765-44c8-adb3-5ab536dcd051',
+                        'http://api.knora.org/ontology/knora-api/v2#hasIncomingLink',
+                        'http://rdfh.ch/50e7460a7203',
+                        new ReadResource(
+                            'http://rdfh.ch/50e7460a7203',
+                            'http://0.0.0.0:3333/ontology/0803/incunabula/v2#page',
+                            'vorderer Spiegel',
+                            [],
+                            [],
+                            [],
+                            [],
+                            {
+                                'http://0.0.0.0:3333/ontology/0803/incunabula/v2#partOfValue': [
+                                    new ReadLinkValue(
+                                        'http://rdfh.ch/50e7460a7203/values/8bdc04c8-b765-44c8-adb3-5ab536dcd051',
+                                        'http://0.0.0.0:3333/ontology/0803/incunabula/v2#partOfValue',
+                                        'http://rdfh.ch/8be1b7cf7103'
+                                    )
+                                ]
+                            }
+                        )
+                    )
+                ]
+            };
+
+            const BookResourceWithIncomingExpected = new ReadResource(
+                'http://rdfh.ch/8be1b7cf7103',
+                'http://0.0.0.0:3333/ontology/0803/incunabula/v2#book',
+                '[Das] Narrenschiff (lat.)',
+                [],
+                [],
+                [],
+                [],
+                expectedProps
+            );
+
+            expect(receivedResource.resources[0]).toEqual(BookResourceWithIncomingExpected);
+
+        });
+    }));
+
+    it('parse a JSON-LD document representing a book with incoming pages', async(() => {
+
+        const jsonld = require('jsonld');
+
+        const resultsForBookWithIncomingLink: any = require('../../../test-data/resources/BookWithIncomingPages2.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(resultsForBookWithIncomingLink, {});
+
+        promise.then((compacted) => {
+
+            const receivedResource: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+            expect(receivedResource.numberOfResources).toEqual(1);
+
+            const expectedProps: ReadProperties = {
+                'http://0.0.0.0:3333/ontology/0803/incunabula/v2#title': [
+                    new ReadTextValueAsString(
+                        'http://rdfh.ch/8be1b7cf7103/values/463b6498b70d',
+                        'http://0.0.0.0:3333/ontology/0803/incunabula/v2#title',
+                        '[Das] Narrenschiff (lat.)'
+                    ),
+                    new ReadTextValueAsString(
+                        'http://rdfh.ch/8be1b7cf7103/values/0965b7d1b70d',
+                        'http://0.0.0.0:3333/ontology/0803/incunabula/v2#title',
+                        'Stultifera navis (...)'
+                    )
+                ],
+                'http://api.knora.org/ontology/knora-api/v2#hasIncomingLink': [
+                    new ReadLinkValue(
+                        'http://rdfh.ch/50e7460a7203/values/8bdc04c8-b765-44c8-adb3-5ab536dcd051',
+                        'http://api.knora.org/ontology/knora-api/v2#hasIncomingLink',
+                        'http://rdfh.ch/50e7460a7203'
+                    )
+                ]
+            };
+
+            const BookResourceWithIncomingExpected = new ReadResource(
+                'http://rdfh.ch/8be1b7cf7103',
+                'http://0.0.0.0:3333/ontology/0803/incunabula/v2#book',
+                '[Das] Narrenschiff (lat.)',
+                [],
+                [],
+                [],
+                [],
+                expectedProps
+            );
+
+            expect(receivedResource.resources[0]).toEqual(BookResourceWithIncomingExpected);
+
+        });
+    }));
+
+
+
 });

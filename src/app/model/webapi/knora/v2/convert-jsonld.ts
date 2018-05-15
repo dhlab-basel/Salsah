@@ -135,7 +135,7 @@ export module ConvertJSONLD {
                 } else if (propValue[AppConfig.linkValueHasTargetIri] !== undefined) {
                     // linkValueHasTargetIri contains the resource's Iri
 
-                    let referredResourceIri = propValue[AppConfig.linkValueHasTargetIri];
+                    let referredResourceIri = propValue[AppConfig.linkValueHasTargetIri]['@id'];
 
                     linkValue = new ReadLinkValue(propValue['@id'], propIri, referredResourceIri);
                 } else if (propValue[AppConfig.linkValueHasSource] !== undefined) {
@@ -147,7 +147,7 @@ export module ConvertJSONLD {
                 } else if (propValue[AppConfig.linkValueHasSourceIri] !== undefined) {
                     // linkValueHasSourceIri contains the resource's Iri
 
-                    let incomingResourceIri = propValue[AppConfig.linkValueHasSourceIri];
+                    let incomingResourceIri = propValue[AppConfig.linkValueHasSourceIri]['@id'];
 
                     linkValue = new ReadLinkValue(propValue['@id'], propIri, incomingResourceIri);
                 }
