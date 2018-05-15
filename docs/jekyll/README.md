@@ -8,7 +8,7 @@ For the github page we're using Jekyll. To install Jekyll run:
 
 `$ gem install jekyll bundler`
 
-Run this Jekyll site locally:
+Run this Jekyll site locally (from root of docs/jekyll/):
 
 `$ bundle exec jekyll serve`
 
@@ -16,7 +16,7 @@ Run this Jekyll site locally:
 ## Publish on Github pages
 The documentation is accessible on the [repository's Github page](https://dhlab-basel.github.io/Salsah).
 To update this page, you must be on the develop branch, having committed any changes you made there.
-Run the update-gh-pages shell-script in docs which will push a commit to gh-pages branch.
+Run the update-gh-pages shell-script in docs/ which will push a commit to gh-pages branch.
 
 `$ ./update-gh-pages.sh`
 
