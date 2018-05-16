@@ -457,7 +457,7 @@ describe('ConvertJSONLD', () => {
         });
     }));
 
-    it('parse a JSON-LD document representing a book with incoming pages', async(() => {
+    it('parse a JSON-LD document representing a book with incoming pages containing the source as a value object', async(() => {
 
         const jsonld = require('jsonld');
 
@@ -529,7 +529,7 @@ describe('ConvertJSONLD', () => {
         });
     }));
 
-    it('parse a JSON-LD document representing a book with incoming pages', async(() => {
+    it('parse a JSON-LD document representing a book with incoming pages referring to the source via its Iri', async(() => {
 
         const jsonld = require('jsonld');
 
