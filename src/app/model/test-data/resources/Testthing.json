@@ -1,0 +1,97 @@
+{
+    "@type" : "schema:ItemList",
+    "schema:itemListElement" : {
+        "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A",
+        "@type" : "p0001-anything:Thing",
+        "p0001-anything:hasBoolean" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/SHyBHDSJQzmeJ83xBTQhJg",
+            "@type" : "knora-api:BooleanValue",
+            "knora-api:booleanValueAsBoolean" : true
+        },
+        "p0001-anything:hasColor" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/37QzGaODRo6EKBpf6wxxkQ",
+            "@type" : "knora-api:ColorValue",
+            "knora-api:colorValueAsColor" : "#ff3333"
+        },
+        "p0001-anything:hasDate" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/t6JTHLl1T62_VPajklqx4Q",
+            "@type" : "knora-api:DateValue",
+            "knora-api:dateValueHasCalendar" : "GREGORIAN",
+            "knora-api:dateValueHasEndDay" : 13,
+            "knora-api:dateValueHasEndEra" : "CE",
+            "knora-api:dateValueHasEndMonth" : 5,
+            "knora-api:dateValueHasEndYear" : 2018,
+            "knora-api:dateValueHasStartDay" : 13,
+            "knora-api:dateValueHasStartEra" : "CE",
+            "knora-api:dateValueHasStartMonth" : 5,
+            "knora-api:dateValueHasStartYear" : 2018,
+            "knora-api:valueAsString" : "GREGORIAN:2018-05-13 CE"
+        },
+        "p0001-anything:hasDecimal" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/Av5U1FocTVCSoDEmPR0_aQ",
+            "@type" : "knora-api:DecimalValue",
+            "knora-api:decimalValueAsDecimal" : "1.5"
+        },
+        "p0001-anything:hasInteger" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/uiHvmZZGR8i0O1djKN7PVQ",
+            "@type" : "knora-api:IntValue",
+            "knora-api:intValueAsInt" : 1
+        },
+        "p0001-anything:hasInterval" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/S2jMJ4YlSkyWe0eSQD4jdw",
+            "@type" : "knora-api:IntervalValue",
+            "knora-api:intervalValueHasEnd" : "60",
+            "knora-api:intervalValueHasStart" : "0"
+        },
+        "p0001-anything:hasListItem" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/PzE7-PtEQwmZxFeDXhIu3Q",
+            "@type" : "knora-api:ListValue",
+            "knora-api:listValueAsListNode" : {
+                "@id" : "http://rdfh.ch/lists/0001/treeList01"
+            },
+            "knora-api:listValueAsListNodeLabel" : "Tree list node 01"
+        },
+        "p0001-anything:hasOtherListItem" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/BE-SUkXzT36D8qcZSO1Vbg",
+            "@type" : "knora-api:ListValue",
+            "knora-api:listValueAsListNode" : {
+                "@id" : "http://rdfh.ch/lists/0001/otherTreeList01"
+            },
+            "knora-api:listValueAsListNodeLabel" : "Other Tree list node 01"
+        },
+        "p0001-anything:hasOtherThingValue" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/C6n-Kup6TtiaKsqt9csXhw",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0001/0C-0L1kORryKzJAJxxRyRQ",
+                "@type" : "p0001-anything:Thing",
+                "rdfs:label" : "Sierra"
+            }
+        },
+        "p0001-anything:hasRichtext" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/wt_W_BzQS9SSWs77wVrWsA",
+            "@type" : "knora-api:TextValue",
+            "knora-api:textValueAsXml" : "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<text><p>test with <strong>markup</strong></p></text>",
+            "knora-api:textValueHasMapping" : "http://rdfh.ch/standoff/mappings/StandardMapping"
+        },
+        "p0001-anything:hasText" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/h9RegL8FQ0C51mhrKmr3pQ",
+            "@type" : "knora-api:TextValue",
+            "knora-api:valueAsString" : "test"
+        },
+        "p0001-anything:hasUri" : {
+            "@id" : "http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/Zbf2EGAyR7OQtx7B8JxhzQ",
+            "@type" : "knora-api:UriValue",
+            "knora-api:uriValueAsUri" : "http://www.google.ch"
+        },
+        "rdfs:label" : "testding"
+    },
+    "schema:numberOfItems" : 1,
+    "@context" : {
+        "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "p0001-anything" : "http://0.0.0.0:3333/ontology/0001/anything/v2#",
+        "knora-api" : "http://api.knora.org/ontology/knora-api/v2#",
+        "schema" : "http://schema.org/",
+        "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    }
+}

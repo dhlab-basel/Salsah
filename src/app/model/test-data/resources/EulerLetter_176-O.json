@@ -1,0 +1,278 @@
+{
+    "@type" : "schema:ItemList",
+    "schema:itemListElement" : {
+        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w",
+        "@type" : "p0801-beol:letter",
+        "p0801-beol:creationDate" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/w3ZlkuU2T0-0DMrvW8HLJA",
+            "@type" : "knora-api:DateValue",
+            "knora-api:dateValueHasCalendar" : "GREGORIAN",
+            "knora-api:dateValueHasEndDay" : 3,
+            "knora-api:dateValueHasEndEra" : "CE",
+            "knora-api:dateValueHasEndMonth" : 1,
+            "knora-api:dateValueHasEndYear" : 1756,
+            "knora-api:dateValueHasStartDay" : 3,
+            "knora-api:dateValueHasStartEra" : "CE",
+            "knora-api:dateValueHasStartMonth" : 1,
+            "knora-api:dateValueHasStartYear" : 1756,
+            "knora-api:valueAsString" : "GREGORIAN:1756-01-03 CE"
+        },
+        "p0801-beol:hasAuthorValue" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/-dzjDkhPRzy-9q0v7QtI7w",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/biblio/QNWEqmjxQ9W-_hTwKlKP-Q",
+                "@type" : "p0801-beol:person",
+                "rdfs:label" : "Leonhard Euler"
+            }
+        },
+        "p0801-beol:hasRecipientValue" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/gkdrd8ZXQhucrNLXIf2-qw",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/biblio/Yv2elBDtSMqoJeKRcxsW8A",
+                "@type" : "p0801-beol:person",
+                "rdfs:label" : "Christian Goldbach"
+            }
+        },
+        "p0801-beol:hasSubject" : [ {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/JpGklfqZSxuu7VI1zIyucw",
+            "@type" : "knora-api:ListValue",
+            "knora-api:listValueAsListNode" : {
+                "@id" : "http://rdfh.ch/lists/0801/other_quadratic_forms"
+            },
+            "knora-api:listValueAsListNodeLabel" : "Other quadratic forms"
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/SiEBL-EASQSNeFBprbjY3A",
+            "@type" : "knora-api:ListValue",
+            "knora-api:listValueAsListNode" : {
+                "@id" : "http://rdfh.ch/lists/0801/berlin_academy"
+            },
+            "knora-api:listValueAsListNodeLabel" : "Berlin Academy"
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/H4IZDQ1eS2WBrMhZRX-vkA",
+            "@type" : "knora-api:ListValue",
+            "knora-api:listValueAsListNode" : {
+                "@id" : "http://rdfh.ch/lists/0801/other_professional_tasks"
+            },
+            "knora-api:listValueAsListNodeLabel" : "Other professional tasks"
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/MdjXlOTNRfqYKEWNIh6kfg",
+            "@type" : "knora-api:ListValue",
+            "knora-api:listValueAsListNode" : {
+                "@id" : "http://rdfh.ch/lists/0801/errands"
+            },
+            "knora-api:listValueAsListNodeLabel" : "Errands"
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/rfao0tqnQTiYyLdlJrNF6w",
+            "@type" : "knora-api:ListValue",
+            "knora-api:listValueAsListNode" : {
+                "@id" : "http://rdfh.ch/lists/0801/book_trade_orders"
+            },
+            "knora-api:listValueAsListNodeLabel" : "Book trade, orders"
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/_fCIiKjzRYqjXkEhykto5A",
+            "@type" : "knora-api:ListValue",
+            "knora-api:listValueAsListNode" : {
+                "@id" : "http://rdfh.ch/lists/0801/johann_albrecht_euler"
+            },
+            "knora-api:listValueAsListNodeLabel" : "Johann Albrecht Euler"
+        } ],
+        "p0801-beol:hasText" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/GJQB9IHYTl2RhG4g4ru0YA",
+            "@type" : "knora-api:TextValue",
+            "knora-api:textValueAsHtml" : "<div>\n   <div id=\"transcription\">\n      \n      <p>Hochwohlgebohrner Herr</p>\n      \n      <p>Hochgeehrtester Herr <em>Etats</em> Rath\n      </p>\n      \n      <p>Bey dem Antritt dieses neuen Jahrs lege ich zuvorderst meinen herzlichsten Wunsch\n         für das beständige Wohlseyn Eur. Hochwohlgeb. ab, und empfehle mich dabey gehorsamst\n         sammt den meinigen zu Dero fortdaurenden Wohlgewogenheit<span class=\"math\">\\(\\,.\\,\\)</span> Zugleich statte ich auch Eur. Hochwohlgeb. meine verpflichtetste Danksagung ab für\n         den gütigen Antheil welchen Dieselben an unserem Zustand zu nehmen belieben und habe\n         das Vergnügen Eur. Hochwohlgeb. zu berichten, daß&nbsp;S[ein]<span class=\"math\">\\(\\,{}^{\\text{e}}\\,\\)</span> Königl[iche] <em>Majestät<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/DhgjcrRhRfunaSt77-bUxg\"></a></em> bey dem Anfang dieses Jahrs Dero Pathen unsern ältesten Sohn mit einer jährlichen\n         Besoldung von <a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/bP1CO3j3TCOUHYdQqKw9pA\"></a><span class=\"math\">\\(\\,200\\,\\)</span> Rthl. begnadiget.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/spy5H95GTV2RElphXFPbbw\"><sup>1</sup></a></p>\n      \n      <p>Ich habe nun schon eine geraume Zeit so viel andere Geschäfte gehabt daß&nbsp;ich an <em>numeri</em>sche <em>Theoremata</em>, dergleichen ich Eur. Hochwohlgeb. das letste mal vorzulegen die Ehre gehabt, nicht\n         habe denken können. Die <em>Partes Matheseos applicatae</em> nehmen mir die meiste Zeit weg, wo es immer mehr zu untersuchen gibt, je mehr man\n         damit umgeht.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/KvfXRPkXTziMYMVYSz9tBg\"><sup>2</sup></a></p>\n      \n      <p>Weil nun mein Kopf mit so viel anderen Sachen angefüllet ist, so mag das wohl die\n         Ursache seyn, daß&nbsp;ich mich in das von Eur. Hochwohlgeb. <em>communicir</em>te und nach der Hand verbesserte <em>Theorema</em> nicht finden kan. Vielleicht haben Eur. Hochwohlgeb. vergessen noch eine wesentliche\n         <em>Condition</em> hinzuzusetzen.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/FJCOlKBdRtW8caqnN4A3Vw\"><sup>3</sup></a></p>\n      \n      <p>Das <em>Theorema</em> war: <em>Si sit</em><span class=\"math\">\\(\\,aa+bb=P^{2}+eQ^{2}\\,\\)</span><em>erit etiam</em></p>\n      \n      <p>\n         <span class=\"math\">\\(\\,a^{2}+\\left(\\left(2e+1\\right)b-eP-eQ\\right)^{2}=M^{2}+eN^{2}\\text{;}\\,\\)</span>\n         \n      </p>\n      \n      <p>weil ich den Grund desselben nicht einsehen konnte, so habe ich die Richtigkeit desselben\n         durch <em>Exempel</em> erforschen wollen.\n      </p>\n      \n      <p>I. Da <span class=\"math\">\\(\\,1^{2}+4^{2}=17=3^{2}+2\\cdot 2^{2}\\,\\)</span>, so ist <span class=\"math\">\\(\\,a=1\\,\\)</span>, <span class=\"math\">\\(\\,b=4\\,\\)</span>, <span class=\"math\">\\(\\,P=3\\,\\)</span>, <span class=\"math\">\\(\\,Q=2\\,\\)</span> und <span class=\"math\">\\(\\,e=2\\,\\)</span>, allso müste seyn\n      </p>\n      \n      <p>\n         <span class=\"math\">\\(\\,1^{2}+\\left(5\\cdot 4-2\\cdot 3-2\\cdot 2\\right)^{2}=1^{2}+10^{2}=101=M^{2}+2N^{2}\\,\\)</span>\n         \n      </p>\n      \n      <p>welches unmöglich ist.</p>\n      \n      <p>II. Da <span class=\"math\">\\(\\,9^{2}+4^{2}=97=7^{2}+3\\cdot 4^{2}\\,\\)</span>, so ist <span class=\"math\">\\(\\,a=9\\,\\)</span>; <span class=\"math\">\\(\\,b=4\\,\\)</span>; <span class=\"math\">\\(\\,P=7\\,\\)</span>; <span class=\"math\">\\(\\,Q=4\\,\\)</span> und <span class=\"math\">\\(\\,e=3\\,\\)</span>, allso müsste seyn\n      </p>\n      \n      <p>\n         <span class=\"math\">\\(\\,9^{2}+\\left(7\\cdot 4-3\\cdot 7-3\\cdot 4\\right)^{2}=9^{2}+5^{2}=106=M^{2}+3N^{2}\\,\\)</span>\n         \n      </p>\n      \n      <p>welches ebenfalls unmöglich ist.</p>\n      \n      <p>Da ich nun nicht einmal ein <em>Exempel</em> finden kan, welches einträfe, so schliesse ich daraus, daß&nbsp;eine gewisse Bedingung\n         in den Zahlen <span class=\"math\">\\(\\,a\\,\\)</span>, <span class=\"math\">\\(\\,b\\,\\)</span>, <span class=\"math\">\\(\\,P\\,\\)</span> und <span class=\"math\">\\(\\,Q\\,\\)</span> müsse weggelassen seyn, welche ich aber nicht ausfündig machen kan.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/kZeMXLrQTQONISqizXtf5g\"><sup>4</sup></a></p>\n      \n      <p>Ich habe dem H. <em>Spener<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/Z_-TT-8_QNSRv-O7dKCW0w\"></a></em> zu wissen gethan, daß&nbsp;Eur. Hochwohlgeb. die Rechnung für die überschickten Bücher\n         verlangen; bekomme ich dieselbe vor Schliessung dieses Briefs, wie ich ihm habe sagen\n         lassen, so werde ich sie beylegen.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/08Y_rCK5QM-gvchjtixomw\"><sup>5</sup></a></p>\n      \n      <p>Sonsten da er nicht alle verlangte Bücher gehabt, so werde ich inskünftige dergleichen\n         <em>Commission</em>en dem <em>M.<span class=\"math\">\\(\\,{}^{\\text{r}}\\,\\)</span>Neaulme<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/FsJNrctNTMuwJPCX-7OTVg\"></a></em>, welcher weit <em>activer</em> ist und alles schaffen kan, auftragen. Wegen des Werks: <em>La Clef du Cabinet des Princes<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/up0Q0ZzPSLaULC2tlTs1sA\"></a><a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/sAImr-uGRBGpsdBdoI6XCw\"></a></em> füge hier die Antwort des <em>M.<span class=\"math\">\\(\\,{}^{\\text{r}}\\,\\)</span>de Bourdeaux<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/vR3fWAXxRqShBZvWKVA9tA\"></a></em> bey.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/nRO3f9ENSsqTH8S0Z1uO9w\"><sup>6</sup></a></p>\n      \n      <p>Sollte dasselbe vor der Ankunft einer <em>Resolution</em> von Eur. Hochwohlgeb. schon verkauft worden seyn, so hat sich <em>M.<span class=\"math\">\\(\\,{}^{\\text{r}}\\,\\)</span></em><em>Neaulme<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/FsJNrctNTMuwJPCX-7OTVg\"></a></em> anheischig gemacht, dasselbe auch zu liefern.\n      </p>\n      \n      <p>Ich habe die Ehre mit der schuldigsten Hochachtung zu verharren</p>\n      \n      <p>Eur. Hochwohlgebohrnen</p>\n      \n      <p>gehorsamster Diener</p>\n      \n      <p>\n         <em>L. Euler</em>\n         \n      </p>\n      \n      <p><em>Berlin</em> den 3<span class=\"math\">\\(\\,{}^{\\text{ten}}\\,\\)</span><em>Januarii</em></p>\n      \n      <p>1756.</p>\n      \n      <p>\n         <sub>Berlin, January 3rd, 1756</sub>\n         \n      </p>\n      \n      <p>\n         <sub>Original, 1 fol. – RGADA, f. 181, n. 1413, č. V, fol. 123rv</sub>\n         \n      </p>\n      \n      <p>\n         <sub>Published: <em>Correspondance</em> (1843), t. I, p. 636–637; <em>Euler-Goldbach</em> (1965), p. 385–386</sub>\n         \n      </p>\n      \n   </div>\n   <div id=\"references\">\n      <ol></ol>\n   </div>\n</div>"
+        },
+        "p0801-beol:letterHasLanguage" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/ilKXhfZnS9uAYDNQzi6m8Q",
+            "@type" : "knora-api:TextValue",
+            "knora-api:valueAsString" : "German"
+        },
+        "p0801-beol:letterHasNumber" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/hS_gqlOtQsCqA-gqrgIHCQ",
+            "@type" : "knora-api:TextValue",
+            "knora-api:valueAsString" : "176"
+        },
+        "p0801-beol:letterHasOriginalValue" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/veu6BVjbTcKFPAEmcYRjXQ",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/1PUuT3mcRGmeunDS3ZNyOA",
+                "@type" : "p0801-beol:manuscript",
+                "rdfs:label" : "L176 Original Manuscript"
+            }
+        },
+        "p0801-beol:letterHasRepertoriumNumber" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/na-JeCAxSXyYjpx0Cn-qrA",
+            "@type" : "knora-api:TextValue",
+            "knora-api:valueAsString" : "890"
+        },
+        "p0801-beol:letterHasTranslationValue" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/_iqsIP5NSLiBE8hPnDwAKw",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/yBr2EjBMTkeCeVmGPfjCtw",
+                "@type" : "p0801-beol:letter",
+                "rdfs:label" : "L176-T"
+            }
+        },
+        "p0801-beol:letterIsPublishedValue" : [ {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/gOwn9vzMT-2XHkgZe42fTA",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/79Rz6MaAQESBalJeWl2TVA",
+                "@type" : "p0801-beol:publishedLetter",
+                "rdfs:label" : "L176-O published in Fuß edition"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/5-CVslP4R9KY1_d3d83qMw",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/pFN8MlXBSYaB7oZRxUpV0Q",
+                "@type" : "p0801-beol:publishedLetter",
+                "rdfs:label" : "L176-O published in Yushkevich-Winter edition"
+            }
+        } ],
+        "p0801-beol:letterIsReplyToValue" : [ {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/iW0aQbZ2Qaeigqr5RN-Hlg",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/_iz5PE4rT8KNfbmfW8DxrQ",
+                "@type" : "p0801-beol:letter",
+                "rdfs:label" : "L174-O"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/utSZPRdcSjC78DHtGBVZ3Q",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/f5a92GjJRriC1GTY_NzfvQ",
+                "@type" : "p0801-beol:letter",
+                "rdfs:label" : "L175-O"
+            }
+        } ],
+        "p0801-beol:location" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/xpStwEfxSdGH14StZ_KWHQ",
+            "@type" : "knora-api:TextValue",
+            "knora-api:valueAsString" : "Berlin"
+        },
+        "p0801-beol:title" : {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/rqHQuCoeRAmfUElMDuEfFg",
+            "@type" : "knora-api:TextValue",
+            "knora-api:valueAsString" : " Euler to Goldbach, January 3rd, 1756"
+        },
+        "knora-api:hasStandoffLinkToValue" : [ {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/fsxYuF6BSl6opUqcetx4Zg",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/KvfXRPkXTziMYMVYSz9tBg",
+                "@type" : "p0801-beol:endnote",
+                "rdfs:label" : "L176 note-2"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/aMwl67I7RGa5Dvk-lczTdQ",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/biblio/up0Q0ZzPSLaULC2tlTs1sA",
+                "@type" : "p0801-beol:person",
+                "rdfs:label" : "Claude Jordan"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/1F3yY5ywSfS8n8U6RYE12w",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/biblio/Z_-TT-8_QNSRv-O7dKCW0w",
+                "@type" : "p0801-beol:person",
+                "rdfs:label" : "Johann Carl (the Elder) Spener"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/NIpFHSbKSe-BDC8RUmuhqg",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/nRO3f9ENSsqTH8S0Z1uO9w",
+                "@type" : "p0801-beol:endnote",
+                "rdfs:label" : "L176 note-6"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/wu7kCf2CR-e2aAvT8Q1DhQ",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/spy5H95GTV2RElphXFPbbw",
+                "@type" : "p0801-beol:endnote",
+                "rdfs:label" : "L176 note-1"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/YQRbSoBGR_-QrpHB_o0ReQ",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/biblio/FsJNrctNTMuwJPCX-7OTVg",
+                "@type" : "p0801-beol:person",
+                "rdfs:label" : "Jean Neaulme"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/mEhOhC8STn6t816gMUMLUQ",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/08Y_rCK5QM-gvchjtixomw",
+                "@type" : "p0801-beol:endnote",
+                "rdfs:label" : "L176 note-5"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/IG_gpA_vQBW-8hBbP1y0LQ",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/biblio/DhgjcrRhRfunaSt77-bUxg",
+                "@type" : "p0801-beol:person",
+                "rdfs:label" : "Friedrich II."
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/veG9DY7pR46P62Ylvm7Nzw",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/biblio/bP1CO3j3TCOUHYdQqKw9pA",
+                "@type" : "p0801-beol:person",
+                "rdfs:label" : "Johann Albrecht Euler"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/udl1maFWTUu1MLcla4bm1g",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/kZeMXLrQTQONISqizXtf5g",
+                "@type" : "p0801-beol:endnote",
+                "rdfs:label" : "L176 note-4"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/uwc5JnP4R36elNlokOTX7A",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/biblio/vR3fWAXxRqShBZvWKVA9tA",
+                "@type" : "p0801-beol:person",
+                "rdfs:label" : "Etienne de Bourdeaux"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/dyhBkbFrQBSRevFJGMUfwQ",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/biblio/sAImr-uGRBGpsdBdoI6XCw",
+                "@type" : "http://0.0.0.0:3333/ontology/0802/biblio/v2#Book",
+                "rdfs:label" : "jordanclbhae"
+            }
+        }, {
+            "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/6ry3IMMKRNq9x29EiAhYTw",
+            "@type" : "knora-api:LinkValue",
+            "knora-api:linkValueHasTarget" : {
+                "@id" : "http://rdfh.ch/0801/beol/FJCOlKBdRtW8caqnN4A3Vw",
+                "@type" : "p0801-beol:endnote",
+                "rdfs:label" : "L176 note-3"
+            }
+        } ],
+        "rdfs:label" : "L176-O"
+    },
+    "schema:numberOfItems" : 1,
+    "@context" : {
+        "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "knora-api" : "http://api.knora.org/ontology/knora-api/v2#",
+        "schema" : "http://schema.org/",
+        "p0801-beol" : "http://0.0.0.0:3333/ontology/0801/beol/v2#",
+        "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    }
+}
