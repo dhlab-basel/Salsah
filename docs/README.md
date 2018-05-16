@@ -8,7 +8,11 @@ For the github page we're using Jekyll. To install Jekyll run:
 
 `$ gem install jekyll bundler`
 
-Run this Jekyll site locally (from root of docs/jekyll/):
+From root of `docs/jekyll` install the needed jekyll files
+
+`$ bundle install`
+
+and to run the site locally, run
 
 `$ bundle exec jekyll serve`
 
@@ -20,7 +24,7 @@ Run the update-gh-pages shell-script in docs/ which will push a commit to gh-pag
 
 `$ ./update-gh-pages.sh`
 
-It updates the following folders and files:
+The script updates the following folders and files:
 
 * _docs/
 * _posts/
