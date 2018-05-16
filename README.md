@@ -3,14 +3,13 @@
 
 # Salsah
 
-This is the repository for the [Knora](https://github.com/dhlab-basel/Knora) team's 
-graphical user interface called SALSAH (System for Annotation and Linkage of Sources in Arts and Humanities).
+The System for Annotation and Linkage of Sources in Arts and Humanities (Salsah) is the generic user interface for [Knora](https://github.com/dhlab-basel/Knora).
 
 It is developed by the [Digital Humanities Lab](http://www.dhlab.unibas.ch/) at the [University of Basel](https://www.unibas.ch/en.html), and is supported by the [Swiss Academy of Humanities and Social Sciences](http://www.sagw.ch/en/sagw.html).
 
 Salsah is [free software](http://www.gnu.org/philosophy/free-sw.en.html), released under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.en.html).
 
-The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.5.4 (will be updated from time to time!)
+The project was generated with [angular-cli](https://github.com/angular/angular-cli).
 
 You find more information about Salsah on: 
 
@@ -21,29 +20,61 @@ You find more information about Salsah on:
 
 If you're a developer and you want to improve the app, please have a look at the developer guideline first:
 
-**[https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/index.html](https://dhlab-basel.github.io/Salsah/documentation/guidelines/rst/index.html)**
+**[https://dhlab-basel.github.io/Salsah/02-developer-hints/structure/](https://dhlab-basel.github.io/Salsah/02-developer-hints/structure/)**
 
 ### Prerequisites
 
-We develop the Salsah app with Angular (v4), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) 6.9.0 or higher and [NPM](https://www.npmjs.com) 3 or higher. Btw we're using [yarn](https://yarnpkg.com/en/docs/cli/install) to install the node packages. As a Salsah developer we recommend to use Yarn instead of npm!
+We develop the Salsah app with Angular (v5), especially with Angular-cli, which requires the following tools:
+
+
+#### Node
+Install [Node](https://nodejs.org/en/download/) in version >=4 <=9. We recommend to use version 8.9.0.
+
+The easiest way to install node in the correct version is to use ['n'](https://github.com/tj/n).
+
+
+#### Yarn (instead of npm)
+By installing node, you get the node package manager (npm), which will be used for the app dependency management. But we recommend to use [yarn](https://yarnpkg.com/en/) instead of npm.
+
+Install yarn by following the [instructions on their website](https://yarnpkg.com/en/docs/install).
+
+
+#### Angular-cli
+To start the app or to create new components and services, you need [angular-cli](https://github.com/angular/angular-cli), which should be installed globally.
+
+`$ yarn global add @angular/cli`
+
+We develop the Salsah app with Angular (v5), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) (version >=4 <=9) and [NPM](https://www.npmjs.com) or [yarn](https://yarnpkg.com/en/docs/cli/install). We recommend to use Yarn instead of npm!
 
 **Install [angular-cli](https://github.com/angular/angular-cli) globally**
 
 `yarn global add @angular/cli`
 
-If there are some permission issues, try to fix the writing rights in node with `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`
+### Getting started
+#### Install the app dependencies
+After cloning the Salsah code, install the needed node packages from the Salsah root directory:
 
-### Node package dependencies 
-After cloning the Salsah code, install the node packages from the Salsah root directory
+```
+$ cd /path/to/your/salsah/installation
 
-`yarn install --production=false`
+$ yarn install --production=false
+```
 
-### Start the Salsah app
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-If you have any trouble to start the Salsah app with ng, you should have a look on the [@angular/cli](https://cli.angular.io) website.
+#### Start the Salsah app
+Now you can start the app with
 
-### Code scaffolding
+`$ ng serve`
+
+which will start a server with the app in a developer mode on [http://localhost:4200/](http://localhost:4200/). 
+
+By changing the code, the app will automatically compile and reload the page.
+
+If you have any trouble to start the Salsah app with ng, you should have a look on the [angular-cli](https://cli.angular.io) documentation.
+
+
+### Developer hints
+#### Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
 
@@ -59,28 +90,34 @@ The command to create a new component, like the e.g. a component to handle image
 "image-object" is the name for the new component.
 
 
-### Build
+#### Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-### Running unit tests
+#### Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-### Running end-to-end tests
+#### Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 Before running the tests make sure you are serving the app via `ng serve`.
 
-### Further help
+#### Further help
 
 To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Style
-We're working with precompiled [sass scss](http://sass-lang.com/) in the components directly. 
+#### Code style
+We develop Salsah with with [angular-cli](https://cli.angular.io) and the [WebStorm editor](https://www.jetbrains.com/webstorm/) by JetBrains. This editor (but also many others) is able to read the .editorconfig file in the Salsah root directory. It’s a configuration definition for the typescript- and the scss-lint tools. The following recommendations are important:
+
+We use spaces instead of tabs (indent_style) with a size of 4 (indent_size). 
+
+There's one exception! For the styling we implemented [Material](https://material.angular.io) and write own style with [sass scss](https://sass-lang.com/guide) files, which has a indent size of 2.
+
+For the typescript code styling, we’re following the TSLint recommendation. Please set your editor configuration as described there. It helps on reformat code (one cool function in WebStorm). One important point is to use single quotes always. Please set the TS punctuation settings to “use single quotes always”
 
 
-## Commit Message Schema
+#### Commit Message Schema
 
 When writing commit messages, we stick to this schema:
 
