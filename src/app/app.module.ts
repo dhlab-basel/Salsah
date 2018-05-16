@@ -38,7 +38,6 @@ import {UsersService} from './model/services/users.service';
 //
 // import all npm salsah modules
 //
-import {ProgressIndicatorModule} from '@salsah/progress-indicator';
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
 // and a list of status messages
@@ -170,6 +169,7 @@ import { ListFormComponent } from './view/modules/form/list-form/list-form.compo
 import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
 import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
 import { SortButtonComponent } from './view/modules/action/sort-button/sort-button.component';
+import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
 
 //
 // import all needed services
@@ -295,7 +295,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ProjectDataComponent,
         ReadTextfileValueComponent,
         NodeFormComponent,
-        SortButtonComponent
+        SortButtonComponent,
+        ProgressIndicatorComponent
     ],
     imports: [
         BrowserModule,
@@ -309,7 +310,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         TreeModule,
-        ProgressIndicatorModule,
         DndModule.forRoot(),
         HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase),

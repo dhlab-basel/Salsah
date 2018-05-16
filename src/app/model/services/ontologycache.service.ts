@@ -349,7 +349,7 @@ export class OntologyCacheService {
 
     // properties that Knora is not responsible for and
     // that have to be ignored because they cannot be resolved at the moment
-    private excludedProperties: Array<string> = [AppConfig.schemaName, AppConfig.RdfsLabel];
+    private excludedProperties: Array<string> = [AppConfig.RdfsLabel];
 
     // class definitions that are not be treated as Knora resource classes
     private nonResourceClasses: Array<string> = [AppConfig.ForbiddenResource, AppConfig.XMLToStandoffMapping, AppConfig.ListNode];
@@ -545,11 +545,11 @@ export class OntologyCacheService {
 
                         // get occurrence
                         if (curCard[AppConfig.OwlMinCardinality] !== undefined) {
-                            newCard = new Cardinality(CardinalityOccurrence.minCard, curCard[AppConfig.OwlMinCardinality], curCard[AppConfig.OwlOnProperty]);
+                            newCard = new Cardinality(CardinalityOccurrence.minCard, curCard[AppConfig.OwlMinCardinality], curCard[AppConfig.OwlOnProperty]['@id']);
                         } else if (curCard[AppConfig.OwlCardinality] !== undefined) {
-                            newCard = new Cardinality(CardinalityOccurrence.card, curCard[AppConfig.OwlCardinality], curCard[AppConfig.OwlOnProperty]);
+                            newCard = new Cardinality(CardinalityOccurrence.card, curCard[AppConfig.OwlCardinality], curCard[AppConfig.OwlOnProperty]['@id']);
                         } else if (curCard[AppConfig.OwlMaxCardinality] !== undefined) {
-                            newCard = new Cardinality(CardinalityOccurrence.maxCard, curCard[AppConfig.OwlMaxCardinality], curCard[AppConfig.OwlOnProperty]);
+                            newCard = new Cardinality(CardinalityOccurrence.maxCard, curCard[AppConfig.OwlMaxCardinality], curCard[AppConfig.OwlOnProperty]['@id']);
                         } else {
                             // no known occurrence found
                             throw new TypeError(`cardinality type invalid for ${curResClassFromOntoRes['@id']} ${curCard[AppConfig.OwlOnProperty]}`);
@@ -571,6 +571,8 @@ export class OntologyCacheService {
                 curResClassFromOntoRes[AppConfig.RdfsLabel],
                 cardinalities
             );
+
+            //console.log(resClassDef);
 
             // write this resource class definition to the cache object
             this.cacheOntology.resourceClasses[resClass] = resClassDef;
@@ -651,15 +653,20 @@ export class OntologyCacheService {
 
             let subPropertyOf = [];
             if (curPropDefFromKnora[AppConfig.subPropertyOf] !== undefined && Array.isArray(curPropDefFromKnora[AppConfig.subPropertyOf])) {
-                subPropertyOf = curPropDefFromKnora[AppConfig.subPropertyOf];
+                subPropertyOf = curPropDefFromKnora[AppConfig.subPropertyOf].map((superProp: Object) => superProp['@id']);
             } else if (curPropDefFromKnora[AppConfig.subPropertyOf] !== undefined) {
-                subPropertyOf.push(curPropDefFromKnora[AppConfig.subPropertyOf]);
+                subPropertyOf.push(curPropDefFromKnora[AppConfig.subPropertyOf]['@id']);
+            }
+
+            let objectType;
+            if (curPropDefFromKnora[AppConfig.ObjectType] !== undefined) {
+                objectType = curPropDefFromKnora[AppConfig.ObjectType]['@id'];
             }
 
             // create an instance of Property
             let newPropDef = new Property(
                 curPropDefFromKnora['@id'],
-                curPropDefFromKnora[AppConfig.ObjectType],
+                objectType,
                 curPropDefFromKnora[AppConfig.RdfsComment],
                 curPropDefFromKnora[AppConfig.RdfsLabel],
                 subPropertyOf,
@@ -667,6 +674,8 @@ export class OntologyCacheService {
                 isLinkProperty,
                 isLinkValueProperty
             );
+
+            //console.log(newPropDef);
 
             // cache property definition
             this.cacheOntology.properties[propDefIri] = newPropDef;
