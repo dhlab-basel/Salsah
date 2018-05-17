@@ -42,9 +42,13 @@ testem.log
 Thumbs.db
 
 #Documentation Files
-docs/env
-docs/_build
-docs/_format_docu
+docs/sphinx-deprecated/env
+docs/sphinx-deprecated/_build
+docs/sphinx-deprecated/_format_docu
+docs/jekyll/_site/
+docs/jekyll/.sass-cache
+docs/jekyll/.jekyll-metadata
+
 *.iml
 
 json2typescript
