@@ -14,6 +14,9 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {BasicOntology, PropertyObject, ResourceClass} from '../../../../model/test-data/basic-ontology';
+import {FormBuilder, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
+import {ResourceTypeInfo} from "../../../../model/webapi/knora";
+import {PropertyItem} from "../../../../model/webapi/knora/v1/properties/property-item";
 
 @Component({
     selector: 'salsah-ontology-form',
@@ -33,12 +36,18 @@ export class OntologyFormComponent implements OnInit {
     // in this case, the project admin adds a new ontology to the project
     @Input() restrictedBy?: string = undefined;
 
+    newOntology: any;
+    // newResource: ResourceClass = new ResourceClass();
+    // newProperty: PropertyItem = new PropertyItem;
+    newResource: any;
+    newProperty: any;
+
     isLoading: boolean = true;
 
-    direction: string = 'horizontal'
+    direction: string = 'horizontal';
 
-    isDisabled: boolean = false
-    useTransition: boolean = true
+    isDisabled: boolean = false;
+    useTransition: boolean = true;
     areas = [
         {size: 20, order: 1, content: 'Ontologies'},
         {size: 40, order: 2, content: 'Resource Classes'},
@@ -46,20 +55,23 @@ export class OntologyFormComponent implements OnInit {
     ]
 
     // result to send to the server
-    newResource: ResourceClass = new ResourceClass();
+    public ontologyForm: FormGroup; // our model driven form
 
 
     public createOntologyLabels: any = {
-        label: 'Ontology',
+        label: 'Ontology label',
+        name: 'Ontology short name',
         resource: {
             label: 'Resource label',
+            name: 'Resource short name',
             description: 'Resource description',
             icon: 'Resource icon',
         },
         addProp: {
             select:'Select a property',
-            label: 'Create new property',
-            description: 'Create a custom property',
+            label: 'Property label',
+            name: 'Property short name',
+            description: 'Property description',
             gui: 'GUI element',
             attributes: 'GUI attributes',
             id: 'Property ID',
@@ -105,14 +117,102 @@ export class OntologyFormComponent implements OnInit {
         '0-n'
     ];
 
+    shortnameMinLength: number = 3;
+    shortnameMaxLength: number = 16;
 
-    constructor() {
+    // the following form fields would have an error check
+    formErrors = {
+        'name': '',
+        'labels': '',
+        'resName': '',
+        'resLabel': '',
+        'resDescription': '',
+        'propName': '',
+        'propLabel': '',
+        'propDescription': '',
+        'propGUItype': '',
+        'propCardinality': ''
+    };
+    // ...with the following messages
+    validationMessages = {
+        'name': {
+            'required': 'Ontology short name is required',
+            'minlength': 'Short name must be at least ' + this.shortnameMinLength + ' characters long.',
+            'maxlength': 'Short name cannot be more than ' + this.shortnameMaxLength + ' characters long.',
+        },
+        'labels': {
+            'required': 'Ontology label is required'
+        },
+        'resName': {
+            'required': 'Resource name is required'
+        },
+        'resLabel': {
+            'required': 'Resource label is required'
+        },
+        'propName': {
+            'required': 'Property name is required'
+        },
+        'propLabel': {
+            'required': 'Property label is required'
+        },
+        'propGUItype': {
+            'required': 'Property GUI type name is required'
+        },
+        'propCardinality': {
+            'required': 'Property cardinality is required'
+        },
+    };
+
+
+    constructor(private _fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.isLoading = false;
+        this.buildOntologyForm();
     }
 
+    buildOntologyForm() {
+        this.ontologyForm = this._fb.group({
+            name: ['', Validators.required], //this is the short name (kind of an ID) of the ontology
+            label: ['', Validators.required], //this is the long name of the ontology
+            resName: ['', Validators.required],
+            resLabel: ['', Validators.required],
+            resIcon: '',
+            resDescription: '', //this is the short name (kind of an ID) of the ontology
+            propName: ['', Validators.required],
+            propLabel: ['', Validators.required],
+            propDescription: '',
+            propGUItype: ['', Validators.required],
+            propCardinality: ['', Validators.required],
+        });
+
+        // validation messages
+        this.ontologyForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+    }
+
+    // build form validation messages
+    onValueChanged(data?: any) {
+        if (!this.ontologyForm) {
+            return;
+        }
+        const form = this.ontologyForm;
+
+        for (const field in this.formErrors) {
+            const control = form.get(field);
+            this.formErrors[field] = '';
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+
+        }
+    }
+
+    //////////Angular split-screen functions /////////////////////////////////////
     gutterClick(e: {gutterNum: number, sizes: Array<number>}) {
         if(e.gutterNum === 1) {
             if(this.areas[0].size > 0) {
@@ -151,5 +251,6 @@ export class OntologyFormComponent implements OnInit {
         this.areas[1].size = e.sizes[1];
         this.areas[2].size = e.sizes[2];
     }
+    ///////////////////////////////////////////////////////////////////////////////
 
 }

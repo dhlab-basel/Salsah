@@ -39,115 +39,116 @@
             (gutterClick)="gutterClick($event)"
             [direction]="direction"
             height="600">
-            <!--<split-area *ngFor="let a of areas" [size]="a.size" [order]="a.order">-->
-            <!--<p>{{ a.content }}</p>-->
-            <!--</split-area>-->
-            <split-area>
-                <p>Add Resource Classes</p>
-                <hr/>
-                <!-- Step 1: Define your new resource: name it, describe it and set the permissions for the whole resource -->
-                <!--<section *ngIf="newResource.id" [hidden]="counter!==1">-->
-                <section>
+
+                <split-area>
+                    <form class="salsah-form new-user" [formGroup]="ontologyForm">
+
+                    <p>Add Resource Classes</p>
+                    <hr/>
+                    <!-- Step 2: Define your new resource: name it, describe it and set the permissions for the whole resource -->
+                    <!--<section *ngIf="newResource.id" [hidden]="counter!==1">-->
+
                     <!-- <p mat-header>Define your new resource object <strong>{{newResource.label}}</strong></p> -->
-                    <form #resource="ngForm" class="salsah-form">
-                        <mat-input-container class="full-width"
-                                             dividerColor="{{ !newResource.label ? 'warn' : 'primary' }}">
-                            <input matInput
-                                   placeholder={{createOntologyLabels.resource.label}}
-                                   name="label"
-                                   [(ngModel)]="newResource.label">
-                            <mat-hint class="salsah-hint">
-                                <span [hidden]="newResource.label"
-                                      class="salsah-error">This information is required!</span>
-                            </mat-hint>
-                        </mat-input-container>
-                        <!-- resource description -->
-                        <mat-input-container class="full-width">
-                    <textarea matInput
-                              placeholder={{createOntologyLabels.resource.description}}
-                              name="description"
-                              [(ngModel)]="newResource.description"
-                              cols="30" rows="5">
-                    </textarea>
-                        </mat-input-container>
-                        <mat-input-container class="full-width"
-                                             dividerColor="{{ !newResource.icon ? 'warn' : 'primary' }}">
-                            <span matPrefix><mat-icon>{{newResource.icon}}</mat-icon></span>
-
-                            <input matInput
-                                   placeholder={{createOntologyLabels.resource.icon}}
-                                   name="icon"
-                                   [(ngModel)]="newResource.icon">
-                        </mat-input-container>
+                    <mat-input-container class="full-width">
+                        <input matInput
+                               placeholder={{createOntologyLabels.resource.label}}
+                               name="label"
+                               formControlName="resLabel">
+                    </mat-input-container>
+                    <mat-input-container class="full-width">
+                        <input matInput
+                               placeholder={{createOntologyLabels.resource.name}}
+                               name="label"
+                               formControlName="resName">
+                    </mat-input-container>
+                    <!-- resource description -->
+                    <mat-input-container class="full-width">
+                        <textarea matInput
+                                  placeholder={{createOntologyLabels.resource.description}}
+                                  name="description"
+                                  formControlName="resDescription"
+                                  cols="30" rows="5">
+                        </textarea>
+                    </mat-input-container>
+                    <!--<mat-input-container class="full-width">-->
+                    <!--<span matPrefix><mat-icon>{{newResource.icon}}</mat-icon></span>-->
+                    <!--<input matInput-->
+                    <!--placeholder={{createOntologyLabels.resource.icon}}-->
+                    <!--name="icon"-->
+                    <!--formControlName="resIcon">-->
+                    <!--</mat-input-container>-->
                     </form>
-                </section>
-            </split-area>
-            <split-area>
-                <!-- Step 2: Select the properties you need that correspond to your resource (how about adding properties from other resources? Go to advanced? -->
-                <section>
+                </split-area>
+
+                <!-- Step 1: Add new Ontology, by providing short name and label-->
+                <split-area>
+                    <form class="salsah-form new-user" [formGroup]="ontologyForm">
+
+                    <p>New Ontology</p>
+                    <mat-input-container class="full-width">
+                        <input matInput
+                               placeholder={{createOntologyLabels.label}}
+                               formControlName="label">
+                    </mat-input-container>
+                    <mat-input-container class="full-width">
+                        <input matInput
+                               placeholder={{createOntologyLabels.name}}
+                               formControlName="name">
+                    </mat-input-container>
+                    </form>
+                </split-area>
+
+                <!-- Step 3: Add properties-->
+                <split-area>
+                    <form class="salsah-form new-user" [formGroup]="ontologyForm">
+
                     <!--<section *ngIf="newResource.id" [hidden]="counter!==2">-->
-                    <form #properties="ngForm" class="salsah-form">
-                        <p>Select properties for <i>{{newResource.label}}</i></p>
-                        <hr/>
-
-                        <p mat-subheader>Select existing properties</p>
-                        <mat-select placeholder={{createOntologyLabels.addProp.select}}>
-                            <mat-option>Prop 1</mat-option>
-                            <mat-option>Prop 2</mat-option>
-                            <mat-option>Prop 3</mat-option>
+                    <p>Add properties</p>
+                    <hr/>
+                    <mat-input-container class="full-width">
+                        <input matInput
+                               placeholder={{createOntologyLabels.addProp.label}}
+                               name="label"
+                               formControlName="propLabel">
+                    </mat-input-container>
+                    <mat-input-container class="full-width">
+                        <input matInput
+                               placeholder={{createOntologyLabels.addProp.name}}
+                               name="label"
+                               formControlName="propName">
+                    </mat-input-container>
+                    <mat-form-field class="full-width">
+                                <textarea matInput
+                                          placeholder={{createOntologyLabels.addProp.description}}
+                                          formControlName="propDescription"></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <mat-select
+                            placeholder={{createOntologyLabels.addProp.gui}}
+                            formControlName="propGUItype">
+                            <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
+                                {{guiItem}}
+                            </mat-option>
                         </mat-select>
-                        <hr/>
-
-                        <p mat-subheader>Create new property</p>
-                        <mat-input-container class="full-width">
-                            <input matInput
-                                   placeholder={{createOntologyLabels.addProp.label}}
-                                   name="label"
-                                   [(ngModel)]="prop">
-                            <mat-hint class="salsah-hint">
-                                <span [hidden]="prop"
-                                      class="salsah-error">This information is required!</span>
-                            </mat-hint>
-                        </mat-input-container>
-                        <mat-form-field class="full-width">
-                            <textarea matInput
-                                      placeholder={{createOntologyLabels.addProp.description}}></textarea>
-                        </mat-form-field>
-                        <mat-form-field class="full-width">
-                            <mat-select
-                                placeholder={{createOntologyLabels.addProp.gui}}>
-                                <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
-                                    {{guiItem}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="full-width">
-                            <input matInput
-                                   placeholder={{createOntologyLabels.addProp.attributes}}>
-                        </mat-form-field>
-                        <mat-form-field class="full-width">
-                            <input matInput
-                                   placeholder={{createOntologyLabels.addProp.id}}>
-                        </mat-form-field>
-                        <div class="full-width">
-                            <div class="salsah-placeholder">
-                                {{createOntologyLabels.addProp.occurrence}}
-                            </div>
-                            <mat-button-toggle-group>
-                                <mat-button-toggle *ngFor="let cardinality of cardinalityList"
-                                                   [value]="cardinality">
-                                    {{cardinality}}
-                                </mat-button-toggle>
-                            </mat-button-toggle-group>
-                            <!--<div class="mat-caption">Selected value: {{group.value}}</div>-->
+                    </mat-form-field>
+                    <div class="full-width">
+                        <div class="salsah-placeholder">
+                            {{createOntologyLabels.addProp.occurrence}}
                         </div>
+                        <mat-button-toggle-group>
+                            <mat-button-toggle *ngFor="let cardinality of cardinalityList"
+                                               [value]="propCardinality">
+                                {{cardinality}}
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                        <!--<div class="mat-caption">Selected value: {{group.value}}</div>-->
+                    </div>
                     </form>
-                </section>
-
-            </split-area>
+                </split-area>
         </split>
     </div>
     <br>
+
     <div class="btns">
         <span>
             <button class="btn btn-warning" [class.active]="!useTransition" (click)="useTransition = !useTransition">
@@ -160,11 +161,12 @@
             </button>
         </span>
         <span>
-        <button class="btn btn-warning" (click)="direction = (direction === 'horizontal') ? 'vertical' : 'horizontal'">
-            {{'Toggle direction: "' + direction + '"' }}
-        </button>
-    </span>
+            <button class="btn btn-warning" (click)="direction = (direction === 'horizontal') ? 'vertical' : 'horizontal'">
+                {{'Toggle direction: "' + direction + '"' }}
+            </button>
+        </span>
     </div>
+
 </div>
 
 
