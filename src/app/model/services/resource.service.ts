@@ -15,6 +15,9 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs/Observable';
+import {Project, ProjectResponse} from '../webapi/knora';
+import {ApiServiceResult} from './api-service-result';
+import {ApiServiceError} from './api-service-error';
 
 @Injectable()
 export class ResourceService extends ApiService {
@@ -26,7 +29,23 @@ export class ResourceService extends ApiService {
      * @returns {Observable<any>}
      */
     getResource(iri): Observable<any> {
-        return this.httpGetV2("/resources/" + iri );
+        return this.httpGetV2('/resources/' + encodeURIComponent(iri));
     }
+
+    /*
+    getResourceByIri(iri: string): Observable<any> {
+        return this.httpGetV2('/resources/' + encodeURIComponent(iri)).map(
+            (result: ApiServiceResult) => {
+                // console.log('ProjectsService - getProject - result: ', JSON.stringify(result));
+                // console.log('ProjectsService - getProject: ' + url + ' , project: ', JSON.stringify(project));
+                return result.getBody(ProjectResponse).project;
+            },
+            (error: ApiServiceError) => {
+                console.error(error);
+                throw error;
+            }
+        );
+    }
+    */
 
 }

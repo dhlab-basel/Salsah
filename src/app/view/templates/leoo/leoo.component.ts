@@ -54,7 +54,7 @@ export class LeooComponent implements OnInit {
                                 const letterIri: string = resourceSeq.resources[0].id;
 
                                 // given the Iri of the letter, display the whole resource
-                                this._router.navigate(['/object/' + encodeURIComponent(letterIri)]);
+                                this._router.navigate(['/object', letterIri]);
                             } else {
                                 // letter not found
                                 console.log(`letter with repertorium number ${this.repertoriumNumber} not found`)

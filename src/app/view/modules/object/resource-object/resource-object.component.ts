@@ -72,13 +72,14 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
         // prevent duplicate requests. if isFirstChange resource will be requested on ngOnInit
         if (!changes['iri'].isFirstChange()) {
-            this.requestResource(encodeURIComponent(this.iri));
+            console.log('onChanges: ', this.iri);
+            this.requestResource(this.iri);
         }
     }
 
     ngOnInit() {
         this._route.params.subscribe((params: Params) => {
-            let resIri = ( params['rid'] !== undefined ? params['rid'] : encodeURIComponent(this.iri) );
+            let resIri = ( params['rid'] !== undefined ? params['rid'] : this.iri );
             this.requestResource(resIri);
         });
     }
