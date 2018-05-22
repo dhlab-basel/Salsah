@@ -56,6 +56,8 @@ export class OntologyFormComponent implements OnInit {
 
     // result to send to the server
     public ontologyForm: FormGroup; // our model driven form
+    public ontologyResForm: FormGroup; // our model driven form
+    public ontologyPropForm: FormGroup; // our model driven form
 
 
     public createOntologyLabels: any = {
@@ -170,16 +172,34 @@ export class OntologyFormComponent implements OnInit {
     ngOnInit() {
         this.isLoading = false;
         this.buildOntologyForm();
+        this.buildOntologyResForm();
+        this.buildOntologyPropForm();
     }
 
     buildOntologyForm() {
         this.ontologyForm = this._fb.group({
             name: ['', Validators.required], //this is the short name (kind of an ID) of the ontology
             label: ['', Validators.required], //this is the long name of the ontology
+        });
+
+        // validation messages
+        this.ontologyForm.valueChanges
+            .subscribe(data => this.onValueChanged(data, this.ontologyForm));
+    }
+    buildOntologyResForm() {
+        this.ontologyResForm = this._fb.group({
             resName: ['', Validators.required],
             resLabel: ['', Validators.required],
             resIcon: '',
             resDescription: '', //this is the short name (kind of an ID) of the ontology
+        });
+
+        // validation messages
+        this.ontologyResForm.valueChanges
+            .subscribe(data => this.onValueChanged(data, this.ontologyResForm));
+    }
+    buildOntologyPropForm() {
+        this.ontologyPropForm = this._fb.group({
             propName: ['', Validators.required],
             propLabel: ['', Validators.required],
             propDescription: '',
@@ -188,19 +208,19 @@ export class OntologyFormComponent implements OnInit {
         });
 
         // validation messages
-        this.ontologyForm.valueChanges
-            .subscribe(data => this.onValueChanged(data));
+        this.ontologyPropForm.valueChanges
+            .subscribe(data => this.onValueChanged(data, this.ontologyPropForm));
     }
 
     // build form validation messages
-    onValueChanged(data?: any) {
+    onValueChanged(data?: any, myForm: FormGroup) {
         if (!this.ontologyForm) {
             return;
         }
-        const form = this.ontologyForm;
+        // const form = this.ontologyForm;
 
         for (const field in this.formErrors) {
-            const control = form.get(field);
+            const control = myForm.get(field);
             this.formErrors[field] = '';
             if (control && control.dirty && !control.valid) {
                 const messages = this.validationMessages[field];
@@ -210,6 +230,26 @@ export class OntologyFormComponent implements OnInit {
             }
 
         }
+    }
+
+    //Form adction buttons
+    resetOntoInfo(){
+        this.ontologyPropForm.reset();
+    }
+    saveOntoInfo(){
+
+    }
+    resetNewRes(){
+        this.ontologyPropForm.reset();
+    }
+    saveNewRes(){
+
+    }
+    resetNewProp(){
+        this.ontologyPropForm.reset();
+    }
+    saveNewProp(){
+
     }
 
     //////////Angular split-screen functions /////////////////////////////////////
