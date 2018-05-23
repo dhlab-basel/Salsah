@@ -41,57 +41,58 @@
             height="600">
 
                 <split-area>
+                    <!-- Step 2: Define your new resource: name it, describe it and set the permissions for the whole resource -->
                     <form class="salsah-form new-user" [formGroup]="ontologyResForm">
-
-                        <p>Add Resource Classes</p>
-                        <hr/>
-                        <!-- Step 2: Define your new resource: name it, describe it and set the permissions for the whole resource -->
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>
+                                    Add Resource Classes
+                                </mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <mat-input-container class="full-width">
+                                    <input matInput
+                                           placeholder={{createOntologyLabels.resource.label}}
+                                           name="label"
+                                           formControlName="resLabel">
+                                </mat-input-container>
+                                <mat-input-container class="full-width">
+                                    <input matInput
+                                           placeholder={{createOntologyLabels.resource.name}}
+                                           name="name"
+                                           formControlName="resName">
+                                </mat-input-container>
+                                <!-- resource description -->
+                                <mat-input-container class="full-width">
+                                    <textarea matInput
+                                              placeholder={{createOntologyLabels.resource.description}}
+                                              name="description"
+                                              formControlName="resDescription"
+                                              cols="30" rows="5">
+                                    </textarea>
+                                </mat-input-container>
+                                <mat-card-actions>
+                                    <button mat-button
+                                            color="warn"
+                                            (click)="resetNewRes()">
+                                        {{createOntologyLabels.buttons.reset}}
+                                    </button>
+                                    <button mat-raised-button
+                                            class="save-button"
+                                            [color]="'primary'"
+                                            [disabled]="!ontologyResForm.valid"
+                                            (click)="saveNewRes()">
+                                        {{createOntologyLabels.buttons.save}}
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card-content>
+                        </mat-card>
+                        <mat-list>
+                            <p class="salsah-placeholder">Current Resource Classes</p>
+                            <mat-list-item *ngFor="let res of newResource">{{res.label}}</mat-list-item>
+                            <!--<mat-list-item *ngIf="ontologyResForm.get('resLabel').value">{{ontologyResForm.get('resLabel').value}}</mat-list-item>-->
+                        </mat-list>
                         <!--<section *ngIf="newResource.id" [hidden]="counter!==1">-->
-
-                        <!-- <p mat-header>Define your new resource object <strong>{{newResource.label}}</strong></p> -->
-                        <mat-input-container class="full-width">
-                            <input matInput
-                                   placeholder={{createOntologyLabels.resource.label}}
-                                   name="label"
-                                   formControlName="resLabel">
-                        </mat-input-container>
-                        <mat-input-container class="full-width">
-                            <input matInput
-                                   placeholder={{createOntologyLabels.resource.name}}
-                                   name="label"
-                                   formControlName="resName">
-                        </mat-input-container>
-                        <!-- resource description -->
-                        <mat-input-container class="full-width">
-                            <textarea matInput
-                                      placeholder={{createOntologyLabels.resource.description}}
-                                      name="description"
-                                      formControlName="resDescription"
-                                      cols="30" rows="5">
-                            </textarea>
-                        </mat-input-container>
-                    <!--<mat-input-container class="full-width">-->
-                    <!--<span matPrefix><mat-icon>{{newResource.icon}}</mat-icon></span>-->
-                    <!--<input matInput-->
-                    <!--placeholder={{createOntologyLabels.resource.icon}}-->
-                    <!--name="icon"-->
-                    <!--formControlName="resIcon">-->
-                    <!--</mat-input-container>-->
-                        <mat-action-row>
-                            <button mat-button
-                                    color="warn"
-                                    (click)="resetNewRes()">
-                                {{createOntologyLabels.buttons.reset}}
-                            </button>
-                            <button mat-raised-button
-                                    class="save-button"
-                                    [color]="'primary'"
-                                    [disabled]="!ontologyResForm.valid"
-                                    (click)="saveNewRes()"
-                                    mat-dialog-close>
-                                {{createOntologyLabels.buttons.save}}
-                            </button>
-                        </mat-action-row>
                     </form>
                 </split-area>
 
@@ -131,10 +132,8 @@
                 <!-- Step 3: Add properties-->
                 <split-area>
                     <form class="salsah-form new-user" [formGroup]="ontologyPropForm">
-
                         <!--<section *ngIf="newResource.id" [hidden]="counter!==2">-->
                         <p>Add properties</p>
-                        <hr/>
                         <mat-input-container class="full-width">
                             <input matInput
                                    placeholder={{createOntologyLabels.addProp.label}}

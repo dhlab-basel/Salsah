@@ -36,11 +36,6 @@ export class OntologyFormComponent implements OnInit {
     // in this case, the project admin adds a new ontology to the project
     @Input() restrictedBy?: string = undefined;
 
-    newOntology: any;
-    // newResource: ResourceClass = new ResourceClass();
-    // newProperty: PropertyItem = new PropertyItem;
-    newResource: any;
-    newProperty: any;
 
     isLoading: boolean = true;
 
@@ -59,6 +54,7 @@ export class OntologyFormComponent implements OnInit {
     public ontologyResForm: FormGroup; // our model driven form
     public ontologyPropForm: FormGroup; // our model driven form
 
+    public index: any = 0;
 
     public createOntologyLabels: any = {
         label: 'Ontology label',
@@ -165,6 +161,18 @@ export class OntologyFormComponent implements OnInit {
         },
     };
 
+    newOntology: any;
+    public newResource: any[] = [{
+        name: '',
+        label: '',
+        icon: '',
+        description: ''
+    }];
+    // newResource: ResourceClass[] = new ResourceClass();
+    // newProperty: PropertyItem = new PropertyItem;
+    // newResource: any;
+    newProperty: any;
+
 
     constructor(private _fb: FormBuilder) {
     }
@@ -232,24 +240,35 @@ export class OntologyFormComponent implements OnInit {
         }
     }
 
-    //Form adction buttons
+    //Form action buttons
     resetOntoInfo(){
         this.ontologyPropForm.reset();
     }
     saveOntoInfo(){
-
     }
     resetNewRes(){
         this.ontologyPropForm.reset();
     }
     saveNewRes(){
-
+        console.log('Your submitted resource is:', this.ontologyResForm.value);
+        const i = this.index;
+        //Assign the form values to newResource////////////
+        this.newResource[i] = {
+            name: this.ontologyResForm.value.resName,
+            label: this.ontologyResForm.value.resLabel,
+            icon: this.ontologyResForm.value.resIcon,
+            description : this.ontologyResForm.value.resDescription
+        }
+        ////////////////////////////////////////////////////
+        console.log('Your submitted resources are:', this.newResource);
+        this.ontologyResForm.reset();
+        this.index ++;
     }
     resetNewProp(){
         this.ontologyPropForm.reset();
     }
     saveNewProp(){
-
+        console.log('Your submitted property is:', this.ontologyPropForm.value);
     }
 
     //////////Angular split-screen functions /////////////////////////////////////
