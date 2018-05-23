@@ -47,7 +47,7 @@ export class IncomingService extends SearchService {
       } OFFSET ${offset}
     `;
 
-        return this.doExtendedSearch(encodeURIComponent(sparqlQueryStr));
+        return this.doExtendedSearch(sparqlQueryStr);
     }
 
     /**
@@ -93,7 +93,7 @@ export class IncomingService extends SearchService {
           OFFSET ${offset}
 `;
 
-        return this.doExtendedSearch(encodeURIComponent(sparqlQueryStr));
+        return this.doExtendedSearch(sparqlQueryStr);
 
     }
 
@@ -142,7 +142,7 @@ export class IncomingService extends SearchService {
         
         `;
 
-        return this.doExtendedSearch(encodeURIComponent(sparqlQueryStr));
+        return this.doExtendedSearch(sparqlQueryStr);
     }
 
 }

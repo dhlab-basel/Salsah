@@ -38,7 +38,7 @@ export class LeooComponent implements OnInit {
                 // create a query that gets the Iri of the LEOO letter
                 const query = this._beolService.searchForLetterFromLEOO(this.repertoriumNumber);
 
-                this._searchService.doExtendedSearch(encodeURIComponent(query)).subscribe(
+                this._searchService.doExtendedSearch(query).subscribe(
                     (result: ApiServiceResult) => {
 
                         let promises = jsonld.promises;

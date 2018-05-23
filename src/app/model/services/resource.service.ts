@@ -32,20 +32,4 @@ export class ResourceService extends ApiService {
         return this.httpGetV2('/resources/' + encodeURIComponent(iri));
     }
 
-    /*
-    getResourceByIri(iri: string): Observable<any> {
-        return this.httpGetV2('/resources/' + encodeURIComponent(iri)).map(
-            (result: ApiServiceResult) => {
-                // console.log('ProjectsService - getProject - result: ', JSON.stringify(result));
-                // console.log('ProjectsService - getProject: ' + url + ' , project: ', JSON.stringify(project));
-                return result.getBody(ProjectResponse).project;
-            },
-            (error: ApiServiceError) => {
-                console.error(error);
-                throw error;
-            }
-        );
-    }
-    */
-
 }
