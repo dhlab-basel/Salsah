@@ -49,6 +49,7 @@ import {BeolComponent} from './view/templates/beol/beol.component';
 import {DialogTestComponent} from './view/test/development/dialog-test/dialog-test.component';
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {LeooComponent} from './view/templates/leoo/leoo.component';
+import {ObjectViewerComponent} from './view/modules/object/object-viewer/object-viewer.component';
 
 
 const appRoutes: Routes = [
@@ -90,7 +91,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'object/:rid',
-        component: ResourceObjectComponent
+        component: ObjectViewerComponent
     },
     {
         path: 'contact',
