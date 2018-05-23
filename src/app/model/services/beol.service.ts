@@ -8,6 +8,13 @@ export class BeolService {
     constructor(private _searchParamsService: SearchParamsService) {
     }
 
+    /**
+     * Given the ISBN, returns the KnarQL to search for the book.
+     *
+     * @param {string} isbn the book's ISBN.
+     * @param {string} sectionTitle the title to display describing the book.
+     * @returns {string} KnarQL query.
+     */
     searchForBook(isbn: string, sectionTitle: string): string {
 
         const bookTemplate = `
@@ -187,7 +194,7 @@ export class BeolService {
      * @param {boolean} originalLanguage indicates if the original language or the translation should be searched for.
      * @returns {string} the KnarQL query.
      */
-    searchForLetterFromLEOO(repertoriumNumber: string) {
+    searchForLetterFromLEOO(repertoriumNumber: string): string {
 
         const letterByNumberTemplate: string = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
