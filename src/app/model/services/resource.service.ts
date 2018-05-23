@@ -15,12 +15,21 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs/Observable';
+import {Project, ProjectResponse} from '../webapi/knora';
+import {ApiServiceResult} from './api-service-result';
+import {ApiServiceError} from './api-service-error';
 
 @Injectable()
 export class ResourceService extends ApiService {
 
+    /**
+     * Given the Iri, requests the representation of a resource.
+     *
+     * @param iri Iri of the resource (already URL encoded).
+     * @returns {Observable<any>}
+     */
     getResource(iri): Observable<any> {
-        return this.httpGetV2("/resources/" + encodeURIComponent(iri) );
+        return this.httpGetV2('/resources/' + encodeURIComponent(iri));
     }
 
 }

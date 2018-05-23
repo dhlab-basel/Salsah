@@ -60,13 +60,11 @@ export class SearchService extends ApiService {
      */
     doExtendedSearch(sparqlString: string): Observable<ApiServiceResult> {
 
-        // TODO: check that the sparqlString is already URL encoded
-
         if (sparqlString === undefined || sparqlString.length == 0) {
             return Observable.create(observer => observer.error('No Sparql string given for call of SearchService.doExtendedSearch'));
         }
 
-        return this.httpGetV2("/searchextended/" + sparqlString);
+        return this.httpGetV2("/searchextended/" + encodeURIComponent(sparqlString));
 
     }
 
@@ -78,13 +76,11 @@ export class SearchService extends ApiService {
      */
     doExtendedSearchCountQuery(sparqlString: string): Observable<ApiServiceResult> {
 
-        // TODO: check that the sparqlString is already URL encoded
-
         if (sparqlString === undefined || sparqlString.length == 0) {
             return Observable.create(observer => observer.error('No Sparql string given for call of SearchService.doExtendedSearchCountQuery'));
         }
 
-        return this.httpGetV2("/searchextended/count/" + sparqlString);
+        return this.httpGetV2("/searchextended/count/" + encodeURIComponent(sparqlString));
 
     }
 

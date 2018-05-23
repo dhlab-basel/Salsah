@@ -170,6 +170,8 @@ import { ProjectDataComponent } from './view/modules/form/project-form/project-d
 import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
 import { SortButtonComponent } from './view/modules/action/sort-button/sort-button.component';
 import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
+import { LeooComponent } from './view/templates/leoo/leoo.component';
+import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
 
 //
 // import all needed services
@@ -296,7 +298,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ReadTextfileValueComponent,
         NodeFormComponent,
         SortButtonComponent,
-        ProgressIndicatorComponent
+        ProgressIndicatorComponent,
+        LeooComponent,
+        ObjectViewerComponent
     ],
     imports: [
         BrowserModule,
