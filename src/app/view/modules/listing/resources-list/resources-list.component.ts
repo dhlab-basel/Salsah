@@ -24,6 +24,7 @@ import {AppConfig} from "../../../../app.config";
 import {ReadResource} from "../../../../model/webapi/knora/v2/read-resource";
 import {ExtendedSearchParams, SearchParamsService} from "../../../../model/services/search-params.service";
 import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
+import {HighlightSearchTermService} from 'nie-ine';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -82,11 +83,16 @@ export class ResourcesListComponent implements OnInit, OnChanges {
     numberOfItems: number; // number of items actually returned by the query (using paging)
     numberOfAllResults: number; // total number of results (count query)
 
-    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService, private _searchParamsService: SearchParamsService, private _knarqlgenerationService: KnarqlgenerationService) {
+    searchParamAsArray: string[] = [];
+
+    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService, private _searchParamsService: SearchParamsService, private _knarqlgenerationService: KnarqlgenerationService, private _highlightService: HighlightSearchTermService) {
     }
 
     ngOnInit() {
 
+        if (this.searchMode === 'fulltext' && this.searchParam !== undefined) {
+            this.searchParamAsArray = this.searchParam.split(" ");
+        }
     }
 
     ngOnChanges() {

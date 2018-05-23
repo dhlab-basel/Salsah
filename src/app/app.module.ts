@@ -167,6 +167,7 @@ import { UserRoleComponent } from './view/modules/form/user-form/user-role/user-
 import { UserPasswordComponent } from './view/modules/form/user-form/user-password/user-password.component';
 import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
+import {HighlightSearchTermService} from 'nie-ine';
 import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
 import { SortButtonComponent } from './view/modules/action/sort-button/sort-button.component';
 import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
@@ -363,7 +364,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             useValue: {
                 siteKey: '6LdmmUoUAAAAAPZ4Z_1xYEIwEgI1d9YdjlZKmVkV',
             } as RecaptchaSettings,
-        }
+        },
+        HighlightSearchTermService
     ],
     bootstrap: [AppComponent]
 })

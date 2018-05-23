@@ -39,6 +39,12 @@
   dependencies:
     tslib "^1.7.1"
 
+"@angular/cdk@^5.2.4":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-5.2.4.tgz#c0a429a8710d8fedb157f546e21cb49d4335f7f7"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/cli@~1.6.0":
   version "1.6.8"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-1.6.8.tgz#963b48086ee3e9584a136d3c45893260f516dd75"
@@ -132,6 +138,12 @@
 "@angular/forms@^5.2.2":
   version "5.2.7"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-5.2.7.tgz#a0c41fdb6b8ba2c32653cc3058d5fa47db91fbf8"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/forms@^5.2.8":
+  version "5.2.9"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-5.2.9.tgz#12c45b3a02c398b354f09cc740d914cd904c0c9c"
   dependencies:
     tslib "^1.7.1"
 
@@ -5086,6 +5098,14 @@ ngx-infinite-scroll@^0.8.2:
   resolved "https://registry.yarnpkg.com/ngx-infinite-scroll/-/ngx-infinite-scroll-0.8.3.tgz#387000fc5e34ee5ee5164db6cb0a959c77bd3819"
   dependencies:
     opencollective "^1.0.3"
+
+nie-ine@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/nie-ine/-/nie-ine-0.0.19.tgz#a3272fbf5da922bb10ded8d0da24c28cc8391715"
+  dependencies:
+    "@angular/cdk" "^5.2.4"
+    "@angular/forms" "^5.2.8"
+    tslib "^1.9.0"
 
 no-case@^2.2.0:
   version "2.3.2"
