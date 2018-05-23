@@ -166,7 +166,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
 
                         // console.log(decodeURI(newKnarQL));
 
-                        this._searchService.doExtendedSearch(encodeURIComponent(newKnarQL))
+                        this._searchService.doExtendedSearch(newKnarQL)
                             .subscribe(
                                 this.processSearchResults, // function pointer
                                 (error: ApiServiceError) => {

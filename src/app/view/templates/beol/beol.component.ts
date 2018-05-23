@@ -442,7 +442,7 @@ export class BeolComponent implements OnInit {
 
         const knarql: string = this._beol.searchForBook(isbn, sectionTitle);
 
-        this._searchService.doExtendedSearch(encodeURIComponent(knarql)).subscribe(
+        this._searchService.doExtendedSearch(knarql).subscribe(
             (result: ApiServiceResult) => {
 
                 let promises = jsonld.promises;
@@ -493,7 +493,7 @@ export class BeolComponent implements OnInit {
      */
     private submitQuery(knarql: string) {
 
-        this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
+        this._router.navigate(['/search/extended/', knarql], {relativeTo: this._route});
     }
 
 
