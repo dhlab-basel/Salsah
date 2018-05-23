@@ -372,24 +372,27 @@ export module ConvertJSONLD {
      */
     export function createReadResourcesSequenceFromJsonLD(resourcesResponseJSONLD: Object): ReadResourcesSequence {
 
-        let resources: Array<ReadResource> = [];
-        let numberOfResources: number = resourcesResponseJSONLD[AppConfig.schemaNumberOfItems];
+        const resources: Array<ReadResource> = [];
+        let numberOfResources: number;
+        const resourcesGraph = resourcesResponseJSONLD['@graph'];
 
         // either an array of resources or just one resource is given
-        if (Array.isArray(resourcesResponseJSONLD[AppConfig.schemaItemListElement])) {
+        if (resourcesGraph !== undefined) {
             // an array of resources
+            numberOfResources = resourcesGraph.length;
 
-            for (let resourceJSONLD of resourcesResponseJSONLD[AppConfig.schemaItemListElement]) {
+            for (const resourceJSONLD of resourcesGraph) {
 
-                let resource: ReadResource = constructReadResource(resourceJSONLD);
+                const resource: ReadResource = constructReadResource(resourceJSONLD);
 
                 // add the resource to the resources array
                 resources.push(resource);
             }
         } else {
             // only one resource
+            numberOfResources = 1;
 
-            let resource: ReadResource = constructReadResource(resourcesResponseJSONLD[AppConfig.schemaItemListElement]);
+            const resource: ReadResource = constructReadResource(resourcesResponseJSONLD);
 
             // add the resource to the resources array
             resources.push(resource);
@@ -460,43 +463,38 @@ export module ConvertJSONLD {
      */
     export function getResourceClassesFromJsonLD(resourcesResponseJSONLD: Object): string[] {
 
-        if (Array.isArray(resourcesResponseJSONLD[AppConfig.schemaItemListElement])) {
+        const resourcesGraph = resourcesResponseJSONLD['@graph'];
+        let resourceClasses: Array<string> = [];
+
+        // either an array of resources or just one resource is given
+        if (resourcesGraph !== undefined) {
             // an array of resources
 
-            let resourceClasses: Array<string> = [];
-
-            // collect all resource classes
-            for (let res of resourcesResponseJSONLD[AppConfig.schemaItemListElement]) {
+            for (const resourceJSONLD of resourcesGraph) {
                 // get class of the current resource
-                resourceClasses.push(res["@type"]);
+                resourceClasses.push(resourceJSONLD['@type']);
 
                 // get the classes of referred resources
-                let referredResourceClasses = getReferredResourceClasses(res);
+                const referredResourceClasses = getReferredResourceClasses(resourceJSONLD);
 
                 resourceClasses = resourceClasses.concat(referredResourceClasses);
 
             }
 
-            // filter out duplicates
-            return resourceClasses.filter(Utils.filterOutDuplicates);
-
         } else {
-
-            let resourceClasses: Array<string> = [];
-
-            let res = resourcesResponseJSONLD[AppConfig.schemaItemListElement];
-
             // only one resource
-            resourceClasses.push(res["@type"]);
+
+            resourceClasses.push(resourcesResponseJSONLD['@type']);
 
             // get the classes of referred resources
-            let referredResourceClasses = getReferredResourceClasses(res);
+            const referredResourceClasses = getReferredResourceClasses(resourcesResponseJSONLD);
 
             resourceClasses = resourceClasses.concat(referredResourceClasses);
-
-            // filter out duplicates
-            return resourceClasses.filter(Utils.filterOutDuplicates);
         }
+
+        // filter out duplicates
+        return resourceClasses.filter(Utils.filterOutDuplicates);
+
     }
 
 }
