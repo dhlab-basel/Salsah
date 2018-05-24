@@ -192,7 +192,7 @@ export class OntologyFormComponent implements OnInit {
 
         // validation messages
         this.ontologyForm.valueChanges
-            .subscribe(data => this.onValueChanged(data, this.ontologyForm));
+            .subscribe(data => this.onValueChanged(this.ontologyForm, data));
     }
     buildOntologyResForm() {
         this.ontologyResForm = this._fb.group({
@@ -204,24 +204,24 @@ export class OntologyFormComponent implements OnInit {
 
         // validation messages
         this.ontologyResForm.valueChanges
-            .subscribe(data => this.onValueChanged(data, this.ontologyResForm));
+            .subscribe(data => this.onValueChanged(this.ontologyResForm, data));
     }
     buildOntologyPropForm() {
         this.ontologyPropForm = this._fb.group({
             propName: ['', Validators.required],
             propLabel: ['', Validators.required],
+            propDescription: '',
             propGUItype: ['', Validators.required],
             propCardinality: ['', Validators.required],
-            propDescription: '',
         });
 
         // validation messages
         this.ontologyPropForm.valueChanges
-            .subscribe(data => this.onValueChanged(data, this.ontologyPropForm));
+            .subscribe(data => this.onValueChanged(this.ontologyPropForm, data));
     }
 
     // build form validation messages
-    onValueChanged(data?: any, myForm: FormGroup) {
+    onValueChanged(myForm: FormGroup, data?: any) {
         if (!this.ontologyForm) {
             return;
         }
