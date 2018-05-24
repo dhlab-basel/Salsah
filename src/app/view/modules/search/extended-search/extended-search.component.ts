@@ -204,7 +204,7 @@ export class ExtendedSearchComponent implements OnInit {
 
         const knarql = this._knarqlgenerationService.createKnarQLQuery(properties, resClass, 0);
 
-        this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
+        this._router.navigate(['/search/extended/', knarql], {relativeTo: this._route});
 
         // toggle extended search form
         this.toggleExtendedSearchForm.emit(true);

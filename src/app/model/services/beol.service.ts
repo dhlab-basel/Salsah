@@ -8,6 +8,13 @@ export class BeolService {
     constructor(private _searchParamsService: SearchParamsService) {
     }
 
+    /**
+     * Given the ISBN, returns the KnarQL to search for the book.
+     *
+     * @param {string} isbn the book's ISBN.
+     * @param {string} sectionTitle the title to display describing the book.
+     * @returns {string} KnarQL query.
+     */
     searchForBook(isbn: string, sectionTitle: string): string {
 
         const bookTemplate = `
@@ -178,5 +185,43 @@ export class BeolService {
         // console.log(correspondenceTemplate + offsetTemplate);
 
         return correspondenceTemplate + offsetTemplate;
+    }
+
+    /**
+     * Given the repertorium number of a letter from LEOO, searches for that letter.
+     *
+     * @param {string} repertoriumNumber the repertorium number to search for.
+     * @param {boolean} originalLanguage indicates if the original language or the translation should be searched for.
+     * @returns {string} the KnarQL query.
+     */
+    searchForLetterFromLEOO(repertoriumNumber: string): string {
+
+        const letterByNumberTemplate: string = `
+        PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
+        CONSTRUCT {
+        
+            ?letter knora-api:isMainResource true .
+            
+            ?letter <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letterHasNumber> ?letterNumber .
+        
+        } WHERE { 
+        
+            ?letter a knora-api:Resource .
+            
+            ?letter a <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letter> .
+            
+            ?letter <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letterHasRepertoriumNumber> ?letterNumber .
+            <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letterHasRepertoriumNumber> knora-api:objectType <http://www.w3.org/2001/XMLSchema#string> .
+            ?letterNumber a <http://www.w3.org/2001/XMLSchema#string> .
+                    
+            FILTER(?letterNumber = "${repertoriumNumber}"^^<http://www.w3.org/2001/XMLSchema#string>)
+               
+        }
+        
+        OFFSET 0
+        `;
+
+        return letterByNumberTemplate;
+
     }
 }
