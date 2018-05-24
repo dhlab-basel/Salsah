@@ -55,6 +55,7 @@ export class OntologyFormComponent implements OnInit {
     public ontologyPropForm: FormGroup; // our model driven form
 
     public index: any = 0;
+    public pindex: any = 0;
 
     public createOntologyLabels: any = {
         label: 'Ontology label',
@@ -168,10 +169,17 @@ export class OntologyFormComponent implements OnInit {
         icon: '',
         description: ''
     }];
+    public newProperty: any[] = [{
+        name: '',
+        label: '',
+        description: '',
+        gui: '',
+        cardinality: ''
+    }];
     // newResource: ResourceClass[] = new ResourceClass();
     // newProperty: PropertyItem = new PropertyItem;
     // newResource: any;
-    newProperty: any;
+    // newProperty: any;
 
 
     constructor(private _fb: FormBuilder) {
@@ -269,6 +277,19 @@ export class OntologyFormComponent implements OnInit {
     }
     saveNewProp(){
         console.log('Your submitted property is:', this.ontologyPropForm.value);
+        const k = this.pindex;
+        //Assign the form values to newResource////////////
+        this.newProperty[k] = {
+            name: this.ontologyPropForm.value.propName,
+            label: this.ontologyPropForm.value.propLabel,
+            description : this.ontologyPropForm.value.propDescription,
+            gui: this.ontologyPropForm.value.propGUItype,
+            cardinality: this.ontologyPropForm.value.propCardinality
+        }
+        ////////////////////////////////////////////////////
+        console.log('Your submitted properties are:', this.newProperty);
+        this.ontologyPropForm.reset();
+        this.pindex ++;
     }
 
     //////////Angular split-screen functions /////////////////////////////////////
