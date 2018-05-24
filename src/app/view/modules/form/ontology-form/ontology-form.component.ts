@@ -210,9 +210,9 @@ export class OntologyFormComponent implements OnInit {
         this.ontologyPropForm = this._fb.group({
             propName: ['', Validators.required],
             propLabel: ['', Validators.required],
-            propDescription: '',
             propGUItype: ['', Validators.required],
             propCardinality: ['', Validators.required],
+            propDescription: '',
         });
 
         // validation messages
