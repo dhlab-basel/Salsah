@@ -389,14 +389,18 @@ export module ConvertJSONLD {
                 resources.push(resource);
             }
         } else {
-            // only one resource
-            numberOfResources = 1;
+            if (Object.keys(resourcesResponseJSONLD).length === 0) {
+                numberOfResources = 0;
+            } else {
 
-            const resource: ReadResource = constructReadResource(resourcesResponseJSONLD);
+                // only one resource
+                numberOfResources = 1;
 
-            // add the resource to the resources array
-            resources.push(resource);
+                const resource: ReadResource = constructReadResource(resourcesResponseJSONLD);
 
+                // add the resource to the resources array
+                resources.push(resource);
+            }
         }
 
         return new ReadResourcesSequence(resources, numberOfResources);
@@ -484,12 +488,16 @@ export module ConvertJSONLD {
         } else {
             // only one resource
 
-            resourceClasses.push(resourcesResponseJSONLD['@type']);
+            if (Object.keys(resourcesResponseJSONLD).length === 0) {
+                return [];
+            } else {
+                resourceClasses.push(resourcesResponseJSONLD['@type']);
 
-            // get the classes of referred resources
-            const referredResourceClasses = getReferredResourceClasses(resourcesResponseJSONLD);
+                // get the classes of referred resources
+                const referredResourceClasses = getReferredResourceClasses(resourcesResponseJSONLD);
 
-            resourceClasses = resourceClasses.concat(referredResourceClasses);
+                resourceClasses = resourceClasses.concat(referredResourceClasses);
+            }
         }
 
         // filter out duplicates

@@ -444,7 +444,7 @@ export class OntologyCacheService {
             const classIri = classDef['@id'];
 
             // check that class name is not listed as a non resource class and that the isResourceClass flag is present and set to true
-            if (classIri !== AppConfig.Resource && this.nonResourceClasses.indexOf(classIri) === -1 && (classDefinitions[classIri][AppConfig.IsResourceClass] !== undefined && classDefinitions[classIri][AppConfig.IsResourceClass] === true)) {
+            if (classIri !== AppConfig.Resource && this.nonResourceClasses.indexOf(classIri) === -1 && (classDef[AppConfig.IsResourceClass] !== undefined && classDef[AppConfig.IsResourceClass] === true)) {
                 // it is not a value class, but a resource class definition
                 resourceClassIris.push(classIri)
             }
@@ -475,17 +475,13 @@ export class OntologyCacheService {
         const propertyDefs = graph.filter(
             (entity: Object) => {
                 const entityType = entity['@type'];
-                return entityType === AppConfig.OwlObjectProperty;
+                return entityType === AppConfig.OwlObjectProperty ||
+                    entityType === AppConfig.OwlDatatypeProperty ||
+                    entityType === AppConfig.OwlAnnotationProperty ||
+                    entityType === AppConfig.RdfProperty
             });
 
-        // console.log(classDefs);
-        // console.log(propertyDefs);
-
-        console.log("about to call getResourceClassIrisFromOntologyResponse")
-
         this.cacheOntology.resourceClassIrisForOntology[ontology['@id']] = this.getResourceClassIrisFromOntologyResponse(classDefs);
-
-        console.log("about to call convertAndWriteEntityDefinitionsToCache")
 
         this.convertAndWriteEntityDefinitionsToCache(classDefs, propertyDefs);
 
@@ -533,11 +529,6 @@ export class OntologyCacheService {
      * @param {Object} propertyClassDefinitions the property definitions returned by Knora.
      */
     private convertAndWriteEntityDefinitionsToCache(resourceClassDefinitions: Array<Object>, propertyClassDefinitions: Array<Object>): void {
-        console.log("resourceClassDefinitions:");
-        console.log(resourceClassDefinitions);
-
-        console.log("propertyClassDefinitions:");
-        console.log(propertyClassDefinitions);
 
         // convert and cache each given resource class definition
         for (const resClass of resourceClassDefinitions) {
@@ -583,8 +574,6 @@ export class OntologyCacheService {
                 resClass[AppConfig.RdfsLabel],
                 cardinalities
             );
-
-            console.log(resClassObj);
 
             // write this resource class definition to the cache object
             this.cacheOntology.resourceClasses[resClassIri] = resClassObj;
@@ -811,6 +800,7 @@ export class OntologyCacheService {
 
         const resClassIrisToQueryFor: string[] = resourceClassIris.filter(
             resClassIri => {
+
                 // return the resource class Iris that are not cached yet
                 return this.cacheOntology.resourceClasses[resClassIri] === undefined;
 

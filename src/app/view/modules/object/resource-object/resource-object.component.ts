@@ -103,7 +103,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                             // get resource class Iris from response
                             const resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
-                            console.log(resourceClassIris)
+                            // console.log(resourceClassIris)
 
                             // request ontology information about resource class Iris (properties are implied)
                             this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
@@ -248,7 +248,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
                 let promise = jsonld.promises.compact(result.body, {});
                 promise.then((compacted) => {
-                        //console.log(compacted);
+                        // console.log(compacted);
 
                         let incomingImageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
