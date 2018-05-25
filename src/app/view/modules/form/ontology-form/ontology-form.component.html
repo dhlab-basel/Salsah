@@ -43,50 +43,48 @@
                 <split-area>
                     <!-- Step 2: Define your new resource: name it, describe it and set the permissions for the whole resource -->
                     <form class="salsah-form new-user" [formGroup]="ontologyResForm">
-                        <mat-card>
-                            <mat-card-header>
-                                <mat-card-title>
+                        <mat-expansion-panel [(expanded)]="resPanelOpenState">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
                                     Add Resource Classes
-                                </mat-card-title>
-                            </mat-card-header>
-                            <mat-card-content>
-                                <mat-input-container class="full-width">
-                                    <input matInput
-                                           placeholder={{createOntologyLabels.resource.label}}
-                                           name="label"
-                                           formControlName="resLabel">
-                                </mat-input-container>
-                                <mat-input-container class="full-width">
-                                    <input matInput
-                                           placeholder={{createOntologyLabels.resource.name}}
-                                           name="name"
-                                           formControlName="resName">
-                                </mat-input-container>
-                                <!-- resource description -->
-                                <mat-input-container class="full-width">
-                                    <textarea matInput
-                                              placeholder={{createOntologyLabels.resource.description}}
-                                              name="description"
-                                              formControlName="resDescription"
-                                              cols="30" rows="5">
-                                    </textarea>
-                                </mat-input-container>
-                                <mat-card-actions>
-                                    <button mat-button
-                                            color="warn"
-                                            (click)="resetNewRes()">
-                                        {{createOntologyLabels.buttons.reset}}
-                                    </button>
-                                    <button mat-raised-button
-                                            class="save-button"
-                                            [color]="'primary'"
-                                            [disabled]="!ontologyResForm.valid"
-                                            (click)="saveNewRes()">
-                                        {{createOntologyLabels.buttons.save}}
-                                    </button>
-                                </mat-card-actions>
-                            </mat-card-content>
-                        </mat-card>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-input-container class="full-width">
+                                <input matInput
+                                       placeholder={{createOntologyLabels.resource.label}}
+                                       name="label"
+                                       formControlName="resLabel">
+                            </mat-input-container>
+                            <mat-input-container class="full-width">
+                                <input matInput
+                                       placeholder={{createOntologyLabels.resource.name}}
+                                       name="name"
+                                       formControlName="resName">
+                            </mat-input-container>
+                            <!-- resource description -->
+                            <mat-input-container class="full-width">
+                                <textarea matInput
+                                          placeholder={{createOntologyLabels.resource.description}}
+                                          name="description"
+                                          formControlName="resDescription"
+                                          cols="30" rows="5">
+                                </textarea>
+                            </mat-input-container>
+                            <mat-action-row>
+                                <button mat-button
+                                        color="warn"
+                                        (click)="resetNewRes()">
+                                    {{createOntologyLabels.buttons.reset}}
+                                </button>
+                                <button mat-raised-button
+                                        class="save-button"
+                                        [color]="'primary'"
+                                        [disabled]="!ontologyResForm.valid"
+                                        (click)="saveNewRes()">
+                                    {{createOntologyLabels.buttons.save}}
+                                </button>
+                            </mat-action-row>
+                        </mat-expansion-panel>
                         <div matTooltip="You can sort this list with drag and drop"
                              dnd-sortable-container
                              [sortableData]="newResource">
@@ -105,33 +103,49 @@
                 <!-- Step 1: Add new Ontology, by providing short name and label-->
                 <split-area>
                     <form class="salsah-form new-user" [formGroup]="ontologyForm">
-
-                        <p>New Ontology</p>
-                        <mat-input-container class="full-width">
-                            <input matInput
-                                   placeholder={{createOntologyLabels.label}}
-                                   formControlName="label">
-                        </mat-input-container>
-                        <mat-input-container class="full-width">
-                            <input matInput
-                                   placeholder={{createOntologyLabels.name}}
-                                   formControlName="name">
-                        </mat-input-container>
-                        <mat-action-row>
-                            <button mat-button
-                                    color="warn"
-                                    (click)="resetOntoInfo()">
-                                {{createOntologyLabels.buttons.reset}}
-                            </button>
-                            <button mat-raised-button
-                                    class="save-button"
-                                    [color]="'primary'"
-                                    [disabled]="!ontologyForm.valid"
-                                    (click)="saveOntoInfo()"
-                                    mat-dialog-close>
-                                {{createOntologyLabels.buttons.save}}
-                            </button>
-                        </mat-action-row>
+                        <mat-expansion-panel [(expanded)]="panelOpenState">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    New Ontology
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-input-container class="full-width">
+                                <input matInput
+                                       placeholder={{createOntologyLabels.label}}
+                                       formControlName="label">
+                            </mat-input-container>
+                            <mat-input-container class="full-width">
+                                <input matInput
+                                       placeholder={{createOntologyLabels.name}}
+                                       formControlName="name">
+                            </mat-input-container>
+                            <mat-action-row>
+                                <button mat-button
+                                        color="warn"
+                                        (click)="resetOntoInfo()">
+                                    {{createOntologyLabels.buttons.reset}}
+                                </button>
+                                <button mat-raised-button
+                                        class="save-button"
+                                        [color]="'primary'"
+                                        [disabled]="!ontologyForm.valid"
+                                        (click)="saveOntoInfo()">
+                                        <!--mat-dialog-close>-->
+                                    {{createOntologyLabels.buttons.save}}
+                                </button>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+                        <div matTooltip="You can sort this list with drag and drop"
+                             dnd-sortable-container
+                             [sortableData]="newOntology">
+                            <mat-chip-list class="mat-chip-list-stacked" *ngIf="oindex>0">
+                                <p class="salsah-placeholder">Current Resource Classes</p>
+                                <mat-chip *ngFor="let onto of newOntology; let i = oindex" dnd-sortable [sortableIndex]="i">
+                                    {{onto.label}}
+                                </mat-chip>
+                                <!--<mat-list-item *ngIf="ontologyResForm.get('resLabel').value">{{ontologyResForm.get('resLabel').value}}</mat-list-item>-->
+                            </mat-chip-list>
+                        </div>
                     </form>
                 </split-area>
 
@@ -139,70 +153,68 @@
                 <split-area>
                     <form class="salsah-form new-user" [formGroup]="ontologyPropForm">
                         <!--<section *ngIf="newResource.id" [hidden]="counter!==2">-->
-                        <mat-card>
-                            <mat-card-header>
-                                <mat-card-title>
+                        <mat-expansion-panel [(expanded)]="propPanelOpenState">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
                                     Add Properties
-                                </mat-card-title>
-                            </mat-card-header>
-                            <mat-card-content>
-                                <mat-input-container class="full-width">
-                                    <input matInput
-                                           placeholder={{createOntologyLabels.addProp.label}}
-                                           name="label"
-                                           formControlName="propLabel">
-                                </mat-input-container>
-                                <mat-input-container class="full-width">
-                                    <input matInput
-                                           placeholder={{createOntologyLabels.addProp.name}}
-                                           name="label"
-                                           formControlName="propName">
-                                </mat-input-container>
-                                <mat-form-field class="full-width">
-                                            <textarea matInput
-                                                      placeholder={{createOntologyLabels.addProp.description}}
-                                                      formControlName="propDescription"></textarea>
-                                </mat-form-field>
-                                <mat-form-field class="full-width">
-                                    <mat-select
-                                        placeholder={{createOntologyLabels.addProp.gui}}
-                                        formControlName="propGUItype">
-                                        <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
-                                            {{guiItem}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <div class="full-width">
-                                    <div class="salsah-placeholder">
-                                        {{createOntologyLabels.addProp.occurrence}}
-                                    </div>
-                                    <mat-button-toggle-group
-                                        #group="matButtonToggleGroup"
-                                        formControlName="propCardinality">
-                                        <mat-button-toggle *ngFor="let cardinality of cardinalityList"
-                                                           [value]="cardinality">
-                                            {{cardinality}}
-                                        </mat-button-toggle>
-                                    </mat-button-toggle-group>
-                                    <div class="mat-caption">Selected value: {{group.value}}</div>
-                                    <!--<div class="mat-caption">Selected value: {{group.value}}</div>-->
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-input-container class="full-width">
+                                <input matInput
+                                       placeholder={{createOntologyLabels.addProp.label}}
+                                       name="label"
+                                       formControlName="propLabel">
+                            </mat-input-container>
+                            <mat-input-container class="full-width">
+                                <input matInput
+                                       placeholder={{createOntologyLabels.addProp.name}}
+                                       name="label"
+                                       formControlName="propName">
+                            </mat-input-container>
+                            <mat-form-field class="full-width">
+                                        <textarea matInput
+                                                  placeholder={{createOntologyLabels.addProp.description}}
+                                                  formControlName="propDescription"></textarea>
+                            </mat-form-field>
+                            <mat-form-field class="full-width">
+                                <mat-select
+                                    placeholder={{createOntologyLabels.addProp.gui}}
+                                    formControlName="propGUItype">
+                                    <mat-option *ngFor="let guiItem of guiItems" [value]="guiItem">
+                                        {{guiItem}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div class="full-width">
+                                <div class="salsah-placeholder">
+                                    {{createOntologyLabels.addProp.occurrence}}
                                 </div>
-                                <mat-card-actions>
-                                    <button mat-button
-                                            color="warn"
-                                            (click)="resetNewProp()">
-                                        {{createOntologyLabels.buttons.reset}}
-                                    </button>
-                                    <button mat-raised-button
-                                            class="save-button"
-                                            [color]="'primary'"
-                                            [disabled]="!ontologyPropForm.valid"
-                                            (click)="saveNewProp()">
-                                        {{createOntologyLabels.buttons.save}}
-                                    </button>
-                                </mat-card-actions>
-                            </mat-card-content>
-                        </mat-card>
+                                <mat-button-toggle-group
+                                    #group="matButtonToggleGroup"
+                                    formControlName="propCardinality">
+                                    <mat-button-toggle *ngFor="let cardinality of cardinalityList"
+                                                       [value]="cardinality">
+                                        {{cardinality}}
+                                    </mat-button-toggle>
+                                </mat-button-toggle-group>
+                                <div class="mat-caption">Selected value: {{group.value}}</div>
+                                <!--<div class="mat-caption">Selected value: {{group.value}}</div>-->
+                            </div>
+                            <mat-action-row>
+                                <button mat-button
+                                        color="warn"
+                                        (click)="resetNewProp()">
+                                    {{createOntologyLabels.buttons.reset}}
+                                </button>
+                                <button mat-raised-button
+                                        class="save-button"
+                                        [color]="'primary'"
+                                        [disabled]="!ontologyPropForm.valid"
+                                        (click)="saveNewProp()">
+                                    {{createOntologyLabels.buttons.save}}
+                                </button>
+                            </mat-action-row>
+                        </mat-expansion-panel>
                         <div matTooltip="You can sort this list with drag and drop"
                              dnd-sortable-container
                              [sortableData]="newProperty">

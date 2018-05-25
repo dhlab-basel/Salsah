@@ -42,6 +42,11 @@ export class OntologyFormComponent implements OnInit {
     direction: string = 'horizontal';
 
     isDisabled: boolean = false;
+
+    panelOpenState: boolean = false;
+    resPanelOpenState: boolean = false;
+    propPanelOpenState: boolean = false;
+
     useTransition: boolean = true;
     areas = [
         {size: 20, order: 1, content: 'Ontologies'},
@@ -54,6 +59,7 @@ export class OntologyFormComponent implements OnInit {
     public ontologyResForm: FormGroup; // our model driven form
     public ontologyPropForm: FormGroup; // our model driven form
 
+    public oindex: any = 0;
     public index: any = 0;
     public pindex: any = 0;
 
@@ -162,7 +168,11 @@ export class OntologyFormComponent implements OnInit {
         },
     };
 
-    newOntology: any;
+    // newOntology: any;
+    public newOntology: any[] = [{
+        name: '',
+        label: ''
+    }];
     public newResource: any[] = [{
         name: '',
         label: '',
@@ -250,9 +260,21 @@ export class OntologyFormComponent implements OnInit {
 
     //Form action buttons
     resetOntoInfo(){
-        this.ontologyPropForm.reset();
+        this.ontologyForm.reset();
     }
     saveOntoInfo(){
+        console.log('Your submitted ontology is:', this.ontologyForm.value);
+        const i = this.oindex;
+        //Assign the form values to newResource////////////
+        this.newOntology[i] = {
+            name: this.ontologyForm.value.name,
+            label: this.ontologyForm.value.label
+        };
+        ////////////////////////////////////////////////////
+        console.log('Your submitted resources are:', this.newOntology);
+        this.ontologyForm.reset();
+        this.panelOpenState = false;
+        this.oindex ++;
     }
     resetNewRes(){
         this.ontologyPropForm.reset();
@@ -266,10 +288,11 @@ export class OntologyFormComponent implements OnInit {
             label: this.ontologyResForm.value.resLabel,
             icon: this.ontologyResForm.value.resIcon,
             description : this.ontologyResForm.value.resDescription
-        }
+        };
         ////////////////////////////////////////////////////
         console.log('Your submitted resources are:', this.newResource);
         this.ontologyResForm.reset();
+        this.resPanelOpenState = false;
         this.index ++;
     }
     resetNewProp(){
@@ -285,10 +308,11 @@ export class OntologyFormComponent implements OnInit {
             description : this.ontologyPropForm.value.propDescription,
             gui: this.ontologyPropForm.value.propGUItype,
             cardinality: this.ontologyPropForm.value.propCardinality
-        }
+        };
         ////////////////////////////////////////////////////
         console.log('Your submitted properties are:', this.newProperty);
         this.ontologyPropForm.reset();
+        this.propPanelOpenState = false;
         this.pindex ++;
     }
 
