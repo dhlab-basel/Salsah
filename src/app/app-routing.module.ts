@@ -181,16 +181,6 @@ const appRoutes: Routes = [
                 component: ProgressIndicatorComponent
             },
             {
-                path: 'upload',
-                component: FileUploaderComponent,
-                data: {
-                    maxFiles: 5,
-                    formType: 'admin',
-                    viewType: 'url'
-
-                }
-            },
-            {
                 path: 'form/:name', component: FormCreateComponent,
                 children: [
                     {
@@ -216,10 +206,6 @@ const appRoutes: Routes = [
             {
                 path: 'dialog',
                 component: DialogTestComponent
-            },
-            {
-                path: 'uploader',
-                component: FileUploaderComponent
             },
             {
                 path: 'new-user',
