@@ -750,7 +750,7 @@ describe('OntologyCacheService', () => {
 
                 const resClassesForKnoraApi = ontoRes.getResourceClassForOntology();
 
-                expect(resClassesForKnoraApi['http://api.knora.org/ontology/knora-api/v2'].sort()).toEqual(resClassesInKnoraApi.sort());
+                expect(resClassesForKnoraApi['http://api.knora.org/ontology/knora-api/v2']).toEqual(resClassesInKnoraApi);
 
             }
         );

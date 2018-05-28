@@ -583,6 +583,48 @@ describe('ConvertJSONLD', () => {
         });
     }));
 
+    it('parse a JSON-LD document representing a collection of resources and get the Iris of the resource classes contained in it', async(() => {
+
+        const jsonld = require('jsonld');
+
+        const resultsForHolzschnitt: any = require('../../../test-data/resources/SearchForHolzschnitt.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(resultsForHolzschnitt, {});
+
+        promise.then((compacted) => {
+
+            const resClasses = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+            const expectedResClasses = ['http://0.0.0.0:3333/ontology/0803/incunabula/v2#page', 'http://api.knora.org/ontology/knora-api/v2#Region', 'http://api.knora.org/ontology/knora-api/v2#LinkObj'];
+
+            expect(resClasses).toEqual(expectedResClasses);
+
+        });
+    }));
+
+    it('parse a JSON-LD document representing one resource and get its resource classes ', async(() => {
+
+        const jsonld = require('jsonld');
+
+        const testThing: any = require('../../../test-data/resources/Testthing.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(testThing, {});
+
+        promise.then((compacted) => {
+
+            const resClasses = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+            const expectedResClasses = ['http://0.0.0.0:3333/ontology/0001/anything/v2#Thing'];
+
+            expect(resClasses).toEqual(expectedResClasses);
+
+        });
+    }));
+
 
 
 });
