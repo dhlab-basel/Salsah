@@ -7,7 +7,7 @@ import {
     CardinalityOccurrence,
     OntologyCacheService,
     OntologyInformation, Property,
-    ResourceClass
+    ResourceClass, ResourceClasses, ResourceClassIrisForOntology
 } from './ontologycache.service';
 import {OntologyService} from "./ontology.service";
 import {BaseRequestOptions, Http, Response, ResponseOptions} from "@angular/http"; // https://blog.thecodecampus.de/angular-http-testing-syntaxerror-unexpected-token-o-json-position-1/
@@ -43,6 +43,9 @@ describe('OntologyCacheService', () => {
         let responses = {};
         responses['http://0.0.0.0:3333/v2/ontologies/allentities/http%3A%2F%2F0.0.0.0%3A3333%2Fontology%2F0801%2Fbeol%2Fv2'] = new Response(new ResponseOptions({body: require('../test-data/ontologycache/beol-complex-onto.json')}));
         responses['http://0.0.0.0:3333/v2/ontologies/allentities/http%3A%2F%2Fapi.knora.org%2Fontology%2Fknora-api%2Fv2'] = new Response(new ResponseOptions({body: require('../test-data/ontologycache/knora-api-complex-onto.json')}));
+        responses['http://0.0.0.0:3333/v2/ontologies/allentities/http%3A%2F%2F0.0.0.0%3A3333%2Fontology%2F0001%2Fsomething%2Fv2'] = new Response(new ResponseOptions({body: require('../test-data/ontologycache/something-complex-onto.json')}));
+        responses['http://0.0.0.0:3333/v2/ontologies/allentities/http%3A%2F%2F0.0.0.0%3A3333%2Fontology%2F0001%2Fanything%2Fv2'] = new Response(new ResponseOptions({body: require('../test-data/ontologycache/anything-complex-onto.json')}));
+
 
         mockBackend.connections.subscribe(c => {
             let response = responses[c.request.url];
@@ -64,7 +67,198 @@ describe('OntologyCacheService', () => {
 
                 const resClassesForBEOL = ontoRes.getResourceClassForOntology();
 
-                expect(resClassesForBEOL["http://0.0.0.0:3333/ontology/0801/beol/v2"].sort()).toEqual(resClassesInBEOL.sort())
+                expect(resClassesForBEOL["http://0.0.0.0:3333/ontology/0801/beol/v2"]).toEqual(resClassesInBEOL)
+
+            }
+        );
+
+    })));
+
+    it('should convert and cache the anything ontology complex', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
+
+        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(["http://0.0.0.0:3333/ontology/0001/anything/v2"]);
+
+        ontoResponseObs.subscribe(
+            (ontoRes: OntologyInformation) => {
+
+                const resClassesForAnything: ResourceClassIrisForOntology = ontoRes.getResourceClassForOntology();
+
+                expect(resClassesForAnything["http://0.0.0.0:3333/ontology/0001/anything/v2"]).toEqual(resClassesInAnything)
+
+            }
+        );
+
+    })));
+
+    it('should convert and cache the something ontology complex', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
+
+        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(["http://0.0.0.0:3333/ontology/0001/something/v2"]);
+
+        ontoResponseObs.subscribe(
+            (ontoRes: OntologyInformation) => {
+
+                const resClassesForSomething: ResourceClassIrisForOntology = ontoRes.getResourceClassForOntology();
+
+                expect(resClassesForSomething["http://0.0.0.0:3333/ontology/0001/something/v2"]).toEqual(resClassesInSomething);
+
+                const resourceClasses: ResourceClasses = ontoRes.getResourceClasses();
+
+                const expectedCards = [
+                    new Cardinality(
+                        CardinalityOccurrence.card,
+                        1,
+                        'http://api.knora.org/ontology/knora-api/v2#attachedToProject'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.card,
+                        1,
+                        'http://api.knora.org/ontology/knora-api/v2#attachedToUser'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.card,
+                        1,
+                        'http://api.knora.org/ontology/knora-api/v2#creationDate'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://api.knora.org/ontology/knora-api/v2#hasIncomingLink'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.card,
+                        1,
+                        'http://api.knora.org/ontology/knora-api/v2#hasPermissions'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://api.knora.org/ontology/knora-api/v2#hasStandoffLinkTo'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://api.knora.org/ontology/knora-api/v2#hasStandoffLinkToValue'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.maxCard,
+                        1,
+                        'http://api.knora.org/ontology/knora-api/v2#lastModificationDate'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.card,
+                        1,
+                        'http://www.w3.org/2000/01/rdf-schema#label'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasListItem'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasOtherListItem'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/something/v2#hasOtherSomething'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/something/v2#hasOtherSomethingValue'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasRichtext'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasText'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasDate'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasInteger'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasDecimal'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.maxCard,
+                        1,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasBoolean'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasUri'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasInterval'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasColor'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasThingPicture'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasThingPictureValue'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#isPartOfOtherThing'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#isPartOfOtherThingValue'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasBlueThingValue'
+                    ),
+                    new Cardinality(
+                        CardinalityOccurrence.minCard,
+                        0,
+                        'http://0.0.0.0:3333/ontology/0001/anything/v2#hasBlueThing'
+                    )
+                ];
+
+                const expectedSomething = new ResourceClass(
+                    'http://0.0.0.0:3333/ontology/0001/something/v2#Something',
+                    'something.png',
+                    'A something is a thing.',
+                    'Something',
+                    expectedCards
+                );
+
+                expect(resourceClasses['http://0.0.0.0:3333/ontology/0001/something/v2#Something']).toEqual(expectedSomething)
+
+                const props = ontoRes.getProperties();
+
+                //console.log(props);
 
             }
         );
@@ -309,11 +503,21 @@ describe('OntologyCacheService', () => {
     })));
 });
 
+// expected resources classes defined in the BEOL ontology
+const resClassesInBEOL = [
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#Archive',
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#endnote',
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#figure',
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#introduction',
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#letter',
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#manuscript',
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#page',
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#person',
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#publishedLetter',
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#section',
+    'http://0.0.0.0:3333/ontology/0801/beol/v2#writtenSource'];
 
-const resClassesInBEOL = ["http://0.0.0.0:3333/ontology/0801/beol/v2#Archive", "http://0.0.0.0:3333/ontology/0801/beol/v2#publishedLetter", "http://0.0.0.0:3333/ontology/0801/beol/v2#endnote",
-    "http://0.0.0.0:3333/ontology/0801/beol/v2#figure", "http://0.0.0.0:3333/ontology/0801/beol/v2#letter", "http://0.0.0.0:3333/ontology/0801/beol/v2#manuscript",
-    "http://0.0.0.0:3333/ontology/0801/beol/v2#page", "http://0.0.0.0:3333/ontology/0801/beol/v2#person", "http://0.0.0.0:3333/ontology/0801/beol/v2#writtenSource", "http://0.0.0.0:3333/ontology/0801/beol/v2#introduction", "http://0.0.0.0:3333/ontology/0801/beol/v2#section"];
-
+// expected resource classes defined in the knora api ontology
 const resClassesInKnoraApi = [
     "http://api.knora.org/ontology/knora-api/v2#Annotation",
     "http://api.knora.org/ontology/knora-api/v2#AudioRepresentation",
@@ -328,4 +532,12 @@ const resClassesInKnoraApi = [
     "http://api.knora.org/ontology/knora-api/v2#XSLTransformation"
 ];
 
+const resClassesInSomething = [
+    'http://0.0.0.0:3333/ontology/0001/something/v2#Something'
+];
 
+const resClassesInAnything = [
+    'http://0.0.0.0:3333/ontology/0001/anything/v2#BlueThing',
+    'http://0.0.0.0:3333/ontology/0001/anything/v2#Thing',
+    'http://0.0.0.0:3333/ontology/0001/anything/v2#ThingPicture'
+];

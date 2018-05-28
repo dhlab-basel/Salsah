@@ -137,7 +137,7 @@ export class Properties {
  *
  * A map of ontology Iris to an array of resource class Iris.
  */
-class ResourceClassIrisForOntology {
+export class ResourceClassIrisForOntology {
     [index: string]: Array<string>;
 }
 
