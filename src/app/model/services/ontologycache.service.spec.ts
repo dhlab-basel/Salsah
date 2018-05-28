@@ -324,7 +324,8 @@ const resClassesInKnoraApi = [
     "http://api.knora.org/ontology/knora-api/v2#Region",
     "http://api.knora.org/ontology/knora-api/v2#Representation",
     "http://api.knora.org/ontology/knora-api/v2#StillImageRepresentation",
-    "http://api.knora.org/ontology/knora-api/v2#TextRepresentation"
+    "http://api.knora.org/ontology/knora-api/v2#TextRepresentation",
+    "http://api.knora.org/ontology/knora-api/v2#XSLTransformation"
 ];
 
 
