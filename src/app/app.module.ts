@@ -98,7 +98,6 @@ import {ResourceTypesListComponent} from './view/modules/listing/resource-types-
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
-import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {DndDirective} from './view/modules/other/dnd.directive';
 import {ResizeGridDirective} from './view/modules/other/resize-grid.directive';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
@@ -253,7 +252,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         CollectionsListComponent,
         SearchResultsComponent,
         ResourceObjectComponent,
-        FileUploaderComponent,
         DndDirective,
         ResizeGridDirective,
         FormCreateComponent,
