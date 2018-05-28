@@ -14,9 +14,11 @@ addons:
   chrome: stable
 
 before_script:
-- yarn global add @angular/cli
+  - yarn global add @angular/cli
 
-script: ng test --reporters=spec --browser=ChromeHeadless --single-run=true
+script:
+  - ng test --reporters=spec --browser=ChromeHeadless --single-run=true
+  - ng build --prod --build-optimizer
 
 notifications:
   slack:
