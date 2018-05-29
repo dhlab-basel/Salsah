@@ -38,7 +38,6 @@ import {SystemUsersComponent} from './view/dashboard/system/system-users/system-
 import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
 import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
-import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
@@ -182,16 +181,6 @@ const appRoutes: Routes = [
                 component: ProgressIndicatorComponent
             },
             {
-                path: 'upload',
-                component: FileUploaderComponent,
-                data: {
-                    maxFiles: 5,
-                    formType: 'admin',
-                    viewType: 'url'
-
-                }
-            },
-            {
                 path: 'form/:name', component: FormCreateComponent,
                 children: [
                     {
@@ -217,10 +206,6 @@ const appRoutes: Routes = [
             {
                 path: 'dialog',
                 component: DialogTestComponent
-            },
-            {
-                path: 'uploader',
-                component: FileUploaderComponent
             },
             {
                 path: 'new-user',
