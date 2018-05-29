@@ -59,8 +59,8 @@ export class OntologyFormComponent implements OnInit {
     public ontologyResForm: FormGroup; // our model driven form
     public ontologyPropForm: FormGroup; // our model driven form
 
-    public oindex: any = 0;
     public index: any = 0;
+    public rindex: any = 0;
     public pindex: any = 0;
 
     public createOntologyLabels: any = {
@@ -264,7 +264,7 @@ export class OntologyFormComponent implements OnInit {
     }
     saveOntoInfo(){
         console.log('Your submitted ontology is:', this.ontologyForm.value);
-        const i = this.oindex;
+        const i = this.index;
         //Assign the form values to newResource////////////
         this.newOntology[i] = {
             name: this.ontologyForm.value.name,
@@ -274,14 +274,14 @@ export class OntologyFormComponent implements OnInit {
         console.log('Your submitted resources are:', this.newOntology);
         this.ontologyForm.reset();
         this.panelOpenState = false;
-        this.oindex ++;
+        this.index ++;
     }
     resetNewRes(){
         this.ontologyPropForm.reset();
     }
     saveNewRes(){
         console.log('Your submitted resource is:', this.ontologyResForm.value);
-        const i = this.index;
+        const i = this.rindex;
         //Assign the form values to newResource////////////
         this.newResource[i] = {
             name: this.ontologyResForm.value.resName,
@@ -293,16 +293,16 @@ export class OntologyFormComponent implements OnInit {
         console.log('Your submitted resources are:', this.newResource);
         this.ontologyResForm.reset();
         this.resPanelOpenState = false;
-        this.index ++;
+        this.rindex ++;
     }
     resetNewProp(){
         this.ontologyPropForm.reset();
     }
     saveNewProp(){
         console.log('Your submitted property is:', this.ontologyPropForm.value);
-        const k = this.pindex;
+        const i = this.pindex;
         //Assign the form values to newResource////////////
-        this.newProperty[k] = {
+        this.newProperty[i] = {
             name: this.ontologyPropForm.value.propName,
             label: this.ontologyPropForm.value.propLabel,
             description : this.ontologyPropForm.value.propDescription,

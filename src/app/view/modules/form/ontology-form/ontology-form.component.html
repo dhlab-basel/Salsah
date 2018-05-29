@@ -88,7 +88,7 @@
                         <div matTooltip="You can sort this list with drag and drop"
                              dnd-sortable-container
                              [sortableData]="newResource">
-                            <mat-chip-list class="mat-chip-list-stacked" *ngIf="index>0">
+                            <mat-chip-list class="mat-chip-list-stacked" *ngIf="rindex>0">
                                 <p class="salsah-placeholder">Current Resource Classes</p>
                                 <mat-chip *ngFor="let res of newResource; let i = index" dnd-sortable [sortableIndex]="i">
                                     {{res.label}}
@@ -138,9 +138,9 @@
                         <div matTooltip="You can sort this list with drag and drop"
                              dnd-sortable-container
                              [sortableData]="newOntology">
-                            <mat-chip-list class="mat-chip-list-stacked" *ngIf="oindex>0">
-                                <p class="salsah-placeholder">Current Resource Classes</p>
-                                <mat-chip *ngFor="let onto of newOntology; let i = oindex" dnd-sortable [sortableIndex]="i">
+                            <mat-chip-list class="mat-chip-list-stacked" *ngIf="index>0">
+                                <p class="salsah-placeholder">Current Ontologies</p>
+                                <mat-chip *ngFor="let onto of newOntology; let i = index" dnd-sortable [sortableIndex]="i">
                                     {{onto.label}}
                                 </mat-chip>
                                 <!--<mat-list-item *ngIf="ontologyResForm.get('resLabel').value">{{ontologyResForm.get('resLabel').value}}</mat-list-item>-->
@@ -220,7 +220,7 @@
                              [sortableData]="newProperty">
                             <mat-chip-list class="mat-chip-list-stacked" *ngIf="pindex>0">
                                 <p class="salsah-placeholder">Current Properties</p>
-                                <mat-chip *ngFor="let prop of newProperty; let k = pindex" dnd-sortable [sortableIndex]="k">
+                                <mat-chip *ngFor="let prop of newProperty; let k = index" dnd-sortable [sortableIndex]="k">
                                     {{prop.label}}
                                 </mat-chip>
                                 <!--<mat-list-item *ngIf="ontologyResForm.get('resLabel').value">{{ontologyResForm.get('resLabel').value}}</mat-list-item>-->
