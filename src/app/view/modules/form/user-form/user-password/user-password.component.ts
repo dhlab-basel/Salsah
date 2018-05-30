@@ -52,13 +52,13 @@ export class UserPasswordComponent implements OnInit {
 
     // error checking on the following fields
     formErrors = {
-        'oldPassword': '',
+        'requesterPassword': '',
         'newPassword': ''
     };
 
     // ...and the error hints
     validationMessages = {
-        'oldPassword': {
+        'requesterPassword': {
             'required': 'The old password is required'
         },
         'newPassword': {
@@ -76,7 +76,7 @@ export class UserPasswordComponent implements OnInit {
     ngOnInit() {
 
         this.userPasswordForm = this._formBuilder.group({
-            'oldPassword': new FormControl({
+            'requesterPassword': new FormControl({
                 value: '', disabled: false
             }, [
                 Validators.required

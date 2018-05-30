@@ -62,6 +62,7 @@
           "passwordHint": "Use at least 8 characters with one uppercase letter and one number.",
           "oldPassword": "Old password",
           "newPassword": "New password",
+          "requesterPassword": "Admin password",
           "avatar": "Upload a profile pic",
           "language": "Default language"
         },

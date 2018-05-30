@@ -53,6 +53,7 @@
           "passwordHint": "Mindestens 8 Zeichen, wobein ein Grossbuchstabe und eine Zahl vorhanden sein müssen.",
           "oldPassword": "Altes Passwort",
           "newPassword": "Neues Passwort",
+          "requesterPassword": "Administrator Passwort",
           "avatar": "Profilbild hochladen",
           "language": "Sprache"
         },
