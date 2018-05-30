@@ -442,7 +442,8 @@ describe('ConvertJSONLD', () => {
 
         const jsonld = require('jsonld');
 
-        const resultsForEuler: any = require('../../../test-data/resources/SearchResultEuler.json');
+        // http://localhost:3333/v2/search/Narr?limitToProject=http%3A%2F%2Frdfh.ch%2Fprojects%2F0803
+        const resultsForEuler: any = require('../../../test-data/resources/SearchResultNarr.json');
 
         const promises = jsonld.promises;
         // compact JSON-LD using an empty context: expands all Iris
@@ -463,6 +464,7 @@ describe('ConvertJSONLD', () => {
 
         const jsonld = require('jsonld');
 
+        // see Knora: webapi/src/test/resources/test-data/searchR2RV2/bookWithIncomingPagesOnlyLink.jsonld
         const resultsForBookWithIncomingLink: any = require('../../../test-data/resources/BookWithIncomingPages.json');
 
         const promises = jsonld.promises;
@@ -535,6 +537,8 @@ describe('ConvertJSONLD', () => {
 
         const jsonld = require('jsonld');
 
+        // see Knora: webapi/src/test/resources/test-data/searchR2RV2/bookWithIncomingPagesOnlyLink.jsonld
+        // not that the source is represented as an Iri only
         const resultsForBookWithIncomingLink: any = require('../../../test-data/resources/BookWithIncomingPages2.json');
 
         const promises = jsonld.promises;
