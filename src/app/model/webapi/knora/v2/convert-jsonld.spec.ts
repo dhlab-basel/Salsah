@@ -15,6 +15,7 @@ describe('ConvertJSONLD', () => {
 
         const jsonld = require('jsonld');
 
+        // http://api.02.unibas.dasch.swiss/v2/resources/http%3A%2F%2Frdfh.ch%2F0801%2Fbeol%2F-0tI3HXgSSOeDtkf-SA00w
         const EulerLetter: any = require('../../../test-data/resources/EulerLetter_176-O.json');
 
         const promises = jsonld.promises;
@@ -299,6 +300,7 @@ describe('ConvertJSONLD', () => {
 
         const jsonld = require('jsonld');
 
+        // http://localhost:3333/v2/resources/http%3A%2F%2Frdfh.ch%2F0001%2FH6gBWUuJSuuO-CilHV8kQw
         const thing: any = require('../../../test-data/resources/Testthing.json');
 
         const promises = jsonld.promises;
@@ -314,21 +316,21 @@ describe('ConvertJSONLD', () => {
             const expectedProps: ReadProperties = {
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasBoolean': [
                     new ReadBooleanValue(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/SHyBHDSJQzmeJ83xBTQhJg',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/IN4R19yYR0ygi3K2VEHpUQ',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasBoolean',
                         true
                     )
                 ],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasColor': [
                     new ReadColorValue(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/37QzGaODRo6EKBpf6wxxkQ',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/TAziKNP8QxuyhC4Qf9-b6w',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasColor',
                         '#ff3333'
                     )
                 ],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasDate': [
                     new ReadDateValue(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/t6JTHLl1T62_VPajklqx4Q',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/-rG4F5FTTu2iB5mTBPVn5Q',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasDate',
                         'GREGORIAN',
                         2018,
@@ -342,29 +344,29 @@ describe('ConvertJSONLD', () => {
                     )],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasDecimal': [
                     new ReadDecimalValue(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/Av5U1FocTVCSoDEmPR0_aQ',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/bXMwnrHvQH2DMjOFrGmNzg',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasDecimal',
                         1.5
                     )
                 ],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasInteger': [
                     new ReadIntegerValue(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/uiHvmZZGR8i0O1djKN7PVQ',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/dJ1ES8QTQNepFKF5-EAqdg',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasInteger',
                         1
                     )
                 ],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasInterval': [
                     new ReadIntervalValue(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/S2jMJ4YlSkyWe0eSQD4jdw',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/RbDKPKHWTC-0lkRKae-E6A',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasInterval',
                         0,
-                        60
+                        216000
                     )
                 ],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasListItem': [
                     new ReadListValue(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/PzE7-PtEQwmZxFeDXhIu3Q',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/XAhEeE3kSVqM4JPGdLt4Ew',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasListItem',
                         'http://rdfh.ch/lists/0001/treeList01',
                         'Tree list node 01'
@@ -372,7 +374,7 @@ describe('ConvertJSONLD', () => {
                 ],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasOtherListItem': [
                     new ReadListValue(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/BE-SUkXzT36D8qcZSO1Vbg',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/j8VQjbD0RsyxpyuvfFJCDA',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasOtherListItem',
                         'http://rdfh.ch/lists/0001/otherTreeList01',
                         'Other Tree list node 01'
@@ -380,7 +382,7 @@ describe('ConvertJSONLD', () => {
                 ],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasOtherThingValue': [
                     new ReadLinkValue(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/C6n-Kup6TtiaKsqt9csXhw',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/uvRVxzL1RD-t9VIQ1TpfUw',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasOtherThingValue',
                         'http://rdfh.ch/0001/0C-0L1kORryKzJAJxxRyRQ',
                         new ReadResource(
@@ -397,7 +399,7 @@ describe('ConvertJSONLD', () => {
                 ],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasRichtext': [
                     new ReadTextValueAsXml(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/wt_W_BzQS9SSWs77wVrWsA',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/rvB4eQ5MTF-Qxq0YgkwaDg',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasRichtext',
                         '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<text><p>test with <strong>markup</strong></p></text>',
                         'http://rdfh.ch/standoff/mappings/StandardMapping'
@@ -405,14 +407,14 @@ describe('ConvertJSONLD', () => {
                 ],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasText': [
                     new ReadTextValueAsString(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/h9RegL8FQ0C51mhrKmr3pQ',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/SZyeLLmOTcCCuS3B0VksHQ',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasText',
                         'test'
                     )
                 ],
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#hasUri': [
                     new ReadUriValue(
-                        'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A/values/Zbf2EGAyR7OQtx7B8JxhzQ',
+                        'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw/values/uBAmWuRhR-eo1u1eP7qqNg',
                         'http://0.0.0.0:3333/ontology/0001/anything/v2#hasUri',
                         'http://www.google.ch'
                     )
@@ -421,7 +423,7 @@ describe('ConvertJSONLD', () => {
             };
 
             const ThingResourceExpected = new ReadResource(
-                'http://rdfh.ch/0001/_DQcFdsiTRGXr6S1Sfs38A',
+                'http://rdfh.ch/0001/H6gBWUuJSuuO-CilHV8kQw',
                 'http://0.0.0.0:3333/ontology/0001/anything/v2#Thing',
                 'testding',
                 [],
@@ -440,7 +442,8 @@ describe('ConvertJSONLD', () => {
 
         const jsonld = require('jsonld');
 
-        const resultsForEuler: any = require('../../../test-data/resources/SearchResultEuler.json');
+        // http://localhost:3333/v2/search/Narr?limitToProject=http%3A%2F%2Frdfh.ch%2Fprojects%2F0803
+        const resultsForEuler: any = require('../../../test-data/resources/SearchResultNarr.json');
 
         const promises = jsonld.promises;
         // compact JSON-LD using an empty context: expands all Iris
@@ -461,6 +464,7 @@ describe('ConvertJSONLD', () => {
 
         const jsonld = require('jsonld');
 
+        // see Knora: webapi/src/test/resources/test-data/searchR2RV2/bookWithIncomingPagesOnlyLink.jsonld
         const resultsForBookWithIncomingLink: any = require('../../../test-data/resources/BookWithIncomingPages.json');
 
         const promises = jsonld.promises;
@@ -533,6 +537,8 @@ describe('ConvertJSONLD', () => {
 
         const jsonld = require('jsonld');
 
+        // see Knora: webapi/src/test/resources/test-data/searchR2RV2/bookWithIncomingPagesOnlyLink.jsonld
+        // not that the source is represented as an Iri only
         const resultsForBookWithIncomingLink: any = require('../../../test-data/resources/BookWithIncomingPages2.json');
 
         const promises = jsonld.promises;
@@ -583,6 +589,91 @@ describe('ConvertJSONLD', () => {
         });
     }));
 
+    it('parse a JSON-LD document representing a collection of resources and get the Iris of the resource classes contained in it', async(() => {
+
+        const jsonld = require('jsonld');
+
+        // localhost:3333/v2/search/Holzschnitt
+        const resultsForHolzschnitt: any = require('../../../test-data/resources/SearchForHolzschnitt.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(resultsForHolzschnitt, {});
+
+        promise.then((compacted) => {
+
+            const resClasses = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+            const expectedResClasses = ['http://0.0.0.0:3333/ontology/0803/incunabula/v2#page', 'http://api.knora.org/ontology/knora-api/v2#Region', 'http://api.knora.org/ontology/knora-api/v2#LinkObj'];
+
+            expect(resClasses).toEqual(expectedResClasses);
+
+        });
+    }));
+
+    it('parse a JSON-LD document representing one resource and get its resource classes ', async(() => {
+
+        const jsonld = require('jsonld');
+
+        // http://localhost:3333/v2/resources/http%3A%2F%2Frdfh.ch%2F0001%2FH6gBWUuJSuuO-CilHV8kQw
+        const testThing: any = require('../../../test-data/resources/Testthing.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(testThing, {});
+
+        promise.then((compacted) => {
+
+            const resClasses = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+            const expectedResClasses = ['http://0.0.0.0:3333/ontology/0001/anything/v2#Thing'];
+
+            expect(resClasses).toEqual(expectedResClasses);
+
+        });
+    }));
+
+    it('parse a JSON-LD document representing an empty response', async(() => {
+
+        const jsonld = require('jsonld');
+
+        const empty = require('../../../test-data/resources/emptyResponse.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(empty, {});
+
+        promise.then((compacted) => {
+
+            const receivedResource: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+            expect(receivedResource.numberOfResources).toEqual(0);
+
+            expect(receivedResource.resources.length).toEqual(0);
+
+
+        });
+    }));
+
+    it('parse a JSON-LD document and try to get resource class Iris from an empty response', async(() => {
+
+        const jsonld = require('jsonld');
+
+        const empty = require('../../../test-data/resources/emptyResponse.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(empty, {});
+
+        promise.then((compacted) => {
+
+            const resClasses: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+            expect(resClasses.length).toEqual(0);
+
+
+        });
+    }));
 
 
 });

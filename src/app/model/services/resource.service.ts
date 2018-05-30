@@ -28,7 +28,7 @@ export class ResourceService extends ApiService {
      * @param iri Iri of the resource (already URL encoded).
      * @returns {Observable<any>}
      */
-    getResource(iri): Observable<any> {
+    getResource(iri): Observable<ApiServiceResult> {
         return this.httpGetV2('/resources/' + encodeURIComponent(iri));
     }
 

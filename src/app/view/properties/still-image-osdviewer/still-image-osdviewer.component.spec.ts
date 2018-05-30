@@ -117,40 +117,35 @@ describe('StillImageOSDViewerComponent', () => {
 
 function createTestRegionRectangle() {
     let testRegionRect_compacted_json = `
-        {
-          "@type":"http://schema.org/ItemList",
-          "http://schema.org/itemListElement":{
-            "@id":"http://data.knora.org/b6b64a62b006",
-            "@type":"http://api.knora.org/ontology/knora-api/v2#Region",
-            "http://api.knora.org/ontology/knora-api/v2#hasColor":{
-              "@id":"http://data.knora.org/b6b64a62b006/values/8da571610f27",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#ColorValue",
-              "http://api.knora.org/ontology/knora-api/v2#colorValueAsColor":"#ff3333"
-            },
-            "http://api.knora.org/ontology/knora-api/v2#hasComment":{
-              "@id":"http://data.knora.org/b6b64a62b006/values/0752cbee0e27",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#TextValue",
-              "http://api.knora.org/ontology/knora-api/v2#valueAsString":"Derselbe Holzschnitt wird auf Seite c5v verwendet."
-            },
-            "http://api.knora.org/ontology/knora-api/v2#hasGeometry":{
-              "@id":"http://data.knora.org/b6b64a62b006/values/ca7b1e280f27",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#GeomValue",
-              "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry":
-                "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#ff3333\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.0989010989010989,\\\"y\\\":0.18055555555555555},{\\\"x\\\":0.7252747252747253,\\\"y\\\":0.7245370370370371}],\\\"type\\\":\\\"rectangle\\\"}"
-            },
-            "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue":{
-              "@id":"http://data.knora.org/b6b64a62b006/values/d2893190-53ae-452f-adca-e8a0c68c4df6",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#LinkValue",
-              "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget":{
-                "@id":"http://data.knora.org/9d626dc76c03",
-                "@type":"http://api.knora.org/ontology/incunabula/v2#page",
-                "http://www.w3.org/2000/01/rdf-schema#label":"u1r"
-              }
-            },
-            "http://www.w3.org/2000/01/rdf-schema#label":"Derselbe Holzschnitt wird auf Seite c5v verwendet."
-          },
-          "http://schema.org/numberOfItems":1
-        }
+{
+  "@id": "http://rdfh.ch/b6b64a62b006",
+  "@type": "http://api.knora.org/ontology/knora-api/v2#Region",
+  "http://api.knora.org/ontology/knora-api/v2#hasColor": {
+    "@id": "http://rdfh.ch/b6b64a62b006/values/8da571610f27",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#ColorValue",
+    "http://api.knora.org/ontology/knora-api/v2#colorValueAsColor": "#ff3333"
+  },
+  "http://api.knora.org/ontology/knora-api/v2#hasComment": {
+    "@id": "http://rdfh.ch/b6b64a62b006/values/0752cbee0e27",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#TextValue",
+    "http://api.knora.org/ontology/knora-api/v2#valueAsString": "Derselbe Holzschnitt wird auf Seite c5v verwendet."
+  },
+  "http://api.knora.org/ontology/knora-api/v2#hasGeometry": {
+    "@id": "http://rdfh.ch/b6b64a62b006/values/ca7b1e280f27",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#GeomValue",
+    "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry": "{\\"status\\":\\"active\\",\\"lineColor\\":\\"#ff3333\\",\\"lineWidth\\":2,\\"points\\":[{\\"x\\":0.0989010989010989,\\"y\\":0.18055555555555555},{\\"x\\":0.7252747252747253,\\"y\\":0.7245370370370371}],\\"type\\":\\"rectangle\\"}"
+  },
+  "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue": {
+    "@id": "http://rdfh.ch/b6b64a62b006/values/d2893190-53ae-452f-adca-e8a0c68c4df6",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#LinkValue",
+    "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget": {
+      "@id": "http://rdfh.ch/9d626dc76c03",
+      "@type": "http://0.0.0.0:3333/ontology/0803/incunabula/v2#page",
+      "http://www.w3.org/2000/01/rdf-schema#label": "u1r"
+    }
+  },
+  "http://www.w3.org/2000/01/rdf-schema#label": "Derselbe Holzschnitt wird auf Seite c5v verwendet."
+}
       `;
     let testRegionRect_compacted = JSON.parse(testRegionRect_compacted_json);
     let testRegionRect_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionRect_compacted);
@@ -159,40 +154,35 @@ function createTestRegionRectangle() {
 
 function createTestRegionPolygon() {
     let testRegionPolygon_compacted_json = `
-        {
-          "@type":"http://schema.org/ItemList",
-          "http://schema.org/itemListElement":{
-            "@id":"http://data.knora.org/f1b0bb27b006",
-            "@type":"http://api.knora.org/ontology/knora-api/v2#Region",
-            "http://api.knora.org/ontology/knora-api/v2#hasColor":{
-              "@id":"http://data.knora.org/f1b0bb27b006/values/bed4d1420e27",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#ColorValue",
-              "http://api.knora.org/ontology/knora-api/v2#colorValueAsColor":"#ff3333"
-            },
-            "http://api.knora.org/ontology/knora-api/v2#hasComment":{
-              "@id":"http://data.knora.org/f1b0bb27b006/values/38812bd00d27",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#TextValue",
-              "http://api.knora.org/ontology/knora-api/v2#valueAsString":"Derselbe Holzschnitt wird auf Seite u1r verwendet."
-            },
-            "http://api.knora.org/ontology/knora-api/v2#hasGeometry":{
-              "@id":"http://data.knora.org/f1b0bb27b006/values/fbaa7e090e27",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#GeomValue",
-              "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry":
-                "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#ff3333\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.17532467532467533,\\\"y\\\":0.18049792531120332},{\\\"x\\\":0.8051948051948052,\\\"y\\\":0.17012448132780084},{\\\"x\\\":0.8311688311688312,\\\"y\\\":0.7261410788381742},{\\\"x\\\":0.19480519480519481,\\\"y\\\":0.7323651452282157},{\\\"x\\\":0.17857142857142858,\\\"y\\\":0.17842323651452283},{\\\"x\\\":0.18506493506493507,\\\"y\\\":0.1825726141078838},{\\\"x\\\":0.17857142857142858,\\\"y\\\":0.1825726141078838}],\\\"type\\\":\\\"polygon\\\"}"
-            },
-            "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue":{
-              "@id":"http://data.knora.org/f1b0bb27b006/values/f8b6da78-fba7-43ff-b7ce-d2de0e12ae16",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#LinkValue",
-              "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget":{
-                "@id":"http://data.knora.org/3a757e9e3003",
-                "@type":"http://api.knora.org/ontology/incunabula/v2#page",
-                "http://www.w3.org/2000/01/rdf-schema#label":"c5v"
-              }
-            },
-            "http://www.w3.org/2000/01/rdf-schema#label":"Derselbe Holzschnitt wird auf Seite u1r verwendet."
-          },
-          "http://schema.org/numberOfItems":1
-        }
+{
+  "@id": "http://rdfh.ch/f1b0bb27b006",
+  "@type": "http://api.knora.org/ontology/knora-api/v2#Region",
+  "http://api.knora.org/ontology/knora-api/v2#hasColor": {
+    "@id": "http://rdfh.ch/f1b0bb27b006/values/bed4d1420e27",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#ColorValue",
+    "http://api.knora.org/ontology/knora-api/v2#colorValueAsColor": "#ff3333"
+  },
+  "http://api.knora.org/ontology/knora-api/v2#hasComment": {
+    "@id": "http://rdfh.ch/f1b0bb27b006/values/38812bd00d27",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#TextValue",
+    "http://api.knora.org/ontology/knora-api/v2#valueAsString": "Derselbe Holzschnitt wird auf Seite u1r verwendet."
+  },
+  "http://api.knora.org/ontology/knora-api/v2#hasGeometry": {
+    "@id": "http://rdfh.ch/f1b0bb27b006/values/fbaa7e090e27",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#GeomValue",
+    "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry": "{\\"status\\":\\"active\\",\\"lineColor\\":\\"#ff3333\\",\\"lineWidth\\":2,\\"points\\":[{\\"x\\":0.17532467532467533,\\"y\\":0.18049792531120332},{\\"x\\":0.8051948051948052,\\"y\\":0.17012448132780084},{\\"x\\":0.8311688311688312,\\"y\\":0.7261410788381742},{\\"x\\":0.19480519480519481,\\"y\\":0.7323651452282157},{\\"x\\":0.17857142857142858,\\"y\\":0.17842323651452283},{\\"x\\":0.18506493506493507,\\"y\\":0.1825726141078838},{\\"x\\":0.17857142857142858,\\"y\\":0.1825726141078838}],\\"type\\":\\"polygon\\"}"
+  },
+  "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue": {
+    "@id": "http://rdfh.ch/f1b0bb27b006/values/f8b6da78-fba7-43ff-b7ce-d2de0e12ae16",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#LinkValue",
+    "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget": {
+      "@id": "http://rdfh.ch/3a757e9e3003",
+      "@type": "http://0.0.0.0:3333/ontology/0803/incunabula/v2#page",
+      "http://www.w3.org/2000/01/rdf-schema#label": "c5v"
+    }
+  },
+  "http://www.w3.org/2000/01/rdf-schema#label": "Derselbe Holzschnitt wird auf Seite u1r verwendet."
+}
       `;
     let testRegionPolygon_compacted = JSON.parse(testRegionPolygon_compacted_json);
     let testRegionPolygon_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionPolygon_compacted);
@@ -201,39 +191,35 @@ function createTestRegionPolygon() {
 
 function createTestRegionCircle() {
     let testRegionCircle_compacted_json = `
-        {
-          "@type":"http://schema.org/ItemList",
-          "http://schema.org/itemListElement":{
-            "@id":"http://data.knora.org/2357e0d64407",
-            "@type":"http://api.knora.org/ontology/knora-api/v2#Region",
-            "http://api.knora.org/ontology/knora-api/v2#hasColor":{
-              "@id":"http://data.knora.org/2357e0d64407/values/65579b06ee2a",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#ColorValue",
-              "http://api.knora.org/ontology/knora-api/v2#colorValueAsColor":"#3333ff"
-            },
-            "http://api.knora.org/ontology/knora-api/v2#hasComment":{
-              "@id":"http://data.knora.org/2357e0d64407/values/df03f593ed2a",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#TextValue",
-              "http://api.knora.org/ontology/knora-api/v2#valueAsString":"Kolorierung in Rot"
-            },"http://api.knora.org/ontology/knora-api/v2#hasGeometry":{
-              "@id":"http://data.knora.org/2357e0d64407/values/a22d48cded2a",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#GeomValue",
-              "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry":
-                "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#3333ff\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.3400735294117647,\\\"y\\\":0.45376078914919854}],\\\"type\\\":\\\"circle\\\",\\\"radius\\\":{\\\"x\\\":0.04595588235294118,\\\"y\\\":0.03082614056720101},\\\"original_index\\\":1}"
-            },
-            "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue":{
-              "@id":"http://data.knora.org/2357e0d64407/values/74b82006-d4b2-4e06-8ca4-585753f49415",
-              "@type":"http://api.knora.org/ontology/knora-api/v2#LinkValue",
-              "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget":{
-                "@id":"http://data.knora.org/1a01fe39e701",
-                "@type":"http://api.knora.org/ontology/incunabula/v2#page",
-                "http://www.w3.org/2000/01/rdf-schema#label":"o6r"
-              }
-            },
-            "http://www.w3.org/2000/01/rdf-schema#label":"Kolorierung in Rot"
-          },
-          "http://schema.org/numberOfItems":1
-        }
+{
+  "@id": "http://rdfh.ch/2357e0d64407",
+  "@type": "http://api.knora.org/ontology/knora-api/v2#Region",
+  "http://api.knora.org/ontology/knora-api/v2#hasColor": {
+    "@id": "http://rdfh.ch/2357e0d64407/values/65579b06ee2a",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#ColorValue",
+    "http://api.knora.org/ontology/knora-api/v2#colorValueAsColor": "#3333ff"
+  },
+  "http://api.knora.org/ontology/knora-api/v2#hasComment": {
+    "@id": "http://rdfh.ch/2357e0d64407/values/df03f593ed2a",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#TextValue",
+    "http://api.knora.org/ontology/knora-api/v2#valueAsString": "Kolorierung in Rot"
+  },
+  "http://api.knora.org/ontology/knora-api/v2#hasGeometry": {
+    "@id": "http://rdfh.ch/2357e0d64407/values/a22d48cded2a",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#GeomValue",
+    "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry": "{\\"status\\":\\"active\\",\\"lineColor\\":\\"#3333ff\\",\\"lineWidth\\":2,\\"points\\":[{\\"x\\":0.3400735294117647,\\"y\\":0.45376078914919854}],\\"type\\":\\"circle\\",\\"radius\\":{\\"x\\":0.04595588235294118,\\"y\\":0.03082614056720101},\\"original_index\\":1}"
+  },
+  "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue": {
+    "@id": "http://rdfh.ch/2357e0d64407/values/74b82006-d4b2-4e06-8ca4-585753f49415",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#LinkValue",
+    "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget": {
+      "@id": "http://rdfh.ch/1a01fe39e701",
+      "@type": "http://0.0.0.0:3333/ontology/0803/incunabula/v2#page",
+      "http://www.w3.org/2000/01/rdf-schema#label": "o6r"
+    }
+  },
+  "http://www.w3.org/2000/01/rdf-schema#label": "Kolorierung in Rot"
+}
       `;
     let testRegionCircle_compacted = JSON.parse(testRegionCircle_compacted_json);
     let testRegionCircle_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionCircle_compacted);
@@ -242,46 +228,42 @@ function createTestRegionCircle() {
 
 function createTestRegionMulti() {
     let testRegionMulti_compacted_json = `
-       {
-         "@type": "http://schema.org/ItemList",
-         "http://schema.org/itemListElement": {
-           "@id": "http://data.knora.org/29c5b0b65732",
-           "@type": "http://api.knora.org/ontology/knora-api/v2#Region",
-           "http://api.knora.org/ontology/knora-api/v2#hasColor": {
-             "@id": "http://data.knora.org/29c5b0b65732/values/e4a0f250326101",
-             "@type": "http://api.knora.org/ontology/knora-api/v2#ColorValue",
-             "http://api.knora.org/ontology/knora-api/v2#colorValueAsColor": "#ff3333"
-           },
-           "http://api.knora.org/ontology/knora-api/v2#hasComment": {
-             "@id": "http://data.knora.org/29c5b0b65732/values/9b23f9a4316101",
-             "@type": "http://api.knora.org/ontology/knora-api/v2#TextValue",
-             "http://api.knora.org/ontology/knora-api/v2#valueAsString": "TESTREGION JUNI"
-           },
-           "http://api.knora.org/ontology/knora-api/v2#hasGeometry": [
-             {
-               "@id": "http://data.knora.org/29c5b0b65732/values/5e4d4cde316101",
-               "@type": "http://api.knora.org/ontology/knora-api/v2#GeomValue",
-               "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry": "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#ff3333\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.5305232558139537,\\\"y\\\":0.3126142595978062}],\\\"type\\\":\\\"circle\\\",\\\"radius\\\":{\\\"x\\\":0.18023255813953487,\\\"y\\\":0.08957952468007313},\\\"original_index\\\":0}"
-             },
-             {
-               "@id": "http://data.knora.org/29c5b0b65732/values/21779f17326101",
-               "@type": "http://api.knora.org/ontology/knora-api/v2#GeomValue",
-               "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry": "{\\\"status\\\":\\\"active\\\",\\\"lineColor\\\":\\\"#ff3333\\\",\\\"lineWidth\\\":2,\\\"points\\\":[{\\\"x\\\":0.17296511627906977,\\\"y\\\":0.08226691042047532},{\\\"x\\\":0.7122093023255814,\\\"y\\\":0.16544789762340037}],\\\"type\\\":\\\"rectangle\\\",\\\"original_index\\\":1}"
-             }
-           ],
-           "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue": {
-             "@id": "http://data.knora.org/29c5b0b65732/values/d9ebd265-f4c5-4a5d-8943-06e97942c555",
-             "@type": "http://api.knora.org/ontology/knora-api/v2#LinkValue",
-             "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget": {
-               "@id": "http://data.knora.org/9ee8aa313503",
-               "@type": "http://api.knora.org/ontology/incunabula/v2#page",
-               "http://www.w3.org/2000/01/rdf-schema#label": "d7v"
-             }
-           },
-           "http://www.w3.org/2000/01/rdf-schema#label": "TESTREGION JUNI"
-         },
-         "http://schema.org/numberOfItems": 1
-       }
+{
+  "@id": "http://rdfh.ch/29c5b0b65732",
+  "@type": "http://api.knora.org/ontology/knora-api/v2#Region",
+  "http://api.knora.org/ontology/knora-api/v2#hasColor": {
+    "@id": "http://rdfh.ch/29c5b0b65732/values/e4a0f250326101",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#ColorValue",
+    "http://api.knora.org/ontology/knora-api/v2#colorValueAsColor": "#ff3333"
+  },
+  "http://api.knora.org/ontology/knora-api/v2#hasComment": {
+    "@id": "http://rdfh.ch/29c5b0b65732/values/9b23f9a4316101",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#TextValue",
+    "http://api.knora.org/ontology/knora-api/v2#valueAsString": "TESTREGION JUNI"
+  },
+  "http://api.knora.org/ontology/knora-api/v2#hasGeometry": [
+    {
+      "@id": "http://rdfh.ch/29c5b0b65732/values/5e4d4cde316101",
+      "@type": "http://api.knora.org/ontology/knora-api/v2#GeomValue",
+      "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry": "{\\"status\\":\\"active\\",\\"lineColor\\":\\"#ff3333\\",\\"lineWidth\\":2,\\"points\\":[{\\"x\\":0.5305232558139537,\\"y\\":0.3126142595978062}],\\"type\\":\\"circle\\",\\"radius\\":{\\"x\\":0.18023255813953487,\\"y\\":0.08957952468007313},\\"original_index\\":0}"
+    },
+    {
+      "@id": "http://rdfh.ch/29c5b0b65732/values/21779f17326101",
+      "@type": "http://api.knora.org/ontology/knora-api/v2#GeomValue",
+      "http://api.knora.org/ontology/knora-api/v2#geometryValueAsGeometry": "{\\"status\\":\\"active\\",\\"lineColor\\":\\"#ff3333\\",\\"lineWidth\\":2,\\"points\\":[{\\"x\\":0.17296511627906977,\\"y\\":0.08226691042047532},{\\"x\\":0.7122093023255814,\\"y\\":0.16544789762340037}],\\"type\\":\\"rectangle\\",\\"original_index\\":1}"
+    }
+  ],
+  "http://api.knora.org/ontology/knora-api/v2#isRegionOfValue": {
+    "@id": "http://rdfh.ch/29c5b0b65732/values/d9ebd265-f4c5-4a5d-8943-06e97942c555",
+    "@type": "http://api.knora.org/ontology/knora-api/v2#LinkValue",
+    "http://api.knora.org/ontology/knora-api/v2#linkValueHasTarget": {
+      "@id": "http://rdfh.ch/9ee8aa313503",
+      "@type": "http://0.0.0.0:3333/ontology/0803/incunabula/v2#page",
+      "http://www.w3.org/2000/01/rdf-schema#label": "d7v"
+    }
+  },
+  "http://www.w3.org/2000/01/rdf-schema#label": "TESTREGION JUNI"
+}
        `;
     let testRegionMulti_compacted = JSON.parse(testRegionMulti_compacted_json);
     let testRegionMulti_resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(testRegionMulti_compacted);
