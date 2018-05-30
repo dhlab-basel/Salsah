@@ -197,21 +197,21 @@ export class BeolService {
     searchForLetterFromLEOO(repertoriumNumber: string): string {
 
         const letterByNumberTemplate: string = `
+        PREFIX beol: <${environment.apiExternal}/ontology/0801/beol/simple/v2#>
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
             ?letter knora-api:isMainResource true .
             
-            ?letter <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letterHasNumber> ?letterNumber .
         
         } WHERE { 
         
             ?letter a knora-api:Resource .
             
-            ?letter a <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letter> .
+            ?letter a beol:letter .
             
-            ?letter <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letterHasRepertoriumNumber> ?letterNumber .
-            <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letterHasRepertoriumNumber> knora-api:objectType <http://www.w3.org/2001/XMLSchema#string> .
+            ?letter beol:letterHasRepertoriumNumber ?letterNumber .
+            beol:letterHasRepertoriumNumber knora-api:objectType <http://www.w3.org/2001/XMLSchema#string> .
             ?letterNumber a <http://www.w3.org/2001/XMLSchema#string> .
                     
             FILTER(?letterNumber = "${repertoriumNumber}"^^<http://www.w3.org/2001/XMLSchema#string>)
