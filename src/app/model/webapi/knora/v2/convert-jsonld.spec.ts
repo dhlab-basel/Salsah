@@ -633,6 +633,47 @@ describe('ConvertJSONLD', () => {
         });
     }));
 
+    it('parse a JSON-LD document representing an empty response', async(() => {
+
+        const jsonld = require('jsonld');
+
+        const empty = require('../../../test-data/resources/emptyResponse.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(empty, {});
+
+        promise.then((compacted) => {
+
+            const receivedResource: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+
+            expect(receivedResource.numberOfResources).toEqual(0);
+
+            expect(receivedResource.resources.length).toEqual(0);
+
+
+        });
+    }));
+
+    it('parse a JSON-LD document and try to get resource class Iris from an empty response', async(() => {
+
+        const jsonld = require('jsonld');
+
+        const empty = require('../../../test-data/resources/emptyResponse.json');
+
+        const promises = jsonld.promises;
+        // compact JSON-LD using an empty context: expands all Iris
+        const promise = promises.compact(empty, {});
+
+        promise.then((compacted) => {
+
+            const resClasses: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+
+            expect(resClasses.length).toEqual(0);
+
+
+        });
+    }));
 
 
 });
