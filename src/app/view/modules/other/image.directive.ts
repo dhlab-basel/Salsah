@@ -14,7 +14,7 @@
 
 import {Directive, ElementRef, Input, OnChanges, Renderer2} from '@angular/core';
 import {Md5} from 'ts-md5/dist/md5';
-import {AppSettings} from '../../../model/services/app.settings';
+import {AppSettings} from '../../../app.settings';
 
 @Directive({
     selector: '[salsahImage]'

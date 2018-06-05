@@ -20,7 +20,7 @@ import {ReadStillImageFileValue, ReadGeomValue} from '../../../model/webapi/knor
 import {ReadResource} from '../../../model/webapi/knora/v2/read-resource';
 import {Point2D, RegionGeometry} from '../../../model/webapi/knora/v2/read-property-item';
 import {AppConfig} from '../../../app.config'
-import {AppSettings} from '../../../model/services/app.settings';
+import {AppSettings} from '../../../app.settings';
 
 // This component needs the openseadragon library itself, as well as the openseadragon plugin openseadragon-svg-overlay
 // Both libraries are installed via package.json, and loaded globally via the script tag in .angular-cli.json

@@ -16,7 +16,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {ApiService} from './api.service';
-import {AppSettings} from './app.settings';
+import {AppSettings} from '../../app.settings';
 
 
 @Injectable()

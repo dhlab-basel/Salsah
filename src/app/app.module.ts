@@ -1,5 +1,5 @@
 import {APP_INITIALIZER, NgModule} from '@angular/core';
-import {AppSettings} from './model/services/app.settings';
+import {AppSettings} from './app.settings';
 
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';

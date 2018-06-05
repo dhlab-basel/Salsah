@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ExtendedSearchParams, SearchParamsService} from './search-params.service';
-import {AppSettings} from './app.settings';
+import {AppSettings} from '../../app.settings';
 
 @Injectable()
 export class BeolService {
