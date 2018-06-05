@@ -13,20 +13,24 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `..angular-cli.json`.
+export interface IAppConfig {
 
-export const environment = {
-    type: 'productive',
-    production: true,
-    url: 'http://salsah.local',
-    apiExternal: 'http://0.0.0.0:3333',
-    api: 'http://0.0.0.0:3333',
-    media: 'http://localhost:1024',
-    localData: 'data',
-    pagingLimit: 25,
-    startComponent: 'dasch',
-    firebase: {}
-};
+    env: {
+        name: string;
+    };
+    ontologyIRI: string
+    apiURL: string
+    iiifURL: string
+    appURL: string
+    localData: string
+    pagingLimit: number
+    startComponent: string
+    firebase: {
+        apiKey: string
+        authDomain: string
+        databaseURL: string
+        projectId: string
+        storageBucket: string
+        messagingSenderId: string
+    };
+}

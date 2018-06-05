@@ -21,6 +21,7 @@ script:
   # this should really be fixed in the package itself (https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter/issues/5)
   - cp fixes/jdnconvertiblecalendardateadapter/index.d.ts node_modules/jdnconvertiblecalendardateadapter/dist/index.d.ts
   - ng build --prod --build-optimizer
+  - ng build --target=production --environment=deploy
 
 notifications:
   slack:

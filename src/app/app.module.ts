@@ -1,3 +1,6 @@
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfig } from './app.config';
+
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -180,6 +183,11 @@ import { ObjectViewerComponent } from './view/modules/object/object-viewer/objec
 // import all app components
 //
 
+// Load the application configuration file
+export function initializeApp(appConfig: AppConfig) {
+    return () => appConfig.load();
+}
+
 // Translate: AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
@@ -334,6 +342,13 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ResourceClassFormComponent // deprecated!!
     ],
     providers: [
+        AppConfig,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeApp,
+            deps: [AppConfig],
+            multi: true
+        },
         ApiService,
         ProjectsService,
         PropertiesService,
