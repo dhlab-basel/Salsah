@@ -1,8 +1,7 @@
-import { APP_INITIALIZER } from '@angular/core';
-import { AppConfig } from './app.config';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {AppSettings} from './model/services/app.settings';
 
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
@@ -115,7 +114,7 @@ import {ReadTextValueAsStringComponent} from './view/properties/read-text-value-
 import {ReadTextValueAsXmlComponent} from './view/properties/read-text-value-as-xml/read-text-value-as-xml.component';
 import {ReadIntegerValueComponent} from './view/properties/read-integer-value/read-integer-value.component';
 import {ReadDecimalValueComponent} from './view/properties/read-decimal-value/read-decimal-value.component';
-import { ReadTextfileValueComponent } from './view/properties/read-textfile-value/read-textfile-value.component';
+import {ReadTextfileValueComponent} from './view/properties/read-textfile-value/read-textfile-value.component';
 import {StillImageOSDViewerComponent} from './view/properties/still-image-osdviewer/still-image-osdviewer.component';
 import {ReadGeomValueComponent} from './view/properties/read-geom-value/read-geom-value.component';
 import {ReadColorValueComponent} from './view/properties/read-color-value/read-color-value.component';
@@ -159,21 +158,20 @@ import {SearchParamsService} from './model/services/search-params.service';
 import {GroupsService} from './model/services/groups.service';
 
 import {AngularFireModule} from 'angularfire2';
-import {environment} from '../environments/environment';
 import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
-import { DialogTestComponent } from './view/test/development/dialog-test/dialog-test.component';
-import { ObjectDialogComponent } from './view/modules/dialog/object-dialog/object-dialog.component';
-import { UserRoleComponent } from './view/modules/form/user-form/user-role/user-role.component';
-import { UserPasswordComponent } from './view/modules/form/user-form/user-password/user-password.component';
-import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
-import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
-import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
-import { SortButtonComponent } from './view/modules/action/sort-button/sort-button.component';
-import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
-import { LeooComponent } from './view/templates/leoo/leoo.component';
-import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
+import {DialogTestComponent} from './view/test/development/dialog-test/dialog-test.component';
+import {ObjectDialogComponent} from './view/modules/dialog/object-dialog/object-dialog.component';
+import {UserRoleComponent} from './view/modules/form/user-form/user-role/user-role.component';
+import {UserPasswordComponent} from './view/modules/form/user-form/user-password/user-password.component';
+import {ListFormComponent} from './view/modules/form/list-form/list-form.component';
+import {ProjectDataComponent} from './view/modules/form/project-form/project-data/project-data.component';
+import {NodeFormComponent} from './view/modules/form/list-form/node-form/node-form.component';
+import {SortButtonComponent} from './view/modules/action/sort-button/sort-button.component';
+import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
+import {LeooComponent} from './view/templates/leoo/leoo.component';
+import {ObjectViewerComponent} from './view/modules/object/object-viewer/object-viewer.component';
 
 //
 // import all needed services
@@ -184,8 +182,8 @@ import { ObjectViewerComponent } from './view/modules/object/object-viewer/objec
 //
 
 // Load the application configuration file
-export function initializeApp(appConfig: AppConfig) {
-    return () => appConfig.load();
+export function initializeApp(appSettings: AppSettings) {
+    return () => appSettings.load();
 }
 
 // Translate: AoT requires an exported function for factories
@@ -322,7 +320,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TreeModule,
         DndModule.forRoot(),
         HttpClientModule,
-        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireModule.initializeApp(AppSettings.settings.firebase),
         InfiniteScrollModule,
         RecaptchaModule.forRoot(),
         TranslateModule.forRoot({
@@ -342,11 +340,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ResourceClassFormComponent // deprecated!!
     ],
     providers: [
-        AppConfig,
+        AppSettings,
         {
             provide: APP_INITIALIZER,
             useFactory: initializeApp,
-            deps: [AppConfig],
+            deps: [AppSettings],
             multi: true
         },
         ApiService,

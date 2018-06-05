@@ -16,7 +16,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../model/services/authentication.service';
 import {Title} from '@angular/platform-browser';
-import {environment} from '../../../environments/environment';
+import {AppSettings} from '../../model/services/app.settings';
 
 @Component({
     selector: 'salsah-dashboard',
@@ -25,7 +25,7 @@ import {environment} from '../../../environments/environment';
 })
 export class DashboardComponent implements OnInit {
 
-    startComponent: string = environment.startComponent;
+    startComponent: string = AppSettings.settings.startComponent;
 
     // on this page is a list of all public projects;
     // implemented with ProjectsListComponent which can have a list title

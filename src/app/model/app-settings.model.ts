@@ -13,24 +13,25 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface IAppConfig {
+export interface IAppSetting {
 
     env: {
         name: string;
     };
-    ontologyIRI: string
-    apiURL: string
-    iiifURL: string
-    appURL: string
-    localData: string
-    pagingLimit: number
-    startComponent: string
+    ontologyIRI: string;
+    apiURL: string;
+    iiifURL: string;
+    appURL: string;
+    localData: string;
+    pagingLimit: number;
+    startComponent: string;
     firebase: {
-        apiKey: string
-        authDomain: string
-        databaseURL: string
-        projectId: string
-        storageBucket: string
-        messagingSenderId: string
+        apiKey: string;
+        authDomain: string;
+        databaseURL: string;
+        projectId: string;
+        storageBucket: string;
+        messagingSenderId: string;
+
     };
 }

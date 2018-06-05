@@ -12,12 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {environment} from '../environments/environment';
-
 export class AppConfig {
-
-    public static FileServer: string = environment.media;
-    public static AdminFileServer: string = environment.media + '/server/admin';
 
     public static KnoraOntologyPath: string = 'http://www.knora.org/ontology';
     public static KnoraBase: string = AppConfig.KnoraOntologyPath + '/knora-base';
@@ -209,7 +204,7 @@ export class AppConfig {
     public static geonameSimple = AppConfig.KnoraApiV2SimplePath + 'Geoname';
     public static fileSimple = AppConfig.KnoraApiV2SimplePath + 'File';
 
-    public static matchFunction = AppConfig.KnoraApiV2SimplePath + "match";
+    public static matchFunction = AppConfig.KnoraApiV2SimplePath + 'match';
 
     public static GNDPrefix = '(DE-588)';
     public static GNDResolver = 'http://d-nb.info/gnd/';
