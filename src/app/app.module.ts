@@ -157,7 +157,7 @@ import {SearchParamsService} from './model/services/search-params.service';
 
 import {GroupsService} from './model/services/groups.service';
 
-import {AngularFireModule, FirebaseAppConfig} from 'angularfire2';
+import {AngularFireModule, FirebaseOptionsToken} from 'angularfire2';
 import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
@@ -347,11 +347,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             deps: [AppConfig],
             multi: true
         },
-        {
-            provide: FirebaseAppConfig,
-            useValue: AppConfig.settings.firebase,
-            deps: [AppConfig]
-        },
+        { provide: FirebaseOptionsToken, useValue: AppConfig.settings.firebase },
         ApiService,
         ProjectsService,
         PropertiesService,
