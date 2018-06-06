@@ -107,3 +107,47 @@ Project-specific templates for own project presentation pages. This will be obso
 
 #### - test
 Test component environment to test single components in a quick way.
+
+### Runtime Configuration and Application Constants
+
+Any environment specific configuration needs to go in `src/app/assets/config/config.dev.json`. The corresponding model definition is defined in `src/app/app-config.model.ts`.
+To access a specific configuration value from anywhere in the code, write `AppConfig.getConfig.apiURL`. Any additions to `config.dev.json` need to be reflected in `app-config.model.ts`.
+
+Any application wide constants should go into `src/app/app.config.ts`
+
+#### Configuration Description
+
+This is the default configuration, used during local development:
+
+```
+{
+    "env": {
+        "name": "dev"
+    },
+    "ontologyIRI": "http://0.0.0.0:3333",
+    "apiURL": "http://0.0.0.0:3333",
+    "iiifURL": "http://localhost:1024/knora",
+    "appURL": "http://localhost:4200",
+    "localData": "data",
+    "pagingLimit": 25,
+    "startComponent": "dasch",
+    "firebase": {
+        "apiKey": "AIzaSyAGr-TWw1NaycUrL3IaJQ63D2YguVafYTA",
+        "authDomain": "test-5034c.firebaseapp.com",
+        "databaseURL": "https://test-5034c.firebaseio.com",
+        "projectId": "test-5034c",
+        "storageBucket": "test-5034c.appspot.com",
+        "messagingSenderId": "44326559957"
+    }
+}
+```
+
+
+- `ontologyIRI`: used in Gravsearch templates. Needs to always start with `http` and corespond to the hostname and port defined in `apiURL`.
+- `apiURL`: the URL to the Knora API service.
+- `iiifURL`: the URL to the IIIF (Sipi) service.
+- `appURL`: the URL of this application.
+- `localData`: path to the local data storage.
+- `pagingLimit`: the paging limit for displaying resources.
+- `startComponent`: the component which will be shown at `/`.
+- `firebase`: firebase settings.

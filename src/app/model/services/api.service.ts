@@ -20,7 +20,7 @@ import {ApiServiceResult} from './api-service-result';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
-import {AppSettings} from '../../app.settings';
+import {AppConfig} from '../../app.config';
 
 @Injectable()
 export class ApiService {
@@ -71,16 +71,7 @@ export class ApiService {
 
         options = this.appendToOptions(options);
 
-        const url = AppSettings.settings.apiURL + path;
-
-        /*
-        if (!environment.production && environment.description === 'mock-api') {
-            // in this case, we don't need the knora API; we're using mockup files from knora_mockups
-
-            url += '.json';
-            options = {withCredentials: false};
-        }
-        */
+        const url = AppConfig.settings.apiURL + path;
 
         return this._http.get(url, options).map((response: Response) => {
             try {
@@ -97,30 +88,6 @@ export class ApiService {
             return Observable.throw(ApiService.handleError(error, url));
         });
     }
-
-    httpGetV2(path: string, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
-
-        if (!options) options = {withCredentials: true};
-
-        const url = AppSettings.settings.apiURL + path;
-
-        return this._http.get(url, options).map((response: Response) => {
-            try {
-                const apiServiceResult: ApiServiceResult = new ApiServiceResult();
-                apiServiceResult.status = response.status;
-                apiServiceResult.statusText = response.statusText;
-                apiServiceResult.body = response.json();
-                apiServiceResult.url = url;
-                return apiServiceResult;
-            } catch (e) {
-                return ApiService.handleError(response, url);
-            }
-        }).catch((error: any) => {
-            return Observable.throw(ApiService.handleError(error, url));
-        });
-    }
-
-
 
     /**
      * Performs a HTTP POST url to the Knora API.
@@ -136,7 +103,7 @@ export class ApiService {
 
         options = this.appendToOptions(options);
 
-        const url = AppSettings.settings.apiURL + path;
+        const url = AppConfig.settings.apiURL + path;
 
         return this._http.post( url, body, options).map((response: Response) => {
             try {
@@ -168,7 +135,7 @@ export class ApiService {
 
         options = this.appendToOptions(options);
 
-        const url = AppSettings.settings.apiURL + path;
+        const url = AppConfig.settings.apiURL + path;
 
         return this._http.put(url, body, options).map((response: Response) => {
             try {
@@ -196,7 +163,7 @@ export class ApiService {
 
         options = this.appendToOptions(options);
 
-        const url = AppSettings.settings.apiURL + path;
+        const url = AppConfig.settings.apiURL + path;
 
         return this._http.delete(url, options).map((response: Response) => {
             try {

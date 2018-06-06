@@ -16,7 +16,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {ApiService} from './api.service';
-import {AppSettings} from '../../app.settings';
+import {AppConfig} from '../../app.config';
 
 
 @Injectable()
@@ -28,7 +28,7 @@ export class BasicOntologyService extends ApiService {
      * @returns {Observable<any>}
      */
     getBasicOntology(): Observable<any> {
-        let url = AppSettings.settings.appURL;
+        const url = AppConfig.settings.appURL;
         return this.httpGet(url + '/data/base-data/basic-ontology.json', {withCredentials: false});
     }
 

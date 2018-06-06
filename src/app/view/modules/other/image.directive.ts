@@ -14,7 +14,7 @@
 
 import {Directive, ElementRef, Input, OnChanges, Renderer2} from '@angular/core';
 import {Md5} from 'ts-md5/dist/md5';
-import {AppSettings} from '../../../app.settings';
+import {AppConfig} from '../../../app.config';
 
 @Directive({
     selector: '[salsahImage]'
@@ -53,7 +53,7 @@ export class ImageDirective implements OnChanges {
                     if (this.image.slice(0, 4) === 'http') {
                         this.source = this.image;
                     } else {
-                        this.source = AppSettings.settings.iiifURL + '/server/admin' + '/' + this.image;
+                        this.source = AppConfig.settings.iiifURL + '/server/admin' + '/' + this.image;
                     }
                 }
                 break;
@@ -65,7 +65,7 @@ export class ImageDirective implements OnChanges {
                 if (this.image.slice(0, 4) === 'http') {
                     this.source = this.image;
                 } else {
-                    this.source = AppSettings.settings.iiifURL + '/server/admin' + '/' + this.image;
+                    this.source = AppConfig.settings.iiifURL + '/server/admin' + '/' + this.image;
                 }
         }
 

@@ -13,7 +13,7 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AppConfig} from '../../../../../app.config';
+import {AppConstants} from '../../../../../app.constants';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
 import {User} from '../../../../../model/webapi/knora';
 import {UsersService} from '../../../../../model/services/users.service';
@@ -86,7 +86,7 @@ export class UserPasswordComponent implements OnInit {
             }, [
                 Validators.required,
                 Validators.minLength(8),
-                Validators.pattern(AppConfig.RegexPassword)
+                Validators.pattern(AppConstants.RegexPassword)
 
             ])
         });

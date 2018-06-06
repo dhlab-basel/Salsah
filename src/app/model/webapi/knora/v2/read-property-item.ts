@@ -12,10 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {AppConfig} from "../../../../app.config";
-import {ReadResource} from "./read-resource";
-import {escape} from "querystring";
-import {OntologyInformation} from "../../../services/ontologycache.service";
+import {AppConstants} from '../../../../app.constants';
+import {ReadResource} from './read-resource';
+import {OntologyInformation} from '../../../services/ontologycache.service';
 
 /**
  * An abstract interface representing any value object.
@@ -61,14 +60,14 @@ export class ReadTextValueAsString implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.TextValue;
+    readonly type = AppConstants.TextValue;
 
     getContent(): string {
         return this.str;
     };
 
     getClassName(): string {
-        return AppConfig.ReadTextValueAsString;
+        return AppConstants.ReadTextValueAsString;
     }
 }
 
@@ -88,7 +87,7 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.TextValue;
+    readonly type = AppConstants.TextValue;
 
     getContent(): string {
         return this.html;
@@ -113,7 +112,7 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
     }
 
     getClassName():string {
-        return AppConfig.ReadTextValueAsHtml;
+        return AppConstants.ReadTextValueAsHtml;
     }
 
 }
@@ -127,7 +126,7 @@ export class ReadTextValueAsXml implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.TextValue;
+    readonly type = AppConstants.TextValue;
 
     getContent(): string {
 
@@ -136,7 +135,7 @@ export class ReadTextValueAsXml implements ReadPropertyItem {
     };
 
     getClassName(): string {
-        return AppConfig.ReadTextValueAsXml;
+        return AppConstants.ReadTextValueAsXml;
     }
 
 }
@@ -150,7 +149,7 @@ export class ReadDateValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.DateValue;
+    readonly type = AppConstants.DateValue;
 
     private separator = "-";
 
@@ -192,7 +191,7 @@ export class ReadDateValue implements ReadPropertyItem {
     };
 
     getClassName():string {
-        return AppConfig.ReadDateValue;
+        return AppConstants.ReadDateValue;
     }
 }
 
@@ -205,7 +204,7 @@ export class ReadLinkValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.LinkValue;
+    readonly type = AppConstants.LinkValue;
 
     getContent():string {
         if (this.referredResource !== undefined) {
@@ -228,7 +227,7 @@ export class ReadLinkValue implements ReadPropertyItem {
     }
 
     getClassName():string {
-        return AppConfig.ReadLinkValue;
+        return AppConstants.ReadLinkValue;
     }
 }
 
@@ -241,14 +240,14 @@ export class ReadIntegerValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.IntValue;
+    readonly type = AppConstants.IntValue;
 
     getContent():string {
         return this.integer.toString();
     };
 
     getClassName():string {
-        return AppConfig.ReadIntegerValue;
+        return AppConstants.ReadIntegerValue;
     }
 
 }
@@ -262,14 +261,14 @@ export class ReadDecimalValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.DecimalValue;
+    readonly type = AppConstants.DecimalValue;
 
     getContent():string {
         return this.decimal.toString();
     };
 
     getClassName():string {
-        return AppConfig.ReadDecimalValue;
+        return AppConstants.ReadDecimalValue;
     }
 }
 
@@ -284,7 +283,7 @@ export class ReadStillImageFileValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.StillImageFileValue;
+    readonly type = AppConstants.StillImageFileValue;
 
     readonly isPreview: boolean;
 
@@ -307,7 +306,7 @@ export class ReadStillImageFileValue implements ReadPropertyItem {
     };
 
     getClassName():string {
-        return AppConfig.ReadStillImageFileValue;
+        return AppConstants.ReadStillImageFileValue;
     }
 }
 
@@ -320,7 +319,7 @@ export class ReadTextFileValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.TextFileValue;
+    readonly type = AppConstants.TextFileValue;
 
     private makeUrl = function(): string {
         return `${this.textFileURL}`;
@@ -331,7 +330,7 @@ export class ReadTextFileValue implements ReadPropertyItem {
     };
 
     getClassName():string {
-        return AppConfig.TextFileValue;
+        return AppConstants.TextFileValue;
     }
 
 }
@@ -345,14 +344,14 @@ export class ReadColorValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.ColorValue;
+    readonly type = AppConstants.ColorValue;
 
     getContent(): string {
         return this.colorHex;
     };
 
     getClassName():string {
-        return AppConfig.ReadColorValue;
+        return AppConstants.ReadColorValue;
     }
 }
 
@@ -408,14 +407,14 @@ export class ReadGeomValue implements ReadPropertyItem {
 
     readonly geometry: RegionGeometry;
 
-    readonly type = AppConfig.GeomValue;
+    readonly type = AppConstants.GeomValue;
 
     getContent(): string {
         return this.geometryString;
     };
 
     getClassName():string {
-        return AppConfig.ReadGeomValue;
+        return AppConstants.ReadGeomValue;
     }
 }
 
@@ -428,14 +427,14 @@ export class ReadUriValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.UriValue;
+    readonly type = AppConstants.UriValue;
 
     getContent(): string {
         return `<a href="${this.uri}" target="_blank">${this.uri}</a>`;
     };
 
     getClassName():string {
-        return AppConfig.ReadUriValue;
+        return AppConstants.ReadUriValue;
     }
 
 }
@@ -449,14 +448,14 @@ export class ReadBooleanValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.BooleanValue;
+    readonly type = AppConstants.BooleanValue;
 
     getContent(): string {
         return String(this.bool);
     }
 
     getClassName():string {
-        return AppConfig.ReadBooleanValue;
+        return AppConstants.ReadBooleanValue;
     }
 
 }
@@ -470,14 +469,14 @@ export class ReadIntervalValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.IntervalValue;
+    readonly type = AppConstants.IntervalValue;
 
     getContent(): string {
         return String(this.intervalStart) + "-" + String(this.intervalEnd);
     }
 
     getClassName():string {
-        return AppConfig.ReadIntervalValue;
+        return AppConstants.ReadIntervalValue;
     }
 
 }
@@ -491,14 +490,14 @@ export class ReadListValue implements ReadPropertyItem {
 
     }
 
-    readonly type = AppConfig.ListValue;
+    readonly type = AppConstants.ListValue;
 
     getContent(): string {
         return this.listNodeLabel;
     }
 
     getClassName():string {
-        return AppConfig.ReadListValue;
+        return AppConstants.ReadListValue;
     }
 
 }

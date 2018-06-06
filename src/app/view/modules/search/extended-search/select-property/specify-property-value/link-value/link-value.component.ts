@@ -1,6 +1,6 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {IRI, PropertyValue, Value} from "../specify-property-value.component";
-import {AppConfig} from "../../../../../../../app.config";
+import {AppConstants} from "../../../../../../../app.constants";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Utils} from "../../../../../../../utils";
 import {ReadResource} from "../../../../../../../model/webapi/knora/v2/read-resource";
@@ -26,7 +26,7 @@ export class LinkValueComponent implements OnInit, OnDestroy, PropertyValue {
     // parent FormGroup
     @Input() formGroup: FormGroup;
 
-    type = AppConfig.LinkValue;
+    type = AppConstants.LinkValue;
 
     form: FormGroup;
 

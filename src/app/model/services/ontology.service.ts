@@ -15,7 +15,7 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs/Observable';
-import {ApiServiceResult} from "./api-service-result";
+import {ApiServiceResult} from './api-service-result';
 
 @Injectable()
 export class OntologyService extends ApiService {
@@ -26,7 +26,7 @@ export class OntologyService extends ApiService {
      * @returns {Observable<ApiServiceResult>}
      */
     getOntologiesMetadata(): Observable<ApiServiceResult> {
-        return this.httpGetV2('/ontologies/metadata');
+        return this.httpGet('/v2/ontologies/metadata');
     }
 
     /**
@@ -37,7 +37,7 @@ export class OntologyService extends ApiService {
      */
     getAllEntityDefinitionsForOntologies(ontologyIri: string): Observable<ApiServiceResult> {
 
-        return this.httpGetV2('/ontologies/allentities/' + encodeURIComponent(ontologyIri));
+        return this.httpGet('/v2/ontologies/allentities/' + encodeURIComponent(ontologyIri));
 
     }
 
@@ -60,7 +60,7 @@ export class OntologyService extends ApiService {
             resClassUriEnc = resClassUriEnc + '/' + encodeURIComponent(resClassIri.toString())
         });
 
-        return this.httpGetV2('/ontologies/classes' + resClassUriEnc);
+        return this.httpGet('/v2/ontologies/classes' + resClassUriEnc);
     }
 
     /**
@@ -82,7 +82,7 @@ export class OntologyService extends ApiService {
             propertiesUriEnc = propertiesUriEnc + '/' + encodeURIComponent(resClassIri.toString())
         });
 
-        return this.httpGetV2('/ontologies/properties' + propertiesUriEnc);
+        return this.httpGet('/v2/ontologies/properties' + propertiesUriEnc);
 
     }
 

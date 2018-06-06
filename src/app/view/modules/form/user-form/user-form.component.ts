@@ -23,7 +23,7 @@ import {UsersService} from '../../../../model/services/users.service';
 
 import {AutocompleteItem} from '../../../../app.interfaces';
 import {User} from '../../../../model/webapi/knora';
-import {AppConfig} from '../../../../app.config';
+import {AppConstants} from '../../../../app.constants';
 import {Project} from '../../../../model/webapi/knora/admin';
 
 @Component({
@@ -231,7 +231,7 @@ export class UserFormComponent implements OnInit {
                 value: '', disabled: false
             }, [
                 Validators.required,
-                Validators.pattern(AppConfig.RegexEmail)
+                Validators.pattern(AppConstants.RegexEmail)
 //                    existingNamesValidator(this.existingUserNames)
             ])
         });
@@ -459,7 +459,7 @@ export class UserFormComponent implements OnInit {
 
     setGroupsPermissions(userIri: string) {
 
-        const projectAdmin: boolean = (!!this.selectedGroups.find( ad => ad.iri === AppConfig.ProjectAdminGroup));
+        const projectAdmin: boolean = (!!this.selectedGroups.find( ad => ad.iri === AppConstants.ProjectAdminGroup));
 
         if (projectAdmin) {
             this._usersService.addUserToProjectAdmin(userIri, this.selectedProject.iri).subscribe(

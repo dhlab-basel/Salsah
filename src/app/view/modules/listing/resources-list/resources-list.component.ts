@@ -20,7 +20,7 @@ import {MessageData} from '../../message/message.component';
 import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
 import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
 import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
-import {AppConfig} from "../../../../app.config";
+import {AppConstants} from "../../../../app.constants";
 import {ReadResource} from "../../../../model/webapi/knora/v2/read-resource";
 import {ExtendedSearchParams, SearchParamsService} from "../../../../model/services/search-params.service";
 import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
@@ -51,7 +51,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
 
     @Output() toggleItem = new EventEmitter<any>();
 
-    AppConfig = AppConfig;
+    AppConstants = AppConstants;
 
     // grid list settings
     columns: number = 3;
@@ -194,7 +194,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
         let resPromise = resPromises.compact(countQueryResult.body, {});
 
         resPromise.then((compacted) => {
-            this.numberOfAllResults = compacted[AppConfig.schemaNumberOfItems]
+            this.numberOfAllResults = compacted[AppConstants.schemaNumberOfItems]
         }, function (err) {
 
             console.log('JSONLD could not be expanded:' + err);

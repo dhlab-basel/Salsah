@@ -460,9 +460,9 @@ angular-tree-component@^6.1.0:
     mobx ">=3"
     mobx-angular ">=1"
 
-angularfire2@^5.0.0-rc.6:
-  version "5.0.0-rc.6"
-  resolved "https://registry.yarnpkg.com/angularfire2/-/angularfire2-5.0.0-rc.6.tgz#99dfecaf7fd9e6979e3c09f4dcf7e6768a8f91d1"
+angularfire2@5.0.0-rc.7:
+  version "5.0.0-rc.7"
+  resolved "https://registry.yarnpkg.com/angularfire2/-/angularfire2-5.0.0-rc.7.tgz#adc97db6b5b0bccfac0a38074537ec3607f82608"
 
 ansi-escapes@^1.1.0:
   version "1.4.0"

@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {ApiServiceResult} from './api-service-result';
 import {ApiServiceError} from './api-service-error';
 import {Http} from '@angular/http';
-import {AppConfig} from '../../app.config';
+import {AppConstants} from '../../app.constants';
 import {ProjectsService} from './projects.service';
 import {UsersService} from './users.service';
 import {PermissionData, Project, UserResponse} from '../webapi/knora';
@@ -152,8 +152,8 @@ export class AuthenticationService extends ApiService {
         let isSysAdmin: boolean = false;
 
         const permissions = user.permissions;
-        if (permissions.groupsPerProject[AppConfig.SystemProject]) {
-            isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
+        if (permissions.groupsPerProject[AppConstants.SystemProject]) {
+            isSysAdmin = permissions.groupsPerProject[AppConstants.SystemProject].indexOf(AppConstants.SystemAdminGroup) > -1;
         }
 
         const currentUserObject: CurrentUser = {
@@ -183,8 +183,8 @@ export class AuthenticationService extends ApiService {
         const projectsList: string[] = [];
         let isSysAdmin: boolean = false;
 
-        if (permissions.groupsPerProject[AppConfig.SystemProject]) {
-            isSysAdmin = permissions.groupsPerProject[AppConfig.SystemProject].indexOf(AppConfig.SystemAdminGroup) > -1;
+        if (permissions.groupsPerProject[AppConstants.SystemProject]) {
+            isSysAdmin = permissions.groupsPerProject[AppConstants.SystemProject].indexOf(AppConstants.SystemAdminGroup) > -1;
         }
 
         if (isSysAdmin) {
@@ -205,7 +205,7 @@ export class AuthenticationService extends ApiService {
         } else {
             // get the projects, where the user is admin of
             for (const project in permissions.groupsPerProject) {
-                if (permissions.groupsPerProject[project].indexOf(AppConfig.ProjectAdminGroup) > -1) {
+                if (permissions.groupsPerProject[project].indexOf(AppConstants.ProjectAdminGroup) > -1) {
                     projectsList.push(project);
                 }
             }

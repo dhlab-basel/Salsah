@@ -1,5 +1,5 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {AppConfig} from "../../../../../../../app.config";
+import {AppConstants} from "../../../../../../../app.constants";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
 import {Utils} from "../../../../../../../utils";
@@ -17,7 +17,7 @@ export class UriValueComponent implements OnInit, OnDestroy, PropertyValue {
     // parent FormGroup
     @Input() formGroup: FormGroup;
 
-    type = AppConfig.UriValue;
+    type = AppConstants.UriValue;
 
     form: FormGroup;
 
@@ -49,7 +49,7 @@ export class UriValueComponent implements OnInit, OnDestroy, PropertyValue {
 
     getValue(): Value {
 
-        return new ValueLiteral(String(this.form.value.uriValue), AppConfig.xsdUri);
+        return new ValueLiteral(String(this.form.value.uriValue), AppConstants.xsdUri);
     }
 
 }

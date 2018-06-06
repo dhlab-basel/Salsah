@@ -1,5 +1,5 @@
 import {APP_INITIALIZER, NgModule} from '@angular/core';
-import {AppSettings} from './app.settings';
+import {AppConfig} from './app.config';
 
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -157,7 +157,7 @@ import {SearchParamsService} from './model/services/search-params.service';
 
 import {GroupsService} from './model/services/groups.service';
 
-import {AngularFireModule} from 'angularfire2';
+import {AngularFireModule, FirebaseAppConfig} from 'angularfire2';
 import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
@@ -181,9 +181,9 @@ import {ObjectViewerComponent} from './view/modules/object/object-viewer/object-
 // import all app components
 //
 
-// Load the application configuration file
-export function initializeApp(appSettings: AppSettings) {
-    return () => appSettings.load();
+// Loads the application configuration file during application startup
+export function initializeApp(appConfig: AppConfig) {
+    return () => appConfig.loadAppConfig();
 }
 
 // Translate: AoT requires an exported function for factories
@@ -320,7 +320,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TreeModule,
         DndModule.forRoot(),
         HttpClientModule,
-        AngularFireModule.initializeApp(AppSettings.settings.firebase),
+        AngularFireModule,
         InfiniteScrollModule,
         RecaptchaModule.forRoot(),
         TranslateModule.forRoot({
@@ -340,12 +340,17 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ResourceClassFormComponent // deprecated!!
     ],
     providers: [
-        AppSettings,
+        AppConfig,
         {
             provide: APP_INITIALIZER,
             useFactory: initializeApp,
-            deps: [AppSettings],
+            deps: [AppConfig],
             multi: true
+        },
+        {
+            provide: FirebaseAppConfig,
+            useValue: AppConfig.settings.firebase,
+            deps: [AppConfig]
         },
         ApiService,
         ProjectsService,
@@ -376,7 +381,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             } as RecaptchaSettings,
         }
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [
+        AppComponent
+    ]
 })
-export class AppModule {
-}
+export class AppModule { }

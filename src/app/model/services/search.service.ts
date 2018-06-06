@@ -16,7 +16,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {ApiService} from './api.service';
-import {ApiServiceResult} from "./api-service-result";
+import {ApiServiceResult} from './api-service-result';
 
 @Injectable()
 export class SearchService extends ApiService {
@@ -30,11 +30,11 @@ export class SearchService extends ApiService {
      */
     doFulltextSearch(searchTerm: string, offset: number = 0): Observable<ApiServiceResult> {
 
-        if (searchTerm === undefined || searchTerm.length == 0) {
+        if (searchTerm === undefined || searchTerm.length === 0) {
             return Observable.create(observer => observer.error('No search term given for call of SearchService.doFulltextSearch'));
         }
 
-        return this.httpGetV2("/search/" + searchTerm + '?offset='+ offset);
+        return this.httpGet('/v2/search/' + searchTerm + '?offset='+ offset);
     }
 
     /**
@@ -45,11 +45,11 @@ export class SearchService extends ApiService {
      */
     doFulltextSearchCountQuery(searchTerm: string): Observable<ApiServiceResult> {
 
-        if (searchTerm === undefined || searchTerm.length == 0) {
+        if (searchTerm === undefined || searchTerm.length === 0) {
             return Observable.create(observer => observer.error('No search term given for call of SearchService.doFulltextSearchCountQuery'));
         }
 
-        return this.httpGetV2("/search/count/" + searchTerm);
+        return this.httpGet('/v2/search/count/' + searchTerm);
     }
 
     /**
@@ -60,11 +60,11 @@ export class SearchService extends ApiService {
      */
     doExtendedSearch(sparqlString: string): Observable<ApiServiceResult> {
 
-        if (sparqlString === undefined || sparqlString.length == 0) {
+        if (sparqlString === undefined || sparqlString.length === 0) {
             return Observable.create(observer => observer.error('No Sparql string given for call of SearchService.doExtendedSearch'));
         }
 
-        return this.httpGetV2("/searchextended/" + encodeURIComponent(sparqlString));
+        return this.httpGet('/v2/searchextended/' + encodeURIComponent(sparqlString));
 
     }
 
@@ -76,11 +76,11 @@ export class SearchService extends ApiService {
      */
     doExtendedSearchCountQuery(sparqlString: string): Observable<ApiServiceResult> {
 
-        if (sparqlString === undefined || sparqlString.length == 0) {
+        if (sparqlString === undefined || sparqlString.length === 0) {
             return Observable.create(observer => observer.error('No Sparql string given for call of SearchService.doExtendedSearchCountQuery'));
         }
 
-        return this.httpGetV2("/searchextended/count/" + encodeURIComponent(sparqlString));
+        return this.httpGet('/v2/searchextended/count/' + encodeURIComponent(sparqlString));
 
     }
 
@@ -94,11 +94,11 @@ export class SearchService extends ApiService {
      */
     searchByLabel(searchTerm: string, resourceClassIRI?: string, projectIri?: string): Observable<ApiServiceResult> {
 
-        if (searchTerm === undefined || searchTerm.length == 0) {
-            return Observable.create(observer => observer.error("No search term given for call of SearchService.doFulltextSearch"));
+        if (searchTerm === undefined || searchTerm.length === 0) {
+            return Observable.create(observer => observer.error('No search term given for call of SearchService.doFulltextSearch'));
         }
 
-        let params = {};
+        const params = {};
 
         if (resourceClassIRI !== undefined) {
             params['limitToResourceClass'] = resourceClassIRI;
@@ -108,7 +108,7 @@ export class SearchService extends ApiService {
             params['limitToProject'] = projectIri;
         }
 
-        return this.httpGetV2("/searchbylabel/" + encodeURIComponent(searchTerm), {params: params});
+        return this.httpGet('/v2/searchbylabel/' + encodeURIComponent(searchTerm), {params: params});
 
     }
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ExtendedSearchParams, SearchParamsService} from './search-params.service';
-import {AppSettings} from '../../app.settings';
+import {AppConfig} from '../../app.config';
 
 @Injectable()
 export class BeolService {
@@ -19,8 +19,8 @@ export class BeolService {
 
         const bookTemplate = `
     PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
-    PREFIX biblio: <${AppSettings.settings.ontologyIRI}/ontology/0802/biblio/simple/v2#>
-    PREFIX beol: <${AppSettings.settings.ontologyIRI}/ontology/0801/beol/simple/v2#>
+    PREFIX biblio: <${AppConfig.settings.ontologyIRI}/ontology/0802/biblio/simple/v2#>
+    PREFIX beol: <${AppConfig.settings.ontologyIRI}/ontology/0801/beol/simple/v2#>
       
     CONSTRUCT {
         
@@ -109,7 +109,7 @@ export class BeolService {
         }
 
         const correspondenceTemplate = `
-    PREFIX beol: <${AppSettings.settings.ontologyIRI}/ontology/0801/beol/simple/v2#>
+    PREFIX beol: <${AppConfig.settings.ontologyIRI}/ontology/0801/beol/simple/v2#>
     PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
     
     CONSTRUCT {
@@ -197,7 +197,7 @@ export class BeolService {
     searchForLetterFromLEOO(repertoriumNumber: string): string {
 
         const letterByNumberTemplate: string = `
-        PREFIX beol: <${AppSettings.settings.ontologyIRI}/ontology/0801/beol/simple/v2#>
+        PREFIX beol: <${AppConfig.settings.ontologyIRI}/ontology/0801/beol/simple/v2#>
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         

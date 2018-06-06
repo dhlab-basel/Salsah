@@ -11,7 +11,7 @@
         <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->
         <!-- TODO: Do we have to check for subproperties of hasStillImageFileValue? -->
         <salsah-still-image-osdviewer #OSDViewer
-                                      *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates" [images]="resource?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="0" [imageChangeInterval]="1">
+                                      *ngIf="prop.key == AppConstants.hasStillImageFileValue; else singleTemplates" [images]="resource?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="0" [imageChangeInterval]="1">
         </salsah-still-image-osdviewer>
 
         <!--  single templates -->
@@ -19,20 +19,20 @@
         <ng-template #singleTemplates>
             <ul><li *ngFor="let val of prop.value | key">
             <span [ngSwitch]="val.value.getClassName()">
-                <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo" [bindEvents]="true"></read-text-value-as-html>
-                <read-text-value-as-string *ngSwitchCase="AppConfig.ReadTextValueAsString" [valueObject]="val.value"></read-text-value-as-string>
-                <read-text-value-as-xml *ngSwitchCase="AppConfig.ReadTextValueAsXml" [valueObject]="val.value"></read-text-value-as-xml>
-                <read-date-value *ngSwitchCase="AppConfig.ReadDateValue" [valueObject]="val.value"></read-date-value>
-                <read-link-value *ngSwitchCase="AppConfig.ReadLinkValue" [valueObject]="val.value" [ontologyInfo]="ontologyInfo"></read-link-value>
-                <read-integer-value *ngSwitchCase="AppConfig.ReadIntegerValue" [valueObject]="val.value"></read-integer-value>
-                <read-decimal-value *ngSwitchCase="AppConfig.ReadDecimalValue" [valueObject]="val.value"></read-decimal-value>
-                <read-geom-value *ngSwitchCase="AppConfig.ReadGeomValue" [valueObject]="val.value"></read-geom-value>
-                <read-color-value *ngSwitchCase="AppConfig.ReadColorValue" [valueObject]="val.value"></read-color-value>
-                <read-uri-value *ngSwitchCase="AppConfig.ReadUriValue" [valueObject]="val.value"></read-uri-value>
-                <read-boolean-value *ngSwitchCase="AppConfig.ReadBooleanValue" [valueObject]="val.value"></read-boolean-value>
-                <read-interval-value *ngSwitchCase="AppConfig.ReadIntervalValue" [valueObject]="val.value"></read-interval-value>
-                <read-list-value *ngSwitchCase="AppConfig.ReadListValue" [valueObject]="val.value"></read-list-value>
-                <read-textfile-value *ngSwitchCase="AppConfig.TextFileValue" [valueObject]="val.value"></read-textfile-value>
+                <read-text-value-as-html *ngSwitchCase="AppConstants.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo" [bindEvents]="true"></read-text-value-as-html>
+                <read-text-value-as-string *ngSwitchCase="AppConstants.ReadTextValueAsString" [valueObject]="val.value"></read-text-value-as-string>
+                <read-text-value-as-xml *ngSwitchCase="AppConstants.ReadTextValueAsXml" [valueObject]="val.value"></read-text-value-as-xml>
+                <read-date-value *ngSwitchCase="AppConstants.ReadDateValue" [valueObject]="val.value"></read-date-value>
+                <read-link-value *ngSwitchCase="AppConstants.ReadLinkValue" [valueObject]="val.value" [ontologyInfo]="ontologyInfo"></read-link-value>
+                <read-integer-value *ngSwitchCase="AppConstants.ReadIntegerValue" [valueObject]="val.value"></read-integer-value>
+                <read-decimal-value *ngSwitchCase="AppConstants.ReadDecimalValue" [valueObject]="val.value"></read-decimal-value>
+                <read-geom-value *ngSwitchCase="AppConstants.ReadGeomValue" [valueObject]="val.value"></read-geom-value>
+                <read-color-value *ngSwitchCase="AppConstants.ReadColorValue" [valueObject]="val.value"></read-color-value>
+                <read-uri-value *ngSwitchCase="AppConstants.ReadUriValue" [valueObject]="val.value"></read-uri-value>
+                <read-boolean-value *ngSwitchCase="AppConstants.ReadBooleanValue" [valueObject]="val.value"></read-boolean-value>
+                <read-interval-value *ngSwitchCase="AppConstants.ReadIntervalValue" [valueObject]="val.value"></read-interval-value>
+                <read-list-value *ngSwitchCase="AppConstants.ReadListValue" [valueObject]="val.value"></read-list-value>
+                <read-textfile-value *ngSwitchCase="AppConstants.TextFileValue" [valueObject]="val.value"></read-textfile-value>
                 <span *ngSwitchDefault="">Not supported {{val.value.getClassName()}}</span>
             </span>
             </li></ul>

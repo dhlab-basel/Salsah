@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
-import {AppConfig} from "../../../../../../../app.config";
+import {AppConstants} from "../../../../../../../app.constants";
 
 // https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
 const resolvedPromise = Promise.resolve(null);
@@ -16,7 +16,7 @@ export class IntegerValueComponent implements OnInit, OnDestroy, PropertyValue {
     // parent FormGroup
     @Input() formGroup: FormGroup;
 
-    type = AppConfig.IntValue;
+    type = AppConstants.IntValue;
 
     form: FormGroup;
 
@@ -48,7 +48,7 @@ export class IntegerValueComponent implements OnInit, OnDestroy, PropertyValue {
 
     getValue(): Value {
 
-        return new ValueLiteral(String(this.form.value.integerValue), AppConfig.xsdInteger);
+        return new ValueLiteral(String(this.form.value.integerValue), AppConstants.xsdInteger);
     }
 
 }

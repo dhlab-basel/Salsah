@@ -13,7 +13,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface IAppSetting {
+export interface IAppConfig {
 
     env: {
         name: string;

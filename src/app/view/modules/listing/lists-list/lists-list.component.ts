@@ -21,7 +21,7 @@ import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.componen
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
 import {AuthenticationService} from '../../../../model/services/authentication.service';
-import {AppConfig} from '../../../../app.config';
+import {AppConstants} from '../../../../app.constants';
 import {UsersService} from '../../../../model/services/users.service';
 
 @Component({
@@ -55,16 +55,16 @@ export class ListsListComponent implements OnInit {
     // default permission groups / role of the user in a project
     // defaultGroups: AutocompleteItem[] = [
     //     {
-    //         iri: AppConfig.ProjectMemberGroup,
+    //         iri: AppConstants.ProjectMemberGroup,
     //         name: 'Member'
     //     },
     //     {
-    //         iri: AppConfig.ProjectAdminGroup,
+    //         iri: AppConstants.ProjectAdminGroup,
     //         name: 'Administrator'
     //     }
     /* use the following in system view only!
     {
-        iri: AppConfig.SystemAdminGroup,
+        iri: AppConstants.SystemAdminGroup,
         name: '',
         label: 'System admin'
     }
