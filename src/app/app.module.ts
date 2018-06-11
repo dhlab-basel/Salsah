@@ -156,8 +156,6 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {SearchParamsService} from './model/services/search-params.service';
 
 import {GroupsService} from './model/services/groups.service';
-
-import {AngularFireModule, FirebaseAppConfig, FirebaseAppName} from 'angularfire2';
 import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
