@@ -2,7 +2,7 @@ import {Directive, ElementRef, HostListener, Input, OnInit} from '@angular/core'
 import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-item';
 import {OntologyInformation} from '../../../model/services/ontologycache.service';
-import {AppConfig} from '../../../app.config';
+import {AppConstants} from '../../../app.constants';
 import {ObjectDialogComponent} from '../dialog/object-dialog/object-dialog.component';
 
 declare var MathJax: {
@@ -35,7 +35,7 @@ export class MathJaxDirective implements OnInit {
     onClick(targetElement) {
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (this.bindEvents && targetElement.nodeName.toLowerCase() === 'a' && targetElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+        if (this.bindEvents && targetElement.nodeName.toLowerCase() === 'a' && targetElement.className.toLowerCase().indexOf(AppConstants.SalsahLink) >= 0) {
 
             const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(targetElement.href);
 
@@ -43,7 +43,7 @@ export class MathJaxDirective implements OnInit {
 
             // preventDefault (propagation)
             return false;
-        } else if (targetElement.parentElement.nodeName.toLowerCase() === 'a' && targetElement.parentElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+        } else if (targetElement.parentElement.nodeName.toLowerCase() === 'a' && targetElement.parentElement.className.toLowerCase().indexOf(AppConstants.SalsahLink) >= 0) {
 
             const config: MatDialogConfig = ObjectDialogComponent.createConfiguration(targetElement.parentElement.href);
 
@@ -54,7 +54,7 @@ export class MathJaxDirective implements OnInit {
             // preventDefault (propagation)
             return false;
 
-        } else if (this.bindEvents && targetElement.parentElement.nodeName.toLowerCase() === 'a' && targetElement.parentElement.className.toLowerCase().indexOf(AppConfig.RefMarker) >= 0) {
+        } else if (this.bindEvents && targetElement.parentElement.nodeName.toLowerCase() === 'a' && targetElement.parentElement.className.toLowerCase().indexOf(AppConstants.RefMarker) >= 0) {
 
             const indexOfHashtag = targetElement.parentElement.href.indexOf("#", "");
 
@@ -93,7 +93,7 @@ export class MathJaxDirective implements OnInit {
     onMouseEnter(targetElement) {
 
         // check if it a TextValue and is an internal link to a Knora resource (standoff link)
-        if (this.bindEvents && targetElement.nodeName.toLowerCase() === 'a' && targetElement.className.toLowerCase().indexOf(AppConfig.SalsahLink) >= 0) {
+        if (this.bindEvents && targetElement.nodeName.toLowerCase() === 'a' && targetElement.className.toLowerCase().indexOf(AppConstants.SalsahLink) >= 0) {
             // console.log("mouseenter: internal link to: " + event.target.href);
 
             let referredResourceIri = targetElement.href;

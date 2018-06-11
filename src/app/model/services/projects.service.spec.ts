@@ -2,7 +2,6 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {HttpModule} from '@angular/http';
 import {ApiService} from './api.service';
 import {ProjectsService} from './projects.service';
-import {environment} from '../../../environments/environment';
 import {StoreService} from './store.service';
 import {HttpClientModule} from '@angular/common/http';
 import {ApiServiceError} from './api-service-error';
@@ -11,7 +10,8 @@ import {
     anythingProject,
     anythingProjectResponseJson,
     imagesProject,
-    imagesProjectResponseJson, incunabulaProject,
+    imagesProjectResponseJson,
+    incunabulaProject,
     incunabulaProjectResponseJson,
     projectsResponseJson,
     projectsTestData
@@ -78,138 +78,129 @@ describe('ProjectsService', () => {
     });
 
 
-    if (environment.type === 'integration') {
 
-        it('should load test data [it]', async(inject(
-            [StoreService], (service) => {
+    it('should load test data [it]', async(inject(
+        [StoreService], (service) => {
 
-                expect(service).toBeDefined();
+            expect(service).toBeDefined();
 
-                service.resetTriplestoreContent([])
-                    .subscribe(
-                        (result: string) => {
-                            expect(result).toBe('success');
-                        });
+            service.resetTriplestoreContent([])
+                .subscribe(
+                    (result: string) => {
+                        expect(result).toBe('success');
+                    });
 
-            })), 300000);
-
-
-        it('#getAllProjects should return all projects [it]', async(inject(
-            [ProjectsService], (service) => {
-
-                expect(service).toBeDefined();
-
-                service.getAllProjects()
-                    .subscribe(
-                        (projects: Project[]) => {
-                            // console.log('projects: ' + JSON.stringify(projects));
-                            expect(projects.length).toBe(8);
-                            expect(projects).toEqual(projectsTestData);
-                        },
-                        (error: ApiServiceError) => {
-                            fail(error);
-                        }
-                    );
-
-            })));
+        })), 300000);
 
 
-        it('#getProjectByIri should return project (images) [it]', async(inject(
-            [ProjectsService], (service) => {
+    it('#getAllProjects should return all projects [it]', async(inject(
+        [ProjectsService], (service) => {
 
-                expect(service).toBeDefined();
+            expect(service).toBeDefined();
 
-                service.getProjectByIri('http://rdfh.ch/projects/00FF')
-                    .subscribe(
-                        (project: Project) => {
-                            // console.log('project: ' + JSON.stringify(project));
-                            expect(project).toEqual(imagesProject);
-                        },
-                        (error: ApiServiceError) => {
-                            fail(error);
-                        }
-                    );
+            service.getAllProjects()
+                .subscribe(
+                    (projects: Project[]) => {
+                        // console.log('projects: ' + JSON.stringify(projects));
+                        expect(projects.length).toBe(8);
+                        expect(projects).toEqual(projectsTestData);
+                    },
+                    (error: ApiServiceError) => {
+                        fail(error);
+                    }
+                );
 
-            })));
-
-        it('#getProjectByIri should return project (incunabula) [it]', async(inject(
-            [ProjectsService], (service) => {
-
-                expect(service).toBeDefined();
-
-                service.getProjectByIri('http://rdfh.ch/projects/77275339')
-                    .subscribe(
-                        (project: Project) => {
-                            // console.log('project: ' + JSON.stringify(project));
-                            expect(project).toEqual(incunabulaProject);
-                        },
-                        (error: ApiServiceError) => {
-                            fail(error);
-                        }
-                    );
-
-            })));
-
-        it('#getProjectByIri should return project (anything) [it]', async(inject(
-            [ProjectsService], (service) => {
-
-                expect(service).toBeDefined();
-
-                service.getProjectByIri('http://rdfh.ch/projects/anything')
-                    .subscribe(
-                        (project: Project) => {
-                            // console.log('project: ' + JSON.stringify(project));
-                            expect(project).toEqual(anythingProject);
-                        },
-                        (error: ApiServiceError) => {
-                            fail(error);
-                        }
-                    );
-
-            })));
-
-        it('#getProjectByShortname should return project (images) [it]', async(inject(
-            [ProjectsService], (service) => {
-
-                expect(service).toBeDefined();
-
-                service.getProjectByShortname('images')
-                    .subscribe(
-                        (project: Project) => {
-                            // console.log('users: ' + JSON.stringify(users));
-                            expect(project).toEqual(imagesProject);
-                        },
-                        (error: ApiServiceError) => {
-                            fail(error);
-                        }
-                    );
-
-            })));
+        })));
 
 
-        it('#getProjectByShortcode should return project (images) [it]', async(inject(
-            [ProjectsService], (service) => {
+    it('#getProjectByIri should return project (images) [it]', async(inject(
+        [ProjectsService], (service) => {
 
-                expect(service).toBeDefined();
+            expect(service).toBeDefined();
 
-                service.getProjectByShortcode('00FF')
-                    .subscribe(
-                        (project: Project) => {
-                            // console.log('users: ' + JSON.stringify(users));
-                            expect(project).toEqual(imagesProject);
-                        },
-                        (error: ApiServiceError) => {
-                            fail(error);
-                        }
-                    );
+            service.getProjectByIri('http://rdfh.ch/projects/00FF')
+                .subscribe(
+                    (project: Project) => {
+                        // console.log('project: ' + JSON.stringify(project));
+                        expect(project).toEqual(imagesProject);
+                    },
+                    (error: ApiServiceError) => {
+                        fail(error);
+                    }
+                );
 
-            })));
+        })));
+
+    it('#getProjectByIri should return project (incunabula) [it]', async(inject(
+        [ProjectsService], (service) => {
+
+            expect(service).toBeDefined();
+
+            service.getProjectByIri('http://rdfh.ch/projects/77275339')
+                .subscribe(
+                    (project: Project) => {
+                        // console.log('project: ' + JSON.stringify(project));
+                        expect(project).toEqual(incunabulaProject);
+                    },
+                    (error: ApiServiceError) => {
+                        fail(error);
+                    }
+                );
+
+        })));
+
+    it('#getProjectByIri should return project (anything) [it]', async(inject(
+        [ProjectsService], (service) => {
+
+            expect(service).toBeDefined();
+
+            service.getProjectByIri('http://rdfh.ch/projects/anything')
+                .subscribe(
+                    (project: Project) => {
+                        // console.log('project: ' + JSON.stringify(project));
+                        expect(project).toEqual(anythingProject);
+                    },
+                    (error: ApiServiceError) => {
+                        fail(error);
+                    }
+                );
+
+        })));
+
+    it('#getProjectByShortname should return project (images) [it]', async(inject(
+        [ProjectsService], (service) => {
+
+            expect(service).toBeDefined();
+
+            service.getProjectByShortname('images')
+                .subscribe(
+                    (project: Project) => {
+                        // console.log('users: ' + JSON.stringify(users));
+                        expect(project).toEqual(imagesProject);
+                    },
+                    (error: ApiServiceError) => {
+                        fail(error);
+                    }
+                );
+
+        })));
 
 
+    it('#getProjectByShortcode should return project (images) [it]', async(inject(
+        [ProjectsService], (service) => {
 
-    } else {
-        xit('integration tests skipped. run  "ng test --env=it".');
-    }
+            expect(service).toBeDefined();
 
+            service.getProjectByShortcode('00FF')
+                .subscribe(
+                    (project: Project) => {
+                        // console.log('users: ' + JSON.stringify(users));
+                        expect(project).toEqual(imagesProject);
+                    },
+                    (error: ApiServiceError) => {
+                        fail(error);
+                    }
+                );
 
+        })));
 });

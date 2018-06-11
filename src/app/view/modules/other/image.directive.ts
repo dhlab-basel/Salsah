@@ -53,7 +53,7 @@ export class ImageDirective implements OnChanges {
                     if (this.image.slice(0, 4) === 'http') {
                         this.source = this.image;
                     } else {
-                        this.source = AppConfig.AdminFileServer + '/' + this.image;
+                        this.source = AppConfig.settings.iiifURL + '/server/admin' + '/' + this.image;
                     }
                 }
                 break;
@@ -65,7 +65,7 @@ export class ImageDirective implements OnChanges {
                 if (this.image.slice(0, 4) === 'http') {
                     this.source = this.image;
                 } else {
-                    this.source = AppConfig.AdminFileServer + '/' + this.image;
+                    this.source = AppConfig.settings.iiifURL + '/server/admin' + '/' + this.image;
                 }
         }
 

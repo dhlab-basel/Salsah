@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {ReadResourcesSequence} from "./read-resources-sequence";
-import {ReadResource} from "./read-resource";
-import {ReadProperties} from "./read-properties";
+import {ReadResourcesSequence} from './read-resources-sequence';
+import {ReadResource} from './read-resource';
+import {ReadProperties} from './read-properties';
 import {
     ReadBooleanValue,
     ReadColorValue,
@@ -30,11 +30,11 @@ import {
     ReadTextValueAsXml, ReadUriValue,
     ReferredResourcesByStandoffLink
 } from './read-property-item';
-import {AppConfig} from "../../../../app.config";
-import {Utils} from "../../../../utils";
+import {AppConstants} from '../../../../app.constants';
+import {Utils} from '../../../../utils';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
-let jsonld = require('jsonld');
+const jsonld = require('jsonld');
 
 export module ConvertJSONLD {
 
@@ -47,12 +47,12 @@ export module ConvertJSONLD {
      */
     function constructReadResource(resourceJSONLD: Object): ReadResource {
 
-        let properties: ReadProperties = constructReadProperties(resourceJSONLD);
+        const properties: ReadProperties = constructReadProperties(resourceJSONLD);
 
         return new ReadResource(
             resourceJSONLD['@id'],
             resourceJSONLD['@type'],
-            resourceJSONLD[AppConfig.RdfsLabel],
+            resourceJSONLD[AppConstants.RdfsLabel],
             [],
             [],
             [],
@@ -77,77 +77,77 @@ export module ConvertJSONLD {
 
         // check for the property's value type
         switch (propValue['@type']) {
-            case AppConfig.TextValue:
+            case AppConstants.TextValue:
                 // a text value might be given as plain string, html or xml.
                 let textValue: ReadPropertyItem;
 
-                if (propValue[AppConfig.valueAsString] !== undefined) {
-                    textValue = new ReadTextValueAsString(propValue['@id'], propIri, propValue[AppConfig.valueAsString]);
-                } else if (propValue[AppConfig.textValueAsHtml] !== undefined) {
+                if (propValue[AppConstants.valueAsString] !== undefined) {
+                    textValue = new ReadTextValueAsString(propValue['@id'], propIri, propValue[AppConstants.valueAsString]);
+                } else if (propValue[AppConstants.textValueAsHtml] !== undefined) {
 
-                    let referredResources: ReferredResourcesByStandoffLink = {};
+                    const referredResources: ReferredResourcesByStandoffLink = {};
 
                     // check for standoff links and include referred resources, if any
                     // when the user interacts with a standoff link, further information about the referred resource can be shown
-                    for (let standoffLink of standoffLinkValues) {
-                        let referredRes: ReadResource = standoffLink.referredResource;
+                    for (const standoffLink of standoffLinkValues) {
+                        const referredRes: ReadResource = standoffLink.referredResource;
                         referredResources[referredRes.id] = referredRes;
                     }
 
-                    textValue = new ReadTextValueAsHtml(propValue['@id'], propIri, propValue[AppConfig.textValueAsHtml], referredResources);
-                } else if (propValue[AppConfig.textValueAsXml] !== undefined && propValue[AppConfig.textValueHasMapping] !== undefined) {
-                    textValue = new ReadTextValueAsXml(propValue['@id'], propIri, propValue[AppConfig.textValueAsXml], propValue[AppConfig.textValueHasMapping]);
+                    textValue = new ReadTextValueAsHtml(propValue['@id'], propIri, propValue[AppConstants.textValueAsHtml], referredResources);
+                } else if (propValue[AppConstants.textValueAsXml] !== undefined && propValue[AppConstants.textValueHasMapping] !== undefined) {
+                    textValue = new ReadTextValueAsXml(propValue['@id'], propIri, propValue[AppConstants.textValueAsXml], propValue[AppConstants.textValueHasMapping]);
                 } else {
                     // expected text value members not defined
-                    console.log("ERROR: Invalid text value: " + JSON.stringify(propValue))
+                    console.log('ERROR: Invalid text value: ' + JSON.stringify(propValue))
                 }
 
                 valueSpecificProp = textValue;
                 break;
 
-            case AppConfig.DateValue:
-                let dateValue = new ReadDateValue(propValue['@id'],
+            case AppConstants.DateValue:
+                const dateValue = new ReadDateValue(propValue['@id'],
                     propIri,
-                    propValue[AppConfig.dateValueHasCalendar],
-                    propValue[AppConfig.dateValueHasStartYear],
-                    propValue[AppConfig.dateValueHasEndYear],
-                    propValue[AppConfig.dateValueHasStartEra],
-                    propValue[AppConfig.dateValueHasEndEra],
-                    propValue[AppConfig.dateValueHasStartMonth],
-                    propValue[AppConfig.dateValueHasEndMonth],
-                    propValue[AppConfig.dateValueHasStartDay],
-                    propValue[AppConfig.dateValueHasEndDay]);
+                    propValue[AppConstants.dateValueHasCalendar],
+                    propValue[AppConstants.dateValueHasStartYear],
+                    propValue[AppConstants.dateValueHasEndYear],
+                    propValue[AppConstants.dateValueHasStartEra],
+                    propValue[AppConstants.dateValueHasEndEra],
+                    propValue[AppConstants.dateValueHasStartMonth],
+                    propValue[AppConstants.dateValueHasEndMonth],
+                    propValue[AppConstants.dateValueHasStartDay],
+                    propValue[AppConstants.dateValueHasEndDay]);
 
                 valueSpecificProp = dateValue;
                 break;
 
-            case AppConfig.LinkValue:
+            case AppConstants.LinkValue:
 
                 let linkValue: ReadLinkValue;
 
                 // check if the referred resource is given as an object or just as an IRI
-                if (propValue[AppConfig.linkValueHasTarget] !== undefined) {
+                if (propValue[AppConstants.linkValueHasTarget] !== undefined) {
                     // linkValueHasTarget contains the object
 
-                    let referredResource: ReadResource = constructReadResource(propValue[AppConfig.linkValueHasTarget]);
+                    const referredResource: ReadResource = constructReadResource(propValue[AppConstants.linkValueHasTarget]);
 
                     linkValue = new ReadLinkValue(propValue['@id'], propIri, referredResource.id, referredResource);
-                } else if (propValue[AppConfig.linkValueHasTargetIri] !== undefined) {
+                } else if (propValue[AppConstants.linkValueHasTargetIri] !== undefined) {
                     // linkValueHasTargetIri contains the resource's Iri
 
-                    let referredResourceIri = propValue[AppConfig.linkValueHasTargetIri]['@id'];
+                    const referredResourceIri = propValue[AppConstants.linkValueHasTargetIri]['@id'];
 
                     linkValue = new ReadLinkValue(propValue['@id'], propIri, referredResourceIri);
-                } else if (propValue[AppConfig.linkValueHasSource] !== undefined) {
+                } else if (propValue[AppConstants.linkValueHasSource] !== undefined) {
                     // linkValueHasSource contains the object
 
-                    let incomingResource: ReadResource = constructReadResource(propValue[AppConfig.linkValueHasSource]);
+                    const incomingResource: ReadResource = constructReadResource(propValue[AppConstants.linkValueHasSource]);
 
                     linkValue = new ReadLinkValue(propValue['@id'], propIri, incomingResource.id, incomingResource);
-                } else if (propValue[AppConfig.linkValueHasSourceIri] !== undefined) {
+                } else if (propValue[AppConstants.linkValueHasSourceIri] !== undefined) {
                     // linkValueHasSourceIri contains the resource's Iri
 
-                    let incomingResourceIri = propValue[AppConfig.linkValueHasSourceIri]['@id'];
+                    const incomingResourceIri = propValue[AppConstants.linkValueHasSourceIri]['@id'];
 
                     linkValue = new ReadLinkValue(propValue['@id'], propIri, incomingResourceIri);
                 }
@@ -155,95 +155,95 @@ export module ConvertJSONLD {
                 valueSpecificProp = linkValue;
                 break;
 
-            case AppConfig.IntValue:
+            case AppConstants.IntValue:
 
-                let intValue = new ReadIntegerValue(propValue['@id'], propIri, propValue[AppConfig.integerValueAsInteger]);
+                const intValue = new ReadIntegerValue(propValue['@id'], propIri, propValue[AppConstants.integerValueAsInteger]);
                 valueSpecificProp = intValue;
 
                 break;
 
-            case AppConfig.DecimalValue:
+            case AppConstants.DecimalValue:
 
                 // a decimal value is represented as a string in order to preserve its precision
-                const decVal: number = parseFloat(propValue[AppConfig.decimalValueAsDecimal]);
+                const decVal: number = parseFloat(propValue[AppConstants.decimalValueAsDecimal]);
 
-                let decimalValue = new ReadDecimalValue(propValue['@id'], propIri, decVal);
+                const decimalValue = new ReadDecimalValue(propValue['@id'], propIri, decVal);
                 valueSpecificProp = decimalValue;
 
                 break;
 
-            case AppConfig.StillImageFileValue:
+            case AppConstants.StillImageFileValue:
 
-                let stillImageFileValue: ReadStillImageFileValue = new ReadStillImageFileValue(
+                const stillImageFileValue: ReadStillImageFileValue = new ReadStillImageFileValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.fileValueHasFilename],
-                    propValue[AppConfig.stillImageFileValueHasIIIFBaseUrl],
-                    propValue[AppConfig.fileValueAsUrl],
-                    propValue[AppConfig.stillImageFileValueHasDimX],
-                    propValue[AppConfig.stillImageFileValueHasDimY],
-                    propValue[AppConfig.fileValueIsPreview] // optional (may be undefined)
+                    propValue[AppConstants.fileValueHasFilename],
+                    propValue[AppConstants.stillImageFileValueHasIIIFBaseUrl],
+                    propValue[AppConstants.fileValueAsUrl],
+                    propValue[AppConstants.stillImageFileValueHasDimX],
+                    propValue[AppConstants.stillImageFileValueHasDimY],
+                    propValue[AppConstants.fileValueIsPreview] // optional (may be undefined)
                 );
 
                 valueSpecificProp = stillImageFileValue;
 
                 break;
 
-            case AppConfig.TextFileValue:
+            case AppConstants.TextFileValue:
 
-                let textFileValue = new ReadTextFileValue(
+                const textFileValue = new ReadTextFileValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.fileValueHasFilename],
-                    propValue[AppConfig.fileValueAsUrl]
+                    propValue[AppConstants.fileValueHasFilename],
+                    propValue[AppConstants.fileValueAsUrl]
                 );
 
                 valueSpecificProp = textFileValue;
 
                 break;
 
-            case AppConfig.ColorValue:
+            case AppConstants.ColorValue:
 
-                let readColorValue: ReadColorValue = new ReadColorValue(
+                const readColorValue: ReadColorValue = new ReadColorValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.colorValueAsColor]
+                    propValue[AppConstants.colorValueAsColor]
                 );
 
                 valueSpecificProp = readColorValue;
 
                 break;
 
-            case AppConfig.GeomValue:
+            case AppConstants.GeomValue:
 
-                let readGeomValue: ReadGeomValue = new ReadGeomValue(
+                const readGeomValue: ReadGeomValue = new ReadGeomValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.geometryValueAsGeometry]
+                    propValue[AppConstants.geometryValueAsGeometry]
                 );
 
                 valueSpecificProp = readGeomValue;
 
                 break;
 
-            case AppConfig.UriValue:
+            case AppConstants.UriValue:
 
-                let uriValue: ReadUriValue = new ReadUriValue(
+                const uriValue: ReadUriValue = new ReadUriValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.uriValueAsUri]
+                    propValue[AppConstants.uriValueAsUri]
                 );
 
                 valueSpecificProp = uriValue;
 
                 break;
 
-            case AppConfig.BooleanValue:
+            case AppConstants.BooleanValue:
 
-                let boolValue: ReadBooleanValue = new ReadBooleanValue(
+                const boolValue: ReadBooleanValue = new ReadBooleanValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.booleanValueAsBoolean]
+                    propValue[AppConstants.booleanValueAsBoolean]
                 );
 
                 valueSpecificProp = boolValue;
@@ -251,13 +251,13 @@ export module ConvertJSONLD {
                 break;
 
 
-            case AppConfig.IntervalValue:
+            case AppConstants.IntervalValue:
 
                 // represented as strings to preserve precision
-                const intStart = parseFloat(propValue[AppConfig.intervalValueHasStart]);
-                const intEnd = parseFloat(propValue[AppConfig.intervalValueHasEnd]);
+                const intStart = parseFloat(propValue[AppConstants.intervalValueHasStart]);
+                const intEnd = parseFloat(propValue[AppConstants.intervalValueHasEnd]);
 
-                let intervalValue: ReadIntervalValue = new ReadIntervalValue(
+                const intervalValue: ReadIntervalValue = new ReadIntervalValue(
                     propValue['@id'],
                     propIri,
                     intStart,
@@ -268,13 +268,13 @@ export module ConvertJSONLD {
 
                 break;
 
-            case AppConfig.ListValue:
+            case AppConstants.ListValue:
 
-                let listValue: ReadListValue = new ReadListValue(
+                const listValue: ReadListValue = new ReadListValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.listValueAsListNode]['@id'],
-                    propValue[AppConfig.listValueAsListNodeLabel]
+                    propValue[AppConstants.listValueAsListNode]['@id'],
+                    propValue[AppConstants.listValueAsListNodeLabel]
                 );
 
                 valueSpecificProp = listValue;
@@ -283,7 +283,7 @@ export module ConvertJSONLD {
 
             default:
                 // unsupported value type
-                console.log("ERROR: value type not implemented yet: " + propValue['@type']);
+                console.log('ERROR: value type not implemented yet: ' + propValue['@type']);
                 break;
         }
 
@@ -301,59 +301,59 @@ export module ConvertJSONLD {
     function constructReadProperties(resourceJSONLD: Object): ReadProperties {
 
         // JSONLD representing standoff link values
-        let standoffLinkValuesJSONLD: Object = resourceJSONLD[AppConfig.hasStandoffLinkToValue];
+        const standoffLinkValuesJSONLD: Object = resourceJSONLD[AppConstants.hasStandoffLinkToValue];
 
         // to be populated with standoff link values
-        let standoffLinkValues: ReadLinkValue[] = [];
+        const standoffLinkValues: ReadLinkValue[] = [];
 
         // convert each standoff link value JSONLD object to a ReadLinkValue
         // in order populate the collection with all the standoff link values
         if (standoffLinkValuesJSONLD !== undefined && Array.isArray(standoffLinkValuesJSONLD)) {
-            for (let standoffLinkJSONLD of standoffLinkValuesJSONLD) {
-                let standoffVal: ReadLinkValue = createValueSpecificProp(standoffLinkJSONLD, AppConfig.hasStandoffLinkToValue, []) as ReadLinkValue;
+            for (const standoffLinkJSONLD of standoffLinkValuesJSONLD) {
+                const standoffVal: ReadLinkValue = createValueSpecificProp(standoffLinkJSONLD, AppConstants.hasStandoffLinkToValue, []) as ReadLinkValue;
 
                 standoffLinkValues.push(standoffVal)
             }
         } else if (standoffLinkValuesJSONLD !== undefined) {
-            let standoffVal = createValueSpecificProp(standoffLinkValuesJSONLD, AppConfig.hasStandoffLinkToValue, []) as ReadLinkValue;
+            const standoffVal = createValueSpecificProp(standoffLinkValuesJSONLD, AppConstants.hasStandoffLinkToValue, []) as ReadLinkValue;
 
             standoffLinkValues.push(standoffVal);
         }
 
         let propNames = Object.keys(resourceJSONLD);
         // filter out everything that is not a Knora property name
-        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConfig.RdfsLabel);
+        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConstants.RdfsLabel);
 
-        let properties: ReadProperties = {};
+        const properties: ReadProperties = {};
 
         // iterate over all the given property names
-        for (let propName of propNames) {
+        for (const propName of propNames) {
 
-            let propValues: Array<ReadPropertyItem> = [];
+            const propValues: Array<ReadPropertyItem> = [];
 
             // either an array of values or just one value is given
             if (Array.isArray(resourceJSONLD[propName])) {
                 // array of values
 
                 // for each property name, an array of property values is given, iterate over it
-                for (let propValue of resourceJSONLD[propName]) {
+                for (const propValue of resourceJSONLD[propName]) {
 
                     // convert a JSON-LD property value to a `ReadPropertyItem`
-                    let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(propValue, propName, standoffLinkValues);
+                    const valueSpecificProp: ReadPropertyItem = createValueSpecificProp(propValue, propName, standoffLinkValues);
 
                     // if it is undefined, the value could not be constructed correctly
                     // add the property value to the array of property values
-                    if (valueSpecificProp !== undefined) propValues.push(valueSpecificProp);
+                    if (valueSpecificProp !== undefined) { propValues.push(valueSpecificProp); }
 
                 }
             } else {
                 // only one value
 
-                let valueSpecificProp: ReadPropertyItem = createValueSpecificProp(resourceJSONLD[propName], propName, standoffLinkValues);
+                const valueSpecificProp: ReadPropertyItem = createValueSpecificProp(resourceJSONLD[propName], propName, standoffLinkValues);
 
                 // if it is undefined, the value could not be constructed correctly
                 // add the property value to the array of property values
-                if (valueSpecificProp !== undefined) propValues.push(valueSpecificProp);
+                if (valueSpecificProp !== undefined) { propValues.push(valueSpecificProp); }
             }
 
             // add the property to the properties object
@@ -417,25 +417,25 @@ export module ConvertJSONLD {
 
         let propNames = Object.keys(resourceJSONLD);
         // filter out everything that is not a Knora property name
-        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConfig.RdfsLabel);
+        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConstants.RdfsLabel);
 
-        let referredResourceClasses = [];
+        const referredResourceClasses = [];
 
-        for (let prop of propNames) {
+        for (const prop of propNames) {
 
             // several values given for this property
             if (Array.isArray(resourceJSONLD[prop])) {
 
-                for (let referredRes of resourceJSONLD[prop]) {
+                for (const referredRes of resourceJSONLD[prop]) {
 
                     // if the property is a LinkValue and it contains an embedded resource, get its type
-                    if (referredRes['@type'] == AppConfig.LinkValue && referredRes[AppConfig.linkValueHasTarget] !== undefined) {
+                    if (referredRes['@type'] == AppConstants.LinkValue && referredRes[AppConstants.linkValueHasTarget] !== undefined) {
 
                         // target resource is represented
-                        referredResourceClasses.push(referredRes[AppConfig.linkValueHasTarget]['@type']);
-                    } else if (referredRes['@type'] == AppConfig.LinkValue && referredRes[AppConfig.linkValueHasSource] !== undefined) {
+                        referredResourceClasses.push(referredRes[AppConstants.linkValueHasTarget]['@type']);
+                    } else if (referredRes['@type'] == AppConstants.LinkValue && referredRes[AppConstants.linkValueHasSource] !== undefined) {
                         // source resource is represented
-                        referredResourceClasses.push(referredRes[AppConfig.linkValueHasSource]['@type']);
+                        referredResourceClasses.push(referredRes[AppConstants.linkValueHasSource]['@type']);
                     }
 
                 }
@@ -443,13 +443,13 @@ export module ConvertJSONLD {
                 // only one value given for this property
 
                 // if the property is a LinkValue and it contains an embedded resource, get its type
-                if (resourceJSONLD[prop]['@type'] == AppConfig.LinkValue && resourceJSONLD[prop][AppConfig.linkValueHasTarget] !== undefined) {
+                if (resourceJSONLD[prop]['@type'] == AppConstants.LinkValue && resourceJSONLD[prop][AppConstants.linkValueHasTarget] !== undefined) {
 
                     // target resource is represented
-                    referredResourceClasses.push(resourceJSONLD[prop][AppConfig.linkValueHasTarget]['@type']);
-                } else if (resourceJSONLD[prop]['@type'] == AppConfig.LinkValue && resourceJSONLD[prop][AppConfig.linkValueHasSource] !== undefined) {
+                    referredResourceClasses.push(resourceJSONLD[prop][AppConstants.linkValueHasTarget]['@type']);
+                } else if (resourceJSONLD[prop]['@type'] == AppConstants.LinkValue && resourceJSONLD[prop][AppConstants.linkValueHasSource] !== undefined) {
                     // source resource is represented
-                    referredResourceClasses.push(resourceJSONLD[prop][AppConfig.linkValueHasSource]['@type']);
+                    referredResourceClasses.push(resourceJSONLD[prop][AppConstants.linkValueHasSource]['@type']);
                 }
             }
 

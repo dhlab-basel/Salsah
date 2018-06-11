@@ -1,6 +1,6 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
-import {AppConfig} from "../../../../../../../app.config";
+import {AppConstants} from "../../../../../../../app.constants";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {JDNConvertibleCalendar} from "jdnconvertiblecalendar";
 
@@ -17,7 +17,7 @@ export class DateValueComponent implements OnInit, OnDestroy, PropertyValue {
     // parent FormGroup
     @Input() formGroup: FormGroup;
 
-    type = AppConfig.DateValue;
+    type = AppConstants.DateValue;
 
     form: FormGroup;
 
@@ -61,6 +61,6 @@ export class DateValueComponent implements OnInit, OnDestroy, PropertyValue {
 
         const dateString = `${calendarFormat.toUpperCase()}:${calendarPeriod.periodStart.year}-${calendarPeriod.periodStart.month}-${calendarPeriod.periodStart.day}:${calendarPeriod.periodEnd.year}-${calendarPeriod.periodEnd.month}-${calendarPeriod.periodEnd.day}`;
 
-        return new ValueLiteral(String(dateString), AppConfig.xsdString);
+        return new ValueLiteral(String(dateString), AppConstants.xsdString);
     }
 }

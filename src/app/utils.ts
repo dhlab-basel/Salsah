@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {AppConfig} from "./app.config";
+import {AppConstants} from "./app.constants";
 
 /**
  * Collection of useful utility functions.
@@ -47,7 +47,7 @@ export class Utils {
     public static getOntologyIriFromEntityIri(entityIri: string) {
 
         // split class Iri on "#"
-        let segments: string[] = entityIri.split(AppConfig.PathSeparator);
+        let segments: string[] = entityIri.split(AppConstants.PathSeparator);
 
         if (segments.length != 2) console.log(`Error: ${entityIri} is not a valid entity IRI.`);
 
@@ -64,12 +64,12 @@ export class Utils {
     public static convertComplexKnoraApiEntityIritoSimple(complexEntityIri: string) {
 
         // split entity Iri on "#"
-        let segments: string[] = complexEntityIri.split('v2' + AppConfig.PathSeparator);
+        let segments: string[] = complexEntityIri.split('v2' + AppConstants.PathSeparator);
 
         if (segments.length != 2) console.log(`Error: ${complexEntityIri} is not a valid entity IRI.`);
 
         // add 'simple' to base path
-        return segments[0] + 'simple/v2' + AppConfig.PathSeparator + segments[1];
+        return segments[0] + 'simple/v2' + AppConstants.PathSeparator + segments[1];
 
     }
 

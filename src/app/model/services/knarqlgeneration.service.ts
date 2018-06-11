@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {PropertyWithValue} from "../../view/modules/search/extended-search/select-property/select-property.component";
 import {Utils} from "../../utils";
-import {AppConfig} from "../../app.config";
+import {AppConstants} from "../../app.constants";
 import {ExtendedSearchParams, SearchParamsService} from "./search-params.service";
 
 /**
@@ -25,24 +25,24 @@ export class KnarqlgenerationService {
 
     // map of complex knora-api value types to simple ones
     private typeConversionComplexToSimple = {
-        [AppConfig.IntValue]: AppConfig.xsdInteger, // use computed property name: http://www.ecma-international.org/ecma-262/6.0/#sec-object-initializer
-        [AppConfig.DecimalValue]: AppConfig.xsdDecimal,
-        [AppConfig.BooleanValue]: AppConfig.xsdBoolean,
-        [AppConfig.TextValue]: AppConfig.xsdString,
-        [AppConfig.DateValue]: AppConfig.dateSimple,
-        [AppConfig.IntervalValue]: AppConfig.intervalSimple,
-        [AppConfig.GeomValue]: AppConfig.geomSimple,
-        [AppConfig.ColorValue]: AppConfig.colorSimple,
-        [AppConfig.GeonameValue]: AppConfig.geonameSimple,
-        [AppConfig.UriValue]: AppConfig.xsdUri,
-        [AppConfig.StillImageFileValue]: AppConfig.fileSimple,
-        [AppConfig.FileValue]: AppConfig.fileSimple,
-        [AppConfig.MovingImageFileValue]: AppConfig.fileSimple,
-        [AppConfig.DDDFileValue]: AppConfig.fileSimple,
-        [AppConfig.AudioFileValue]: AppConfig.fileSimple,
-        [AppConfig.DocumentFileValue]: AppConfig.fileSimple,
-        [AppConfig.TextFileValue]: AppConfig.fileSimple,
-        [AppConfig.ListValue]: AppConfig.xsdString
+        [AppConstants.IntValue]: AppConstants.xsdInteger, // use computed property name: http://www.ecma-international.org/ecma-262/6.0/#sec-object-initializer
+        [AppConstants.DecimalValue]: AppConstants.xsdDecimal,
+        [AppConstants.BooleanValue]: AppConstants.xsdBoolean,
+        [AppConstants.TextValue]: AppConstants.xsdString,
+        [AppConstants.DateValue]: AppConstants.dateSimple,
+        [AppConstants.IntervalValue]: AppConstants.intervalSimple,
+        [AppConstants.GeomValue]: AppConstants.geomSimple,
+        [AppConstants.ColorValue]: AppConstants.colorSimple,
+        [AppConstants.GeonameValue]: AppConstants.geonameSimple,
+        [AppConstants.UriValue]: AppConstants.xsdUri,
+        [AppConstants.StillImageFileValue]: AppConstants.fileSimple,
+        [AppConstants.FileValue]: AppConstants.fileSimple,
+        [AppConstants.MovingImageFileValue]: AppConstants.fileSimple,
+        [AppConstants.DDDFileValue]: AppConstants.fileSimple,
+        [AppConstants.AudioFileValue]: AppConstants.fileSimple,
+        [AppConstants.DocumentFileValue]: AppConstants.fileSimple,
+        [AppConstants.TextFileValue]: AppConstants.fileSimple,
+        [AppConstants.ListValue]: AppConstants.xsdString
     };
 
     /**
@@ -98,7 +98,7 @@ export class KnarqlgenerationService {
                 if (!propWithVal.property.isLinkProperty) {
                     simpleType = this.convertComplexTypeToSimpleType(propWithVal.property.objectType);
                 } else {
-                    simpleType = AppConfig.resourceSimple;
+                    simpleType = AppConstants.resourceSimple;
                 }
 
                 // represents the object of a statement
@@ -147,7 +147,7 @@ export class KnarqlgenerationService {
                         filter = `FILTER regex(${propValue}, ${propWithVal.valueLiteral.value.toSparql()}, "i")`;
                     } else if (propWithVal.valueLiteral.comparisonOperator.getClassName() == 'Match') {
                         // use contains function for MATCH
-                        filter = `FILTER <${AppConfig.matchFunction}>(${propValue}, ${propWithVal.valueLiteral.value.toSparql()})`;
+                        filter = `FILTER <${AppConstants.matchFunction}>(${propValue}, ${propWithVal.valueLiteral.value.toSparql()})`;
                     } else {
                         filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.value.toSparql()})`;
                     }

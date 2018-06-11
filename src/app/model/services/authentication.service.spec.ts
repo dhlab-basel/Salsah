@@ -1,13 +1,11 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 import {HttpModule} from '@angular/http';
-import {environment} from '../../../environments/environment';
 import {CurrentUser} from '../webapi/knora/admin/authentication/current-user';
 
 import {AuthenticationService} from './authentication.service';
 import {ProjectsService} from './projects.service';
 import {UsersService} from './users.service';
 import {imagesUser, multiUser} from '../test-data/shared-test-data';
-import {current} from 'codelyzer/util/syntaxKind';
 
 describe('AuthenticationService', () => {
     beforeEach(() => {
@@ -55,61 +53,55 @@ describe('AuthenticationService', () => {
 
         })));
 
-    if (environment.type === 'integration') {
+    it('#login should login the user [it]', async(inject(
+        [AuthenticationService], (service) => {
 
-        it('#login should login the user [it]', async(inject(
-            [AuthenticationService], (service) => {
+            expect(service).toBeDefined();
 
-                expect(service).toBeDefined();
+            service.login('user01.user1@example.com', 'test').subscribe(
+                (result: boolean) => {
 
-                service.login('user01.user1@example.com', 'test').subscribe(
-                    (result: boolean) => {
+                    // console.log('result: ', result);
 
-                        // console.log('result: ', result);
+                    // login successful
+                    expect(result).toEqual(true);
 
-                        // login successful
-                        expect(result).toEqual(true);
+                    // check local storage to be sure
+                    const currentUser: CurrentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-                        // check local storage to be sure
-                        const currentUser: CurrentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-                        // console.log('currentUser: ', currentUser);
-                        expect(currentUser).toBeTruthy();
-                        expect(currentUser.email).toEqual('user01.user1@example.com');
-                    },
-                    (error) => {
-                        console.log('error: ', error);
-                    }
-                );
+                    // console.log('currentUser: ', currentUser);
+                    expect(currentUser).toBeTruthy();
+                    expect(currentUser.email).toEqual('user01.user1@example.com');
+                },
+                (error) => {
+                    console.log('error: ', error);
+                }
+            );
 
 
-            })));
+        })));
 
-        it('#authenticate should check if the user is logged in [it]', async(inject(
-            [AuthenticationService], (service) => {
+    it('#authenticate should check if the user is logged in [it]', async(inject(
+        [AuthenticationService], (service) => {
 
-                expect(service).toBeDefined();
+            expect(service).toBeDefined();
 
-                service.login('user01.user1@example.com', 'test').subscribe(
-                    (result: boolean) => {
+            service.login('user01.user1@example.com', 'test').subscribe(
+                (result: boolean) => {
 
-                        // service call should be true if succeeded
-                        expect(result).toEqual(true);
+                    // service call should be true if succeeded
+                    expect(result).toEqual(true);
 
-                        // check with authenticate
-                        const authRes = service.authenticate().subscribe(
-                            (authResult: boolean) => {
-                                expect(authResult).toEqual(true)
-                            }
-                        );
+                    // check with authenticate
+                    const authRes = service.authenticate().subscribe(
+                        (authResult: boolean) => {
+                            expect(authResult).toEqual(true)
+                        }
+                    );
 
-                    }
-                );
+                }
+            );
 
-            })));
-
-    } else {
-        xit('Integration tests skipped. Run  "ng test --env=it" to run integration tests.');
-    }
+        })));
 
 });

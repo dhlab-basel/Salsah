@@ -12,7 +12,7 @@
  * */
 
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {AppConfig} from '../../../../../app.config';
+import {AppConstants} from '../../../../../app.constants';
 import {User} from '../../../../../model/webapi/knora';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
@@ -183,7 +183,7 @@ export class UserDataComponent implements OnInit, OnChanges {
             }, [
                 Validators.required,
                 Validators.minLength(8),
-                Validators.pattern(AppConfig.RegexPassword)
+                Validators.pattern(AppConstants.RegexPassword)
             ]),
             'lang': new FormControl({
                 value: (user.lang ? user.lang : 'en'), disabled: false

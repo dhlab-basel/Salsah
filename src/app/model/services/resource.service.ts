@@ -15,9 +15,7 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs/Observable';
-import {Project, ProjectResponse} from '../webapi/knora';
 import {ApiServiceResult} from './api-service-result';
-import {ApiServiceError} from './api-service-error';
 
 @Injectable()
 export class ResourceService extends ApiService {
@@ -29,7 +27,7 @@ export class ResourceService extends ApiService {
      * @returns {Observable<any>}
      */
     getResource(iri): Observable<ApiServiceResult> {
-        return this.httpGetV2('/resources/' + encodeURIComponent(iri));
+        return this.httpGet('/v2/resources/' + encodeURIComponent(iri));
     }
 
 }

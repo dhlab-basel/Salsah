@@ -1,5 +1,5 @@
 import {AfterViewInit, Directive, ElementRef, Input} from '@angular/core';
-import {AppConfig} from "../../../app.config";
+import {AppConstants} from "../../../app.constants";
 
 /**
  * This directive renders a GND/IAF or a VIAF identifier as a link to the respective resolver.
@@ -18,12 +18,12 @@ export class GndDirective {
 
         if (this.gnd.length < 30) {
 
-            if (this.gnd.indexOf(AppConfig.GNDPrefix) == 0) {
+            if (this.gnd.indexOf(AppConstants.GNDPrefix) == 0) {
                 // GND/IAF identifier
-                this.el.nativeElement.innerHTML = `<a href="${AppConfig.GNDResolver + this.gnd.replace(AppConfig.GNDPrefix, "")}" target="_blank">${this.gnd}</a>`;
-            } else if (this.gnd.indexOf(AppConfig.VIAFPrefix) == 0) {
+                this.el.nativeElement.innerHTML = `<a href="${AppConstants.GNDResolver + this.gnd.replace(AppConstants.GNDPrefix, "")}" target="_blank">${this.gnd}</a>`;
+            } else if (this.gnd.indexOf(AppConstants.VIAFPrefix) == 0) {
                 // VIAF identifier
-                this.el.nativeElement.innerHTML = `<a href="${AppConfig.VIAFResolver + this.gnd.replace(AppConfig.VIAFPrefix, "")}" target="_blank">${this.gnd}</a>`;
+                this.el.nativeElement.innerHTML = `<a href="${AppConstants.VIAFResolver + this.gnd.replace(AppConstants.VIAFPrefix, "")}" target="_blank">${this.gnd}</a>`;
             } else {
                 // no identifier, leave unchanged
                 this.el.nativeElement.innerHTML = this.gnd;

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {OntologyService} from './ontology.service';
 import {ApiServiceResult} from './api-service-result';
 import {Observable} from 'rxjs/Observable';
-import {AppConfig} from '../../app.config';
+import {AppConstants} from '../../app.constants';
 import {Utils} from '../../utils';
 
 import 'rxjs/add/operator/mergeMap';
@@ -343,14 +343,14 @@ export class OntologyInformation {
  */
 export class OntologyCacheService {
 
-    private excludedOntologies: Array<string> = [AppConfig.SalsahGuiOntology, AppConfig.StandoffOntology];
+    private excludedOntologies: Array<string> = [AppConstants.SalsahGuiOntology, AppConstants.StandoffOntology];
 
     // properties that Knora is not responsible for and
     // that have to be ignored because they cannot be resolved at the moment
-    private excludedProperties: Array<string> = [AppConfig.RdfsLabel];
+    private excludedProperties: Array<string> = [AppConstants.RdfsLabel];
 
     // class definitions that are not be treated as Knora resource classes
-    private nonResourceClasses: Array<string> = [AppConfig.ForbiddenResource, AppConfig.XMLToStandoffMapping, AppConfig.ListNode];
+    private nonResourceClasses: Array<string> = [AppConstants.ForbiddenResource, AppConstants.XMLToStandoffMapping, AppConstants.ListNode];
 
     private cacheOntology: OntologyCache = new OntologyCache();
 
@@ -414,7 +414,7 @@ export class OntologyCacheService {
 
         this.cacheOntology.ontologies = ontologies.map(
             ontology => {
-                return new OntologyMetadata(ontology['@id'], ontology[AppConfig.RdfsLabel]);
+                return new OntologyMetadata(ontology['@id'], ontology[AppConstants.RdfsLabel]);
             }
         );
     }
@@ -444,7 +444,7 @@ export class OntologyCacheService {
             const classIri = classDef['@id'];
 
             // check that class name is not listed as a non resource class and that the isResourceClass flag is present and set to true
-            if (classIri !== AppConfig.Resource && this.nonResourceClasses.indexOf(classIri) === -1 && (classDef[AppConfig.IsResourceClass] !== undefined && classDef[AppConfig.IsResourceClass] === true)) {
+            if (classIri !== AppConstants.Resource && this.nonResourceClasses.indexOf(classIri) === -1 && (classDef[AppConstants.IsResourceClass] !== undefined && classDef[AppConstants.IsResourceClass] === true)) {
                 // it is not a value class, but a resource class definition
                 resourceClassIris.push(classIri)
             }
@@ -469,16 +469,16 @@ export class OntologyCacheService {
         const classDefs = graph.filter(
             (entity: Object) => {
                 const entityType = entity['@type'];
-                return entityType === AppConfig.OwlClass;
+                return entityType === AppConstants.OwlClass;
             });
 
         const propertyDefs = graph.filter(
             (entity: Object) => {
                 const entityType = entity['@type'];
-                return entityType === AppConfig.OwlObjectProperty ||
-                    entityType === AppConfig.OwlDatatypeProperty ||
-                    entityType === AppConfig.OwlAnnotationProperty ||
-                    entityType === AppConfig.RdfProperty
+                return entityType === AppConstants.OwlObjectProperty ||
+                    entityType === AppConstants.OwlDatatypeProperty ||
+                    entityType === AppConstants.OwlAnnotationProperty ||
+                    entityType === AppConstants.RdfProperty
             });
 
         this.cacheOntology.resourceClassIrisForOntology[ontology['@id']] = this.getResourceClassIrisFromOntologyResponse(classDefs);
@@ -538,25 +538,25 @@ export class OntologyCacheService {
             // represents all cardinalities of this resource class
             const cardinalities: Cardinality[] = [];
 
-            if (resClass[AppConfig.RdfsSubclassOf] !== undefined) {
+            if (resClass[AppConstants.RdfsSubclassOf] !== undefined) {
                 // get cardinalities for the properties of a resource class
-                for (const curCard of resClass[AppConfig.RdfsSubclassOf]) {
+                for (const curCard of resClass[AppConstants.RdfsSubclassOf]) {
 
                     // make sure it is a cardinality (it could also be an Iri of a superclass)
-                    if (curCard instanceof Object && curCard['@type'] !== undefined && curCard['@type'] === AppConfig.OwlRestriction) {
+                    if (curCard instanceof Object && curCard['@type'] !== undefined && curCard['@type'] === AppConstants.OwlRestriction) {
 
                         let newCard;
 
                         // get occurrence
-                        if (curCard[AppConfig.OwlMinCardinality] !== undefined) {
-                            newCard = new Cardinality(CardinalityOccurrence.minCard, curCard[AppConfig.OwlMinCardinality], curCard[AppConfig.OwlOnProperty]['@id']);
-                        } else if (curCard[AppConfig.OwlCardinality] !== undefined) {
-                            newCard = new Cardinality(CardinalityOccurrence.card, curCard[AppConfig.OwlCardinality], curCard[AppConfig.OwlOnProperty]['@id']);
-                        } else if (curCard[AppConfig.OwlMaxCardinality] !== undefined) {
-                            newCard = new Cardinality(CardinalityOccurrence.maxCard, curCard[AppConfig.OwlMaxCardinality], curCard[AppConfig.OwlOnProperty]['@id']);
+                        if (curCard[AppConstants.OwlMinCardinality] !== undefined) {
+                            newCard = new Cardinality(CardinalityOccurrence.minCard, curCard[AppConstants.OwlMinCardinality], curCard[AppConstants.OwlOnProperty]['@id']);
+                        } else if (curCard[AppConstants.OwlCardinality] !== undefined) {
+                            newCard = new Cardinality(CardinalityOccurrence.card, curCard[AppConstants.OwlCardinality], curCard[AppConstants.OwlOnProperty]['@id']);
+                        } else if (curCard[AppConstants.OwlMaxCardinality] !== undefined) {
+                            newCard = new Cardinality(CardinalityOccurrence.maxCard, curCard[AppConstants.OwlMaxCardinality], curCard[AppConstants.OwlOnProperty]['@id']);
                         } else {
                             // no known occurrence found
-                            throw new TypeError(`cardinality type invalid for ${resClass['@id']} ${curCard[AppConfig.OwlOnProperty]}`);
+                            throw new TypeError(`cardinality type invalid for ${resClass['@id']} ${curCard[AppConstants.OwlOnProperty]}`);
                         }
 
                         // add cardinality
@@ -569,9 +569,9 @@ export class OntologyCacheService {
 
             const resClassObj = new ResourceClass(
                 resClassIri,
-                resClass[AppConfig.ResourceIcon],
-                resClass[AppConfig.RdfsComment],
-                resClass[AppConfig.RdfsLabel],
+                resClass[AppConstants.ResourceIcon],
+                resClass[AppConstants.RdfsComment],
+                resClass[AppConstants.RdfsLabel],
                 cardinalities
             );
 
@@ -639,38 +639,38 @@ export class OntologyCacheService {
             const propIri = propDef['@id'];
 
             let isEditable = false;
-            if (propDef[AppConfig.isEditable] !== undefined && propDef[AppConfig.isEditable] === true) {
+            if (propDef[AppConstants.isEditable] !== undefined && propDef[AppConstants.isEditable] === true) {
                 isEditable = true;
             }
 
             let isLinkProperty = false;
-            if (propDef[AppConfig.isLinkProperty] !== undefined && propDef[AppConfig.isLinkProperty] === true) {
+            if (propDef[AppConstants.isLinkProperty] !== undefined && propDef[AppConstants.isLinkProperty] === true) {
                 isLinkProperty = true;
             }
 
             let isLinkValueProperty = false;
-            if (propDef[AppConfig.isLinkValueProperty] !== undefined && propDef[AppConfig.isLinkValueProperty] === true) {
+            if (propDef[AppConstants.isLinkValueProperty] !== undefined && propDef[AppConstants.isLinkValueProperty] === true) {
                 isLinkValueProperty = true;
             }
 
             let subPropertyOf = [];
-            if (propDef[AppConfig.subPropertyOf] !== undefined && Array.isArray(propDef[AppConfig.subPropertyOf])) {
-                subPropertyOf = propDef[AppConfig.subPropertyOf].map((superProp: Object) => superProp['@id']);
-            } else if (propDef[AppConfig.subPropertyOf] !== undefined) {
-                subPropertyOf.push(propDef[AppConfig.subPropertyOf]['@id']);
+            if (propDef[AppConstants.subPropertyOf] !== undefined && Array.isArray(propDef[AppConstants.subPropertyOf])) {
+                subPropertyOf = propDef[AppConstants.subPropertyOf].map((superProp: Object) => superProp['@id']);
+            } else if (propDef[AppConstants.subPropertyOf] !== undefined) {
+                subPropertyOf.push(propDef[AppConstants.subPropertyOf]['@id']);
             }
 
             let objectType;
-            if (propDef[AppConfig.ObjectType] !== undefined) {
-                objectType = propDef[AppConfig.ObjectType]['@id'];
+            if (propDef[AppConstants.ObjectType] !== undefined) {
+                objectType = propDef[AppConstants.ObjectType]['@id'];
             }
 
             // cache property definition
             this.cacheOntology.properties[propIri] = new Property(
                 propIri,
                 objectType,
-                propDef[AppConfig.RdfsComment],
-                propDef[AppConfig.RdfsLabel],
+                propDef[AppConstants.RdfsComment],
+                propDef[AppConstants.RdfsLabel],
                 subPropertyOf,
                 isEditable,
                 isLinkProperty,

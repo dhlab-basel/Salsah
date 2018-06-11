@@ -1,4 +1,3 @@
-import {environment} from '../../../environments/environment';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {StoreService} from './store.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -23,23 +22,18 @@ describe('StoreService', () => {
         }))
     );
 
-    if (environment.type === 'integration') {
 
-        it('#resetTriplestoreContent should load test data [it]', async(inject(
-            [StoreService], (service) => {
+    it('#resetTriplestoreContent should load test data [it]', async(inject(
+        [StoreService], (service) => {
 
-                expect(service).toBeDefined();
+            expect(service).toBeDefined();
 
-                service.resetTriplestoreContent([])
-                    .subscribe(
-                        (result: string) => {
-                            expect(result).toBe('success');
-                    });
+            service.resetTriplestoreContent([])
+                .subscribe(
+                    (result: string) => {
+                        expect(result).toBe('success');
+                });
 
-            })), 300000);
-
-    } else {
-        xit('integration tests skipped. run  "ng test --env=it".');
-    }
+        })), 300000);
 
 });

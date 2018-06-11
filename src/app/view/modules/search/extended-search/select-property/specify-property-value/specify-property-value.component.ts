@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Property} from 'app/model/services/ontologycache.service';
-import {AppConfig} from "../../../../../../app.config";
+import {AppConstants} from "../../../../../../app.constants";
 
 /**
  * An abstract interface representing a comparison operator.
@@ -21,8 +21,8 @@ interface ComparisonOperator {
 
 export class Equals implements ComparisonOperator {
 
-    type = AppConfig.EqualsComparisonOperator;
-    label = AppConfig.EqualsComparisonLabel;
+    type = AppConstants.EqualsComparisonOperator;
+    label = AppConstants.EqualsComparisonLabel;
 
     constructor() {
     }
@@ -34,8 +34,8 @@ export class Equals implements ComparisonOperator {
 
 export class NotEquals implements ComparisonOperator {
 
-    type = AppConfig.NotEqualsComparisonOperator;
-    label = AppConfig.NotEqualsComparisonLabel;
+    type = AppConstants.NotEqualsComparisonOperator;
+    label = AppConstants.NotEqualsComparisonLabel;
 
     constructor() {
     }
@@ -47,8 +47,8 @@ export class NotEquals implements ComparisonOperator {
 
 export class GreaterThanEquals implements ComparisonOperator {
 
-    type = AppConfig.GreaterThanEqualsComparisonOperator;
-    label = AppConfig.GreaterThanEqualsComparisonLabel;
+    type = AppConstants.GreaterThanEqualsComparisonOperator;
+    label = AppConstants.GreaterThanEqualsComparisonLabel;
 
     constructor() {
     }
@@ -60,8 +60,8 @@ export class GreaterThanEquals implements ComparisonOperator {
 
 export class GreaterThan implements ComparisonOperator {
 
-    type = AppConfig.GreaterThanComparisonOperator;
-    label = AppConfig.GreaterThanComparisonLabel;
+    type = AppConstants.GreaterThanComparisonOperator;
+    label = AppConstants.GreaterThanComparisonLabel;
 
     constructor() {
     }
@@ -73,8 +73,8 @@ export class GreaterThan implements ComparisonOperator {
 
 export class LessThan implements ComparisonOperator {
 
-    type = AppConfig.LessThanComparisonOperator;
-    label = AppConfig.LessThanComparisonLabel;
+    type = AppConstants.LessThanComparisonOperator;
+    label = AppConstants.LessThanComparisonLabel;
 
     constructor() {
     }
@@ -86,8 +86,8 @@ export class LessThan implements ComparisonOperator {
 
 export class LessThanEquals implements ComparisonOperator {
 
-    type = AppConfig.LessThanEqualsComparisonOperator;
-    label = AppConfig.LessThanQualsComparisonLabel;
+    type = AppConstants.LessThanEqualsComparisonOperator;
+    label = AppConstants.LessThanQualsComparisonLabel;
 
     constructor() {
     }
@@ -99,8 +99,8 @@ export class LessThanEquals implements ComparisonOperator {
 
 export class Exists implements ComparisonOperator {
 
-    type = AppConfig.ExistsComparisonOperator;
-    label = AppConfig.ExistsComparisonLabel;
+    type = AppConstants.ExistsComparisonOperator;
+    label = AppConstants.ExistsComparisonLabel;
 
     constructor() {
     }
@@ -112,8 +112,8 @@ export class Exists implements ComparisonOperator {
 
 export class Like implements ComparisonOperator {
 
-    type = AppConfig.LikeComparisonOperator;
-    label = AppConfig.LikeComparisonLabel;
+    type = AppConstants.LikeComparisonOperator;
+    label = AppConstants.LikeComparisonLabel;
 
     constructor() {
     }
@@ -126,8 +126,8 @@ export class Like implements ComparisonOperator {
 
 export class Match implements ComparisonOperator {
 
-    type = AppConfig.MatchComparisonOperator;
-    label = AppConfig.MatchComparisonLabel;
+    type = AppConstants.MatchComparisonOperator;
+    label = AppConstants.MatchComparisonLabel;
 
     constructor() {
     }
@@ -237,7 +237,7 @@ const resolvedPromise = Promise.resolve(null);
 })
 export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
 
-    AppConfig = AppConfig;
+    AppConstants = AppConstants;
 
     // parent FormGroup
     @Input() formGroup: FormGroup;
@@ -280,39 +280,39 @@ export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
 
         // depending on object class, set comparison operators and value entry field
         if (this._property.isLinkProperty) {
-            this.propertyValueType = AppConfig.Resource;
+            this.propertyValueType = AppConstants.Resource;
         } else {
             this.propertyValueType = this._property.objectType;
         }
 
         switch (this.propertyValueType) {
 
-            case AppConfig.TextValue:
+            case AppConstants.TextValue:
                 this.comparisonOperators = [new Like(), new Match(), new Equals(), new NotEquals(), new Exists()];
                 break;
 
-            case AppConfig.BooleanValue:
-            case AppConfig.Resource:
-            case AppConfig.UriValue:
-            case AppConfig.IntervalValue:
+            case AppConstants.BooleanValue:
+            case AppConstants.Resource:
+            case AppConstants.UriValue:
+            case AppConstants.IntervalValue:
                 this.comparisonOperators = [new Equals(), new NotEquals(), new Exists()];
                 break;
 
-            case AppConfig.IntValue:
-            case AppConfig.DecimalValue:
-            case AppConfig.DateValue:
+            case AppConstants.IntValue:
+            case AppConstants.DecimalValue:
+            case AppConstants.DateValue:
                 this.comparisonOperators = [new Equals(), new NotEquals(), new LessThan(), new LessThanEquals(), new GreaterThan(), new GreaterThanEquals(), new Exists()];
                 break;
 
-            case AppConfig.ListValue:
-            case AppConfig.GeomValue:
-            case AppConfig.FileValue:
-            case AppConfig.AudioFileValue:
-            case AppConfig.StillImageFileValue:
-            case AppConfig.DDDFileValue:
-            case AppConfig.MovingImageFileValue:
-            case AppConfig.TextFileValue:
-            case AppConfig.ColorValue:
+            case AppConstants.ListValue:
+            case AppConstants.GeomValue:
+            case AppConstants.FileValue:
+            case AppConstants.AudioFileValue:
+            case AppConstants.StillImageFileValue:
+            case AppConstants.DDDFileValue:
+            case AppConstants.MovingImageFileValue:
+            case AppConstants.TextFileValue:
+            case AppConstants.ColorValue:
                 this.comparisonOperators = [new Exists()];
                 break;
 

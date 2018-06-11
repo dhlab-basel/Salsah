@@ -19,21 +19,6 @@
 // The list of which environment maps to which file can be found in `..angular-cli.json`.
 
 export const environment = {
-    type: 'dev',
-    production: false,
-    media: 'http://localhost:1024/knora',   // perhaps we have to rename it into sipi?
-    apiExternal: 'http://0.0.0.0:3333',
-    api: 'http://0.0.0.0:3333',           // perhaps we have to rename it into knora?
-    url: 'http://localhost:4200',           // perhaps we have to rename it into guiUrl or salsah?
-    localData: 'data',
-    pagingLimit: 25,
-    startComponent: 'dasch',
-    firebase: {
-        apiKey: "AIzaSyAGr-TWw1NaycUrL3IaJQ63D2YguVafYTA",
-        authDomain: "test-5034c.firebaseapp.com",
-        databaseURL: "https://test-5034c.firebaseio.com",
-        projectId: "test-5034c",
-        storageBucket: "test-5034c.appspot.com",
-        messagingSenderId: "44326559957"
-    }
+    name: 'dev',
+    production: false
 };

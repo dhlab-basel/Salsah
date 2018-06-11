@@ -16,11 +16,11 @@ import {
     Component, Input, OnInit, OnChanges, SimpleChange, ElementRef, EventEmitter, Output,
     OnDestroy
 } from '@angular/core';
-import {ReadStillImageFileValue, ReadGeomValue} from "../../../model/webapi/knora/v2/read-property-item";
-import {ReadResource} from "../../../model/webapi/knora/v2/read-resource";
-import {Point2D, RegionGeometry} from "../../../model/webapi/knora/v2/read-property-item";
-import {AppConfig} from "../../../app.config"
-import {environment} from "../../../../environments/environment";
+import {ReadStillImageFileValue, ReadGeomValue} from '../../../model/webapi/knora/v2/read-property-item';
+import {ReadResource} from '../../../model/webapi/knora/v2/read-resource';
+import {Point2D, RegionGeometry} from '../../../model/webapi/knora/v2/read-property-item';
+import {AppConstants} from '../../../app.constants'
+import {AppConfig} from '../../../app.config';
 
 // This component needs the openseadragon library itself, as well as the openseadragon plugin openseadragon-svg-overlay
 // Both libraries are installed via package.json, and loaded globally via the script tag in .angular-cli.json
@@ -50,7 +50,7 @@ export class ImageRegion {
      * @returns {ReadGeomValue[]}
      */
     getGeometries() {
-        return this.regionResource.properties[AppConfig.hasGeometry] as ReadGeomValue[]
+        return this.regionResource.properties[AppConstants.hasGeometry] as ReadGeomValue[]
     }
 }
 
@@ -204,7 +204,7 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
             this.openImages();
             this.renderRegions();
 
-        } else if (this.images.length % environment.pagingLimit == 0) { // paging always returned full result lists, so there could be more data to fetch
+        } else if (this.images.length % AppConfig.settings.pagingLimit === 0) { // paging always returned full result lists, so there could be more data to fetch
             console.log(`request more images`);
             // this.images cannot display more images of length interval
             // request more images from the server using a positive offset
