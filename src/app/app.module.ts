@@ -157,7 +157,7 @@ import {SearchParamsService} from './model/services/search-params.service';
 
 import {GroupsService} from './model/services/groups.service';
 
-import {AngularFireModule, FirebaseOptionsToken} from 'angularfire2';
+import {AngularFireModule, FirebaseAppConfig, FirebaseAppName} from 'angularfire2';
 import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
@@ -320,7 +320,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TreeModule,
         DndModule.forRoot(),
         HttpClientModule,
-        AngularFireModule,
+        // ToDo: Fix by using DI as provided in 5.0.0-rc.9 (needs angular 6): https://github.com/angular/angularfire2/releases/tag/5.0.0-rc.9
+        // AngularFireModule.initializeApp(environment.firebase),
         InfiniteScrollModule,
         RecaptchaModule.forRoot(),
         TranslateModule.forRoot({
@@ -347,7 +348,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             deps: [AppConfig],
             multi: true
         },
-        { provide: FirebaseOptionsToken, useValue: AppConfig.settings.firebase },
         ApiService,
         ProjectsService,
         PropertiesService,

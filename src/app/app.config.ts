@@ -26,12 +26,12 @@ export class AppConfig {
     constructor(private http: HttpClient) { }
 
     loadAppConfig() {
-        console.log('AppSettings ...');
         const jsonFile = `assets/config/config.${environment.name}.json`;
         return this.http.get(jsonFile)
             .toPromise()
             .then(data => {
                 AppConfig.settings = <IAppConfig>data;
+                console.log('AppConfig.settings = ', AppConfig.settings);
             });
     }
 }
