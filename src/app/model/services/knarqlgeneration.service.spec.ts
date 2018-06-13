@@ -9,7 +9,7 @@ import {
 } from "../../view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component";
 import {SearchParamsService} from "./search-params.service";
 
-describe('KnarqlgenerationService', () => {
+fdescribe('KnarqlgenerationService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [KnarqlgenerationService, SearchParamsService]
@@ -279,6 +279,109 @@ describe('KnarqlgenerationService', () => {
         expect(knarql).toContain(expectedKnarql);
 
         console.log(knarql)
+
+    }));
+
+    it('should create a KnarQL query string with an Boolean property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+
+        const prop = new Property(
+            'http://0.0.0.0:3333/ontology/0001/anything/v2#hasBoolean',
+            'http://api.knora.org/ontology/knora-api/v2#BooleanValue',
+            'Boolean value',
+            'Boolean value',
+            ['http://api.knora.org/ontology/knora-api/v2#hasValue'],
+            true,
+            false,
+            false
+        );
+
+        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('1', 'http://www.w3.org/2001/XMLSchema#boolean'));
+
+        const propWithVal = new PropertyWithValue(prop, value, false);
+
+        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+
+        const expectedKnarql = `
+        PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
+        CONSTRUCT {
+        
+            ?mainRes knora-api:isMainResource true .
+            
+            ?mainRes <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasBoolean> ?propVal0 .
+        
+        } WHERE { 
+        
+            ?mainRes a knora-api:Resource .
+            
+            
+            
+            
+                        ?mainRes <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasBoolean> ?propVal0 .
+                        <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasBoolean> knora-api:objectType <http://www.w3.org/2001/XMLSchema#boolean> .
+                        ?propVal0 a <http://www.w3.org/2001/XMLSchema#boolean> .
+                    
+                FILTER(?propVal0 = "1"^^<http://www.w3.org/2001/XMLSchema#boolean>)
+                
+            
+        }
+        
+        OFFSET 0
+        `;
+
+        expect(knarql).toContain(expectedKnarql);
+
+        console.log(knarql)
+
+    }));
+
+    it('should create a KnarQL query string with a URI property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+
+        const prop = new Property(
+            'http://0.0.0.0:3333/ontology/0001/anything/v2#hasUri',
+            'http://api.knora.org/ontology/knora-api/v2#UriValue',
+            'URI',
+            'URI',
+            ['http://api.knora.org/ontology/knora-api/v2#hasValue'],
+            true,
+            false,
+            false
+        );
+
+        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('1', 'http://www.w3.org/2001/XMLSchema#anyURI'));
+
+        const propWithVal = new PropertyWithValue(prop, value, false);
+
+        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+
+        const expectedKnarql = `
+        PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
+        CONSTRUCT {
+        
+            ?mainRes knora-api:isMainResource true .
+            
+            ?mainRes <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasUri> ?propVal0 .
+        
+        } WHERE { 
+        
+            ?mainRes a knora-api:Resource .
+            
+            
+            
+            
+                        ?mainRes <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasUri> ?propVal0 .
+                        <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasUri> knora-api:objectType <http://www.w3.org/2001/XMLSchema#anyURI> .
+                        ?propVal0 a <http://www.w3.org/2001/XMLSchema#anyURI> .
+                    
+                FILTER(?propVal0 = "1"^^<http://www.w3.org/2001/XMLSchema#anyURI>)
+                
+            
+        }
+        
+        OFFSET 0
+        `;
+
+        expect(knarql).toContain(expectedKnarql);
+        
 
     }));
 
