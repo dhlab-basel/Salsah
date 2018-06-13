@@ -4,7 +4,7 @@ import {KnarqlgenerationService} from './knarqlgeneration.service';
 import {PropertyWithValue} from "../../view/modules/search/extended-search/select-property/select-property.component";
 import {Property} from "./ontologycache.service";
 import {
-    ComparisonOperatorAndValue, Like,
+    ComparisonOperatorAndValue, Equals, Like,
     ValueLiteral
 } from "../../view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component";
 import {SearchParamsService} from "./search-params.service";
@@ -125,6 +125,58 @@ describe('KnarqlgenerationService', () => {
         `;
 
         expect(knarql).toContain(expectedKnarql);
+
+    }));
+
+    it('should create a KnarQL query string with a property matching a value using offset 0', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+
+        const prop = new Property(
+            'http://0.0.0.0:3333/ontology/beol/v2#creationDate',
+            'http://api.knora.org/ontology/knora-api/v2#DateValue',
+            'Date of creation',
+            'Date of creation',
+            ['http://api.knora.org/ontology/knora-api/v2#hasValue'],
+            true,
+            false,
+            false
+        );
+
+        // TODO: this should be converted to a Date in simple schema
+        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('Gregorian:2018-06-12', 'http://api.knora.org/ontology/knora-api/v2#DateValue'));
+
+        const propWithVal = new PropertyWithValue(prop, value, false);
+
+        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+
+        const expectedKnarql = `
+        PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
+        CONSTRUCT {
+        
+            ?mainRes knora-api:isMainResource true .
+            
+            ?mainRes <http://0.0.0.0:3333/ontology/beol/simple/v2#creationDate> ?propVal0 .
+        
+        } WHERE { 
+        
+            ?mainRes a knora-api:Resource .
+            
+            
+            
+            
+                        ?mainRes <http://0.0.0.0:3333/ontology/beol/simple/v2#creationDate> ?propVal0 .
+                        <http://0.0.0.0:3333/ontology/beol/simple/v2#creationDate> knora-api:objectType <http://api.knora.org/ontology/knora-api/simple/v2#Date> .
+                        ?propVal0 a <http://api.knora.org/ontology/knora-api/simple/v2#Date> .
+                    
+                FILTER(?propVal0 = "Gregorian:2018-06-12"^^<http://api.knora.org/ontology/knora-api/simple/v2#Date>)
+                
+            
+        }
+        
+        OFFSET 0
+        `;
+
+        expect(knarql).toContain(expectedKnarql);
+
 
     }));
 
