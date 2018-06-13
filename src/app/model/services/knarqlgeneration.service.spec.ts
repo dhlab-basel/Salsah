@@ -166,7 +166,7 @@ describe('KnarqlgenerationService', () => {
                         <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#creationDate> knora-api:objectType <http://api.knora.org/ontology/knora-api/simple/v2#Date> .
                         ?propVal0 a <http://api.knora.org/ontology/knora-api/simple/v2#Date> .
                     
-                FILTER(?propVal0 = "Gregorian:2018-06-12"^^<http://api.knora.org/ontology/knora-api/simple/v2#Date>)
+                FILTER(?propVal0 = "GREGORIAN:2018-06-12"^^<http://api.knora.org/ontology/knora-api/simple/v2#Date>)
                 
             
         }
@@ -372,7 +372,7 @@ describe('KnarqlgenerationService', () => {
                         <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasUri> knora-api:objectType <http://www.w3.org/2001/XMLSchema#anyURI> .
                         ?propVal0 a <http://www.w3.org/2001/XMLSchema#anyURI> .
                     
-                FILTER(?propVal0 = "1"^^<http://www.w3.org/2001/XMLSchema#anyURI>)
+                FILTER(?propVal0 = "http://www.google.ch"^^<http://www.w3.org/2001/XMLSchema#anyURI>)
                 
             
         }
@@ -433,7 +433,6 @@ describe('KnarqlgenerationService', () => {
 
         expect(knarql).toContain(expectedKnarql);
 
-        console.log(knarql)
     }));
 
 
