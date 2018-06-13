@@ -20,11 +20,8 @@ class KnarqlGenerationError extends Error {
 @Injectable()
 export class KnarqlgenerationService {
 
-    constructor(private _searchParamsService: SearchParamsService) {
-    }
-
     // map of complex knora-api value types to simple ones
-    private typeConversionComplexToSimple = {
+    static typeConversionComplexToSimple = {
         [AppConfig.IntValue]: AppConfig.xsdInteger, // use computed property name: http://www.ecma-international.org/ecma-262/6.0/#sec-object-initializer
         [AppConfig.DecimalValue]: AppConfig.xsdDecimal,
         [AppConfig.BooleanValue]: AppConfig.xsdBoolean,
@@ -45,6 +42,9 @@ export class KnarqlgenerationService {
         [AppConfig.ListValue]: AppConfig.xsdString
     };
 
+    constructor(private _searchParamsService: SearchParamsService) {
+    }
+
     /**
      * Converts a complex type Iri to a simple type Iri.
      *
@@ -53,7 +53,7 @@ export class KnarqlgenerationService {
      */
     private convertComplexTypeToSimpleType(complexType: string): string {
 
-        const simpleType: string = this.typeConversionComplexToSimple[complexType];
+        const simpleType: string = KnarqlgenerationService.typeConversionComplexToSimple[complexType];
 
         if (simpleType !== undefined) {
             return simpleType;
@@ -109,7 +109,7 @@ export class KnarqlgenerationService {
                     propValue = `?propVal${index}`;
                 } else {
                     // it is a linking property and the comparison operator is not Exists, use its IRI
-                    propValue = propWithVal.valueLiteral.value.toSparql();
+                    propValue = propWithVal.valueLiteral.value.toSparql(false);
                 }
 
                 // generate statement
@@ -144,12 +144,13 @@ export class KnarqlgenerationService {
 
                     if (propWithVal.valueLiteral.comparisonOperator.getClassName() == 'Like') {
                         // use regex function for LIKE
-                        filter = `FILTER regex(${propValue}, ${propWithVal.valueLiteral.value.toSparql()}, "i")`;
+                        filter = `FILTER regex(${propValue}, ${propWithVal.valueLiteral.value.toSparql(false)}, "i")`;
                     } else if (propWithVal.valueLiteral.comparisonOperator.getClassName() == 'Match') {
                         // use contains function for MATCH
-                        filter = `FILTER <${AppConfig.matchFunction}>(${propValue}, ${propWithVal.valueLiteral.value.toSparql()})`;
+                        filter = `FILTER <${AppConfig.matchFunction}>(${propValue}, ${propWithVal.valueLiteral.value.toSparql(false)})`;
                     } else {
-                        filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.value.toSparql()})`;
+                        // convert to simple schema (the type might be a complex knora-api:DateValue)
+                        filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.value.toSparql(true)})`;
                     }
                 }
 

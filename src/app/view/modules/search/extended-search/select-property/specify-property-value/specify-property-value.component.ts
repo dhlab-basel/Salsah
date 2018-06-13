@@ -2,6 +2,7 @@ import {Component, Inject, Input, OnChanges, OnInit, ViewChild} from '@angular/c
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Property} from 'app/model/services/ontologycache.service';
 import {AppConfig} from "../../../../../../app.config";
+import {KnarqlgenerationService} from "../../../../../../model/services/knarqlgeneration.service";
 
 /**
  * An abstract interface representing a comparison operator.
@@ -154,11 +155,12 @@ export class ComparisonOperatorAndValue {
 export interface Value {
 
     /**
-     * Turns the value into a Sparql string representation.
+     * Turns the value into a SPARQL string representation.
      *
-     * @returns {string}
+     * @param convertTypeToSimpleSchema indicates whether the type should be converted to the knora-api simple schema.
+     * @returns {string} SPARQL representation of the value.
      */
-    toSparql(): string;
+    toSparql(convertTypeToSimpleSchema: boolean): string;
 
 }
 
@@ -180,10 +182,23 @@ export class ValueLiteral implements Value {
     /**
      * Creates a type annotated value literal to be used in a SPARQL query.
      *
+     * @param convertTypeToSimpleSchema indicates whether the type should be converted to the knora-api simple schema.
      * @returns {string}
      */
-    public toSparql(): string {
-        return `"${this.value}"^^<${this.type}>`;
+    public toSparql(convertTypeToSimpleSchema: boolean): string {
+
+        let literalType: string;
+
+        // check if type is a complex knora-api type and
+        if (convertTypeToSimpleSchema && KnarqlgenerationService.typeConversionComplexToSimple[this.type] !== undefined) {
+            // convert to simple
+            literalType = KnarqlgenerationService.typeConversionComplexToSimple[this.type];
+        } else {
+            // do not convert
+            literalType = this.type;
+        }
+
+        return `"${this.value}"^^<${literalType}>`;
     }
 
 }
@@ -201,7 +216,7 @@ export class IRI implements Value {
     constructor(readonly iri: string) {
     };
 
-    public toSparql(): string {
+    public toSparql(convertToSimple: boolean): string {
         return `<${this.iri}>`;
     }
 
