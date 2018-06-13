@@ -60,7 +60,7 @@ export class ExtendedSearchComponent implements OnInit {
                 private _route: ActivatedRoute,
                 private _router: Router,
                 private _cacheService: OntologyCacheService,
-                private _knarqlgenerationService: GravsearchGenerationService) {
+                private _gravsearchgenerationService: GravsearchGenerationService) {
     }
 
     ngOnInit() {
@@ -182,7 +182,7 @@ export class ExtendedSearchComponent implements OnInit {
 
 
     /**
-     * Creates a KnarQL query with the given form values and calls the extended search route.
+     * Creates a Gravsearch query with the given form values and calls the extended search route.
      */
     submit() {
 
@@ -202,9 +202,9 @@ export class ExtendedSearchComponent implements OnInit {
             }
         );
 
-        const knarql = this._knarqlgenerationService.createGravsearchQuery(properties, resClass, 0);
+        const gravsearch = this._gravsearchgenerationService.createGravsearchQuery(properties, resClass, 0);
 
-        this._router.navigate(['/search/extended/', knarql], {relativeTo: this._route});
+        this._router.navigate(['/search/extended/', gravsearch], {relativeTo: this._route});
 
         // toggle extended search form
         this.toggleExtendedSearchForm.emit(true);

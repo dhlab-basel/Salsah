@@ -82,7 +82,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
     numberOfItems: number; // number of items actually returned by the query (using paging)
     numberOfAllResults: number; // total number of results (count query)
 
-    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService, private _searchParamsService: SearchParamsService, private _knarqlgenerationService: GravsearchGenerationService) {
+    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService, private _searchParamsService: SearchParamsService, private _gravsearchgenerationService: GravsearchGenerationService) {
     }
 
     ngOnInit() {
@@ -135,7 +135,6 @@ export class ResourcesListComponent implements OnInit, OnChanges {
                     );
             }
 
-            // TODO: use a service to create a new KnarQl with an increased offset!
             this._searchParamsService.currentSearchParams.subscribe(
                 (extendedSearchParams: ExtendedSearchParams) => {
 
@@ -143,7 +142,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
 
                         // console.log(decodeURI(this.searchParam));
 
-                        // use KnarQL provided via the route
+                        // use Gravsearch provided via the route
                         this._searchService.doExtendedSearch(this.searchParam)
                             .subscribe(
                                 this.processSearchResults, // function pointer
@@ -155,12 +154,10 @@ export class ResourcesListComponent implements OnInit, OnChanges {
                             );
 
                     } else {
-                        // generate new Knarql with increased offset
-                        let newKnarQL = extendedSearchParams.generateKnarQL(this._offset);
+                        // generate new Gravsearch with increased offset
+                        let gravsearch = extendedSearchParams.generateGravsearch(this._offset);
 
-                        // console.log(decodeURI(newKnarQL));
-
-                        this._searchService.doExtendedSearch(newKnarQL)
+                        this._searchService.doExtendedSearch(gravsearch)
                             .subscribe(
                                 this.processSearchResults, // function pointer
                                 (error: ApiServiceError) => {
