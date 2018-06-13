@@ -64,7 +64,7 @@ export class SearchService extends ApiService {
             return Observable.create(observer => observer.error('No Sparql string given for call of SearchService.doExtendedSearch'));
         }
 
-        return this.httpGetV2("/searchextended/" + encodeURIComponent(sparqlString));
+        return this.httpPost("/v2/searchextended", sparqlString);
 
     }
 
@@ -80,7 +80,7 @@ export class SearchService extends ApiService {
             return Observable.create(observer => observer.error('No Sparql string given for call of SearchService.doExtendedSearchCountQuery'));
         }
 
-        return this.httpGetV2("/searchextended/count/" + encodeURIComponent(sparqlString));
+        return this.httpPost("/v2/searchextended/count", sparqlString);
 
     }
 

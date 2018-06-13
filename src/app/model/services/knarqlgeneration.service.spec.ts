@@ -22,7 +22,7 @@ describe('KnarqlgenerationService', () => {
 
     it('should create a KnarQL query string with restriction to a resource class using offset 0', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
 
-        const knarql = service.createKnarQLQuery([], "http://0.0.0.0:3333/ontology/beol/v2#letter", 0);
+        const knarql = service.createKnarQLQuery([], "http://0.0.0.0:3333/ontology/0801/beol/v2#letter", 0);
 
         const expectedKnarql = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
@@ -36,7 +36,7 @@ describe('KnarqlgenerationService', () => {
         
             ?mainRes a knora-api:Resource .
             
-            ?mainRes a <http://0.0.0.0:3333/ontology/beol/simple/v2#letter> .
+            ?mainRes a <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letter> .
             
             
             
@@ -51,7 +51,7 @@ describe('KnarqlgenerationService', () => {
 
     it('should create a KnarQL query string with restriction to a resource class using offset 1', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
 
-        const knarql = service.createKnarQLQuery([], "http://0.0.0.0:3333/ontology/beol/v2#letter", 1);
+        const knarql = service.createKnarQLQuery([], "http://0.0.0.0:3333/ontology/0801/beol/v2#letter", 1);
 
         const expectedKnarql = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
@@ -65,7 +65,7 @@ describe('KnarqlgenerationService', () => {
         
             ?mainRes a knora-api:Resource .
             
-            ?mainRes a <http://0.0.0.0:3333/ontology/beol/simple/v2#letter> .
+            ?mainRes a <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letter> .
             
             
             
@@ -78,10 +78,10 @@ describe('KnarqlgenerationService', () => {
 
     }));
 
-    it('should create a KnarQL query string with a property matching a value using offset 0', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a KnarQL query string with a text property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
 
         const prop = new Property(
-            'http://0.0.0.0:3333/ontology/beol/v2#hasFamilyName',
+            'http://0.0.0.0:3333/ontology/0801/beol/v2#hasFamilyName',
             'http://api.knora.org/ontology/knora-api/v2#TextValue',
             'Represents a family name.',
             'Nachname',
@@ -103,7 +103,7 @@ describe('KnarqlgenerationService', () => {
         
             ?mainRes knora-api:isMainResource true .
             
-            ?mainRes <http://0.0.0.0:3333/ontology/beol/simple/v2#hasFamilyName> ?propVal0 .
+            ?mainRes <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#hasFamilyName> ?propVal0 .
         
         } WHERE { 
         
@@ -112,8 +112,8 @@ describe('KnarqlgenerationService', () => {
             
             
             
-                        ?mainRes <http://0.0.0.0:3333/ontology/beol/simple/v2#hasFamilyName> ?propVal0 .
-                        <http://0.0.0.0:3333/ontology/beol/simple/v2#hasFamilyName> knora-api:objectType <http://www.w3.org/2001/XMLSchema#string> .
+                        ?mainRes <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#hasFamilyName> ?propVal0 .
+                        <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#hasFamilyName> knora-api:objectType <http://www.w3.org/2001/XMLSchema#string> .
                         ?propVal0 a <http://www.w3.org/2001/XMLSchema#string> .
                     
                 FILTER regex(?propVal0, "Bernoulli"^^<http://www.w3.org/2001/XMLSchema#string>, "i")
@@ -128,10 +128,10 @@ describe('KnarqlgenerationService', () => {
 
     }));
 
-    it('should create a KnarQL query string with a property matching a value using offset 0', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a KnarQL query string with a date property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
 
         const prop = new Property(
-            'http://0.0.0.0:3333/ontology/beol/v2#creationDate',
+            'http://0.0.0.0:3333/ontology/0801/beol/v2#creationDate',
             'http://api.knora.org/ontology/knora-api/v2#DateValue',
             'Date of creation',
             'Date of creation',
@@ -141,7 +141,6 @@ describe('KnarqlgenerationService', () => {
             false
         );
 
-        // TODO: this should be converted to a Date in simple schema
         const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('Gregorian:2018-06-12', 'http://api.knora.org/ontology/knora-api/v2#DateValue'));
 
         const propWithVal = new PropertyWithValue(prop, value, false);
@@ -154,7 +153,7 @@ describe('KnarqlgenerationService', () => {
         
             ?mainRes knora-api:isMainResource true .
             
-            ?mainRes <http://0.0.0.0:3333/ontology/beol/simple/v2#creationDate> ?propVal0 .
+            ?mainRes <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#creationDate> ?propVal0 .
         
         } WHERE { 
         
@@ -163,8 +162,8 @@ describe('KnarqlgenerationService', () => {
             
             
             
-                        ?mainRes <http://0.0.0.0:3333/ontology/beol/simple/v2#creationDate> ?propVal0 .
-                        <http://0.0.0.0:3333/ontology/beol/simple/v2#creationDate> knora-api:objectType <http://api.knora.org/ontology/knora-api/simple/v2#Date> .
+                        ?mainRes <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#creationDate> ?propVal0 .
+                        <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#creationDate> knora-api:objectType <http://api.knora.org/ontology/knora-api/simple/v2#Date> .
                         ?propVal0 a <http://api.knora.org/ontology/knora-api/simple/v2#Date> .
                     
                 FILTER(?propVal0 = "Gregorian:2018-06-12"^^<http://api.knora.org/ontology/knora-api/simple/v2#Date>)
@@ -177,6 +176,109 @@ describe('KnarqlgenerationService', () => {
 
         expect(knarql).toContain(expectedKnarql);
 
+
+    }));
+
+    it('should create a KnarQL query string with a decimal property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+
+        const prop = new Property(
+            'http://0.0.0.0:3333/ontology/0001/anything/v2#hasDecimal',
+            'http://api.knora.org/ontology/knora-api/v2#DecimalValue',
+            'Decimal number',
+            'Decimal number',
+            ['http://api.knora.org/ontology/knora-api/v2#hasValue'],
+            true,
+            false,
+            false
+        );
+
+        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('1.5', 'http://www.w3.org/2001/XMLSchema#decimal'));
+
+        const propWithVal = new PropertyWithValue(prop, value, false);
+
+        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+
+        const expectedKnarql = `
+        PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
+        CONSTRUCT {
+        
+            ?mainRes knora-api:isMainResource true .
+            
+            ?mainRes <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasDecimal> ?propVal0 .
+        
+        } WHERE { 
+        
+            ?mainRes a knora-api:Resource .
+            
+            
+            
+            
+                        ?mainRes <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasDecimal> ?propVal0 .
+                        <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasDecimal> knora-api:objectType <http://www.w3.org/2001/XMLSchema#decimal> .
+                        ?propVal0 a <http://www.w3.org/2001/XMLSchema#decimal> .
+                    
+                FILTER(?propVal0 = "1.5"^^<http://www.w3.org/2001/XMLSchema#decimal>)
+                
+            
+        }
+        
+        OFFSET 0
+        `;
+
+        expect(knarql).toContain(expectedKnarql);
+
+
+    }));
+
+    it('should create a KnarQL query string with an integer property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+
+        const prop = new Property(
+            'http://0.0.0.0:3333/ontology/0001/anything/v2#hasInteger',
+            'http://api.knora.org/ontology/knora-api/v2#IntValue',
+            'Integer',
+            'Integer',
+            ['http://api.knora.org/ontology/knora-api/v2#hasValue'],
+            true,
+            false,
+            false
+        );
+
+        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('1', 'http://www.w3.org/2001/XMLSchema#integer'));
+
+        const propWithVal = new PropertyWithValue(prop, value, false);
+
+        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+
+        const expectedKnarql = `
+        PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
+        CONSTRUCT {
+        
+            ?mainRes knora-api:isMainResource true .
+            
+            ?mainRes <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasInteger> ?propVal0 .
+        
+        } WHERE { 
+        
+            ?mainRes a knora-api:Resource .
+            
+            
+            
+            
+                        ?mainRes <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasInteger> ?propVal0 .
+                        <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasInteger> knora-api:objectType <http://www.w3.org/2001/XMLSchema#integer> .
+                        ?propVal0 a <http://www.w3.org/2001/XMLSchema#integer> .
+                    
+                FILTER(?propVal0 = "1"^^<http://www.w3.org/2001/XMLSchema#integer>)
+                
+            
+        }
+        
+        OFFSET 0
+        `;
+
+        expect(knarql).toContain(expectedKnarql);
+
+        console.log(knarql)
 
     }));
 
