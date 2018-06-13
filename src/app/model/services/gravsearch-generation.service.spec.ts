@@ -1,6 +1,6 @@
 import {TestBed, inject} from '@angular/core/testing';
 
-import {KnarqlgenerationService} from './knarqlgeneration.service';
+import {GravsearchGenerationService} from './gravsearch-generation.service';
 import {PropertyWithValue} from "../../view/modules/search/extended-search/select-property/select-property.component";
 import {Property} from "./ontologycache.service";
 import {
@@ -9,22 +9,22 @@ import {
 } from '../../view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component';
 import {SearchParamsService} from "./search-params.service";
 
-describe('KnarqlgenerationService', () => {
+describe('GravsearchgenerationService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [KnarqlgenerationService, SearchParamsService]
+            providers: [GravsearchGenerationService, SearchParamsService]
         });
     });
 
-    it('should be created', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should be created', inject([GravsearchGenerationService], (service: GravsearchGenerationService) => {
         expect(service).toBeTruthy();
     }));
 
-    it('should create a KnarQL query string with restriction to a resource class using offset 0', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a Gravsearch query string with restriction to a resource class using offset 0', inject([GravsearchGenerationService], (service: GravsearchGenerationService) => {
 
-        const knarql = service.createKnarQLQuery([], "http://0.0.0.0:3333/ontology/0801/beol/v2#letter", 0);
+        const gravsearch = service.createGravsearchQuery([], "http://0.0.0.0:3333/ontology/0801/beol/v2#letter", 0);
 
-        const expectedKnarql = `
+        const expectedGravsearch = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
@@ -45,15 +45,15 @@ describe('KnarqlgenerationService', () => {
         OFFSET 0
         `;
 
-        expect(knarql).toContain(expectedKnarql);
+        expect(gravsearch).toContain(expectedGravsearch);
 
     }));
 
-    it('should create a KnarQL query string with restriction to a resource class using offset 1', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a Gravsearch query string with restriction to a resource class using offset 1', inject([GravsearchGenerationService], (service: GravsearchGenerationService) => {
 
-        const knarql = service.createKnarQLQuery([], "http://0.0.0.0:3333/ontology/0801/beol/v2#letter", 1);
+        const gravsearch = service.createGravsearchQuery([], "http://0.0.0.0:3333/ontology/0801/beol/v2#letter", 1);
 
-        const expectedKnarql = `
+        const expectedGravsearch = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
@@ -74,11 +74,11 @@ describe('KnarqlgenerationService', () => {
         OFFSET 1
         `;
 
-        expect(knarql).toContain(expectedKnarql);
+        expect(gravsearch).toContain(expectedGravsearch);
 
     }));
 
-    it('should create a KnarQL query string with a text property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a Gravsearch query string with a text property matching a value', inject([GravsearchGenerationService], (service: GravsearchGenerationService) => {
 
         const prop = new Property(
             'http://0.0.0.0:3333/ontology/0801/beol/v2#hasFamilyName',
@@ -95,9 +95,9 @@ describe('KnarqlgenerationService', () => {
 
         const propWithVal = new PropertyWithValue(prop, value, false);
 
-        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+        const gravsearch = service.createGravsearchQuery([propWithVal], undefined, 0);
 
-        const expectedKnarql = ` 
+        const expectedGravsearch = ` 
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
@@ -124,11 +124,11 @@ describe('KnarqlgenerationService', () => {
         OFFSET 0
         `;
 
-        expect(knarql).toContain(expectedKnarql);
+        expect(gravsearch).toContain(expectedGravsearch);
 
     }));
 
-    it('should create a KnarQL query string with a date property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a Gravsearch query string with a date property matching a value', inject([GravsearchGenerationService], (service: GravsearchGenerationService) => {
 
         const prop = new Property(
             'http://0.0.0.0:3333/ontology/0801/beol/v2#creationDate',
@@ -141,13 +141,13 @@ describe('KnarqlgenerationService', () => {
             false
         );
 
-        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('Gregorian:2018-06-12', 'http://api.knora.org/ontology/knora-api/v2#DateValue'));
+        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('GREGORIAN:2018-06-12', 'http://api.knora.org/ontology/knora-api/v2#DateValue'));
 
         const propWithVal = new PropertyWithValue(prop, value, false);
 
-        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+        const gravsearch = service.createGravsearchQuery([propWithVal], undefined, 0);
 
-        const expectedKnarql = `
+        const expectedGravsearch = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
@@ -174,12 +174,12 @@ describe('KnarqlgenerationService', () => {
         OFFSET 0
         `;
 
-        expect(knarql).toContain(expectedKnarql);
+        expect(gravsearch).toContain(expectedGravsearch);
 
 
     }));
 
-    it('should create a KnarQL query string with a decimal property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a Gravsearch query string with a decimal property matching a value', inject([GravsearchGenerationService], (service: GravsearchGenerationService) => {
 
         const prop = new Property(
             'http://0.0.0.0:3333/ontology/0001/anything/v2#hasDecimal',
@@ -196,9 +196,9 @@ describe('KnarqlgenerationService', () => {
 
         const propWithVal = new PropertyWithValue(prop, value, false);
 
-        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+        const gravsearch = service.createGravsearchQuery([propWithVal], undefined, 0);
 
-        const expectedKnarql = `
+        const expectedGravsearch = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
@@ -225,12 +225,12 @@ describe('KnarqlgenerationService', () => {
         OFFSET 0
         `;
 
-        expect(knarql).toContain(expectedKnarql);
+        expect(gravsearch).toContain(expectedGravsearch);
 
 
     }));
 
-    it('should create a KnarQL query string with an integer property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a Gravsearch query string with an integer property matching a value', inject([GravsearchGenerationService], (service: GravsearchGenerationService) => {
 
         const prop = new Property(
             'http://0.0.0.0:3333/ontology/0001/anything/v2#hasInteger',
@@ -247,9 +247,9 @@ describe('KnarqlgenerationService', () => {
 
         const propWithVal = new PropertyWithValue(prop, value, false);
 
-        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+        const gravsearch = service.createGravsearchQuery([propWithVal], undefined, 0);
 
-        const expectedKnarql = `
+        const expectedGravsearch = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
@@ -276,13 +276,11 @@ describe('KnarqlgenerationService', () => {
         OFFSET 0
         `;
 
-        expect(knarql).toContain(expectedKnarql);
-
-        console.log(knarql)
+        expect(gravsearch).toContain(expectedGravsearch);
 
     }));
 
-    it('should create a KnarQL query string with an Boolean property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a Gravsearch query string with an Boolean property matching a value', inject([GravsearchGenerationService], (service: GravsearchGenerationService) => {
 
         const prop = new Property(
             'http://0.0.0.0:3333/ontology/0001/anything/v2#hasBoolean',
@@ -295,13 +293,13 @@ describe('KnarqlgenerationService', () => {
             false
         );
 
-        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('1', 'http://www.w3.org/2001/XMLSchema#boolean'));
+        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('true', 'http://www.w3.org/2001/XMLSchema#boolean'));
 
         const propWithVal = new PropertyWithValue(prop, value, false);
 
-        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+        const gravsearch = service.createGravsearchQuery([propWithVal], undefined, 0);
 
-        const expectedKnarql = `
+        const expectedGravsearch = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
@@ -320,7 +318,7 @@ describe('KnarqlgenerationService', () => {
                         <http://0.0.0.0:3333/ontology/0001/anything/simple/v2#hasBoolean> knora-api:objectType <http://www.w3.org/2001/XMLSchema#boolean> .
                         ?propVal0 a <http://www.w3.org/2001/XMLSchema#boolean> .
                     
-                FILTER(?propVal0 = "1"^^<http://www.w3.org/2001/XMLSchema#boolean>)
+                FILTER(?propVal0 = "true"^^<http://www.w3.org/2001/XMLSchema#boolean>)
                 
             
         }
@@ -328,13 +326,11 @@ describe('KnarqlgenerationService', () => {
         OFFSET 0
         `;
 
-        expect(knarql).toContain(expectedKnarql);
-
-        console.log(knarql)
+        expect(gravsearch).toContain(expectedGravsearch);
 
     }));
 
-    it('should create a KnarQL query string with a URI property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a Gravsearch query string with a URI property matching a value', inject([GravsearchGenerationService], (service: GravsearchGenerationService) => {
 
         const prop = new Property(
             'http://0.0.0.0:3333/ontology/0001/anything/v2#hasUri',
@@ -347,13 +343,13 @@ describe('KnarqlgenerationService', () => {
             false
         );
 
-        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('1', 'http://www.w3.org/2001/XMLSchema#anyURI'));
+        const value = new ComparisonOperatorAndValue(new Equals(), new ValueLiteral('http://www.google.ch', 'http://www.w3.org/2001/XMLSchema#anyURI'));
 
         const propWithVal = new PropertyWithValue(prop, value, false);
 
-        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+        const gravsearch = service.createGravsearchQuery([propWithVal], undefined, 0);
 
-        const expectedKnarql = `
+        const expectedGravsearch = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
@@ -380,12 +376,12 @@ describe('KnarqlgenerationService', () => {
         OFFSET 0
         `;
 
-        expect(knarql).toContain(expectedKnarql);
+        expect(gravsearch).toContain(expectedGravsearch);
 
 
     }));
 
-    it('should create a KnarQL query string with a URI property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+    it('should create a Gravsearch query string with a linking property matching a value', inject([GravsearchGenerationService], (service: GravsearchGenerationService) => {
 
         const prop = new Property(
             'http://0.0.0.0:3333/ontology/0801/beol/v2#hasAuthor',
@@ -402,9 +398,9 @@ describe('KnarqlgenerationService', () => {
 
         const propWithVal = new PropertyWithValue(prop, value, false);
 
-        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+        const gravsearch = service.createGravsearchQuery([propWithVal], undefined, 0);
 
-        const expectedKnarql = `
+        const expectedGravsearch = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
@@ -431,7 +427,7 @@ describe('KnarqlgenerationService', () => {
         OFFSET 0
         `;
 
-        expect(knarql).toContain(expectedKnarql);
+        expect(gravsearch).toContain(expectedGravsearch);
 
     }));
 

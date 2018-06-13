@@ -5,9 +5,9 @@ import {AppConfig} from "../../app.config";
 import {ExtendedSearchParams, SearchParamsService} from "./search-params.service";
 
 /**
- * Represents an error that occurred when generating KnarQL.
+ * Represents an error that occurred when generating Gravsearch.
  */
-class KnarqlGenerationError extends Error {
+class GravsearchGenerationError extends Error {
 
     constructor(msg: string) {
         super(msg);
@@ -15,10 +15,10 @@ class KnarqlGenerationError extends Error {
 }
 
 /**
- * Handles the generation of KnarQL queries.
+ * Handles the generation of Gravsearch queries.
  */
 @Injectable()
-export class KnarqlgenerationService {
+export class GravsearchGenerationService {
 
     // map of complex knora-api value types to simple ones
     static typeConversionComplexToSimple = {
@@ -53,26 +53,26 @@ export class KnarqlgenerationService {
      */
     private convertComplexTypeToSimpleType(complexType: string): string {
 
-        const simpleType: string = KnarqlgenerationService.typeConversionComplexToSimple[complexType];
+        const simpleType: string = GravsearchGenerationService.typeConversionComplexToSimple[complexType];
 
         if (simpleType !== undefined) {
             return simpleType;
         } else {
-            throw new KnarqlGenerationError(`complex type ${complexType} could not be converted to simple type.`);
+            throw new GravsearchGenerationError(`complex type ${complexType} could not be converted to simple type.`);
         }
 
     }
 
 
     /**
-     * Generates a KnarQL query from the provided arguments.
+     * Generates a Gravsearch query from the provided arguments.
      *
      * @param {PropertyWithValue[]} properties the properties specified by the user.
      * @param {string} mainResourceClassOption the class of the main resource, if specified.
      * @param offset the offset to be used (nth page of results).
-     * @returns {string} a KnarQL query string.
+     * @returns {string} a Gravsearch query string.
      */
-    createKnarQLQuery(properties: PropertyWithValue[], mainResourceClassOption?: string, offset: number = 0): string {
+    createGravsearchQuery(properties: PropertyWithValue[], mainResourceClassOption?: string, offset: number = 0): string {
 
         // class restriction for the resource searched for
         let mainResourceClass = '';
@@ -171,8 +171,8 @@ export class KnarqlgenerationService {
             `;
         }
 
-        // template of the KnarQL query with dynamic components
-        let knarqlTemplate = `    
+        // template of the Gravsearch query with dynamic components
+        let gravsearchTemplate = `    
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
@@ -191,28 +191,26 @@ export class KnarqlgenerationService {
         }
         ${orderByStatement}`;
 
-        // offset component of the KnarQL query
+        // offset component of the Gravsearch query
         let offsetTemplate = `
         OFFSET ${offset}
         `;
 
-        // function that generates the same KnarQL query with the given offset
-        let generateKnarQLWithCustomOffset = (localOffset: number): string => {
+        // function that generates the same Gravsearch query with the given offset
+        let generateGravsearchQueryWithCustomOffset = (localOffset: number): string => {
             let offsetCustomTemplate = `
             OFFSET ${localOffset}
             `;
 
-            return knarqlTemplate + offsetCustomTemplate;
+            return gravsearchTemplate + offsetCustomTemplate;
         };
 
         if (offset === 0) {
-            // store the function so another KnarQL query can be created with an increased offset
-            this._searchParamsService.changeSearchParamsMsg(new ExtendedSearchParams(generateKnarQLWithCustomOffset));
+            // store the function so another Gravsearch query can be created with an increased offset
+            this._searchParamsService.changeSearchParamsMsg(new ExtendedSearchParams(generateGravsearchQueryWithCustomOffset));
         }
 
-        // console.log(knarqlTemplate + offsetTemplate);
-
-        return knarqlTemplate + offsetTemplate;
+        return gravsearchTemplate + offsetTemplate;
 
     }
 

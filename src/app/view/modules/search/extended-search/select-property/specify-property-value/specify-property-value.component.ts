@@ -2,7 +2,7 @@ import {Component, Inject, Input, OnChanges, OnInit, ViewChild} from '@angular/c
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Property} from 'app/model/services/ontologycache.service';
 import {AppConfig} from "../../../../../../app.config";
-import {KnarqlgenerationService} from "../../../../../../model/services/knarqlgeneration.service";
+import {GravsearchGenerationService} from "../../../../../../model/services/gravsearch-generation.service";
 
 /**
  * An abstract interface representing a comparison operator.
@@ -189,10 +189,12 @@ export class ValueLiteral implements Value {
 
         let literalType: string;
 
-        // check if type is a complex knora-api type and
-        if (convertTypeToSimpleSchema && KnarqlgenerationService.typeConversionComplexToSimple[this.type] !== undefined) {
+        // check if type is a complex knora-api type and has to be converted to simple
+        // this is necessary for knora-api:DateValue
+        // xsd types will be ignored
+        if (convertTypeToSimpleSchema && GravsearchGenerationService.typeConversionComplexToSimple[this.type] !== undefined) {
             // convert to simple
-            literalType = KnarqlgenerationService.typeConversionComplexToSimple[this.type];
+            literalType = GravsearchGenerationService.typeConversionComplexToSimple[this.type];
         } else {
             // do not convert
             literalType = this.type;
@@ -216,7 +218,13 @@ export class IRI implements Value {
     constructor(readonly iri: string) {
     };
 
-    public toSparql(convertToSimple: boolean): string {
+    /**
+     * Creates a SPARQL representation of the IRI.
+     *
+     * @param {boolean} convertTypeToSimpleSchema
+     * @returns {string}
+     */
+    public toSparql(convertTypeToSimpleSchema: boolean): string {
         return `<${this.iri}>`;
     }
 

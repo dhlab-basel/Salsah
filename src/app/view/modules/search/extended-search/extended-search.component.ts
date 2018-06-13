@@ -10,7 +10,7 @@ import {
 import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
 import {PropertyWithValue, SelectPropertyComponent} from "./select-property/select-property.component";
 import {SelectResourceClassComponent} from "./select-resource-class/select-resource-class.component";
-import {KnarqlgenerationService} from "../../../../model/services/knarqlgeneration.service";
+import {GravsearchGenerationService} from "../../../../model/services/gravsearch-generation.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 
@@ -60,7 +60,7 @@ export class ExtendedSearchComponent implements OnInit {
                 private _route: ActivatedRoute,
                 private _router: Router,
                 private _cacheService: OntologyCacheService,
-                private _knarqlgenerationService: KnarqlgenerationService) {
+                private _knarqlgenerationService: GravsearchGenerationService) {
     }
 
     ngOnInit() {
@@ -202,7 +202,7 @@ export class ExtendedSearchComponent implements OnInit {
             }
         );
 
-        const knarql = this._knarqlgenerationService.createKnarQLQuery(properties, resClass, 0);
+        const knarql = this._knarqlgenerationService.createGravsearchQuery(properties, resClass, 0);
 
         this._router.navigate(['/search/extended/', knarql], {relativeTo: this._route});
 
