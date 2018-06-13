@@ -45,6 +45,8 @@ export class UserPasswordComponent implements OnInit {
         statusText: 'You have successfully changed your password.'
     };
 
+    usrType: string = 'oldUser';
+
     // show the content after every service has loaded and the data is ready
     isLoading: boolean = true;
 
