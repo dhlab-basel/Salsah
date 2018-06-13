@@ -317,7 +317,6 @@ export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
             case AppConfig.BooleanValue:
             case AppConfig.Resource:
             case AppConfig.UriValue:
-            case AppConfig.IntervalValue:
                 this.comparisonOperators = [new Equals(), new NotEquals(), new Exists()];
                 break;
 
@@ -336,6 +335,7 @@ export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
             case AppConfig.MovingImageFileValue:
             case AppConfig.TextFileValue:
             case AppConfig.ColorValue:
+            case AppConfig.IntervalValue:
                 this.comparisonOperators = [new Exists()];
                 break;
 
