@@ -48,6 +48,9 @@
                           [standalone]="true"
                           [user]="data.user">
         </salsah-user-data>
+        <salsah-user-password *ngSwitchCase="'user'"
+                              [userIri]="data.userIri">
+        </salsah-user-password>
 
         <!-- create new / edit ontologies -->
         <salsah-ontology-form *ngSwitchCase="'ontology'"
