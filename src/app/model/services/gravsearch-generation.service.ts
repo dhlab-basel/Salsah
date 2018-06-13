@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {PropertyWithValue} from "../../view/modules/search/extended-search/select-property/select-property.component";
 import {Utils} from "../../utils";
-import {AppConfig} from "../../app.config";
+import {AppConfig, KnoraSchema} from '../../app.config';
 import {ExtendedSearchParams, SearchParamsService} from "./search-params.service";
 
 /**
@@ -109,7 +109,7 @@ export class GravsearchGenerationService {
                     propValue = `?propVal${index}`;
                 } else {
                     // it is a linking property and the comparison operator is not Exists, use its IRI
-                    propValue = propWithVal.valueLiteral.value.toSparql(false);
+                    propValue = propWithVal.valueLiteral.value.toSparql(KnoraSchema.simple);
                 }
 
                 // generate statement
@@ -144,13 +144,13 @@ export class GravsearchGenerationService {
 
                     if (propWithVal.valueLiteral.comparisonOperator.getClassName() == 'Like') {
                         // use regex function for LIKE
-                        filter = `FILTER regex(${propValue}, ${propWithVal.valueLiteral.value.toSparql(false)}, "i")`;
+                        filter = `FILTER regex(${propValue}, ${propWithVal.valueLiteral.value.toSparql(KnoraSchema.simple)}, "i")`;
                     } else if (propWithVal.valueLiteral.comparisonOperator.getClassName() == 'Match') {
                         // use contains function for MATCH
-                        filter = `FILTER <${AppConfig.matchFunction}>(${propValue}, ${propWithVal.valueLiteral.value.toSparql(false)})`;
+                        filter = `FILTER <${AppConfig.matchFunction}>(${propValue}, ${propWithVal.valueLiteral.value.toSparql(KnoraSchema.simple)})`;
                     } else {
                         // convert to simple schema (the type might be a complex knora-api:DateValue)
-                        filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.value.toSparql(true)})`;
+                        filter = `FILTER(${propValue} ${propWithVal.valueLiteral.comparisonOperator.type} ${propWithVal.valueLiteral.value.toSparql(KnoraSchema.simple)})`;
                     }
                 }
 

@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Property} from 'app/model/services/ontologycache.service';
-import {AppConfig} from "../../../../../../app.config";
+import {AppConfig, KnoraSchema} from '../../../../../../app.config';
 import {GravsearchGenerationService} from "../../../../../../model/services/gravsearch-generation.service";
 
 /**
@@ -157,10 +157,10 @@ export interface Value {
     /**
      * Turns the value into a SPARQL string representation.
      *
-     * @param convertTypeToSimpleSchema indicates whether the type should be converted to the knora-api simple schema.
+     * @param schema indicates the Knora schema to be used.
      * @returns {string} SPARQL representation of the value.
      */
-    toSparql(convertTypeToSimpleSchema: boolean): string;
+    toSparql(schema: KnoraSchema): string;
 
 }
 
@@ -182,18 +182,17 @@ export class ValueLiteral implements Value {
     /**
      * Creates a type annotated value literal to be used in a SPARQL query.
      *
-     * @param convertTypeToSimpleSchema indicates whether the type should be converted to the knora-api simple schema.
+     * @param schema indicates the Knora schema to be used.
      * @returns {string}
      */
-    public toSparql(convertTypeToSimpleSchema: boolean): string {
+    public toSparql(schema: KnoraSchema): string {
 
         let literalType: string;
 
-        // check if type is a complex knora-api type and has to be converted to simple
-        // this is necessary for knora-api:DateValue
-        // xsd types will be ignored
-        if (convertTypeToSimpleSchema && GravsearchGenerationService.typeConversionComplexToSimple[this.type] !== undefined) {
-            // convert to simple
+        // check if a Knora schema conversion is necessary, e.g., knora-api:dateValue (complex) to knora-api:date (simple).
+        // xsd types will remain unchanged
+        if (schema == KnoraSchema.simple && GravsearchGenerationService.typeConversionComplexToSimple[this.type] !== undefined) {
+            // convert to simple schema
             literalType = GravsearchGenerationService.typeConversionComplexToSimple[this.type];
         } else {
             // do not convert
@@ -221,10 +220,11 @@ export class IRI implements Value {
     /**
      * Creates a SPARQL representation of the IRI.
      *
-     * @param {boolean} convertTypeToSimpleSchema
+     * @param schema indicates the Knora schema to be used.
      * @returns {string}
      */
-    public toSparql(convertTypeToSimpleSchema: boolean): string {
+    public toSparql(schema: KnoraSchema): string {
+        // this is an instance Iri and does not have to be converted.
         return `<${this.iri}>`;
     }
 
