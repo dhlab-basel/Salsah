@@ -4,12 +4,12 @@ import {KnarqlgenerationService} from './knarqlgeneration.service';
 import {PropertyWithValue} from "../../view/modules/search/extended-search/select-property/select-property.component";
 import {Property} from "./ontologycache.service";
 import {
-    ComparisonOperatorAndValue, Equals, Like,
+    ComparisonOperatorAndValue, Equals, IRI, Like,
     ValueLiteral
-} from "../../view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component";
+} from '../../view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component';
 import {SearchParamsService} from "./search-params.service";
 
-fdescribe('KnarqlgenerationService', () => {
+describe('KnarqlgenerationService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [KnarqlgenerationService, SearchParamsService]
@@ -381,8 +381,59 @@ fdescribe('KnarqlgenerationService', () => {
         `;
 
         expect(knarql).toContain(expectedKnarql);
-        
 
+
+    }));
+
+    it('should create a KnarQL query string with a URI property matching a value', inject([KnarqlgenerationService], (service: KnarqlgenerationService) => {
+
+        const prop = new Property(
+            'http://0.0.0.0:3333/ontology/0801/beol/v2#hasAuthor',
+            'http://0.0.0.0:3333/ontology/0801/beol/v2#person',
+            'Author',
+            'Author',
+            ['http://api.knora.org/ontology/knora-api/v2#hasLinkTo'],
+            false,
+            true,
+            false
+        );
+
+        const value = new ComparisonOperatorAndValue(new Equals(), new IRI("http://rdfh.ch/biblio/QNWEqmjxQ9W-_hTwKlKP-Q"));
+
+        const propWithVal = new PropertyWithValue(prop, value, false);
+
+        const knarql = service.createKnarQLQuery([propWithVal], undefined, 0);
+
+        const expectedKnarql = `
+        PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
+        CONSTRUCT {
+        
+            ?mainRes knora-api:isMainResource true .
+            
+            ?mainRes <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#hasAuthor> <http://rdfh.ch/biblio/QNWEqmjxQ9W-_hTwKlKP-Q> .
+        
+        } WHERE { 
+        
+            ?mainRes a knora-api:Resource .
+            
+            
+            
+            
+                        ?mainRes <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#hasAuthor> <http://rdfh.ch/biblio/QNWEqmjxQ9W-_hTwKlKP-Q> .
+                        <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#hasAuthor> knora-api:objectType <http://api.knora.org/ontology/knora-api/simple/v2#Resource> .
+                        <http://rdfh.ch/biblio/QNWEqmjxQ9W-_hTwKlKP-Q> a <http://api.knora.org/ontology/knora-api/simple/v2#Resource> .
+                    
+                
+                
+            
+        }
+        
+        OFFSET 0
+        `;
+
+        expect(knarql).toContain(expectedKnarql);
+
+        console.log(knarql)
     }));
 
 
