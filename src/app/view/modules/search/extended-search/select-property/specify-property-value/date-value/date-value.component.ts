@@ -61,6 +61,6 @@ export class DateValueComponent implements OnInit, OnDestroy, PropertyValue {
 
         const dateString = `${calendarFormat.toUpperCase()}:${calendarPeriod.periodStart.year}-${calendarPeriod.periodStart.month}-${calendarPeriod.periodStart.day}:${calendarPeriod.periodEnd.year}-${calendarPeriod.periodEnd.month}-${calendarPeriod.periodEnd.day}`;
 
-        return new ValueLiteral(String(dateString), AppConfig.xsdString);
+        return new ValueLiteral(String(dateString), AppConfig.DateValue);
     }
 }

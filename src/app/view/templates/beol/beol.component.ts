@@ -440,9 +440,9 @@ export class BeolComponent implements OnInit {
 
     searchForBook(isbn: string, sectionTitle: string) {
 
-        const knarql: string = this._beol.searchForBook(isbn, sectionTitle);
+        const gravsearch: string = this._beol.searchForBook(isbn, sectionTitle);
 
-        this._searchService.doExtendedSearch(knarql).subscribe(
+        this._searchService.doExtendedSearch(gravsearch).subscribe(
             (result: ApiServiceResult) => {
 
                 let promises = jsonld.promises;
@@ -469,11 +469,10 @@ export class BeolComponent implements OnInit {
             }
         );
 
-        // this.submitQuery(knarql);
     }
 
     /**
-     * Generate KnarQL query to search for the correspondence between two persons.
+     * Generate Gravsearch query to search for the correspondence between two persons.
      *
      * @param {string} gnd1 GND of the first correspondent.
      * @param {string} gnd2 GND of the second correspondent.
@@ -481,19 +480,19 @@ export class BeolComponent implements OnInit {
      */
     searchForCorrespondence(gnd1: string, gnd2: string, noTranslations: boolean = false) {
 
-        const knarql: string = this._beol.searchForCorrespondence(gnd1, gnd2, noTranslations, 0);
+        const gravsearch: string = this._beol.searchForCorrespondence(gnd1, gnd2, noTranslations, 0);
 
-        this.submitQuery(knarql);
+        this.submitQuery(gravsearch);
     }
 
     /**
      * Show a correspondence between two persons.
      *
-     * @param {string} knarql the KnarQL query to be executed.
+     * @param {string} gravsearch the Gravsearch query to be executed.
      */
-    private submitQuery(knarql: string) {
+    private submitQuery(gravsearch: string) {
 
-        this._router.navigate(['/search/extended/', knarql], {relativeTo: this._route});
+        this._router.navigate(['/search/extended/', gravsearch], {relativeTo: this._route});
     }
 
 

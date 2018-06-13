@@ -143,7 +143,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
 import {FormTestComponent} from './view/test/development/form-test/form-test.component';
 import {UserDataComponent} from './view/modules/form/user-form/user-data/user-data.component';
 import {GndDirective} from './view/modules/other/gnd.directive';
-import {KnarqlgenerationService} from './model/services/knarqlgeneration.service';
+import {GravsearchGenerationService} from './model/services/gravsearch-generation.service';
 import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertiblecalendardateadapter';
 import {TextValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
 import {UriValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
@@ -349,7 +349,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         StatusMsgServiceService,
         AuthenticationService,
         FileService,
-        KnarqlgenerationService,
+        GravsearchGenerationService,
         BeolService,
         LanguageService,
         AngularFirestore,

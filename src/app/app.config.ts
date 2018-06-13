@@ -14,6 +14,14 @@
 
 import {environment} from '../environments/environment';
 
+/**
+ * Knora schemas
+ */
+export enum KnoraSchema {
+    complex = 0,
+    simple = 1
+}
+
 export class AppConfig {
 
     public static FileServer: string = environment.media;
