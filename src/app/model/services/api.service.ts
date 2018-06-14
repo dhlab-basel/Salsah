@@ -102,7 +102,7 @@ export class ApiService {
 
     httpGetV2(url: string, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
 
-        if (!options) options = {withCredentials: true};
+        options = this.appendToOptions(options);
 
         url = (url.slice(0, 4) === 'http' ? url : environment.api + '/v2' + url);
 
