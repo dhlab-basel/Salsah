@@ -30,6 +30,7 @@ export class UserPasswordComponent implements OnInit {
     // visibility of password
     showOldPassword: boolean = false;
     showNewPassword: boolean = false;
+    oldPswd: boolean = true;
 
     // in case of an API error
     errorMessage: any;
@@ -124,7 +125,7 @@ export class UserPasswordComponent implements OnInit {
     }
 
     /**
-     * toggel the visibility of the password
+     * toggle the visibility of the password
      */
     toggleVisibility(ev: Event, password: string) {
         ev.preventDefault();
@@ -136,6 +137,15 @@ export class UserPasswordComponent implements OnInit {
         }
 
     }
+
+    /**
+     *Save new password goes to the next div, to check sys admin password and then submit
+     */
+    savePswd(){
+        this.oldPswd = !this.oldPswd;
+    }
+
+
 
     /**
      *
@@ -165,6 +175,9 @@ export class UserPasswordComponent implements OnInit {
                 this.isLoading = false;
             }
         )
+
+        this.oldPswd = !this.oldPswd;
+
     }
 
 }
