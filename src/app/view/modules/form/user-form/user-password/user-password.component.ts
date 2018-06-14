@@ -46,7 +46,6 @@ export class UserPasswordComponent implements OnInit {
     };
 
     loggedInUser: any;
-    usrType: string = 'oldUser';
 
     // show the content after every service has loaded and the data is ready
     isLoading: boolean = true;
@@ -103,6 +102,7 @@ export class UserPasswordComponent implements OnInit {
 
         // get the user data only if a user is logged in
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+
 
     }
 
