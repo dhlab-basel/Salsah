@@ -45,6 +45,7 @@ export class UserPasswordComponent implements OnInit {
         statusText: 'You have successfully changed your password.'
     };
 
+    loggedInUser: any;
     usrType: string = 'oldUser';
 
     // show the content after every service has loaded and the data is ready
@@ -99,6 +100,9 @@ export class UserPasswordComponent implements OnInit {
         this.onValueChanged(); // (re)set validation messages now
 
         this.isLoading = false;
+
+        // get the user data only if a user is logged in
+        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
 
     }
 
