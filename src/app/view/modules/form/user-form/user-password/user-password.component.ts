@@ -5,14 +5,13 @@
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  * SALSAH is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * You should have received a copy of the GNU Affero General Public
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Form, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../../../app.config';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
 import {User} from '../../../../../model/webapi/knora';
@@ -52,6 +51,9 @@ export class UserPasswordComponent implements OnInit {
     isLoading: boolean = true;
 
     userPasswordForm: FormGroup;
+    newPasswordForm: FormGroup;
+    requesterPasswordForm: FormGroup;
+
 
     // error checking on the following fields
     formErrors = {
@@ -93,11 +95,34 @@ export class UserPasswordComponent implements OnInit {
 
             ])
         });
+        this.requesterPasswordForm = this._formBuilder.group({
+            'requesterPassword': new FormControl({
+                value: '', disabled: false
+            }, [
+                Validators.required
+            ])
+        });
+
+        this.newPasswordForm = this._formBuilder.group({
+            'newPassword': new FormControl({
+                value: '', disabled: false
+            }, [
+                Validators.required,
+                Validators.minLength(8),
+                Validators.pattern(AppConfig.RegexPassword)
+            ])
+        });
 
         this.userPasswordForm.valueChanges
-            .subscribe(data => this.onValueChanged(data));
+            .subscribe(data => this.onValueChanged(this.userPasswordForm, data));
+        this.newPasswordForm.valueChanges
+            .subscribe(data => this.onValueChanged(this.newPasswordForm, data));
+        this.requesterPasswordForm.valueChanges
+            .subscribe(data => this.onValueChanged(this.requesterPasswordForm, data));
 
-        this.onValueChanged(); // (re)set validation messages now
+        this.onValueChanged(this.userPasswordForm); // (re)set validation messages now
+        this.onValueChanged(this.newPasswordForm); // (re)set validation messages now
+        this.onValueChanged(this.requesterPasswordForm); // (re)set validation messages now
 
         this.isLoading = false;
 
@@ -107,9 +132,9 @@ export class UserPasswordComponent implements OnInit {
 
     }
 
-    onValueChanged(data?: any) {
+    onValueChanged(form: FormGroup, data?: any) {
 
-        const form = this.userPasswordForm;
+        // const form = this.userPasswordForm;
 
         Object.keys(this.formErrors).map(field => {
             this.formErrors[field] = '';
@@ -123,6 +148,7 @@ export class UserPasswordComponent implements OnInit {
             }
         });
     }
+
 
     /**
      * toggle the visibility of the password
@@ -179,5 +205,34 @@ export class UserPasswordComponent implements OnInit {
         this.oldPswd = !this.oldPswd;
 
     }
+    // submitSysAdminData(): void {
+    //     // reset old messages
+    //     this.oldPasswordIsWrong = false;
+    //
+    //     this.isLoading = true;
+    //
+    //     this._usersService.updateUser(this.userIri, this.requesterPasswordForm.value, this.newPasswordForm.value).subscribe(
+    //         (result: User) => {
+    //             console.log(result);
+    //             this.success = true;
+    //             this.isLoading = false;
+    //         },
+    //         (error: ApiServiceError) => {
+    //
+    //             if (error.status === 403) {
+    //                 // the old password is wrong
+    //                 this.oldPasswordIsWrong = true;
+    //                 this.success = false;
+    //             } else {
+    //                 this.errorMessage = error;
+    //             }
+    //
+    //             this.isLoading = false;
+    //         }
+    //     )
+    //
+    //     this.oldPswd = !this.oldPswd;
+    //
+    // }
 
 }
