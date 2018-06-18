@@ -14,6 +14,14 @@
 
 import {environment} from '../environments/environment';
 
+/**
+ * Knora schemas
+ */
+export enum KnoraSchema {
+    complex = 0,
+    simple = 1
+}
+
 export class AppConfig {
 
     public static FileServer: string = environment.media;
@@ -35,13 +43,6 @@ export class AppConfig {
 
     public static KnoraApiV2SimplePath: string = AppConfig.KnoraApi + '/simple/v2' + AppConfig.PathSeparator;
 
-    public static hasOntologies = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologies';
-    public static hasOntologiesWithClasses = AppConfig.KnoraApiV2WithValueObjectPath + 'hasOntologiesWithClasses';
-
-    public static hasClasses: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasClasses';
-
-    public static hasProperties: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasProperties';
-
     public static isEditable: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isEditable';
     public static isLinkProperty: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isLinkProperty';
     public static isLinkValueProperty: string = AppConfig.KnoraApiV2WithValueObjectPath + 'isLinkValueProperty';
@@ -49,6 +50,12 @@ export class AppConfig {
 
     public static ResourceIcon: string = AppConfig.KnoraApiV2WithValueObjectPath + 'resourceIcon';
 
+    public static RdfProperty: string = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Property';
+
+    public static OwlClass: string = 'http://www.w3.org/2002/07/owl#Class';
+    public static OwlObjectProperty: string = 'http://www.w3.org/2002/07/owl#ObjectProperty';
+    public static OwlDatatypeProperty: string = 'http://www.w3.org/2002/07/owl#DatatypeProperty';
+    public static OwlAnnotationProperty: string = 'http://www.w3.org/2002/07/owl#AnnotationProperty';
     public static OwlOnProperty: string = 'http://www.w3.org/2002/07/owl#onProperty';
     public static OwlMaxCardinality: string = 'http://www.w3.org/2002/07/owl#maxCardinality';
     public static OwlMinCardinality: string = 'http://www.w3.org/2002/07/owl#minCardinality';

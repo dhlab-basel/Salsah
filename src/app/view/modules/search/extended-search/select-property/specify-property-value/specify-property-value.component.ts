@@ -1,7 +1,8 @@
 import {Component, Inject, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Property} from 'app/model/services/ontologycache.service';
-import {AppConfig} from "../../../../../../app.config";
+import {AppConfig, KnoraSchema} from '../../../../../../app.config';
+import {GravsearchGenerationService} from "../../../../../../model/services/gravsearch-generation.service";
 
 /**
  * An abstract interface representing a comparison operator.
@@ -154,11 +155,12 @@ export class ComparisonOperatorAndValue {
 export interface Value {
 
     /**
-     * Turns the value into a Sparql string representation.
+     * Turns the value into a SPARQL string representation.
      *
-     * @returns {string}
+     * @param schema indicates the Knora schema to be used.
+     * @returns {string} SPARQL representation of the value.
      */
-    toSparql(): string;
+    toSparql(schema: KnoraSchema): string;
 
 }
 
@@ -180,10 +182,24 @@ export class ValueLiteral implements Value {
     /**
      * Creates a type annotated value literal to be used in a SPARQL query.
      *
+     * @param schema indicates the Knora schema to be used.
      * @returns {string}
      */
-    public toSparql(): string {
-        return `"${this.value}"^^<${this.type}>`;
+    public toSparql(schema: KnoraSchema): string {
+
+        let literalType: string;
+
+        // check if a Knora schema conversion is necessary, e.g., knora-api:dateValue (complex) to knora-api:date (simple).
+        // xsd types will remain unchanged
+        if (schema == KnoraSchema.simple && GravsearchGenerationService.typeConversionComplexToSimple[this.type] !== undefined) {
+            // convert to simple schema
+            literalType = GravsearchGenerationService.typeConversionComplexToSimple[this.type];
+        } else {
+            // do not convert
+            literalType = this.type;
+        }
+
+        return `"${this.value}"^^<${literalType}>`;
     }
 
 }
@@ -201,7 +217,14 @@ export class IRI implements Value {
     constructor(readonly iri: string) {
     };
 
-    public toSparql(): string {
+    /**
+     * Creates a SPARQL representation of the IRI.
+     *
+     * @param schema indicates the Knora schema to be used.
+     * @returns {string}
+     */
+    public toSparql(schema: KnoraSchema): string {
+        // this is an instance Iri and does not have to be converted.
         return `<${this.iri}>`;
     }
 
@@ -294,7 +317,6 @@ export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
             case AppConfig.BooleanValue:
             case AppConfig.Resource:
             case AppConfig.UriValue:
-            case AppConfig.IntervalValue:
                 this.comparisonOperators = [new Equals(), new NotEquals(), new Exists()];
                 break;
 
@@ -313,6 +335,7 @@ export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
             case AppConfig.MovingImageFileValue:
             case AppConfig.TextFileValue:
             case AppConfig.ColorValue:
+            case AppConfig.IntervalValue:
                 this.comparisonOperators = [new Exists()];
                 break;
 
