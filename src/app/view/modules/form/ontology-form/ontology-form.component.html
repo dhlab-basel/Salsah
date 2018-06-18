@@ -101,53 +101,53 @@
                 </split-area>
 
                 <!-- Step 1: Add new Ontology, by providing short name and label-->
-                <split-area>
-                    <form class="salsah-form new-user" [formGroup]="ontologyForm">
-                        <mat-expansion-panel [(expanded)]="panelOpenState">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    New Ontology
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <mat-input-container class="full-width">
-                                <input matInput
-                                       placeholder={{createOntologyLabels.label}}
-                                       formControlName="label">
-                            </mat-input-container>
-                            <mat-input-container class="full-width">
-                                <input matInput
-                                       placeholder={{createOntologyLabels.name}}
-                                       formControlName="name">
-                            </mat-input-container>
-                            <mat-action-row>
-                                <button mat-button
-                                        color="warn"
-                                        (click)="resetOntoInfo()">
-                                    {{createOntologyLabels.buttons.reset}}
-                                </button>
-                                <button mat-raised-button
-                                        class="save-button"
-                                        [color]="'primary'"
-                                        [disabled]="!ontologyForm.valid"
-                                        (click)="saveOntoInfo()">
-                                        <!--mat-dialog-close>-->
-                                    {{createOntologyLabels.buttons.save}}
-                                </button>
-                            </mat-action-row>
-                        </mat-expansion-panel>
-                        <div matTooltip="You can sort this list with drag and drop"
-                             dnd-sortable-container
-                             [sortableData]="newOntology">
-                            <mat-chip-list class="mat-chip-list-stacked" *ngIf="index>0">
-                                <p class="salsah-placeholder">Current Ontologies</p>
-                                <mat-chip *ngFor="let onto of newOntology; let i = index" dnd-sortable [sortableIndex]="i">
-                                    {{onto.label}}
-                                </mat-chip>
-                                <!--<mat-list-item *ngIf="ontologyResForm.get('resLabel').value">{{ontologyResForm.get('resLabel').value}}</mat-list-item>-->
-                            </mat-chip-list>
-                        </div>
-                    </form>
-                </split-area>
+                <!--<split-area>-->
+                    <!--<form class="salsah-form new-user" [formGroup]="ontologyForm">-->
+                        <!--<mat-expansion-panel [(expanded)]="panelOpenState">-->
+                            <!--<mat-expansion-panel-header>-->
+                                <!--<mat-panel-title>-->
+                                    <!--New Ontology-->
+                                <!--</mat-panel-title>-->
+                            <!--</mat-expansion-panel-header>-->
+                            <!--<mat-input-container class="full-width">-->
+                                <!--<input matInput-->
+                                       <!--placeholder={{createOntologyLabels.label}}-->
+                                       <!--formControlName="label">-->
+                            <!--</mat-input-container>-->
+                            <!--<mat-input-container class="full-width">-->
+                                <!--<input matInput-->
+                                       <!--placeholder={{createOntologyLabels.name}}-->
+                                       <!--formControlName="name">-->
+                            <!--</mat-input-container>-->
+                            <!--<mat-action-row>-->
+                                <!--<button mat-button-->
+                                        <!--color="warn"-->
+                                        <!--(click)="resetOntoInfo()">-->
+                                    <!--{{createOntologyLabels.buttons.reset}}-->
+                                <!--</button>-->
+                                <!--<button mat-raised-button-->
+                                        <!--class="save-button"-->
+                                        <!--[color]="'primary'"-->
+                                        <!--[disabled]="!ontologyForm.valid"-->
+                                        <!--(click)="saveOntoInfo()">-->
+                                        <!--&lt;!&ndash;mat-dialog-close>&ndash;&gt;-->
+                                    <!--{{createOntologyLabels.buttons.save}}-->
+                                <!--</button>-->
+                            <!--</mat-action-row>-->
+                        <!--</mat-expansion-panel>-->
+                        <!--<div matTooltip="You can sort this list with drag and drop"-->
+                             <!--dnd-sortable-container-->
+                             <!--[sortableData]="newOntology">-->
+                            <!--<mat-chip-list class="mat-chip-list-stacked" *ngIf="index>0">-->
+                                <!--<p class="salsah-placeholder">Current Ontologies</p>-->
+                                <!--<mat-chip *ngFor="let onto of newOntology; let i = index" dnd-sortable [sortableIndex]="i">-->
+                                    <!--{{onto.label}}-->
+                                <!--</mat-chip>-->
+                                <!--&lt;!&ndash;<mat-list-item *ngIf="ontologyResForm.get('resLabel').value">{{ontologyResForm.get('resLabel').value}}</mat-list-item>&ndash;&gt;-->
+                            <!--</mat-chip-list>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</split-area>-->
 
                 <!-- Step 3: Add properties-->
                 <split-area>
