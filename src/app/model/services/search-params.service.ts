@@ -3,17 +3,18 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 
 /**
- * Represents teh parameters of an extended search.
+ * Represents the parameters of an extended search.
  */
 export class ExtendedSearchParams {
 
     /**
      *
-     * @param generateKnarQL a function the generates KnarQL.
+     * @param generateGravsearch a function the generates Gravsearch.
+     * @param generateGravsearch a function the generates Gravsearch.
      *                       The function is expected to take the offset
-     *                       as a parameter and return a KnarQL query string.
+     *                       as a parameter and return a Gravsearch query string.
      */
-    constructor(public generateKnarQL: (offset: number) => string) {
+    constructor(public generateGravsearch: (offset: number) => string) {
 
     }
 

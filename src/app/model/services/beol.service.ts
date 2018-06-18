@@ -9,11 +9,11 @@ export class BeolService {
     }
 
     /**
-     * Given the ISBN, returns the KnarQL to search for the book.
+     * Given the ISBN, returns the Gravsearch to search for the book.
      *
      * @param {string} isbn the book's ISBN.
      * @param {string} sectionTitle the title to display describing the book.
-     * @returns {string} KnarQL query.
+     * @returns {string} Gravsearch query.
      */
     searchForBook(isbn: string, sectionTitle: string): string {
 
@@ -71,7 +71,7 @@ export class BeolService {
     }
 
     /**
-     * Creates the KnarQL needed for the search for the correspodence between two persons, ordered by date.
+     * Creates the Gravsearch needed for the search for the correspodence between two persons, ordered by date.
      *
      * @param {string} gnd1 the GND/IAF identifier for the first correspondent.
      * @param {string} gnd2 the GND/IAF identifier for the second correspondent.
@@ -163,13 +163,13 @@ export class BeolService {
     } ORDER BY ?date
 `;
 
-        // offset component of the KnarQL query
+        // offset component of the Gravsearch query
         const offsetTemplate = `
         OFFSET ${offset}
         `;
 
-        // function that generates the same KnarQL query with the given offset
-        let generateKnarQLWithCustomOffset = (localOffset: number): string => {
+        // function that generates the same Gravsearch query with the given offset
+        let generateGravsearchWithCustomOffset = (localOffset: number): string => {
             const offsetCustomTemplate = `
             OFFSET ${localOffset}
             `;
@@ -178,8 +178,8 @@ export class BeolService {
         };
 
         if (offset === 0) {
-            // store the function so another KnarQL query can be created with an increased offset
-            this._searchParamsService.changeSearchParamsMsg(new ExtendedSearchParams(generateKnarQLWithCustomOffset));
+            // store the function so another Gravsearch query can be created with an increased offset
+            this._searchParamsService.changeSearchParamsMsg(new ExtendedSearchParams(generateGravsearchWithCustomOffset));
         }
 
         // console.log(correspondenceTemplate + offsetTemplate);
@@ -192,26 +192,26 @@ export class BeolService {
      *
      * @param {string} repertoriumNumber the repertorium number to search for.
      * @param {boolean} originalLanguage indicates if the original language or the translation should be searched for.
-     * @returns {string} the KnarQL query.
+     * @returns {string} the Gravsearch query.
      */
     searchForLetterFromLEOO(repertoriumNumber: string): string {
 
         const letterByNumberTemplate: string = `
+        PREFIX beol: <${environment.apiExternal}/ontology/0801/beol/simple/v2#>
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
             ?letter knora-api:isMainResource true .
             
-            ?letter <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letterHasNumber> ?letterNumber .
         
         } WHERE { 
         
             ?letter a knora-api:Resource .
             
-            ?letter a <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letter> .
+            ?letter a beol:letter .
             
-            ?letter <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letterHasRepertoriumNumber> ?letterNumber .
-            <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#letterHasRepertoriumNumber> knora-api:objectType <http://www.w3.org/2001/XMLSchema#string> .
+            ?letter beol:letterHasRepertoriumNumber ?letterNumber .
+            beol:letterHasRepertoriumNumber knora-api:objectType <http://www.w3.org/2001/XMLSchema#string> .
             ?letterNumber a <http://www.w3.org/2001/XMLSchema#string> .
                     
             FILTER(?letterNumber = "${repertoriumNumber}"^^<http://www.w3.org/2001/XMLSchema#string>)

@@ -35,21 +35,9 @@ export class OntologyService extends ApiService {
      * @param ontologyIris the Iris of the named graphs whose resource classes are to be returned.
      * @returns {any}
      */
-    getAllEntityDefinitionsForOntologies(ontologyIris: string[]): Observable<ApiServiceResult> {
+    getAllEntityDefinitionsForOntologies(ontologyIri: string): Observable<ApiServiceResult> {
 
-        if (ontologyIris.length === 0) {
-            // no resource class Iris are given to query for, return a failed Observer
-            return Observable.create(observer => observer.error('No named graph Iris given for call of OntologyService.getAllEntityDefinitionsForOntologies'));
-        }
-
-        let namedGraphUriEnc = '';
-
-        ontologyIris.forEach(function (resClassIri) {
-            namedGraphUriEnc = namedGraphUriEnc + '/' + encodeURIComponent(resClassIri.toString())
-        });
-
-
-        return this.httpGetV2('/ontologies/allentities' + namedGraphUriEnc);
+        return this.httpGetV2('/ontologies/allentities/' + encodeURIComponent(ontologyIri));
 
     }
 
