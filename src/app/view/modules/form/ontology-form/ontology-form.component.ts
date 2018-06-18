@@ -17,6 +17,10 @@ import {BasicOntology, PropertyObject, ResourceClass} from '../../../../model/te
 import {FormBuilder, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
 import {ResourceTypeInfo} from "../../../../model/webapi/knora";
 import {PropertyItem} from "../../../../model/webapi/knora/v1/properties/property-item";
+import {AppConfig} from "../../../../app.config";
+import {ApiServiceResult} from '../../../../model/services/api-service-result';
+import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
+import {ApiServiceError} from "../../../../model/services/api-service-error";
 
 @Component({
     selector: 'salsah-ontology-form',
@@ -59,6 +63,9 @@ export class OntologyFormComponent implements OnInit {
     public ontologyResForm: FormGroup; // our model driven form
     public ontologyPropForm: FormGroup; // our model driven form
 
+    basicOntology: BasicOntology = new BasicOntology();
+    errorMessage: any;
+
     public index: any = 0;
     public rindex: any = 0;
     public pindex: any = 0;
@@ -67,16 +74,18 @@ export class OntologyFormComponent implements OnInit {
         label: 'Ontology label',
         name: 'Ontology short name',
         resource: {
-            label: 'Resource label',
-            name: 'Resource short name',
-            description: 'Resource description',
-            icon: 'Resource icon',
+            label: 'Label',
+            name: 'Short name',
+            description: 'Description',
+            type: 'Type',
+            icon: 'Icon',
         },
         addProp: {
-            select:'Select a property',
-            label: 'Property label',
-            name: 'Property short name',
-            description: 'Property description',
+            select: 'Select a property',
+            label: 'Label',
+            name: 'Short name',
+            type: 'Type'
+            description: 'Description',
             gui: 'GUI element',
             attributes: 'GUI attributes',
             id: 'Property ID',
@@ -131,9 +140,11 @@ export class OntologyFormComponent implements OnInit {
         'labels': '',
         'resName': '',
         'resLabel': '',
+        'resType': '',
         'resDescription': '',
         'propName': '',
         'propLabel': '',
+        'propType': '',
         'propDescription': '',
         'propGUItype': '',
         'propCardinality': ''
@@ -149,16 +160,24 @@ export class OntologyFormComponent implements OnInit {
             'required': 'Ontology label is required'
         },
         'resName': {
-            'required': 'Resource name is required'
+            'required': 'Resource name is required',
+            'maxlength': 'Short name cannot be more than 4 characters long.',
         },
         'resLabel': {
             'required': 'Resource label is required'
         },
+        'resType': {
+            'required': 'Resource type is required'
+        },
         'propName': {
-            'required': 'Property name is required'
+            'required': 'Property name is required',
+            'maxlength': 'Short name cannot be more than 4 characters long.',
         },
         'propLabel': {
             'required': 'Property label is required'
+        },
+        'propType': {
+            'required': 'Resource type is required'
         },
         'propGUItype': {
             'required': 'Property GUI type name is required'
@@ -186,13 +205,23 @@ export class OntologyFormComponent implements OnInit {
         gui: '',
         cardinality: ''
     }];
-    // newResource: ResourceClass[] = new ResourceClass();
-    // newProperty: PropertyItem = new PropertyItem;
-    // newResource: any;
-    // newProperty: any;
+
+    resClassTypes: any[] = [
+        'Empty Resource',
+        'Annotation',
+        'AudioRepresentation',
+        'DDDRepresentation',
+        'DocumentRepresentation',
+        'MovingImageRepresentation',
+        'StillImageRepresentation',
+        'TextRepresentation',
+        'LinkObj',
+        'Region',
+    ];
 
 
-    constructor(private _fb: FormBuilder) {
+    constructor(private _fb: FormBuilder,
+                private _basicOntologyService: BasicOntologyService) {
     }
 
     ngOnInit() {
@@ -200,6 +229,7 @@ export class OntologyFormComponent implements OnInit {
         this.buildOntologyForm();
         this.buildOntologyResForm();
         this.buildOntologyPropForm();
+        this.getBasicOntologyInfo();
     }
 
     buildOntologyForm() {
@@ -212,25 +242,69 @@ export class OntologyFormComponent implements OnInit {
         this.ontologyForm.valueChanges
             .subscribe(data => this.onValueChanged(this.ontologyForm, data));
     }
+
     buildOntologyResForm() {
         this.ontologyResForm = this._fb.group({
-            resName: ['', Validators.required],
-            resLabel: ['', Validators.required],
-            resIcon: '',
-            resDescription: '', //this is the short name (kind of an ID) of the ontology
+            resName: new FormControl({ //this is the resource's short name
+                value: '', disabled: false
+            }, [
+                Validators.required,
+                Validators.maxLength(4)
+            ]),
+            resLabel: new FormControl({ //this is the resource's label
+                value: '', disabled: false
+            }, [
+                Validators.required,
+            ]),
+            resType: new FormControl({
+                value: '', disabled: false
+            }, [
+                Validators.required
+            ]),
+            resIcon: new FormControl({
+                value: '', disabled: false
+            }),
+            resDescription: new FormControl({
+                value: '', disabled: false
+            }),
         });
 
         // validation messages
         this.ontologyResForm.valueChanges
             .subscribe(data => this.onValueChanged(this.ontologyResForm, data));
     }
+
     buildOntologyPropForm() {
         this.ontologyPropForm = this._fb.group({
-            propName: ['', Validators.required],
-            propLabel: ['', Validators.required],
-            propDescription: '',
-            propGUItype: ['', Validators.required],
-            propCardinality: ['', Validators.required],
+            propName: new FormControl({ //this is the property's short name
+                value: '', disabled: false
+            }, [
+                Validators.required,
+                Validators.maxLength(4)
+            ]),
+            propLabel: new FormControl({ //this is the property's label
+                value: '', disabled: false
+            }, [
+                Validators.required,
+            ]),
+            propType: new FormControl({
+                value: '', disabled: false
+            }, [
+                Validators.required
+            ]),
+            propGUItype: new FormControl({
+                value: '', disabled: false
+            }, [
+                Validators.required
+            ]),
+            propCardinality: new FormControl({
+                value: '', disabled: false
+            }, [
+                Validators.required
+            ]),
+            propDescription: new FormControl({
+                value: '', disabled: false
+            }),
         });
 
         // validation messages
@@ -258,28 +332,44 @@ export class OntologyFormComponent implements OnInit {
         }
     }
 
+    getBasicOntologyInfo() {
+        this._basicOntologyService.getBasicOntology()
+            .subscribe(
+                (result: ApiServiceResult) => {
+                    this.basicOntology = result.getBody(BasicOntology);
+                },
+                (error: ApiServiceError) => {
+                    this.errorMessage = <any>error;
+                }
+            );
+        console.log(this.basicOntology);
+    }
+
     //Form action buttons
-    resetOntoInfo(){
-        this.ontologyForm.reset();
-    }
-    saveOntoInfo(){
-        console.log('Your submitted ontology is:', this.ontologyForm.value);
-        const i = this.index;
-        //Assign the form values to newResource////////////
-        this.newOntology[i] = {
-            name: this.ontologyForm.value.name,
-            label: this.ontologyForm.value.label
-        };
-        ////////////////////////////////////////////////////
-        console.log('Your submitted resources are:', this.newOntology);
-        this.ontologyForm.reset();
-        this.panelOpenState = false;
-        this.index ++;
-    }
-    resetNewRes(){
+
+    // This part is obsolete, we won't add the ontology screen in the middle
+    // resetOntoInfo(){
+    //     this.ontologyForm.reset();
+    // }
+    // saveOntoInfo(){
+    //     console.log('Your submitted ontology is:', this.ontologyForm.value);
+    //     const i = this.index;
+    //     //Assign the form values to newResource////////////
+    //     this.newOntology[i] = {
+    //         name: this.ontologyForm.value.name,
+    //         label: this.ontologyForm.value.label
+    //     };
+    //     ////////////////////////////////////////////////////
+    //     console.log('Your submitted resources are:', this.newOntology);
+    //     this.ontologyForm.reset();
+    //     this.panelOpenState = false;
+    //     this.index ++;
+    // }
+    resetNewRes() {
         this.ontologyPropForm.reset();
     }
-    saveNewRes(){
+
+    saveNewRes() {
         console.log('Your submitted resource is:', this.ontologyResForm.value);
         const i = this.rindex;
         //Assign the form values to newResource////////////
@@ -287,25 +377,27 @@ export class OntologyFormComponent implements OnInit {
             name: this.ontologyResForm.value.resName,
             label: this.ontologyResForm.value.resLabel,
             icon: this.ontologyResForm.value.resIcon,
-            description : this.ontologyResForm.value.resDescription
+            description: this.ontologyResForm.value.resDescription
         };
         ////////////////////////////////////////////////////
         console.log('Your submitted resources are:', this.newResource);
         this.ontologyResForm.reset();
         this.resPanelOpenState = false;
-        this.rindex ++;
+        this.rindex++;
     }
-    resetNewProp(){
+
+    resetNewProp() {
         this.ontologyPropForm.reset();
     }
-    saveNewProp(){
+
+    saveNewProp() {
         console.log('Your submitted property is:', this.ontologyPropForm.value);
         const i = this.pindex;
         //Assign the form values to newResource////////////
         this.newProperty[i] = {
             name: this.ontologyPropForm.value.propName,
             label: this.ontologyPropForm.value.propLabel,
-            description : this.ontologyPropForm.value.propDescription,
+            description: this.ontologyPropForm.value.propDescription,
             gui: this.ontologyPropForm.value.propGUItype,
             cardinality: this.ontologyPropForm.value.propCardinality
         };
@@ -313,17 +405,17 @@ export class OntologyFormComponent implements OnInit {
         console.log('Your submitted properties are:', this.newProperty);
         this.ontologyPropForm.reset();
         this.propPanelOpenState = false;
-        this.pindex ++;
+        this.pindex++;
     }
 
     //////////Angular split-screen functions /////////////////////////////////////
     gutterClick(e: {gutterNum: number, sizes: Array<number>}) {
-        if(e.gutterNum === 1) {
-            if(this.areas[0].size > 0) {
+        if (e.gutterNum === 1) {
+            if (this.areas[0].size > 0) {
                 this.areas[1].size += this.areas[0].size;
                 this.areas[0].size = 0;
             }
-            else if(this.areas[1].size > 25) {
+            else if (this.areas[1].size > 25) {
                 this.areas[1].size -= 25;
                 this.areas[0].size = 25;
             }
@@ -333,12 +425,12 @@ export class OntologyFormComponent implements OnInit {
                 this.areas[2].size = 25;
             }
         }
-        else if(e.gutterNum === 2) {
-            if(this.areas[2].size > 0) {
+        else if (e.gutterNum === 2) {
+            if (this.areas[2].size > 0) {
                 this.areas[1].size += this.areas[2].size;
                 this.areas[2].size = 0;
             }
-            else if(this.areas[1].size > 25) {
+            else if (this.areas[1].size > 25) {
                 this.areas[1].size -= 25;
                 this.areas[2].size = 25;
             }
@@ -355,6 +447,7 @@ export class OntologyFormComponent implements OnInit {
         this.areas[1].size = e.sizes[1];
         this.areas[2].size = e.sizes[2];
     }
+
     ///////////////////////////////////////////////////////////////////////////////
 
 }

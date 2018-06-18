@@ -61,6 +61,15 @@
                                        name="name"
                                        formControlName="resName">
                             </mat-input-container>
+                            <mat-form-field class="full-width">
+                                <mat-select
+                                    placeholder={{createOntologyLabels.resource.type}}
+                                    formControlName="resType">
+                                    <mat-option *ngFor="let type of resClassTypes" [value]="type">
+                                        {{type}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                             <!-- resource description -->
                             <mat-input-container class="full-width">
                                 <textarea matInput
@@ -168,8 +177,14 @@
                             <mat-input-container class="full-width">
                                 <input matInput
                                        placeholder={{createOntologyLabels.addProp.name}}
-                                       name="label"
+                                       name="name"
                                        formControlName="propName">
+                            </mat-input-container>
+                            <mat-input-container class="full-width">
+                                <input matInput
+                                       placeholder={{createOntologyLabels.addProp.type}}
+                                       name="type"
+                                       formControlName="propType">
                             </mat-input-container>
                             <mat-form-field class="full-width">
                                         <textarea matInput
