@@ -84,7 +84,7 @@ export class OntologyFormComponent implements OnInit {
             select: 'Select a property',
             label: 'Label',
             name: 'Short name',
-            type: 'Type'
+            type: 'Type',
             description: 'Description',
             gui: 'GUI element',
             attributes: 'GUI attributes',
