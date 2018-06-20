@@ -97,10 +97,11 @@
                         <div matTooltip="You can sort this list with drag and drop"
                              dnd-sortable-container
                              [sortableData]="newResource">
-                            <mat-chip-list class="mat-chip-list-stacked" *ngIf="rindex>0">
+                            <mat-chip-list class="mat-chip-list-stacked" *ngIf="index>0">
                                 <p class="salsah-placeholder">Current Resource Classes</p>
                                 <mat-chip *ngFor="let res of newResource; let i = index" dnd-sortable [sortableIndex]="i">
                                     {{res.label}}
+                                    <mat-icon (click)="delRes(res)">close</mat-icon>git
                                 </mat-chip>
                                 <!--<mat-list-item *ngIf="ontologyResForm.get('resLabel').value">{{ontologyResForm.get('resLabel').value}}</mat-list-item>-->
                             </mat-chip-list>
@@ -237,6 +238,7 @@
                                 <p class="salsah-placeholder">Current Properties</p>
                                 <mat-chip *ngFor="let prop of newProperty; let k = index" dnd-sortable [sortableIndex]="k">
                                     {{prop.label}}
+                                    <mat-icon (click)="delProp(prop)">close</mat-icon>
                                 </mat-chip>
                                 <!--<mat-list-item *ngIf="ontologyResForm.get('resLabel').value">{{ontologyResForm.get('resLabel').value}}</mat-list-item>-->
                             </mat-chip-list>

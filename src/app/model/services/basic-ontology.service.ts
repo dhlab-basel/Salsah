@@ -32,9 +32,7 @@ export class BasicOntologyService extends ApiService {
     //     return this.httpGet(url + '/data/base-data/basic-ontology.json', {withCredentials: false});
     // }
     getBasicOntology(): Observable<any> {
-        let url = environment.url;
-        console.log(url, '/ontology/knora-api/v2');
-        return this.httpGetV2(url + '/ontology/knora-api/v2');
+        return this.httpGetBasicOnto('/ontology/knora-api/v2');
     }
 
 }

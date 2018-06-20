@@ -248,8 +248,8 @@ export class OntologyFormComponent implements OnInit {
             resName: new FormControl({ //this is the resource's short name
                 value: '', disabled: false
             }, [
-                Validators.required,
-                Validators.maxLength(4)
+                // Validators.required,
+                // Validators.maxLength(4)
             ]),
             resLabel: new FormControl({ //this is the resource's label
                 value: '', disabled: false
@@ -259,7 +259,7 @@ export class OntologyFormComponent implements OnInit {
             resType: new FormControl({
                 value: '', disabled: false
             }, [
-                Validators.required
+                // Validators.required
             ]),
             resIcon: new FormControl({
                 value: '', disabled: false
@@ -279,8 +279,8 @@ export class OntologyFormComponent implements OnInit {
             propName: new FormControl({ //this is the property's short name
                 value: '', disabled: false
             }, [
-                Validators.required,
-                Validators.maxLength(4)
+                // Validators.required,
+                // Validators.maxLength(4)
             ]),
             propLabel: new FormControl({ //this is the property's label
                 value: '', disabled: false
@@ -290,17 +290,17 @@ export class OntologyFormComponent implements OnInit {
             propType: new FormControl({
                 value: '', disabled: false
             }, [
-                Validators.required
+                // Validators.required
             ]),
             propGUItype: new FormControl({
                 value: '', disabled: false
             }, [
-                Validators.required
+                // Validators.required
             ]),
             propCardinality: new FormControl({
                 value: '', disabled: false
             }, [
-                Validators.required
+                // Validators.required
             ]),
             propDescription: new FormControl({
                 value: '', disabled: false
@@ -371,7 +371,7 @@ export class OntologyFormComponent implements OnInit {
 
     saveNewRes() {
         console.log('Your submitted resource is:', this.ontologyResForm.value);
-        const i = this.rindex;
+        const i = this.index;
         //Assign the form values to newResource////////////
         this.newResource[i] = {
             name: this.ontologyResForm.value.resName,
@@ -383,7 +383,7 @@ export class OntologyFormComponent implements OnInit {
         console.log('Your submitted resources are:', this.newResource);
         this.ontologyResForm.reset();
         this.resPanelOpenState = false;
-        this.rindex++;
+        this.index++;
     }
 
     resetNewProp() {
@@ -406,6 +406,17 @@ export class OntologyFormComponent implements OnInit {
         this.ontologyPropForm.reset();
         this.propPanelOpenState = false;
         this.pindex++;
+    }
+
+    delProp(item: any){
+        const index: number = this.newProperty.indexOf(item);
+        this.newProperty.splice(index, 1);
+        this.pindex--;
+    }
+    delRes(item: any){
+        const index: number = this.newResource.indexOf(item);
+        this.newResource.splice(index, 1);
+        this.index--;
     }
 
     //////////Angular split-screen functions /////////////////////////////////////
