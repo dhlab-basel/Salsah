@@ -54,6 +54,7 @@ export class UserPasswordComponent implements OnInit {
     newPasswordForm: FormGroup;
     requesterPasswordForm: FormGroup;
 
+    pswdData: any = {};
 
     // error checking on the following fields
     formErrors = {
@@ -167,10 +168,9 @@ export class UserPasswordComponent implements OnInit {
     /**
      *Save new password goes to the next div, to check sys admin password and then submit
      */
-    savePswd(){
+    savePswd() {
         this.oldPswd = !this.oldPswd;
     }
-
 
 
     /**
@@ -183,6 +183,46 @@ export class UserPasswordComponent implements OnInit {
         this.isLoading = true;
 
         this._usersService.updateUser(this.userIri, this.userPasswordForm.value).subscribe(
+            (result: User) => {
+                console.log(this.userPasswordForm.value);
+                this.success = true;
+                this.isLoading = false;
+            },
+            (error: ApiServiceError) => {
+
+                if (error.status === 403) {
+                    // the old password is wrong
+                    this.oldPasswordIsWrong = true;
+                    this.success = false;
+                } else {
+                    this.errorMessage = error;
+                }
+
+                this.isLoading = false;
+            }
+        )
+
+        this.oldPswd = !this.oldPswd;
+
+    }
+
+    submitSysAdminData(): void {
+        // reset old messages
+        this.oldPasswordIsWrong = false;
+
+        this.isLoading = true;
+
+        const requesterPassword = this.requesterPasswordForm.value.requesterPassword;
+        const newPassword = this.newPasswordForm.value.newPassword;
+
+        this.pswdData = {
+            requesterPassword,
+            newPassword
+        };
+
+        console.log(this.requesterPasswordForm.value);
+        console.log(this.pswdData);
+        this._usersService.updateUser(this.userIri, this.pswdData).subscribe(
             (result: User) => {
                 console.log(result);
                 this.success = true;
@@ -205,34 +245,5 @@ export class UserPasswordComponent implements OnInit {
         this.oldPswd = !this.oldPswd;
 
     }
-    // submitSysAdminData(): void {
-    //     // reset old messages
-    //     this.oldPasswordIsWrong = false;
-    //
-    //     this.isLoading = true;
-    //
-    //     this._usersService.updateUsersPassword(this.userIri, this.requesterPasswordForm.value, this.newPasswordForm.value).subscribe(
-    //         (result: User) => {
-    //             console.log(result);
-    //             this.success = true;
-    //             this.isLoading = false;
-    //         },
-    //         (error: ApiServiceError) => {
-    //
-    //             if (error.status === 403) {
-    //                 // the old password is wrong
-    //                 this.oldPasswordIsWrong = true;
-    //                 this.success = false;
-    //             } else {
-    //                 this.errorMessage = error;
-    //             }
-    //
-    //             this.isLoading = false;
-    //         }
-    //     )
-    //
-    //     this.oldPswd = !this.oldPswd;
-    //
-    // }
 
 }
