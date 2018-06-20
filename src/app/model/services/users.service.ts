@@ -276,6 +276,14 @@ export class UsersService extends ApiService {
         );
     }
 
+    updateUsersPassword(userIri: string, requesterPassword: string, newPassword: string): Observable<User> {
+        const data = {
+            newPassword: newPassword,
+            requesterPassword: requesterPassword
+        };
+        return this.updateUser(userIri, data);
+    }
+
     updateUser(iri: string, data: any): Observable<User> {
 
         return this.httpPut('/admin/users/' + encodeURIComponent(iri), data, {}).map(

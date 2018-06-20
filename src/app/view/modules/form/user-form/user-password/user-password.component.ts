@@ -211,7 +211,7 @@ export class UserPasswordComponent implements OnInit {
     //
     //     this.isLoading = true;
     //
-    //     this._usersService.updateUser(this.userIri, this.requesterPasswordForm.value, this.newPasswordForm.value).subscribe(
+    //     this._usersService.updateUsersPassword(this.userIri, this.requesterPasswordForm.value, this.newPasswordForm.value).subscribe(
     //         (result: User) => {
     //             console.log(result);
     //             this.success = true;
