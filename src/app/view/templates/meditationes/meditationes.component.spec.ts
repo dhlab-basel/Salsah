@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MeditationesComponent } from './meditationes.component';
+import {StillImageOSDViewerComponent} from '../../properties/still-image-osdviewer/still-image-osdviewer.component';
+import {OntologyInformation} from '../../../model/services/ontologycache.service';
+import {AppModule} from '../../../app.module';
 
 describe('MeditationesComponent', () => {
   let component: MeditationesComponent;
@@ -8,7 +11,9 @@ describe('MeditationesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MeditationesComponent ]
+        imports: [ AppModule ],
+        declarations: [],
+
     })
     .compileComponents();
   }));
