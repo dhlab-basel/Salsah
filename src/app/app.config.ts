@@ -119,6 +119,7 @@ export class AppConfig {
     public static textValueHasMapping: string = AppConfig.KnoraApiV2WithValueObjectPath + 'textValueHasMapping';
 
     public static hasStandoffLinkToValue: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasStandoffLinkToValue';
+    public static hasIncomingLink: string = AppConfig.KnoraApiV2WithValueObjectPath + 'hasIncomingLink';
 
     public static dateValueHasStartYear: string = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasStartYear';
     public static dateValueHasEndYear: string = AppConfig.KnoraApiV2WithValueObjectPath + 'dateValueHasEndYear';

@@ -1,0 +1,11 @@
+<div class="salsah-module without-header">
+
+    <!-- https://angular.io/guide/template-syntax#expression-operators -->
+    <salsah-still-image-osdviewer #OSDViewer
+                                  *ngIf="page?.stillImageRepresentationsToDisplay.length > 0" [images]="page?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="0" [imageChangeInterval]="1" (regionHovered)="handleRegionHover($event)">
+    </salsah-still-image-osdviewer>
+
+    <read-text-value-as-html *ngIf="transcription !== undefined" [valueObject]="transcription" [ontologyInfo]="ontologyInfo" [bindEvents]="true"></read-text-value-as-html>
+
+</div>
+

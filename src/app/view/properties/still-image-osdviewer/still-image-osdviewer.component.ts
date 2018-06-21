@@ -104,6 +104,7 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
     @Input() imageChangeInterval: number; // the size of the interval when displaying more images of this.images
 
     @Output() getImages = new EventEmitter<RequestStillImageRepresentations>(); // sends a message to the parent component (object.component) to load the next or previous page of results (images) from the server
+    @Output() regionHovered = new EventEmitter<string>();
 
     private viewer;
 
@@ -378,7 +379,7 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
 
                 for (let geometryValue of region.getGeometries()) {
                     let geometry = geometryValue.geometry;
-                    this.createSVGOverlay(geometry, aspectRatio, imageXOffset, region.regionResource.label);
+                    this.createSVGOverlay(region.regionResource.id, geometry, aspectRatio, imageXOffset, region.regionResource.label);
                 }
             }
 
@@ -389,12 +390,14 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
 
     /**
      * Creates and adds a ROI-overlay to the viewer
+     * @param {string} regionIri the Iri of the region.
      * @param {RegionGeometry} geometry - the geometry describing the ROI
      * @param {number} aspectRatio -  the aspectRatio (h/w) of the image on which the geometry should be placed
      * @param {number} xOffset -  the x-offset in Openseadragon viewport coordinates of the image on which the geometry should be placed
      * @param {string} toolTip -  the tooltip which should be displayed on mousehover of the svg element
      */
-    private createSVGOverlay(geometry: RegionGeometry, aspectRatio: number, xOffset: number, toolTip: string): void {
+    private createSVGOverlay(regionIri: string, geometry: RegionGeometry, aspectRatio: number, xOffset: number, toolTip: string): void {
+
         let lineColor = geometry.lineColor;
         let lineWidth = geometry.lineWidth;
 
@@ -419,6 +422,12 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
         svgElement.id = "roi-svgoverlay-" + Math.random() * 10000;
         svgElement.setAttribute("class", "roi-svgoverlay");
         svgElement.setAttribute("style", "stroke: " + lineColor + "; stroke-width: " + lineWidth + "px;");
+
+        // event when a region is hovered (output)
+        svgElement.addEventListener('mouseover', () => {
+                this.regionHovered.emit(regionIri);
+            },
+            false);
 
         let svgTitle = document.createElementNS('http://www.w3.org/2000/svg', 'title');
         svgTitle.textContent = toolTip;

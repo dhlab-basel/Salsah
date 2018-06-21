@@ -40,7 +40,6 @@ import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologi
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
-import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
 import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
 import {FormTestComponent} from './view/test/development/form-test/form-test.component';
 import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
@@ -49,6 +48,7 @@ import {DialogTestComponent} from './view/test/development/dialog-test/dialog-te
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
 import {LeooComponent} from './view/templates/leoo/leoo.component';
 import {ObjectViewerComponent} from './view/modules/object/object-viewer/object-viewer.component';
+import {MeditationesComponent} from './view/templates/meditationes/meditationes.component';
 
 
 const appRoutes: Routes = [
@@ -220,6 +220,10 @@ const appRoutes: Routes = [
     { // path to specific component for the BEOL project
         path: 'leoo/:rn',
         component: LeooComponent
+    },
+    { // path to specific component for the BEOL project
+        path: 'meditationes/:pageid',
+        component: MeditationesComponent
     },
     {
         path: '**',

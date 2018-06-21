@@ -23,7 +23,19 @@ import {OntologyInformation} from '../../../model/services/ontologycache.service
 })
 export class ReadTextValueAsHtmlComponent implements OnInit {
 
-    @Input() valueObject: ReadTextValueAsHtml;
+    @Input()
+    // setter method for resource classes when being updated by parent component
+    set valueObject(value: ReadTextValueAsHtml) {
+        this._valueObject = value;
+    }
+
+    // getter method for resource classes (used in template)
+    get valueObject() {
+        return this._valueObject;
+    }
+
+    private _valueObject: ReadTextValueAsHtml;
+
     @Input() ontologyInfo: OntologyInformation;
     @Input('bindEvents') bindEvents: Boolean; // indicates if click and mouseover events have to be bound
 
@@ -32,8 +44,7 @@ export class ReadTextValueAsHtmlComponent implements OnInit {
 
     ngOnInit() {
 
-        // console.log(this.valueObject);
-
     }
+
 
 }

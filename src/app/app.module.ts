@@ -171,6 +171,7 @@ import { SortButtonComponent } from './view/modules/action/sort-button/sort-butt
 import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
 import { LeooComponent } from './view/templates/leoo/leoo.component';
 import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
+import { MeditationesComponent } from './view/templates/meditationes/meditationes.component';
 
 //
 // import all needed services
@@ -298,7 +299,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         SortButtonComponent,
         ProgressIndicatorComponent,
         LeooComponent,
-        ObjectViewerComponent
+        ObjectViewerComponent,
+        MeditationesComponent
     ],
     imports: [
         BrowserModule,
