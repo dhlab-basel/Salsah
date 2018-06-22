@@ -41,7 +41,7 @@
             height="1000">
 
                 <split-area>
-                    <!-- Step 2: Define your new resource: name it, describe it and set the permissions for the whole resource -->
+                    <!-- Step 2: Define your new resource: name it, describe it and set the resource type-->
                     <form class="salsah-form new-user" [formGroup]="ontologyResForm">
                         <mat-expansion-panel [(expanded)]="resPanelOpenState">
                             <mat-expansion-panel-header>
@@ -100,6 +100,7 @@
                             <mat-chip-list class="mat-chip-list-stacked" *ngIf="index>0">
                                 <p class="salsah-placeholder">Current Resource Classes</p>
                                 <mat-chip color="primary"
+                                          selected="true"
                                           *ngFor="let res of newResource; let i = index"
                                           dnd-sortable
                                           [sortableIndex]="i">
@@ -240,6 +241,7 @@
                             <mat-chip-list class="mat-chip-list-stacked" *ngIf="pindex>0">
                                 <p class="salsah-placeholder">Current Properties</p>
                                 <mat-chip color="accent"
+                                          selected="true"
                                           *ngFor="let prop of newProperty; let k = index"
                                           dnd-sortable
                                           [sortableIndex]="k">
