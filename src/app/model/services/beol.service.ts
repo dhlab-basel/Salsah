@@ -227,11 +227,16 @@ export class BeolService {
     /**
      * Given the Iri of a page, gets its regions and related transcriptions.
      *
-     * @param {string} pageIri the Iri of the page.
+     * @param {string} sequenceNumber the sequence number of the page.
      * @param {number} offset the offset to be used in the Gravsearch query.
      * @returns {string} Gravsearch query.
      */
-    getRegionsWithTranscritionsForPage(pageIri: string, offset: number): string {
+    getRegionsWithTranscritionsForPage(sequenceNumber: number, offset: number): string {
+
+        if (sequenceNumber < 1) {
+            console.log(`sequence number must not be smaller than 1, but ${sequenceNumber} given.`);
+            sequenceNumber = 1;
+        }
 
         const regionsWithTranscriptionTemplate = `
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
@@ -253,10 +258,15 @@ export class BeolService {
           ?transcription beol:transcriptionOf ?region .
         
           ?transcription beol:hasText ?text .
-      } WHERE {
-           BIND(<${pageIri}> as ?page)	
+      } WHERE {	
         
           ?page a beol:page .
+          
+          ?page beol:seqnum ?seqnum .
+          FILTER(?seqnum = ${sequenceNumber})
+          
+          # Meditationes
+          ?page beol:partOf <http://data.knora.org/HSmk8KWbQjy6YCqnBrwYgA> .
           
           ?page knora-api:hasStillImageFile ?image .
         

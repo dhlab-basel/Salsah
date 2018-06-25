@@ -28,7 +28,7 @@ let jsonld = require('jsonld');
 })
 export class MeditationesComponent implements OnInit {
 
-    private pageIri: string;
+    private seqnum: string;
 
     page: ReadResource;
     regions: ImageRegion[] = [];
@@ -48,10 +48,10 @@ export class MeditationesComponent implements OnInit {
 
         this._route.params.subscribe((params: Params) => {
 
-            this.pageIri = params['pageid'];
+            this.seqnum = params['seqnum'];
 
             // create a query that gets the regions and transcriptions for the given page
-            const query: string = this._beolService.getRegionsWithTranscritionsForPage(this.pageIri, 0);
+            const query: string = this._beolService.getRegionsWithTranscritionsForPage(this.seqnum, 0);
 
             this._searchService.doExtendedSearch(query).subscribe(
                 (result: ApiServiceResult) => {
@@ -99,7 +99,7 @@ export class MeditationesComponent implements OnInit {
                                 //  console.log(pageTmp);
 
                             } else {
-                                console.log('no image or incoming regions found for ' + this.pageIri);
+                                console.log('no image or incoming regions found for ' + this.seqnum);
                             }
 
                         }

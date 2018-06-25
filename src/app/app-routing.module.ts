@@ -222,7 +222,7 @@ const appRoutes: Routes = [
         component: LeooComponent
     },
     { // path to specific component for the BEOL project
-        path: 'meditationes/:pageid',
+        path: 'meditationes/:seqnum',
         component: MeditationesComponent
     },
     {
