@@ -51,7 +51,7 @@ export class MeditationesComponent implements OnInit {
             this.seqnum = params['seqnum'];
 
             // create a query that gets the regions and transcriptions for the given page
-            const query: string = this._beolService.getRegionsWithTranscritionsForPage(this.seqnum, 0);
+            const query: string = this._beolService.getRegionsWithTranscritionsForPage(parseInt(this.seqnum), 0);
 
             this._searchService.doExtendedSearch(query).subscribe(
                 (result: ApiServiceResult) => {
