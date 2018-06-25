@@ -254,7 +254,7 @@ export class BeolService {
         
           ?transcription beol:hasText ?text .
       } WHERE {
-           BIND(IRI("${pageIri}") as ?page)	
+           BIND(<${pageIri}> as ?page)	
         
           ?page a beol:page .
           

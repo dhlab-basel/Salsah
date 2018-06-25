@@ -96,7 +96,7 @@ export class MeditationesComponent implements OnInit {
 
                                 this.page = pageTmp;
 
-                                // console.log(pageTmp);
+                                //  console.log(pageTmp);
 
                             } else {
                                 console.log('no image or incoming regions found for ' + this.pageIri);
