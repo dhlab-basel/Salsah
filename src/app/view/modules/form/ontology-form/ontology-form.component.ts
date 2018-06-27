@@ -53,13 +53,11 @@ export class OntologyFormComponent implements OnInit {
 
     useTransition: boolean = true;
     areas = [
-        {size: 20, order: 1, content: 'Ontologies'},
         {size: 40, order: 2, content: 'Resource Classes'},
         {size: 40, order: 3, content: 'Properties'},
     ]
 
     // result to send to the server
-    public ontologyForm: FormGroup; // our model driven form
     public ontologyResForm: FormGroup; // our model driven form
     public ontologyPropForm: FormGroup; // our model driven form
 
@@ -226,21 +224,9 @@ export class OntologyFormComponent implements OnInit {
 
     ngOnInit() {
         this.isLoading = false;
-        this.buildOntologyForm();
         this.buildOntologyResForm();
         this.buildOntologyPropForm();
         this.getBasicOntologyInfo();
-    }
-
-    buildOntologyForm() {
-        this.ontologyForm = this._fb.group({
-            name: ['', Validators.required], //this is the short name (kind of an ID) of the ontology
-            label: ['', Validators.required], //this is the long name of the ontology
-        });
-
-        // validation messages
-        this.ontologyForm.valueChanges
-            .subscribe(data => this.onValueChanged(this.ontologyForm, data));
     }
 
     buildOntologyResForm() {
@@ -347,24 +333,6 @@ export class OntologyFormComponent implements OnInit {
 
     //Form action buttons
 
-    // This part is obsolete, we won't add the ontology screen in the middle
-    // resetOntoInfo(){
-    //     this.ontologyForm.reset();
-    // }
-    // saveOntoInfo(){
-    //     console.log('Your submitted ontology is:', this.ontologyForm.value);
-    //     const i = this.index;
-    //     //Assign the form values to newResource////////////
-    //     this.newOntology[i] = {
-    //         name: this.ontologyForm.value.name,
-    //         label: this.ontologyForm.value.label
-    //     };
-    //     ////////////////////////////////////////////////////
-    //     console.log('Your submitted resources are:', this.newOntology);
-    //     this.ontologyForm.reset();
-    //     this.panelOpenState = false;
-    //     this.index ++;
-    // }
     resetNewRes() {
         this.ontologyPropForm.reset();
     }
