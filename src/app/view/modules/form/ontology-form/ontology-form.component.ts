@@ -300,7 +300,7 @@ export class OntologyFormComponent implements OnInit {
 
     // build form validation messages
     onValueChanged(myForm: FormGroup, data?: any) {
-        if (!this.ontologyForm) {
+        if (!myForm) {
             return;
         }
         // const form = this.ontologyForm;
