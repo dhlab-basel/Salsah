@@ -35,5 +35,13 @@ export const environment = {
         projectId: "test-5034c",
         storageBucket: "test-5034c.appspot.com",
         messagingSenderId: "44326559957"
+    },
+    tei: {
+        letter: {
+            textProperty: "http://0.0.0.0:3333/ontology/0801/beol/v2#hasText",
+            mappingIri: "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF/mappings/BEOLTEIMapping",
+            gravsearchTemplateIri: "http://rdfh.ch/0801/-01Eb9DcSRqCSwMgGBFDeg",
+            teiHeaderXSLTIri: "http://rdfh.ch/0801/bCLmpGF3QTSf0E5JX_38kw"
+        }
     }
 };
