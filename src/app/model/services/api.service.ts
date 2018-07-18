@@ -12,15 +12,16 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+
+import {throwError as observableThrowError, Observable} from 'rxjs';
 import {Http, RequestOptionsArgs, Response, Headers} from '@angular/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../environments/environment';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+
+
+
 
 @Injectable()
 export class ApiService {
@@ -96,7 +97,7 @@ export class ApiService {
                 return ApiService.handleError(response, url);
             }
         }).catch((error: any) => {
-            return Observable.throw(ApiService.handleError(error, url));
+            return observableThrowError(ApiService.handleError(error, url));
         });
     }
 
@@ -118,7 +119,7 @@ export class ApiService {
                 return ApiService.handleError(response, url);
             }
         }).catch((error: any) => {
-            return Observable.throw(ApiService.handleError(error, url));
+            return observableThrowError(ApiService.handleError(error, url));
         });
     }
 
@@ -150,7 +151,7 @@ export class ApiService {
                 return ApiService.handleError(response, url);
             }
         }).catch((error: any) => {
-            return Observable.throw(ApiService.handleError(error, url));
+            return observableThrowError(ApiService.handleError(error, url));
         });
     }
 
@@ -180,7 +181,7 @@ export class ApiService {
                 return ApiService.handleError(response, url);
             }
         }).catch((error: any) => {
-            return Observable.throw(ApiService.handleError(error, url));
+            return observableThrowError(ApiService.handleError(error, url));
         });
     }
 
@@ -206,7 +207,7 @@ export class ApiService {
                 return ApiService.handleError(response, url);
             }
         }).catch((error: any) => {
-            return Observable.throw(ApiService.handleError(error, url));
+            return observableThrowError(ApiService.handleError(error, url));
         });
     }
 

@@ -14,7 +14,7 @@
  */
 
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
 import {ApiService} from './api.service';

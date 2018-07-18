@@ -13,9 +13,8 @@
 
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
+import {Observable} from 'rxjs';
+import {startWith, map} from 'rxjs/operators';
 
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 

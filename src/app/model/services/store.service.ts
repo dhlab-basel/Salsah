@@ -13,7 +13,7 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {RdfDataObject, ResetTriplestoreContentResponse} from '../webapi/knora/admin';
 import {environment} from '../../../environments/environment';

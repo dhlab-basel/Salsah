@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Group, GroupsResponse} from '../webapi/knora';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ApiService} from './api.service';
 import {GroupResponse} from '../webapi/knora/admin';
 

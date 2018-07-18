@@ -27,7 +27,7 @@ import {User} from '../../../../model/webapi/knora';
 
 import {LanguageService} from '../../../../model/services/language.service';
 import {TranslateService} from '@ngx-translate/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 
 @Component({

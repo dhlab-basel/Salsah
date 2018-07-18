@@ -13,7 +13,7 @@
  * */
 
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {User, UserResponse, UsersResponse} from '../webapi/knora';
 import {ApiServiceError} from './api-service-error';
 import {ApiServiceResult} from './api-service-result';

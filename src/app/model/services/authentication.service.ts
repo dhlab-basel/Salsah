@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {User} from '../webapi/knora/admin';
 import {CurrentUser} from '../webapi/knora/admin/authentication/current-user';
 import {ApiService} from './api.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ApiServiceResult} from './api-service-result';
 import {ApiServiceError} from './api-service-error';
 import {Http} from '@angular/http';

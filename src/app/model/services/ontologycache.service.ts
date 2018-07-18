@@ -1,15 +1,10 @@
+
+import {of as observableOf, Observable, forkJoin} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {OntologyService} from './ontology.service';
 import {ApiServiceResult} from './api-service-result';
-import {Observable} from 'rxjs/Observable';
 import {AppConfig} from '../../app.config';
 import {Utils} from '../../utils';
-
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
-import {forkJoin} from 'rxjs/observable/forkJoin';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -730,7 +725,7 @@ export class OntologyCacheService {
                 }
             )
         } else {
-            return Observable.of(this.getAllOntologiesMetadataFromCache());
+            return observableOf(this.getAllOntologiesMetadataFromCache());
         }
 
     }
@@ -870,7 +865,7 @@ export class OntologyCacheService {
                 }
             );
         } else {
-            return Observable.of(this.getPropertyDefinitionsFromCache(propertyIris));
+            return observableOf(this.getPropertyDefinitionsFromCache(propertyIris));
         }
     }
 }

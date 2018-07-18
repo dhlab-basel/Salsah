@@ -14,7 +14,7 @@
 
 import {Injectable} from '@angular/core';
 import {ApiService} from './api.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Project, ProjectResponse} from '../webapi/knora';
 import {ApiServiceResult} from './api-service-result';
 import {ApiServiceError} from './api-service-error';

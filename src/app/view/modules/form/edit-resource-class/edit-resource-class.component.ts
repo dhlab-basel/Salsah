@@ -19,8 +19,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
+
+
 import {
     Project,
     Properties,

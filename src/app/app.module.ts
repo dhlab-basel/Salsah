@@ -37,6 +37,7 @@ import {IncomingService} from './model/services/incoming.service';
 import {UsersService} from './model/services/users.service';
 //
 // import all npm salsah modules
+import {KuiCoreConfig, KuiCoreModule} from '@knora/core';
 //
 // just to get the basic ontology form the json file
 import {BasicOntologyService} from './model/services/basic-ontology.service';
@@ -302,6 +303,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ],
     imports: [
         BrowserModule,
+        KuiCoreModule.forRoot({
+            name: environment.name,
+            api: environment.api,
+            media: environment.media,
+            app: environment.app
+        }),
         HttpClientModule,
         FormsModule,
         HttpModule,
