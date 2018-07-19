@@ -13,8 +13,8 @@
  * */
 
 import {Component, EventEmitter, Input, OnInit, Output, OnDestroy} from '@angular/core';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {UsersService} from '../../../../model/services/users.service';
+import {ProjectsService} from '@knora/core';
+import {UsersService} from '@knora/core';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 
 import {MessageData} from '../../message/message.component';

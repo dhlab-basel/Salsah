@@ -16,7 +16,7 @@ import {AppConfig} from '../../../../../app.config';
 import {User} from '../../../../../model/webapi/knora';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
-import {UsersService} from '../../../../../model/services/users.service';
+import {UsersService} from '@knora/core';
 
 @Component({
     selector: 'salsah-user-data',

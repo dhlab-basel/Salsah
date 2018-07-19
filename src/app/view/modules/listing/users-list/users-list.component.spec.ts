@@ -1,8 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {UsersListComponent} from './users-list.component';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {UsersService} from '../../../../model/services/users.service';
+import {ProjectsService} from '@knora/core';
+import {UsersService} from '@knora/core';
 
 describe('UsersListComponent', () => {
     let component: UsersListComponent;

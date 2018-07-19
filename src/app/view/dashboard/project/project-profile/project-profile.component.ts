@@ -15,7 +15,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ProjectsService} from '../../../../model/services/projects.service';
+import {ProjectsService} from '@knora/core';
 import {Project} from '../../../../model/webapi/knora';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../../modules/dialog/form-dialog/form-dialog.component';

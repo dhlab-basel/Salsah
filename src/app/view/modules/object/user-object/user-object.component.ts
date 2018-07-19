@@ -14,7 +14,7 @@
 
 import {Component, Input, OnChanges} from '@angular/core';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {UsersService} from '../../../../model/services/users.service';
+import {UsersService} from '@knora/core';
 import {Project, User} from '../../../../model/webapi/knora/';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';

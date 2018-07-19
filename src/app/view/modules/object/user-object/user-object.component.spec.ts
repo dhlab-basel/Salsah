@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {UserObjectComponent} from './user-object.component';
-import {UsersService} from '../../../../model/services/users.service';
+import {UsersService} from '@knora/core';
 
 describe('UserObjectComponent', () => {
     let component: UserObjectComponent;

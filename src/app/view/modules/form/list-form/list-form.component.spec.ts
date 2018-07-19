@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListFormComponent } from './list-form.component';
 import {AppModule} from '../../../../app.module';
-import {ListsService} from '../../../../model/services/lists.service';
-import {ProjectsService} from '../../../../model/services/projects.service';
+import {ListsService} from '@knora/core';
+import {ProjectsService} from '@knora/core';
 
 describe('ListFormComponent', () => {
   let component: ListFormComponent;

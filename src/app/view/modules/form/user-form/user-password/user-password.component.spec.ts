@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UserPasswordComponent} from './user-password.component';
 import {AppModule} from '../../../../../app.module';
-import {UsersService} from '../../../../../model/services/users.service';
+import {UsersService} from '@knora/core';
 
 describe('UserPasswordComponent', () => {
     let component: UserPasswordComponent;

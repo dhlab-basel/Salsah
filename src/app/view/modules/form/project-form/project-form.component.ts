@@ -14,7 +14,7 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ProjectsService} from '../../../../model/services/projects.service';
+import {ProjectsService} from '@knora/core';
 import {ApiServiceResult} from '../../../../model/services/api-service-result';
 import {Project} from '../../../../model/webapi/knora/';
 import {ApiServiceError} from '../../../../model/services/api-service-error';

@@ -16,7 +16,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Project, ListInfo} from '../../../../model/webapi/knora';
 import {Router} from '@angular/router';
-import {ListsService} from '../../../../model/services/lists.service';
+import {ListsService} from '@knora/core';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 import {List} from '../../../../model/webapi/knora/admin';

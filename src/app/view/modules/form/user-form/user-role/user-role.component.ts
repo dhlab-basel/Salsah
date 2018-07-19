@@ -15,10 +15,10 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angula
 import {AutocompleteItem} from '../../../../../app.interfaces';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../../../app.config';
-import {ProjectsService} from '../../../../../model/services/projects.service';
+import {ProjectsService} from '@knora/core';
 import {Group, Project, User} from '../../../../../model/webapi/knora/admin';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
-import {GroupsService} from '../../../../../model/services/groups.service';
+import {GroupsService} from '@knora/core';
 
 @Component({
     selector: 'salsah-user-role',

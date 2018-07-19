@@ -29,7 +29,7 @@ import {
     ResourceTypeInfo,
     ResourceTypeItem
 } from '../../../../model/webapi/knora/';
-import {ProjectsService} from '../../../../model/services/projects.service';
+import {ProjectsService} from '@knora/core';
 import {PropertyItem} from '../../../../model/webapi/knora/v1/properties/property-item';
 
 

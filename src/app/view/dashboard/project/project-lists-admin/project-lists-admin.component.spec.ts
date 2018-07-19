@@ -2,7 +2,7 @@ import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 
 import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
 import {ApiService} from '../../../../model/services/api.service';
-import {ProjectsService} from '../../../../model/services/projects.service';
+import {ProjectsService} from '@knora/core';
 import {MockBackend} from '@angular/http/testing';
 import {ProjectListsAdminComponent} from './project-lists-admin.component';
 

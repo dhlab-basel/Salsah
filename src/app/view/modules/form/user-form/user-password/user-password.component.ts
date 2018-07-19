@@ -16,7 +16,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../../../app.config';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
 import {User} from '../../../../../model/webapi/knora';
-import {UsersService} from '../../../../../model/services/users.service';
+import {UsersService} from '@knora/core';
 
 @Component({
     selector: 'salsah-user-password',

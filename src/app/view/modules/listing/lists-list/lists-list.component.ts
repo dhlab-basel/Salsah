@@ -13,7 +13,7 @@
  * */
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ListsService} from '../../../../model/services/lists.service';
+import {ListsService} from '@knora/core';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MessageData} from '../../message/message.component';
 import {List, ListInfo, ListNode, User} from '../../../../model/webapi/knora';
@@ -22,7 +22,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
 import {AuthenticationService} from '../../../../model/services/authentication.service';
 import {AppConfig} from '../../../../app.config';
-import {UsersService} from '../../../../model/services/users.service';
+import {UsersService} from '@knora/core';
 
 @Component({
     selector: 'salsah-lists-list',

@@ -18,7 +18,7 @@ import {startWith, map} from 'rxjs/operators';
 
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 
-import {UsersService} from '../../../../model/services/users.service';
+import {UsersService} from '@knora/core';
 
 import {AutocompleteItem} from '../../../../app.interfaces';
 import {User} from '../../../../model/webapi/knora';

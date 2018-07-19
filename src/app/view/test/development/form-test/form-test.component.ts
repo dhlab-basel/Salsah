@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Project, User} from '../../../../model/webapi/knora/admin';
-import {UsersService} from '../../../../model/services/users.service';
+import {UsersService} from '@knora/core';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ProjectsService} from '../../../../model/services/projects.service';
+import {ProjectsService} from '@knora/core';
 
 @Component({
     selector: 'salsah-form-test',

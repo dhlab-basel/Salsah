@@ -14,7 +14,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Project, User} from '../../../../../model/webapi/knora';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ProjectsService} from '../../../../../model/services/projects.service';
+import {ProjectsService} from '@knora/core';
 import {ApiServiceError} from '../../../../../model/services/api-service-error';
 import {existingNamesValidator} from '../../../other/existing-name.directive';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';

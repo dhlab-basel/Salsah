@@ -1,12 +1,13 @@
 import {Component, Input, OnChanges} from '@angular/core';
-import {ListsService} from '../../../../model/services/lists.service';
+// import {ListsService} from '@knora/core';
+import {ListsService} from '@knora/core';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {List, ListInfo} from '../../../../model/webapi/knora';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {StringLiteralV2} from 'app/model/webapi/knora/v2/shared/strings';
 import {ListInfoUpdatePayload} from '../../../../model/webapi/knora/admin/lists/list-info-update-payload';
 import {ListCreatePayload} from '../../../../model/webapi/knora/';
-import {ProjectsService} from '../../../../model/services/projects.service';
+import {ProjectsService} from '@knora/core';
 import {Project} from '../../../../model/webapi/knora/';
 
 
