@@ -508,13 +508,15 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
         // TODO: take type of resource into account
 
-        return environment.apiExternal + "/v2/tei/"
-            + encodeURIComponent(this.resource.id) + "?textProperty="
-            + encodeURIComponent(environment.tei.letter.textProperty)
-            + "&mappingIri=" + encodeURIComponent(environment.tei.letter.mappingIri)
-            + "&gravsearchTemplateIri=" + encodeURIComponent(environment.tei.letter.gravsearchTemplateIri)
-            + "&teiHeaderXSLTIri=" + encodeURIComponent(environment.tei.letter.teiHeaderXSLTIri)
+        if (Object.keys(environment.tei).length > 0) {
 
+            return environment.apiExternal + "/v2/tei/"
+                + encodeURIComponent(this.resource.id) + "?textProperty="
+                + encodeURIComponent(environment.tei.letter.textProperty)
+                + "&mappingIri=" + encodeURIComponent(environment.tei.letter.mappingIri)
+                + "&gravsearchTemplateIri=" + encodeURIComponent(environment.tei.letter.gravsearchTemplateIri)
+                + "&teiHeaderXSLTIri=" + encodeURIComponent(environment.tei.letter.teiHeaderXSLTIri)
+        }
     }
 
 }
