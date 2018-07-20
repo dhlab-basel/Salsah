@@ -1,5 +1,9 @@
 <div class="salsah-module without-header">
 
+    <div>
+        <span (click)="previousPage()"><<</span> <span (click)="nextPage()">>></span>
+    </div>
+
     <!-- https://angular.io/guide/template-syntax#expression-operators -->
     <salsah-still-image-osdviewer #OSDViewer
                                   *ngIf="page?.stillImageRepresentationsToDisplay.length > 0" [images]="page?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="0" [imageChangeInterval]="1" (regionHovered)="handleRegionHover($event)">

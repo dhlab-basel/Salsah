@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {BeolService} from '../../../model/services/beol.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SearchService} from '../../../model/services/search.service';
@@ -11,7 +11,7 @@ import {
     ReadTextValueAsHtml
 } from '../../../model/webapi/knora/v2/read-property-item';
 import {
-    ImageRegion,
+    ImageRegion, StillImageOSDViewerComponent,
     StillImageRepresentation
 } from '../../properties/still-image-osdviewer/still-image-osdviewer.component';
 import {AppConfig} from '../../../app.config';
@@ -28,7 +28,13 @@ let jsonld = require('jsonld');
 })
 export class MeditationesComponent implements OnInit {
 
-    private seqnum: string;
+    @ViewChild('OSDViewer') osdViewer: StillImageOSDViewerComponent;
+
+    private meditatioManuscriptIri = "http://data.knora.org/HSmk8KWbQjy6YCqnBrwYgA";
+
+    private seqnum: number;
+
+    private maxSeqnum: number;
 
     page: ReadResource;
     regions: ImageRegion[] = [];
@@ -44,14 +50,96 @@ export class MeditationesComponent implements OnInit {
 
     }
 
+    previousPage() {
+
+        if (this.seqnum > 1) {
+
+            this.page = undefined;
+            this.transcription = undefined;
+
+            this.seqnum--;
+
+            this._router.navigate(['/meditationes/', this.seqnum]);
+        }
+    }
+    nextPage() {
+
+        if (this.seqnum < this.maxSeqnum) {
+
+            this.page = undefined;
+            this.transcription = undefined;
+
+            this.seqnum++;
+
+            this._router.navigate(['/meditationes/', this.seqnum]);
+
+        }
+    }
+
     ngOnInit() {
+
+        // determine the max seqnum for meditatio Manuscript
+        let query = `PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
+        CONSTRUCT {
+        
+            ?mainRes knora-api:isMainResource true .
+            
+            ?mainRes <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#partOf> <${this.meditatioManuscriptIri}> .
+        
+        } WHERE { 
+        
+            ?mainRes a knora-api:Resource .
+            
+            ?mainRes a <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#page> .
+            
+            
+            ?mainRes <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#partOf> <http://data.knora.org/HSmk8KWbQjy6YCqnBrwYgA> .
+            <http://0.0.0.0:3333/ontology/0801/beol/simple/v2#partOf> knora-api:objectType <http://api.knora.org/ontology/knora-api/simple/v2#Resource> .
+            <http://data.knora.org/HSmk8KWbQjy6YCqnBrwYgA> a <http://api.knora.org/ontology/knora-api/simple/v2#Resource> .
+                   
+        }
+        
+        OFFSET 0
+        `;
 
         this._route.params.subscribe((params: Params) => {
 
-            this.seqnum = params['seqnum'];
+            // this callback will be executed for each navigate (previous/next page)
+
+            this.seqnum = parseInt(params['seqnum']);
+
+            if (this.maxSeqnum === undefined) {
+
+                this._searchService.doExtendedSearchCountQuery(query).subscribe(
+                    (result: ApiServiceResult) => {
+                        let promises = jsonld.promises;
+                        // compact JSON-LD using an empty context: expands all Iris
+                        let promise = promises.compact(result.body, {});
+
+                        promise.then((compacted) => {
+
+                            this.maxSeqnum = compacted[AppConfig.schemaNumberOfItems];
+
+                            this.getMeditatio();
+
+                        }, function (err) {
+                            console.log('JSONLD of count query request could not be expanded:' + err);
+                        });
+                    });
+
+            } else {
+                this.getMeditatio();
+            }
+
+        });
+    }
+
+    getMeditatio() {
+
+            this.regions = [];
 
             // create a query that gets the regions and transcriptions for the given page
-            const query: string = this._beolService.getRegionsWithTranscritionsForPage(parseInt(this.seqnum), 0);
+            const query: string = this._beolService.getRegionsWithTranscriptionsForPage( this.meditatioManuscriptIri, this.seqnum, 0);
 
             this._searchService.doExtendedSearch(query).subscribe(
                 (result: ApiServiceResult) => {
@@ -96,7 +184,7 @@ export class MeditationesComponent implements OnInit {
 
                                 this.page = pageTmp;
 
-                                //  console.log(pageTmp);
+                                // console.log(pageTmp);
 
                             } else {
                                 console.log('no image or incoming regions found for ' + this.seqnum);
@@ -112,7 +200,7 @@ export class MeditationesComponent implements OnInit {
 
                 }
             );
-        });
+
     }
 
     handleRegionHover(regionIri) {

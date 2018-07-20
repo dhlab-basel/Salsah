@@ -225,13 +225,14 @@ export class BeolService {
     }
 
     /**
-     * Given the Iri of a page, gets its regions and related transcriptions.
+     * Given the Iri of a manuscript, gets the page with the specified sequence number and its regions and related transcriptions.
      *
-     * @param {string} sequenceNumber the sequence number of the page.
+     * @param manuscriptIri the Iri of the manuscript the page belongs to.
+     * @param {number} sequenceNumber the sequence number of the page.
      * @param {number} offset the offset to be used in the Gravsearch query.
      * @returns {string} Gravsearch query.
      */
-    getRegionsWithTranscritionsForPage(sequenceNumber: number, offset: number): string {
+    getRegionsWithTranscriptionsForPage(manuscriptIri: string, sequenceNumber: number, offset: number): string {
 
         if (sequenceNumber < 1) {
             console.log(`sequence number must not be smaller than 1, but ${sequenceNumber} given.`);
@@ -266,7 +267,7 @@ export class BeolService {
           FILTER(?seqnum = ${sequenceNumber})
           
           # Meditationes
-          ?page beol:partOf <http://data.knora.org/HSmk8KWbQjy6YCqnBrwYgA> .
+          ?page beol:partOf <${manuscriptIri}> .
           
           ?page knora-api:hasStillImageFile ?image .
         
