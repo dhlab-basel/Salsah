@@ -27,16 +27,16 @@ import {
     RequestStillImageRepresentations,
     StillImageOSDViewerComponent,
     StillImageRepresentation
-} from "../../../properties/still-image-osdviewer/still-image-osdviewer.component";
-import {OntologyCacheService, OntologyInformation} from "../../../../model/services/ontologycache.service";
-import {MatDialog, MatDialogConfig} from "@angular/material";
+} from '../../../properties/still-image-osdviewer/still-image-osdviewer.component';
+import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {
     ReadLinkValue,
     ReadPropertyItem,
     ReadStillImageFileValue
-} from "../../../../model/webapi/knora/v2/read-property-item";
-import {Utils} from "../../../../utils";
-import {ObjectDialogComponent} from "../../dialog/object-dialog/object-dialog.component";
+} from '../../../../model/webapi/knora/v2/read-property-item';
+import {Utils} from '../../../../utils';
+import {ObjectDialogComponent} from '../../dialog/object-dialog/object-dialog.component';
 import {environment} from '../../../../../environments/environment';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
@@ -495,7 +495,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
         );
 
         // generate a string separating labels by a comma
-        return `(${propLabels.join(", ")})`;
+        return `(${propLabels.join(', ')})`;
 
     }
 
@@ -508,15 +508,13 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
         // TODO: take type of resource into account
 
-        if (Object.keys(environment.tei).length > 0) {
-
-            return environment.apiExternal + "/v2/tei/"
-                + encodeURIComponent(this.resource.id) + "?textProperty="
-                + encodeURIComponent(environment.tei.letter.textProperty)
-                + "&mappingIri=" + encodeURIComponent(environment.tei.letter.mappingIri)
-                + "&gravsearchTemplateIri=" + encodeURIComponent(environment.tei.letter.gravsearchTemplateIri)
-                + "&teiHeaderXSLTIri=" + encodeURIComponent(environment.tei.letter.teiHeaderXSLTIri)
-        }
+        return environment.apiExternal + '/v2/tei/'
+            + encodeURIComponent(this.resource.id) + '?textProperty='
+            + encodeURIComponent(environment.tei.letter.textProperty)
+            + '&mappingIri=' + encodeURIComponent(environment.tei.letter.mappingIri)
+            + '&gravsearchTemplateIri=' + encodeURIComponent(environment.tei.letter.gravsearchTemplateIri)
+            + '&teiHeaderXSLTIri=' + encodeURIComponent(environment.tei.letter.teiHeaderXSLTIri)
     }
+
 
 }

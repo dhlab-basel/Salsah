@@ -38,10 +38,10 @@ export const environment = {
     },
     tei: {
         letter: {
-            textProperty: "http://0.0.0.0:3333/ontology/0801/beol/v2#hasText",
-            mappingIri: "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF/mappings/BEOLTEIMapping",
-            gravsearchTemplateIri: "http://rdfh.ch/0801/-01Eb9DcSRqCSwMgGBFDeg",
-            teiHeaderXSLTIri: "http://rdfh.ch/0801/bCLmpGF3QTSf0E5JX_38kw"
+            textProperty: "",
+            mappingIri: "",
+            gravsearchTemplateIri: "",
+            teiHeaderXSLTIri: ""
         }
     }
 };
