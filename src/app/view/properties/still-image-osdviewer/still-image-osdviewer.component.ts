@@ -365,6 +365,26 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
     }
 
     /**
+     * Calculates the surface of a rectangular region.
+     *
+     * @param {ReadGeomValue} geom the region's geometry.
+     * @returns {number} the surface.
+     */
+    private static surfaceOfRectangularRegion(geom: ReadGeomValue): number {
+
+        if (geom.geometry.type != 'rectangle') {
+            console.log('expected rectangular region, but ' + geom.type + ' given');
+            return 0;
+        }
+
+        const w = Math.max(geom.geometry.points[0].x, geom.geometry.points[1].x) - Math.min(geom.geometry.points[0].x, geom.geometry.points[1].x);
+        const h = Math.max(geom.geometry.points[0].y, geom.geometry.points[1].y) - Math.min(geom.geometry.points[0].y, geom.geometry.points[1].y);
+
+        return w * h;
+
+    }
+
+    /**
      * Adds a ROI-overlay to the viewer for every region of every image in this.images
      */
     private renderRegions(): void {
@@ -375,7 +395,36 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
         for (let image of this.images) {
             let aspectRatio = (image.stillImageFileValue.dimY / image.stillImageFileValue.dimX);
 
-            for (let region of image.regions) {
+            // sort regions by size
+            let regs: ImageRegion[] = image.regions;
+
+            regs.sort((reg1, reg2) => {
+                // if reg1 is smaller than reg2, return 1
+
+                // TODO: how to handle several geometries for one region?
+                const geom1: ReadGeomValue = reg1.getGeometries()[0];
+                const geom2: ReadGeomValue = reg2.getGeometries()[0];
+
+                if (geom1.geometry.type == 'rectangle' && geom2.geometry.type == 'rectangle') {
+
+                    const surf1 = StillImageOSDViewerComponent.surfaceOfRectangularRegion(geom1);
+                    const surf2 = StillImageOSDViewerComponent.surfaceOfRectangularRegion(geom2);
+
+                    if (surf1 < surf2) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+
+                } else {
+                    return 0;
+                }
+
+
+            });
+
+
+            for (let region of regs) {
 
                 for (let geometryValue of region.getGeometries()) {
                     let geometry = geometryValue.geometry;
