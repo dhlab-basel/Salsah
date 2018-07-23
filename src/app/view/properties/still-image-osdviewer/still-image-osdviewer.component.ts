@@ -71,6 +71,21 @@ export class StillImageRepresentation {
 }
 
 /**
+ * Represents a geometry belonging to a specific region.
+ */
+export class GeometryForRegion {
+
+    /**
+     *
+     * @param {RegionGeometry} geometry the geometrical information.
+     * @param {ReadResource} region the region the geometry belongs to.
+     */
+    constructor(readonly geometry: RegionGeometry, readonly region: ReadResource) {
+    }
+
+}
+
+/**
  * Sends a requests to the parent component to load more StillImageRepresentations.
  */
 export class RequestStillImageRepresentations {
@@ -370,15 +385,15 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
      * @param {ReadGeomValue} geom the region's geometry.
      * @returns {number} the surface.
      */
-    private static surfaceOfRectangularRegion(geom: ReadGeomValue): number {
+    private static surfaceOfRectangularRegion(geom: RegionGeometry): number {
 
-        if (geom.geometry.type != 'rectangle') {
+        if (geom.type != 'rectangle') {
             console.log('expected rectangular region, but ' + geom.type + ' given');
             return 0;
         }
 
-        const w = Math.max(geom.geometry.points[0].x, geom.geometry.points[1].x) - Math.min(geom.geometry.points[0].x, geom.geometry.points[1].x);
-        const h = Math.max(geom.geometry.points[0].y, geom.geometry.points[1].y) - Math.min(geom.geometry.points[0].y, geom.geometry.points[1].y);
+        const w = Math.max(geom.points[0].x, geom.points[1].x) - Math.min(geom.points[0].x, geom.points[1].x);
+        const h = Math.max(geom.points[0].y, geom.points[1].y) - Math.min(geom.points[0].y, geom.points[1].y);
 
         return w * h;
 
@@ -395,21 +410,29 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
         for (let image of this.images) {
             let aspectRatio = (image.stillImageFileValue.dimY / image.stillImageFileValue.dimX);
 
-            // sort regions by size
-            let regs: ImageRegion[] = image.regions;
+            // collect all geometries belonging to this page
+            let geometries: GeometryForRegion[] = [];
+            image.regions.map((reg) => {
 
-            regs.sort((reg1, reg2) => {
-                // if reg1 is smaller than reg2, return 1
+                let geoms = reg.getGeometries();
 
-                // TODO: how to handle several geometries for one region?
-                const geom1: ReadGeomValue = reg1.getGeometries()[0];
-                const geom2: ReadGeomValue = reg2.getGeometries()[0];
+                geoms.map((geom) => {
+                    let geomForReg = new GeometryForRegion(geom.geometry, reg.regionResource);
+
+                    geometries.push(geomForReg);
+                });
+            });
+
+            // sort all geometries belonging to this page
+            geometries.sort((geom1, geom2) => {
 
                 if (geom1.geometry.type == 'rectangle' && geom2.geometry.type == 'rectangle') {
 
-                    const surf1 = StillImageOSDViewerComponent.surfaceOfRectangularRegion(geom1);
-                    const surf2 = StillImageOSDViewerComponent.surfaceOfRectangularRegion(geom2);
+                    const surf1 = StillImageOSDViewerComponent.surfaceOfRectangularRegion(geom1.geometry);
+                    const surf2 = StillImageOSDViewerComponent.surfaceOfRectangularRegion(geom2.geometry);
 
+                    // if reg1 is smaller than reg2, return 1
+                    // reg1 then comes after reg2 and thus is rendered later
                     if (surf1 < surf2) {
                         return 1;
                     } else {
@@ -423,13 +446,12 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
 
             });
 
+            // render all geometries for this page
+            for (let geom of geometries) {
 
-            for (let region of regs) {
+                    let geometry = geom.geometry;
+                    this.createSVGOverlay(geom.region.id, geometry, aspectRatio, imageXOffset, geom.region.label);
 
-                for (let geometryValue of region.getGeometries()) {
-                    let geometry = geometryValue.geometry;
-                    this.createSVGOverlay(region.regionResource.id, geometry, aspectRatio, imageXOffset, region.regionResource.label);
-                }
             }
 
             imageXOffset++;
