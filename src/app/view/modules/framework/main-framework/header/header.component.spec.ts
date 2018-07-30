@@ -3,6 +3,7 @@ import {AppModule} from '../../../../../app.module';
 import {AppRoutingModule} from '../../../../../app-routing.module';
 import {HeaderComponent} from './header.component';
 import {AuthenticationService} from '../../../../../model/services/authentication.service';
+import {UsersService} from '@knora/core';
 
 describe('HeaderComponent', () => {
     let component: HeaderComponent;
@@ -15,7 +16,7 @@ describe('HeaderComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                AuthenticationService
+                UsersService
             ]
         })
             .compileComponents();

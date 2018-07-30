@@ -20,6 +20,7 @@ import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/mes
 import {FormDialogComponent} from '../../../../dialog/form-dialog/form-dialog.component';
 import {MessageData} from '../../../../message/message.component';
 import {AuthenticationService} from '../../../../../../model/services/authentication.service';
+import {UsersService} from '@knora/core';
 
 
 @Component({
@@ -103,7 +104,7 @@ export class HeaderToolbarComponent implements OnInit {
                 private _dialog: MatDialog,
                 private _route: ActivatedRoute,
                 private _router: Router,
-                private _authenticationService: AuthenticationService) {
+                private _authenticationService: UsersService) {
     }
 
     ngOnInit() {

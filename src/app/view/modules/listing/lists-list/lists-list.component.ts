@@ -13,7 +13,7 @@
  * */
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ListsService} from '@knora/core';
+import {ListsService, UsersService} from '@knora/core';
 import {ApiServiceError} from '../../../../model/services/api-service-error';
 import {MessageData} from '../../message/message.component';
 import {List, ListInfo, ListNode, User} from '../../../../model/webapi/knora';
@@ -109,7 +109,7 @@ export class ListsListComponent implements OnInit {
     };
 
     constructor(private _listsService: ListsService,
-                private _authenticationService: AuthenticationService,
+                private _authenticationService: UsersService,
                 private _usersService: UsersService,
                 public _dialog: MatDialog) {
     }

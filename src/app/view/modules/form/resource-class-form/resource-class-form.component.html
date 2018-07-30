@@ -31,8 +31,8 @@
             <form #resource="ngForm" class="salsah-form">
 
                 <!-- resource label -->
-                <mat-input-container class="full-width"
-                                    dividerColor="{{ !newResource.label ? 'warn' : 'primary' }}">
+                <mat-form-field class="full-width">
+                                    <!--dividerColor="{{ !newResource.label ? 'warn' : 'primary' }}">-->
                     <input matInput
                            placeholder="Resource name *"
                            name="label"
@@ -40,21 +40,21 @@
                     <mat-hint class="salsah-hint">
                         <span [hidden]="newResource.label" class="salsah-error">This information is required!</span>
                     </mat-hint>
-                </mat-input-container>
+                </mat-form-field>
 
                 <!-- resource description -->
-                <mat-input-container class="full-width">
+                <mat-form-field class="full-width">
                     <textarea matInput
                            placeholder="Resource description"
                            name="description"
                            [(ngModel)]="newResource.description"
                            cols="30" rows="5">
                     </textarea>
-                </mat-input-container>
+                </mat-form-field>
 
                 <!-- resource icon; disabled at the moment -->
-                <mat-input-container class="full-width"
-                                    dividerColor="{{ !newResource.icon ? 'warn' : 'primary' }}">
+                <mat-form-field class="full-width">
+                                    <!--dividerColor="{{ !newResource.icon ? 'warn' : 'primary' }}">-->
                     <span matPrefix><mat-icon>{{newResource.icon}}</mat-icon></span>
 
                     <input matInput
@@ -65,7 +65,7 @@
                     <mat-hint class="salsah-hint">
                         <span [hidden]="newResource.icon" class="salsah-error">This information is required!</span>
                     </mat-hint>
-                </mat-input-container>
+                </mat-form-field>
 
                 <!-- resource permission -->
                 <p mat-subheader>Resource Permissions</p>
@@ -270,10 +270,10 @@
         <!-- Step 5: Make a comment and save -->
         <section [hidden]="counter!==5">
             <h3>Comments</h3>
-            <mat-input-container class="full-width">
+            <mat-form-field class="full-width">
                     <textarea matInput placeholder="Comments" rows="8" name="userComments"
                               ngModel></textarea>
-            </mat-input-container>
+            </mat-form-field>
         </section>
     <form #rcf="ngForm" (ngSubmit)="onSubmit(rcf.value)" class="salsah-form">
     </form>

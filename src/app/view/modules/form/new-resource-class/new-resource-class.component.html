@@ -27,8 +27,8 @@
             <form #resource="ngForm" class="salsah-form">
                 <p mat-subheader>Define your new resource type</p>
                 <!-- resource label -->
-                <mat-input-container class="full-width"
-                                     dividerColor="{{ !newResourceClass.label ? 'warn' : 'primary' }}">
+                <mat-form-field class="full-width">
+                                     <!--dividerColor="{{ !newResourceClass.label ? 'warn' : 'primary' }}">-->
                     <input matInput
                            placeholder="Resource name *"
                            name="label"
@@ -37,21 +37,21 @@
                         <span [hidden]="newResourceClass.label"
                               class="salsah-error">This information is required!</span>
                     </mat-hint>
-                </mat-input-container>
+                </mat-form-field>
 
                 <!-- resource description -->
-                <mat-input-container class="full-width">
+                <mat-form-field class="full-width">
                             <textarea matInput
                                       placeholder="Resource description"
                                       name="description"
                                       [(ngModel)]="newResourceClass.description"
                                       cols="30" rows="5">
                             </textarea>
-                </mat-input-container>
+                </mat-form-field>
 
                 <!-- resource icon; disabled at the moment -->
-                <mat-input-container class="full-width"
-                                     dividerColor="{{ !newResourceClass.icon ? 'warn' : 'primary' }}">
+                <mat-form-field class="full-width">
+                                     <!--dividerColor="{{ !newResourceClass.icon ? 'warn' : 'primary' }}">-->
                     <span matPrefix><mat-icon>{{newResourceClass.icon}}</mat-icon></span>
 
                     <input matInput
@@ -62,7 +62,7 @@
                     <mat-hint class="salsah-hint">
                         <span [hidden]="newResourceClass.icon" class="salsah-error">This information is required!</span>
                     </mat-hint>
-                </mat-input-container>
+                </mat-form-field>
 
                 <!-- resource permission -->
                 <!-- TODO: move this selection into a separate component; set the permissions on a group level in the project advance board -->

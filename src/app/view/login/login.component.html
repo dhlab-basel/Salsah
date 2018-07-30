@@ -17,7 +17,7 @@
             <!-- This is the login form (lf) -->
             <form class="login-form" #lf="ngForm" (ngSubmit)="onSubmit(lf.value)" *ngIf="!isLoading">
                 <!-- Username -->
-                <mat-input-container class="full-width login-field">
+                <mat-form-field class="full-width login-field">
                     <mat-icon matPrefix>person</mat-icon>
                     <input matInput
                            [placeholder]="login.name"
@@ -26,11 +26,11 @@
                            name="email"
                            ngModel>
                     <mat-hint *ngIf="loginErrorUser" class="login-error">{{login.error.failed}}</mat-hint>
-                </mat-input-container>
+                </mat-form-field>
                 <br><br><br>
                 <!-- Password -->
 
-                <mat-input-container class="full-width login-field">
+                <mat-form-field class="full-width login-field">
                     <mat-icon matPrefix>lock</mat-icon>
                     <input matInput
                            type="password"
@@ -39,7 +39,7 @@
                            name="password"
                            ngModel>
                     <mat-hint *ngIf="loginErrorPw" class="login-error">{{login.error.failed}}</mat-hint>
-                </mat-input-container>
+                </mat-form-field>
                 <br><br><br>
                 <!-- Button: Login -->
                 <div class="button-row full-width">

@@ -12,34 +12,31 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
-import {ResourceService} from '../../../../model/services/resource.service';
-import {IncomingService} from '../../../../model/services/incoming.service';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
-import {ReadResource} from '../../../../model/webapi/knora/v2/read-resource';
-import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
-import {AppConfig} from '../../../../app.config';
+import { Component, Input, OnChanges, OnInit, SimpleChange, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ResourceService } from '../../../../model/services/resource.service';
+import { IncomingService } from '../../../../model/services/incoming.service';
+import { ApiServiceResult } from '../../../../model/services/api-service-result';
+import { ApiServiceError } from '../../../../model/services/api-service-error';
+import { ReadResourcesSequence } from '../../../../model/webapi/knora/v2/read-resources-sequence';
+import { ReadResource } from '../../../../model/webapi/knora/v2/read-resource';
+import { ConvertJSONLD } from '../../../../model/webapi/knora/v2/convert-jsonld';
+import { AppConfig } from '../../../../app.config';
 import {
     ImageRegion,
     RequestStillImageRepresentations,
     StillImageOSDViewerComponent,
     StillImageRepresentation
-} from "../../../properties/still-image-osdviewer/still-image-osdviewer.component";
-import {OntologyCacheService, OntologyInformation} from "../../../../model/services/ontologycache.service";
-import {MatDialog, MatDialogConfig} from "@angular/material";
-import {
-    ReadLinkValue,
-    ReadPropertyItem,
-    ReadStillImageFileValue
-} from "../../../../model/webapi/knora/v2/read-property-item";
-import {Utils} from "../../../../utils";
-import {ObjectDialogComponent} from "../../dialog/object-dialog/object-dialog.component";
+} from '../../../properties/still-image-osdviewer/still-image-osdviewer.component';
+
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ReadLinkValue, ReadPropertyItem, ReadStillImageFileValue } from '../../../../model/webapi/knora/v2/read-property-item';
+import { Utils } from '../../../../utils';
+import { ObjectDialogComponent } from '../../dialog/object-dialog/object-dialog.component';
+import { OntologyCacheService, OntologyInformation } from '@knora/core';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
-let jsonld = require('jsonld');
+const jsonld = require('jsonld');
 
 @Component({
     selector: 'salsah-resource-object',
@@ -89,13 +86,13 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
         this._resourceService.getResource(resourceIRI)
             .subscribe(
                 (result: ApiServiceResult) => {
-                    let promises = jsonld.promises;
+                    const promises = jsonld.promises;
                     // compact JSON-LD using an empty context: expands all Iris
-                    let promise = promises.compact(result.body, {});
+                    const promise = promises.compact(result.body, {});
 
                     promise.then((compacted) => {
 
-                        let resourceSeq: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                        const resourceSeq: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                         // make sure that exactly one resource is returned
                         if (resourceSeq.resources.length === 1) {
@@ -151,7 +148,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
     private requestIncomingResources(): void {
 
         // make sure that this.resource has been initialized correctly
-        if (this.resource === undefined) return;
+        if (this.resource === undefined) { return; }
 
         // request incoming regions
         if (this.resource.properties[AppConfig.hasStillImageFileValue]) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
@@ -184,12 +181,12 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
     private getIncomingRegions(offset: number, callback?: (numberOfResources: number) => void): void {
         this._incomingService.getIncomingRegions(this.resource.id, offset).subscribe(
             (result: ApiServiceResult) => {
-                let promise = jsonld.promises.compact(result.body, {});
+                const promise = jsonld.promises.compact(result.body, {});
                 promise.then((compacted) => {
-                        let regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                        const regions: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                         // get resource class Iris from response
-                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+                        const resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
                         // request ontology information about resource class Iris (properties are implied)
                         this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
@@ -208,7 +205,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                                 }
 
                                 // if callback is given, execute function with the amount of new images as the parameter
-                                if (callback !== undefined) callback(regions.resources.length);
+                                if (callback !== undefined) { callback(regions.resources.length); }
                             },
                             (err) => {
 
@@ -236,7 +233,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
     private getIncomingStillImageRepresentations(offset: number, callback?: (numberOfResources: number) => void): void {
 
         // make sure that this.resource has been initialized correctly
-        if (this.resource === undefined) return;
+        if (this.resource === undefined) { return; }
 
         if (offset < 0) {
             console.log(`offset of ${offset} is invalid`);
@@ -246,14 +243,14 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
         this._incomingService.getStillImageRepresentationsForCompoundResource(this.resource.id, offset).subscribe(
             (result: ApiServiceResult) => {
 
-                let promise = jsonld.promises.compact(result.body, {});
+                const promise = jsonld.promises.compact(result.body, {});
                 promise.then((compacted) => {
                         // console.log(compacted);
 
-                        let incomingImageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                        const incomingImageRepresentations: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                         // get resource class Iris from response
-                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+                        const resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
                         // request ontology information about resource class Iris (properties are implied)
                         this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
@@ -278,7 +275,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                                 }
 
                                 // if callback is given, execute function with the amount of new images as the parameter
-                                if (callback !== undefined) callback(incomingImageRepresentations.resources.length);
+                                if (callback !== undefined) { callback(incomingImageRepresentations.resources.length); }
                             },
                             (err) => {
 
@@ -309,12 +306,12 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
         this._incomingService.getIncomingLinksForResource(this.resource.id, offset).subscribe(
             (result: ApiServiceResult) => {
-                let promise = jsonld.promises.compact(result.body, {});
+                const promise = jsonld.promises.compact(result.body, {});
                 promise.then((compacted) => {
-                        let incomingResources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                        const incomingResources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                         // get resource class Iris from response
-                        let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+                        const resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
                         // request ontology information about resource class Iris (properties are implied)
                         this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
@@ -326,7 +323,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                                 Array.prototype.push.apply(this.resource.incomingLinks, incomingResources.resources);
 
                                 // if callback is given, execute function with the amount of incoming resources as the parameter
-                                if (callback !== undefined) callback(incomingResources.resources.length);
+                                if (callback !== undefined) { callback(incomingResources.resources.length); }
 
                             },
                             (err) => {
@@ -355,29 +352,29 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
      */
     private static collectImagesAndRegionsForResource(resource: ReadResource): void {
 
-        let imgRepresentations: StillImageRepresentation[] = [];
+        const imgRepresentations: StillImageRepresentation[] = [];
 
         if (resource.properties[AppConfig.hasStillImageFileValue] !== undefined) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
             // resource has StillImageFileValues that are directly attached to it (properties)
 
-            let fileValues: ReadStillImageFileValue[] = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
-            let imagesToDisplay: ReadStillImageFileValue[] = fileValues.filter((image) => {
+            const fileValues: ReadStillImageFileValue[] = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
+            const imagesToDisplay: ReadStillImageFileValue[] = fileValues.filter((image) => {
                 return !image.isPreview;
             });
 
 
-            for (let img of imagesToDisplay) {
+            for (const img of imagesToDisplay) {
 
-                let regions: ImageRegion[] = [];
-                for (let incomingRegion of resource.incomingRegions) {
+                const regions: ImageRegion[] = [];
+                for (const incomingRegion of resource.incomingRegions) {
 
-                    let region = new ImageRegion(incomingRegion);
+                    const region = new ImageRegion(incomingRegion);
 
                     regions.push(region);
 
                 }
 
-                let stillImage = new StillImageRepresentation(img, regions);
+                const stillImage = new StillImageRepresentation(img, regions);
                 imgRepresentations.push(stillImage);
 
             }
@@ -386,10 +383,10 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
         } else if (resource.incomingStillImageRepresentations.length > 0) {
             // there are StillImageRepresentations pointing to this resource (incoming)
 
-            let readStillImageFileValues: ReadStillImageFileValue[] = resource.incomingStillImageRepresentations.map(
+            const readStillImageFileValues: ReadStillImageFileValue[] = resource.incomingStillImageRepresentations.map(
                 (stillImageRes: ReadResource) => {
-                    let fileValues = stillImageRes.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[]; // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
-                    let imagesToDisplay = fileValues.filter((image) => {
+                    const fileValues = stillImageRes.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[]; // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
+                    const imagesToDisplay = fileValues.filter((image) => {
                         return !image.isPreview;
                     });
 
@@ -400,17 +397,17 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                 return prev.concat(curr);
             });
 
-            for (let img of readStillImageFileValues) {
+            for (const img of readStillImageFileValues) {
 
-                let regions: ImageRegion[] = [];
-                for (let incomingRegion of resource.incomingRegions) {
+                const regions: ImageRegion[] = [];
+                for (const incomingRegion of resource.incomingRegions) {
 
-                    let region = new ImageRegion(incomingRegion);
+                    const region = new ImageRegion(incomingRegion);
                     regions.push(region);
 
                 }
 
-                let stillImage = new StillImageRepresentation(img, regions);
+                const stillImage = new StillImageRepresentation(img, regions);
                 imgRepresentations.push(stillImage);
             }
 
@@ -459,23 +456,23 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
      */
     getIncomingPropertiesFromIncomingResource(incomingResource: ReadResource) {
 
-        let incomingProperties = [];
+        const incomingProperties = [];
 
         // collect properties, if any
         if (incomingResource.properties !== undefined) {
             // get property Iris (keys)
-            let propIris = Object.keys(incomingResource.properties);
+            const propIris = Object.keys(incomingResource.properties);
 
             // iterate over the property Iris
-            for (let propIri of propIris) {
+            for (const propIri of propIris) {
 
                 // get the values for the current property Iri
-                let propVals: Array<ReadPropertyItem> = incomingResource.properties[propIri];
+                const propVals: Array<ReadPropertyItem> = incomingResource.properties[propIri];
 
-                for (let propVal of propVals) {
+                for (const propVal of propVals) {
                     // add the property if it is a link value property pointing to [[this.resource]]
                     if (propVal.type == AppConfig.LinkValue) {
-                        let linkVal = propVal as ReadLinkValue;
+                        const linkVal = propVal as ReadLinkValue;
 
                         if (linkVal.referredResourceIri == this.resource.id) {
                             incomingProperties.push(propIri);
@@ -487,14 +484,14 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
         }
 
         // eliminate duplicate Iris and transform to labels
-        let propLabels = incomingProperties.filter(Utils.filterOutDuplicates).map(
+        const propLabels = incomingProperties.filter(Utils.filterOutDuplicates).map(
             (propIri) => {
                 return this.ontologyInfo.getLabelForProperty(propIri)
             }
         );
 
         // generate a string separating labels by a comma
-        return `(${propLabels.join(", ")})`;
+        return `(${propLabels.join(', ')})`;
 
     }
 

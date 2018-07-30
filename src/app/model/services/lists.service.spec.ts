@@ -35,8 +35,7 @@ import {ApiServiceError} from './api-service-error';
 import {StringLiteralV2} from '../webapi/knora/v2';
 import {ListInfoUpdatePayload} from '../webapi/knora/admin/lists/list-info-update-payload';
 import {AuthenticationService} from './authentication.service';
-import {UsersService} from './users.service';
-import {ProjectsService} from './projects.service';
+import {ProjectsService, UsersService, UsersService, UsersService} from '@knora/core';
 
 describe('ListsService', () => {
 
@@ -48,11 +47,10 @@ describe('ListsService', () => {
             ],
             providers: [
                 ApiService,
-                AuthenticationService,
+                UsersService,
                 ListsService,
                 ProjectsService,
-                StoreService,
-                UsersService
+                StoreService
             ]
         });
     });
@@ -173,7 +171,7 @@ describe('ListsService', () => {
         /* Create and update tests */
 
         it('#createList should create a list [it]', async(inject(
-            [ListsService, AuthenticationService], (service, auth) => {
+            [ListsService, UsersService], (service, auth) => {
 
                 expect(service).toBeDefined();
                 expect(auth).toBeDefined();
@@ -214,7 +212,7 @@ describe('ListsService', () => {
             })));
 
         it('#updateListInfo should update a list info [it]', async(inject(
-            [ListsService, AuthenticationService], (service, auth) => {
+            [ListsService, UsersService], (service, auth) => {
 
                 expect(service).toBeDefined();
 
