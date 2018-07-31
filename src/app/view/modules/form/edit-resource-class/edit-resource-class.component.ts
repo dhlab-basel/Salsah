@@ -18,7 +18,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiServiceError, ApiServiceResult } from '@knora/core';
 import { ResourceTypesService } from '../../../../model/services/resource-types.service';
-
+import { map, startWith } from 'rxjs/operators';
 import {
     Project,
     Properties,
@@ -237,9 +237,10 @@ export class EditResourceClassComponent implements OnChanges {
 
         this.propCtrl = new FormControl('', Validators.required);
         this.filteredProps = this.propCtrl.valueChanges
-            .startWith(this.propCtrl.value)
-            .map(name => this.filterProps(name));
-
+            .pipe(
+                startWith(this.propCtrl.value),
+                map(name => this.filterProps(name))
+            )
     }
 
 
