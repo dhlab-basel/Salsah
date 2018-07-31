@@ -5,14 +5,15 @@
 </mat-form-field>
 
 <!-- select apt component for value specification using a switch case statement-->
-<span *ngIf="comparisonOperatorSelected !== undefined && comparisonOperatorSelected !== null && comparisonOperatorSelected.getClassName() != 'Exists'" [ngSwitch]="propertyValueType">
-    <integer-value #propertyValue [formGroup]="form" *ngSwitchCase="AppConfig.IntValue"></integer-value>
-    <decimal-value #propertyValue [formGroup]="form" *ngSwitchCase="AppConfig.DecimalValue"></decimal-value>
-    <boolean-value #propertyValue [formGroup]="form" *ngSwitchCase="AppConfig.BooleanValue"></boolean-value>
-    <date-value #propertyValue  [formGroup]="form" *ngSwitchCase="AppConfig.DateValue"></date-value>
-    <text-value #propertyValue  [formGroup]="form" *ngSwitchCase="AppConfig.TextValue"></text-value>
-    <uri-value #propertyValue  [formGroup]="form" *ngSwitchCase="AppConfig.UriValue"></uri-value>
-    <link-value #propertyValue [formGroup]="form" [restrictResourceClass]="property.objectType" *ngSwitchCase="AppConfig.Resource"></link-value>
+<span *ngIf="comparisonOperatorSelected !== undefined && comparisonOperatorSelected !== null && comparisonOperatorSelected.getClassName() != 'Exists'"
+    [ngSwitch]="propertyValueType">
+    <integer-value #propertyValue [formGroup]="form" *ngSwitchCase="KnoraConstants.IntValue"></integer-value>
+    <decimal-value #propertyValue [formGroup]="form" *ngSwitchCase="KnoraConstants.DecimalValue"></decimal-value>
+    <boolean-value #propertyValue [formGroup]="form" *ngSwitchCase="KnoraConstants.BooleanValue"></boolean-value>
+    <date-value #propertyValue [formGroup]="form" *ngSwitchCase="KnoraConstants.DateValue"></date-value>
+    <text-value #propertyValue [formGroup]="form" *ngSwitchCase="KnoraConstants.TextValue"></text-value>
+    <uri-value #propertyValue [formGroup]="form" *ngSwitchCase="KnoraConstants.UriValue"></uri-value>
+    <link-value #propertyValue [formGroup]="form" [restrictResourceClass]="property.objectType" *ngSwitchCase="KnoraConstants.Resource"></link-value>
     <!-- TODO: Resource: handle linking properties with target class restriction: access property member to get objectClass via property() getter method -->
     <span *ngSwitchDefault="">Not supported {{propertyValueType}}</span>
 </span>

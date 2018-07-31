@@ -1,7 +1,6 @@
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
-import {AppConfig} from "../../../../../../../app.config";
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { KnoraConstants, PropertyValue, Value, ValueLiteral } from '@knora/core';
 
 // https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
 const resolvedPromise = Promise.resolve(null);
@@ -16,7 +15,7 @@ export class BooleanValueComponent implements OnInit, OnDestroy, PropertyValue {
     // parent FormGroup
     @Input() formGroup: FormGroup;
 
-    type = AppConfig.BooleanValue;
+    type = KnoraConstants.BooleanValue;
 
     form: FormGroup;
 
@@ -47,6 +46,6 @@ export class BooleanValueComponent implements OnInit, OnDestroy, PropertyValue {
     }
 
     getValue(): Value {
-        return new ValueLiteral(String(this.form.value.booleanValue), AppConfig.xsdBoolean);
+        return new ValueLiteral(String(this.form.value.booleanValue), KnoraConstants.xsdBoolean);
     }
 }

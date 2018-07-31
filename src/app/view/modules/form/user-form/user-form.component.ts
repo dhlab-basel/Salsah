@@ -16,7 +16,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 
-import { ApiServiceError, UsersService } from '@knora/core';
+import { ApiServiceError, KnoraConstants, UsersService } from '@knora/core';
 import { AutocompleteItem } from '../../../../app.interfaces';
 import { User } from '../../../../model/webapi/knora';
 import { AppConfig } from '../../../../app.config';

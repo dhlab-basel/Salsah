@@ -1,19 +1,21 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { IRI, PropertyValue, Value } from '../specify-property-value.component';
-import { AppConfig } from '../../../../../../../app.config';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
     ApiServiceResult,
     ConvertJSONLD,
+    IRI,
+    KnoraConstants,
+    PropertyValue,
     OntologyCacheService,
     ReadResource,
     ReadResourcesSequence,
     SearchService,
-    Utils
+    Utils,
+    Value
 } from '@knora/core';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
-let jsonld = require('jsonld');
+const jsonld = require('jsonld');
 
 // https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
 const resolvedPromise = Promise.resolve(null);
@@ -28,7 +30,7 @@ export class LinkValueComponent implements OnInit, OnDestroy, PropertyValue {
     // parent FormGroup
     @Input() formGroup: FormGroup;
 
-    type = AppConfig.LinkValue;
+    type = KnoraConstants.LinkValue;
 
     form: FormGroup;
 

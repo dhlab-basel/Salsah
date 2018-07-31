@@ -14,13 +14,13 @@
 
 import { Component, Input, OnChanges, OnInit, SimpleChange, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AppConfig } from '../../../../app.config';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import {
     ApiServiceError,
     ApiServiceResult,
     ConvertJSONLD,
     IncomingService,
+    KnoraConstants,
     OntologyCacheService,
     OntologyInformation,
     ReadResource,
@@ -59,7 +59,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
     incomingStillImageRepresentationCurrentOffset: number; // last offset requested for `this.resource.incomingStillImageRepresentations`
 
-    AppConfig = AppConfig;
+    KnoraConstants = KnoraConstants;
 
     /**
      * Creates a collection of [[StillImageRepresentation]] belonging to the given resource and assigns it to it.
@@ -73,10 +73,10 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
         const imgRepresentations: StillImageRepresentation[] = [];
 
-        if (resource.properties[AppConfig.hasStillImageFileValue] !== undefined) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
+        if (resource.properties[KnoraConstants.hasStillImageFileValue] !== undefined) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
             // resource has StillImageFileValues that are directly attached to it (properties)
 
-            const fileValues: ReadStillImageFileValue[] = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
+            const fileValues: ReadStillImageFileValue[] = resource.properties[KnoraConstants.hasStillImageFileValue] as ReadStillImageFileValue[];
             const imagesToDisplay: ReadStillImageFileValue[] = fileValues.filter((image) => {
                 return !image.isPreview;
             });
@@ -104,7 +104,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
             const readStillImageFileValues: ReadStillImageFileValue[] = resource.incomingStillImageRepresentations.map(
                 (stillImageRes: ReadResource) => {
-                    const fileValues = stillImageRes.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[]; // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
+                    const fileValues = stillImageRes.properties[KnoraConstants.hasStillImageFileValue] as ReadStillImageFileValue[]; // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
                     const imagesToDisplay = fileValues.filter((image) => {
                         return !image.isPreview;
                     });
@@ -229,7 +229,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
         if (this.resource === undefined) { return; }
 
         // request incoming regions
-        if (this.resource.properties[AppConfig.hasStillImageFileValue]) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
+        if (this.resource.properties[KnoraConstants.hasStillImageFileValue]) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
             // the resource is a StillImageRepresentation, check if there are regions pointing to it
 
             this.getIncomingRegions(0);
@@ -475,7 +475,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
 
                 for (const propVal of propVals) {
                     // add the property if it is a link value property pointing to [[this.resource]]
-                    if (propVal.type === AppConfig.LinkValue) {
+                    if (propVal.type === KnoraConstants.LinkValue) {
                         const linkVal = propVal as ReadLinkValue;
 
                         if (linkVal.referredResourceIri === this.resource.id) {

@@ -16,7 +16,7 @@ import { AutocompleteItem } from '../../../../../app.interfaces';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppConfig } from '../../../../../app.config';
 import { Group, Project, User } from '../../../../../model/webapi/knora/admin';
-import { ApiServiceError, GroupsService, ProjectsService } from '@knora/core';
+import { ApiServiceError, GroupsService, KnoraConstants, ProjectsService } from '@knora/core';
 
 @Component({
     selector: 'salsah-user-role',

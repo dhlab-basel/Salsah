@@ -14,7 +14,7 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiServiceError, ApiServiceResult, ProjectsService } from '@knora/core';
+import { ApiServiceError, ApiServiceResult, KnoraConstants, ProjectsService } from '@knora/core';
 import { Project } from '../../../../model/webapi/knora/';
 
 import { ActivatedRoute } from '@angular/router';
@@ -22,7 +22,6 @@ import { existingNamesValidator, notAllowed } from '../../other/existing-name.di
 import { MatDialogConfig } from '@angular/material';
 import { MessageDialogComponent } from '../../dialog/message-dialog/message-dialog.component';
 import { MessageData } from '../../message/message.component';
-import { AppConfig } from '../../../../app.config';
 
 @Component({
     selector: 'salsah-project-form',
@@ -304,11 +303,11 @@ export class ProjectFormComponent implements OnInit {
             this.project.ontologies = [];
             /*
             const ontology: OntologyInfoShort = {
-                ontologyIri: AppConfig.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname,
+                ontologyIri: KnoraConstants.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname,
                 ontologyName: value.shortname
             };
             */
-            this.project.ontologies.push(AppConfig.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname);
+            this.project.ontologies.push(KnoraConstants.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname);
 
             console.log('project info before post ', this.project);
 

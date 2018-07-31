@@ -1,7 +1,6 @@
 import { Component, Inject, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AppConfig, KnoraSchema } from '../../../../../../app.config';
-import { ComparisonOperatorAndValue, GravSearchService, Property } from '@knora/core';
+import { ComparisonOperatorAndValue, GravSearchService, KnoraConstants, KnoraSchema, Property } from '@knora/core';
 
 /**
  * An abstract interface representing a comparison operator.
@@ -21,8 +20,8 @@ interface ComparisonOperator {
 
 export class Equals implements ComparisonOperator {
 
-    type = AppConfig.EqualsComparisonOperator;
-    label = AppConfig.EqualsComparisonLabel;
+    type = KnoraConstants.EqualsComparisonOperator;
+    label = KnoraConstants.EqualsComparisonLabel;
 
     constructor() {
     }
@@ -34,8 +33,8 @@ export class Equals implements ComparisonOperator {
 
 export class NotEquals implements ComparisonOperator {
 
-    type = AppConfig.NotEqualsComparisonOperator;
-    label = AppConfig.NotEqualsComparisonLabel;
+    type = KnoraConstants.NotEqualsComparisonOperator;
+    label = KnoraConstants.NotEqualsComparisonLabel;
 
     constructor() {
     }
@@ -47,8 +46,8 @@ export class NotEquals implements ComparisonOperator {
 
 export class GreaterThanEquals implements ComparisonOperator {
 
-    type = AppConfig.GreaterThanEqualsComparisonOperator;
-    label = AppConfig.GreaterThanEqualsComparisonLabel;
+    type = KnoraConstants.GreaterThanEqualsComparisonOperator;
+    label = KnoraConstants.GreaterThanEqualsComparisonLabel;
 
     constructor() {
     }
@@ -60,8 +59,8 @@ export class GreaterThanEquals implements ComparisonOperator {
 
 export class GreaterThan implements ComparisonOperator {
 
-    type = AppConfig.GreaterThanComparisonOperator;
-    label = AppConfig.GreaterThanComparisonLabel;
+    type = KnoraConstants.GreaterThanComparisonOperator;
+    label = KnoraConstants.GreaterThanComparisonLabel;
 
     constructor() {
     }
@@ -73,8 +72,8 @@ export class GreaterThan implements ComparisonOperator {
 
 export class LessThan implements ComparisonOperator {
 
-    type = AppConfig.LessThanComparisonOperator;
-    label = AppConfig.LessThanComparisonLabel;
+    type = KnoraConstants.LessThanComparisonOperator;
+    label = KnoraConstants.LessThanComparisonLabel;
 
     constructor() {
     }
@@ -86,8 +85,8 @@ export class LessThan implements ComparisonOperator {
 
 export class LessThanEquals implements ComparisonOperator {
 
-    type = AppConfig.LessThanEqualsComparisonOperator;
-    label = AppConfig.LessThanQualsComparisonLabel;
+    type = KnoraConstants.LessThanEqualsComparisonOperator;
+    label = KnoraConstants.LessThanQualsComparisonLabel;
 
     constructor() {
     }
@@ -99,8 +98,8 @@ export class LessThanEquals implements ComparisonOperator {
 
 export class Exists implements ComparisonOperator {
 
-    type = AppConfig.ExistsComparisonOperator;
-    label = AppConfig.ExistsComparisonLabel;
+    type = KnoraConstants.ExistsComparisonOperator;
+    label = KnoraConstants.ExistsComparisonLabel;
 
     constructor() {
     }
@@ -112,8 +111,8 @@ export class Exists implements ComparisonOperator {
 
 export class Like implements ComparisonOperator {
 
-    type = AppConfig.LikeComparisonOperator;
-    label = AppConfig.LikeComparisonLabel;
+    type = KnoraConstants.LikeComparisonOperator;
+    label = KnoraConstants.LikeComparisonLabel;
 
     constructor() {
     }
@@ -126,8 +125,8 @@ export class Like implements ComparisonOperator {
 
 export class Match implements ComparisonOperator {
 
-    type = AppConfig.MatchComparisonOperator;
-    label = AppConfig.MatchComparisonLabel;
+    type = KnoraConstants.MatchComparisonOperator;
+    label = KnoraConstants.MatchComparisonLabel;
 
     constructor() {
     }
@@ -259,7 +258,7 @@ const resolvedPromise = Promise.resolve(null);
 })
 export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
 
-    AppConfig = AppConfig;
+    KnoraConstants = KnoraConstants;
 
     // parent FormGroup
     @Input() formGroup: FormGroup;
@@ -302,39 +301,39 @@ export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
 
         // depending on object class, set comparison operators and value entry field
         if (this._property.isLinkProperty) {
-            this.propertyValueType = AppConfig.Resource;
+            this.propertyValueType = KnoraConstants.Resource;
         } else {
             this.propertyValueType = this._property.objectType;
         }
 
         switch (this.propertyValueType) {
 
-            case AppConfig.TextValue:
+            case KnoraConstants.TextValue:
                 this.comparisonOperators = [new Like(), new Match(), new Equals(), new NotEquals(), new Exists()];
                 break;
 
-            case AppConfig.BooleanValue:
-            case AppConfig.Resource:
-            case AppConfig.UriValue:
+            case KnoraConstants.BooleanValue:
+            case KnoraConstants.Resource:
+            case KnoraConstants.UriValue:
                 this.comparisonOperators = [new Equals(), new NotEquals(), new Exists()];
                 break;
 
-            case AppConfig.IntValue:
-            case AppConfig.DecimalValue:
-            case AppConfig.DateValue:
+            case KnoraConstants.IntValue:
+            case KnoraConstants.DecimalValue:
+            case KnoraConstants.DateValue:
                 this.comparisonOperators = [new Equals(), new NotEquals(), new LessThan(), new LessThanEquals(), new GreaterThan(), new GreaterThanEquals(), new Exists()];
                 break;
 
-            case AppConfig.ListValue:
-            case AppConfig.GeomValue:
-            case AppConfig.FileValue:
-            case AppConfig.AudioFileValue:
-            case AppConfig.StillImageFileValue:
-            case AppConfig.DDDFileValue:
-            case AppConfig.MovingImageFileValue:
-            case AppConfig.TextFileValue:
-            case AppConfig.ColorValue:
-            case AppConfig.IntervalValue:
+            case KnoraConstants.ListValue:
+            case KnoraConstants.GeomValue:
+            case KnoraConstants.FileValue:
+            case KnoraConstants.AudioFileValue:
+            case KnoraConstants.StillImageFileValue:
+            case KnoraConstants.DDDFileValue:
+            case KnoraConstants.MovingImageFileValue:
+            case KnoraConstants.TextFileValue:
+            case KnoraConstants.ColorValue:
+            case KnoraConstants.IntervalValue:
                 this.comparisonOperators = [new Exists()];
                 break;
 

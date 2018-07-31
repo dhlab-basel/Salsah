@@ -1,8 +1,7 @@
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {PropertyValue, Value, ValueLiteral} from "../specify-property-value.component";
-import {AppConfig} from "../../../../../../../app.config";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {JDNConvertibleCalendar} from "jdnconvertiblecalendar";
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { JDNConvertibleCalendar } from 'jdnconvertiblecalendar';
+import { KnoraConstants, PropertyValue, Value, ValueLiteral } from '@knora/core';
 
 // https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
 const resolvedPromise = Promise.resolve(null);
@@ -17,7 +16,7 @@ export class DateValueComponent implements OnInit, OnDestroy, PropertyValue {
     // parent FormGroup
     @Input() formGroup: FormGroup;
 
-    type = AppConfig.DateValue;
+    type = KnoraConstants.DateValue;
 
     form: FormGroup;
 
@@ -61,6 +60,6 @@ export class DateValueComponent implements OnInit, OnDestroy, PropertyValue {
 
         const dateString = `${calendarFormat.toUpperCase()}:${calendarPeriod.periodStart.year}-${calendarPeriod.periodStart.month}-${calendarPeriod.periodStart.day}:${calendarPeriod.periodEnd.year}-${calendarPeriod.periodEnd.month}-${calendarPeriod.periodEnd.day}`;
 
-        return new ValueLiteral(String(dateString), AppConfig.DateValue);
+        return new ValueLiteral(String(dateString), KnoraConstants.DateValue);
     }
 }

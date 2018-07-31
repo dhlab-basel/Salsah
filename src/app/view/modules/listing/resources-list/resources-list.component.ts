@@ -19,6 +19,7 @@ import {
     ConvertJSONLD,
     ExtendedSearchParams,
     GravSearchService,
+    KnoraConstants,
     OntologyCacheService,
     OntologyInformation,
     ReadResource,
@@ -55,7 +56,8 @@ export class ResourcesListComponent implements OnInit, OnChanges {
 
     @Output() toggleItem = new EventEmitter<any>();
 
-    AppConfig = AppConfig;
+    // AppConfig = AppConfig;
+    KnoraConstants = KnoraConstants;
 
     // grid list settings
     columns: number = 3;
@@ -195,7 +197,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
         const resPromise = resPromises.compact(countQueryResult.body, {});
 
         resPromise.then((compacted) => {
-            this.numberOfAllResults = compacted[AppConfig.schemaNumberOfItems]
+            this.numberOfAllResults = compacted[KnoraConstants.schemaNumberOfItems]
         }, function (err) {
 
             console.log('JSONLD could not be expanded:' + err);
