@@ -16,11 +16,9 @@ import {
     Component, Input, OnInit, OnChanges, SimpleChange, ElementRef, EventEmitter, Output,
     OnDestroy
 } from '@angular/core';
-import { ReadStillImageFileValue, ReadGeomValue } from "../../../model/webapi/knora/v2/read-property-item";
-import { ReadResource } from '@knora/core';
-import { Point2D, RegionGeometry } from "../../../model/webapi/knora/v2/read-property-item";
+import { Point2D, ReadStillImageFileValue, ReadGeomValue, ReadResource, RegionGeometry } from '@knora/core';
 import { AppConfig } from "../../../app.config"
-import { environment } from "../../../../environments/environment";
+import { environment } from '../../../../environments/environment';
 
 // This component needs the openseadragon library itself, as well as the openseadragon plugin openseadragon-svg-overlay
 // Both libraries are installed via package.json, and loaded globally via the script tag in .angular-cli.json

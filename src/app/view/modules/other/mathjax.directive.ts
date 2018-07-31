@@ -1,7 +1,6 @@
 import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig } from '@angular/material';
-import { ReadTextValueAsHtml } from '../../../model/webapi/knora/v2/read-property-item';
-import { OntologyInformation } from '@knora/core';
+import { OntologyInformation, ReadTextValueAsHtml } from '@knora/core';
 import { AppConfig } from '../../../app.config';
 import { ObjectDialogComponent } from '../dialog/object-dialog/object-dialog.component';
 
