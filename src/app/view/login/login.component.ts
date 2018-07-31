@@ -12,12 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {ApiServiceError} from '../../model/services/api-service-error';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import {Title} from '@angular/platform-browser';
-import {UsersService} from '@knora/core';
+import { Title } from '@angular/platform-browser';
+import { ApiServiceError, UsersService } from '@knora/core';
 
 function getDocument(): any {
     return document;
@@ -64,12 +63,12 @@ export class LoginComponent implements OnInit {
     //
 
     constructor(private _title: Title,
-                private _route: ActivatedRoute,
-                private _authenticationService: UsersService) {
+        private _route: ActivatedRoute,
+        private _authenticationService: UsersService) {
     }
 
     ngOnInit() {
-        this._title.setTitle( 'Salsah | Login');
+        this._title.setTitle('Salsah | Login');
 
     }
 

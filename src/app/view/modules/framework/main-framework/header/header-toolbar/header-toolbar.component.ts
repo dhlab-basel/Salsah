@@ -12,15 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/message-dialog.component';
-import {FormDialogComponent} from '../../../../dialog/form-dialog/form-dialog.component';
-import {MessageData} from '../../../../message/message.component';
-import {AuthenticationService} from '../../../../../../model/services/authentication.service';
-import {UsersService} from '@knora/core';
+import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MessageDialogComponent } from 'app/view/modules/dialog/message-dialog/message-dialog.component';
+import { FormDialogComponent } from '../../../../dialog/form-dialog/form-dialog.component';
+import { MessageData } from '../../../../message/message.component';
+import { UsersService } from '@knora/core';
 
 
 @Component({
@@ -30,15 +29,15 @@ import {UsersService} from '@knora/core';
     animations: [
         trigger('addMenu',
             [
-                state('inactive', style({display: 'none'})),
-                state('active', style({display: 'block'})),
+                state('inactive', style({ display: 'none' })),
+                state('active', style({ display: 'block' })),
                 transition('inactive => true', animate('100ms ease-in')),
                 transition('true => inactive', animate('100ms ease-out'))
             ]),
         trigger('userMenu',
             [
-                state('inactive', style({display: 'none'})),
-                state('active', style({display: 'block'})),
+                state('inactive', style({ display: 'none' })),
+                state('active', style({ display: 'block' })),
                 transition('inactive => true', animate('100ms ease-in')),
                 transition('true => inactive', animate('100ms ease-out'))
             ])
@@ -101,10 +100,10 @@ export class HeaderToolbarComponent implements OnInit {
     langString: string = '';
 
     constructor(private _eleRef: ElementRef,
-                private _dialog: MatDialog,
-                private _route: ActivatedRoute,
-                private _router: Router,
-                private _authenticationService: UsersService) {
+        private _dialog: MatDialog,
+        private _route: ActivatedRoute,
+        private _router: Router,
+        private _authenticationService: UsersService) {
     }
 
     ngOnInit() {
@@ -131,8 +130,8 @@ export class HeaderToolbarComponent implements OnInit {
     @HostListener('document:click', ['$event'])
     public onClick(event) {
         if (!this._eleRef.nativeElement.contains(event.target)) {
-//            this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
-//            this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
+            //            this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
+            //            this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
             if (this.focusOnUserMenu === 'active') {
                 this.focusOnUserMenu = 'inactive';
             }
@@ -182,7 +181,7 @@ export class HeaderToolbarComponent implements OnInit {
                         statusText: 'TODO: add the item type "' + item + '" to the openNew method in HeaderToolbarComponent',
                         route: 'Missing item type: ' + item
                     };
-                    dialogRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{data: {message: message}});
+                    dialogRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{ data: { message: message } });
             }
         }
     }
@@ -195,7 +194,7 @@ export class HeaderToolbarComponent implements OnInit {
             goToUrl += '/?h=' + encodeURIComponent(this._router.url);
         }
         window.location.replace(goToUrl);
-//        this._router.navigate([goToUrl]);
+        //        this._router.navigate([goToUrl]);
     }
 }
 

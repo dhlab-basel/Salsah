@@ -11,14 +11,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {AutocompleteItem} from '../../../../../app.interfaces';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AppConfig} from '../../../../../app.config';
-import {ProjectsService} from '@knora/core';
-import {Group, Project, User} from '../../../../../model/webapi/knora/admin';
-import {ApiServiceError} from '../../../../../model/services/api-service-error';
-import {GroupsService} from '@knora/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AutocompleteItem } from '../../../../../app.interfaces';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AppConfig } from '../../../../../app.config';
+import { Group, Project, User } from '../../../../../model/webapi/knora/admin';
+import { ApiServiceError, GroupsService, ProjectsService } from '@knora/core';
 
 @Component({
     selector: 'salsah-user-role',
@@ -93,8 +91,8 @@ export class UserRoleComponent implements OnInit {
     selectedGroups: string[] = [this.usersDefaultGroup];
 
     constructor(private _projectsService: ProjectsService,
-                private _groupsService: GroupsService,
-                private _formBuilder: FormBuilder) {
+        private _groupsService: GroupsService,
+        private _formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
@@ -259,12 +257,12 @@ export class UserRoleComponent implements OnInit {
         // collect project information
         let project: AutocompleteItem;
         const piri: string = (!this.projectIri ? this.userRoleForm.value['project'] : this.projectIri);
-        project = this.projectsList.find( p => p.iri === piri );
+        project = this.projectsList.find(p => p.iri === piri);
 
         // collect groups information
         const groups: any = [];
         for (const giri of this.userRoleForm.value['group']) {
-            const group: AutocompleteItem = this.groupsList.find( g => g.iri === giri);
+            const group: AutocompleteItem = this.groupsList.find(g => g.iri === giri);
             groups.push(group);
         }
 

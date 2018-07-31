@@ -12,17 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ListsService, UsersService} from '@knora/core';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {MessageData} from '../../message/message.component';
-import {List, ListInfo, ListNode, User} from '../../../../model/webapi/knora';
-import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
-import {AuthenticationService} from '../../../../model/services/authentication.service';
-import {AppConfig} from '../../../../app.config';
-import {UsersService} from '@knora/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ApiServiceError, ListsService, UsersService } from '@knora/core';
+import { MessageData } from '../../message/message.component';
+import { List, ListInfo, ListNode, User } from '../../../../model/webapi/knora';
+import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TreeNode } from 'angular-tree-component/dist/models/tree-node.model';
+import { AppConfig } from '../../../../app.config';
 
 @Component({
     selector: 'salsah-lists-list',
@@ -109,9 +106,9 @@ export class ListsListComponent implements OnInit {
     };
 
     constructor(private _listsService: ListsService,
-                private _authenticationService: UsersService,
-                private _usersService: UsersService,
-                public _dialog: MatDialog) {
+        private _authenticationService: UsersService,
+        private _usersService: UsersService,
+        public _dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -162,8 +159,7 @@ export class ListsListComponent implements OnInit {
                     allowDrag: this.nodeDrag,
                     allowDrop: this.nodeDrop,
                 };
-            }
-            else {
+            } else {
                 this._usersService.getUserByEmail(this.loggedInUser.email).subscribe(
                     (result: User) => {
                         // return full user details and check if they have administrative permissions for this project
@@ -193,8 +189,8 @@ export class ListsListComponent implements OnInit {
                     }
                 );
             }
-        }
-        else{ //if there is no logged in user don't allow drag and drop
+        } else {
+            // if there is no logged in user don't allow drag and drop
             this.nodeDrag = false;
             this.nodeDrop = false;
         }
@@ -217,7 +213,7 @@ export class ListsListComponent implements OnInit {
     }
 
 
-// LIST METHODS
+    // LIST METHODS
 
     expandAll(tree) {
         tree.treeModel.expandAll();

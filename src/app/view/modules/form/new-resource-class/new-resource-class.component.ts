@@ -12,14 +12,13 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BasicOntology} from "../../../../model/test-data/basic-ontology";
-import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BasicOntology } from '../../../../model/test-data/basic-ontology';
+import { ResourceTypeInfo, ResourceType } from '../../../../model/webapi/knora/';
+import { PropertyItem } from '../../../../model/webapi/knora/v1/properties/property-item';
 
-import {ApiServiceResult} from "../../../../model/services/api-service-result";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
-import {ResourceTypeInfo, ResourceType} from "../../../../model/webapi/knora/";
-import {PropertyItem} from "../../../../model/webapi/knora/v1/properties/property-item";
+import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
+import { ApiServiceError, ApiServiceResult } from '@knora/core';
 
 @Component({
     selector: 'salsah-new-resource-class',
@@ -47,80 +46,80 @@ export class NewResourceClassComponent implements OnInit {
     newResourceClass: ResourceTypeInfo = new ResourceTypeInfo();
 
     @Output() closeDetailView = new EventEmitter<any>();
-//    newResourcePermissions: PropertyPermissions[] = [new PropertyPermissions()];
-//    newPropertyPermissions: PropertyPermissions[] = [new PropertyPermissions()];
+    //    newResourcePermissions: PropertyPermissions[] = [new PropertyPermissions()];
+    //    newPropertyPermissions: PropertyPermissions[] = [new PropertyPermissions()];
 
-    //newResourceClass.properties = new [PropertyItem()];
+    // newResourceClass.properties = new [PropertyItem()];
 
     // to create a new resource class, the user/admin follows an form assistant
     // here we can use the progress stepper, which needs the number of steps
     // and (optional) a definition of the steps (= title of each step)
     max_steps: number = 5;
     steps: string[] = [
-        "Media file type",
-        "Resource",
-        "Properties",
-        "Permissions",
-        "Preview"
+        'Media file type',
+        'Resource',
+        'Properties',
+        'Permissions',
+        'Preview'
     ];
     counter: number = 0;
 
     // permissions: categories and groups?
     // we need the following object for the (drop-down) selections for permissions
     permissions: any = {
-        "categories": [
+        'categories': [
             {
-                id: "none",
-                label: "no permission",
-                description: ""
+                id: 'none',
+                label: 'no permission',
+                description: ''
             },
             {
-                id: "RV",
-                label: "Restricted view",
-                description: ""
+                id: 'RV',
+                label: 'Restricted view',
+                description: ''
             },
             {
-                id: "V",
-                label: "View",
-                description: ""
+                id: 'V',
+                label: 'View',
+                description: ''
             },
             {
-                id: "M",
-                label: "Modified",
-                description: ""
+                id: 'M',
+                label: 'Modified',
+                description: ''
             },
             {
-                id: "D",
-                label: "Delete",
-                description: ""
+                id: 'D',
+                label: 'Delete',
+                description: ''
             },
             {
-                id: "CR",
-                label: "Change rights",
-                description: ""
+                id: 'CR',
+                label: 'Change rights',
+                description: ''
             }
 
         ],
-        "groups": [
+        'groups': [
             {
-                id: "unknownUser",
-                label: "Everyone",
-                description: "Every visitor (without login)"
+                id: 'unknownUser',
+                label: 'Everyone',
+                description: 'Every visitor (without login)'
             },
             {
-                id: "knownUser",
-                label: "User",
-                description: "Logged in user and not a member of the project"
+                id: 'knownUser',
+                label: 'User',
+                description: 'Logged in user and not a member of the project'
             },
             {
-                id: "creator",
-                label: "Creator",
-                description: "Logged in user and member of the project"
+                id: 'creator',
+                label: 'Creator',
+                description: 'Logged in user and member of the project'
             },
             {
-                id: "projectMember",
-                label: "Member",
-                description: "Logged in user and admin of the project"
+                id: 'projectMember',
+                label: 'Member',
+                description: 'Logged in user and admin of the project'
             }
         ]
     };
@@ -128,10 +127,10 @@ export class NewResourceClassComponent implements OnInit {
     // selector of cardinality (referred to as occurrence in the GUI)
     // we should add this to the base resource class data!?
     cardinalityList: string[] = [
-        "1",
-        "1-n",
-        "0-1",
-        "0-n"
+        '1',
+        '1-n',
+        '0-1',
+        '0-n'
     ];
 
     constructor(private _basicOntologyService: BasicOntologyService) {
@@ -162,15 +161,18 @@ export class NewResourceClassComponent implements OnInit {
             this.newResourceClass.icon = this.basicOntology.resourceClasses[resClassIri].icon;
 
             // set all default properties
-            for (let defProp in this.basicOntology.defaultProperties) {
-                this.newResourceClass.properties[defProp] = this.basicOntology.defaultProperties[defProp];
-
-                this.defaultProperties[defProp] = this.basicOntology.defaultProperties[defProp];
+            for (const defProp in this.basicOntology.defaultProperties) {
+                if (this.basicOntology.defaultProperties.hasOwnProperty(defProp)) {
+                    this.newResourceClass.properties[defProp] = this.basicOntology.defaultProperties[defProp];
+                    this.defaultProperties[defProp] = this.basicOntology.defaultProperties[defProp];
+                }
             }
             // set all additional properties for this specific resource class
-            for (let rcProp in this.basicOntology.resourceClasses[resClassIri].properties) {
-                this.newResourceClass.properties.push(this.basicOntology.resourceClasses[resClassIri].properties[rcProp]);
-                this.defaultProperties.push(this.basicOntology.resourceClasses[resClassIri].properties[rcProp]);
+            for (const rcProp in this.basicOntology.resourceClasses[resClassIri].properties) {
+                if (this.basicOntology.resourceClasses[resClassIri].properties.hasOwnProperty(rcProp)) {
+                    this.newResourceClass.properties.push(this.basicOntology.resourceClasses[resClassIri].properties[rcProp]);
+                    this.defaultProperties.push(this.basicOntology.resourceClasses[resClassIri].properties[rcProp]);
+                }
             }
 
         }
@@ -193,8 +195,7 @@ export class NewResourceClassComponent implements OnInit {
         if (event.srcElement.checked === true) {
             // set the prop in the new resource class
             this.newResourceClass.properties[index] = property;
-        }
-        else {
+        } else {
             // remove the prop from the new resource class
             if (this.newResourceClass.properties[index].name === property.name) {
                 this.newResourceClass.properties[index] = undefined;
@@ -210,9 +211,9 @@ export class NewResourceClassComponent implements OnInit {
     }
 
     setPerm(property: PropertyItem, group: string, event) {
-        for (let prop in this.newResourceClass.properties) {
+        for (const prop in this.newResourceClass.properties) {
             if (this.newResourceClass.properties[prop].name === property.name) {
-//                this.newResourceClass.properties[prop]
+                //                this.newResourceClass.properties[prop]
             }
         }
     }

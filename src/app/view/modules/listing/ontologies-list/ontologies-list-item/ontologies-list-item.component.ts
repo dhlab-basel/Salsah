@@ -12,13 +12,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ResourceTypeItem} from '../../../../../model/webapi/knora/v1/resource-types/resource-type-item';
-import {ApiServiceResult} from '../../../../../model/services/api-service-result';
-import {ResourceTypes} from '../../../../../model/webapi/knora/v1/resource-types/resource-types';
-import {ApiServiceError} from '../../../../../model/services/api-service-error';
-import {MessageData} from '../../../message/message.component';
-import {ResourceTypesService} from '../../../../../model/services/resource-types.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ResourceTypeItem } from '../../../../../model/webapi/knora/v1/resource-types/resource-type-item';
+import { ApiServiceError, ApiServiceResult } from '@knora/core';
+import { ResourceTypes } from '../../../../../model/webapi/knora/v1/resource-types/resource-types';
+import { MessageData } from '../../../message/message.component';
+import { ResourceTypesService } from '../../../../../model/services/resource-types.service';
 
 @Component({
     selector: 'salsah-ontologies-list-item',
@@ -28,7 +27,7 @@ import {ResourceTypesService} from '../../../../../model/services/resource-types
 export class OntologiesListItemComponent implements OnInit {
 
     @Input() listData: ResourceTypeItem[] = [];
-//    @Input() sortProp: string;
+    //    @Input() sortProp: string;
     @Input() index: number;
     @Input() project?: string;
 

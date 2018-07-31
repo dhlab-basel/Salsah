@@ -12,12 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ApiServiceError} from '../../../model/services/api-service-error';
-import {StatusMsgServiceService} from '../../../model/services/status-msg-service.service';
-import {ApiServiceResult} from '../../../model/services/api-service-result';
+import { Component, Input, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiServiceError, ApiServiceResult } from '@knora/core';
+import { StatusMsgServiceService } from '../../../model/services/status-msg-service.service';
 
 export interface MessageData {
     status: number,
@@ -48,7 +47,7 @@ export class MessageComponent implements OnInit {
      */
     @Input() short?: boolean = false;
 
-//    message: MessageData;
+    //    message: MessageData;
 
     statusMsg: any;
 
@@ -95,9 +94,9 @@ export class MessageComponent implements OnInit {
     };
 
     constructor(private _statusMsgService: StatusMsgServiceService,
-                private _router: Router,
-                private _location: Location,
-                private _activatedRoute: ActivatedRoute) {
+        private _router: Router,
+        private _location: Location,
+        private _activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
@@ -146,12 +145,12 @@ export class MessageComponent implements OnInit {
             case (s > 0 && s < 300):
                 // the message is a note
                 tmpMsg.type = 'note';
-//                console.log('the message is a note');
+                //                console.log('the message is a note');
                 break;
             case (s >= 300 && s < 400):
                 // the message is a warning
                 tmpMsg.type = 'warning';
-//                console.log('the message is a warning');
+                //                console.log('the message is a warning');
 
                 break;
             case (s >= 400 && s < 500):

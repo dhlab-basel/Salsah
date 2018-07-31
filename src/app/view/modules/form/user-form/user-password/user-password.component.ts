@@ -11,12 +11,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AppConfig} from '../../../../../app.config';
-import {ApiServiceError} from '../../../../../model/services/api-service-error';
-import {User} from '../../../../../model/webapi/knora';
-import {UsersService} from '@knora/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AppConfig } from '../../../../../app.config';
+import { User } from '../../../../../model/webapi/knora';
+import { ApiServiceError, UsersService } from '@knora/core';
 
 @Component({
     selector: 'salsah-user-password',
@@ -70,7 +69,7 @@ export class UserPasswordComponent implements OnInit {
 
 
     constructor(private _usersService: UsersService,
-                private _formBuilder: FormBuilder) {
+        private _formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
@@ -79,16 +78,16 @@ export class UserPasswordComponent implements OnInit {
             'requesterPassword': new FormControl({
                 value: '', disabled: false
             }, [
-                Validators.required
-            ]),
+                    Validators.required
+                ]),
             'newPassword': new FormControl({
                 value: '', disabled: false
             }, [
-                Validators.required,
-                Validators.minLength(8),
-                Validators.pattern(AppConfig.RegexPassword)
+                    Validators.required,
+                    Validators.minLength(8),
+                    Validators.pattern(AppConfig.RegexPassword)
 
-            ])
+                ])
         });
 
         this.userPasswordForm.valueChanges

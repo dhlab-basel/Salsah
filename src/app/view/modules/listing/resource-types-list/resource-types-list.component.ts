@@ -12,21 +12,20 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ResourceTypesService} from '../../../../model/services/resource-types.service';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ResourceTypes, ResourceTypeItem} from '../../../../model/webapi/knora/';
-import {MessageData} from '../../message/message.component';
-import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ResourceTypesService } from '../../../../model/services/resource-types.service';
+import { ApiServiceError, ApiServiceResult } from '@knora/core';
+import { ResourceTypes, ResourceTypeItem } from '../../../../model/webapi/knora/';
+import { MessageData } from '../../message/message.component';
+import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 
 @Component({
     selector: 'salsah-resource-types-list',
     templateUrl: './resource-types-list.component.html',
     styleUrls: ['./resource-types-list.component.scss']
 })
-export class  ResourceTypesListComponent implements OnInit {
+export class ResourceTypesListComponent implements OnInit {
 
     @Input() restrictedBy: string; // restricted by ontology
     @Input() index: number;
@@ -60,7 +59,7 @@ export class  ResourceTypesListComponent implements OnInit {
     iri: string;
 
     constructor(private _resourceTypesService: ResourceTypesService,
-                public _dialog: MatDialog) {
+        public _dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -87,11 +86,11 @@ export class  ResourceTypesListComponent implements OnInit {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
-            this.toggleItem.emit({id, index});
+            this.toggleItem.emit({ id, index });
         } else {
             // open the detail view
             this.selectedRow = index;
-            this.toggleItem.emit({id, index});
+            this.toggleItem.emit({ id, index });
         }
 
     }

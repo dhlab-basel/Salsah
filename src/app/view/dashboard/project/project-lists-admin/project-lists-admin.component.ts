@@ -13,13 +13,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {Project, ListInfo} from '../../../../model/webapi/knora';
-import {Router} from '@angular/router';
-import {ListsService} from '@knora/core';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
-import {List} from '../../../../model/webapi/knora/admin';
+import { Component, Input, OnInit } from '@angular/core';
+import { Project, ListInfo } from '../../../../model/webapi/knora';
+import { Router } from '@angular/router';
+import { ApiServiceError, ListsService } from '@knora/core';
+import { AddData, ListData } from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
+import { List } from '../../../../model/webapi/knora/admin';
 
 @Component({
     selector: 'salsah-project-lists-admin',
@@ -77,7 +76,7 @@ export class ProjectListsAdminComponent implements OnInit {
     listIri: string;
 
     constructor(private _router: Router,
-                private _listsService: ListsService) {
+        private _listsService: ListsService) {
     }
 
     ngOnInit() {

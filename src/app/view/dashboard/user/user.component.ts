@@ -12,12 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {ApiServiceError} from '../../../model/services/api-service-error';
-import {UsersService} from '../../../model/services/users.service';
-import {Title} from '@angular/platform-browser';
-import {User} from '../../../model/webapi/knora';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ApiServiceError, UsersService } from '@knora/core';
+import { Title } from '@angular/platform-browser';
+import { User } from '../../../model/webapi/knora';
 
 
 @Component({
@@ -73,9 +72,9 @@ export class UserComponent implements OnInit {
     ];
 
     constructor(private _title: Title,
-                private _router: Router,
-                private _route: ActivatedRoute,
-                private _userService: UsersService) {
+        private _router: Router,
+        private _route: ActivatedRoute,
+        private _userService: UsersService) {
     }
 
     ngOnInit() {
@@ -96,7 +95,7 @@ export class UserComponent implements OnInit {
                 if (params['uid']) {
                     // case a)
                     this.email = params['uid'];
-                    this._title.setTitle( 'Salsah | User profile (' + this.email + ')');
+                    this._title.setTitle('Salsah | User profile (' + this.email + ')');
                     if (this.loggedInUser !== null) {
                         // if the loggedInUser exists and this email is the same as
                         // the one in the route then switch to /profile (handled in the template)
@@ -112,7 +111,7 @@ export class UserComponent implements OnInit {
             if (this.loggedInUser !== null) {
                 this.email = this.loggedInUser.email;
                 this.showOwnProfile = true;
-                this._title.setTitle( 'Salsah | User admin (' + this.email + ')');
+                this._title.setTitle('Salsah | User admin (' + this.email + ')');
             } else {
                 // access denied! navigate to the login page
                 // and set a history parameter (?h=) with the current user
