@@ -12,12 +12,17 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {AppConfig} from "./app.config";
+import { KnoraConstants } from '@knora/core';
 
 /**
  * Collection of useful utility functions.
  */
 export class Utils {
+
+    /**
+     * A regex to validate URLs.
+     */
+    public static readonly urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/i;
 
     /**
      * Lambda function eliminating duplicates in a collection to be passed to [[filter]].
@@ -35,7 +40,7 @@ export class Utils {
         // returns true if the element's index equals the index of the leftmost element
         // -> this means that there is no identical element before this index, hence it is not a duplicate
         // for all other elements, false is returned
-        return index == self.indexOf(elem);
+        return index === self.indexOf(elem);
     };
 
     /**
@@ -47,9 +52,11 @@ export class Utils {
     public static getOntologyIriFromEntityIri(entityIri: string) {
 
         // split class Iri on "#"
-        let segments: string[] = entityIri.split(AppConfig.PathSeparator);
+        const segments: string[] = entityIri.split(KnoraConstants.PathSeparator);
 
-        if (segments.length != 2) console.log(`Error: ${entityIri} is not a valid entity IRI.`);
+        if (segments.length !== 2) {
+            console.log(`Error: ${entityIri} is not a valid entity IRI.`);
+        }
 
         return segments[0];
 
@@ -64,19 +71,15 @@ export class Utils {
     public static convertComplexKnoraApiEntityIritoSimple(complexEntityIri: string) {
 
         // split entity Iri on "#"
-        let segments: string[] = complexEntityIri.split('v2' + AppConfig.PathSeparator);
+        const segments: string[] = complexEntityIri.split('v2' + KnoraConstants.PathSeparator);
 
-        if (segments.length != 2) console.log(`Error: ${complexEntityIri} is not a valid entity IRI.`);
+        if (segments.length !== 2) {
+            console.log(`Error: ${complexEntityIri} is not a valid entity IRI.`);
+        }
 
         // add 'simple' to base path
-        return segments[0] + 'simple/v2' + AppConfig.PathSeparator + segments[1];
+        return segments[0] + 'simple/v2' + KnoraConstants.PathSeparator + segments[1];
 
     }
-
-    /**
-     * A regex to validate URLs.
-     */
-    public static readonly urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/i;
-
 
 }
