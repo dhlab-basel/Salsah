@@ -30,7 +30,7 @@
         "@firebase/app": "^0.1.10",
         "@firebase/app-types": "^0.1.2",
         "@knora/action": "^0.0.4",
-        "@knora/core": "^1.0.7-alpha",
+        "@knora/core": "^1.0.8-alpha",
         "@knora/search": "^1.0.0-alpha",
         "@ngx-translate/core": "^10.0.0",
         "@ngx-translate/http-loader": "^2.0.0",
