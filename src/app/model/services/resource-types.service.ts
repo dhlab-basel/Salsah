@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Injectable} from '@angular/core';
-import {ApiService} from './api.service';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@knora/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ResourceTypesService extends ApiService {
