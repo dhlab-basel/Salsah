@@ -1,11 +1,10 @@
 
-import {throwError as observableThrowError, Observable} from 'rxjs';
-import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
-import {AppConfig} from '../../app.config';
+import { throwError as observableThrowError, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import { AppConfig } from '../../app.config';
 
-
-
+// service unused and outdated
 
 @Injectable()
 export class FileService {
@@ -13,9 +12,9 @@ export class FileService {
     constructor(private http: Http) {
     }
 
-    upload(files, parameters) {
+    /* upload(files, parameters) {
         const headers = new Headers();
-        const options = new RequestOptions({headers: headers});
+        const options = new RequestOptions({ headers: headers });
         options.params = parameters;
         console.log('headers: ', headers);
         console.log('options: ', options);
@@ -28,6 +27,6 @@ export class FileService {
         return this.http.get(AppConfig.FileServer + '/admin_upload')
             .map(response => response.json())
             .catch(error => observableThrowError(error));
-    }
+    } */
 
 }
