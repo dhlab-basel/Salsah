@@ -23,7 +23,6 @@ import 'hammerjs';
 // import other third party modules
 //
 import { DndModule } from 'ng2-dnd';
-import { ApiService } from './model/services/api.service';
 import { ProjectsService } from '@knora/core';
 import { PropertiesService } from './model/services/properties.service';
 import { ResourceTypesService } from './model/services/resource-types.service';
@@ -332,10 +331,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ResourceClassFormComponent // deprecated!!
     ],
     providers: [
-        StatusMsgServiceService,
-        FileService,
-        BeolService,
-        LanguageService,
+        // StatusMsgServiceService,
+        // FileService,
+        // BeolService,
+        // LanguageService,
         AngularFirestore,
         { provide: APP_BASE_HREF, useValue: '/' },
         {
