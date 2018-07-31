@@ -13,9 +13,8 @@
  * */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { ReadLinkValue } from '../../../model/webapi/knora/v2/read-property-item';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { OntologyInformation } from '@knora/core';
+import { OntologyInformation, ReadLinkValue } from '@knora/core';
 import { ObjectDialogComponent } from '../../modules/dialog/object-dialog/object-dialog.component';
 import { AppConfig } from '../../../app.config';
 

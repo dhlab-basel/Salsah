@@ -28,12 +28,13 @@ import {
     ResourceService,
     Utils,
     ImageRegion,
+    ReadLinkValue,
+    ReadPropertyItem,
+    ReadStillImageFileValue,
     StillImageRepresentation
 } from '@knora/core';
 
 import { RequestStillImageRepresentations, StillImageOSDViewerComponent } from '../../../properties/still-image-osdviewer/still-image-osdviewer.component';
-
-import { ReadLinkValue, ReadPropertyItem, ReadStillImageFileValue } from '../../../../model/webapi/knora/v2/read-property-item';
 import { ObjectDialogComponent } from '../../dialog/object-dialog/object-dialog.component';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
@@ -59,6 +60,81 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
     incomingStillImageRepresentationCurrentOffset: number; // last offset requested for `this.resource.incomingStillImageRepresentations`
 
     AppConfig = AppConfig;
+
+    /**
+     * Creates a collection of [[StillImageRepresentation]] belonging to the given resource and assigns it to it.
+     * Each [[StillImageRepresentation]] represents an image including regions.
+     *
+     * @param {ReadResource} resource          The resource to get the images for.
+     * @returns {StillImageRepresentation[]}   A collection of images for the given resource.
+     */
+
+    private static collectImagesAndRegionsForResource(resource: ReadResource): void {
+
+        const imgRepresentations: StillImageRepresentation[] = [];
+
+        if (resource.properties[AppConfig.hasStillImageFileValue] !== undefined) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
+            // resource has StillImageFileValues that are directly attached to it (properties)
+
+            const fileValues: ReadStillImageFileValue[] = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
+            const imagesToDisplay: ReadStillImageFileValue[] = fileValues.filter((image) => {
+                return !image.isPreview;
+            });
+
+
+            for (const img of imagesToDisplay) {
+
+                const regions: ImageRegion[] = [];
+                for (const incomingRegion of resource.incomingRegions) {
+
+                    const region = new ImageRegion(incomingRegion);
+
+                    regions.push(region);
+
+                }
+
+                const stillImage = new StillImageRepresentation(img, regions);
+                imgRepresentations.push(stillImage);
+
+            }
+
+
+        } else if (resource.incomingStillImageRepresentations.length > 0) {
+            // there are StillImageRepresentations pointing to this resource (incoming)
+
+            const readStillImageFileValues: ReadStillImageFileValue[] = resource.incomingStillImageRepresentations.map(
+                (stillImageRes: ReadResource) => {
+                    const fileValues = stillImageRes.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[]; // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
+                    const imagesToDisplay = fileValues.filter((image) => {
+                        return !image.isPreview;
+                    });
+
+                    return imagesToDisplay;
+                }
+            ).reduce(function (prev, curr) {
+                // transform ReadStillImageFileValue[][] to ReadStillImageFileValue[]
+                return prev.concat(curr);
+            });
+
+            for (const img of readStillImageFileValues) {
+
+                const regions: ImageRegion[] = [];
+                for (const incomingRegion of resource.incomingRegions) {
+
+                    const region = new ImageRegion(incomingRegion);
+                    regions.push(region);
+
+                }
+
+                const stillImage = new StillImageRepresentation(img, regions);
+                imgRepresentations.push(stillImage);
+            }
+
+        }
+
+        resource.stillImageRepresentationsToDisplay = imgRepresentations;
+
+    }
 
     constructor(private _route: ActivatedRoute,
         private _resourceService: ResourceService,
@@ -140,6 +216,7 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
                 }
             );
     }
+
 
     /**
      * Requests incoming resources for [[this.resource]].
@@ -343,81 +420,6 @@ export class ResourceObjectComponent implements OnChanges, OnInit {
         );
     }
 
-
-    /**
-     * Creates a collection of [[StillImageRepresentation]] belonging to the given resource and assigns it to it.
-     * Each [[StillImageRepresentation]] represents an image including regions.
-     *
-     * @param {ReadResource} resource          The resource to get the images for.
-     * @returns {StillImageRepresentation[]}   A collection of images for the given resource.
-     */
-    // tslint:disable-next-line:member-ordering
-    private static collectImagesAndRegionsForResource(resource: ReadResource): void {
-
-        const imgRepresentations: StillImageRepresentation[] = [];
-
-        if (resource.properties[AppConfig.hasStillImageFileValue] !== undefined) { // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
-            // resource has StillImageFileValues that are directly attached to it (properties)
-
-            const fileValues: ReadStillImageFileValue[] = resource.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[];
-            const imagesToDisplay: ReadStillImageFileValue[] = fileValues.filter((image) => {
-                return !image.isPreview;
-            });
-
-
-            for (const img of imagesToDisplay) {
-
-                const regions: ImageRegion[] = [];
-                for (const incomingRegion of resource.incomingRegions) {
-
-                    const region = new ImageRegion(incomingRegion);
-
-                    regions.push(region);
-
-                }
-
-                const stillImage = new StillImageRepresentation(img, regions);
-                imgRepresentations.push(stillImage);
-
-            }
-
-
-        } else if (resource.incomingStillImageRepresentations.length > 0) {
-            // there are StillImageRepresentations pointing to this resource (incoming)
-
-            const readStillImageFileValues: ReadStillImageFileValue[] = resource.incomingStillImageRepresentations.map(
-                (stillImageRes: ReadResource) => {
-                    const fileValues = stillImageRes.properties[AppConfig.hasStillImageFileValue] as ReadStillImageFileValue[]; // TODO: check if resources is a StillImageRepresentation using the ontology responder (support for subclass relations required)
-                    const imagesToDisplay = fileValues.filter((image) => {
-                        return !image.isPreview;
-                    });
-
-                    return imagesToDisplay;
-                }
-            ).reduce(function (prev, curr) {
-                // transform ReadStillImageFileValue[][] to ReadStillImageFileValue[]
-                return prev.concat(curr);
-            });
-
-            for (const img of readStillImageFileValues) {
-
-                const regions: ImageRegion[] = [];
-                for (const incomingRegion of resource.incomingRegions) {
-
-                    const region = new ImageRegion(incomingRegion);
-                    regions.push(region);
-
-                }
-
-                const stillImage = new StillImageRepresentation(img, regions);
-                imgRepresentations.push(stillImage);
-            }
-
-        }
-
-        resource.stillImageRepresentationsToDisplay = imgRepresentations;
-
-    }
 
     /**
      * Gets the next or previous set of StillImageRepresentations from the server.

@@ -12,8 +12,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {ReadTextValueAsXml} from '../../../model/webapi/knora/v2/read-property-item';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReadTextValueAsXml } from '@knora/core';
 
 @Component({
     selector: 'read-text-value-as-xml',

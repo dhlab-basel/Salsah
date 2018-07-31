@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {ReadColorValue} from "../../../model/webapi/knora/v2/read-property-item";
+import { ReadColorValue } from '@knora/core';
 
 @Component({
   selector: 'read-color-value',

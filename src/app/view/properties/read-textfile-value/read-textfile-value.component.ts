@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ReadLinkValue} from '../../../model/webapi/knora/v2/read-property-item';
-import {AppConfig} from '../../../app.config';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReadLinkValue } from '@knora/core';
+import { AppConfig } from '../../../app.config';
 
 @Component({
   selector: 'read-textfile-value',

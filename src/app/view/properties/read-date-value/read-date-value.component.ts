@@ -12,8 +12,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {ReadDateValue} from '../../../model/webapi/knora/v2/read-property-item';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReadDateValue } from '@knora/core';
 
 @Component({
     selector: 'read-date-value',

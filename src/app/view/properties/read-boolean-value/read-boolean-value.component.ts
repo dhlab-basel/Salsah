@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ReadBooleanValue} from "../../../model/webapi/knora/v2/read-property-item";
+import { Component, Input, OnInit } from '@angular/core';
+import { ReadBooleanValue } from '@knora/core';
 
 @Component({
     selector: 'read-boolean-value',
