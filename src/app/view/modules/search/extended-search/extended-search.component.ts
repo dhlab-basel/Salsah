@@ -1,17 +1,18 @@
-import {Component, EventEmitter, Inject, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import { Component, EventEmitter, Inject, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
+    GravSearchService,
     OntologyCacheService,
     OntologyInformation,
     OntologyMetadata,
+    PropertyWithValue,
     Properties,
+    ReadResourcesSequence,
     ResourceClass
-} from "../../../../model/services/ontologycache.service";
-import {ReadResourcesSequence} from "../../../../model/webapi/knora/v2/read-resources-sequence";
-import {PropertyWithValue, SelectPropertyComponent} from "./select-property/select-property.component";
-import {SelectResourceClassComponent} from "./select-resource-class/select-resource-class.component";
-import {GravsearchGenerationService} from "../../../../model/services/gravsearch-generation.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+} from '@knora/core';
+import { SelectPropertyComponent } from './select-property/select-property.component';
+import { SelectResourceClassComponent } from './select-resource-class/select-resource-class.component';
 
 
 @Component({
@@ -57,10 +58,10 @@ export class ExtendedSearchComponent implements OnInit {
     formValid = false;
 
     constructor(@Inject(FormBuilder) private fb: FormBuilder,
-                private _route: ActivatedRoute,
-                private _router: Router,
-                private _cacheService: OntologyCacheService,
-                private _gravsearchgenerationService: GravsearchGenerationService) {
+        private _route: ActivatedRoute,
+        private _router: Router,
+        private _cacheService: OntologyCacheService,
+        private _gravsearchgenerationService: GravSearchService) {
     }
 
     ngOnInit() {
@@ -186,9 +187,11 @@ export class ExtendedSearchComponent implements OnInit {
      */
     submit() {
 
-        if (!this.formValid) return; // check that from is valid
+        if (!this.formValid) {
+            return; // check that from is valid
+        }
 
-        let resClassOption = this.resourceClassComponent.getResourceClassSelected();
+        const resClassOption = this.resourceClassComponent.getResourceClassSelected();
 
         let resClass;
 
@@ -196,7 +199,7 @@ export class ExtendedSearchComponent implements OnInit {
             resClass = resClassOption;
         }
 
-        let properties: PropertyWithValue[] = this.propertyComponents.map(
+        const properties: PropertyWithValue[] = this.propertyComponents.map(
             (propComp) => {
                 return propComp.getPropertySelectedWithValue();
             }
@@ -204,7 +207,7 @@ export class ExtendedSearchComponent implements OnInit {
 
         const gravsearch = this._gravsearchgenerationService.createGravsearchQuery(properties, resClass, 0);
 
-        this._router.navigate(['/search/extended/', gravsearch], {relativeTo: this._route});
+        this._router.navigate(['/search/extended/', gravsearch], { relativeTo: this._route });
 
         // toggle extended search form
         this.toggleExtendedSearchForm.emit(true);

@@ -12,12 +12,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {ReadLinkValue} from '../../../model/webapi/knora/v2/read-property-item';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {OntologyInformation} from '../../../model/services/ontologycache.service';
-import {ObjectDialogComponent} from '../../modules/dialog/object-dialog/object-dialog.component';
-import {AppConfig} from '../../../app.config';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReadLinkValue } from '../../../model/webapi/knora/v2/read-property-item';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { OntologyInformation } from '@knora/core';
+import { ObjectDialogComponent } from '../../modules/dialog/object-dialog/object-dialog.component';
+import { AppConfig } from '../../../app.config';
 
 @Component({
     selector: 'read-link-value',

@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {OntologyMetadata} from "../../../../../model/services/ontologycache.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { OntologyMetadata } from '@knora/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'select-ontology',

@@ -12,10 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {AppConfig} from "../../../../app.config";
-import {ReadResource} from "./read-resource";
-import {escape} from "querystring";
-import {OntologyInformation} from "../../../services/ontologycache.service";
+import { AppConfig } from "../../../../app.config";
+import { escape } from "querystring";
+import { OntologyInformation, ReadResource } from '@knora/core';
 
 /**
  * An abstract interface representing any value object.
@@ -30,26 +29,26 @@ export interface ReadPropertyItem {
     /**
      * The value object's type.
      */
-    readonly type:string;
+    readonly type: string;
 
     /**
      * The property pointing to the value object.
      */
-    readonly propIri:string;
+    readonly propIri: string;
 
     /**
      * Gets the value object's value.
      *
      * @returns {string}
      */
-    getContent:() => string;
+    getContent: () => string;
 
     /**
      * Gets the class name of the class that implements this interface.
      *
      * @returns {string}
      */
-    getClassName:() => string;
+    getClassName: () => string;
 }
 
 /**
@@ -57,7 +56,7 @@ export interface ReadPropertyItem {
  */
 export class ReadTextValueAsString implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly str:string) {
+    constructor(readonly id: string, readonly propIri, readonly str: string) {
 
     }
 
@@ -84,7 +83,7 @@ export class ReferredResourcesByStandoffLink {
  */
 export class ReadTextValueAsHtml implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly html:string, readonly referredResources: ReferredResourcesByStandoffLink) {
+    constructor(readonly id: string, readonly propIri, readonly html: string, readonly referredResources: ReferredResourcesByStandoffLink) {
 
     }
 
@@ -112,7 +111,7 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
         }
     }
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadTextValueAsHtml;
     }
 
@@ -123,7 +122,7 @@ export class ReadTextValueAsHtml implements ReadPropertyItem {
  */
 export class ReadTextValueAsXml implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly xml:string, readonly mappingIri:string) {
+    constructor(readonly id: string, readonly propIri, readonly xml: string, readonly mappingIri: string) {
 
     }
 
@@ -146,7 +145,7 @@ export class ReadTextValueAsXml implements ReadPropertyItem {
  */
 export class ReadDateValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly calendar:string, readonly startYear:number, readonly endYear:number, readonly startEra:string, readonly endEra:string,  readonly startMonth?:number, readonly endMonth?:number, readonly startDay?:number, readonly endDay?:number) {
+    constructor(readonly id: string, readonly propIri, readonly calendar: string, readonly startYear: number, readonly endYear: number, readonly startEra: string, readonly endEra: string, readonly startMonth?: number, readonly endMonth?: number, readonly startDay?: number, readonly endDay?: number) {
 
     }
 
@@ -157,7 +156,7 @@ export class ReadDateValue implements ReadPropertyItem {
     getContent(): string {
         // consider precision
 
-        let startDate:string;
+        let startDate: string;
 
         if (this.startMonth === undefined) {
             // year precision
@@ -171,7 +170,7 @@ export class ReadDateValue implements ReadPropertyItem {
         }
         startDate += " " + this.startEra;
 
-        let endDate:string;
+        let endDate: string;
 
         if (this.endMonth === undefined) {
             // year precision
@@ -191,7 +190,7 @@ export class ReadDateValue implements ReadPropertyItem {
         }
     };
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadDateValue;
     }
 }
@@ -201,13 +200,13 @@ export class ReadDateValue implements ReadPropertyItem {
  */
 export class ReadLinkValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly referredResourceIri: string, readonly referredResource?: ReadResource) {
+    constructor(readonly id: string, readonly propIri, readonly referredResourceIri: string, readonly referredResource?: ReadResource) {
 
     }
 
     readonly type = AppConfig.LinkValue;
 
-    getContent():string {
+    getContent(): string {
         if (this.referredResource !== undefined) {
             return this.referredResource.label;
         } else {
@@ -227,7 +226,7 @@ export class ReadLinkValue implements ReadPropertyItem {
         }
     }
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadLinkValue;
     }
 }
@@ -237,17 +236,17 @@ export class ReadLinkValue implements ReadPropertyItem {
  */
 export class ReadIntegerValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly integer:number) {
+    constructor(readonly id: string, readonly propIri, readonly integer: number) {
 
     }
 
     readonly type = AppConfig.IntValue;
 
-    getContent():string {
+    getContent(): string {
         return this.integer.toString();
     };
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadIntegerValue;
     }
 
@@ -258,17 +257,17 @@ export class ReadIntegerValue implements ReadPropertyItem {
  */
 export class ReadDecimalValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly decimal:number) {
+    constructor(readonly id: string, readonly propIri, readonly decimal: number) {
 
     }
 
     readonly type = AppConfig.DecimalValue;
 
-    getContent():string {
+    getContent(): string {
         return this.decimal.toString();
     };
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadDecimalValue;
     }
 }
@@ -278,7 +277,7 @@ export class ReadDecimalValue implements ReadPropertyItem {
  */
 export class ReadStillImageFileValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly imageFilename:string, readonly imageServerIIIFBaseURL:string, readonly imagePath: string, readonly dimX:number, readonly dimY:number, isPreview?: boolean) {
+    constructor(readonly id: string, readonly propIri, readonly imageFilename: string, readonly imageServerIIIFBaseURL: string, readonly imagePath: string, readonly dimX: number, readonly dimY: number, isPreview?: boolean) {
 
         this.isPreview = isPreview === undefined ? false : isPreview;
 
@@ -288,7 +287,7 @@ export class ReadStillImageFileValue implements ReadPropertyItem {
 
     readonly isPreview: boolean;
 
-    private makeIIIFUrl = function(reduceFactor:number):string {
+    private makeIIIFUrl = function (reduceFactor: number): string {
 
         if (this.isPreview) {
             return this.imagePath;
@@ -306,7 +305,7 @@ export class ReadStillImageFileValue implements ReadPropertyItem {
         return this.makeIIIFUrl(4);
     };
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadStillImageFileValue;
     }
 }
@@ -316,13 +315,13 @@ export class ReadStillImageFileValue implements ReadPropertyItem {
  */
 export class ReadTextFileValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly textFilename:string, readonly textFileURL:string) {
+    constructor(readonly id: string, readonly propIri, readonly textFilename: string, readonly textFileURL: string) {
 
     }
 
     readonly type = AppConfig.TextFileValue;
 
-    private makeUrl = function(): string {
+    private makeUrl = function (): string {
         return `${this.textFileURL}`;
     };
 
@@ -330,7 +329,7 @@ export class ReadTextFileValue implements ReadPropertyItem {
         return this.makeUrl();
     };
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.TextFileValue;
     }
 
@@ -341,7 +340,7 @@ export class ReadTextFileValue implements ReadPropertyItem {
  */
 export class ReadColorValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri, readonly colorHex:string) {
+    constructor(readonly id: string, readonly propIri, readonly colorHex: string) {
 
     }
 
@@ -351,7 +350,7 @@ export class ReadColorValue implements ReadPropertyItem {
         return this.colorHex;
     };
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadColorValue;
     }
 }
@@ -360,20 +359,20 @@ export class ReadColorValue implements ReadPropertyItem {
  * Represents a point in a 2D-coordinate system (for geometry values).
  */
 export class Point2D {
-  constructor(public x: number, public y: number) {}
+    constructor(public x: number, public y: number) { }
 }
 
 /**
  * Represents a geometry value parsed from JSON.
  */
 export class RegionGeometry {
-  constructor(public status: string,
-              public lineColor: string,
-              public lineWidth: number,
-              public points: Point2D[],
-              public type: string,
-              public radius?: Point2D
-            ) {}
+    constructor(public status: string,
+        public lineColor: string,
+        public lineWidth: number,
+        public points: Point2D[],
+        public type: string,
+        public radius?: Point2D
+    ) { }
 }
 
 /**
@@ -381,28 +380,28 @@ export class RegionGeometry {
  */
 export class ReadGeomValue implements ReadPropertyItem {
 
-    constructor(readonly id:string, readonly propIri: string, readonly geometryString:string) {
+    constructor(readonly id: string, readonly propIri: string, readonly geometryString: string) {
 
-      let geometryJSON = JSON.parse(geometryString);
+        let geometryJSON = JSON.parse(geometryString);
 
-      let points: Point2D[] = [];
-      for (let point of geometryJSON.points) {
-        points.push(new Point2D(point.x, point.y));
-      }
+        let points: Point2D[] = [];
+        for (let point of geometryJSON.points) {
+            points.push(new Point2D(point.x, point.y));
+        }
 
-      let radius = undefined;
-      if (geometryJSON.radius) {
-        radius = new Point2D(geometryJSON.radius.x, geometryJSON.radius.y);
-      }
+        let radius = undefined;
+        if (geometryJSON.radius) {
+            radius = new Point2D(geometryJSON.radius.x, geometryJSON.radius.y);
+        }
 
-      this.geometry = new RegionGeometry(
-        geometryJSON.status,
-        geometryJSON.lineColor,
-        geometryJSON.lineWidth,
-        points,
-        geometryJSON.type,
-        radius
-      );
+        this.geometry = new RegionGeometry(
+            geometryJSON.status,
+            geometryJSON.lineColor,
+            geometryJSON.lineWidth,
+            points,
+            geometryJSON.type,
+            radius
+        );
 
     }
 
@@ -414,7 +413,7 @@ export class ReadGeomValue implements ReadPropertyItem {
         return this.geometryString;
     };
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadGeomValue;
     }
 }
@@ -434,7 +433,7 @@ export class ReadUriValue implements ReadPropertyItem {
         return `<a href="${this.uri}" target="_blank">${this.uri}</a>`;
     };
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadUriValue;
     }
 
@@ -455,7 +454,7 @@ export class ReadBooleanValue implements ReadPropertyItem {
         return String(this.bool);
     }
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadBooleanValue;
     }
 
@@ -476,7 +475,7 @@ export class ReadIntervalValue implements ReadPropertyItem {
         return String(this.intervalStart) + "-" + String(this.intervalEnd);
     }
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadIntervalValue;
     }
 
@@ -487,7 +486,7 @@ export class ReadIntervalValue implements ReadPropertyItem {
  */
 export class ReadListValue implements ReadPropertyItem {
 
-    constructor(readonly id: string, readonly propIri: string, readonly listNodeIri: string, readonly listNodeLabel: string,) {
+    constructor(readonly id: string, readonly propIri: string, readonly listNodeIri: string, readonly listNodeLabel: string, ) {
 
     }
 
@@ -497,7 +496,7 @@ export class ReadListValue implements ReadPropertyItem {
         return this.listNodeLabel;
     }
 
-    getClassName():string {
+    getClassName(): string {
         return AppConfig.ReadListValue;
     }
 

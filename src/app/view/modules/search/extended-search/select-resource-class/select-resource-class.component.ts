@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {ResourceClass} from "../../../../../model/services/ontologycache.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { ResourceClass } from '@knora/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
 const resolvedPromise = Promise.resolve(null);

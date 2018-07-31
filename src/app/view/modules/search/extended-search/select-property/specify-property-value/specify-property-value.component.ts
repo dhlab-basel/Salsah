@@ -1,8 +1,7 @@
-import {Component, Inject, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Property} from 'app/model/services/ontologycache.service';
-import {AppConfig, KnoraSchema} from '../../../../../../app.config';
-import {GravsearchGenerationService} from "../../../../../../model/services/gravsearch-generation.service";
+import { Component, Inject, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AppConfig, KnoraSchema } from '../../../../../../app.config';
+import { ComparisonOperatorAndValue, GravSearchService, Property } from '@knora/core';
 
 /**
  * An abstract interface representing a comparison operator.
@@ -143,11 +142,11 @@ export class Match implements ComparisonOperator {
  * Combination of a comparison operator and a value literal or an IRI.
  * In case the comparison operator is 'Exists', no value is given.
  */
-export class ComparisonOperatorAndValue {
+/* export class ComparisonOperatorAndValue {
 
     constructor(readonly comparisonOperator: ComparisonOperator, readonly value?: Value) {
     };
-}
+} */
 
 /**
  * An abstract interface representing a value: an IRI or a literal.
@@ -191,9 +190,9 @@ export class ValueLiteral implements Value {
 
         // check if a Knora schema conversion is necessary, e.g., knora-api:dateValue (complex) to knora-api:date (simple).
         // xsd types will remain unchanged
-        if (schema == KnoraSchema.simple && GravsearchGenerationService.typeConversionComplexToSimple[this.type] !== undefined) {
+        if (schema === KnoraSchema.simple && GravSearchService.typeConversionComplexToSimple[this.type] !== undefined) {
             // convert to simple schema
-            literalType = GravsearchGenerationService.typeConversionComplexToSimple[this.type];
+            literalType = GravSearchService.typeConversionComplexToSimple[this.type];
         } else {
             // do not convert
             literalType = this.type;
@@ -346,7 +345,7 @@ export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
 
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     ngOnChanges() {
 
@@ -381,7 +380,7 @@ export class SpecifyPropertyValueComponent implements OnInit, OnChanges {
         let value: Value;
 
         // comparison operator 'Exists' does not require a value
-        if (this.comparisonOperatorSelected.getClassName() != 'Exists') {
+        if (this.comparisonOperatorSelected.getClassName() !== 'Exists') {
             value = this.propertyValueComponent.getValue();
         }
 

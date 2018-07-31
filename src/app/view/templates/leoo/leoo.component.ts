@@ -1,10 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {BeolService} from '../../../model/services/beol.service';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {SearchService} from '../../../model/services/search.service';
-import {ApiServiceResult} from '../../../model/services/api-service-result';
-import {ConvertJSONLD} from '../../../model/webapi/knora/v2/convert-jsonld';
-import {ReadResourcesSequence} from '../../../model/webapi/knora/v2/read-resources-sequence';
+import { Component, OnInit } from '@angular/core';
+import { BeolService } from '../../../model/services/beol.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ApiServiceResult, ConvertJSONLD, ReadResourcesSequence, SearchService } from '@knora/core';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -23,9 +20,9 @@ export class LeooComponent implements OnInit {
     repertoriumNumber: string;
 
     constructor(private _route: ActivatedRoute,
-                private _router: Router,
-                private _beolService: BeolService,
-                private _searchService: SearchService) {
+        private _router: Router,
+        private _beolService: BeolService,
+        private _searchService: SearchService) {
     }
 
     ngOnInit() {

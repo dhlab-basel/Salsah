@@ -1,30 +1,32 @@
-import {Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
-    Cardinality, CardinalityOccurrence, Properties, Property,
-    ResourceClass
-} from "../../../../../model/services/ontologycache.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {
+    Cardinality,
+    CardinalityOccurrence,
     ComparisonOperatorAndValue,
-    SpecifyPropertyValueComponent
-} from "./specify-property-value/specify-property-value.component";
+    Properties,
+    Property,
+    PropertyWithValue,
+    ResourceClass
+} from '@knora/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SpecifyPropertyValueComponent } from './specify-property-value/specify-property-value.component';
 
 /**
  * Represents a property, the specified comparison operator, and value.
  */
-export class PropertyWithValue {
+/* export class PropertyWithValue { */
 
-    /**
-     * Constructs a [PropertyWithValue].
-     *
-     * @param {Property} property the specified property.
-     * @param {ComparisonOperatorAndValue} valueLiteral the specified comparison operator and value.
-     * @param isSortCriterion indicates if the property is used as a sort criterion.
-     */
-    constructor(readonly property: Property, readonly valueLiteral: ComparisonOperatorAndValue, readonly isSortCriterion: Boolean) {
-    };
+/**
+ * Constructs a [PropertyWithValue].
+ *
+ * @param {Property} property the specified property.
+ * @param {ComparisonOperatorAndValue} valueLiteral the specified comparison operator and value.
+ * @param isSortCriterion indicates if the property is used as a sort criterion.
+ */
+/* constructor(readonly property: Property, readonly valueLiteral: ComparisonOperatorAndValue, readonly isSortCriterion: Boolean) {
+};
 
-}
+} */
 
 // https://stackoverflow.com/questions/45661010/dynamic-nested-reactive-form-expressionchangedafterithasbeencheckederror
 const resolvedPromise = Promise.resolve(null);
@@ -89,7 +91,7 @@ export class SelectPropertyComponent implements OnInit, OnDestroy {
 
         // update the selected property
         this.form.valueChanges.subscribe((data) => {
-            let propIri = data.property;
+            const propIri = data.property;
             this.propertySelected = this._properties[propIri];
         });
 
@@ -126,14 +128,14 @@ export class SelectPropertyComponent implements OnInit, OnDestroy {
             const card: Cardinality[] = this._activeResourceClass.cardinalities.filter(
                 (card: Cardinality) => {
                     // cardinality 1 or max occurrence 1
-                    return card.property == this.propertySelected.id
-                        && card.value == 1
-                        && (card.occurrence == CardinalityOccurrence.card || card.occurrence == CardinalityOccurrence.maxCard)
+                    return card.property === this.propertySelected.id
+                        && card.value === 1
+                        && (card.occurrence === CardinalityOccurrence.card || card.occurrence === CardinalityOccurrence.maxCard)
 
                 }
             );
 
-            return card.length == 1;
+            return card.length === 1;
         } else {
             return false;
         }
@@ -146,14 +148,17 @@ export class SelectPropertyComponent implements OnInit, OnDestroy {
     private updatePropertiesArray() {
 
         // represent the properties as an array to be accessed by the template
-        let propsArray = [];
+        const propsArray = [];
 
-        for (let propIri in this._properties) {
+        for (const propIri in this._properties) {
+            if (this._properties.hasOwnProperty(propIri)) {
+                const prop = this._properties[propIri];
 
-            let prop = this._properties[propIri];
-
-            // only list editable props that are not link value props
-            if (prop.isEditable && !prop.isLinkValueProperty) propsArray.push(this._properties[propIri]);
+                // only list editable props that are not link value props
+                if (prop.isEditable && !prop.isLinkValueProperty) {
+                    propsArray.push(this._properties[propIri]);
+                }
+            }
         }
 
         this.propertiesAsArray = propsArray;
@@ -164,7 +169,7 @@ export class SelectPropertyComponent implements OnInit, OnDestroy {
      */
     getPropertySelectedWithValue(): PropertyWithValue {
 
-        let propVal: ComparisonOperatorAndValue = this.specifyPropertyValue.getComparisonOperatorAndValueLiteralForProperty();
+        const propVal: ComparisonOperatorAndValue = this.specifyPropertyValue.getComparisonOperatorAndValueLiteralForProperty();
 
         let isSortCriterion = false;
 

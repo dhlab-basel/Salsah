@@ -1,10 +1,10 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {Search} from "../../../../model/webapi/knora";
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Search } from '../../../../model/webapi/knora';
 
 @Component({
-  selector: 'salsah-resource-grid-list',
-  templateUrl: './resource-grid-list.component.html',
-  styleUrls: ['./resource-grid-list.component.scss']
+    selector: 'salsah-resource-grid-list',
+    templateUrl: './resource-grid-list.component.html',
+    styleUrls: ['./resource-grid-list.component.scss']
 })
 export class ResourceGridListComponent implements OnInit {
 
@@ -22,7 +22,7 @@ export class ResourceGridListComponent implements OnInit {
 
     open(id: string, index: number) {
         this.selectedRow = index;
-        this.openResource.emit({id, index});
+        this.openResource.emit({ id, index });
     }
 
 }

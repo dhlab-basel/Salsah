@@ -1,14 +1,16 @@
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {IRI, PropertyValue, Value} from "../specify-property-value.component";
-import {AppConfig} from "../../../../../../../app.config";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Utils} from "../../../../../../../utils";
-import {ReadResource} from "../../../../../../../model/webapi/knora/v2/read-resource";
-import {SearchService} from "../../../../../../../model/services/search.service";
-import {ApiServiceResult} from "../../../../../../../model/services/api-service-result";
-import {ConvertJSONLD} from "../../../../../../../model/webapi/knora/v2/convert-jsonld";
-import {OntologyCacheService} from "../../../../../../../model/services/ontologycache.service";
-import {ReadResourcesSequence} from "../../../../../../../model/webapi/knora/v2/read-resources-sequence";
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { IRI, PropertyValue, Value } from '../specify-property-value.component';
+import { AppConfig } from '../../../../../../../app.config';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+    ApiServiceResult,
+    ConvertJSONLD,
+    OntologyCacheService,
+    ReadResource,
+    ReadResourcesSequence,
+    SearchService,
+    Utils
+} from '@knora/core';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
@@ -52,7 +54,7 @@ export class LinkValueComponent implements OnInit, OnDestroy, PropertyValue {
     displayResource(resource: ReadResource | null) {
 
         // null is the initial value (no selection yet)
-        if (resource !== null)  {
+        if (resource !== null) {
             return resource.label;
         }
     }
@@ -69,13 +71,13 @@ export class LinkValueComponent implements OnInit, OnDestroy, PropertyValue {
 
             this._searchService.searchByLabel(searchTerm, this._restrictToResourceClass).subscribe(
                 (result: ApiServiceResult) => {
-                    let promises = jsonld.promises;
+                    const promises = jsonld.promises;
                     // compact JSON-LD using an empty context: expands all Iris
-                    let promise = promises.compact(result.body, {});
+                    const promise = promises.compact(result.body, {});
 
                     promise.then((compacted) => {
 
-                        let resourceSeq: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                        const resourceSeq: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                         this.resources = resourceSeq.resources;
 

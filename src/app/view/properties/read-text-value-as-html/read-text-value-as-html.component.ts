@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-item';
-import {OntologyInformation} from '../../../model/services/ontologycache.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReadTextValueAsHtml } from '../../../model/webapi/knora/v2/read-property-item';
+import { OntologyInformation } from '@knora/core';
 
 @Component({
     selector: 'read-text-value-as-html',
