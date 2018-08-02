@@ -29,7 +29,7 @@ export class UriValueComponent implements OnInit, OnDestroy, PropertyValue {
     ngOnInit() {
 
         this.form = this.fb.group({
-            uriValue: [null, Validators.compose([Validators.required, Validators.pattern(Utils.urlRegex)])]
+            uriValue: [null, Validators.compose([Validators.required, Validators.pattern(Utils.RegexUrl)])]
         });
 
         resolvedPromise.then(() => {
