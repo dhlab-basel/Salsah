@@ -12,20 +12,14 @@
                 <!-- auto complete list to select user -->
                 <mat-form-field class="large">
 
-                    <input matInput
-                           [matAutocomplete]="user"
-                           [formControl]="userFormGroup.controls['username']"
-                           [placeholder]="'salsahLabels.form.user.title.select' | translate">
+                    <input matInput [matAutocomplete]="user" [formControl]="userFormGroup.controls['username']" [placeholder]="'salsahLabels.form.user.title.select' | translate">
 
-                    <button mat-button color="primary" matSuffix matStepperNext [disabled]="!userFormGroup.valid"
-                            (click)="setSelected()">
+                    <button mat-button color="primary" matSuffix matStepperNext [disabled]="!userFormGroup.valid" (click)="setSelected()">
                         {{ 'salsahLabels.form.action.next' | translate }}
                     </button>
 
                     <mat-autocomplete #user="matAutocomplete">
-                        <mat-option *ngFor="let user of filteredUsers | async"
-                                    [value]="user?.name"
-                                    (onSelectionChange)="resetSelected()">
+                        <mat-option *ngFor="let user of filteredUsers | async" [value]="user?.name" (onSelectionChange)="resetSelected()">
                             {{ user?.label }}
                         </mat-option>
                     </mat-autocomplete>
@@ -49,10 +43,7 @@
         <mat-step [editable]="selectedUser">
             <ng-template matStepLabel>{{ 'salsahLabels.form.user.title.formWizard.step_2' | translate }}</ng-template>
 
-            <salsah-user-data *ngIf="userFormGroup.valid && selectedUser"
-                              [user]="selectedUser"
-                              (userData)="getUserData($event)"
-                              [standalone]="false">
+            <salsah-user-data *ngIf="userFormGroup.valid && selectedUser" [user]="selectedUser" (userData)="getUserData($event)" [standalone]="false">
             </salsah-user-data>
 
         </mat-step>
@@ -67,11 +58,7 @@
         <mat-step [editable]="selectedUser">
             <ng-template matStepLabel>{{ 'salsahLabels.form.user.title.formWizard.step_3' | translate }}</ng-template>
 
-            <salsah-user-role *ngIf="selectedUser"
-                              [projectIri]="projectIri"
-                              [user]="selectedUser"
-                              (userRole)="getUserRole($event)"
-                              [standalone]="false">
+            <salsah-user-role *ngIf="selectedUser" [projectIri]="projectIri" [user]="selectedUser" (userRole)="getUserRole($event)" [standalone]="false">
             </salsah-user-role>
 
         </mat-step>
@@ -90,20 +77,21 @@
 
                     <!-- from step 1 and 2) user data -->
                     <mat-list-item *ngIf="selectedUser">
-                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
-                                                   [status]="submitUserStatus"></salsah-progress-indicator>
+                        <!-- <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
+                                                   [status]="submitUserStatus"></salsah-progress-indicator> -->
+                        <kui-progress-indicator mat-list-avatar class="salsah-avatar" [status]="submitUserStatus"></kui-progress-indicator>
                         <h4 mat-line>
-                        <span *ngIf="selectedUser.id">
-                            {{ 'salsahLabels.form.user.title.edit' | translate }}
-                        </span>
+                            <span *ngIf="selectedUser.id">
+                                {{ 'salsahLabels.form.user.title.edit' | translate }}
+                            </span>
                             <span *ngIf="!selectedUser.id">
-                            {{ 'salsahLabels.form.user.title.new' | translate }}
-                        </span>
+                                {{ 'salsahLabels.form.user.title.new' | translate }}
+                            </span>
                         </h4>
                         <p mat-line>
-                        <span>
-                            {{selectedUser?.givenName}} {{selectedUser?.familyName}}, {{selectedUser?.email}}
-                        </span>
+                            <span>
+                                {{selectedUser?.givenName}} {{selectedUser?.familyName}}, {{selectedUser?.email}}
+                            </span>
                         </p>
                         <mat-hint mat-line *ngIf="userErrorMessage" class="salsah-error-message">
                             {{userErrorMessage?.statusText}}
@@ -112,8 +100,8 @@
 
                     <!-- from step 3a) membership in project -->
                     <mat-list-item *ngIf="selectedProject">
-                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
-                                                   [status]="submitMembershipStatus"></salsah-progress-indicator>
+                        <!-- <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [status]="submitMembershipStatus"></salsah-progress-indicator> -->
+                        <kui-progress-indicator mat-list-avatar class="salsah-avatar" [status]="submitMembershipStatus"></kui-progress-indicator>
                         <h4 mat-line>
                             {{ 'salsahLabels.form.member.title.project' | translate }}
                         </h4>
@@ -130,14 +118,15 @@
 
                     <!-- from step 3b) project permission: groups -->
                     <mat-list-item *ngIf="selectedProject && selectedGroups">
-                        <salsah-progress-indicator mat-list-avatar class="salsah-avatar"
-                                                   [status]="submitPermissionsStatus"></salsah-progress-indicator>
+                        <!-- <salsah-progress-indicator mat-list-avatar class="salsah-avatar" [status]="submitPermissionsStatus"></salsah-progress-indicator> -->
+                        <kui-progress-indicator mat-list-avatar class="salsah-avatar" [status]="submitPermissionsStatus"></kui-progress-indicator>
                         <h4 mat-line>
                             {{ 'salsahLabels.form.member.title.group' | translate}}
                         </h4>
                         <p mat-line>
-                            <span *ngFor="let group of selectedGroups; let last = last">&bull; {{group.name}} <br
-                                *ngIf="!last"></span>
+                            <span *ngFor="let group of selectedGroups; let last = last">&bull; {{group.name}}
+                                <br *ngIf="!last">
+                            </span>
                         </p>
                         <mat-hint mat-line *ngIf="permissionsErrorMessage" class="salsah-error-message">
                             {{permissionsErrorMessage?.statusText}}
@@ -152,8 +141,7 @@
                         {{ 'salsahLabels.form.action.back' | translate }}
                     </button>
                     <span class="fill-remaining-space"></span>
-                    <button mat-raised-button type="button" color="primary" (click)="submitData()"
-                            [disabled]="!selectedUser && !selectedProject && !selectedGroups">
+                    <button mat-raised-button type="button" color="primary" (click)="submitData()" [disabled]="!selectedUser && !selectedProject && !selectedGroups">
                         {{ 'salsahLabels.form.action.submit' | translate }}
                     </button>
                     <!-- after submit

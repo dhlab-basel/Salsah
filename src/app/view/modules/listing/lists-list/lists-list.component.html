@@ -1,5 +1,6 @@
 <!-- progress indicator while the data is loading -->
-<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+<!-- <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator> -->
+<kui-progress-indicator *ngIf="isLoading && !errorMessage"></kui-progress-indicator>
 
 <!-- show the results -->
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
@@ -8,10 +9,9 @@
     <div class="fill-remaining-space" *ngIf="numberOfItems > 0; else noData">
 
         <mat-accordion>
-            <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true"
-                                 (opened)="fetchListData(item.id); epExpanded=true" (closed)="isExpanded=false">
-                <mat-expansion-panel-header *ngIf="!epExpanded"
-                                            matTooltip="Click to open panel and see nodes">
+            <mat-expansion-panel *ngFor="let item of lists; let i = index" [hideToggle]="true" (opened)="fetchListData(item.id); epExpanded=true"
+                (closed)="isExpanded=false">
+                <mat-expansion-panel-header *ngIf="!epExpanded" matTooltip="Click to open panel and see nodes">
 
                     <mat-panel-title>
                         <h4>
@@ -36,12 +36,10 @@
                             </h4>
                         </span>
                         <span *ngIf="loggedInUser != null && (projectAdmin || loggedInUser.sysAdmin)">
-                            <span class="showOnHover" >
+                            <span class="showOnHover">
                                 <h4>
                                     {{item.labels[0].value}}
-                                    <button mat-icon-button
-                                            (click)="editList(item.id, item)"
-                                            class="edit-button">
+                                    <button mat-icon-button (click)="editList(item.id, item)" class="edit-button">
                                         <mat-icon class="small-icon"> edit</mat-icon>
                                     </button>
                                 </h4>
@@ -53,13 +51,15 @@
                         <mat-icon>list</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <span><b>{{listLists.nodesLabel}}</b>
+                <span>
+                    <b>{{listLists.nodesLabel}}</b>
                     <span *ngIf="loggedInUser != null">
                         <span *ngIf="projectAdmin || loggedInUser.sysAdmin" class="subtitle">Drag and drop the nodes to reorder
                         </span>
                     </span>
                 </span>
-                <salsah-progress-indicator *ngIf="isLoadingNodes"></salsah-progress-indicator>
+                <!-- <salsah-progress-indicator *ngIf="isLoadingNodes"></salsah-progress-indicator> -->
+                <kui-progress-indicator *ngIf="isLoadingNodes"></kui-progress-indicator>
                 <div *ngIf="currentListInfo" #tree>
                     <button class="right" mat-button color="primary" *ngIf="!isExpanded" (click)="expandAll(tree)">
                         {{listLists.buttons.expand}}
@@ -80,20 +80,19 @@
                     <tree-root #tree [nodes]="currentNodes" [options]="options">
                         <ng-template #treeNodeWrapperTemplate let-node let-index="index">
                             <div class="node-wrapper" [style.padding-left]="node.getNodePadding()">
-                                <div class="showOnHover salsah-node"
-                                     (treeDrop)="node.onDrop($event)"
-                                     [treeAllowDrop]="node.allowDrop"
-                                     [treeDrag]="node"
-                                     [treeDragEnabled]="node.allowDrag()"> <!-- Drag and drop is enabled here and not in the options because we are using the treeNodeWrapperTemplate, which allows for more formatting options -->
-                                        <tree-node-content [node]="node" [index]="index"></tree-node-content> <!--displays the node name (same as {{ node.data.name }} ) -->
-                                        <span class="subtitle" *ngIf="node.children.length != 0">Number of sub-nodes: {{node.children.length}}</span>
-                                        <span class="edit-button">
-                                        <tree-node-expander [node]="node"></tree-node-expander>  <!--displays the expansion arrow -->
-                                        <button mat-icon-button
-                                                (click)="editNode(item.id, node.data, node, tree)"
-                                                *ngIf="loggedInUser != null && (projectAdmin || loggedInUser.sysAdmin)">
+                                <div class="showOnHover salsah-node" (treeDrop)="node.onDrop($event)" [treeAllowDrop]="node.allowDrop" [treeDrag]="node"
+                                    [treeDragEnabled]="node.allowDrag()">
+                                    <!-- Drag and drop is enabled here and not in the options because we are using the treeNodeWrapperTemplate, which allows for more formatting options -->
+                                    <tree-node-content [node]="node" [index]="index"></tree-node-content>
+                                    <!--displays the node name (same as {{ node.data.name }} ) -->
+                                    <span class="subtitle" *ngIf="node.children.length != 0">Number of sub-nodes: {{node.children.length}}</span>
+                                    <span class="edit-button">
+                                        <tree-node-expander [node]="node"></tree-node-expander>
+                                        <!--displays the expansion arrow -->
+                                        <button mat-icon-button (click)="editNode(item.id, node.data, node, tree)" *ngIf="loggedInUser != null && (projectAdmin || loggedInUser.sysAdmin)">
                                             <mat-icon class="small-icon"> edit</mat-icon>
-                                        </button> <!--displays the edit node info button -->
+                                        </button>
+                                        <!--displays the edit node info button -->
                                     </span>
                                 </div>
                             </div>
@@ -116,4 +115,3 @@
 <ng-template #errorMsg>
     <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 </ng-template>
-

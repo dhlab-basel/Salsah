@@ -6,14 +6,14 @@
 
 <div>
 
-    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+    <!-- <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator> -->
+    <kui-progress-indicator *ngIf="isLoading"></kui-progress-indicator>
 
     <div class="salsah-form-content" *ngIf="!isLoading">
         <mat-accordion class="headers-align">
 
             <!-- 1. create ontology name -->
-            <mat-expansion-panel *ngIf="restrictedBy"
-                                 hideToggle="true">
+            <mat-expansion-panel *ngIf="restrictedBy" hideToggle="true">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Ontology

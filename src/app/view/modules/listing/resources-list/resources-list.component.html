@@ -1,5 +1,6 @@
 <!-- progress indicator while the data is loading -->
-<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+<!-- <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator> -->
+<kui-progress-indicator *ngIf="isLoading && !errorMessage"></kui-progress-indicator>
 
 <!-- show the results -->
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">

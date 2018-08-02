@@ -1,5 +1,6 @@
 <!-- progress indicator while the data is loading -->
-<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+<!-- <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator> -->
+<kui-progress-indicator *ngIf="isLoading && !errorMessage"></kui-progress-indicator>
 
 <!-- show the results -->
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
@@ -7,15 +8,18 @@
     <div *ngIf="numberOfItems > 0; else noData">
         <div *ngFor="let item of ontologiesList">
             <div class="salsah-list-toolbar">
-                    <span class="salsah-list-title">
-                        <h4 class="salsah-sub-header">{{item}}</h4>
-                    </span>
+                <span class="salsah-list-title">
+                    <h4 class="salsah-sub-header">{{item}}</h4>
+                </span>
                 <span class="fill-remaining-space"></span>
                 <span class="salsah-list-action">
                     <!--
                     <salsah-sort-button [sortProps]="sortProps"
                                         [(sortKey)]="sortKey">
                     </salsah-sort-button>
+                    <kui-sort-button [sortProps]="sortProps"
+                                     [(sortKey)]="sortKey">
+                    </kui-sort-button>
                     -->
                 </span>
             </div>

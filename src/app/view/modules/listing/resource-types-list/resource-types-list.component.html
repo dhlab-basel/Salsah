@@ -1,5 +1,6 @@
 <!-- progress indicator while the data is loading -->
-<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+<!-- <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator> -->
+<kui-progress-indicator *ngIf="isLoading && !errorMessage"></kui-progress-indicator>
 
 <!-- show the results -->
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
@@ -25,9 +26,7 @@
             </mat-list>
 
             <mat-action-row>
-                <button mat-button
-                        color="primary"
-                        (click)="edit(item?.id)">
+                <button mat-button color="primary" (click)="edit(item?.id)">
                     edit
                 </button>
             </mat-action-row>

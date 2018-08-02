@@ -12,43 +12,43 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {RouterModule, Routes} from '@angular/router';
-import {NgModule} from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-import {LoginComponent} from './view/login/login.component';
-import {DashboardComponent} from './view/dashboard/dashboard.component';
-import {UserComponent} from './view/dashboard/user/user.component';
+import { LoginComponent } from './view/login/login.component';
+import { DashboardComponent } from './view/dashboard/dashboard.component';
+import { UserComponent } from './view/dashboard/user/user.component';
 
-import {ProjectComponent} from './view/dashboard/project/project.component';
-import {ProjectSettingsComponent} from './view/dashboard/project/project-settings/project-settings.component';
-import {ProjectProfileComponent} from './view/dashboard/project/project-profile/project-profile.component';
-import {ProjectTeamComponent} from './view/dashboard/project/project-team/project-team.component';
-import {ProjectResourcesComponent} from './view/dashboard/project/project-resources/project-resources.component';
-import {ProjectListsAdminComponent} from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
-import {ProjectFormComponent} from './view/modules/form/project-form/project-form.component';
-import {DocumentationComponent} from './view/documentation/documentation.component';
+import { ProjectComponent } from './view/dashboard/project/project.component';
+import { ProjectSettingsComponent } from './view/dashboard/project/project-settings/project-settings.component';
+import { ProjectProfileComponent } from './view/dashboard/project/project-profile/project-profile.component';
+import { ProjectTeamComponent } from './view/dashboard/project/project-team/project-team.component';
+import { ProjectResourcesComponent } from './view/dashboard/project/project-resources/project-resources.component';
+import { ProjectListsAdminComponent } from './view/dashboard/project/project-lists-admin/project-lists-admin.component';
+import { ProjectFormComponent } from './view/modules/form/project-form/project-form.component';
+import { DocumentationComponent } from './view/documentation/documentation.component';
 
-import {ProjectAdvancedComponent} from './view/dashboard/project/project-advanced/project-advanced.component';
-import {DevelopmentComponent} from './view/test/development/development.component';
-import {ProgressStepperComponent} from './view/modules/other/progress-stepper/progress-stepper.component';
-import {MessageComponent} from './view/modules/message/message.component';
-import {NewResourceClassComponent} from './view/modules/form/new-resource-class/new-resource-class.component';
-import {SystemComponent} from './view/dashboard/system/system.component';
-import {SystemUsersComponent} from './view/dashboard/system/system-users/system-users.component';
-import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
-import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
-import {SearchResultsComponent} from './view/search/search-results/search-results.component';
-import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
-import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
-import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
-import {ProjectOntologiesComponent} from './view/dashboard/project/project-ontologies/project-ontologies.component';
-import {FormTestComponent} from './view/test/development/form-test/form-test.component';
-import {ContactFormComponent} from './view/modules/form/contact-form/contact-form.component';
-import {BeolComponent} from './view/templates/beol/beol.component';
-import {DialogTestComponent} from './view/test/development/dialog-test/dialog-test.component';
-import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
-import {LeooComponent} from './view/templates/leoo/leoo.component';
-import {ObjectViewerComponent} from './view/modules/object/object-viewer/object-viewer.component';
+import { ProjectAdvancedComponent } from './view/dashboard/project/project-advanced/project-advanced.component';
+import { DevelopmentComponent } from './view/test/development/development.component';
+import { ProgressStepperComponent } from './view/modules/other/progress-stepper/progress-stepper.component';
+import { MessageComponent } from './view/modules/message/message.component';
+import { NewResourceClassComponent } from './view/modules/form/new-resource-class/new-resource-class.component';
+import { SystemComponent } from './view/dashboard/system/system.component';
+import { SystemUsersComponent } from './view/dashboard/system/system-users/system-users.component';
+import { SystemProjectsComponent } from './view/dashboard/system/system-projects/system-projects.component';
+import { SystemOntologiesComponent } from './view/dashboard/system/system-ontologies/system-ontologies.component';
+import { SearchResultsComponent } from './view/search/search-results/search-results.component';
+import { UserFormComponent } from './view/modules/form/user-form/user-form.component';
+import { FormCreateComponent } from './view/test/development/form-create/form-create.component';
+import { ResourceObjectComponent } from './view/modules/object/resource-object/resource-object.component';
+import { ProjectOntologiesComponent } from './view/dashboard/project/project-ontologies/project-ontologies.component';
+import { FormTestComponent } from './view/test/development/form-test/form-test.component';
+import { ContactFormComponent } from './view/modules/form/contact-form/contact-form.component';
+import { BeolComponent } from './view/templates/beol/beol.component';
+import { DialogTestComponent } from './view/test/development/dialog-test/dialog-test.component';
+import { ProgressIndicatorComponent } from '@knora/action';
+import { LeooComponent } from './view/templates/leoo/leoo.component';
+import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
 
 
 const appRoutes: Routes = [
@@ -131,7 +131,7 @@ const appRoutes: Routes = [
             {
                 path: '**',
                 component: MessageComponent,
-                data: {status: 404}
+                data: { status: 404 }
             }
         ]
     },
@@ -153,7 +153,7 @@ const appRoutes: Routes = [
             {
                 path: '**',
                 component: MessageComponent,
-                data: {status: 404}
+                data: { status: 404 }
             }
         ]
     },
@@ -167,7 +167,7 @@ const appRoutes: Routes = [
     {
         path: 'denied',
         component: MessageComponent,
-        data: {status: 403}
+        data: { status: 403 }
     },
     {
         path: 'dev', component: DevelopmentComponent,
@@ -201,7 +201,7 @@ const appRoutes: Routes = [
             {
                 path: 'message',
                 component: MessageComponent,
-                data: {status: 400}
+                data: { status: 400 }
             },
             {
                 path: 'dialog',
@@ -224,7 +224,7 @@ const appRoutes: Routes = [
     {
         path: '**',
         component: MessageComponent,
-        data: {status: 404}
+        data: { status: 404 }
     }
 ];
 
