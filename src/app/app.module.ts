@@ -41,10 +41,12 @@ import { StatusMsgServiceService } from './model/services/status-msg-service.ser
 //
 import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.directive';
 import { ImageDirective } from './view/modules/other/image.directive';
-import { KeyPipe } from './view/modules/other/key.pipe';
 import { OverlayDirective } from './view/modules/other/overlay.directive';
-import { ReversePipe } from './view/modules/other/reverse.pipe';
+import { KeyPipe } from '@knora/action';
+import { ReversePipe } from '@knora/action';
+// import { SortByPipe } from '@knora/action';
 import { SortByPipe } from './view/modules/other/sort-by.pipe';
+
 //
 // import all app components
 //
@@ -159,10 +161,11 @@ import { UserPasswordComponent } from './view/modules/form/user-form/user-passwo
 import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
 import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
-import { SortButtonComponent } from './view/modules/action/sort-button/sort-button.component';
-import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
 import { LeooComponent } from './view/templates/leoo/leoo.component';
 import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
+
+import { ProgressIndicatorComponent } from '@knora/action';
+import { SortButtonComponent } from '@knora/action';
 
 //
 // import all needed services
