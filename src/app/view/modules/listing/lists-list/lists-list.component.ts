@@ -13,7 +13,7 @@
  * */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ApiServiceError, ListsService, UsersService } from '@knora/core';
+import { ApiServiceError, ListsService, KnoraConstants, UsersService } from '@knora/core';
 import { MessageData } from '../../message/message.component';
 import { List, ListInfo, ListNode, User } from '../../../../model/webapi/knora';
 import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
@@ -56,7 +56,7 @@ export class ListsListComponent implements OnInit {
     //         name: 'Member'
     //     },
     //     {
-    //         iri: AppConfig.ProjectAdminGroup,
+    //         iri: KnoraConstants.ProjectAdminGroupIRI,
     //         name: 'Administrator'
     //     }
     /* use the following in system view only!

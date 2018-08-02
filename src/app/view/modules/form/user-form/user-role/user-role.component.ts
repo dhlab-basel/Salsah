@@ -14,7 +14,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AutocompleteItem } from '../../../../../app.interfaces';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AppConfig } from '../../../../../app.config';
 import { Group, Project, User } from '../../../../../model/webapi/knora/admin';
 import { ApiServiceError, GroupsService, KnoraConstants, ProjectsService } from '@knora/core';
 
@@ -66,11 +65,11 @@ export class UserRoleComponent implements OnInit {
     // default permission groups / role of the user in a project
     defaultGroups: AutocompleteItem[] = [
         {
-            iri: AppConfig.ProjectMemberGroup,
+            iri: KnoraConstants.ProjectMemberGroupIRI,
             name: 'Member'
         },
         {
-            iri: AppConfig.ProjectAdminGroup,
+            iri: KnoraConstants.ProjectAdminGroupIRI,
             name: 'Administrator'
         }
         /* use the following in system view only!
@@ -87,7 +86,7 @@ export class UserRoleComponent implements OnInit {
     groups: Group[];
     groupsList: AutocompleteItem[];
 
-    usersDefaultGroup: string = AppConfig.ProjectMemberGroup;
+    usersDefaultGroup: string = KnoraConstants.ProjectMemberGroupIRI;
     selectedGroups: string[] = [this.usersDefaultGroup];
 
     constructor(private _projectsService: ProjectsService,

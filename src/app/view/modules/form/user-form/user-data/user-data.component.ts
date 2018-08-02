@@ -12,10 +12,9 @@
  * */
 
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AppConfig } from '../../../../../app.config';
 import { User } from '../../../../../model/webapi/knora';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiServiceError, KnoraConstants, UsersService } from '@knora/core';
+import { ApiServiceError, UsersService, Utils } from '@knora/core';
 
 @Component({
     selector: 'salsah-user-data',
@@ -182,7 +181,7 @@ export class UserDataComponent implements OnInit, OnChanges {
             }, [
                     Validators.required,
                     Validators.minLength(8),
-                    Validators.pattern(AppConfig.RegexPassword)
+                    Validators.pattern(Utils.RegexPassword)
                 ]),
             'lang': new FormControl({
                 value: (user.lang ? user.lang : 'en'), disabled: false
