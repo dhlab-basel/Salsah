@@ -33,21 +33,23 @@ export class StoreService {
      */
     resetTriplestoreContent(rdfDataObjects: RdfDataObject[]): Observable<string> {
 
-        return this.http.post<ResetTriplestoreContentResponse>(environment.api + '/admin/store/ResetTriplestoreContent', rdfDataObjects).pipe(
-            map((data => {
-                const result: ResetTriplestoreContentResponse = data;
-                // console.log('StoreService - resetTriplestoreContent: ', result);
-                return result.message;
-            }),
-                catchError((error: HttpErrorResponse) => {
-                    if (error.error instanceof Error) {
-                        console.log('StoreService - resetTriplestoreContent - Client-side error occurred.', error);
-                    } else {
-                        console.log('StoreService - resetTriplestoreContent - Server-side error occurred.', error);
+        return this.http.post<ResetTriplestoreContentResponse>(environment.api + '/admin/store/ResetTriplestoreContent', rdfDataObjects)
+            .pipe(
+                map(
+                    (data) => {
+                        const result: ResetTriplestoreContentResponse = data;
+                        // console.log('StoreService - resetTriplestoreContent: ', result);
+                        return result.message;
+                    },
+                    (error: HttpErrorResponse) => {
+                        if (error.error instanceof Error) {
+                            console.log('StoreService - resetTriplestoreContent - Client-side error occurred.', error);
+                        } else {
+                            console.log('StoreService - resetTriplestoreContent - Server-side error occurred.', error);
+                        }
+                        throw error;
                     }
-                    throw error;
-                })
-            ));
+                ));
 
     }
 
