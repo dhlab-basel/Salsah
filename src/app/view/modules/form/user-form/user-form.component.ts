@@ -16,11 +16,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 
-import { ApiServiceError, KnoraConstants, UsersService } from '@knora/core';
+import { ApiServiceError, KnoraConstants, Project, User, UsersService } from '@knora/core';
 import { AutocompleteItem } from '../../../../app.interfaces';
-import { User } from '../../../../model/webapi/knora';
 import { AppConfig } from '../../../../app.config';
-import { Project } from '../../../../model/webapi/knora/admin';
 
 @Component({
     selector: 'salsah-user-form',

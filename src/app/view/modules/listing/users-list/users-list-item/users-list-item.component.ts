@@ -12,10 +12,10 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {User} from '../../../../../model/webapi/knora';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {FormDialogComponent} from '../../../dialog/form-dialog/form-dialog.component';
+import { Component, Input, OnInit } from '@angular/core';
+import { User } from '@knora/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { FormDialogComponent } from '../../../dialog/form-dialog/form-dialog.component';
 
 @Component({
     selector: 'salsah-users-list-item',
@@ -33,7 +33,7 @@ export class UsersListItemComponent implements OnInit {
 
     ngOnInit() {
 
-//        console.log(this.listData);
+        //        console.log(this.listData);
     }
 
 

@@ -20,14 +20,13 @@ import { ApiServiceError, ApiServiceResult } from '@knora/core';
 import { ResourceTypesService } from '../../../../model/services/resource-types.service';
 import { map, startWith } from 'rxjs/operators';
 import {
-    Project,
     Properties,
     ResourceType,
     ResourceTypes,
     ResourceTypeInfo,
     ResourceTypeItem
 } from '../../../../model/webapi/knora/';
-import { ProjectsService } from '@knora/core';
+import { Project, ProjectsService } from '@knora/core';
 import { PropertyItem } from '../../../../model/webapi/knora/v1/properties/property-item';
 
 

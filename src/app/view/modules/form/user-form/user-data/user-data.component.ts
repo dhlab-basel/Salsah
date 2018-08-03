@@ -12,9 +12,8 @@
  * */
 
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { User } from '../../../../../model/webapi/knora';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiServiceError, UsersService, Utils } from '@knora/core';
+import { ApiServiceError, UsersService, User, Utils } from '@knora/core';
 
 @Component({
     selector: 'salsah-user-data',

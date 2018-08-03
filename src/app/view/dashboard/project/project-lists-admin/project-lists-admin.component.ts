@@ -14,11 +14,9 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { Project, ListInfo } from '../../../../model/webapi/knora';
 import { Router } from '@angular/router';
-import { ApiServiceError, ListsService } from '@knora/core';
+import { ApiServiceError, List, ListInfo, ListsService, Project } from '@knora/core';
 import { AddData, ListData } from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
-import { List } from '../../../../model/webapi/knora/admin';
 
 @Component({
     selector: 'salsah-project-lists-admin',

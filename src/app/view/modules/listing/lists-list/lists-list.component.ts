@@ -13,9 +13,9 @@
  * */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ApiServiceError, ListsService, KnoraConstants, UsersService } from '@knora/core';
+import { ApiServiceError, List, ListInfo, ListNode, ListsService, KnoraConstants, User, UsersService } from '@knora/core';
 import { MessageData } from '../../message/message.component';
-import { List, ListInfo, ListNode, User } from '../../../../model/webapi/knora';
+import { } from '../../../../model/webapi/knora';
 import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TreeNode } from 'angular-tree-component/dist/models/tree-node.model';

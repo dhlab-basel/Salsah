@@ -13,8 +13,7 @@
  * */
 
 import { Component, Input, OnChanges } from '@angular/core';
-import { ApiServiceError, UsersService } from '@knora/core';
-import { Project, User } from '../../../../model/webapi/knora/';
+import { ApiServiceError, Project, User, UsersService } from '@knora/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { MessageData } from '../../message/message.component';

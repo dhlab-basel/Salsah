@@ -13,12 +13,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, Input, OnChanges} from '@angular/core';
-import {List, ListNode, ListNodeInfo} from '../../../../../model/webapi/knora';
-import {FormBuilder, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
-import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
-import {ConfirmDialogComponent} from '../../../dialog/confirm-dialog/confirm-dialog.component';
-import {MatDialogConfig, MatDialog} from '@angular/material';
+import { Component, Input, OnChanges } from '@angular/core';
+import { List, ListNode, ListNodeInfo } from '@knora/core';
+import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { TreeNode } from 'angular-tree-component/dist/models/tree-node.model';
+import { ConfirmDialogComponent } from '../../../dialog/confirm-dialog/confirm-dialog.component';
+import { MatDialogConfig, MatDialog } from '@angular/material';
 
 @Component({
     selector: 'salsah-node-form',
@@ -86,7 +86,7 @@ export class NodeFormComponent implements OnChanges {
 
 
     constructor(private _fb: FormBuilder,
-                public _dialog: MatDialog) {
+        public _dialog: MatDialog) {
     }
 
     ngOnChanges() {
@@ -102,11 +102,11 @@ export class NodeFormComponent implements OnChanges {
 
     buildListNodeInfoForm() {
         this.listNodeInfoForm = this._fb.group({
-            id: new FormControl({value: this.currentNode.id, disabled: true}),
+            id: new FormControl({ value: this.currentNode.id, disabled: true }),
             name: [this.currentNode.name, Validators.required],
             labels: this.currentNode.label,
-            children:  new FormControl({value: this._fb.array([]), disabled:true}, Validators.required),
-            numberOfChildren: new FormControl({value: this.currentNode.children.length, disabled: true}),
+            children: new FormControl({ value: this._fb.array([]), disabled: true }, Validators.required),
+            numberOfChildren: new FormControl({ value: this.currentNode.children.length, disabled: true }),
             level: this.currentNode.level,
             // position: this.currentNode.position
         });
@@ -149,7 +149,7 @@ export class NodeFormComponent implements OnChanges {
     }
 
 
-//FORM FUNCTIONS
+    //FORM FUNCTIONS
     revertNode() {
         this.ngOnChanges();
     }

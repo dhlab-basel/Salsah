@@ -14,9 +14,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ApiServiceError, UsersService } from '@knora/core';
+import { ApiServiceError, User, UsersService } from '@knora/core';
 import { Title } from '@angular/platform-browser';
-import { User } from '../../../model/webapi/knora';
 
 
 @Component({

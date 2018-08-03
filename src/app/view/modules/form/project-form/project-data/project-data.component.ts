@@ -12,9 +12,8 @@
  * */
 
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { Project, User } from '../../../../../model/webapi/knora';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiServiceError, ApiServiceResult, ProjectsService } from '@knora/core';
+import { ApiServiceError, ApiServiceResult, Project, ProjectsService, User } from '@knora/core';
 import { existingNamesValidator } from '../../../other/existing-name.directive';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';

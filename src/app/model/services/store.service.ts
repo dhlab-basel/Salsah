@@ -16,7 +16,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { RdfDataObject, ResetTriplestoreContentResponse } from '../webapi/knora/admin';
+import { RdfDataObject, ResetTriplestoreContentResponse } from '@knora/core';
 import { environment } from '../../../environments/environment';
 
 

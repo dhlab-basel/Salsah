@@ -13,7 +13,7 @@
  * */
 
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { ApiServiceError, ProjectsService, UsersService } from '@knora/core';
+import { ApiServiceError, ProjectsService, User, UsersService } from '@knora/core';
 
 import { MessageData } from '../../message/message.component';
 import { MatDialog, MatDialogConfig } from '@angular/material';
@@ -21,7 +21,6 @@ import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.compon
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { MessageDialogComponent } from '../../dialog/message-dialog/message-dialog.component';
-import { User } from '../../../../model/webapi/knora';
 
 import { LanguageService } from '../../../../model/services/language.service';
 import { TranslateService } from '@ngx-translate/core';

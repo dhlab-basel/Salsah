@@ -14,14 +14,12 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiServiceError, ProjectsService, UsersService } from '@knora/core';
-import { Project } from '../../../../model/webapi/knora/';
+import { ApiServiceError, Project, ProjectsService, User, UsersService } from '@knora/core';
 import { MessageData } from '../../message/message.component';
 import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { MessageDialogComponent } from '../../dialog/message-dialog/message-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { User } from '../../../../model/webapi/knora/admin';
 
 /**
  * This component has two optional attributes:

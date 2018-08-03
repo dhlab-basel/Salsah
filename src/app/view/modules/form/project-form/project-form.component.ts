@@ -14,8 +14,7 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiServiceError, ApiServiceResult, KnoraConstants, ProjectsService } from '@knora/core';
-import { Project } from '../../../../model/webapi/knora/';
+import { ApiServiceError, ApiServiceResult, KnoraConstants, Project, ProjectsService } from '@knora/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { existingNamesValidator, notAllowed } from '../../other/existing-name.directive';

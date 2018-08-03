@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {MessageData} from '../../../modules/message/message.component';
-import {User} from '../../../../model/webapi/knora/';
+import { Component, OnInit } from '@angular/core';
+import { MessageData } from '../../../modules/message/message.component';
+import { User } from '@knora/core';
 
 @Component({
     selector: 'salsah-user-settings',
