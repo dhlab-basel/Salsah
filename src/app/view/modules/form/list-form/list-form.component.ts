@@ -2,8 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 // import {ListsService} from '@knora/core';
 import { ApiServiceError, List, ListCreatePayload, ListInfo, ListInfoUpdatePayload, ListsService } from '@knora/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { StringLiteralV2 } from 'app/model/webapi/knora/v2/shared/strings';
-import { Project, ProjectsService } from '@knora/core';
+import { Project, ProjectsService, StringLiteral } from '@knora/core';
 
 
 @Component({
@@ -175,12 +174,12 @@ export class ListFormComponent implements OnChanges {
     get comments(): FormArray {
         return this.listInfoForm.get('comments') as FormArray;
     }
-    setLabels(labels: StringLiteralV2[]) {
+    setLabels(labels: StringLiteral[]) {
         const labelFGs = labels.map(label => this._fb.group(label));
         const labelFormArray = this._fb.array(labelFGs);
         this.listInfoForm.setControl('labels', labelFormArray);
     }
-    setComments(comments: StringLiteralV2[]) {
+    setComments(comments: StringLiteral[]) {
         const commentFGs = comments.map(comment => this._fb.group(comment));
         const commentFormArray = this._fb.array(commentFGs);
         this.listInfoForm.setControl('comments', commentFormArray);
