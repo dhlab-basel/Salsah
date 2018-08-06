@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -31,6 +31,7 @@ import { UsersService } from '@knora/core';
 //
 // import all npm salsah modules
 import { KuiCoreConfig, KuiCoreModule } from '@knora/core';
+import { KuiSearchModule } from '@knora/search';
 //
 // just to get the basic ontology form the json file
 import { BasicOntologyService } from './model/services/basic-ontology.service';
@@ -42,10 +43,8 @@ import { StatusMsgServiceService } from './model/services/status-msg-service.ser
 import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.directive';
 import { ImageDirective } from './view/modules/other/image.directive';
 import { OverlayDirective } from './view/modules/other/overlay.directive';
-import { KeyPipe } from '@knora/action';
-import { ReversePipe } from '@knora/action';
-// import { SortByPipe } from '@knora/action';
-import { SortByPipe } from './view/modules/other/sort-by.pipe';
+// import { KeyPipe } from '@knora/action';
+// import { SortByPipe } from './view/modules/other/sort-by.pipe';
 
 //
 // import all app components
@@ -164,9 +163,6 @@ import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-
 import { LeooComponent } from './view/templates/leoo/leoo.component';
 import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
 
-import { ProgressIndicatorComponent } from '@knora/action';
-import { SortButtonComponent } from '@knora/action';
-
 //
 // import all needed services
 //
@@ -213,8 +209,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         UserProjectsComponent,
         UserCollectionsComponent,
         ProjectAdvancedComponent,
-        ReversePipe,
-        KeyPipe,
         ProgressStepperComponent,
         MathJaxDirective,
         DevelopmentComponent,
@@ -230,7 +224,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         NewResourceClassComponent,
         ProjectListsAdminComponent,
         EditResourceClassComponent,
-        SortByPipe,
         SystemComponent,
         SystemUsersComponent,
         SystemProjectsComponent,
@@ -290,8 +283,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ProjectDataComponent,
         ReadTextfileValueComponent,
         NodeFormComponent,
-        SortButtonComponent,
-        ProgressIndicatorComponent,
         LeooComponent,
         ObjectViewerComponent
     ],
@@ -303,6 +294,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             media: environment.media,
             app: environment.app
         }),
+        KuiSearchModule,
         HttpClientModule,
         FormsModule,
         RouterModule,
@@ -347,7 +339,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             } as RecaptchaSettings,
         }
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
 }
