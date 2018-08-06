@@ -18,7 +18,7 @@ import {
     ApiServiceResult,
     ConvertJSONLD,
     ExtendedSearchParams,
-    GravSearchService,
+    GravsearchGenerationService,
     KnoraConstants,
     OntologyCacheService,
     OntologyInformation,
@@ -88,7 +88,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
     numberOfItems: number; // number of items actually returned by the query (using paging)
     numberOfAllResults: number; // total number of results (count query)
 
-    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService, private _searchParamsService: SearchParamsService, private _gravsearchgenerationService: GravSearchService) {
+    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService, private _searchParamsService: SearchParamsService, private _gravsearchgenerationService: GravsearchGenerationService) {
     }
 
     ngOnInit() {

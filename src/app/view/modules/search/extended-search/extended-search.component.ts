@@ -2,7 +2,7 @@ import { Component, EventEmitter, Inject, OnInit, Output, QueryList, ViewChild, 
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
-    GravSearchService,
+    GravsearchGenerationService,
     OntologyCacheService,
     OntologyInformation,
     OntologyMetadata,
@@ -61,7 +61,7 @@ export class ExtendedSearchComponent implements OnInit {
         private _route: ActivatedRoute,
         private _router: Router,
         private _cacheService: OntologyCacheService,
-        private _gravsearchgenerationService: GravSearchService) {
+        private _gravsearchgenerationService: GravsearchGenerationService) {
     }
 
     ngOnInit() {
