@@ -32,6 +32,7 @@ import { UsersService } from '@knora/core';
 // import all npm salsah modules
 import { KuiCoreConfig, KuiCoreModule } from '@knora/core';
 import { KuiSearchModule } from '@knora/search';
+import { KuiActionModule } from '@knora/action';
 //
 // just to get the basic ontology form the json file
 import { BasicOntologyService } from './model/services/basic-ontology.service';
@@ -43,8 +44,6 @@ import { StatusMsgServiceService } from './model/services/status-msg-service.ser
 import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.directive';
 import { ImageDirective } from './view/modules/other/image.directive';
 import { OverlayDirective } from './view/modules/other/overlay.directive';
-// import { KeyPipe } from '@knora/action';
-// import { SortByPipe } from './view/modules/other/sort-by.pipe';
 
 //
 // import all app components
@@ -295,6 +294,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             app: environment.app
         }),
         KuiSearchModule,
+        KuiActionModule,
         HttpClientModule,
         FormsModule,
         RouterModule,
@@ -327,9 +327,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ],
     providers: [
         // StatusMsgServiceService,
-        // FileService,
-        // BeolService,
-        // LanguageService,
+        FileService,
+        BeolService,
+        LanguageService,
         AngularFirestore,
         { provide: APP_BASE_HREF, useValue: '/' },
         {
