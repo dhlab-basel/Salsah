@@ -16,7 +16,9 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@knora/core';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ResourceTypesService extends ApiService {
 
     /**

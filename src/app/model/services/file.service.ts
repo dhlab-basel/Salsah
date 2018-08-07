@@ -6,7 +6,9 @@ import { AppConfig } from '../../app.config';
 
 // service unused and outdated
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class FileService {
 
     constructor(private http: Http) {

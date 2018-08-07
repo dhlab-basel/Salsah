@@ -20,7 +20,9 @@ import { RdfDataObject, ResetTriplestoreContentResponse } from '@knora/core';
 import { environment } from '../../../environments/environment';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class StoreService {
 
     constructor(private http: HttpClient) { }

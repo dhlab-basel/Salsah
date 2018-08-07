@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LanguageService } from './model/services/language.service';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { APP_BASE_HREF } from '@angular/common';
@@ -23,28 +22,17 @@ import 'hammerjs';
 // import other third party modules
 //
 import { DndModule } from 'ng2-dnd';
-import { ProjectsService } from '@knora/core';
-import { PropertiesService } from './model/services/properties.service';
-import { ResourceTypesService } from './model/services/resource-types.service';
-import { ListsService } from '@knora/core';
-import { UsersService } from '@knora/core';
 //
 // import all npm salsah modules
 import { KuiCoreConfig, KuiCoreModule } from '@knora/core';
 import { KuiSearchModule } from '@knora/search';
 import { KuiActionModule } from '@knora/action';
 //
-// just to get the basic ontology form the json file
-import { BasicOntologyService } from './model/services/basic-ontology.service';
-// and a list of status messages
-import { StatusMsgServiceService } from './model/services/status-msg-service.service';
-//
 // import directives, pipes etc.
 //
 import { ForbiddenNameDirective } from './view/modules/other/forbidden-name.directive';
 import { ImageDirective } from './view/modules/other/image.directive';
 import { OverlayDirective } from './view/modules/other/overlay.directive';
-
 //
 // import all app components
 //
@@ -131,7 +119,6 @@ import { DecimalValueComponent } from './view/modules/search/extended-search/sel
 import { BooleanValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
 import { DateValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
 import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
-import { FileService } from './model/services/file.service';
 import { InternationalizationComponent } from './view/modules/framework/main-framework/internationalization/internationalization.component';
 import { ExistingNameDirective } from './view/modules/other/existing-name.directive';
 import { FormTestComponent } from './view/test/development/form-test/form-test.component';
@@ -142,10 +129,7 @@ import { TextValueComponent } from './view/modules/search/extended-search/select
 import { UriValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
 import { LinkValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/link-value/link-value.component';
 import { BeolComponent } from './view/templates/beol/beol.component';
-import { BeolService } from './model/services/beol.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-
-import { GroupsService } from '@knora/core';
 
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
@@ -161,15 +145,11 @@ import { ProjectDataComponent } from './view/modules/form/project-form/project-d
 import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
 import { LeooComponent } from './view/templates/leoo/leoo.component';
 import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
-
-//
-// import all needed services
 //
 // just to get the basic ontology form the json file
 //
 // import all app components
 //
-
 // Translate: AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
@@ -326,10 +306,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ResourceClassFormComponent // deprecated!!
     ],
     providers: [
-        // StatusMsgServiceService,
-        FileService,
-        BeolService,
-        LanguageService,
         AngularFirestore,
         { provide: APP_BASE_HREF, useValue: '/' },
         {
