@@ -13,8 +13,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AppConfig } from '../../../../../app.config';
-import { ApiServiceError, KnoraConstants, User, UsersService } from '@knora/core';
+import { ApiServiceError, KnoraConstants, User, UsersService, Utils } from '@knora/core';
 
 @Component({
     selector: 'salsah-user-password',
@@ -84,7 +83,7 @@ export class UserPasswordComponent implements OnInit {
             }, [
                     Validators.required,
                     Validators.minLength(8),
-                    Validators.pattern(AppConfig.RegexPassword)
+                    Validators.pattern(Utils.RegexPassword)
 
                 ])
         });

@@ -28,7 +28,6 @@ import {
     SearchService
 } from '@knora/core';
 import { MessageData } from '../../message/message.component';
-import { AppConfig } from '../../../../app.config';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -56,7 +55,6 @@ export class ResourcesListComponent implements OnInit, OnChanges {
 
     @Output() toggleItem = new EventEmitter<any>();
 
-    // AppConfig = AppConfig;
     KnoraConstants = KnoraConstants;
 
     // grid list settings

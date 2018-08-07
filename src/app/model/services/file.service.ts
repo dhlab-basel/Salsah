@@ -2,7 +2,6 @@
 import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { AppConfig } from '../../app.config';
 
 // service unused and outdated
 

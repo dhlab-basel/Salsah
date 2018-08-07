@@ -19,7 +19,6 @@ import { } from '../../../../model/webapi/knora';
 import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TreeNode } from 'angular-tree-component/dist/models/tree-node.model';
-import { AppConfig } from '../../../../app.config';
 
 @Component({
     selector: 'salsah-lists-list',
@@ -52,7 +51,7 @@ export class ListsListComponent implements OnInit {
     // default permission groups / role of the user in a project
     // defaultGroups: AutocompleteItem[] = [
     //     {
-    //         iri: AppConfig.ProjectMemberGroup,
+    //         iri: KnoraConstants.ProjectMemberGroupIRI,
     //         name: 'Member'
     //     },
     //     {
@@ -61,7 +60,7 @@ export class ListsListComponent implements OnInit {
     //     }
     /* use the following in system view only!
     {
-        iri: AppConfig.SystemAdminGroup,
+        iri: KnoraConstants.SystemAdminGroupIRI,
         name: '',
         label: 'System admin'
     }

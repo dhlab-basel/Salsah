@@ -16,9 +16,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 
-import { ApiServiceError, KnoraConstants, Project, User, UsersService } from '@knora/core';
+import { ApiServiceError, KnoraConstants, Project, User, UsersService, Utils } from '@knora/core';
 import { AutocompleteItem } from '../../../../app.interfaces';
-import { AppConfig } from '../../../../app.config';
 
 @Component({
     selector: 'salsah-user-form',
@@ -225,7 +224,7 @@ export class UserFormComponent implements OnInit {
                 value: '', disabled: false
             }, [
                     Validators.required,
-                    Validators.pattern(AppConfig.RegexEmail)
+                    Validators.pattern(Utils.RegexEmail)
                     //                    existingNamesValidator(this.existingUserNames)
                 ])
         });
@@ -453,7 +452,7 @@ export class UserFormComponent implements OnInit {
 
     setGroupsPermissions(userIri: string) {
 
-        const projectAdmin: boolean = (!!this.selectedGroups.find(ad => ad.iri === AppConfig.ProjectAdminGroup));
+        const projectAdmin: boolean = (!!this.selectedGroups.find(ad => ad.iri === KnoraConstants.ProjectAdminGroupIRI));
 
         if (projectAdmin) {
             this._usersService.addUserToProjectAdmin(userIri, this.selectedProject.iri).subscribe(

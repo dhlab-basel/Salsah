@@ -14,9 +14,8 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { OntologyInformation, ReadLinkValue } from '@knora/core';
+import { OntologyInformation, ReadLinkValue, KnoraConstants } from '@knora/core';
 import { ObjectDialogComponent } from '../../modules/dialog/object-dialog/object-dialog.component';
-import { AppConfig } from '../../../app.config';
 
 @Component({
     selector: 'read-link-value',
@@ -28,7 +27,7 @@ export class ReadLinkValueComponent implements OnInit {
     @Input() valueObject: ReadLinkValue;
     @Input() ontologyInfo: OntologyInformation;
 
-    AppConfig = AppConfig;
+    KnoraConstants = KnoraConstants;
 
     constructor(private dialog: MatDialog) {
     }

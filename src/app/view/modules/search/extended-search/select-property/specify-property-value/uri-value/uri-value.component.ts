@@ -1,5 +1,4 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { AppConfig } from '../../../../../../../app.config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { KnoraConstants, PropertyValue, Value, ValueLiteral, Utils } from '@knora/core';
 

@@ -73,7 +73,7 @@ export class UserRoleComponent implements OnInit {
         }
         /* use the following in system view only!
         {
-            iri: AppConfig.SystemAdminGroup,
+            iri: KnoraConstants.SystemAdminGroupIRI,
             name: '',
             label: 'System admin'
         }
