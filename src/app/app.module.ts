@@ -50,9 +50,6 @@ import { ProjectProfileComponent } from './view/dashboard/project/project-profil
 import { ProjectSettingsComponent } from './view/dashboard/project/project-settings/project-settings.component';
 import { ProjectTeamComponent } from './view/dashboard/project/project-team/project-team.component';
 import { ProjectResourcesComponent } from './view/dashboard/project/project-resources/project-resources.component';
-import { SearchComponent } from './view/modules/search/search.component';
-import { SimpleSearchComponent } from './view/modules/search/simple-search/simple-search.component';
-import { ExtendedSearchComponent } from './view/modules/search/extended-search/extended-search.component';
 import { ProjectsListComponent } from './view/modules/listing/projects-list/projects-list.component';
 import { ResourcesListComponent } from './view/modules/listing/resources-list/resources-list.component';
 import { ResourceGridListComponent } from './view/modules/listing/resource-grid-list/resource-grid-list.component';
@@ -104,20 +101,12 @@ import { ProjectOntologiesComponent } from './view/dashboard/project/project-ont
 import { OntologiesListComponent } from './view/modules/listing/ontologies-list/ontologies-list.component';
 import { UsersListItemComponent } from './view/modules/listing/users-list/users-list-item/users-list-item.component';
 import { OntologyFormComponent } from './view/modules/form/ontology-form/ontology-form.component';
-import { SelectPropertyComponent } from './view/modules/search/extended-search/select-property/select-property.component';
-import { SelectResourceClassComponent } from './view/modules/search/extended-search/select-resource-class/select-resource-class.component';
-import { SelectOntologyComponent } from './view/modules/search/extended-search/select-ontology/select-ontology.component';
 import { ReadUriValueComponent } from './view/properties/read-uri-value/read-uri-value.component';
 import { ReadBooleanValueComponent } from './view/properties/read-boolean-value/read-boolean-value.component';
 import { ReadIntervalValueComponent } from './view/properties/read-interval-value/read-interval-value.component';
 import { ReadListValueComponent } from './view/properties/read-list-value/read-list-value.component';
 import { TreeModule } from 'angular-tree-component';
 import { ListsListComponent } from './view/modules/listing/lists-list/lists-list.component';
-import { SpecifyPropertyValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/specify-property-value.component';
-import { IntegerValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/integer-value/integer-value.component';
-import { DecimalValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/decimal-value/decimal-value.component';
-import { BooleanValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/boolean-value/boolean-value.component';
-import { DateValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/date-value/date-value.component';
 import { OntologiesListItemComponent } from './view/modules/listing/ontologies-list/ontologies-list-item/ontologies-list-item.component';
 import { InternationalizationComponent } from './view/modules/framework/main-framework/internationalization/internationalization.component';
 import { ExistingNameDirective } from './view/modules/other/existing-name.directive';
@@ -125,9 +114,6 @@ import { FormTestComponent } from './view/test/development/form-test/form-test.c
 import { UserDataComponent } from './view/modules/form/user-form/user-data/user-data.component';
 import { GndDirective } from './view/modules/other/gnd.directive';
 import { MatJDNConvertibleCalendarDateAdapterModule } from 'jdnconvertiblecalendardateadapter';
-import { TextValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
-import { UriValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
-import { LinkValueComponent } from './view/modules/search/extended-search/select-property/specify-property-value/link-value/link-value.component';
 import { BeolComponent } from './view/templates/beol/beol.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
@@ -163,9 +149,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         UserComponent,
         LoginComponent,
         ProjectComponent,
-        SearchComponent,
-        SimpleSearchComponent,
-        ExtendedSearchComponent,
         HeaderToolbarComponent,
         HeaderProjectsComponent,
         DashboardComponent,
@@ -228,27 +211,16 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         OntologiesListComponent,
         UsersListItemComponent,
         OntologyFormComponent,
-        SelectPropertyComponent,
-        SelectResourceClassComponent,
-        SelectOntologyComponent,
         ReadUriValueComponent,
         ReadBooleanValueComponent,
         ReadIntervalValueComponent,
         ReadListValueComponent,
         ListsListComponent,
-        SpecifyPropertyValueComponent,
-        IntegerValueComponent,
-        DecimalValueComponent,
-        BooleanValueComponent,
-        DateValueComponent,
         OntologiesListItemComponent,
         FormTestComponent,
         UserDataComponent,
         InternationalizationComponent,
         ExistingNameDirective,
-        TextValueComponent,
-        UriValueComponent,
-        LinkValueComponent,
         ExistingNameDirective,
         BeolComponent,
         GndDirective,
