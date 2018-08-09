@@ -13,12 +13,13 @@
  * */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ApiServiceError, List, ListInfo, ListNode, ListsService, KnoraConstants, User, UsersService } from '@knora/core';
+import { ApiServiceError, List, ListInfo, ListNode, ListsService, KnoraConstants, User, UsersService, ListResponse } from '@knora/core';
 import { MessageData } from '../../message/message.component';
 import { } from '../../../../model/webapi/knora';
 import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TreeNode } from 'angular-tree-component/dist/models/tree-node.model';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'salsah-lists-list',
@@ -76,7 +77,7 @@ export class ListsListComponent implements OnInit {
         statusText: 'It seems there\'s no list yet. Add a new one with the button above &uarr;'
     };
 
-    lists: ListInfo[] = [];
+    lists: List[] = [];
     numberOfItems: number;
 
     currentNodes: ListNode[];
@@ -115,9 +116,10 @@ export class ListsListComponent implements OnInit {
             //     get all project lists
             this._listsService.getLists(this.restrictedBy)
                 .subscribe(
-                    (lists: List[]) => {
-                        this.lists = lists.map(value => value.listinfo);
-                        this.numberOfItems = lists.length;
+                    (result: List[]) => {
+                        console.log('lists with IRI from lists list: ', result);
+                        this.lists = result;
+                        this.numberOfItems = this.lists.length;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -130,8 +132,9 @@ export class ListsListComponent implements OnInit {
             // get all system lists
             this._listsService.getLists()
                 .subscribe(
-                    (lists: List[]) => {
-                        this.lists = lists.map(value => value.listinfo);
+                    (result: List[]) => {
+                        console.log('lists from lists list: ', result);
+                        this.lists = result;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -141,7 +144,7 @@ export class ListsListComponent implements OnInit {
                 );
         }
 
-        console.log('projectIri:', this.restrictedBy);
+        // console.log('projectIri:', this.restrictedBy);
 
         this.isExpanded = false;
 
