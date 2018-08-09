@@ -1,8 +1,7 @@
 import {TestBed, inject} from '@angular/core/testing';
 import {AppModule} from '../../app.module';
 import {AppRoutingModule} from '../../app-routing.module';
-import {ApiService} from './api.service';
-import {StatusMsgServiceService} from './status-msg-service.service';
+import {StatusMsgService} from './status-msg.service';
 
 describe('SessionService', () => {
     beforeEach(() => {
@@ -12,13 +11,12 @@ describe('SessionService', () => {
                 AppRoutingModule
             ],
             providers: [
-                ApiService,
-                StatusMsgServiceService
+                StatusMsgService
             ]
         });
     });
 
-    xit('should ...', inject([StatusMsgServiceService], (service: StatusMsgServiceService) => {
+    xit('should ...', inject([StatusMsgService], (service: StatusMsgService) => {
         expect(service).toBeTruthy();
     }));
 });

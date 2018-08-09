@@ -360,9 +360,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/search@^1.0.1-alpha":
-  version "1.0.1-alpha"
-  resolved "https://registry.yarnpkg.com/@knora/search/-/search-1.0.1-alpha.tgz#12a7460331863fb4815790c01dc7e5652db87b31"
+"@knora/search@^1.0.2-alpha":
+  version "1.0.2-alpha"
+  resolved "https://registry.yarnpkg.com/@knora/search/-/search-1.0.2-alpha.tgz#cba24e724a846b60f9ede40ae423b0f9094bdb26"
   dependencies:
     tslib "^1.9.0"
 
