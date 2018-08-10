@@ -25,7 +25,7 @@ export class StatusMsgService {
         return this._http.get(this.config.app + '/assets/i18n/statusMsg.json')
             .pipe(map(
                 (res: any) => {
-                    // console.log(res);
+                    return res;
                     },
                 err => {
                     console.error(err);

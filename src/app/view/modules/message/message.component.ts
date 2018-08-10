@@ -24,7 +24,7 @@ export interface MessageData {
     statusText?: string,
     type?: string,
     route?: string,
-    footnote?: string,
+    footnote?: string
 }
 
 @Component({
@@ -130,7 +130,6 @@ export class MessageComponent implements OnInit {
     }
 
     setMessage(msg: MessageData) {
-
         const tmpMsg: MessageData = <MessageData>{};
 
         const s: number = (msg.status === 0 ? 503 : msg.status);
@@ -155,8 +154,9 @@ export class MessageComponent implements OnInit {
 
                 break;
             case (s >= 400 && s < 500):
+
                 // the message is a client side (salsah-gui) error
-                // console.log('the message is a client side (salsah-gui) error');
+                // console.log('the message is a client side (salsah-gui) error', s);
                 tmpMsg.type = 'error';
                 tmpMsg.statusMsg = (msg.statusMsg !== undefined ? msg.statusMsg : this.statusMsg[s].message);
                 tmpMsg.statusText = (msg.statusText !== undefined ? msg.statusText : this.statusMsg[s].description);
