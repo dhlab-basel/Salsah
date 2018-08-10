@@ -1,8 +1,9 @@
 import {TestBed, inject} from '@angular/core/testing';
 import {AppModule} from '../../app.module';
 import {AppRoutingModule} from '../../app-routing.module';
-import {ApiService} from './api.service';
+
 import {ResourceTypesService} from './resource-types.service';
+import {ApiService} from '@knora/core';
 
 describe('ResourceTypesService', () => {
     beforeEach(() => {

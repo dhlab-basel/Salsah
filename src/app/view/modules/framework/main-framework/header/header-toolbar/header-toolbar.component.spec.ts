@@ -2,7 +2,6 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../../../app.module';
 import {AppRoutingModule} from '../../../../../../app-routing.module';
 import {HeaderToolbarComponent} from './header-toolbar.component';
-import {AuthenticationService} from '../../../../../../model/services/authentication.service';
 import {UsersService} from '@knora/core';
 
 describe('HeaderToolbarComponent', () => {

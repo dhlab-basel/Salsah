@@ -3,9 +3,8 @@ import {AppModule} from '../../../../app.module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectResourcesComponent} from './project-resources.component';
 import {ResourceTypesService} from '../../../../model/services/resource-types.service';
-import {PropertiesService} from '../../../../model/services/properties.service';
-import {Project} from '../../../../model/webapi/knora/';
 import {imagesProject} from '../../../../model/test-data/shared-test-data';
+import {Project} from '@knora/core';
 
 
 describe('ProjectResourcesComponent', () => {
@@ -21,8 +20,7 @@ describe('ProjectResourcesComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                ResourceTypesService,
-                PropertiesService
+                ResourceTypesService
             ]
         })
             .compileComponents();

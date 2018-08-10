@@ -4,7 +4,7 @@ import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectsListComponent} from './projects-list.component';
 import {ProjectsService} from '@knora/core';
 import {MockBackend} from '@angular/http/testing';
-import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
+import {BaseRequestOptions, Http} from '@angular/http';
 
 describe('ProjectsListComponent', () => {
     let component: ProjectsListComponent;
@@ -35,7 +35,7 @@ describe('ProjectsListComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
-
+/*
     xit('should be created', async(inject(
         [ProjectsService, MockBackend], (service, mockBackend) => {
 
@@ -49,4 +49,5 @@ describe('ProjectsListComponent', () => {
 
             expect(component).toBeTruthy();
         })));
+        */
 });

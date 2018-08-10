@@ -2,11 +2,11 @@ import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import {AppModule} from '../../../../app.module';
 import {AppRoutingModule} from '../../../../app-routing.module';
 import {ProjectTeamComponent} from './project-team.component';
-import {ProjectsService} from '@knora/core';
+import {Project, ProjectsService} from '@knora/core';
 import {UsersService} from '@knora/core';
-import {Project} from '../../../../model/webapi/knora/';
+
 import {MockBackend} from '@angular/http/testing';
-import {BaseRequestOptions, Http, ResponseOptions} from '@angular/http';
+import {BaseRequestOptions, Http} from '@angular/http';
 import {imagesProject} from '../../../../model/test-data/shared-test-data';
 
 describe('ProjectTeamComponent', () => {
@@ -62,7 +62,7 @@ describe('ProjectTeamComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
-
+/*
     xit('should be created', async(inject(
         [ProjectsService, MockBackend], (service, mockBackend) => {
 
@@ -162,6 +162,7 @@ describe('ProjectTeamComponent', () => {
 
             expect(component).toBeTruthy();
         })));
+        */
 
     xit('should get the project data', () => {
         expect<any>(sessionStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
