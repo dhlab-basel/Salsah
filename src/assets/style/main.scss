@@ -53,7 +53,20 @@ a.facsimile {
   background: url('/assets/icons/beol/facsimile.png');
   background-size: cover;
 }
-
+a.person {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  background: url('/assets/icons/beol/person_gr.png');
+  background-size: cover;
+}
+a.item {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  background: url('/assets/icons/beol/biblio_item_gr.png');
+  background-size: cover;
+}
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 

@@ -140,7 +140,7 @@ export class BeolComponent implements OnInit {
 
         const Jean_Pierre_de_Crousaz = new Correspondent("Jean Pierre de Crousaz", "(DE-588)100097413");
 
-        // TODO Jean Boecler
+        const Jean_Boecler = new Correspondent("Jean Boecler", "(DE-588)117609048");
 
         // TODO Brandenburgische Sozietät
 
@@ -168,7 +168,7 @@ export class BeolComponent implements OnInit {
 
         const Edmond_Halley = new Correspondent("Edmond Halley", "(DE-588)118720066");
 
-        // TODO Peter Hammer
+        const Peter_Hammer = new Correspondent("Peter Hammer", "(DE-588)1147909822");
 
         const German_Hermann = new Correspondent("German Hermann", "(DE-588)1048628825");
 
@@ -304,6 +304,7 @@ export class BeolComponent implements OnInit {
                         new Correspondence(Johann_I_Bernoulli, Christoph_Battier),
                         new Correspondence(Johann_I_Bernoulli, Georg_Bernhard_Bilfinger),
                         new Correspondence(Johann_I_Bernoulli, Johann_Wendel_Bilfinger),
+                        new Correspondence(Johann_I_Bernoulli, Jean_Boecler),
                         new Correspondence(Johann_I_Bernoulli, Pierre_Bouguer),
                         new Correspondence(Johann_I_Bernoulli, Marc_Michel_Bousquet),
                         new Correspondence(Johann_I_Bernoulli, William_Burnet),
@@ -331,6 +332,7 @@ export class BeolComponent implements OnInit {
                         new Correspondence(Johann_I_Bernoulli, Jean_Paul_Gua_de_Malves)]),
                     new Section("H", [
                         new Correspondence(Johann_I_Bernoulli, Edmond_Halley),
+                        new Correspondence(Johann_I_Bernoulli, Peter_Hammer),
                         new Correspondence(Johann_I_Bernoulli, German_Hermann),
                         new Correspondence(Johann_I_Bernoulli, Jacob_Hermann),
                     ]),
@@ -440,9 +442,9 @@ export class BeolComponent implements OnInit {
 
     searchForBook(isbn: string, sectionTitle: string) {
 
-        const knarql: string = this._beol.searchForBook(isbn, sectionTitle);
+        const gravsearch: string = this._beol.searchForBook(isbn, sectionTitle);
 
-        this._searchService.doExtendedSearch(encodeURIComponent(knarql)).subscribe(
+        this._searchService.doExtendedSearch(gravsearch).subscribe(
             (result: ApiServiceResult) => {
 
                 let promises = jsonld.promises;
@@ -469,11 +471,10 @@ export class BeolComponent implements OnInit {
             }
         );
 
-        // this.submitQuery(knarql);
     }
 
     /**
-     * Generate KnarQL query to search for the correspondence between two persons.
+     * Generate Gravsearch query to search for the correspondence between two persons.
      *
      * @param {string} gnd1 GND of the first correspondent.
      * @param {string} gnd2 GND of the second correspondent.
@@ -481,19 +482,19 @@ export class BeolComponent implements OnInit {
      */
     searchForCorrespondence(gnd1: string, gnd2: string, noTranslations: boolean = false) {
 
-        const knarql: string = this._beol.searchForCorrespondence(gnd1, gnd2, noTranslations, 0);
+        const gravsearch: string = this._beol.searchForCorrespondence(gnd1, gnd2, noTranslations, 0);
 
-        this.submitQuery(knarql);
+        this.submitQuery(gravsearch);
     }
 
     /**
      * Show a correspondence between two persons.
      *
-     * @param {string} knarql the KnarQL query to be executed.
+     * @param {string} gravsearch the Gravsearch query to be executed.
      */
-    private submitQuery(knarql: string) {
+    private submitQuery(gravsearch: string) {
 
-        this._router.navigate(['/search/extended/' + encodeURIComponent(knarql)], {relativeTo: this._route});
+        this._router.navigate(['/search/extended/', gravsearch], {relativeTo: this._route});
     }
 
 

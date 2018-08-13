@@ -38,7 +38,6 @@ import {SystemUsersComponent} from './view/dashboard/system/system-users/system-
 import {SystemProjectsComponent} from './view/dashboard/system/system-projects/system-projects.component';
 import {SystemOntologiesComponent} from './view/dashboard/system/system-ontologies/system-ontologies.component';
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
-import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {UserFormComponent} from './view/modules/form/user-form/user-form.component';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
@@ -48,6 +47,8 @@ import {ContactFormComponent} from './view/modules/form/contact-form/contact-for
 import {BeolComponent} from './view/templates/beol/beol.component';
 import {DialogTestComponent} from './view/test/development/dialog-test/dialog-test.component';
 import {ProgressIndicatorComponent} from './view/modules/other/progress-indicator/progress-indicator.component';
+import {LeooComponent} from './view/templates/leoo/leoo.component';
+import {ObjectViewerComponent} from './view/modules/object/object-viewer/object-viewer.component';
 
 
 const appRoutes: Routes = [
@@ -89,7 +90,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'object/:rid',
-        component: ResourceObjectComponent
+        component: ObjectViewerComponent
     },
     {
         path: 'contact',
@@ -180,16 +181,6 @@ const appRoutes: Routes = [
                 component: ProgressIndicatorComponent
             },
             {
-                path: 'upload',
-                component: FileUploaderComponent,
-                data: {
-                    maxFiles: 5,
-                    formType: 'admin',
-                    viewType: 'url'
-
-                }
-            },
-            {
                 path: 'form/:name', component: FormCreateComponent,
                 children: [
                     {
@@ -217,10 +208,6 @@ const appRoutes: Routes = [
                 component: DialogTestComponent
             },
             {
-                path: 'uploader',
-                component: FileUploaderComponent
-            },
-            {
                 path: 'new-user',
                 component: UserFormComponent
             }
@@ -228,7 +215,11 @@ const appRoutes: Routes = [
     },
     { // path to specific component for the BEOL project
         path: 'beol',
-        component: BeolComponent
+        component: BeolComponent,
+    },
+    { // path to specific component for the BEOL project
+        path: 'leoo/:rn',
+        component: LeooComponent
     },
     {
         path: '**',

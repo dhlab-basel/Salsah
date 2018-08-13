@@ -98,7 +98,6 @@ import {ResourceTypesListComponent} from './view/modules/listing/resource-types-
 import {CollectionsListComponent} from './view/modules/listing/collections-list/collections-list.component';
 import {SearchResultsComponent} from './view/search/search-results/search-results.component';
 import {ResourceObjectComponent} from './view/modules/object/resource-object/resource-object.component';
-import {FileUploaderComponent} from './view/modules/form/file-uploader/file-uploader.component';
 import {DndDirective} from './view/modules/other/dnd.directive';
 import {ResizeGridDirective} from './view/modules/other/resize-grid.directive';
 import {FormCreateComponent} from './view/test/development/form-create/form-create.component';
@@ -144,7 +143,7 @@ import {ExistingNameDirective} from './view/modules/other/existing-name.directiv
 import {FormTestComponent} from './view/test/development/form-test/form-test.component';
 import {UserDataComponent} from './view/modules/form/user-form/user-data/user-data.component';
 import {GndDirective} from './view/modules/other/gnd.directive';
-import {KnarqlgenerationService} from './model/services/knarqlgeneration.service';
+import {GravsearchGenerationService} from './model/services/gravsearch-generation.service';
 import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertiblecalendardateadapter';
 import {TextValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/text-value/text-value.component';
 import {UriValueComponent} from './view/modules/search/extended-search/select-property/specify-property-value/uri-value/uri-value.component';
@@ -170,6 +169,8 @@ import { ProjectDataComponent } from './view/modules/form/project-form/project-d
 import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
 import { SortButtonComponent } from './view/modules/action/sort-button/sort-button.component';
 import { ProgressIndicatorComponent } from './view/modules/other/progress-indicator/progress-indicator.component';
+import { LeooComponent } from './view/templates/leoo/leoo.component';
+import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
 
 //
 // import all needed services
@@ -251,7 +252,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         CollectionsListComponent,
         SearchResultsComponent,
         ResourceObjectComponent,
-        FileUploaderComponent,
         DndDirective,
         ResizeGridDirective,
         FormCreateComponent,
@@ -296,7 +296,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ReadTextfileValueComponent,
         NodeFormComponent,
         SortButtonComponent,
-        ProgressIndicatorComponent
+        ProgressIndicatorComponent,
+        LeooComponent,
+        ObjectViewerComponent
     ],
     imports: [
         BrowserModule,
@@ -347,7 +349,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         StatusMsgServiceService,
         AuthenticationService,
         FileService,
-        KnarqlgenerationService,
+        GravsearchGenerationService,
         BeolService,
         LanguageService,
         AngularFirestore,
