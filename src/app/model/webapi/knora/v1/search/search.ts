@@ -12,13 +12,13 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
-import {ThumbMax} from "./thumbMax";
-import {Paging} from "./paging";
-import {Subject} from "./subject";
+import { JsonObject, JsonProperty } from 'json2typescript';
+import { ThumbMax } from './thumbMax';
+import { Paging } from './paging';
+import { Subject } from './subject';
 
 
-@JsonObject
+@JsonObject('Search')
 export class Search {
 
     @JsonProperty('subjects', [Subject])

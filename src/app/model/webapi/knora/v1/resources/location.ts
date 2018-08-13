@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
+import { JsonObject, JsonProperty } from 'json2typescript';
 
-@JsonObject
+@JsonObject('Location')
 export class Location {
 
     @JsonProperty('duration', Number)
@@ -42,4 +42,3 @@ export class Location {
     public protocol: string = undefined;
 
 }
- 

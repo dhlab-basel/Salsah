@@ -12,11 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
-import {Region} from "./region";
-import {Location} from "./location";
+import { JsonObject, JsonProperty } from 'json2typescript';
+import { Region } from './region';
+import { Location } from './location';
 
-@JsonObject
+@JsonObject('ResourceInfo')
 export class ResourceInfo {
 
     @JsonProperty('locations', [Location])
@@ -68,4 +68,3 @@ export class ResourceInfo {
     public restype_id: string = undefined;
 
 }
- 

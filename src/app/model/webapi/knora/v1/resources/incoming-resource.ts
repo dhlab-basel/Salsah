@@ -12,11 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
-import {ResourceInfo} from "./resource-info";
-import {ResourceId} from "./resource-id";
+import { JsonObject, JsonProperty } from 'json2typescript';
+import { ResourceInfo } from './resource-info';
+import { ResourceId } from './resource-id';
 
-@JsonObject
+@JsonObject('IncomingResource')
 export class IncomingResource {
 
     @JsonProperty('ext_res_id', ResourceId)

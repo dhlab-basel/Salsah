@@ -12,11 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
-import {ResourceTypeInfo} from "./resource-type-info";
+import { JsonObject, JsonProperty } from 'json2typescript';
+import { ResourceTypeInfo } from './resource-type-info';
 
 
-@JsonObject
+@JsonObject('ResourceType')
 export class ResourceType {
     @JsonProperty('restype_info', ResourceTypeInfo)
     public restype_info: ResourceTypeInfo = undefined;

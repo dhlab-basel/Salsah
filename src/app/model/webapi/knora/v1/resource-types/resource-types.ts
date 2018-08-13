@@ -13,11 +13,11 @@
  * */
 
 
-import {JsonObject, JsonProperty} from "json2typescript";
-import {ResourceTypeItem} from "./resource-type-item";
+import { JsonObject, JsonProperty } from 'json2typescript';
+import { ResourceTypeItem } from './resource-type-item';
 
 
-@JsonObject
+@JsonObject('ResourceTypes')
 export class ResourceTypes {
 
     @JsonProperty('resourcetypes', [ResourceTypeItem])
