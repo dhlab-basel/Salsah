@@ -10,7 +10,7 @@ We develop the Salsah app with Angular (v5), especially with Angular-cli, which 
 ### Node
 Install [Node](https://nodejs.org/en/download/) in version >=4 <=9. We recommend to use version 8.9.0.
 
-The easiest way to install node in the correct version is to use ['n'](https://github.com/tj/n).
+The easiest way to install node in the correct version is to use '[n](https://github.com/tj/n)'.
 
 
 ### Yarn (instead of npm)
