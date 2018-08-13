@@ -13,8 +13,7 @@
  * */
 
 import {Directive, ElementRef, Inject, Input, OnChanges, Renderer2} from '@angular/core';
-import { Md5 } from 'ts-md5/dist/md5';
-import { AppConfig } from '../../../app.config';
+import {Md5} from 'ts-md5/dist/md5';
 import {KuiCoreConfig} from '@knora/core';
 
 @Directive({
