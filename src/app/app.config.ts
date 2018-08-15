@@ -15,14 +15,14 @@
 /**
  * Knora schemas
  */
-export enum KnoraSchema {
+/* export enum KnoraSchema {
     complex = 0,
     simple = 1
-}
+} */
 
 export class AppConfig {
 
-    public static KnoraOntologyPath: string = 'http://www.knora.org/ontology';
+    /* public static KnoraOntologyPath: string = 'http://www.knora.org/ontology';
     public static KnoraBase: string = AppConfig.KnoraOntologyPath + '/knora-base';
 
     public static SystemProject: string = AppConfig.KnoraBase + '#SystemProject';
@@ -225,6 +225,6 @@ export class AppConfig {
     public static RegexUrl = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/i;
     public static RegexPassword = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/i;
     public static RegexHex = /^[0-9A-Fa-f]+$/;
-    public static RegexShortname = /^[a-zA-Z]+\S*$/;
+    public static RegexShortname = /^[a-zA-Z]+\S*$/; */
 
 }
