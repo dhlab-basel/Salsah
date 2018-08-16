@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../app.module';
-import {AppRoutingModule} from '../../app-routing.module';
-import {DocumentationComponent} from './documentation.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../app.module';
+import { AppRoutingModule } from '../../app-routing.module';
+import { DocumentationComponent } from './documentation.component';
 
 describe('DocumentationComponent', () => {
     let component: DocumentationComponent;
@@ -23,7 +23,7 @@ describe('DocumentationComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should create', () => {
+    it('should create', () => {
         expect(component).toBeTruthy();
     });
 });

@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import {ConfirmDialogComponent} from './confirm-dialog.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { ConfirmDialogComponent } from './confirm-dialog.component';
 
 describe('ConfirmDialogComponent', () => {
     let component: ConfirmDialogComponent;
@@ -14,8 +14,8 @@ describe('ConfirmDialogComponent', () => {
                 AppModule,
             ],
             providers: [
-                {provide: MAT_DIALOG_DATA, useValue: {}},
-                {provide: MatDialogRef}
+                { provide: MAT_DIALOG_DATA, useValue: {} },
+                { provide: MatDialogRef }
             ]
         })
             .compileComponents();
@@ -28,7 +28,7 @@ describe('ConfirmDialogComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should create', () => {
+    it('should create', () => {
         expect(component).toBeTruthy();
     });
 });

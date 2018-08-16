@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../../../app.module';
-import {AppRoutingModule} from '../../../../../../app-routing.module';
-import {HeaderToolbarComponent} from './header-toolbar.component';
-import {UsersService} from '@knora/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../../../app.module';
+import { AppRoutingModule } from '../../../../../../app-routing.module';
+import { HeaderToolbarComponent } from './header-toolbar.component';
+import { UsersService } from '@knora/core';
 
 describe('HeaderToolbarComponent', () => {
     let component: HeaderToolbarComponent;
@@ -55,7 +55,7 @@ describe('HeaderToolbarComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should get the user data', () => {
+    it('should get the user data', () => {
         expect<any>(localStorage.getItem('currentUser')).toBe(JSON.stringify(currentTestUser));
         expect(component).toBeTruthy();
     });

@@ -49,8 +49,8 @@ describe('ResourceTypesListComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should get the project data', () => {
+    it('should get the project data', async(() => {
         expect<any>(localStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
         expect(component).toBeTruthy();
-    });
+    }));
 });

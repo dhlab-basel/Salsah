@@ -2,7 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProjectOntologiesComponent } from './project-ontologies.component';
 import { FrameworkForListingsComponent } from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
-
+import { AppModule } from '../../../../app.module';
+import { AppRoutingModule } from '../../../../app-routing.module';
 
 describe('ProjectOntologiesComponent', () => {
   let component: ProjectOntologiesComponent;
@@ -10,7 +11,10 @@ describe('ProjectOntologiesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProjectOntologiesComponent, FrameworkForListingsComponent]
+      imports: [
+        AppModule,
+        AppRoutingModule
+      ],
     })
       .compileComponents();
   }));

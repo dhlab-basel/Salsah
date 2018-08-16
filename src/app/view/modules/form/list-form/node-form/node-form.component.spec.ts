@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NodeFormComponent } from './node-form.component';
+import { AppModule } from '../../../../../app.module';
 
 describe('NodeFormComponent', () => {
   let component: NodeFormComponent;
@@ -8,9 +9,11 @@ describe('NodeFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NodeFormComponent ]
+      imports: [
+        AppModule
+      ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +22,7 @@ describe('NodeFormComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

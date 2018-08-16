@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../../app.module';
-import {AppRoutingModule} from '../../../../../app-routing.module';
-import {FooterComponent} from './footer.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../../app.module';
+import { AppRoutingModule } from '../../../../../app-routing.module';
+import { FooterComponent } from './footer.component';
 
 describe('FooterComponent', () => {
     let component: FooterComponent;
@@ -23,7 +23,7 @@ describe('FooterComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should modify', () => {
+    it('should modify', () => {
         expect(component).toBeTruthy();
     });
 });

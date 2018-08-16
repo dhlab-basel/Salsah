@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {UserDataComponent} from './user-data.component';
-import {AppModule} from '../../../../../app.module';
-import {UsersService} from '@knora/core';
+import { UserDataComponent } from './user-data.component';
+import { AppModule } from '../../../../../app.module';
+import { UsersService } from '@knora/core';
 
 describe('UserDataComponent', () => {
     let component: UserDataComponent;

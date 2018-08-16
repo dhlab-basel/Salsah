@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InternationalizationComponent } from './internationalization.component';
+import { AppModule } from '../../../../../app.module';
+import { AppRoutingModule } from '../../../../../app-routing.module';
 
 describe('InternationalizationComponent', () => {
   let component: InternationalizationComponent;
@@ -8,9 +10,12 @@ describe('InternationalizationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InternationalizationComponent ]
+      imports: [
+        AppModule,
+        AppRoutingModule
+      ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +24,7 @@ describe('InternationalizationComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {MessageDialogComponent} from './message-dialog.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MessageDialogComponent } from './message-dialog.component';
 
 describe('MessageDialogComponent', () => {
     let component: MessageDialogComponent;
@@ -13,8 +13,8 @@ describe('MessageDialogComponent', () => {
                 AppModule
             ],
             providers: [
-                {provide: MAT_DIALOG_DATA, useValue: {}},
-                {provide: MatDialogRef}
+                { provide: MAT_DIALOG_DATA, useValue: {} },
+                { provide: MatDialogRef }
             ]
         })
             .compileComponents();
@@ -26,7 +26,7 @@ describe('MessageDialogComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should be created', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 });
