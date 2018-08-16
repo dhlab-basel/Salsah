@@ -12,15 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {BasicOntology, PropertyObject, ResourceClass} from '../../../../model/test-data/basic-ontology';
-import {FormBuilder, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
-import {ResourceTypeInfo} from "../../../../model/webapi/knora";
-import {PropertyItem} from "../../../../model/webapi/knora/v1/properties/property-item";
-import {AppConfig} from "../../../../app.config";
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {BasicOntologyService} from "../../../../model/services/basic-ontology.service";
-import {ApiServiceError} from "../../../../model/services/api-service-error";
+import { Component, Input, OnInit } from '@angular/core';
+import { BasicOntology, PropertyObject, ResourceClass } from '../../../../model/test-data/basic-ontology';
+import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { ResourceTypeInfo } from '../../../../model/webapi/knora';
+import { PropertyItem } from '../../../../model/webapi/knora/v1/properties/property-item';
+import { AppConfig } from '../../../../app.config';
+import { ApiServiceResult } from '../../../../model/services/api-service-result';
+import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
+import { ApiServiceError } from '../../../../model/services/api-service-error';
 
 @Component({
     selector: 'salsah-ontology-form',
@@ -231,13 +231,13 @@ export class OntologyFormComponent implements OnInit {
 
     buildOntologyResForm() {
         this.ontologyResForm = this._fb.group({
-            resName: new FormControl({ //this is the resource's short name
+            resName: new FormControl({ // this is the resource's short name
                 value: '', disabled: false
             }, [
                 // Validators.required,
                 // Validators.maxLength(4)
             ]),
-            resLabel: new FormControl({ //this is the resource's label
+            resLabel: new FormControl({ // this is the resource's label
                 value: '', disabled: false
             }, [
                 Validators.required,
@@ -262,13 +262,13 @@ export class OntologyFormComponent implements OnInit {
 
     buildOntologyPropForm() {
         this.ontologyPropForm = this._fb.group({
-            propName: new FormControl({ //this is the property's short name
+            propName: new FormControl({ // this is the property's short name
                 value: '', disabled: false
             }, [
                 // Validators.required,
                 // Validators.maxLength(4)
             ]),
-            propLabel: new FormControl({ //this is the property's label
+            propLabel: new FormControl({ // this is the property's label
                 value: '', disabled: false
             }, [
                 Validators.required,
@@ -328,10 +328,10 @@ export class OntologyFormComponent implements OnInit {
                     this.errorMessage = <any>error;
                 }
             );
-        console.log(this.basicOntology);
+        // console.log(this.basicOntology);
     }
 
-    //Form action buttons
+    // Form action buttons
 
     resetNewRes() {
         this.ontologyPropForm.reset();
@@ -340,7 +340,7 @@ export class OntologyFormComponent implements OnInit {
     saveNewRes() {
         console.log('Your submitted resource is:', this.ontologyResForm.value);
         const i = this.index;
-        //Assign the form values to newResource////////////
+        // Assign the form values to newResource////////////
         this.newResource[i] = {
             name: this.ontologyResForm.value.resName,
             label: this.ontologyResForm.value.resLabel,
@@ -376,19 +376,20 @@ export class OntologyFormComponent implements OnInit {
         this.pindex++;
     }
 
-    delProp(item: any){
+    delProp(item: any) {
         const index: number = this.newProperty.indexOf(item);
         this.newProperty.splice(index, 1);
         this.pindex--;
     }
-    delRes(item: any){
+
+    delRes(item: any) {
         const index: number = this.newResource.indexOf(item);
         this.newResource.splice(index, 1);
         this.index--;
     }
 
     //////////Angular split-screen functions /////////////////////////////////////
-    gutterClick(e: {gutterNum: number, sizes: Array<number>}) {
+    gutterClick(e: { gutterNum: number, sizes: Array<number> }) {
         if (e.gutterNum === 1) {
             if (this.areas[0].size > 0) {
                 this.areas[1].size += this.areas[0].size;
@@ -421,7 +422,7 @@ export class OntologyFormComponent implements OnInit {
         }
     }
 
-    dragEnd(e: {gutterNum: number, sizes: Array<number>}) {
+    dragEnd(e: { gutterNum: number, sizes: Array<number> }) {
         this.areas[0].size = e.sizes[0];
         this.areas[1].size = e.sizes[1];
         this.areas[2].size = e.sizes[2];

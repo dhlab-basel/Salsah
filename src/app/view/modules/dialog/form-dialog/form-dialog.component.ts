@@ -59,7 +59,6 @@ export class FormDialogComponent implements OnInit {
         }
 
         this.notYetImplemented.route = this.data.form;
-        console.log(this.data.form);
     }
 
     /*
