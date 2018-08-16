@@ -12,8 +12,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from 'json2typescript';
-import {PropertyItem} from "../webapi/knora/v1/properties/property-item";
+import { JsonObject, JsonProperty } from 'json2typescript';
+import { PropertyItem } from '../webapi/knora/v1/properties/property-item';
 
 /**
  * has four default categories and four groups
@@ -123,7 +123,7 @@ export class ResourceClass {
 export class BasicOntology {
 
     // defaultProperties
-    @JsonProperty('defaultProperties', [PropertyItem])
+    @JsonProperty('defaultProperties', [PropertyItem], true)
     public defaultProperties: PropertyItem[] = undefined;
 
     // defaultPermissions
@@ -131,7 +131,7 @@ export class BasicOntology {
     public defaultPermissions: Permissions = undefined;
 
     // defaultResourceClasses
-    @JsonProperty('resourceClasses', [ResourceClass])
+    @JsonProperty('resourceClasses', [ResourceClass], true)
     public resourceClasses: ResourceClass[] = undefined;
 
 }

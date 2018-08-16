@@ -203,13 +203,16 @@
                             <mat-icon>add</mat-icon>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <mat-form-field class="large">
+                    <mat-form-field class="full-width">
                         <input matInput
                                placeholder={{editResFormLabels.addProp.autoComplete}}
                                [matAutocomplete]="autoProp"
                                [formControl]="propCtrl">
-                        <mat-icon matSuffix class="input-icon icon-for-autocomplete" (click)="resetAddProp()"
-                                  *ngIf="propCtrl.value && propCtrl.dirty">close
+                        <mat-icon *ngIf="propCtrl.value && propCtrl.dirty"
+                                  matSuffix
+                                  class="input-icon"
+                                  (click)="resetAddProp()">
+                            clear
                         </mat-icon>
                         <mat-autocomplete #autoProp="matAutocomplete"> <!-- [displayWith]="displayFn"> -->
                             <mat-option *ngFor="let prop of filteredProps | async" [value]="prop?.label"

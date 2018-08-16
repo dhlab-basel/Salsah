@@ -12,7 +12,7 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
+import { JsonObject, JsonProperty } from 'json2typescript';
 
 @JsonObject
 export class PropertyItem {
@@ -47,36 +47,36 @@ export class PropertyItem {
     @JsonProperty('gui_name', String, true)
     public gui_name: string = undefined;
 
-/*
-    @JsonProperty('comments', [String], true)
-    public comments: string[] = undefined;
+    /*
+        @JsonProperty('comments', [String], true)
+        public comments: string[] = undefined;
 
-    @JsonProperty('is_annotation', String)
-    public is_annotation: string = undefined;
+        @JsonProperty('is_annotation', String)
+        public is_annotation: string = undefined;
 
-    @JsonProperty('locations', [Location], true)
-    public locations: Location[] = undefined;
+        @JsonProperty('locations', [Location], true)
+        public locations: Location[] = undefined;
 
-    @JsonProperty('regular_property', Number)
-    public regular_property: number = undefined;
+        @JsonProperty('regular_property', Number)
+        public regular_property: number = undefined;
 
-    @JsonProperty('value_firstprops', [String], true)
-    public value_firstprops: string[] = undefined;
+        @JsonProperty('value_firstprops', [String], true)
+        public value_firstprops: string[] = undefined;
 
-    @JsonProperty('value_iconsrcs', [String], true)
-    public value_iconsrcs: string[] = undefined;
+        @JsonProperty('value_iconsrcs', [String], true)
+        public value_iconsrcs: string[] = undefined;
 
-    @JsonProperty('value_ids', [String], true)
-    public value_ids: string[] = undefined;
+        @JsonProperty('value_ids', [String], true)
+        public value_ids: string[] = undefined;
 
-    @JsonProperty('value_restype', [String], true)
-    public value_restype: string[] = undefined;
+        @JsonProperty('value_restype', [String], true)
+        public value_restype: string[] = undefined;
 
-    @JsonProperty('value_rights', [Number], true)
-    public value_rights: Number[] = undefined;
+        @JsonProperty('value_rights', [Number], true)
+        public value_rights: Number[] = undefined;
 
-    @JsonProperty('values', [Object], true)
-    public values: any[] = undefined;
-*/
+        @JsonProperty('values', [Object], true)
+        public values: any[] = undefined;
+    */
 
 }
