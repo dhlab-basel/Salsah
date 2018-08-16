@@ -10,12 +10,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {Form, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AppConfig} from '../../../../../app.config';
-import {ApiServiceError} from '../../../../../model/services/api-service-error';
-import {User} from '../../../../../model/webapi/knora';
-import {UsersService} from '../../../../../model/services/users.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AppConfig } from '../../../../../app.config';
+import { ApiServiceError } from '../../../../../model/services/api-service-error';
+import { User } from '../../../../../model/webapi/knora';
+import { UsersService } from '../../../../../model/services/users.service';
 
 @Component({
     selector: 'salsah-user-password',
@@ -200,7 +200,7 @@ export class UserPasswordComponent implements OnInit {
 
                 this.isLoading = false;
             }
-        )
+        );
 
         this.oldPswd = !this.oldPswd;
 
@@ -220,11 +220,12 @@ export class UserPasswordComponent implements OnInit {
             newPassword
         };
 
-        console.log(this.requesterPasswordForm.value);
-        console.log(this.pswdData);
+        // console.log(this.userIri);
+        // console.log(this.requesterPasswordForm.value);
+        // console.log(this.pswdData);
         this._usersService.updateUser(this.userIri, this.pswdData).subscribe(
             (result: User) => {
-                console.log(result);
+                // console.log(result);
                 this.success = true;
                 this.isLoading = false;
             },
