@@ -5,18 +5,17 @@
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  * SALSAH is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * You should have received a copy of the GNU Affero General Public
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AppConfig} from '../../../../../app.config';
-import {ApiServiceError} from '../../../../../model/services/api-service-error';
-import {User} from '../../../../../model/webapi/knora';
-import {UsersService} from '../../../../../model/services/users.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AppConfig } from '../../../../../app.config';
+import { ApiServiceError } from '../../../../../model/services/api-service-error';
+import { User } from '../../../../../model/webapi/knora';
+import { UsersService } from '../../../../../model/services/users.service';
 
 @Component({
     selector: 'salsah-user-password',
@@ -30,6 +29,7 @@ export class UserPasswordComponent implements OnInit {
     // visibility of password
     showOldPassword: boolean = false;
     showNewPassword: boolean = false;
+    oldPswd: boolean = true;
 
     // in case of an API error
     errorMessage: any;
@@ -45,10 +45,16 @@ export class UserPasswordComponent implements OnInit {
         statusText: 'You have successfully changed your password.'
     };
 
+    loggedInUser: any;
+
     // show the content after every service has loaded and the data is ready
     isLoading: boolean = true;
 
     userPasswordForm: FormGroup;
+    newPasswordForm: FormGroup;
+    requesterPasswordForm: FormGroup;
+
+    pswdData: any = {};
 
     // error checking on the following fields
     formErrors = {
@@ -90,19 +96,46 @@ export class UserPasswordComponent implements OnInit {
 
             ])
         });
+        this.requesterPasswordForm = this._formBuilder.group({
+            'requesterPassword': new FormControl({
+                value: '', disabled: false
+            }, [
+                Validators.required
+            ])
+        });
+
+        this.newPasswordForm = this._formBuilder.group({
+            'newPassword': new FormControl({
+                value: '', disabled: false
+            }, [
+                Validators.required,
+                Validators.minLength(8),
+                Validators.pattern(AppConfig.RegexPassword)
+            ])
+        });
 
         this.userPasswordForm.valueChanges
-            .subscribe(data => this.onValueChanged(data));
+            .subscribe(data => this.onValueChanged(this.userPasswordForm, data));
+        this.newPasswordForm.valueChanges
+            .subscribe(data => this.onValueChanged(this.newPasswordForm, data));
+        this.requesterPasswordForm.valueChanges
+            .subscribe(data => this.onValueChanged(this.requesterPasswordForm, data));
 
-        this.onValueChanged(); // (re)set validation messages now
+        this.onValueChanged(this.userPasswordForm); // (re)set validation messages now
+        this.onValueChanged(this.newPasswordForm); // (re)set validation messages now
+        this.onValueChanged(this.requesterPasswordForm); // (re)set validation messages now
 
         this.isLoading = false;
 
+        // get the user data only if a user is logged in
+        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+
+
     }
 
-    onValueChanged(data?: any) {
+    onValueChanged(form: FormGroup, data?: any) {
 
-        const form = this.userPasswordForm;
+        // const form = this.userPasswordForm;
 
         Object.keys(this.formErrors).map(field => {
             this.formErrors[field] = '';
@@ -117,8 +150,9 @@ export class UserPasswordComponent implements OnInit {
         });
     }
 
+
     /**
-     * toggel the visibility of the password
+     * toggle the visibility of the password
      */
     toggleVisibility(ev: Event, password: string) {
         ev.preventDefault();
@@ -132,6 +166,14 @@ export class UserPasswordComponent implements OnInit {
     }
 
     /**
+     *Save new password goes to the next div, to check sys admin password and then submit
+     */
+    savePswd() {
+        this.oldPswd = !this.oldPswd;
+    }
+
+
+    /**
      *
      */
     submitData(): void {
@@ -142,7 +184,48 @@ export class UserPasswordComponent implements OnInit {
 
         this._usersService.updateUser(this.userIri, this.userPasswordForm.value).subscribe(
             (result: User) => {
-                console.log(result);
+                console.log(this.userPasswordForm.value);
+                this.success = true;
+                this.isLoading = false;
+            },
+            (error: ApiServiceError) => {
+
+                if (error.status === 403) {
+                    // the old password is wrong
+                    this.oldPasswordIsWrong = true;
+                    this.success = false;
+                } else {
+                    this.errorMessage = error;
+                }
+
+                this.isLoading = false;
+            }
+        );
+
+        this.oldPswd = !this.oldPswd;
+
+    }
+
+    submitSysAdminData(): void {
+        // reset old messages
+        this.oldPasswordIsWrong = false;
+
+        this.isLoading = true;
+
+        const requesterPassword = this.requesterPasswordForm.value.requesterPassword;
+        const newPassword = this.newPasswordForm.value.newPassword;
+
+        this.pswdData = {
+            requesterPassword,
+            newPassword
+        };
+
+        // console.log(this.userIri);
+        // console.log(this.requesterPasswordForm.value);
+        // console.log(this.pswdData);
+        this._usersService.updateUser(this.userIri, this.pswdData).subscribe(
+            (result: User) => {
+                // console.log(result);
                 this.success = true;
                 this.isLoading = false;
             },
@@ -159,6 +242,9 @@ export class UserPasswordComponent implements OnInit {
                 this.isLoading = false;
             }
         )
+
+        this.oldPswd = !this.oldPswd;
+
     }
 
 }

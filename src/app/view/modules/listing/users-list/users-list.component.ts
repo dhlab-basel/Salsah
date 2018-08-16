@@ -361,7 +361,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
         config.data = {
             user: user,
-            form: 'user'
+            form: 'user',
+            userIri: user.id
         };
 
         config.panelClass = 'resizable';
