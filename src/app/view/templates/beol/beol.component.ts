@@ -423,7 +423,7 @@ export class BeolComponent implements OnInit {
                 ])]),
             new CorrespondenceGroupWithSection(Nicolaus_II_Bernoulli, [
                 new Section("S", [
-                    // new Correspondence(Nicolaus_II_Bernoulli, Johann_Jakob_Scheuchzer), // TODO BIBB: no recipient for 1723-03-17_Bernoulli_Nicolaus_II-Scheuchzer_Johann_Jakob
+                    new Correspondence(Nicolaus_II_Bernoulli, Johann_Jakob_Scheuchzer),
                     new Correspondence(Nicolaus_II_Bernoulli, Johannes_Scheuchzer)
                 ])]),
             new CorrespondenceGroupWithSection(Jacob_Hermann, [
