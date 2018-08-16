@@ -122,6 +122,28 @@ export class ApiService {
         });
     }
 
+    httpGetBasicOnto(url: string, options?: RequestOptionsArgs): Observable<ApiServiceResult> {
+
+        if (!options) options = {withCredentials: true};
+
+        url = (url.slice(0, 4) === 'http' ? url : environment.api + url);
+
+        return this._http.get(url, options).map((response: Response) => {
+            try {
+                let apiServiceResult: ApiServiceResult = new ApiServiceResult();
+                apiServiceResult.status = response.status;
+                apiServiceResult.statusText = response.statusText;
+                apiServiceResult.body = response.json();
+                apiServiceResult.url = url;
+                return apiServiceResult;
+            } catch (e) {
+                return ApiService.handleError(response, url);
+            }
+        }).catch((error: any) => {
+            return Observable.throw(ApiService.handleError(error, url));
+        });
+    }
+
 
 
     /**
