@@ -1,6 +1,6 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {SearchResultsComponent} from './search-results.component';
-import {AppModule} from '../../../app.module';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SearchResultsComponent } from './search-results.component';
+import { AppModule } from '../../../app.module';
 
 describe('SearchResultsComponent', () => {
     let component: SearchResultsComponent;
@@ -21,7 +21,7 @@ describe('SearchResultsComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should be created', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {AppRoutingModule} from '../../../../app-routing.module';
-import {ProjectFormComponent} from './project-form.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { AppRoutingModule } from '../../../../app-routing.module';
+import { ProjectFormComponent } from './project-form.component';
 
 describe('ProjectFormComponent', () => {
     let component: ProjectFormComponent;

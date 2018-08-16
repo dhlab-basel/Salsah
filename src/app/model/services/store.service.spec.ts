@@ -1,7 +1,7 @@
-import {environment} from '../../../environments/environment';
-import {async, inject, TestBed} from '@angular/core/testing';
-import {StoreService} from './store.service';
-import {HttpClientModule} from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { async, inject, TestBed } from '@angular/core/testing';
+import { StoreService } from './store.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 describe('StoreService', () => {
@@ -34,12 +34,12 @@ describe('StoreService', () => {
                     .subscribe(
                         (result: string) => {
                             expect(result).toBe('success');
-                    });
+                        });
 
             })), 300000);
 
     } else {
-        xit('integration tests skipped. run  "ng test --env=it".');
+        it('integration tests skipped. run  "ng test --env=it".');
     }
 
 });

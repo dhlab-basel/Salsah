@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { AppModule } from '../../../../app.module';
+import { AppRoutingModule } from '../../../../app-routing.module';
 import { OntologyFormComponent } from './ontology-form.component';
 
 describe('OntologyFormComponent', () => {
@@ -8,9 +9,12 @@ describe('OntologyFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OntologyFormComponent ]
+      imports: [
+        AppModule,
+        AppRoutingModule
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +23,7 @@ describe('OntologyFormComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

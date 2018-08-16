@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {UsersListComponent} from './users-list.component';
-import {ProjectsService} from '@knora/core';
-import {UsersService} from '@knora/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { UsersListComponent } from './users-list.component';
+import { ProjectsService } from '@knora/core';
+import { UsersService } from '@knora/core';
 
 describe('UsersListComponent', () => {
     let component: UsersListComponent;
@@ -27,7 +27,7 @@ describe('UsersListComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should be created', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

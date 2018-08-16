@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UsersListItemComponent } from './users-list-item.component';
+import { AppModule } from '../../../../../app.module';
+import { AppRoutingModule } from '../../../../../app-routing.module';
 
 describe('UsersListItemComponent', () => {
   let component: UsersListItemComponent;
@@ -8,9 +10,12 @@ describe('UsersListItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UsersListItemComponent ]
+      imports: [
+        AppModule,
+        AppRoutingModule
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +24,7 @@ describe('UsersListItemComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

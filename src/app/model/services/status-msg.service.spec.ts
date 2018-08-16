@@ -1,7 +1,7 @@
-import {TestBed, inject} from '@angular/core/testing';
-import {AppModule} from '../../app.module';
-import {AppRoutingModule} from '../../app-routing.module';
-import {StatusMsgService} from './status-msg.service';
+import { TestBed, inject } from '@angular/core/testing';
+import { AppModule } from '../../app.module';
+import { AppRoutingModule } from '../../app-routing.module';
+import { StatusMsgService } from './status-msg.service';
 
 describe('SessionService', () => {
     beforeEach(() => {
@@ -16,7 +16,7 @@ describe('SessionService', () => {
         });
     });
 
-    xit('should ...', inject([StatusMsgService], (service: StatusMsgService) => {
+    it('should be created', inject([StatusMsgService], (service: StatusMsgService) => {
         expect(service).toBeTruthy();
     }));
 });

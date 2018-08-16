@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {AppModule} from '../../../app.module';
-import {AppMaterialModule} from '../../../app-material-module';
+import { AppModule } from '../../../app.module';
+import { AppMaterialModule } from '../../../app-material-module';
 import { ReadDecimalValueComponent } from './read-decimal-value.component';
 
 describe('ReadDecimalValueComponent', () => {
@@ -9,12 +9,12 @@ describe('ReadDecimalValueComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-        imports: [
-            AppModule,
-            AppMaterialModule
-        ]
+      imports: [
+        AppModule,
+        AppMaterialModule
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('ReadDecimalValueComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

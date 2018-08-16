@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {UserObjectComponent} from './user-object.component';
-import {UsersService} from '@knora/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { UserObjectComponent } from './user-object.component';
+import { UsersService } from '@knora/core';
 
 describe('UserObjectComponent', () => {
     let component: UserObjectComponent;
@@ -25,7 +25,7 @@ describe('UserObjectComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should be created', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

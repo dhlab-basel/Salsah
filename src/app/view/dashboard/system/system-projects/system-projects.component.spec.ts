@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {SystemProjectsComponent} from './system-projects.component';
-import {AppModule} from '../../../../app.module';
-import {AppRoutingModule} from '../../../../app-routing.module';
+import { SystemProjectsComponent } from './system-projects.component';
+import { AppModule } from '../../../../app.module';
+import { AppRoutingModule } from '../../../../app-routing.module';
 
 describe('SystemProjectsComponent', () => {
     let component: SystemProjectsComponent;
@@ -24,7 +24,7 @@ describe('SystemProjectsComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should be created', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

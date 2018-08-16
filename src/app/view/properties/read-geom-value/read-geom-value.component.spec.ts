@@ -8,9 +8,9 @@ describe('ReadGeomValueComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReadGeomValueComponent ]
+      declarations: [ReadGeomValueComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('ReadGeomValueComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should be created', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
 });

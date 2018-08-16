@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListFormComponent } from './list-form.component';
-import {AppModule} from '../../../../app.module';
-import {ListsService} from '@knora/core';
-import {ProjectsService} from '@knora/core';
+import { AppModule } from '../../../../app.module';
+import { ListsService } from '@knora/core';
+import { ProjectsService } from '@knora/core';
 
 describe('ListFormComponent', () => {
   let component: ListFormComponent;
@@ -11,15 +11,15 @@ describe('ListFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-        imports: [
-            AppModule
-        ],
-        providers: [
-            ListsService,
-            ProjectsService
-        ]
+      imports: [
+        AppModule
+      ],
+      providers: [
+        ListsService,
+        ProjectsService
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -28,7 +28,7 @@ describe('ListFormComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

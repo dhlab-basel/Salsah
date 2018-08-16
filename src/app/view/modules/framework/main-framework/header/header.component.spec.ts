@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../../app.module';
-import {AppRoutingModule} from '../../../../../app-routing.module';
-import {HeaderComponent} from './header.component';
-import {UsersService} from '@knora/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../../app.module';
+import { AppRoutingModule } from '../../../../../app-routing.module';
+import { HeaderComponent } from './header.component';
+import { UsersService } from '@knora/core';
 
 describe('HeaderComponent', () => {
     let component: HeaderComponent;
@@ -27,7 +27,7 @@ describe('HeaderComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should modify', () => {
+    it('should modify', () => {
         expect(component).toBeTruthy();
     });
 });

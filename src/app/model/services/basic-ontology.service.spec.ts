@@ -1,6 +1,6 @@
-import {TestBed, inject} from '@angular/core/testing';
-import {AppModule} from '../../app.module';
-import {BasicOntologyService} from './basic-ontology.service';
+import { TestBed, inject } from '@angular/core/testing';
+import { AppModule } from '../../app.module';
+import { BasicOntologyService } from './basic-ontology.service';
 
 
 describe('BasicOntologyService', () => {
@@ -15,7 +15,7 @@ describe('BasicOntologyService', () => {
         });
     });
 
-    xit('nothing tested', inject([BasicOntologyService], (service: BasicOntologyService) => {
+    it('nothing tested', inject([BasicOntologyService], (service: BasicOntologyService) => {
         expect(service).toBeTruthy();
     }));
 

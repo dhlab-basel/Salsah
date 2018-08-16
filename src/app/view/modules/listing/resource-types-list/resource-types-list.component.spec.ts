@@ -1,10 +1,10 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {ResourceTypesListComponent} from './resource-types-list.component';
-import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { ResourceTypesListComponent } from './resource-types-list.component';
+import { ResourceTypesService } from '../../../../model/services/resource-types.service';
 
-import {imagesProject} from '../../../../model/test-data/shared-test-data';
-import {Project} from '@knora/core';
+import { imagesProject } from '../../../../model/test-data/shared-test-data';
+import { Project } from '@knora/core';
 
 describe('ResourceTypesListComponent', () => {
     let component: ResourceTypesListComponent;
@@ -49,7 +49,7 @@ describe('ResourceTypesListComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should get the project data', () => {
+    it('should get the project data', () => {
         expect<any>(localStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
         expect(component).toBeTruthy();
     });

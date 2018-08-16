@@ -1,9 +1,9 @@
-import {TestBed, inject} from '@angular/core/testing';
-import {AppModule} from '../../app.module';
-import {AppRoutingModule} from '../../app-routing.module';
+import { TestBed, inject } from '@angular/core/testing';
+import { AppModule } from '../../app.module';
+import { AppRoutingModule } from '../../app-routing.module';
 
-import {ResourceTypesService} from './resource-types.service';
-import {ApiService} from '@knora/core';
+import { ResourceTypesService } from './resource-types.service';
+import { ApiService } from '@knora/core';
 
 describe('ResourceTypesService', () => {
     beforeEach(() => {
@@ -19,7 +19,7 @@ describe('ResourceTypesService', () => {
         });
     });
 
-    xit('should ...', inject([ResourceTypesService], (service: ResourceTypesService) => {
+    it('should be created', inject([ResourceTypesService], (service: ResourceTypesService) => {
         expect(service).toBeTruthy();
     }));
 });

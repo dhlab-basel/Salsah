@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {AppRoutingModule} from '../../../../app-routing.module';
-import {ResourceGridListComponent} from './resource-grid-list.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { AppRoutingModule } from '../../../../app-routing.module';
+import { ResourceGridListComponent } from './resource-grid-list.component';
 
 describe('ResourceGridListComponent', () => {
     let component: ResourceGridListComponent;
@@ -23,7 +23,7 @@ describe('ResourceGridListComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should modify', () => {
+    it('should modify', () => {
         expect(component).toBeTruthy();
     });
 });

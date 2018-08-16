@@ -8,9 +8,9 @@ describe('ReadListValueComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReadListValueComponent ]
+      declarations: [ReadListValueComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
