@@ -452,6 +452,12 @@ amqplib@^0.5.2:
     readable-stream "1.x >=1.1.9"
     safe-buffer "^5.0.1"
 
+angular-split@^1.0.0-rc.3:
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/angular-split/-/angular-split-1.0.0-rc.3.tgz#eb63fd60d8fd94587d75c19524d90d8712f136e0"
+  dependencies:
+    tslib "^1.7.1"
+
 angular-tree-component@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/angular-tree-component/-/angular-tree-component-6.1.0.tgz#9d9a6b28a6881c2072cd6306b55229579e894071"

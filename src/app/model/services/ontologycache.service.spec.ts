@@ -1,21 +1,37 @@
-import {async, inject, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../app.module';
-import {AppRoutingModule} from '../../app-routing.module';
-import {ApiService} from './api.service';
+import { async, inject, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../app.module';
+import { AppRoutingModule } from '../../app-routing.module';
+import { ApiService } from './api.service';
 import {
     Cardinality,
     CardinalityOccurrence,
     OntologyCacheService,
-    OntologyInformation, Property,
-    ResourceClass, ResourceClasses, ResourceClassIrisForOntology, Properties
+    OntologyInformation,
+    Properties,
+    Property,
+    ResourceClass,
+    ResourceClasses,
+    ResourceClassIrisForOntology
 } from './ontologycache.service';
-import {OntologyService} from './ontology.service';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http'; // https://blog.thecodecampus.de/angular-http-testing-syntaxerror-unexpected-token-o-json-position-1/
-import {MockBackend} from '@angular/http/testing';
-import {Observable} from 'rxjs/Observable';
+import { OntologyService } from './ontology.service';
+import { BaseRequestOptions, Http, Response, ResponseOptions } from '@angular/http'; // https://blog.thecodecampus.de/angular-http-testing-syntaxerror-unexpected-token-o-json-position-1/
+import { MockBackend } from '@angular/http/testing';
+import { Observable } from 'rxjs/Observable';
 
 
 describe('OntologyCacheService', () => {
+
+    let originalTimeout;
+
+    beforeEach(function() {
+        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    });
+
+    afterEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
+    
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -41,7 +57,7 @@ describe('OntologyCacheService', () => {
 
 
         // define different mock responses for different API calls
-        let responses = {};
+        const responses = {};
         responses['http://0.0.0.0:3333/v2/ontologies/allentities/http%3A%2F%2F0.0.0.0%3A3333%2Fontology%2F0801%2Fbeol%2Fv2'] = new Response(new ResponseOptions({body: require('../test-data/ontologycache/beol-complex-onto.json')}));
         responses['http://0.0.0.0:3333/v2/ontologies/allentities/http%3A%2F%2Fapi.knora.org%2Fontology%2Fknora-api%2Fv2'] = new Response(new ResponseOptions({body: require('../test-data/ontologycache/knora-api-complex-onto.json')}));
         responses['http://0.0.0.0:3333/v2/ontologies/allentities/http%3A%2F%2F0.0.0.0%3A3333%2Fontology%2F0001%2Fsomething%2Fv2'] = new Response(new ResponseOptions({body: require('../test-data/ontologycache/something-complex-onto.json')}));
@@ -49,7 +65,7 @@ describe('OntologyCacheService', () => {
 
 
         mockBackend.connections.subscribe(c => {
-            let response = responses[c.request.url];
+            const response = responses[c.request.url];
             c.mockRespond(response);
         });
 
@@ -61,7 +77,7 @@ describe('OntologyCacheService', () => {
 
     it('should convert and cache the BEOL ontology complex', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
 
-        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://0.0.0.0:3333/ontology/0801/beol/v2']);
+        const ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://0.0.0.0:3333/ontology/0801/beol/v2']);
 
         ontoResponseObs.subscribe(
             (ontoRes: OntologyInformation) => {
@@ -77,7 +93,7 @@ describe('OntologyCacheService', () => {
 
     it('should convert and cache the anything ontology complex', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
 
-        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://0.0.0.0:3333/ontology/0001/anything/v2']);
+        const ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://0.0.0.0:3333/ontology/0001/anything/v2']);
 
         ontoResponseObs.subscribe(
             (ontoRes: OntologyInformation) => {
@@ -93,7 +109,7 @@ describe('OntologyCacheService', () => {
 
     it('should convert and cache the something ontology complex', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
 
-        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://0.0.0.0:3333/ontology/0001/something/v2']);
+        const ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://0.0.0.0:3333/ontology/0001/something/v2']);
 
         ontoResponseObs.subscribe(
             (ontoRes: OntologyInformation) => {
@@ -505,7 +521,7 @@ describe('OntologyCacheService', () => {
 
                 const expectedProperties = new Properties();
 
-                for (let propIri in expectedProps) {
+                for (const propIri in expectedProps) {
                     expectedProperties[propIri] = expectedProps[propIri];
                 }
 
@@ -522,7 +538,7 @@ describe('OntologyCacheService', () => {
 
     it('should get an internal representation of a resource class from the cache', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
 
-        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://0.0.0.0:3333/ontology/0801/beol/v2']);
+        const ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://0.0.0.0:3333/ontology/0801/beol/v2']);
 
         ontoResponseObs.subscribe(
             (ontoRes: OntologyInformation) => {
@@ -688,7 +704,7 @@ describe('OntologyCacheService', () => {
 
     it('should get an internal representation of a property from the cache', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
 
-        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://0.0.0.0:3333/ontology/0801/beol/v2']);
+        const ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://0.0.0.0:3333/ontology/0801/beol/v2']);
 
         ontoResponseObs.subscribe(
             (ontoRes: OntologyInformation) => {
@@ -743,7 +759,7 @@ describe('OntologyCacheService', () => {
 
     it('should convert and cache the Knora-API ontology complex', async(inject([OntologyCacheService], (service: OntologyCacheService) => {
 
-        let ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://api.knora.org/ontology/knora-api/v2']);
+        const ontoResponseObs: Observable<OntologyInformation> = service.getEntityDefinitionsForOntologies(['http://api.knora.org/ontology/knora-api/v2']);
 
         ontoResponseObs.subscribe(
             (ontoRes: OntologyInformation) => {
