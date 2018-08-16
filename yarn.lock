@@ -354,9 +354,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/core@^1.0.9-alpha":
-  version "1.0.9-alpha"
-  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.9-alpha.tgz#ce7fdc89c05c6e03824a7b14f2c5d013f4484edd"
+"@knora/core@^1.0.10-alpha":
+  version "1.0.10-alpha"
+  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.10-alpha.tgz#cc7522b2f5a557d59869d9a68f54b1a30958980d"
   dependencies:
     tslib "^1.9.0"
 
