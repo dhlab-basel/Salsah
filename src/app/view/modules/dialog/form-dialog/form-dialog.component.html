@@ -44,10 +44,14 @@
         </salsah-user-form>
 
         <!-- edit user profile -->
-        <salsah-user-data *ngSwitchCase="'user'"
-                          [standalone]="true"
-                          [user]="data.user">
-        </salsah-user-data>
+        <div *ngSwitchCase="'user'">
+            <salsah-user-data [standalone]="true"
+                              [user]="data.user">
+            </salsah-user-data>
+            <salsah-user-password [userIri]="data.user.id">
+            </salsah-user-password>
+        </div>
+
 
         <!-- create new / edit ontologies -->
         <salsah-ontology-form *ngSwitchCase="'ontology'"

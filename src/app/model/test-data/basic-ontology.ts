@@ -123,7 +123,7 @@ export class ResourceClass {
 export class BasicOntology {
 
     // defaultProperties
-    @JsonProperty('defaultProperties', [PropertyItem])
+    @JsonProperty('defaultProperties', [PropertyItem], true)
     public defaultProperties: PropertyItem[] = undefined;
 
     // defaultPermissions
@@ -131,7 +131,7 @@ export class BasicOntology {
     public defaultPermissions: Permissions = undefined;
 
     // defaultResourceClasses
-    @JsonProperty('resourceClasses', [ResourceClass])
+    @JsonProperty('resourceClasses', [ResourceClass], true)
     public resourceClasses: ResourceClass[] = undefined;
 
 }

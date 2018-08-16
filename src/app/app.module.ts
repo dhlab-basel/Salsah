@@ -20,6 +20,7 @@ import { AppMaterialModule } from './app-material-module';
 import 'hammerjs';
 //
 // import other third party modules
+import { AngularSplitModule } from 'angular-split';
 //
 import { DndModule } from 'ng2-dnd';
 //
@@ -261,6 +262,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         AngularFireModule.initializeApp(environment.firebase),
         InfiniteScrollModule,
         RecaptchaModule.forRoot(),
+        AngularSplitModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

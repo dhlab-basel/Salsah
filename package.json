@@ -34,6 +34,7 @@
         "@knora/search": "^1.0.3-alpha",
         "@ngx-translate/core": "^10.0.0",
         "@ngx-translate/http-loader": "^2.0.0",
+        "angular-split": "^1.0.0-rc.3",
         "angular-tree-component": "^6.1.0",
         "angularfire2": "^5.0.0-rc.11",
         "core-js": "^2.5.4",

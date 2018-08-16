@@ -50,7 +50,7 @@ export class PropertyItem {
     /*
         @JsonProperty('comments', [String], true)
         public comments: string[] = undefined;
-    
+
         @JsonProperty('is_annotation', String)
         public is_annotation: string = undefined;
     
