@@ -8,6 +8,8 @@ describe('UserDataComponent', () => {
     let component: UserDataComponent;
     let fixture: ComponentFixture<UserDataComponent>;
 
+    // const id: string = 'http://rdfh.ch/projects/0803';
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
