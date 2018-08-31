@@ -39,10 +39,17 @@ let jsonld = require('jsonld');
 export module ConvertJSONLD {
 
     /**
+     * Gets property names and filters out all non property names.
+     * Gets all members that have to be treated as value objects.
+     */
+    const getPropertyNames = (propName) => {
+        return propName !== '@id' && propName !== '@type' && propName !== AppConfig.RdfsLabel && propName !== AppConfig.attachedToProject && propName !== AppConfig.attachedToUser && propName !== AppConfig.creationDate && propName !== AppConfig.lastModificationDate && propName !== AppConfig.hasPermissions;
+    };
+
+    /**
      * Construct a [[ReadResource]] from JSON-LD.
      *
      * @param resourceJSONLD an object describing the resource and its properties.
-     * @param properties    a [[ReadProperties]] describing the resource's properties. if any.
      * @returns a [[ReadResource]]
      */
     function constructReadResource(resourceJSONLD: Object): ReadResource {
@@ -165,7 +172,7 @@ export module ConvertJSONLD {
             case AppConfig.DecimalValue:
 
                 // a decimal value is represented as a string in order to preserve its precision
-                const decVal: number = parseFloat(propValue[AppConfig.decimalValueAsDecimal]);
+                const decVal: number = parseFloat(propValue[AppConfig.decimalValueAsDecimal]['@value']);
 
                 let decimalValue = new ReadDecimalValue(propValue['@id'], propIri, decVal);
                 valueSpecificProp = decimalValue;
@@ -231,7 +238,7 @@ export module ConvertJSONLD {
                 let uriValue: ReadUriValue = new ReadUriValue(
                     propValue['@id'],
                     propIri,
-                    propValue[AppConfig.uriValueAsUri]
+                    propValue[AppConfig.uriValueAsUri]['@value']
                 );
 
                 valueSpecificProp = uriValue;
@@ -254,8 +261,8 @@ export module ConvertJSONLD {
             case AppConfig.IntervalValue:
 
                 // represented as strings to preserve precision
-                const intStart = parseFloat(propValue[AppConfig.intervalValueHasStart]);
-                const intEnd = parseFloat(propValue[AppConfig.intervalValueHasEnd]);
+                const intStart = parseFloat(propValue[AppConfig.intervalValueHasStart]['@value']);
+                const intEnd = parseFloat(propValue[AppConfig.intervalValueHasEnd]['@value']);
 
                 let intervalValue: ReadIntervalValue = new ReadIntervalValue(
                     propValue['@id'],
@@ -295,7 +302,6 @@ export module ConvertJSONLD {
      * Construct a [[ReadProperties]] from JSON-LD.
      *
      * @param resourceJSONLD an object describing the resource and its properties.
-     * @param standoffLinksValues standoff link values of the resource.
      * @returns a [[ReadProperties]].
      */
     function constructReadProperties(resourceJSONLD: Object): ReadProperties {
@@ -322,7 +328,7 @@ export module ConvertJSONLD {
 
         let propNames = Object.keys(resourceJSONLD);
         // filter out everything that is not a Knora property name
-        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConfig.RdfsLabel);
+        propNames = propNames.filter(getPropertyNames);
 
         let properties: ReadProperties = {};
 
@@ -417,7 +423,7 @@ export module ConvertJSONLD {
 
         let propNames = Object.keys(resourceJSONLD);
         // filter out everything that is not a Knora property name
-        propNames = propNames.filter(propName => propName != '@id' && propName != '@type' && propName != AppConfig.RdfsLabel);
+        propNames = propNames.filter(getPropertyNames);
 
         let referredResourceClasses = [];
 
