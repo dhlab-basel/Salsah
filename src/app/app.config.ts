@@ -64,7 +64,10 @@ export class AppConfig {
     public static OwlRestriction = 'http://www.w3.org/2002/07/owl#Restriction';
 
     public static creationDate = AppConfig.KnoraApiV2WithValueObjectPath + 'creationDate';
+    public static lastModificationDate = AppConfig.KnoraApiV2WithValueObjectPath + 'lastModificationDate';
     public static hasPermissions = AppConfig.KnoraApiV2WithValueObjectPath + 'hasPermissions';
+    public static attachedToProject = AppConfig.KnoraApiV2WithValueObjectPath + 'attachedToProject';
+    public static attachedToUser = AppConfig.KnoraApiV2WithValueObjectPath + 'attachedToUser';
 
     public static Region = AppConfig.KnoraApiV2WithValueObjectPath + 'Region';
 
@@ -209,6 +212,7 @@ export class AppConfig {
     public static xsdInteger = AppConfig.Xsd + 'integer';
     public static xsdDecimal = AppConfig.Xsd + 'decimal';
     public static xsdUri = AppConfig.Xsd + 'anyURI';
+    public static dateTimeStamp = AppConfig.Xsd + 'dateTimeStamp';
 
     public static resourceSimple = AppConfig.KnoraApiV2SimplePath + 'Resource';
     public static dateSimple = AppConfig.KnoraApiV2SimplePath + 'Date';
