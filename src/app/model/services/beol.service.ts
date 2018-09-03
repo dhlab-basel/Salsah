@@ -191,7 +191,6 @@ export class BeolService {
      * Given the repertorium number of a letter from LEOO, searches for that letter.
      *
      * @param {string} repertoriumNumber the repertorium number to search for.
-     * @param {boolean} originalLanguage indicates if the original language or the translation should be searched for.
      * @returns {string} the Gravsearch query.
      */
     searchForLetterFromLEOO(repertoriumNumber: string): string {
@@ -222,6 +221,76 @@ export class BeolService {
         `;
 
         return letterByNumberTemplate;
+
+    }
+
+    /**
+     * Given the Iri of a manuscript, gets the page with the specified sequence number and its regions and related transcriptions.
+     *
+     * @param manuscriptIri the Iri of the manuscript the page belongs to.
+     * @param {number} sequenceNumber the sequence number of the page.
+     * @param {number} offset the offset to be used in the Gravsearch query.
+     * @returns {string} Gravsearch query.
+     */
+    getRegionsWithTranscriptionsForPage(manuscriptIri: string, sequenceNumber: number, offset: number): string {
+
+        if (sequenceNumber < 1) {
+            console.log(`sequence number must not be smaller than 1, but ${sequenceNumber} given.`);
+            sequenceNumber = 1;
+        }
+
+        const regionsWithTranscriptionTemplate = `
+        PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
+        PREFIX beol: <${environment.apiExternal}/ontology/0801/beol/simple/v2#>
+
+        CONSTRUCT {
+          ?page knora-api:isMainResource true .
+        
+          ?page knora-api:hasStillImageFile ?image .
+        
+          ?region knora-api:isRegionOf ?page .
+
+          ?region knora-api:hasGeometry ?geom .
+
+          ?region knora-api:hasComment ?comment .
+
+          ?region knora-api:hasColor ?color .
+        
+          ?transcription beol:transcriptionOf ?region .
+        
+          ?transcription beol:hasText ?text .
+      } WHERE {	
+        
+          ?page a beol:page .
+          
+          ?page beol:seqnum ?seqnum .
+          FILTER(?seqnum = ${sequenceNumber})
+          
+          # Meditationes
+          ?page beol:partOf <${manuscriptIri}> .
+          
+          ?page knora-api:hasStillImageFile ?image .
+        
+          ?region a knora-api:Region .
+
+          ?region knora-api:isRegionOf ?page .
+
+          ?region knora-api:hasGeometry ?geom .
+
+          ?region knora-api:hasComment ?comment .
+
+          ?region knora-api:hasColor ?color .
+        
+          ?transcription beol:transcriptionOf ?region .
+        
+          ?transcription beol:hasText ?text .
+
+      } 
+      
+      OFFSET ${offset}
+        `;
+
+      return regionsWithTranscriptionTemplate;
 
     }
 }

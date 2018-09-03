@@ -28,5 +28,14 @@ export const environment = {
     localData: 'data',
     pagingLimit: 25,
     startComponent: 'dasch',
-    firebase: {}
+    firebase: {},
+    tei: {
+        letter: {
+            textProperty: "",
+            mappingIri: "",
+            gravsearchTemplateIri: "",
+            teiHeaderXSLTIri: ""
+        }
+
+    }
 };

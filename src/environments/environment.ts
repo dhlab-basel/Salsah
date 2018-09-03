@@ -35,5 +35,13 @@ export const environment = {
         projectId: "test-5034c",
         storageBucket: "test-5034c.appspot.com",
         messagingSenderId: "44326559957"
+    },
+    tei: {
+        letter: {
+            textProperty: "",
+            mappingIri: "",
+            gravsearchTemplateIri: "",
+            teiHeaderXSLTIri: ""
+        }
     }
 };

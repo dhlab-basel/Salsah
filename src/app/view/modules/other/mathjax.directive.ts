@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, Input, OnInit} from '@angular/core';
+import {Directive, ElementRef, HostListener, Input, OnChanges, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {ReadTextValueAsHtml} from '../../../model/webapi/knora/v2/read-property-item';
 import {OntologyInformation} from '../../../model/services/ontologycache.service';
@@ -16,9 +16,33 @@ declare var MathJax: {
  * This directive makes MathJax re-render the inserted HTML in case it is a TextValue (mathematical notation may have been inserted).
  */
 @Directive({selector: '[mathJax]'})
-export class MathJaxDirective implements OnInit {
-    @Input('mathJax') private html: string = ''; // the HTML to be inserted
-    @Input('valueObject') private valueObject: ReadTextValueAsHtml;
+export class MathJaxDirective implements OnInit, OnChanges {
+
+    @Input()
+    // setter method for resource classes when being updated by parent component
+    set mathJax(value: string) {
+        this._html = value;
+    }
+
+    get mathJax() {
+        return this._html;
+    }
+
+    private _html: string; // the HTML to be inserted
+
+    @Input()
+    // setter method for resource classes when being updated by parent component
+    set valueObject(value: ReadTextValueAsHtml) {
+        this._valueObject = value;
+    }
+
+    // getter method for resource classes (used in template)
+    get valueObject() {
+        return this._valueObject;
+    }
+
+    private _valueObject: ReadTextValueAsHtml;
+
     @Input('ontologyInfo') private ontologyInfo: OntologyInformation;
     @Input('bindEvents') private bindEvents: Boolean; // indicates if click and mouseover events have to be bound
 
@@ -116,8 +140,13 @@ export class MathJaxDirective implements OnInit {
 
     ngOnInit() {
         // console.log(this.bindEvents);
+    }
 
-        this.el.nativeElement.innerHTML = this.html;
+    ngOnChanges() {
+
+        // console.log(this._valueObject)
+
+        this.el.nativeElement.innerHTML = this._html;
 
         // http://docs.mathjax.org/en/latest/advanced/typeset.html#typeset-math
         MathJax.Hub.Queue(() => {
