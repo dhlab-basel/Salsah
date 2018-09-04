@@ -16,7 +16,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {environment} from '../../../environments/environment';
-import {UsersService} from '@knora/core';
+import { AuthenticationService } from '@knora/authentication';
 
 @Component({
     selector: 'salsah-dashboard',
@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
 
     constructor(private _title: Title,
                 private _router: Router,
-                private _authenticationService: UsersService
+                private _authenticationService: AuthenticationService
     ) {}
 
     ngOnInit() {

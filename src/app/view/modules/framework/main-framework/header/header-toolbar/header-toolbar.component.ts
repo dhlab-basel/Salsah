@@ -19,7 +19,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { MessageDialogComponent } from 'app/view/modules/dialog/message-dialog/message-dialog.component';
 import { FormDialogComponent } from '../../../../dialog/form-dialog/form-dialog.component';
 import { MessageData } from '../../../../message/message.component';
-import { UsersService } from '@knora/core';
+import { AuthenticationService } from '@knora/authentication';
+
 
 
 @Component({
@@ -103,12 +104,13 @@ export class HeaderToolbarComponent implements OnInit {
         private _dialog: MatDialog,
         private _route: ActivatedRoute,
         private _router: Router,
-        private _authenticationService: UsersService) {
+        private _authenticationService: AuthenticationService) {
     }
 
     ngOnInit() {
         // check if a user is logged-in
-        this._authenticationService.authenticate().subscribe(result => this.activeSession = result);
+        // TODO: fix authentication!!
+//        this._authenticationService.authenticate().subscribe(result => this.activeSession = result);
 
         if (JSON.parse(localStorage.getItem('currentUser'))) {
 

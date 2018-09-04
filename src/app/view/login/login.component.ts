@@ -16,7 +16,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Title } from '@angular/platform-browser';
-import { ApiServiceError, UsersService } from '@knora/core';
+import { ApiServiceError } from '@knora/core';
+import { AuthenticationService } from '@knora/authentication';
 
 function getDocument(): any {
     return document;
@@ -64,7 +65,7 @@ export class LoginComponent implements OnInit {
 
     constructor(private _title: Title,
         private _route: ActivatedRoute,
-        private _authenticationService: UsersService) {
+        private _authenticationService: AuthenticationService) {
     }
 
     ngOnInit() {

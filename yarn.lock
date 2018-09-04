@@ -354,6 +354,12 @@
   dependencies:
     tslib "^1.9.0"
 
+"@knora/authentication@^1.0.0-alpha.2":
+  version "1.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@knora/authentication/-/authentication-1.0.0-alpha.2.tgz#e2d07e11d1abe672b3babb68da7de48f5c619f6f"
+  dependencies:
+    tslib "^1.9.0"
+
 "@knora/core@^1.0.10-alpha":
   version "1.0.10-alpha"
   resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.10-alpha.tgz#cc7522b2f5a557d59869d9a68f54b1a30958980d"
@@ -5398,6 +5404,10 @@ module-deps@^4.0.8:
     subarg "^1.0.0"
     through2 "^2.0.0"
     xtend "^4.0.0"
+
+moment@^2.22.2:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
 move-concurrently@^1.0.1:
   version "1.0.1"
