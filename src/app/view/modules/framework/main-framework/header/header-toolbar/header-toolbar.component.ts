@@ -13,7 +13,7 @@
  * */
 
 import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { MessageDialogComponent } from 'app/view/modules/dialog/message-dialog/message-dialog.component';
@@ -104,19 +104,26 @@ export class HeaderToolbarComponent implements OnInit {
         private _dialog: MatDialog,
         private _route: ActivatedRoute,
         private _router: Router,
-        private _authenticationService: AuthenticationService) {
+        private _auth: AuthenticationService) {
+
+        this._router.events.forEach((event) => {
+            if (event instanceof NavigationStart) {
+                if (this._auth.session()) {
+                    // a user is logged-in, and the session is valid
+                    // get the user information
+                    this.userName = JSON.parse(localStorage.getItem('session')).user.name;
+                }
+            }
+        });
+
     }
 
     ngOnInit() {
         // check if a user is logged-in
-        // TODO: fix authentication!!
-//        this._authenticationService.authenticate().subscribe(result => this.activeSession = result);
+        if (this._auth.session()) {
+            this.userName = JSON.parse(localStorage.getItem('session')).user.email;
 
-        if (JSON.parse(localStorage.getItem('currentUser'))) {
-
-            this.userName = JSON.parse(localStorage.getItem('currentUser')).email;
-
-            this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
+            this.sysAdmin = JSON.parse(localStorage.getItem('session')).user.sysAdmin;
 
             if (this.sysAdmin === true) {
                 this.userMenu.push({
@@ -188,13 +195,16 @@ export class HeaderToolbarComponent implements OnInit {
         }
     }
 
-
     goToLoginPage() {
-        let goToUrl = '/login';
-
+        const goToUrl = '/login';
+/*
+        // TODO: we have to fix the following idea: after login, go back to the previous url; right now (2018-09-05) it doesn't work with the setup of @knora/authentication)
+        //
         if (this._router.url !== '/') {
             goToUrl += '/?h=' + encodeURIComponent(this._router.url);
         }
+*/
+
         window.location.replace(goToUrl);
         //        this._router.navigate([goToUrl]);
     }

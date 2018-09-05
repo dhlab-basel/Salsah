@@ -3,6 +3,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { KuiAuthenticationModule, LoginFormComponent } from '@knora/authentication';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RouterModule } from '@angular/router';
@@ -248,6 +249,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         }),
         KuiSearchModule,
         KuiActionModule,
+        KuiAuthenticationModule,
         HttpClientModule,
         FormsModule,
         RouterModule,
@@ -277,6 +279,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         FormDialogComponent,
         MessageDialogComponent,
         ObjectDialogComponent,
+        LoginFormComponent,
         ResourceClassFormComponent // deprecated!!
     ],
     providers: [

@@ -206,7 +206,8 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
                     title: this.add.title,
                     description: this.add.description,
                     form: this.add.type,
-                    restriction: this.list.restrictedBy
+                    restriction: this.list.restrictedBy,
+                    fullSize: (form === 'ontology')
                 };
                 config.panelClass = 'resizable';
 

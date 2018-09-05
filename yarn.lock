@@ -348,21 +348,21 @@
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.8.tgz#38a936b60b898a1ad0f3719543ff1a1031f60f8b"
 
-"@knora/action@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@knora/action/-/action-0.0.5.tgz#0b73594f9d1880d3da603738c50cdfecc6de78cb"
+"@knora/action@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@knora/action/-/action-0.0.6.tgz#44e2b8dc4b6bf97421032bf2aebe9be3963d6931"
   dependencies:
     tslib "^1.9.0"
 
-"@knora/authentication@^1.0.0-alpha.2":
-  version "1.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/@knora/authentication/-/authentication-1.0.0-alpha.2.tgz#e2d07e11d1abe672b3babb68da7de48f5c619f6f"
+"@knora/authentication@^1.0.0-alpha.3":
+  version "1.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@knora/authentication/-/authentication-1.0.0-alpha.3.tgz#97bf960b0f370ec1881d015c0db529c55f0c092f"
   dependencies:
     tslib "^1.9.0"
 
-"@knora/core@^1.0.10-alpha":
-  version "1.0.10-alpha"
-  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.10-alpha.tgz#cc7522b2f5a557d59869d9a68f54b1a30958980d"
+"@knora/core@^1.0.0-beta.1":
+  version "1.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.1.tgz#0ddc88b98b23d4cc3e6304004716f5280dd25db5"
   dependencies:
     tslib "^1.9.0"
 
