@@ -51,7 +51,7 @@ export class OntologiesListComponent implements OnInit {
 
     ngOnInit() {
 
-        if (this.restrictedBy !== undefined) {
+        if (this.restrictedBy) {
             // list of ontologies in a project dashboard
             this.ontologiesList = JSON.parse(sessionStorage.getItem('currentProject')).ontologies;
             this.numberOfItems = this.ontologiesList.length;

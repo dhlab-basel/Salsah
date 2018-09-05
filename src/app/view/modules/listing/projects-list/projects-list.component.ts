@@ -45,7 +45,6 @@ export class ProjectsListComponent implements OnInit {
     // restrictedBy can be a user; to show a list of the user's projects
     @Input() restrictedBy: string;
     @Input() listType?: string;
-    @Input() admin?: boolean;
 
     // send the number of entries to the parent component (framework-for-listings) to us it there in the title
     @Output() counter: EventEmitter<number> = new EventEmitter<number>();

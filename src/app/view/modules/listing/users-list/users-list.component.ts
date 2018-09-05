@@ -45,7 +45,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
     @Input('restrictedBy') project: string;
     @Input() index: number;
     @Input() listType?: string;
-    @Input() admin?: boolean;
 
     @Output() toggleItem = new EventEmitter<any>();
     // send the number of entries to the parent component (framework-for-listings) to us it there in the title

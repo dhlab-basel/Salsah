@@ -80,7 +80,7 @@ export class ResourceTypesListComponent implements OnInit {
 
         this.selectedRow = this.index;
 
-        this._cacheService.getEntityDefinitionsForOntologies([this.iri]).subscribe(
+        this._cacheService.getEntityDefinitionsForOntologies([this.restrictedBy]).subscribe(
             (ontoInfo: OntologyInformation) => {
                 this.resourceClasses = ontoInfo.getResourceClassesAsArray();
                 this.properties = ontoInfo.getProperties();

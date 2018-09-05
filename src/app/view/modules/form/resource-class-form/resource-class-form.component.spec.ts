@@ -6,7 +6,7 @@ import { BasicOntologyService } from '../../../../model/services/basic-ontology.
 import { MatDialogRef } from '@angular/material';
 
 
-describe('ResourceClassFormComponent', () => {
+xdescribe('ResourceClassFormComponent', () => {
     let component: ResourceClassFormComponent;
     let fixture: ComponentFixture<ResourceClassFormComponent>;
 
@@ -30,7 +30,7 @@ describe('ResourceClassFormComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    xit('should create', () => {
         expect(component).toBeTruthy();
     });
 });

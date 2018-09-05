@@ -245,10 +245,6 @@ export class FrameworkForListingsComponent implements OnInit, OnChanges, AfterVi
     }
 
     getData(id?: string) {
-        // get the logged-in user information and check if the user has (system) admin rights
-        if (localStorage.getItem('currentUser') !== null) {
-            this.loggedInAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-        }
 
         if (this.list === undefined || this.list === null) {
             // list is not optional! show an error message
