@@ -26,7 +26,6 @@ export const environment = {
     apiExternal: 'http://0.0.0.0:3333',
     api: 'http://0.0.0.0:3333',           // perhaps we have to rename it into knora?
     app: 'http://localhost:4200',
-    url: 'http://localhost:4200',           // perhaps we have to rename it into guiUrl or salsah?
     localData: 'data',
     pagingLimit: 25,
     startComponent: 'dasch',

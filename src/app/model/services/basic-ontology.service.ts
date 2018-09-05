@@ -34,7 +34,7 @@ export class BasicOntologyService extends ApiService {
     //     return this.httpGet(url + '/data/base-data/basic-ontology.json', {withCredentials: false});
     // }
     getBasicOntology(): Observable<any> {
-        const url = environment.url;
+        const url = environment.app;
         return this.httpGet(url + '/data/base-data/basic-ontology.json');
         // return this.httpGet(url + '/data/base-data/basic-ontology.json', {withCredentials: false});
     }
