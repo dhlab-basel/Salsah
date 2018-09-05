@@ -12,15 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { AuthenticationService } from '@knora/authentication';
+import { Session } from '@knora/core';
 import { MessageDialogComponent } from 'app/view/modules/dialog/message-dialog/message-dialog.component';
 import { FormDialogComponent } from '../../../../dialog/form-dialog/form-dialog.component';
 import { MessageData } from '../../../../message/message.component';
-import { AuthenticationService } from '@knora/authentication';
-
 
 
 @Component({
@@ -30,15 +30,15 @@ import { AuthenticationService } from '@knora/authentication';
     animations: [
         trigger('addMenu',
             [
-                state('inactive', style({ display: 'none' })),
-                state('active', style({ display: 'block' })),
+                state('inactive', style({display: 'none'})),
+                state('active', style({display: 'block'})),
                 transition('inactive => true', animate('100ms ease-in')),
                 transition('true => inactive', animate('100ms ease-out'))
             ]),
         trigger('userMenu',
             [
-                state('inactive', style({ display: 'none' })),
-                state('active', style({ display: 'block' })),
+                state('inactive', style({display: 'none'})),
+                state('active', style({display: 'block'})),
                 transition('inactive => true', animate('100ms ease-in')),
                 transition('true => inactive', animate('100ms ease-out'))
             ])
@@ -101,17 +101,28 @@ export class HeaderToolbarComponent implements OnInit {
     langString: string = '';
 
     constructor(private _eleRef: ElementRef,
-        private _dialog: MatDialog,
-        private _route: ActivatedRoute,
-        private _router: Router,
-        private _auth: AuthenticationService) {
+                private _dialog: MatDialog,
+                private _route: ActivatedRoute,
+                private _router: Router,
+                private _auth: AuthenticationService) {
 
         this._router.events.forEach((event) => {
             if (event instanceof NavigationStart) {
                 if (this._auth.session()) {
                     // a user is logged-in, and the session is valid
                     // get the user information
-                    this.userName = JSON.parse(localStorage.getItem('session')).user.name;
+                    const session: Session = JSON.parse(localStorage.getItem('session'));
+                    this.sysAdmin = session.user.sysAdmin;
+
+                    if (this.sysAdmin) {
+                        this.userMenu.push({
+                            title: 'System',
+                            icon: 'build',
+                            route: 'system'
+                        });
+                    }
+
+                    this.userName = session.user.name;
                 }
             }
         });
@@ -119,20 +130,6 @@ export class HeaderToolbarComponent implements OnInit {
     }
 
     ngOnInit() {
-        // check if a user is logged-in
-        if (this._auth.session()) {
-            this.userName = JSON.parse(localStorage.getItem('session')).user.email;
-
-            this.sysAdmin = JSON.parse(localStorage.getItem('session')).user.sysAdmin;
-
-            if (this.sysAdmin === true) {
-                this.userMenu.push({
-                    title: 'System',
-                    icon: 'build',
-                    route: 'system'
-                });
-            }
-        }
     }
 
 
@@ -190,20 +187,20 @@ export class HeaderToolbarComponent implements OnInit {
                         statusText: 'TODO: add the item type "' + item + '" to the openNew method in HeaderToolbarComponent',
                         route: 'Missing item type: ' + item
                     };
-                    dialogRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{ data: { message: message } });
+                    dialogRef = this._dialog.open(MessageDialogComponent, <MatDialogConfig>{data: {message: message}});
             }
         }
     }
 
     goToLoginPage() {
         const goToUrl = '/login';
-/*
-        // TODO: we have to fix the following idea: after login, go back to the previous url; right now (2018-09-05) it doesn't work with the setup of @knora/authentication)
-        //
-        if (this._router.url !== '/') {
-            goToUrl += '/?h=' + encodeURIComponent(this._router.url);
-        }
-*/
+        /*
+                // TODO: we have to fix the following idea: after login, go back to the previous url; right now (2018-09-05) it doesn't work with the setup of @knora/authentication)
+                //
+                if (this._router.url !== '/') {
+                    goToUrl += '/?h=' + encodeURIComponent(this._router.url);
+                }
+        */
 
         window.location.replace(goToUrl);
         //        this._router.navigate([goToUrl]);
