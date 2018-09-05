@@ -80,8 +80,13 @@ export class ResourceTypesListComponent implements OnInit {
 
         this.selectedRow = this.index;
 
+
+        // TODO: we get wrong ontology iris from Knora; s. comment in issue: https://github.com/dhlab-basel/Knora/issues/553#issuecomment-418776341
+        //
         this._cacheService.getEntityDefinitionsForOntologies([this.restrictedBy]).subscribe(
             (ontoInfo: OntologyInformation) => {
+                console.log(ontoInfo);
+
                 this.resourceClasses = ontoInfo.getResourceClassesAsArray();
                 this.properties = ontoInfo.getProperties();
                 this.numberOfItems = Object.keys(this.resourceClasses).length;
