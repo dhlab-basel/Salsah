@@ -1,4 +1,4 @@
-<div class="salsah-module with-header" *ngIf="sysAdmin && !errorMessage">
+<div class="salsah-module with-header" *ngIf="!errorMessage">
 
     <!-- this component has his own toolbar header
         with tabs for navigation through the settings
@@ -42,7 +42,7 @@
 
 </div>
 
-<div class="salsah-module without-header" *ngIf="errorMessage && !sysAdmin">
+<div class="salsah-module without-header" *ngIf="errorMessage">
     <salsah-message [message]="errorMessage"></salsah-message>
 </div>
 

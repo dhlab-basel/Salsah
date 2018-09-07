@@ -108,11 +108,21 @@ export class HeaderToolbarComponent implements OnInit {
 
         this._router.events.forEach((event) => {
             if (event instanceof NavigationStart) {
+
                 if (this._auth.session()) {
                     // a user is logged-in, and the session is valid
                     // get the user information
                     const session: Session = JSON.parse(localStorage.getItem('session'));
                     this.sysAdmin = session.user.sysAdmin;
+                    // TODO: fix this ugly construction
+                    let i: number = 0;
+                    for (const entry of this.userMenu) {
+                        // remove entry, if exists already
+                        if (entry.route === 'system') {
+                            this.userMenu.splice(i, 1);
+                        }
+                        i++;
+                    }
 
                     if (this.sysAdmin) {
                         this.userMenu.push({
@@ -124,6 +134,7 @@ export class HeaderToolbarComponent implements OnInit {
 
                     this.userName = session.user.name;
                 }
+
             }
         });
 

@@ -137,7 +137,7 @@ const appRoutes: Routes = [
         ]
     },
     {
-        path: 'system', component: SystemComponent,
+        path: 'system', component: SystemComponent, canActivate: [AuthGuard],
         children: [
             {
                 path: '', redirectTo: 'projects', pathMatch: 'full'

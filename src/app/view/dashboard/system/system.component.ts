@@ -31,44 +31,14 @@ export class SystemComponent implements OnInit {
         }
     ];
 
-    constructor(private _title: Title,
-                private _router: Router,
-                private _route: ActivatedRoute) {
+    constructor(private _title: Title) {
     }
 
     ngOnInit() {
-        // is there a logged in user? if true, does this user have sysAdmin rights?
-        if (localStorage.getItem('currentUser') !== null) {
-            this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-            this.loggedInUser = true;
-        } else {
-            this.loggedInUser = false;
-        }
 
+        this._title.setTitle( 'Salsah | System admin');
 
-        if (!this.sysAdmin) {
-            // there's no sysAdmin; but is there a logged-in user?
-            // in that case show an access denied message or otherwise go to the login page
-            if (this.loggedInUser) {
-                this._title.setTitle( 'Salsah | Access denied');
-                this.errorMessage = <MessageData>{
-                    status: 403,
-                    statusText: 'You don\'t have the rights to open the requested page. Please ask a system administrator for help.'
-                };
-            } else {
-                // go to the login page and bring the user back to this page after successful login and if the user is a sys admin
-                let goToUrl: string = '/login';
-
-                if (this._router.url !== '/') {
-                    goToUrl += '?h=' + encodeURIComponent(this._router.url);
-                }
-//                this._router.navigate([goToUrl]);
-                window.location.replace(goToUrl);
-            }
-        } else {
-            this._title.setTitle( 'Salsah | System admin');
-            this.isLoading = false;
-        }
+        this.isLoading = false;
 
     }
 
