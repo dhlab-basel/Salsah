@@ -30,6 +30,8 @@
 
 <div *ngIf="!rerender" class="salsah-module with-header">
     <!-- show the number of results found in Knora -->
+
+
     <mat-toolbar class="salsah-module-header">
         <div *ngIf="numberOfAllResults != 0; else noResult">
             <h4>Number of results: {{numberOfAllResults}}</h4>
@@ -37,22 +39,35 @@
     </mat-toolbar>
 
     <!-- show the result as a default list -->
-    <div class="salsah-module-scroll-area search-results">
-        <div *ngFor="let res of result">
+    <div class="salsah-module-scroll-area"
+         infiniteScroll
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="50"
+         (scrolled)="onScroll(offset)"
+         [scrollWindow]="false">
+        <salsah-framework-for-listings [list]="list" [offset]="offset"></salsah-framework-for-listings>
+    </div>
+
+
+    <!--<div class="salsah-module-scroll-area search-results">-->
+        <!--<salsah-framework-for-listings [list]="list" [offset]="offset"></salsah-framework-for-listings>-->
+
+<!--        <div *ngFor="let res of result">
             <h3 mat-line>{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type)}})</h3>
             <div mat-line *ngFor="let prop of res.properties | key">
                 <span>{{ontologyInfo?.getLabelForProperty(prop.key)}}</span>
                 <ul>
                     <li *ngFor="let val of prop.value | key">
                     <span [ngSwitch]="val.value.getClassName()">
+                        <span *ngSwitchCase=""
                         <span *ngSwitchDefault="">{{val.value.getContent()}}</span>
                     </span>
                     </li>
                 </ul>
             </div>
-        </div>
+        </div>-->
 
-    </div>
+    <!--</div>-->
 
     <!-- In case of 0 result -->
     <ng-template #noResult>

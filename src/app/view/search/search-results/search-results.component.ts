@@ -63,8 +63,8 @@ export class SearchResultsComponent implements OnInit {
     //  DATA for FrameworkForListingsComponent
     // ------------------------------------------------------------------------
     list: ListData = <ListData>{
-        title: 'Results: ',
-        description: 'Looked for: ',
+        title: '',
+        description: '',
         content: 'resource',
         showAs: this.selectedView,
         restrictedBy: ''
@@ -182,7 +182,7 @@ export class SearchResultsComponent implements OnInit {
         }, function (err) {
             console.log('JSONLD could not be expanded:' + err);
         });
-    }
+    };
 
     /**
      *
@@ -236,12 +236,12 @@ export class SearchResultsComponent implements OnInit {
             console.log('JSONLD could not be expanded:' + err);
         });
 
-    }
+    };
 
 
-    /* onScroll(offsetToUse: number = 0) {
+    onScroll(offsetToUse: number = 0) {
         // update the page offset when the end of scroll is reached to get the next page of search results
         this.offset = (offsetToUse === this.offset ? this.offset += 1 : offsetToUse);
-    } */
+    }
 
 }

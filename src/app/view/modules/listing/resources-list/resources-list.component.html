@@ -6,7 +6,7 @@
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
     <div *ngIf="result?.length > 0; else noData" [ngSwitch]="listType">
-        <p>Number of Results: {{numberOfAllResults}}</p>
+        <!--<p>Number of Results: {{numberOfAllResults}}</p>-->
 
         <!-- show as table if listType === table -->
         <table *ngSwitchCase="'table'" class="salsah-table">
@@ -38,7 +38,7 @@
 
         <!-- default list -->
         <mat-list class="salsah-list" *ngSwitchDefault>
-            <mat-list-item *ngFor="let res of result; let i = index" (click)="toggle(res.id, i)" [id]="res.id" class="salsah-link" [class.highlight]="i == selectedRow">
+            <mat-list-item *ngFor="let res of result; let i = index" (click)="toggle(res.id, i)" [id]="res.id" class="salsah-link border-bottom" [class.highlight]="i == selectedRow">
                 <!--
                 <img mat-list-avatar [src]="res.preview_path" class="salsah-preview-image" />
                 -->
