@@ -86,7 +86,9 @@ export class UserComponent implements OnInit {
 
         this.route = this._router.url;  // could be /user/[uid], /profile, /projects, /collections or /settings
 
-        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.loggedInUser = JSON.parse(localStorage.getItem('session'));
+
+
 
         if (this.route.indexOf('user') >= 0) {
             // get the email from the user route parameter
@@ -98,7 +100,7 @@ export class UserComponent implements OnInit {
                     if (this.loggedInUser !== null) {
                         // if the loggedInUser exists and this email is the same as
                         // the one in the route then switch to /profile (handled in the template)
-                        if (params['uid'] === this.loggedInUser.email) {
+                        if (params['uid'] === this.loggedInUser.user.email) {
                             this.showOwnProfile = true;
                             this._router.navigateByUrl('/profile');
                         }
@@ -108,16 +110,9 @@ export class UserComponent implements OnInit {
         } else {
             // case b)
             if (this.loggedInUser !== null) {
-                this.email = this.loggedInUser.email;
+                this.email = this.loggedInUser.user.name;
                 this.showOwnProfile = true;
                 this._title.setTitle('Salsah | User admin (' + this.email + ')');
-            } else {
-                // access denied! navigate to the login page
-                // and set a history parameter (?h=) with the current user
-                // to bring the user back to the current route after successful login
-                let goToUrl: string = '/login';
-                if (this._router.url !== '/') { goToUrl += '?h=' + encodeURIComponent(this._router.url); }
-                this._router.navigateByUrl(goToUrl);
             }
 
         }

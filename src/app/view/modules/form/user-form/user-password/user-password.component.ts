@@ -125,7 +125,7 @@ export class UserPasswordComponent implements OnInit {
         this.isLoading = false;
 
         // get the user data only if a user is logged in
-        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.loggedInUser = JSON.parse(localStorage.getItem('session'));
 
 
     }

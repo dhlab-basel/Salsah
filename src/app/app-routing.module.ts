@@ -71,19 +71,19 @@ const appRoutes: Routes = [
     },
     {
         // User profile = Dashboard for logged in users
-        path: 'profile', component: UserComponent
+        path: 'profile', component: UserComponent, canActivate: [AuthGuard],
     },
     {
         // User settings
-        path: 'settings', component: UserComponent
+        path: 'settings', component: UserComponent, canActivate: [AuthGuard],
     },
     {
         // User projects
-        path: 'projects', component: UserComponent
+        path: 'projects', component: UserComponent, canActivate: [AuthGuard],
     },
     {
         // User collections
-        path: 'collections', component: UserComponent
+        path: 'collections', component: UserComponent, canActivate: [AuthGuard],
     },
     {
         path: 'search/:mode/:q',
