@@ -9,6 +9,7 @@ import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
 import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resources-sequence";
 import {OntologyCacheService, OntologyInformation} from "../../../model/services/ontologycache.service";
 import {ObjectDialogComponent} from "../../modules/dialog/object-dialog/object-dialog.component";
+import {ProjectListsAdminComponent} from "../../dashboard/project/project-lists-admin/project-lists-admin.component.ts";
 
 class Book {
 
@@ -471,6 +472,25 @@ export class BeolComponent implements OnInit {
             }
         );
 
+    }
+
+    searchForSubjectIndex(listIri: string) {
+
+        this._searchService.searchForList(listIri).subscribe(
+            (result: ApiServiceResult) => {
+                let promises = jsonld.promises;
+                // compact JSON-LD using an empty context: expands all Iris
+                let promise = promises.compact(result.body, {});
+                promise.then((compacted) => {
+                    console.log(compacted)
+
+
+                }, function (err) {
+
+                    console.log('JSONLD of full resource request could not be expanded:' + err);
+                });
+            }
+        );
     }
 
     /**

@@ -16,7 +16,7 @@ let jsonld = require('jsonld');
     styleUrls: ['./leoo.component.scss']
 })
 /**
- * Given the repertorium number number (LEOO) of a letter, displays the letter.
+ * Given the repertorium number (LEOO) of a letter, displays the letter.
  */
 export class LeooComponent implements OnInit {
 

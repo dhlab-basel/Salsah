@@ -112,4 +112,16 @@ export class SearchService extends ApiService {
 
     }
 
+    /**
+     * Perform a search for list by Iri.
+     *
+     * @param resourceClassIRI restrict search to given resource class.
+     * @returns {Observable<ApiServiceResult>}
+     */
+    searchForList(resourceClassIRI: string): Observable<ApiServiceResult> {
+
+        return this.httpGetV2("/lists/" + encodeURIComponent(resourceClassIRI));
+
+    }
+
 }

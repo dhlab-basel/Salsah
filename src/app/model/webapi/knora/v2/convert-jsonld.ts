@@ -32,6 +32,7 @@ import {
 } from './read-property-item';
 import {AppConfig} from "../../../../app.config";
 import {Utils} from "../../../../utils";
+import {ReadList} from './read-list';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 let jsonld = require('jsonld');
