@@ -181,7 +181,7 @@ export class UserPasswordComponent implements OnInit {
 
         this._usersService.updateUser(this.userIri, this.userPasswordForm.value).subscribe(
             (result: User) => {
-                console.log(this.userPasswordForm.value);
+                // console.log(this.userPasswordForm.value);
                 this.success = true;
                 this.isLoading = false;
             },
@@ -238,7 +238,7 @@ export class UserPasswordComponent implements OnInit {
 
                 this.isLoading = false;
             }
-        )
+        );
 
         this.oldPswd = !this.oldPswd;
 
