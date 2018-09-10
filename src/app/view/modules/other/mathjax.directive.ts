@@ -18,7 +18,9 @@ export class MathJaxDirective implements OnInit {
     @Input('mathJax') private html: string = ''; // the HTML to be inserted
     @Input('valueObject') private valueObject: ReadTextValueAsHtml;
     @Input('ontologyInfo') private ontologyInfo: OntologyInformation;
-    @Input('bindEvents') private bindEvents: Boolean; // indicates if click and mouseover events have to be bound
+    @Input('bindEvents') private bindEvents: Boolean;
+
+    // indicates if click and mouseover events have to be bound
 
     constructor(private el: ElementRef, private dialog: MatDialog, private snackBar: MatSnackBar) {
     }
@@ -118,7 +120,9 @@ export class MathJaxDirective implements OnInit {
         this.el.nativeElement.innerHTML = this.html;
 
         // http://docs.mathjax.org/en/latest/advanced/typeset.html#typeset-math
+
         MathJax.Hub.Queue(() => {
+
             MathJax.Hub.Typeset(this.el.nativeElement);
         });
 

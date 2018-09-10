@@ -17,10 +17,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ApiServiceError, ApiServiceResult, KnoraConstants, Project, ProjectsService } from '@knora/core';
 
 import { ActivatedRoute } from '@angular/router';
-import { existingNamesValidator, notAllowed } from '../../other/existing-name.directive';
-import { MatDialogConfig } from '@angular/material';
-import { MessageDialogComponent } from '../../dialog/message-dialog/message-dialog.component';
-import { MessageData } from '../../message/message.component';
+import { existingNamesValidator } from '@knora/action';
 
 @Component({
     selector: 'salsah-project-form',

@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { KuiAuthenticationModule, LoginFormComponent } from '@knora/authentication';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { JwtInterceptor, KuiAuthenticationModule, LoginFormComponent } from '@knora/authentication';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RouterModule } from '@angular/router';
@@ -26,7 +25,7 @@ import { AngularSplitModule } from 'angular-split';
 import { DndModule } from 'ng2-dnd';
 //
 // import all npm salsah modules
-import { KuiCoreConfig, KuiCoreModule } from '@knora/core';
+import { KuiCoreModule } from '@knora/core';
 import { KuiSearchModule } from '@knora/search';
 import { KuiActionModule } from '@knora/action';
 //
@@ -133,6 +132,7 @@ import { ProjectDataComponent } from './view/modules/form/project-form/project-d
 import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
 import { LeooComponent } from './view/templates/leoo/leoo.component';
 import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
+
 //
 // just to get the basic ontology form the json file
 //
@@ -290,7 +290,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             useValue: {
                 siteKey: '6LdmmUoUAAAAAPZ4Z_1xYEIwEgI1d9YdjlZKmVkV',
             } as RecaptchaSettings,
-        }
+        },
+        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
     ],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
