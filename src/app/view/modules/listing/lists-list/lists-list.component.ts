@@ -117,7 +117,7 @@ export class ListsListComponent implements OnInit {
             this._listsService.getLists(this.restrictedBy)
                 .subscribe(
                     (result: List[]) => {
-                        console.log('lists with IRI from lists list: ', result);
+                        // console.log('lists with IRI from lists list: ', result);
                         this.lists = result;
                         this.numberOfItems = this.lists.length;
                         this.isLoading = false;
@@ -133,7 +133,7 @@ export class ListsListComponent implements OnInit {
             this._listsService.getLists()
                 .subscribe(
                     (result: List[]) => {
-                        console.log('lists from lists list: ', result);
+                        // console.log('lists from lists list: ', result);
                         this.lists = result;
                         this.isLoading = false;
                     },
@@ -167,8 +167,8 @@ export class ListsListComponent implements OnInit {
                         // return full user details and check if they have administrative permissions for this project
                         this.currentUser = result;
                         this.projectAdmin = this.currentUser.permissions.administrativePermissionsPerProject[this.restrictedBy];
-                        console.log('full user details: ', this.currentUser);
-                        console.log('project Admin details: ', this.projectAdmin);
+                        // console.log('full user details: ', this.currentUser);
+                        // console.log('project Admin details: ', this.projectAdmin);
 
                         if (this.projectAdmin.length > 0) {
                             // console.log('projectAdmin ');

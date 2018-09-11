@@ -1,7 +1,10 @@
-<button mat-icon-button [matMenuTriggerFor]="languageMenu" class="select-language">
+<!-- TODO: reactivate the i18n component; fix mat-menu -->
+
+<button mat-icon-button class="select-language"> <!-- [matMenuTriggerFor]="languageMenu" -->
     {{selectedLang}}
 </button>
-
+<!--
 <mat-menu #languageMenu="matMenu" xPosition="before">
     <button mat-menu-item *ngFor="let lang of translate.getLangs()" (click)="setLanguage(lang)">{{lang}}</button>
 </mat-menu>
+-->
