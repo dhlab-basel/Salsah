@@ -7,6 +7,17 @@ describe('MessageDialogComponent', () => {
     let component: MessageDialogComponent;
     let fixture: ComponentFixture<MessageDialogComponent>;
 
+    let originalTimeout;
+
+    beforeEach(function () {
+        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    });
+
+    afterEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
