@@ -1,9 +1,21 @@
 {
-    "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w",
+    "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg",
     "@type" : "beol:letter",
+    "beol:beolIDs" : {
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/W79A_eZXS8SCov-MU6y3Kg",
+        "@type" : "knora-api:TextValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
+        "knora-api:valueAsString" : "L176-O"
+    },
     "beol:creationDate" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/w3ZlkuU2T0-0DMrvW8HLJA",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/hg4D_yctTweaZ9vtCkDqnw",
         "@type" : "knora-api:DateValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
         "knora-api:dateValueHasCalendar" : "GREGORIAN",
         "knora-api:dateValueHasEndDay" : 3,
         "knora-api:dateValueHasEndEra" : "CE",
@@ -13,261 +25,637 @@
         "knora-api:dateValueHasStartEra" : "CE",
         "knora-api:dateValueHasStartMonth" : 1,
         "knora-api:dateValueHasStartYear" : 1756,
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:valueAsString" : "GREGORIAN:1756-01-03 CE"
     },
     "beol:hasAuthorValue" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/-dzjDkhPRzy-9q0v7QtI7w",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/dt3rgRFjTh-bG_kJPdV2Eg",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/biblio/QNWEqmjxQ9W-_hTwKlKP-Q",
+            "@id" : "http://rdfh.ch/0802/Vcd2vupmRuOserhk03c7Vw",
             "@type" : "beol:person",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/Q-6Sssu8TBWrcCGuVJ0lVw"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:32:12.822Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser,knora-base:UnknownUser",
             "rdfs:label" : "Leonhard Euler"
         }
     },
     "beol:hasRecipientValue" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/gkdrd8ZXQhucrNLXIf2-qw",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/2YYzj2uGTzeaKze3vScqRA",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/biblio/Yv2elBDtSMqoJeKRcxsW8A",
+            "@id" : "http://rdfh.ch/0802/shubb5TjTnu84MqkM6uHlA",
             "@type" : "beol:person",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/Q-6Sssu8TBWrcCGuVJ0lVw"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:32:12.822Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser,knora-base:UnknownUser",
             "rdfs:label" : "Christian Goldbach"
         }
     },
     "beol:hasSubject" : [ {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/JpGklfqZSxuu7VI1zIyucw",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/eoyTM9yqT3maAV704FNZoQ",
         "@type" : "knora-api:ListValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:listValueAsListNode" : {
             "@id" : "http://rdfh.ch/lists/0801/other_quadratic_forms"
         },
         "knora-api:listValueAsListNodeLabel" : "Other quadratic forms"
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/SiEBL-EASQSNeFBprbjY3A",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/wKbQ86WkRtSOyQomLN3-GA",
         "@type" : "knora-api:ListValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:listValueAsListNode" : {
             "@id" : "http://rdfh.ch/lists/0801/berlin_academy"
         },
         "knora-api:listValueAsListNodeLabel" : "Berlin Academy"
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/H4IZDQ1eS2WBrMhZRX-vkA",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/NvANUAjVQXusdezLDIHlNg",
         "@type" : "knora-api:ListValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:listValueAsListNode" : {
             "@id" : "http://rdfh.ch/lists/0801/other_professional_tasks"
         },
         "knora-api:listValueAsListNodeLabel" : "Other professional tasks"
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/MdjXlOTNRfqYKEWNIh6kfg",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/q67xf4J3RKe4Y_wNYyVanQ",
         "@type" : "knora-api:ListValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:listValueAsListNode" : {
             "@id" : "http://rdfh.ch/lists/0801/errands"
         },
         "knora-api:listValueAsListNodeLabel" : "Errands"
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/rfao0tqnQTiYyLdlJrNF6w",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/PePWR2aVSueUZAvryhM8RQ",
         "@type" : "knora-api:ListValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:listValueAsListNode" : {
             "@id" : "http://rdfh.ch/lists/0801/book_trade_orders"
         },
         "knora-api:listValueAsListNodeLabel" : "Book trade, orders"
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/_fCIiKjzRYqjXkEhykto5A",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/NoeWmFy1TVyA0CGDTPVCsA",
         "@type" : "knora-api:ListValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:listValueAsListNode" : {
             "@id" : "http://rdfh.ch/lists/0801/johann_albrecht_euler"
         },
         "knora-api:listValueAsListNodeLabel" : "Johann Albrecht Euler"
     } ],
     "beol:hasText" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/GJQB9IHYTl2RhG4g4ru0YA",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/vnfi65mrQBue7OmI5wonvA",
         "@type" : "knora-api:TextValue",
-        "knora-api:textValueAsHtml" : "<div>\n   <div id=\"transcription\">\n      \n      <p>Hochwohlgebohrner Herr</p>\n      \n      <p>Hochgeehrtester Herr <em>Etats</em> Rath\n      </p>\n      \n      <p>Bey dem Antritt dieses neuen Jahrs lege ich zuvorderst meinen herzlichsten Wunsch\n         für das beständige Wohlseyn Eur. Hochwohlgeb. ab, und empfehle mich dabey gehorsamst\n         sammt den meinigen zu Dero fortdaurenden Wohlgewogenheit<span class=\"math\">\\(\\,.\\,\\)</span> Zugleich statte ich auch Eur. Hochwohlgeb. meine verpflichtetste Danksagung ab für\n         den gütigen Antheil welchen Dieselben an unserem Zustand zu nehmen belieben und habe\n         das Vergnügen Eur. Hochwohlgeb. zu berichten, daß&nbsp;S[ein]<span class=\"math\">\\(\\,{}^{\\text{e}}\\,\\)</span> Königl[iche] <em>Majestät<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/DhgjcrRhRfunaSt77-bUxg\"></a></em> bey dem Anfang dieses Jahrs Dero Pathen unsern ältesten Sohn mit einer jährlichen\n         Besoldung von <a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/bP1CO3j3TCOUHYdQqKw9pA\"></a><span class=\"math\">\\(\\,200\\,\\)</span> Rthl. begnadiget.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/spy5H95GTV2RElphXFPbbw\"><sup>1</sup></a></p>\n      \n      <p>Ich habe nun schon eine geraume Zeit so viel andere Geschäfte gehabt daß&nbsp;ich an <em>numeri</em>sche <em>Theoremata</em>, dergleichen ich Eur. Hochwohlgeb. das letste mal vorzulegen die Ehre gehabt, nicht\n         habe denken können. Die <em>Partes Matheseos applicatae</em> nehmen mir die meiste Zeit weg, wo es immer mehr zu untersuchen gibt, je mehr man\n         damit umgeht.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/KvfXRPkXTziMYMVYSz9tBg\"><sup>2</sup></a></p>\n      \n      <p>Weil nun mein Kopf mit so viel anderen Sachen angefüllet ist, so mag das wohl die\n         Ursache seyn, daß&nbsp;ich mich in das von Eur. Hochwohlgeb. <em>communicir</em>te und nach der Hand verbesserte <em>Theorema</em> nicht finden kan. Vielleicht haben Eur. Hochwohlgeb. vergessen noch eine wesentliche\n         <em>Condition</em> hinzuzusetzen.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/FJCOlKBdRtW8caqnN4A3Vw\"><sup>3</sup></a></p>\n      \n      <p>Das <em>Theorema</em> war: <em>Si sit</em><span class=\"math\">\\(\\,aa+bb=P^{2}+eQ^{2}\\,\\)</span><em>erit etiam</em></p>\n      \n      <p>\n         <span class=\"math\">\\(\\,a^{2}+\\left(\\left(2e+1\\right)b-eP-eQ\\right)^{2}=M^{2}+eN^{2}\\text{;}\\,\\)</span>\n         \n      </p>\n      \n      <p>weil ich den Grund desselben nicht einsehen konnte, so habe ich die Richtigkeit desselben\n         durch <em>Exempel</em> erforschen wollen.\n      </p>\n      \n      <p>I. Da <span class=\"math\">\\(\\,1^{2}+4^{2}=17=3^{2}+2\\cdot 2^{2}\\,\\)</span>, so ist <span class=\"math\">\\(\\,a=1\\,\\)</span>, <span class=\"math\">\\(\\,b=4\\,\\)</span>, <span class=\"math\">\\(\\,P=3\\,\\)</span>, <span class=\"math\">\\(\\,Q=2\\,\\)</span> und <span class=\"math\">\\(\\,e=2\\,\\)</span>, allso müste seyn\n      </p>\n      \n      <p>\n         <span class=\"math\">\\(\\,1^{2}+\\left(5\\cdot 4-2\\cdot 3-2\\cdot 2\\right)^{2}=1^{2}+10^{2}=101=M^{2}+2N^{2}\\,\\)</span>\n         \n      </p>\n      \n      <p>welches unmöglich ist.</p>\n      \n      <p>II. Da <span class=\"math\">\\(\\,9^{2}+4^{2}=97=7^{2}+3\\cdot 4^{2}\\,\\)</span>, so ist <span class=\"math\">\\(\\,a=9\\,\\)</span>; <span class=\"math\">\\(\\,b=4\\,\\)</span>; <span class=\"math\">\\(\\,P=7\\,\\)</span>; <span class=\"math\">\\(\\,Q=4\\,\\)</span> und <span class=\"math\">\\(\\,e=3\\,\\)</span>, allso müsste seyn\n      </p>\n      \n      <p>\n         <span class=\"math\">\\(\\,9^{2}+\\left(7\\cdot 4-3\\cdot 7-3\\cdot 4\\right)^{2}=9^{2}+5^{2}=106=M^{2}+3N^{2}\\,\\)</span>\n         \n      </p>\n      \n      <p>welches ebenfalls unmöglich ist.</p>\n      \n      <p>Da ich nun nicht einmal ein <em>Exempel</em> finden kan, welches einträfe, so schliesse ich daraus, daß&nbsp;eine gewisse Bedingung\n         in den Zahlen <span class=\"math\">\\(\\,a\\,\\)</span>, <span class=\"math\">\\(\\,b\\,\\)</span>, <span class=\"math\">\\(\\,P\\,\\)</span> und <span class=\"math\">\\(\\,Q\\,\\)</span> müsse weggelassen seyn, welche ich aber nicht ausfündig machen kan.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/kZeMXLrQTQONISqizXtf5g\"><sup>4</sup></a></p>\n      \n      <p>Ich habe dem H. <em>Spener<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/Z_-TT-8_QNSRv-O7dKCW0w\"></a></em> zu wissen gethan, daß&nbsp;Eur. Hochwohlgeb. die Rechnung für die überschickten Bücher\n         verlangen; bekomme ich dieselbe vor Schliessung dieses Briefs, wie ich ihm habe sagen\n         lassen, so werde ich sie beylegen.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/08Y_rCK5QM-gvchjtixomw\"><sup>5</sup></a></p>\n      \n      <p>Sonsten da er nicht alle verlangte Bücher gehabt, so werde ich inskünftige dergleichen\n         <em>Commission</em>en dem <em>M.<span class=\"math\">\\(\\,{}^{\\text{r}}\\,\\)</span>Neaulme<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/FsJNrctNTMuwJPCX-7OTVg\"></a></em>, welcher weit <em>activer</em> ist und alles schaffen kan, auftragen. Wegen des Werks: <em>La Clef du Cabinet des Princes<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/up0Q0ZzPSLaULC2tlTs1sA\"></a><a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/sAImr-uGRBGpsdBdoI6XCw\"></a></em> füge hier die Antwort des <em>M.<span class=\"math\">\\(\\,{}^{\\text{r}}\\,\\)</span>de Bourdeaux<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/vR3fWAXxRqShBZvWKVA9tA\"></a></em> bey.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/beol/nRO3f9ENSsqTH8S0Z1uO9w\"><sup>6</sup></a></p>\n      \n      <p>Sollte dasselbe vor der Ankunft einer <em>Resolution</em> von Eur. Hochwohlgeb. schon verkauft worden seyn, so hat sich <em>M.<span class=\"math\">\\(\\,{}^{\\text{r}}\\,\\)</span></em><em>Neaulme<a class=\"salsah-link\" href=\"http://rdfh.ch/biblio/FsJNrctNTMuwJPCX-7OTVg\"></a></em> anheischig gemacht, dasselbe auch zu liefern.\n      </p>\n      \n      <p>Ich habe die Ehre mit der schuldigsten Hochachtung zu verharren</p>\n      \n      <p>Eur. Hochwohlgebohrnen</p>\n      \n      <p>gehorsamster Diener</p>\n      \n      <p>\n         <em>L. Euler</em>\n         \n      </p>\n      \n      <p><em>Berlin</em> den 3<span class=\"math\">\\(\\,{}^{\\text{ten}}\\,\\)</span><em>Januarii</em></p>\n      \n      <p>1756.</p>\n      \n      <p>\n         <sub>Berlin, January 3rd, 1756</sub>\n         \n      </p>\n      \n      <p>\n         <sub>Original, 1 fol. – RGADA, f. 181, n. 1413, č. V, fol. 123rv</sub>\n         \n      </p>\n      \n      <p>\n         <sub>Published: <em>Correspondance</em> (1843), t. I, p. 636–637; <em>Euler-Goldbach</em> (1965), p. 385–386</sub>\n         \n      </p>\n      \n   </div>\n   <div id=\"references\">\n      <ol></ol>\n   </div>\n</div>"
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
+        "knora-api:textValueAsHtml" : "<div>\n   <div id=\"transcription\">\n      \n      <p>Hochwohlgebohrner Herr</p>\n      \n      <p>Hochgeehrtester Herr <em>Etats</em> Rath\n      </p>\n      \n      <p>Bey dem Antritt dieses neuen Jahrs lege ich zuvorderst meinen herzlichsten Wunsch\n         für das beständige Wohlseyn Eur. Hochwohlgeb. ab, und empfehle mich dabey gehorsamst\n         sammt den meinigen zu Dero fortdaurenden Wohlgewogenheit<span class=\"math\">\\(\\,.\\,\\)</span> Zugleich statte ich auch Eur. Hochwohlgeb. meine verpflichtetste Danksagung ab für\n         den gütigen Antheil welchen Dieselben an unserem Zustand zu nehmen belieben und habe\n         das Vergnügen Eur. Hochwohlgeb. zu berichten, daß&nbsp;S[ein]<span class=\"math\">\\(\\,{}^{\\text{e}}\\,\\)</span> Königl[iche] <em>Majestät<a class=\"person salsah-link\" href=\"http://rdfh.ch/0802/BqZGx2KmRS2mIMK_DUxapg\"></a></em> bey dem Anfang dieses Jahrs Dero Pathen unsern ältesten Sohn mit einer jährlichen\n         Besoldung von <a class=\"person salsah-link\" href=\"http://rdfh.ch/0802/shgx0f71R66N_noFNc3gkg\"></a><span class=\"math\">\\(\\,200\\,\\)</span> Rthl. begnadiget.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/KPOPzTVLSdyxiScitUAyTQ\"><sup>1</sup></a></p>\n      \n      <p>Ich habe nun schon eine geraume Zeit so viel andere Geschäfte gehabt daß&nbsp;ich an <em>numeri</em>sche <em>Theoremata</em>, dergleichen ich Eur. Hochwohlgeb. das letste mal vorzulegen die Ehre gehabt, nicht\n         habe denken können. Die <em>Partes Matheseos applicatae</em> nehmen mir die meiste Zeit weg, wo es immer mehr zu untersuchen gibt, je mehr man\n         damit umgeht.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/0m02gFutQ7yEt559a2uOlg\"><sup>2</sup></a></p>\n      \n      <p>Weil nun mein Kopf mit so viel anderen Sachen angefüllet ist, so mag das wohl die\n         Ursache seyn, daß&nbsp;ich mich in das von Eur. Hochwohlgeb. <em>communicir</em>te und nach der Hand verbesserte <em>Theorema</em> nicht finden kan. Vielleicht haben Eur. Hochwohlgeb. vergessen noch eine wesentliche\n         <em>Condition</em> hinzuzusetzen.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/_vmiVEfoSw-BA2_Ppz2nPQ\"><sup>3</sup></a></p>\n      \n      <p>Das <em>Theorema</em> war: <em>Si sit</em><span class=\"math\">\\(\\,aa+bb=P^{2}+eQ^{2}\\,\\)</span><em>erit etiam</em></p>\n      \n      <p>\n         <span class=\"math\">\\(\\,a^{2}+\\left(\\left(2e+1\\right)b-eP-eQ\\right)^{2}=M^{2}+eN^{2}\\text{;}\\,\\)</span>\n         \n      </p>\n      \n      <p>weil ich den Grund desselben nicht einsehen konnte, so habe ich die Richtigkeit desselben\n         durch <em>Exempel</em> erforschen wollen.\n      </p>\n      \n      <p>I. Da <span class=\"math\">\\(\\,1^{2}+4^{2}=17=3^{2}+2\\cdot 2^{2}\\,\\)</span>, so ist <span class=\"math\">\\(\\,a=1\\,\\)</span>, <span class=\"math\">\\(\\,b=4\\,\\)</span>, <span class=\"math\">\\(\\,P=3\\,\\)</span>, <span class=\"math\">\\(\\,Q=2\\,\\)</span> und <span class=\"math\">\\(\\,e=2\\,\\)</span>, allso müste seyn\n      </p>\n      \n      <p>\n         <span class=\"math\">\\(\\,1^{2}+\\left(5\\cdot 4-2\\cdot 3-2\\cdot 2\\right)^{2}=1^{2}+10^{2}=101=M^{2}+2N^{2}\\,\\)</span>\n         \n      </p>\n      \n      <p>welches unmöglich ist.</p>\n      \n      <p>II. Da <span class=\"math\">\\(\\,9^{2}+4^{2}=97=7^{2}+3\\cdot 4^{2}\\,\\)</span>, so ist <span class=\"math\">\\(\\,a=9\\,\\)</span>; <span class=\"math\">\\(\\,b=4\\,\\)</span>; <span class=\"math\">\\(\\,P=7\\,\\)</span>; <span class=\"math\">\\(\\,Q=4\\,\\)</span> und <span class=\"math\">\\(\\,e=3\\,\\)</span>, allso müsste seyn\n      </p>\n      \n      <p>\n         <span class=\"math\">\\(\\,9^{2}+\\left(7\\cdot 4-3\\cdot 7-3\\cdot 4\\right)^{2}=9^{2}+5^{2}=106=M^{2}+3N^{2}\\,\\)</span>\n         \n      </p>\n      \n      <p>welches ebenfalls unmöglich ist.</p>\n      \n      <p>Da ich nun nicht einmal ein <em>Exempel</em> finden kan, welches einträfe, so schliesse ich daraus, daß&nbsp;eine gewisse Bedingung\n         in den Zahlen <span class=\"math\">\\(\\,a\\,\\)</span>, <span class=\"math\">\\(\\,b\\,\\)</span>, <span class=\"math\">\\(\\,P\\,\\)</span> und <span class=\"math\">\\(\\,Q\\,\\)</span> müsse weggelassen seyn, welche ich aber nicht ausfündig machen kan.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/sd6JbWUlTvig8vWIqZy6-Q\"><sup>4</sup></a></p>\n      \n      <p>Ich habe dem H. <em>Spener<a class=\"person salsah-link\" href=\"http://rdfh.ch/0802/CKzU513NSWyVhwe0gpbMWg\"></a></em> zu wissen gethan, daß&nbsp;Eur. Hochwohlgeb. die Rechnung für die überschickten Bücher\n         verlangen; bekomme ich dieselbe vor Schliessung dieses Briefs, wie ich ihm habe sagen\n         lassen, so werde ich sie beylegen.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/f-2Ta0NRSBikdqXivSLuMw\"><sup>5</sup></a></p>\n      \n      <p>Sonsten da er nicht alle verlangte Bücher gehabt, so werde ich inskünftige dergleichen\n         <em>Commission</em>en dem <em>M.<span class=\"math\">\\(\\,{}^{\\text{r}}\\,\\)</span>Neaulme<a class=\"person salsah-link\" href=\"http://rdfh.ch/0802/UWsNivv1R46modSygvjOLA\"></a></em>, welcher weit <em>activer</em> ist und alles schaffen kan, auftragen. Wegen des Werks: <em>La Clef du Cabinet des Princes<a class=\"person salsah-link\" href=\"http://rdfh.ch/0802/Hju9FefOQ5KgnXUHnYqUVA\"></a><a class=\"item salsah-link\" href=\"http://rdfh.ch/0802/iJK4gffNTW-18RsNf8JLbA\"></a></em> füge hier die Antwort des <em>M.<span class=\"math\">\\(\\,{}^{\\text{r}}\\,\\)</span>de Bourdeaux<a class=\"person salsah-link\" href=\"http://rdfh.ch/0802/6dLVf6BjRPCmndIwhFZLEw\"></a></em> bey.<a class=\"salsah-link\" href=\"http://rdfh.ch/0801/2BZx-h5vTcCXaqxaSXjoXA\"><sup>6</sup></a></p>\n      \n      <p>Sollte dasselbe vor der Ankunft einer <em>Resolution</em> von Eur. Hochwohlgeb. schon verkauft worden seyn, so hat sich <em>M.<span class=\"math\">\\(\\,{}^{\\text{r}}\\,\\)</span></em><em>Neaulme<a class=\"person salsah-link\" href=\"http://rdfh.ch/0802/UWsNivv1R46modSygvjOLA\"></a></em> anheischig gemacht, dasselbe auch zu liefern.\n      </p>\n      \n      <p>Ich habe die Ehre mit der schuldigsten Hochachtung zu verharren</p>\n      \n      <p>Eur. Hochwohlgebohrnen</p>\n      \n      <p>gehorsamster Diener</p>\n      \n      <p>\n         <em>L. Euler</em>\n         \n      </p>\n      \n      <p><em>Berlin</em> den 3<span class=\"math\">\\(\\,{}^{\\text{ten}}\\,\\)</span><em>Januarii</em></p>\n      \n      <p>1756.</p>\n      \n      <p>\n         <sub>Berlin, January 3rd, 1756</sub>\n         \n      </p>\n      \n      <p>\n         <sub>Original, 1 fol. – RGADA, f. 181, n. 1413, č. V, fol. 123rv</sub>\n         \n      </p>\n      \n      <p>\n         <sub>Published: <em>Correspondance</em> (1843), t. I, p. 636–637; <em>Euler-Goldbach</em> (1965), p. 385–386</sub>\n         \n      </p>\n      \n   </div>\n   <div id=\"references\">\n      <ol></ol>\n   </div>\n</div>"
     },
     "beol:letterHasLanguage" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/ilKXhfZnS9uAYDNQzi6m8Q",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/I6jR1ifGQ8uy1BIT3mhgvw",
         "@type" : "knora-api:TextValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:valueAsString" : "German"
     },
     "beol:letterHasNumber" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/hS_gqlOtQsCqA-gqrgIHCQ",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/eL8W8sc1QgKlYGZpo2GdEw",
         "@type" : "knora-api:TextValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:valueAsString" : "176"
     },
     "beol:letterHasOriginalValue" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/veu6BVjbTcKFPAEmcYRjXQ",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/fHU-rpfbQFuWytICM7J-Xg",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/1PUuT3mcRGmeunDS3ZNyOA",
+            "@id" : "http://rdfh.ch/0801/3cr2_CqhQUSorLQGEtmt2w",
             "@type" : "beol:manuscript",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:04.192Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
             "rdfs:label" : "L176 Original Manuscript"
         }
     },
     "beol:letterHasRepertoriumNumber" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/na-JeCAxSXyYjpx0Cn-qrA",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/Hpvq2shjR8egU_6nKSprdA",
         "@type" : "knora-api:TextValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:valueAsString" : "890"
     },
     "beol:letterHasTranslationValue" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/_iqsIP5NSLiBE8hPnDwAKw",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/OxitqFtAQTuxX7sIfnvHpg",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/yBr2EjBMTkeCeVmGPfjCtw",
+            "@id" : "http://rdfh.ch/0801/O_KmrUMZSZmDRx4z7JYEQQ",
             "@type" : "beol:letter",
-            "rdfs:label" : "L176-T"
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:04.192Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
+            "rdfs:label" : "L176 Translation"
         }
     },
     "beol:letterIsPublishedValue" : [ {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/gOwn9vzMT-2XHkgZe42fTA",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/4bc4DYlgT7-ZUbrRNN3UNQ",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/79Rz6MaAQESBalJeWl2TVA",
+            "@id" : "http://rdfh.ch/0801/zQI2S2xrTFKH1HlIJwUrVA",
             "@type" : "beol:publishedLetter",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:04.192Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
             "rdfs:label" : "L176-O published in Fuß edition"
         }
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/5-CVslP4R9KY1_d3d83qMw",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/l4VgyQweS9ygLEr0QlQm8g",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/pFN8MlXBSYaB7oZRxUpV0Q",
+            "@id" : "http://rdfh.ch/0801/9iYlwZUFQLW0Ix4M94TehA",
             "@type" : "beol:publishedLetter",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:04.192Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
             "rdfs:label" : "L176-O published in Yushkevich-Winter edition"
         }
     } ],
     "beol:letterIsReplyToValue" : [ {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/iW0aQbZ2Qaeigqr5RN-Hlg",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/peP2vE5wTiq99SnNflB8LQ",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/_iz5PE4rT8KNfbmfW8DxrQ",
+            "@id" : "http://rdfh.ch/0801/rvziQATZTKSsupOqOgadNg",
             "@type" : "beol:letter",
-            "rdfs:label" : "L174-O"
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:01.392Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
+            "rdfs:label" : "L174 Original"
         }
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/utSZPRdcSjC78DHtGBVZ3Q",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/00jtFfhNTZuqTo2uW8Pm6g",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/f5a92GjJRriC1GTY_NzfvQ",
+            "@id" : "http://rdfh.ch/0801/v8xVyLQqSxmCxPaLhOcMzA",
             "@type" : "beol:letter",
-            "rdfs:label" : "L175-O"
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:02.802Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
+            "rdfs:label" : "L175 Original"
         }
     } ],
     "beol:location" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/xpStwEfxSdGH14StZ_KWHQ",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/o1WwLBDLS665GTK8kGABmw",
         "@type" : "knora-api:TextValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:valueAsString" : "Berlin"
     },
     "beol:title" : {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/rqHQuCoeRAmfUElMDuEfFg",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/lQO95mhPSbmUEA1MUh0hhg",
         "@type" : "knora-api:TextValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
         "knora-api:valueAsString" : " Euler to Goldbach, January 3rd, 1756"
     },
+    "knora-api:attachedToProject" : {
+        "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+    },
+    "knora-api:attachedToUser" : {
+        "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+    },
+    "knora-api:creationDate" : {
+        "@type" : "xsd:dateTimeStamp",
+        "@value" : "2018-08-27T17:43:04.192Z"
+    },
+    "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
     "knora-api:hasStandoffLinkToValue" : [ {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/fsxYuF6BSl6opUqcetx4Zg",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/6H95i9yiR72YXYs4SpIt8g",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/KvfXRPkXTziMYMVYSz9tBg",
+            "@id" : "http://rdfh.ch/0801/f-2Ta0NRSBikdqXivSLuMw",
             "@type" : "beol:endnote",
-            "rdfs:label" : "L176 note-2"
-        }
-    }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/aMwl67I7RGa5Dvk-lczTdQ",
-        "@type" : "knora-api:LinkValue",
-        "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/biblio/up0Q0ZzPSLaULC2tlTs1sA",
-            "@type" : "beol:person",
-            "rdfs:label" : "Claude Jordan"
-        }
-    }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/1F3yY5ywSfS8n8U6RYE12w",
-        "@type" : "knora-api:LinkValue",
-        "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/biblio/Z_-TT-8_QNSRv-O7dKCW0w",
-            "@type" : "beol:person",
-            "rdfs:label" : "Johann Carl (the Elder) Spener"
-        }
-    }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/NIpFHSbKSe-BDC8RUmuhqg",
-        "@type" : "knora-api:LinkValue",
-        "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/nRO3f9ENSsqTH8S0Z1uO9w",
-            "@type" : "beol:endnote",
-            "rdfs:label" : "L176 note-6"
-        }
-    }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/wu7kCf2CR-e2aAvT8Q1DhQ",
-        "@type" : "knora-api:LinkValue",
-        "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/spy5H95GTV2RElphXFPbbw",
-            "@type" : "beol:endnote",
-            "rdfs:label" : "L176 note-1"
-        }
-    }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/YQRbSoBGR_-QrpHB_o0ReQ",
-        "@type" : "knora-api:LinkValue",
-        "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/biblio/FsJNrctNTMuwJPCX-7OTVg",
-            "@type" : "beol:person",
-            "rdfs:label" : "Jean Neaulme"
-        }
-    }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/mEhOhC8STn6t816gMUMLUQ",
-        "@type" : "knora-api:LinkValue",
-        "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/08Y_rCK5QM-gvchjtixomw",
-            "@type" : "beol:endnote",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:04.192Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
             "rdfs:label" : "L176 note-5"
         }
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/IG_gpA_vQBW-8hBbP1y0LQ",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/9AzZgLodSvSGaIfzNh5Xrw",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/biblio/DhgjcrRhRfunaSt77-bUxg",
+            "@id" : "http://rdfh.ch/0802/UWsNivv1R46modSygvjOLA",
             "@type" : "beol:person",
-            "rdfs:label" : "Friedrich II."
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/Q-6Sssu8TBWrcCGuVJ0lVw"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:32:12.822Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser,knora-base:UnknownUser",
+            "rdfs:label" : "Jean Neaulme"
         }
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/veG9DY7pR46P62Ylvm7Nzw",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/L4Te6inLQJG75cq07rpKng",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/biblio/bP1CO3j3TCOUHYdQqKw9pA",
-            "@type" : "beol:person",
-            "rdfs:label" : "Johann Albrecht Euler"
-        }
-    }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/udl1maFWTUu1MLcla4bm1g",
-        "@type" : "knora-api:LinkValue",
-        "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/kZeMXLrQTQONISqizXtf5g",
+            "@id" : "http://rdfh.ch/0801/sd6JbWUlTvig8vWIqZy6-Q",
             "@type" : "beol:endnote",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:04.192Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
             "rdfs:label" : "L176 note-4"
         }
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/uwc5JnP4R36elNlokOTX7A",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/NY_owix3TkuKnN0AafP3dQ",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/biblio/vR3fWAXxRqShBZvWKVA9tA",
+            "@id" : "http://rdfh.ch/0802/6dLVf6BjRPCmndIwhFZLEw",
             "@type" : "beol:person",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/Q-6Sssu8TBWrcCGuVJ0lVw"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:32:12.822Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser,knora-base:UnknownUser",
             "rdfs:label" : "Etienne de Bourdeaux"
         }
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/dyhBkbFrQBSRevFJGMUfwQ",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/R8M_EJQ3RL6Xl7fehksBIQ",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/biblio/sAImr-uGRBGpsdBdoI6XCw",
+            "@id" : "http://rdfh.ch/0802/iJK4gffNTW-18RsNf8JLbA",
             "@type" : "http://0.0.0.0:3333/ontology/0802/biblio/v2#Book",
-            "rdfs:label" : "jordanclbhae"
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/Q-6Sssu8TBWrcCGuVJ0lVw"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:35:02.004Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser,knora-base:UnknownUser",
+            "rdfs:label" : "Jordancl 1704"
         }
     }, {
-        "@id" : "http://rdfh.ch/0801/beol/-0tI3HXgSSOeDtkf-SA00w/values/6ry3IMMKRNq9x29EiAhYTw",
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/SilEGJ62R1ixDqxLY5KCyg",
         "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
         "knora-api:linkValueHasTarget" : {
-            "@id" : "http://rdfh.ch/0801/beol/FJCOlKBdRtW8caqnN4A3Vw",
+            "@id" : "http://rdfh.ch/0802/BqZGx2KmRS2mIMK_DUxapg",
+            "@type" : "beol:person",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/Q-6Sssu8TBWrcCGuVJ0lVw"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:32:12.822Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser,knora-base:UnknownUser",
+            "rdfs:label" : "Friedrich II."
+        }
+    }, {
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/VUVqkIxMTZOhVjuKDsrpeg",
+        "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
+        "knora-api:linkValueHasTarget" : {
+            "@id" : "http://rdfh.ch/0801/_vmiVEfoSw-BA2_Ppz2nPQ",
             "@type" : "beol:endnote",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:04.192Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
             "rdfs:label" : "L176 note-3"
         }
+    }, {
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/ZFbjzaEMRGSuUDc31hvT-g",
+        "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
+        "knora-api:linkValueHasTarget" : {
+            "@id" : "http://rdfh.ch/0801/KPOPzTVLSdyxiScitUAyTQ",
+            "@type" : "beol:endnote",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:04.192Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
+            "rdfs:label" : "L176 note-1"
+        }
+    }, {
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/ewsdvHQISjulNWbubNZsig",
+        "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
+        "knora-api:linkValueHasTarget" : {
+            "@id" : "http://rdfh.ch/0801/0m02gFutQ7yEt559a2uOlg",
+            "@type" : "beol:endnote",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:04.192Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
+            "rdfs:label" : "L176 note-2"
+        }
+    }, {
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/kdjlx1aQQraDmjhbqbohOw",
+        "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
+        "knora-api:linkValueHasTarget" : {
+            "@id" : "http://rdfh.ch/0802/shgx0f71R66N_noFNc3gkg",
+            "@type" : "beol:person",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/Q-6Sssu8TBWrcCGuVJ0lVw"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:32:12.822Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser,knora-base:UnknownUser",
+            "rdfs:label" : "Johann Albrecht Euler"
+        }
+    }, {
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/pgeLHpJCSla90cHjPeZM7w",
+        "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
+        "knora-api:linkValueHasTarget" : {
+            "@id" : "http://rdfh.ch/0802/Hju9FefOQ5KgnXUHnYqUVA",
+            "@type" : "beol:person",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/Q-6Sssu8TBWrcCGuVJ0lVw"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:32:12.822Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser,knora-base:UnknownUser",
+            "rdfs:label" : "Claude Jordan"
+        }
+    }, {
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/pocJr3PpQ3yT74bWZKqRRw",
+        "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
+        "knora-api:linkValueHasTarget" : {
+            "@id" : "http://rdfh.ch/0801/2BZx-h5vTcCXaqxaSXjoXA",
+            "@type" : "beol:endnote",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/yTerZGyxjZVqFMNNKXCDPF"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/PSGbemdjZi4kQ6GHJVkLGE"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:43:04.192Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser|RV knora-base:UnknownUser",
+            "rdfs:label" : "L176 note-6"
+        }
+    }, {
+        "@id" : "http://rdfh.ch/0801/j4BrggcKS0CltUf1Ssl9Jg/values/q1E8UQ4DS7-oIOk01v9vgQ",
+        "@type" : "knora-api:LinkValue",
+        "knora-api:attachedToUser" : {
+            "@id" : "http://www.knora.org/ontology/knora-base#SystemUser"
+        },
+        "knora-api:hasPermissions" : "CR knora-base:SystemUser|V knora-base:UnknownUser",
+        "knora-api:linkValueHasTarget" : {
+            "@id" : "http://rdfh.ch/0802/CKzU513NSWyVhwe0gpbMWg",
+            "@type" : "beol:person",
+            "knora-api:attachedToProject" : {
+                "@id" : "http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ"
+            },
+            "knora-api:attachedToUser" : {
+                "@id" : "http://rdfh.ch/users/Q-6Sssu8TBWrcCGuVJ0lVw"
+            },
+            "knora-api:creationDate" : {
+                "@type" : "xsd:dateTimeStamp",
+                "@value" : "2018-08-27T17:32:12.822Z"
+            },
+            "knora-api:hasPermissions" : "CR knora-base:Creator|M knora-base:ProjectMember|V knora-base:KnownUser,knora-base:UnknownUser",
+            "rdfs:label" : "Johann Carl (the Elder) Spener"
+        }
     } ],
-    "rdfs:label" : "L176-O",
+    "rdfs:label" : "L176 Original",
     "@context" : {
         "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-        "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
         "knora-api" : "http://api.knora.org/ontology/knora-api/v2#",
-        "beol" : "http://0.0.0.0:3333/ontology/0801/beol/v2#"
+        "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+        "beol" : "http://0.0.0.0:3333/ontology/0801/beol/v2#",
+        "xsd" : "http://www.w3.org/2001/XMLSchema#"
     }
 }
