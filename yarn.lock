@@ -364,15 +364,15 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/core@^1.0.0-beta.2":
-  version "1.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.2.tgz#52213d67380d963821acf8d100972ac8df01bb77"
+"@knora/core@^1.0.0-beta.3":
+  version "1.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.3.tgz#524ec33f6a34663ee9015886279a8a9fb85a3ae4"
   dependencies:
     tslib "^1.9.0"
 
-"@knora/search@^1.0.0-beta":
-  version "1.0.0-beta"
-  resolved "https://registry.yarnpkg.com/@knora/search/-/search-1.0.0-beta.tgz#0546cfd6b7683ef4237479b89edbc95daf68f9ba"
+"@knora/search@^1.0.0-beta.1":
+  version "1.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@knora/search/-/search-1.0.0-beta.1.tgz#3306526186d7e02ddb7487f8ebfaed325028260b"
   dependencies:
     tslib "^1.9.0"
 

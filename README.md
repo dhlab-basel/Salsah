@@ -24,7 +24,7 @@ If you're a developer and you want to improve the app, please have a look at the
 
 ### Prerequisites
 
-We develop the Salsah app with Angular (v5), especially with Angular-cli, which requires the following tools:
+We develop the Salsah app with Angular (v6), especially with Angular-cli, which requires the following tools:
 
 
 #### Node
@@ -44,11 +44,6 @@ To start the app or to create new components and services, you need [angular-cli
 
 `$ yarn global add @angular/cli`
 
-We develop the Salsah app with Angular (v5), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) (version >=4 <=9) and [NPM](https://www.npmjs.com) or [yarn](https://yarnpkg.com/en/docs/cli/install). We recommend to use Yarn instead of npm!
-
-**Install [angular-cli](https://github.com/angular/angular-cli) globally**
-
-`yarn global add @angular/cli`
 
 ### Getting started
 #### Install the app dependencies
