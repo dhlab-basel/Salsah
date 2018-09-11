@@ -31,8 +31,6 @@ before_script:
 
 script:
   - ng test --watch=false --browsers=ChromeHeadless # --reporters=spec --browser=ChromeHeadless --single-run=true
-  # this should really be fixed in the package itself (https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter/issues/5)
-  # - cp fixes/jdnconvertiblecalendardateadapter/index.d.ts node_modules/jdnconvertiblecalendardateadapter/dist/index.d.ts
   - ng build --prod --build-optimizer
 
 notifications:
