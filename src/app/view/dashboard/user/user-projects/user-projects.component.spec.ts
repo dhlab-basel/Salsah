@@ -1,9 +1,9 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {AppRoutingModule} from '../../../../app-routing.module';
-import {UserProjectsComponent} from './user-projects.component';
-import {User} from '../../../../model/webapi/knora';
-import {multiUser} from '../../../../model/test-data/shared-test-data'
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { AppRoutingModule } from '../../../../app-routing.module';
+import { UserProjectsComponent } from './user-projects.component';
+import { multiUser } from '../../../../model/test-data/shared-test-data'
+import { User } from '@knora/core';
 
 describe('UserProjectsComponent', () => {
     let component: UserProjectsComponent;
@@ -54,7 +54,7 @@ describe('UserProjectsComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should be created', () => {
+    it('should be created', () => {
         expect<any>(sessionStorage.getItem('currentUser')).toBe(JSON.stringify(testProfile));
         expect(component).toBeTruthy();
     });

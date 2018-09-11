@@ -1,5 +1,6 @@
 <div *ngIf="!errorMessage; else errorMsg">
-    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+    <!-- <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator> -->
+    <kui-progress-indicator *ngIf="isLoading"></kui-progress-indicator>
 
     <!-- success message after updating -->
     <salsah-message *ngIf="success" [message]="successMessage" [short]="true"></salsah-message>
@@ -8,10 +9,8 @@
     <form *ngIf="!isLoading" [formGroup]="projectDataForm" class="salsah-form-content project-data">
         <!-- short and long name -->
         <mat-form-field class="small">
-            <input matInput
-                   placeholder="{{'salsahLabels.form.project.general.shortCode' | translate}} * "
-                   [maxlength]="shortcodeMaxLength"
-                   [formControl]="projectDataForm.controls['shortcode']">
+            <input matInput placeholder="{{'salsahLabels.form.project.general.shortCode' | translate}} * " [maxlength]="shortcodeMaxLength"
+                [formControl]="projectDataForm.controls['shortcode']">
             <mat-hint *ngIf="formErrors.shortcode">
                 {{ formErrors.shortcode }}
             </mat-hint>
@@ -19,10 +18,8 @@
 
         <!-- short name -->
         <mat-form-field class="medium">
-            <input matInput
-                   [maxlength]="shortnameMaxLength"
-                   placeholder="{{'salsahLabels.form.project.general.shortName' | translate}} * "
-                   [formControl]="projectDataForm.controls['shortname']">
+            <input matInput [maxlength]="shortnameMaxLength" placeholder="{{'salsahLabels.form.project.general.shortName' | translate}} * "
+                [formControl]="projectDataForm.controls['shortname']">
             <mat-hint *ngIf="formErrors.shortname">
                 {{ formErrors.shortname }}
             </mat-hint>
@@ -30,9 +27,7 @@
 
         <!-- long name -->
         <mat-form-field class="large">
-            <input matInput
-                   placeholder="{{'salsahLabels.form.project.general.longName' | translate}} *"
-                   [formControl]="projectDataForm.controls['longname']">
+            <input matInput placeholder="{{'salsahLabels.form.project.general.longName' | translate}} *" [formControl]="projectDataForm.controls['longname']">
             <mat-hint *ngIf="formErrors.longname">
                 {{ formErrors.longname }}
             </mat-hint>
@@ -40,9 +35,8 @@
 
         <!-- description -->
         <mat-form-field class="large">
-            <textarea matInput matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="12"
-                      [placeholder]=" 'salsahLabels.form.project.general.description' | translate "
-                      [formControl]="projectDataForm.controls['description']">
+            <textarea matInput matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="12" [placeholder]=" 'salsahLabels.form.project.general.description' | translate "
+                [formControl]="projectDataForm.controls['description']">
             </textarea>
             <mat-hint *ngIf="formErrors.description">
                 {{ formErrors.description }}
@@ -64,17 +58,13 @@
         <!-- keywords -->
         <mat-form-field class="large">
             <mat-chip-list #tagsList>
-                <mat-chip *ngFor="let tag of keywords" [selectable]="selectable"
-                          [removable]="removable" (remove)="removeKeyword(tag)">
+                <mat-chip *ngFor="let tag of keywords" [selectable]="selectable" [removable]="removable" (remove)="removeKeyword(tag)">
                     {{tag}}
                     <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                 </mat-chip>
-                <input [placeholder]=" 'salsahLabels.form.project.general.keywords' | translate "
-                       [formControl]="projectDataForm.controls['keywords']"
-                       [matChipInputFor]="tagsList"
-                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                       [matChipInputAddOnBlur]="addOnBlur"
-                       (matChipInputTokenEnd)="addKeyword($event)"/>
+                <input [placeholder]=" 'salsahLabels.form.project.general.keywords' | translate " [formControl]="projectDataForm.controls['keywords']"
+                    [matChipInputFor]="tagsList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="addKeyword($event)" />
             </mat-chip-list>
             <!--
             <mat-hint *ngIf="formErrors.keywords">
@@ -100,15 +90,11 @@
             <!-- delete / activate buttons in case of edit -->
             <div *ngIf="edit">
                 <!-- delete project -->
-                <button *ngIf="project.status"
-                        mat-button color="warn"
-                        (click)="deactivateProject($event, projectIri)">
+                <button *ngIf="project.status" mat-button color="warn" (click)="deactivateProject($event, projectIri)">
                     {{ 'salsahLabels.form.action.deactivate' | translate }}
                 </button>
                 <!-- activate project -->
-                <button *ngIf="!project.status"
-                        mat-button color="warn"
-                        (click)="activateProject($event, projectIri)">
+                <button *ngIf="!project.status" mat-button color="warn" (click)="activateProject($event, projectIri)">
                     {{ 'salsahLabels.form.action.activate' | translate }}
                 </button>
             </div>
@@ -127,8 +113,7 @@
             <div class="salsah-panel large">
                 <button mat-button matStepperPrevious>{{ 'salsahLabels.form.action.back' | translate }}</button>
                 <span class="fill-remaining-space"></span>
-                <button mat-button color="primary" matStepperNext [disabled]="!projectDataForm.valid"
-                        (click)="submitData()">
+                <button mat-button color="primary" matStepperNext [disabled]="!projectDataForm.valid" (click)="submitData()">
                     {{ 'salsahLabels.form.action.next' | translate }}
                 </button>
             </div>

@@ -31,59 +31,59 @@
             </button>
         </span>
         <div class="salsah-menu add-menu" [@addMenu]="focusOnAddMenu">
-        <!-- first line: user name and close button -->
-        <div class="salsah-menu-header">
-        <span class="salsah-menu-title">
-            {{addMenuTitle}}
-        </span>
-            <span class="salsah-menu-action">
-            <button mat-icon-button (click)="toggleMenu('addMenu')">
-                <mat-icon>close</mat-icon>
-            </button>
-        </span>
+            <!-- first line: user name and close button -->
+            <div class="salsah-menu-header">
+                <span class="salsah-menu-title">
+                    {{addMenuTitle}}
+                </span>
+                <span class="salsah-menu-action">
+                    <button mat-icon-button (click)="toggleMenu('addMenu')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </span>
+            </div>
+
+            <!-- menu items -->
+            <mat-grid-list cols="3" gutterSize="6px">
+                <!-- old version
+                <mat-grid-tile *ngFor="let item of addMenu">
+                    <button mat-button [routerLink]="item.route" (click)="toggleMenu('addMenu')">
+                        <mat-icon>{{item.icon}}</mat-icon>
+                        <br>
+                        {{item.title}}
+                    </button>
+                </mat-grid-tile>
+                -->
+                <!-- new project -->
+                <mat-grid-tile *ngIf='sysAdmin'> <!-- only system admins can add new projects -->
+                    <button mat-button (click)="toggleMenu('addMenu', 'project')">
+                        <mat-icon>create_new_folder</mat-icon>
+                        <br>
+                        Project
+                    </button>
+                </mat-grid-tile>
+                <!-- new collection -->
+                <mat-grid-tile>
+                    <button mat-button (click)="toggleMenu('addMenu', 'collection')">
+                        <mat-icon>library_add</mat-icon>
+                        <br>
+                        Collection
+                    </button>
+                </mat-grid-tile>
+                <!-- new resource instance -->
+                <mat-grid-tile>
+                    <button mat-button (click)="toggleMenu('addMenu', 'object')">
+                        <mat-icon>note_add</mat-icon>
+                        <br>
+                        Resource
+                    </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+            <mat-divider></mat-divider>
         </div>
 
-        <!-- menu items -->
-        <mat-grid-list cols="3" gutterSize="6px">
-            <!-- old version
-            <mat-grid-tile *ngFor="let item of addMenu">
-                <button mat-button [routerLink]="item.route" (click)="toggleMenu('addMenu')">
-                    <mat-icon>{{item.icon}}</mat-icon>
-                    <br>
-                    {{item.title}}
-                </button>
-            </mat-grid-tile>
-            -->
-            <!-- new project -->
-            <mat-grid-tile *ngIf='sysAdmin'> <!-- only system admins can add new projects -->
-                <button mat-button (click)="toggleMenu('addMenu', 'project')">
-                    <mat-icon>create_new_folder</mat-icon>
-                    <br>
-                    Project
-                </button>
-            </mat-grid-tile>
-            <!-- new collection -->
-            <mat-grid-tile>
-                <button mat-button (click)="toggleMenu('addMenu', 'collection')">
-                    <mat-icon>library_add</mat-icon>
-                    <br>
-                    Collection
-                </button>
-            </mat-grid-tile>
-            <!-- new resource instance -->
-            <mat-grid-tile>
-                <button mat-button (click)="toggleMenu('addMenu', 'object')">
-                    <mat-icon>note_add</mat-icon>
-                    <br>
-                    Object
-                </button>
-            </mat-grid-tile>
-        </mat-grid-list>
-        <mat-divider></mat-divider>
-    </div>
-
-    <!-- user menu -->
-    <span class="user-menu">
+        <!-- user menu -->
+        <span class="user-menu">
         <!-- if the user is logged in, show the user profile menu button -->
         <button mat-icon-button (click)="toggleMenu('userMenu')">
             <img salsahImage [image]="userName" [type]="'avatar'" class="salsah-avatar-image"/>
@@ -112,7 +112,8 @@
                 </mat-grid-tile>
             </mat-grid-list>
             <div class="salsah-menu-footer">
-                <button mat-button class="salsah-menu-action-logout" routerLink="/logout" (click)="toggleMenu('userMenu')">
+                <button mat-button class="salsah-menu-action-logout" routerLink="/logout"
+                        (click)="toggleMenu('userMenu')">
                     <mat-icon>power_settings_new</mat-icon>
                     Logout
                 </button>
@@ -120,7 +121,7 @@
         </div>
     </div>
     <!-- else: show show the login button only -->
-    <div *ngIf="userName === undefined">
+    <div *ngIf="!userName">
         <button mat-raised-button (click)="goToLoginPage()" matTooltip="Login"
                 matTooltipPosition="below" class="mat-primary">
             Log In

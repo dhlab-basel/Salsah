@@ -11,20 +11,13 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-
-import {UsersService} from '../../../../model/services/users.service';
-
-import {AutocompleteItem} from '../../../../app.interfaces';
-import {User} from '../../../../model/webapi/knora';
-import {AppConfig} from '../../../../app.config';
-import {Project} from '../../../../model/webapi/knora/admin';
+import { ApiServiceError, KnoraConstants, Project, User, UsersService, Utils } from '@knora/core';
+import { AutocompleteItem } from '../../../../app.interfaces';
 
 @Component({
     selector: 'salsah-user-form',
@@ -137,7 +130,7 @@ export class UserFormComponent implements OnInit {
 
 
     constructor(public _usersService: UsersService,
-                private _formBuilder: FormBuilder) {
+        private _formBuilder: FormBuilder) {
 
     }
 
@@ -230,10 +223,10 @@ export class UserFormComponent implements OnInit {
             'username': new FormControl({
                 value: '', disabled: false
             }, [
-                Validators.required,
-                Validators.pattern(AppConfig.RegexEmail)
-//                    existingNamesValidator(this.existingUserNames)
-            ])
+                    Validators.required,
+                    Validators.pattern(Utils.RegexEmail)
+                    //                    existingNamesValidator(this.existingUserNames)
+                ])
         });
 
         this.userFormGroup.valueChanges
@@ -372,7 +365,7 @@ export class UserFormComponent implements OnInit {
 
                     // next step: add user (by iri) to the project (if any is selected)
                     if (this.selectedProject) {
-//                        console.log(this.isAlreadyMember);
+                        //                        console.log(this.isAlreadyMember);
                         if (!this.isAlreadyMember) {
                             this.addUserToProject(result.id);
                         } else {
@@ -459,7 +452,7 @@ export class UserFormComponent implements OnInit {
 
     setGroupsPermissions(userIri: string) {
 
-        const projectAdmin: boolean = (!!this.selectedGroups.find( ad => ad.iri === AppConfig.ProjectAdminGroup));
+        const projectAdmin: boolean = (!!this.selectedGroups.find(ad => ad.iri === KnoraConstants.ProjectAdminGroupIRI));
 
         if (projectAdmin) {
             this._usersService.addUserToProjectAdmin(userIri, this.selectedProject.iri).subscribe(

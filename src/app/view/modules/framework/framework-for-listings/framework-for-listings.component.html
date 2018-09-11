@@ -19,7 +19,7 @@
                 <!-- this list has an 'add button' to add new stuff;
                     it opens the form-dialog-component with the defined form-component -->
 
-                <button *ngIf="add !== undefined && loggedInAdmin"
+                <button *ngIf="add"
                         (click)="openNew(add.type)"
                         mat-raised-button
                         [matTooltip]="add.title"
@@ -38,16 +38,14 @@
             <salsah-users-list *ngSwitchCase="'user'"
                                [listType]="list.showAs"
                                [restrictedBy]="list.restrictedBy"
-                               (refreshComponent)="updateSession()"
-                               [admin]="loggedInAdmin">
+                               (refreshComponent)="updateSession()">
             </salsah-users-list>
 
 
             <div *ngSwitchCase="'project'">
                 <salsah-projects-list *ngIf="!rerender"
                                       [listType]="list.showAs"
-                                      [restrictedBy]="list.restrictedBy"
-                                      [admin]="loggedInAdmin">
+                                      [restrictedBy]="list.restrictedBy">
                 </salsah-projects-list>
             </div>
 

@@ -4,7 +4,7 @@ category: Getting Started
 order: 1
 ---
 
-We develop the Salsah app with Angular (v5), especially with Angular-cli, which requires the following tools:
+We develop the Salsah app with Angular 6, especially with Angular-cli, which requires the following tools:
 
 
 ### Node

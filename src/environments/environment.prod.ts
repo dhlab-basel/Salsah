@@ -21,7 +21,8 @@
 export const environment = {
     type: 'productive',
     production: true,
-    url: 'http://salsah.local',
+    name: 'Salsah',
+    app: 'http://localhost:4200',
     apiExternal: 'http://0.0.0.0:3333',
     api: 'http://0.0.0.0:3333',
     media: 'http://localhost:1024',

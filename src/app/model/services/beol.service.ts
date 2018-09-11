@@ -1,8 +1,10 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {ExtendedSearchParams, SearchParamsService} from './search-params.service';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { ExtendedSearchParams, SearchParamsService } from '@knora/core';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class BeolService {
 
     constructor(private _searchParamsService: SearchParamsService) {

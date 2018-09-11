@@ -12,12 +12,10 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {ApiServiceError} from '../../../model/services/api-service-error';
-import {UsersService} from '../../../model/services/users.service';
-import {Title} from '@angular/platform-browser';
-import {User} from '../../../model/webapi/knora';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ApiServiceError, User, UsersService } from '@knora/core';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -73,9 +71,9 @@ export class UserComponent implements OnInit {
     ];
 
     constructor(private _title: Title,
-                private _router: Router,
-                private _route: ActivatedRoute,
-                private _userService: UsersService) {
+        private _router: Router,
+        private _route: ActivatedRoute,
+        private _userService: UsersService) {
     }
 
     ngOnInit() {
@@ -88,7 +86,9 @@ export class UserComponent implements OnInit {
 
         this.route = this._router.url;  // could be /user/[uid], /profile, /projects, /collections or /settings
 
-        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.loggedInUser = JSON.parse(localStorage.getItem('session'));
+
+
 
         if (this.route.indexOf('user') >= 0) {
             // get the email from the user route parameter
@@ -96,11 +96,11 @@ export class UserComponent implements OnInit {
                 if (params['uid']) {
                     // case a)
                     this.email = params['uid'];
-                    this._title.setTitle( 'Salsah | User profile (' + this.email + ')');
+                    this._title.setTitle('Salsah | User profile (' + this.email + ')');
                     if (this.loggedInUser !== null) {
                         // if the loggedInUser exists and this email is the same as
                         // the one in the route then switch to /profile (handled in the template)
-                        if (params['uid'] === this.loggedInUser.email) {
+                        if (params['uid'] === this.loggedInUser.user.email) {
                             this.showOwnProfile = true;
                             this._router.navigateByUrl('/profile');
                         }
@@ -110,16 +110,9 @@ export class UserComponent implements OnInit {
         } else {
             // case b)
             if (this.loggedInUser !== null) {
-                this.email = this.loggedInUser.email;
+                this.email = this.loggedInUser.user.name;
                 this.showOwnProfile = true;
-                this._title.setTitle( 'Salsah | User admin (' + this.email + ')');
-            } else {
-                // access denied! navigate to the login page
-                // and set a history parameter (?h=) with the current user
-                // to bring the user back to the current route after successful login
-                let goToUrl: string = '/login';
-                if (this._router.url !== '/') { goToUrl += '?h=' + encodeURIComponent(this._router.url); }
-                this._router.navigateByUrl(goToUrl);
+                this._title.setTitle('Salsah | User admin (' + this.email + ')');
             }
 
         }

@@ -12,17 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ListsService} from '../../../../model/services/lists.service';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {MessageData} from '../../message/message.component';
-import {List, ListInfo, ListNode, User} from '../../../../model/webapi/knora';
-import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TreeNode} from 'angular-tree-component/dist/models/tree-node.model';
-import {AuthenticationService} from '../../../../model/services/authentication.service';
-import {AppConfig} from '../../../../app.config';
-import {UsersService} from '../../../../model/services/users.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ApiServiceError, List, ListInfo, ListNode, ListsService, KnoraConstants, User, UsersService, ListResponse } from '@knora/core';
+import { MessageData } from '../../message/message.component';
+import { } from '../../../../model/webapi/knora';
+import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TreeNode } from 'angular-tree-component/dist/models/tree-node.model';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'salsah-lists-list',
@@ -55,16 +52,16 @@ export class ListsListComponent implements OnInit {
     // default permission groups / role of the user in a project
     // defaultGroups: AutocompleteItem[] = [
     //     {
-    //         iri: AppConfig.ProjectMemberGroup,
+    //         iri: KnoraConstants.ProjectMemberGroupIRI,
     //         name: 'Member'
     //     },
     //     {
-    //         iri: AppConfig.ProjectAdminGroup,
+    //         iri: KnoraConstants.ProjectAdminGroupIRI,
     //         name: 'Administrator'
     //     }
     /* use the following in system view only!
     {
-        iri: AppConfig.SystemAdminGroup,
+        iri: KnoraConstants.SystemAdminGroupIRI,
         name: '',
         label: 'System admin'
     }
@@ -80,7 +77,7 @@ export class ListsListComponent implements OnInit {
         statusText: 'It seems there\'s no list yet. Add a new one with the button above &uarr;'
     };
 
-    lists: ListInfo[] = [];
+    lists: List[] = [];
     numberOfItems: number;
 
     currentNodes: ListNode[];
@@ -109,9 +106,9 @@ export class ListsListComponent implements OnInit {
     };
 
     constructor(private _listsService: ListsService,
-                private _authenticationService: AuthenticationService,
-                private _usersService: UsersService,
-                public _dialog: MatDialog) {
+        private _authenticationService: UsersService,
+        private _usersService: UsersService,
+        public _dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -119,9 +116,10 @@ export class ListsListComponent implements OnInit {
             //     get all project lists
             this._listsService.getLists(this.restrictedBy)
                 .subscribe(
-                    (lists: List[]) => {
-                        this.lists = lists.map(value => value.listinfo);
-                        this.numberOfItems = lists.length;
+                    (result: List[]) => {
+                        // console.log('lists with IRI from lists list: ', result);
+                        this.lists = result;
+                        this.numberOfItems = this.lists.length;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -134,8 +132,9 @@ export class ListsListComponent implements OnInit {
             // get all system lists
             this._listsService.getLists()
                 .subscribe(
-                    (lists: List[]) => {
-                        this.lists = lists.map(value => value.listinfo);
+                    (result: List[]) => {
+                        // console.log('lists from lists list: ', result);
+                        this.lists = result;
                         this.isLoading = false;
                     },
                     (error: ApiServiceError) => {
@@ -145,7 +144,7 @@ export class ListsListComponent implements OnInit {
                 );
         }
 
-        console.log('projectIri:', this.restrictedBy);
+        // console.log('projectIri:', this.restrictedBy);
 
         this.isExpanded = false;
 
@@ -162,15 +161,14 @@ export class ListsListComponent implements OnInit {
                     allowDrag: this.nodeDrag,
                     allowDrop: this.nodeDrop,
                 };
-            }
-            else {
+            } else {
                 this._usersService.getUserByEmail(this.loggedInUser.email).subscribe(
                     (result: User) => {
                         // return full user details and check if they have administrative permissions for this project
                         this.currentUser = result;
                         this.projectAdmin = this.currentUser.permissions.administrativePermissionsPerProject[this.restrictedBy];
-                        console.log('full user details: ', this.currentUser);
-                        console.log('project Admin details: ', this.projectAdmin);
+                        // console.log('full user details: ', this.currentUser);
+                        // console.log('project Admin details: ', this.projectAdmin);
 
                         if (this.projectAdmin.length > 0) {
                             // console.log('projectAdmin ');
@@ -193,8 +191,8 @@ export class ListsListComponent implements OnInit {
                     }
                 );
             }
-        }
-        else{ //if there is no logged in user don't allow drag and drop
+        } else {
+            // if there is no logged in user don't allow drag and drop
             this.nodeDrag = false;
             this.nodeDrop = false;
         }
@@ -217,7 +215,7 @@ export class ListsListComponent implements OnInit {
     }
 
 
-// LIST METHODS
+    // LIST METHODS
 
     expandAll(tree) {
         tree.treeModel.expandAll();

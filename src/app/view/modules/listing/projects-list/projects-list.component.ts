@@ -12,18 +12,14 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Router} from '@angular/router';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {Project} from '../../../../model/webapi/knora/';
-import {UsersService} from '../../../../model/services/users.service';
-import {MessageData} from '../../message/message.component';
-import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
-import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
-import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {User} from '../../../../model/webapi/knora/admin';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiServiceError, Project, ProjectsService, User, UsersService } from '@knora/core';
+import { MessageData } from '../../message/message.component';
+import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
+import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
+import { MessageDialogComponent } from '../../dialog/message-dialog/message-dialog.component';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 
 /**
  * This component has two optional attributes:
@@ -49,7 +45,6 @@ export class ProjectsListComponent implements OnInit {
     // restrictedBy can be a user; to show a list of the user's projects
     @Input() restrictedBy: string;
     @Input() listType?: string;
-    @Input() admin?: boolean;
 
     // send the number of entries to the parent component (framework-for-listings) to us it there in the title
     @Output() counter: EventEmitter<number> = new EventEmitter<number>();
@@ -100,9 +95,9 @@ export class ProjectsListComponent implements OnInit {
     sortKeyIA: string = this.sortKey;
 
     constructor(private _router: Router,
-                private _projectsService: ProjectsService,
-                private _userService: UsersService,
-                public _dialog: MatDialog) {
+        private _projectsService: ProjectsService,
+        private _userService: UsersService,
+        public _dialog: MatDialog) {
     }
 
     ngOnInit() {

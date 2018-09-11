@@ -1,5 +1,6 @@
 <div *ngIf="!errorMessage; else errorMsg">
-    <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+    <!-- <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator> -->
+    <kui-progress-indicator *ngIf="isLoading"></kui-progress-indicator>
 
     <!-- success message after updating -->
     <salsah-message *ngIf="success" [message]="successMessage" [short]="true"></salsah-message>
@@ -14,16 +15,12 @@
 
         <!-- email = username -->
         <mat-form-field class="large">
-            <input matInput type="email"
-                   [formControl]="userDataForm.controls['email']"
-                   placeholder="{{ 'salsahLabels.form.user.general.email' | translate }} *">
+            <input matInput type="email" [formControl]="userDataForm.controls['email']" placeholder="{{ 'salsahLabels.form.user.general.email' | translate }} *">
         </mat-form-field>
 
         <!-- given name -->
         <mat-form-field class="small">
-            <input matInput
-                   [formControl]="userDataForm.controls['givenName']"
-                   placeholder="{{ 'salsahLabels.form.user.general.givenName' | translate }} *">
+            <input matInput [formControl]="userDataForm.controls['givenName']" placeholder="{{ 'salsahLabels.form.user.general.givenName' | translate }} *">
             <mat-hint *ngIf="formErrors.givenName">
                 {{ formErrors.givenName }}
             </mat-hint>
@@ -31,9 +28,7 @@
 
         <!-- family name -->
         <mat-form-field class="medium">
-            <input matInput
-                   [formControl]="userDataForm.controls['familyName']"
-                   placeholder="{{ 'salsahLabels.form.user.general.familyName' | translate }} *">
+            <input matInput [formControl]="userDataForm.controls['familyName']" placeholder="{{ 'salsahLabels.form.user.general.familyName' | translate }} *">
             <mat-hint *ngIf="formErrors.familyName">
                 {{ formErrors.familyName }}
             </mat-hint>
@@ -41,13 +36,10 @@
 
         <!-- password -->
         <mat-form-field class="large" *ngIf="!this.standalone">
-            <input matInput [type]="showPassword ? 'text' : 'password'"
-                   [formControl]="userDataForm.controls['password']"
-                   placeholder="{{ 'salsahLabels.form.user.general.password' | translate }} *">
+            <input matInput [type]="showPassword ? 'text' : 'password'" [formControl]="userDataForm.controls['password']" placeholder="{{ 'salsahLabels.form.user.general.password' | translate }} *">
 
-            <button mat-button matSuffix mat-icon-button class="input-icon"
-                    attr.aria-label="{{showPassword ? 'Hide password' : 'Show password'}}"
-                    (click)="toggleVisibility()">
+            <button mat-button matSuffix mat-icon-button class="input-icon" attr.aria-label="{{showPassword ? 'Hide password' : 'Show password'}}"
+                (click)="toggleVisibility()">
                 <mat-icon>
                     {{showPassword ? 'visibility_off' : 'visibility'}}
                 </mat-icon>
@@ -59,8 +51,7 @@
 
         <mat-form-field class="large">
 
-            <mat-select [formControl]="userDataForm.controls['lang']"
-                        [placeholder]="'salsahLabels.form.user.general.language' | translate">
+            <mat-select [formControl]="userDataForm.controls['lang']" [placeholder]="'salsahLabels.form.user.general.language' | translate">
                 <mat-option *ngFor="let lang of languagesList" [value]="lang.id">
                     {{ lang.name }}
                 </mat-option>
@@ -92,4 +83,3 @@
 <ng-template #errorMsg>
     <salsah-message *ngIf="errorMessage" [message]="errorMessage"></salsah-message>
 </ng-template>
-

@@ -1,65 +1,10 @@
-<div class="salsah-overlay fullscreen">
+<div class="salsah-module without-header">
+    <div class="salsah-module-scroll-area" *ngIf="!loading">
+        <div class="salsah-login-card center">
+            <p>If the login form has disappeared,<br>you can open it here again:</p>
+            <button mat-raised-button [color]="'primary'" (click)="openDialog()">Open login form</button>
 
-    <div class="salsah-overlay-header">
-        <img routerLink="/" class="logo" src="/assets/img/salsah-logo.png" alt="SALSAH"
-             title="SALSAH">
-        <p>Sign in to SALSAH</p>
-    </div>
-
-    <mat-card class="salsah-login-card">
-        <mat-card-header class="login-header">
-            <mat-card-title>
-                {{login.title | uppercase }}
-            </mat-card-title>
-        </mat-card-header>
-
-        <mat-card-content class="login-content">
-            <!-- This is the login form (lf) -->
-            <form class="login-form" #lf="ngForm" (ngSubmit)="onSubmit(lf.value)" *ngIf="!isLoading">
-                <!-- Username -->
-                <mat-input-container class="full-width login-field">
-                    <mat-icon matPrefix>person</mat-icon>
-                    <input matInput
-                           [placeholder]="login.name"
-                           required
-                           autofocus
-                           name="email"
-                           ngModel>
-                    <mat-hint *ngIf="loginErrorUser" class="login-error">{{login.error.failed}}</mat-hint>
-                </mat-input-container>
-                <br><br><br>
-                <!-- Password -->
-
-                <mat-input-container class="full-width login-field">
-                    <mat-icon matPrefix>lock</mat-icon>
-                    <input matInput
-                           type="password"
-                           [placeholder]="login.pw"
-                           required
-                           name="password"
-                           ngModel>
-                    <mat-hint *ngIf="loginErrorPw" class="login-error">{{login.error.failed}}</mat-hint>
-                </mat-input-container>
-                <br><br><br>
-                <!-- Button: Login -->
-                <div class="button-row full-width">
-                    <button *ngIf="!loginErrorServer" mat-raised-button type="submit" [disabled]="!lf.valid"
-                            class="full-width login mat-primary">{{login.button | uppercase}}
-                    </button>
-                </div>
-            </form>
-            <span *ngIf="loginErrorServer" class="login-error">{{login.error.server}}</span>
-            <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
-        </mat-card-content>
-
-
-    </mat-card>
-
-    <div class="salsah-overlay-footer">
-        <h4>{{signup.title | uppercase}}</h4>
-        <h5>{{signup.subtitle}}</h5>
-        <div class="button-row full-width">
-            <button mat-button class="full-width">{{signup.button | uppercase}}</button>
         </div>
+        <!--<kui-login-form></kui-login-form>-->
     </div>
 </div>

@@ -1,9 +1,9 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {EditResourceClassComponent} from './edit-resource-class.component';
-import {AppModule} from '../../../../app.module';
-import {AppRoutingModule} from '../../../../app-routing.module';
-import {ResourceTypesService} from '../../../../model/services/resource-types.service';
+import { EditResourceClassComponent } from './edit-resource-class.component';
+import { AppModule } from '../../../../app.module';
+import { AppRoutingModule } from '../../../../app-routing.module';
+import { ResourceTypesService } from '../../../../model/services/resource-types.service';
 
 describe('EditResourceClassComponent', () => {
     let component: EditResourceClassComponent;
@@ -28,7 +28,7 @@ describe('EditResourceClassComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should be created', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

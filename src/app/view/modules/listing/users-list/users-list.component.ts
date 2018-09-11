@@ -12,22 +12,19 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output, OnDestroy} from '@angular/core';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {UsersService} from '../../../../model/services/users.service';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { ApiServiceError, ProjectsService, User, UsersService } from '@knora/core';
 
-import {MessageData} from '../../message/message.component';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
-import {Router} from '@angular/router';
-import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
-import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
-import {User} from '../../../../model/webapi/knora';
+import { MessageData } from '../../message/message.component';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
+import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
+import { MessageDialogComponent } from '../../dialog/message-dialog/message-dialog.component';
 
-import {LanguageService} from '../../../../model/services/language.service';
-import {TranslateService} from '@ngx-translate/core';
-import {Subscription} from 'rxjs/Subscription';
+import { LanguageService } from '../../../../model/services/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -48,7 +45,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
     @Input('restrictedBy') project: string;
     @Input() index: number;
     @Input() listType?: string;
-    @Input() admin?: boolean;
 
     @Output() toggleItem = new EventEmitter<any>();
     // send the number of entries to the parent component (framework-for-listings) to us it there in the title
@@ -75,8 +71,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
     allActiveUsers: User[] = [];
     allInactiveUsers: User[] = [];
 
-//    newAllActiveUsers: NewUserData[] = [];
-//    newAllInactiveUsers: NewUserData[] = [];
+    //    newAllActiveUsers: NewUserData[] = [];
+    //    newAllInactiveUsers: NewUserData[] = [];
 
     numberOfItems: number;
     countActive: number;
@@ -128,11 +124,11 @@ export class UsersListComponent implements OnInit, OnDestroy {
     }
 
     constructor(private _router: Router,
-                public _projectsService: ProjectsService,
-                public _userService: UsersService,
-                public _dialog: MatDialog,
-                public translate: TranslateService,
-                public _langService: LanguageService
+        public _projectsService: ProjectsService,
+        public _userService: UsersService,
+        public _dialog: MatDialog,
+        public translate: TranslateService,
+        public _langService: LanguageService
     ) {
 
         if (translate.currentLang === null) {
@@ -143,7 +139,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
         }
 
 
-        if ( this.browserLang === 'de') {
+        if (this.browserLang === 'de') {
             this.sortProps = [
                 {
                     key: 'familyName',
@@ -242,7 +238,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
                 );
         }
 
-        this.subscription = this._langService.getLanguage().subscribe (
+        this.subscription = this._langService.getLanguage().subscribe(
             lang => {
                 this.lang = lang, this.changeVal(lang.var);
 
@@ -252,7 +248,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.currentLanguage = this.translate.currentLang;
         // console.log('Users-List: CurrentLanguage: ' + this.currentLanguage);
 
-        if ( this.currentLanguage === 'de') {
+        if (this.currentLanguage === 'de') {
             this.sortProps = [
                 {
                     key: 'familyName',
@@ -344,11 +340,11 @@ export class UsersListComponent implements OnInit, OnDestroy {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
-            this.toggleItem.emit({id, index});
+            this.toggleItem.emit({ id, index });
         } else {
             // open the detail view
             this.selectedRow = index;
-            this.toggleItem.emit({id, index});
+            this.toggleItem.emit({ id, index });
         }
 
     }

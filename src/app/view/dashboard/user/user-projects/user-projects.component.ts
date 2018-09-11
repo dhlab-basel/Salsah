@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
-import {User} from '../../../../model/webapi/knora';
+import { Component, Input, OnInit } from '@angular/core';
+import { AddData, ListData } from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
+import { User } from '@knora/core';
 
 
 @Component({

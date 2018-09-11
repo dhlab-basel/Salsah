@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {ReadGeomValue} from "../../../model/webapi/knora/v2/read-property-item";
+import { ReadGeomValue } from '@knora/core';
 
 @Component({
   selector: 'read-geom-value',

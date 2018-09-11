@@ -81,6 +81,8 @@
                          <!--[listIri]="data.iri">-->
         <!--</salsah-list-form>-->
 
+        <kui-login-form *ngSwitchCase="'login'"></kui-login-form>
+
         <salsah-message *ngSwitchDefault [message]="notYetImplemented"></salsah-message>
     </mat-dialog-content>
 

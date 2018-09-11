@@ -12,12 +12,10 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {ReadLinkValue} from '../../../model/webapi/knora/v2/read-property-item';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {OntologyInformation} from '../../../model/services/ontologycache.service';
-import {ObjectDialogComponent} from '../../modules/dialog/object-dialog/object-dialog.component';
-import {AppConfig} from '../../../app.config';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { OntologyInformation, ReadLinkValue, KnoraConstants } from '@knora/core';
+import { ObjectDialogComponent } from '../../modules/dialog/object-dialog/object-dialog.component';
 
 @Component({
     selector: 'read-link-value',
@@ -29,7 +27,7 @@ export class ReadLinkValueComponent implements OnInit {
     @Input() valueObject: ReadLinkValue;
     @Input() ontologyInfo: OntologyInformation;
 
-    AppConfig = AppConfig;
+    KnoraConstants = KnoraConstants;
 
     constructor(private dialog: MatDialog) {
     }

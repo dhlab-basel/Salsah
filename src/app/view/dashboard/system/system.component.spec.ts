@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {SystemComponent} from './system.component';
-import {AppModule} from '../../../app.module';
-import {AppRoutingModule} from '../../../app-routing.module';
+import { SystemComponent } from './system.component';
+import { AppModule } from '../../../app.module';
+import { AppRoutingModule } from '../../../app-routing.module';
 
 
 describe('SystemComponent', () => {
@@ -14,6 +14,17 @@ describe('SystemComponent', () => {
         'token': '',
         'sysAdmin': false
     };
+
+    let originalTimeout;
+
+    beforeEach(function () {
+        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    });
+
+    afterEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -52,7 +63,7 @@ describe('SystemComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should be created', () => {
+    it('should be created', () => {
         expect<any>(localStorage.getItem('currentUser')).toBe(JSON.stringify(currentTestUser));
         expect(component).toBeTruthy();
     });

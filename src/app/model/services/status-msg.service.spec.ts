@@ -1,11 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { AppModule } from '../../app.module';
 import { AppRoutingModule } from '../../app-routing.module';
+import { StatusMsgService } from './status-msg.service';
 
-import { ResourceTypesService } from './resource-types.service';
-import { ApiService } from '@knora/core';
-
-describe('ResourceTypesService', () => {
+describe('SessionService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -13,13 +11,12 @@ describe('ResourceTypesService', () => {
                 AppRoutingModule
             ],
             providers: [
-                ApiService,
-                ResourceTypesService
+                StatusMsgService
             ]
         });
     });
 
-    it('should be created', inject([ResourceTypesService], (service: ResourceTypesService) => {
+    it('should be created', inject([StatusMsgService], (service: StatusMsgService) => {
         expect(service).toBeTruthy();
     }));
 });

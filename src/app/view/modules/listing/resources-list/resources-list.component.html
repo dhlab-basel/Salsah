@@ -1,26 +1,21 @@
 <!-- progress indicator while the data is loading -->
-<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+<!-- <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator> -->
+<kui-progress-indicator *ngIf="isLoading && !errorMessage"></kui-progress-indicator>
 
 <!-- show the results -->
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
 
     <div *ngIf="result?.length > 0; else noData" [ngSwitch]="listType">
-                <p>Number of Results: {{numberOfAllResults}}</p>
+        <!--<p>Number of Results: {{numberOfAllResults}}</p>-->
 
         <!-- show as table if listType === table -->
         <table *ngSwitchCase="'table'" class="salsah-table">
         </table>
 
         <!-- show as grid-list if listType === grid -->
-        <mat-grid-list *ngSwitchCase="'grid'"
-                       class="salsah-grid-list"
-                       salsahResizeGrid
-                       [cols]="columns"
-                       [gutterSize]="colGutter + 'px'"
-                       [rowHeight]="rowHeight + 'px'">
-            <mat-grid-tile *ngFor="let res of result; let i = index"
-                           (click)="toggle(res.id, i)"
-                           [id]="res.id">
+        <mat-grid-list *ngSwitchCase="'grid'" class="salsah-grid-list" salsahResizeGrid [cols]="columns" [gutterSize]="colGutter + 'px'"
+            [rowHeight]="rowHeight + 'px'">
+            <mat-grid-tile *ngFor="let res of result; let i = index" (click)="toggle(res.id, i)" [id]="res.id">
                 <mat-card [class.highlight]="i == selectedRow" class="salsah-link salsah-preview">
                     <!--
                     <img salsahImage [image]="res.preview_path" [type]="'resource'"
@@ -28,8 +23,7 @@
                          [class.salsah-resource-icon]="!res.preview_path"/>
                      -->
                     <div class="salsah-preview-content">
-                        <mat-card-title class="salsah-preview-title">{{res.label}}
-                            ({{ontologyInfo?.getLabelForResourceClass(res.type) | slice:0:40}})
+                        <mat-card-title class="salsah-preview-title">{{res.label}} ({{ontologyInfo?.getLabelForResourceClass(res.type) | slice:0:40}})
                         </mat-card-title>
                         <!--
                         <mat-card-content class="salsah-preview-text">
@@ -44,11 +38,7 @@
 
         <!-- default list -->
         <mat-list class="salsah-list" *ngSwitchDefault>
-            <mat-list-item *ngFor="let res of result; let i = index"
-                           (click)="toggle(res.id, i)"
-                           [id]="res.id"
-                           class="salsah-link"
-                           [class.highlight]="i == selectedRow">
+            <mat-list-item *ngFor="let res of result; let i = index" (click)="toggle(res.id, i)" [id]="res.id" class="salsah-link border-bottom" [class.highlight]="i == selectedRow">
                 <!--
                 <img mat-list-avatar [src]="res.preview_path" class="salsah-preview-image" />
                 -->
@@ -59,7 +49,8 @@
                     <ul>
                         <li *ngFor="let val of prop.value | key">
                             <span [ngSwitch]="val.value.getClassName()">
-                                <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo" [bindEvents]="false"></read-text-value-as-html>
+                                <read-text-value-as-html *ngSwitchCase="KnoraConstants.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo"
+                                    [bindEvents]="false"></read-text-value-as-html>
                                 <span *ngSwitchDefault="">{{val.value.getContent()}}</span>
                             </span>
                         </li>

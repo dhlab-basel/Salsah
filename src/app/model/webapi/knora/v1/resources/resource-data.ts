@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
+import { JsonObject, JsonProperty } from 'json2typescript';
 
-@JsonObject
+@JsonObject('ResourceData')
 export class ResourceData {
 
     @JsonProperty('restype_label', String)
@@ -32,4 +32,3 @@ export class ResourceData {
     @JsonProperty('res_id', String)
     public res_id: string = undefined;
 }
- 

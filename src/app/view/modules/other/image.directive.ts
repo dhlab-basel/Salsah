@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Directive, ElementRef, Input, OnChanges, Renderer2} from '@angular/core';
+import {Directive, ElementRef, Inject, Input, OnChanges, Renderer2} from '@angular/core';
 import {Md5} from 'ts-md5/dist/md5';
-import {AppConfig} from '../../../app.config';
+import {KuiCoreConfig} from '@knora/core';
 
 @Directive({
     selector: '[salsahImage]'
@@ -32,7 +32,9 @@ export class ImageDirective implements OnChanges {
     onError: string;
 
     constructor(private _renderer: Renderer2,
+                @Inject('config') public config: KuiCoreConfig,
                 private _ele: ElementRef) {
+
     }
 
     ngOnChanges() {
@@ -53,7 +55,7 @@ export class ImageDirective implements OnChanges {
                     if (this.image.slice(0, 4) === 'http') {
                         this.source = this.image;
                     } else {
-                        this.source = AppConfig.AdminFileServer + '/' + this.image;
+                        this.source = this.config.media + '/server/admin/' + this.image;
                     }
                 }
                 break;
@@ -65,7 +67,7 @@ export class ImageDirective implements OnChanges {
                 if (this.image.slice(0, 4) === 'http') {
                     this.source = this.image;
                 } else {
-                    this.source = AppConfig.AdminFileServer + '/' + this.image;
+                    this.source = this.config.media + '/server/admin/' + this.image;
                 }
         }
 

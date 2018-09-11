@@ -12,10 +12,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AppConfig } from '../../../../../app.config';
-import { ApiServiceError } from '../../../../../model/services/api-service-error';
-import { User } from '../../../../../model/webapi/knora';
-import { UsersService } from '../../../../../model/services/users.service';
+import { ApiServiceError, KnoraConstants, User, UsersService, Utils } from '@knora/core';
 
 @Component({
     selector: 'salsah-user-password',
@@ -76,7 +73,7 @@ export class UserPasswordComponent implements OnInit {
 
 
     constructor(private _usersService: UsersService,
-                private _formBuilder: FormBuilder) {
+        private _formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
@@ -85,16 +82,16 @@ export class UserPasswordComponent implements OnInit {
             'requesterPassword': new FormControl({
                 value: '', disabled: false
             }, [
-                Validators.required
-            ]),
+                    Validators.required
+                ]),
             'newPassword': new FormControl({
                 value: '', disabled: false
             }, [
-                Validators.required,
-                Validators.minLength(8),
-                Validators.pattern(AppConfig.RegexPassword)
+                    Validators.required,
+                    Validators.minLength(8),
+                    Validators.pattern(Utils.RegexPassword)
 
-            ])
+                ])
         });
         this.requesterPasswordForm = this._formBuilder.group({
             'requesterPassword': new FormControl({
@@ -110,7 +107,7 @@ export class UserPasswordComponent implements OnInit {
             }, [
                 Validators.required,
                 Validators.minLength(8),
-                Validators.pattern(AppConfig.RegexPassword)
+                Validators.pattern(Utils.RegexPassword)
             ])
         });
 
@@ -128,7 +125,7 @@ export class UserPasswordComponent implements OnInit {
         this.isLoading = false;
 
         // get the user data only if a user is logged in
-        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.loggedInUser = JSON.parse(localStorage.getItem('session'));
 
 
     }
@@ -184,7 +181,7 @@ export class UserPasswordComponent implements OnInit {
 
         this._usersService.updateUser(this.userIri, this.userPasswordForm.value).subscribe(
             (result: User) => {
-                console.log(this.userPasswordForm.value);
+                // console.log(this.userPasswordForm.value);
                 this.success = true;
                 this.isLoading = false;
             },
@@ -241,7 +238,7 @@ export class UserPasswordComponent implements OnInit {
 
                 this.isLoading = false;
             }
-        )
+        );
 
         this.oldPswd = !this.oldPswd;
 

@@ -1,15 +1,29 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {ResourceTypesListComponent} from './resource-types-list.component';
-import {ResourceTypesService} from '../../../../model/services/resource-types.service';
-import {Project} from '../../../../model/webapi/knora/';
-import {imagesProject} from '../../../../model/test-data/shared-test-data';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { ResourceTypesListComponent } from './resource-types-list.component';
+import { ResourceTypesService } from '../../../../model/services/resource-types.service';
+
+import { imagesProject } from '../../../../model/test-data/shared-test-data';
+import { Project } from '@knora/core';
 
 describe('ResourceTypesListComponent', () => {
     let component: ResourceTypesListComponent;
     let fixture: ComponentFixture<ResourceTypesListComponent>;
 
     const testProject: Project = imagesProject;
+
+
+    let originalTimeout;
+
+    beforeEach(function () {
+        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    });
+
+    afterEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
+    
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -48,8 +62,8 @@ describe('ResourceTypesListComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should get the project data', () => {
+    it('should get the project data', async(() => {
         expect<any>(localStorage.getItem('currentProject')).toBe(JSON.stringify(testProject));
         expect(component).toBeTruthy();
-    });
+    }));
 });

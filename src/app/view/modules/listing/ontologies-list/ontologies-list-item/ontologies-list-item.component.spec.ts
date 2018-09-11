@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OntologiesListItemComponent } from './ontologies-list-item.component';
+import { AppModule } from '../../../../../app.module';
+import { ResourceTypesService } from '../../../../../model/services/resource-types.service';
 
 describe('OntologiesListItemComponent', () => {
   let component: OntologiesListItemComponent;
@@ -8,9 +10,12 @@ describe('OntologiesListItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OntologiesListItemComponent ]
+      imports: [
+        AppModule
+      ],
+      providers: [ResourceTypesService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +24,7 @@ describe('OntologiesListItemComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

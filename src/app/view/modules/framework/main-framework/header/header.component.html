@@ -2,8 +2,7 @@
     <mat-toolbar>
         <div class="salsah-logo">
             <a routerLink="/">
-                <img src="{{ currentProject.logo }}" alt="{{ currentProject.name }}"
-                     title="{{ currentProject.title }}">
+                <img src="{{ currentProject.logo }}" alt="{{ currentProject.name }}" title="{{ currentProject.title }}">
             </a>
         </div>
 
@@ -16,8 +15,8 @@
         <span class="fill-remaining-space"></span>
 
         <!-- salsah specific search panel incl.
-             simple and extended search menu -->
-        <salsah-search></salsah-search>
+             simple and extended search menu from @knora/search -->
+        <kui-search [route]="'/search'"></kui-search>
 
         <span class="fill-remaining-space"></span>
 

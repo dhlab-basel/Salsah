@@ -10,32 +10,35 @@
         <!--  array templates -->
         <!--  some types of properties (currently StillImageFileValues) are displayed in 1 template for the whole property list. -->
         <!-- TODO: Do we have to check for subproperties of hasStillImageFileValue? -->
-        <salsah-still-image-osdviewer #OSDViewer
-                                      *ngIf="prop.key == AppConfig.hasStillImageFileValue; else singleTemplates" [images]="resource?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="0" [imageChangeInterval]="1">
+        <salsah-still-image-osdviewer #OSDViewer *ngIf="prop.key == KnoraConstants.hasStillImageFileValue; else singleTemplates"
+            [images]="resource?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="0" [imageChangeInterval]="1">
         </salsah-still-image-osdviewer>
 
         <!--  single templates -->
         <!--  other types of properties are displayed in 1 template for each single property in the property list. -->
         <ng-template #singleTemplates>
-            <ul><li *ngFor="let val of prop.value | key">
-            <span [ngSwitch]="val.value.getClassName()">
-                <read-text-value-as-html *ngSwitchCase="AppConfig.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo" [bindEvents]="true"></read-text-value-as-html>
-                <read-text-value-as-string *ngSwitchCase="AppConfig.ReadTextValueAsString" [valueObject]="val.value"></read-text-value-as-string>
-                <read-text-value-as-xml *ngSwitchCase="AppConfig.ReadTextValueAsXml" [valueObject]="val.value"></read-text-value-as-xml>
-                <read-date-value *ngSwitchCase="AppConfig.ReadDateValue" [valueObject]="val.value"></read-date-value>
-                <read-link-value *ngSwitchCase="AppConfig.ReadLinkValue" [valueObject]="val.value" [ontologyInfo]="ontologyInfo"></read-link-value>
-                <read-integer-value *ngSwitchCase="AppConfig.ReadIntegerValue" [valueObject]="val.value"></read-integer-value>
-                <read-decimal-value *ngSwitchCase="AppConfig.ReadDecimalValue" [valueObject]="val.value"></read-decimal-value>
-                <read-geom-value *ngSwitchCase="AppConfig.ReadGeomValue" [valueObject]="val.value"></read-geom-value>
-                <read-color-value *ngSwitchCase="AppConfig.ReadColorValue" [valueObject]="val.value"></read-color-value>
-                <read-uri-value *ngSwitchCase="AppConfig.ReadUriValue" [valueObject]="val.value"></read-uri-value>
-                <read-boolean-value *ngSwitchCase="AppConfig.ReadBooleanValue" [valueObject]="val.value"></read-boolean-value>
-                <read-interval-value *ngSwitchCase="AppConfig.ReadIntervalValue" [valueObject]="val.value"></read-interval-value>
-                <read-list-value *ngSwitchCase="AppConfig.ReadListValue" [valueObject]="val.value"></read-list-value>
-                <read-textfile-value *ngSwitchCase="AppConfig.TextFileValue" [valueObject]="val.value"></read-textfile-value>
-                <span *ngSwitchDefault="">Not supported {{val.value.getClassName()}}</span>
-            </span>
-            </li></ul>
+            <ul>
+                <li *ngFor="let val of prop.value | key">
+                    <span [ngSwitch]="val.value.getClassName()">
+                        <read-text-value-as-html *ngSwitchCase="KnoraConstants.ReadTextValueAsHtml" [valueObject]="val.value" [ontologyInfo]="ontologyInfo"
+                            [bindEvents]="true"></read-text-value-as-html>
+                        <read-text-value-as-string *ngSwitchCase="KnoraConstants.ReadTextValueAsString" [valueObject]="val.value"></read-text-value-as-string>
+                        <read-text-value-as-xml *ngSwitchCase="KnoraConstants.ReadTextValueAsXml" [valueObject]="val.value"></read-text-value-as-xml>
+                        <read-date-value *ngSwitchCase="KnoraConstants.ReadDateValue" [valueObject]="val.value"></read-date-value>
+                        <read-link-value *ngSwitchCase="KnoraConstants.ReadLinkValue" [valueObject]="val.value" [ontologyInfo]="ontologyInfo"></read-link-value>
+                        <read-integer-value *ngSwitchCase="KnoraConstants.ReadIntegerValue" [valueObject]="val.value"></read-integer-value>
+                        <read-decimal-value *ngSwitchCase="KnoraConstants.ReadDecimalValue" [valueObject]="val.value"></read-decimal-value>
+                        <read-geom-value *ngSwitchCase="KnoraConstants.ReadGeomValue" [valueObject]="val.value"></read-geom-value>
+                        <read-color-value *ngSwitchCase="KnoraConstants.ReadColorValue" [valueObject]="val.value"></read-color-value>
+                        <read-uri-value *ngSwitchCase="KnoraConstants.ReadUriValue" [valueObject]="val.value"></read-uri-value>
+                        <read-boolean-value *ngSwitchCase="KnoraConstants.ReadBooleanValue" [valueObject]="val.value"></read-boolean-value>
+                        <read-interval-value *ngSwitchCase="KnoraConstants.ReadIntervalValue" [valueObject]="val.value"></read-interval-value>
+                        <read-list-value *ngSwitchCase="KnoraConstants.ReadListValue" [valueObject]="val.value"></read-list-value>
+                        <read-textfile-value *ngSwitchCase="KnoraConstants.TextFileValue" [valueObject]="val.value"></read-textfile-value>
+                        <span *ngSwitchDefault="">Not supported {{val.value.getClassName()}}</span>
+                    </span>
+                </li>
+            </ul>
         </ng-template>
 
     </div>
@@ -45,7 +48,8 @@
         <p>Incoming Links:</p>
         <ul>
             <li *ngFor="let incomingLinkSourceRes of resource.incomingLinks">
-                <span matTooltip="{{incomingLinkSourceRes.label}} {{ontologyInfo?.getLabelForResourceClass(incomingLinkSourceRes.type)}}" (click)="showSourceOfIncomingLinkInDialog(incomingLinkSourceRes.id)">
+                <span matTooltip="{{incomingLinkSourceRes.label}} {{ontologyInfo?.getLabelForResourceClass(incomingLinkSourceRes.type)}}"
+                    (click)="showSourceOfIncomingLinkInDialog(incomingLinkSourceRes.id)">
                     {{incomingLinkSourceRes.label}} {{getIncomingPropertiesFromIncomingResource(incomingLinkSourceRes)}}
                 </span>
             </li>
@@ -54,9 +58,8 @@
 
     <!-- Check if StillImageRepresentations are pointing to the current resource -->
     <!-- Event getImages: more images are requested (previous or next set) -->
-    <salsah-still-image-osdviewer #OSDViewer (getImages)="changeOffsetForStillImageRepresentations($event)"
-                                  *ngIf="resource?.incomingStillImageRepresentations?.length > 0;" [images]="resource?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="4" [imageChangeInterval]="5">
+    <salsah-still-image-osdviewer #OSDViewer (getImages)="changeOffsetForStillImageRepresentations($event)" *ngIf="resource?.incomingStillImageRepresentations?.length > 0;"
+        [images]="resource?.stillImageRepresentationsToDisplay" [imageRangeStart]="0" [imageRangeEnd]="4" [imageChangeInterval]="5">
     </salsah-still-image-osdviewer>
 
 </mat-list>
-

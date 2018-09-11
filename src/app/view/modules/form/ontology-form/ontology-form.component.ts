@@ -13,14 +13,10 @@
  * */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { BasicOntology, PropertyObject, ResourceClass } from '../../../../model/test-data/basic-ontology';
-import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
-import { ResourceTypeInfo } from '../../../../model/webapi/knora';
-import { PropertyItem } from '../../../../model/webapi/knora/v1/properties/property-item';
-import { AppConfig } from '../../../../app.config';
-import { ApiServiceResult } from '../../../../model/services/api-service-result';
+import { BasicOntology } from '../../../../model/test-data/basic-ontology';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
-import { ApiServiceError } from '../../../../model/services/api-service-error';
+import { ApiServiceError } from '@knora/core';
 
 @Component({
     selector: 'salsah-ontology-form',
@@ -321,7 +317,7 @@ export class OntologyFormComponent implements OnInit {
     getBasicOntologyInfo() {
         this._basicOntologyService.getBasicOntology()
             .subscribe(
-                (result: ApiServiceResult) => {
+                (result: any) => {
                     this.basicOntology = result.getBody(BasicOntology);
                 },
                 (error: ApiServiceError) => {

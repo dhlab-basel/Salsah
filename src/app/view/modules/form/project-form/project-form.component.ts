@@ -12,19 +12,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {Project} from '../../../../model/webapi/knora/';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiServiceError, ApiServiceResult, KnoraConstants, Project, ProjectsService } from '@knora/core';
 
-import {ActivatedRoute} from '@angular/router';
-import {existingNamesValidator, notAllowed} from '../../other/existing-name.directive';
-import {MatDialogConfig} from '@angular/material';
-import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
-import {MessageData} from '../../message/message.component';
-import {AppConfig} from '../../../../app.config';
+import { ActivatedRoute } from '@angular/router';
+import { existingNamesValidator } from '@knora/action';
 
 @Component({
     selector: 'salsah-project-form',
@@ -147,8 +140,8 @@ export class ProjectFormComponent implements OnInit {
     };
 
     constructor(public _projectsService: ProjectsService,
-                private _fb: FormBuilder,
-                private _route: ActivatedRoute) {
+        private _fb: FormBuilder,
+        private _route: ActivatedRoute) {
     }
 
 
@@ -227,33 +220,33 @@ export class ProjectFormComponent implements OnInit {
             'shortname': new FormControl({
                 value: proj.shortname, disabled: this.projectIri !== undefined
             }, [
-                Validators.required,
-                Validators.minLength(this.shortnameMinLength),
-                Validators.maxLength(this.shortnameMaxLength),
-                existingNamesValidator(this.existingShortNames),
-                Validators.pattern(this.shortnameRegex)
-            ]),
+                    Validators.required,
+                    Validators.minLength(this.shortnameMinLength),
+                    Validators.maxLength(this.shortnameMaxLength),
+                    existingNamesValidator(this.existingShortNames),
+                    Validators.pattern(this.shortnameRegex)
+                ]),
 
             'longname': new FormControl({
                 value: proj.longname, disabled: false
             }, [
-                Validators.required
-            ]),
+                    Validators.required
+                ]),
             'shortcode': new FormControl({
                 value: proj.shortcode, disabled: (this.projectIri !== undefined && proj.shortcode !== null)
             }, [
-                Validators.required,
-                Validators.minLength(this.shortcodeMinLength),
-                Validators.maxLength(this.shortcodeMaxLength),
-                existingNamesValidator(this.existingShortcodes),
-                Validators.pattern(this.shortcodeRegex)
-            ]),
+                    Validators.required,
+                    Validators.minLength(this.shortcodeMinLength),
+                    Validators.maxLength(this.shortcodeMaxLength),
+                    existingNamesValidator(this.existingShortcodes),
+                    Validators.pattern(this.shortcodeRegex)
+                ]),
             'description': new FormControl({
                 value: proj.description, disabled: false
             }, [
-                Validators.required,
-                Validators.maxLength(this.descriptionMaxLength)
-            ]),
+                    Validators.required,
+                    Validators.maxLength(this.descriptionMaxLength)
+                ]),
             'institution': new FormControl({
                 value: proj.institution, disabled: false
             }),
@@ -306,63 +299,63 @@ export class ProjectFormComponent implements OnInit {
             this.project.ontologies = [];
             /*
             const ontology: OntologyInfoShort = {
-                ontologyIri: AppConfig.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname,
+                ontologyIri: KnoraConstants.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname,
                 ontologyName: value.shortname
             };
             */
-            this.project.ontologies.push(AppConfig.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname);
+            this.project.ontologies.push(KnoraConstants.KnoraOntologyPath + '/' + value.shortcode + '/' + value.shortname);
 
             console.log('project info before post ', this.project);
 
             // create project
-/*
-            this._projectsService.createProject(this.project)
-                .subscribe(
-                    (result: ApiServiceResult) => {
-                        const newProject: Project = result.getBody();
-                        console.log('project info after post ', newProject);
-
-                        // create new ontology with iri of the new project and shortname;
-                        // we have to store it in the session/local storage,
-                        // because the knora api isn't ready yet for new ontology creation;
-                        // TODO: needs coordination with knora api
-
-                        const newOntology: any = {
-                            '@context': {
-                                'dc': 'http://www.knora.org/ontology/dc#',
-                                'foaf': 'http://xmlns.com/foaf/0.1/',
-                                'knora-base': 'http://www.knora.org/ontology/knora-base#',
-                                'owl': 'http://www.w3.org/2002/07/owl#',
-                                'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-                                'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-                                'salsah-gui': 'http://www.knora.org/ontology/salsah-gui#',
-                                'xsd': 'http://www.w3.org/2001/XMLSchema#'
-                            },
-                            '@graph': [
-                                {
-                                    '@id': this.project.ontologies[0],
-                                    '@type': 'owl:Ontology'
+            /*
+                        this._projectsService.createProject(this.project)
+                            .subscribe(
+                                (result: ApiServiceResult) => {
+                                    const newProject: Project = result.getBody();
+                                    console.log('project info after post ', newProject);
+            
+                                    // create new ontology with iri of the new project and shortname;
+                                    // we have to store it in the session/local storage,
+                                    // because the knora api isn't ready yet for new ontology creation;
+                                    // TODO: needs coordination with knora api
+            
+                                    const newOntology: any = {
+                                        '@context': {
+                                            'dc': 'http://www.knora.org/ontology/dc#',
+                                            'foaf': 'http://xmlns.com/foaf/0.1/',
+                                            'knora-base': 'http://www.knora.org/ontology/knora-base#',
+                                            'owl': 'http://www.w3.org/2002/07/owl#',
+                                            'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                                            'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+                                            'salsah-gui': 'http://www.knora.org/ontology/salsah-gui#',
+                                            'xsd': 'http://www.w3.org/2001/XMLSchema#'
+                                        },
+                                        '@graph': [
+                                            {
+                                                '@id': this.project.ontologies[0],
+                                                '@type': 'owl:Ontology'
+                                            }
+                                        ]
+                                    };
+            
+                                    localStorage.setItem('newOntology', JSON.stringify(newOntology));
+            
+                                    // this.isLoading = true;
+            
+                                    // TODO: find a better solution: reload the component only, not the whole application; implement @Output as discussed here: https://stackoverflow.com/questions/41231557/refresh-component-in-angular-2
+            
+            //                    window.location.replace('/project/' + value.shortname);
+            
+                                    // IN PRGOGRESS:
+                                    this.closeForm.emit('/project/' + value.shortname);
+                                },
+                                (error: ApiServiceError) => {
+                                    this.errorMessage = error;
                                 }
-                            ]
-                        };
-
-                        localStorage.setItem('newOntology', JSON.stringify(newOntology));
-
-                        // this.isLoading = true;
-
-                        // TODO: find a better solution: reload the component only, not the whole application; implement @Output as discussed here: https://stackoverflow.com/questions/41231557/refresh-component-in-angular-2
-
-//                    window.location.replace('/project/' + value.shortname);
-
-                        // IN PRGOGRESS:
-                        this.closeForm.emit('/project/' + value.shortname);
-                    },
-                    (error: ApiServiceError) => {
-                        this.errorMessage = error;
-                    }
-
-                );
-*/
+            
+                            );
+            */
         } else {
             // update project
             /*
@@ -381,7 +374,7 @@ export class ProjectFormComponent implements OnInit {
         }
 
         if (this.submitted) {
-//            console.log('submitted');
+            //            console.log('submitted');
             location.reload();
         }
     }
@@ -389,8 +382,8 @@ export class ProjectFormComponent implements OnInit {
 
     sipiUpload(success: any): void {
         if (success !== false) {
-            this.form.patchValue({'logo': success.files[0]});
-//            this.form.controls['logo'].value = success.files[0];
+            this.form.patchValue({ 'logo': success.files[0] });
+            //            this.form.controls['logo'].value = success.files[0];
         } else {
             console.log('error on file upload');
         }

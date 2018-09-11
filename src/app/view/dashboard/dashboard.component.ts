@@ -14,9 +14,9 @@
 
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthenticationService} from '../../model/services/authentication.service';
 import {Title} from '@angular/platform-browser';
 import {environment} from '../../../environments/environment';
+import { AuthenticationService } from '@knora/authentication';
 
 @Component({
     selector: 'salsah-dashboard',

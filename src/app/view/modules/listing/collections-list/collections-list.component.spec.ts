@@ -1,6 +1,6 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {CollectionsListComponent} from './collections-list.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { CollectionsListComponent } from './collections-list.component';
 
 describe('CollectionListComponent', () => {
     let component: CollectionsListComponent;

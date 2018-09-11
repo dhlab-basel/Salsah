@@ -1,4 +1,5 @@
-<salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator>
+<!-- <salsah-progress-indicator *ngIf="isLoading"></salsah-progress-indicator> -->
+<kui-progress-indicator *ngIf="isLoading"></kui-progress-indicator>
 
 <mat-card *ngIf="!isLoading && !short" class="fix-width salsah-message" [ngClass]="'salsah-' + message?.type">
 
@@ -30,8 +31,7 @@
 
     </mat-card-content>
 
-    <mat-card-footer class="message-footnote"
-                    [innerHtml]="message?.footnote"></mat-card-footer>
+    <mat-card-footer class="message-footnote" [innerHtml]="message?.footnote"></mat-card-footer>
 
 </mat-card>
 

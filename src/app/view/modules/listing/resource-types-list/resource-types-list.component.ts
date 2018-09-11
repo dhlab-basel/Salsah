@@ -12,21 +12,27 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ResourceTypesService} from '../../../../model/services/resource-types.service';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ResourceTypes, ResourceTypeItem} from '../../../../model/webapi/knora/';
-import {MessageData} from '../../message/message.component';
-import {FormDialogComponent} from '../../dialog/form-dialog/form-dialog.component';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ResourceTypesService } from '../../../../model/services/resource-types.service';
+import {
+    ApiServiceError,
+    ApiServiceResult,
+    OntologyCacheService,
+    OntologyInformation,
+    Properties,
+    ResourceClass
+} from '@knora/core';
+import { ResourceTypes, ResourceTypeItem } from '../../../../model/webapi/knora/';
+import { MessageData } from '../../message/message.component';
+import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 
 @Component({
     selector: 'salsah-resource-types-list',
     templateUrl: './resource-types-list.component.html',
     styleUrls: ['./resource-types-list.component.scss']
 })
-export class  ResourceTypesListComponent implements OnInit {
+export class ResourceTypesListComponent implements OnInit {
 
     @Input() restrictedBy: string; // restricted by ontology
     @Input() index: number;
@@ -49,37 +55,48 @@ export class  ResourceTypesListComponent implements OnInit {
         statusText: 'It seems there\'s no resource type yet. Add a new one with the button above &uarr;'
     };
 
-    // the main object in this component and a result counter
-    list: ResourceTypeItem[] = [];
+    // result counter
     numberOfItems: number;
-
 
     // for the list of objects we have to know which object is active / selected
     selectedRow: number;
+
     // iri of the selected resource type
     iri: string;
 
-    constructor(private _resourceTypesService: ResourceTypesService,
-                public _dialog: MatDialog) {
-    }
+    // resource classes for the selected ontology
+    resourceClasses: Array<ResourceClass> = [];
+
+    // properties for the selected ontology or selected resource class
+    properties: Properties;
+
+    constructor(
+        private _resourceTypesService: ResourceTypesService,
+        private _cacheService: OntologyCacheService,
+        public _dialog: MatDialog
+    ) { }
 
     ngOnInit() {
 
         this.selectedRow = this.index;
 
-        this._resourceTypesService.getResourceTypesByVoc(this.restrictedBy)
-            .subscribe(
-                (result: ApiServiceResult) => {
-                    this.list = result.getBody(ResourceTypes).resourcetypes;
-                    this.numberOfItems = Object.keys(this.list).length;
-                    this.isLoading = false;
-                },
-                (error: ApiServiceError) => {
-                    console.log('ResourceTypesListComponent', error);
-                    this.errorMessage = error;
-                    this.isLoading = false;
-                }
-            );
+
+        // TODO: we get wrong ontology iris from Knora; s. comment in issue: https://github.com/dhlab-basel/Knora/issues/553#issuecomment-418776341
+        //
+        this._cacheService.getEntityDefinitionsForOntologies([this.restrictedBy]).subscribe(
+            (ontoInfo: OntologyInformation) => {
+                console.log(ontoInfo);
+
+                this.resourceClasses = ontoInfo.getResourceClassesAsArray();
+                this.properties = ontoInfo.getProperties();
+                this.numberOfItems = Object.keys(this.resourceClasses).length;
+                this.isLoading = false;
+            },
+            (error) => {
+                this.errorMessage = error;
+                this.isLoading = false;
+            }
+        );
     }
 
     // open / close detail view
@@ -87,11 +104,11 @@ export class  ResourceTypesListComponent implements OnInit {
         if (this.selectedRow === index) {
             // close the detail view
             this.selectedRow = undefined;
-            this.toggleItem.emit({id, index});
+            this.toggleItem.emit({ id, index });
         } else {
             // open the detail view
             this.selectedRow = index;
-            this.toggleItem.emit({id, index});
+            this.toggleItem.emit({ id, index });
         }
 
     }

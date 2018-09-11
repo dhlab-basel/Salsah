@@ -12,9 +12,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {JsonObject, JsonProperty} from "json2typescript";
+import { JsonObject, JsonProperty } from 'json2typescript';
 
-@JsonObject
+@JsonObject('ThumbMax')
 export class ThumbMax {
 
     @JsonProperty('nx', Number)
@@ -23,4 +23,3 @@ export class ThumbMax {
     @JsonProperty('ny', Number)
     public ny: number = undefined;
 }
- 

@@ -1,8 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Project, User} from '../../../../model/webapi/knora/admin';
-import {UsersService} from '../../../../model/services/users.service';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ProjectsService} from '../../../../model/services/projects.service';
+import { Component, OnInit } from '@angular/core';
+import { ApiServiceError, Project, ProjectsService, User, UsersService } from '@knora/core';
 
 @Component({
     selector: 'salsah-form-test',
@@ -19,7 +16,7 @@ export class FormTestComponent implements OnInit {
     user: User;
 
     constructor(private _usersService: UsersService,
-                private _projectsService: ProjectsService) {
+        private _projectsService: ProjectsService) {
     }
 
     ngOnInit() {

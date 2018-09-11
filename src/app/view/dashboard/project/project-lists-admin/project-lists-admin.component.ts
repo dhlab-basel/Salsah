@@ -13,13 +13,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {Project, ListInfo} from '../../../../model/webapi/knora';
-import {Router} from '@angular/router';
-import {ListsService} from '../../../../model/services/lists.service';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {AddData, ListData} from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
-import {List} from '../../../../model/webapi/knora/admin';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiServiceError, List, ListInfo, ListsService, Project } from '@knora/core';
+import { AddData, ListData } from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
+// import { ListsService } from '../../../../model/services/lists.service';
 
 @Component({
     selector: 'salsah-project-lists-admin',
@@ -59,8 +57,8 @@ export class ProjectListsAdminComponent implements OnInit {
 
     selectedRow: number;
 
-    projectLists: ListInfo[] = [];
-    systemLists: ListInfo[] = [];
+    projectLists: List[] = [];
+    systemLists: List[] = [];
 
     selectedList: ListInfo;
 
@@ -77,36 +75,13 @@ export class ProjectListsAdminComponent implements OnInit {
     listIri: string;
 
     constructor(private _router: Router,
-                private _listsService: ListsService) {
+        private _listsService: ListsService) {
     }
 
     ngOnInit() {
 
         this.list.restrictedBy = JSON.parse(sessionStorage.getItem('currentProject')).id;
 
-        // get all project lists
-        this._listsService.getLists(this.list.restrictedBy)
-            .subscribe(
-                (lists: List[]) => {
-                    this.projectLists = lists.map(value => value.listinfo);
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                }
-            );
-
-        // get all system lists
-        this._listsService.getLists('http://www.knora.org/ontology/knora-base#SystemProject')
-            .subscribe(
-                (lists: List[]) => {
-                    this.systemLists = lists.map(value => value.listinfo);
-                    this.isLoading = false;
-                },
-                (error: ApiServiceError) => {
-                    this.errorMessage = <any>error;
-                    this.isLoading = false;
-                }
-            );
     }
 
     onSelect(listInfo: ListInfo) {

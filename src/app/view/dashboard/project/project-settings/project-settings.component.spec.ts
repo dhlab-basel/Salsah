@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {AppRoutingModule} from '../../../../app-routing.module';
-import {ProjectSettingsComponent} from './project-settings.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { AppRoutingModule } from '../../../../app-routing.module';
+import { ProjectSettingsComponent } from './project-settings.component';
 
 describe('ProjectSettingsComponent', () => {
     let component: ProjectSettingsComponent;
@@ -23,7 +23,7 @@ describe('ProjectSettingsComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should modify', () => {
+    it('should modify', () => {
         expect(component).toBeTruthy();
     });
 });

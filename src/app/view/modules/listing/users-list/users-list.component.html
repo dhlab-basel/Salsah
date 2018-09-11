@@ -1,5 +1,6 @@
 <!-- progress indicator while the data is loading -->
-<salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator>
+<!-- <salsah-progress-indicator *ngIf="isLoading && !errorMessage"></salsah-progress-indicator> -->
+<kui-progress-indicator *ngIf="isLoading && !errorMessage"></kui-progress-indicator>
 
 <!-- show the results -->
 <div *ngIf="!isLoading && !errorMessage; else errorMsg">
@@ -17,15 +18,15 @@
                     <th (click)="sortKey='familyName'" class="salsah-link">Lastname</th>
                     <th (click)="sortKey='email'" class="salsah-link">eMail</th>
                     <th class="salsah-table-tools">
-                        <salsah-sort-button *ngIf="allActiveUsers.length > 1"
-                                            [sortProps]="sortProps"
-                                            [(sortKey)]="sortKey">
-                        </salsah-sort-button>
+                        <!-- <salsah-sort-button *ngIf="allActiveUsers.length > 1" [sortProps]="sortProps" [(sortKey)]="sortKey">
+                        </salsah-sort-button> -->
+                        <kui-sort-button *ngIf="allActiveUsers.length > 1" [sortProps]="sortProps" [(sortKey)]="sortKey">
+                        </kui-sort-button>
                     </th>
                 </tr>
                 <tr *ngFor="let item of allActiveUsers | sortBy: sortKey;">
                     <td class="salsah-avatar-cell">
-                        <img salsahImage [image]="item?.email" [type]="'avatar'" class="salsah-avatar-image square"/>
+                        <img salsahImage [image]="item?.email" [type]="'avatar'" class="salsah-avatar-image square" />
                     </td>
                     <td>{{item?.givenName}}</td>
                     <td>{{item?.familyName}}</td>
@@ -33,25 +34,22 @@
                     <td class="salsah-table-tools">
                         <div class="hidden">
 
-                            <button mat-icon-button
-                                    (click)="setInactive(item?.id, item?.givenName + ' ' + item?.familyName)"
-                                    matTooltip="Delete user">
+                            <button mat-icon-button (click)="setInactive(item?.id, item?.givenName + ' ' + item?.familyName)" matTooltip="Delete user">
                                 <mat-icon>delete</mat-icon>
                             </button>
 
-                            <button mat-icon-button (click)="edit(item)"
-                                    matTooltip="Edit user">
+                            <button mat-icon-button (click)="edit(item)" matTooltip="Edit user">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="open(item?.email)"
-                                    matTooltip="Go to the user's dashboard">
+                            <button mat-icon-button (click)="open(item?.email)" matTooltip="Go to the user's dashboard">
                                 <mat-icon>forward</mat-icon>
                             </button>
                         </div>
                     </td>
                 </tr>
             </table>
-            <br><br>
+            <br>
+            <br>
             <!-- table with all inactive users -->
             <h4>Inactive (deleted) users</h4>
             <table class="salsah-table">
@@ -61,33 +59,28 @@
                     <th (click)="sortKeyIA='familyName'" class="salsah-link">Lastname</th>
                     <th (click)="sortKeyIA='email'" class="salsah-link">eMail</th>
                     <th class="salsah-table-tools">
-                        <salsah-sort-button *ngIf="allInactiveUsers.length > 1"
-                                            [sortProps]="sortProps"
-                                            [(sortKey)]="sortKeyIA">
-                        </salsah-sort-button>
+                        <!-- <salsah-sort-button *ngIf="allInactiveUsers.length > 1" [sortProps]="sortProps" [(sortKey)]="sortKeyIA">
+                        </salsah-sort-button> -->
+                        <kui-sort-button *ngIf="allInactiveUsers.length > 1" [sortProps]="sortProps" [(sortKey)]="sortKeyIA">
+                        </kui-sort-button>
                     </th>
                 </tr>
                 <tr *ngFor="let item of allInactiveUsers | sortBy: sortKeyIA">
                     <td class="salsah-avatar-cell">
-                        <img salsahImage [image]="item?.email" [type]="'avatar'"
-                             class="salsah-avatar-image"/>
+                        <img salsahImage [image]="item?.email" [type]="'avatar'" class="salsah-avatar-image" />
                     </td>
                     <td>{{item?.givenName}}</td>
                     <td>{{item?.familyName}}</td>
                     <td>{{item?.email}}</td>
                     <td>
                         <div class="hidden">
-                            <button mat-icon-button
-                                    (click)="setActive(item?.id,  item?.givenName + ' ' + item?.familyName)"
-                                    matTooltip="Activate user">
+                            <button mat-icon-button (click)="setActive(item?.id,  item?.givenName + ' ' + item?.familyName)" matTooltip="Activate user">
                                 <mat-icon>refresh</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="edit(item)"
-                                    matTooltip="Edit user">
+                            <button mat-icon-button (click)="edit(item)" matTooltip="Edit user">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="open(item?.email)"
-                                    matTooltip="Go to the user dashboard">
+                            <button mat-icon-button (click)="open(item?.email)" matTooltip="Go to the user dashboard">
                                 <mat-icon>forward</mat-icon>
                             </button>
                         </div>
@@ -101,38 +94,39 @@
             <div *ngIf="allActiveUsers.length > 0">
                 <div class="salsah-list-toolbar">
                     <span class="salsah-list-title">
-                        <h4 class="salsah-sub-header">{{allActiveUsers.length}} Active user<span
-                            *ngIf="allActiveUsers.length > 1">s</span></h4>
+                        <h4 class="salsah-sub-header">{{allActiveUsers.length}} Active user
+                            <span *ngIf="allActiveUsers.length > 1">s</span>
+                        </h4>
                     </span>
                     <span class="fill-remaining-space"></span>
                     <span class="salsah-list-action">
-                        <salsah-sort-button *ngIf="allActiveUsers.length > 1"
-                                            [sortProps]="sortProps"
-                                            [(sortKey)]="sortKey">
-                        </salsah-sort-button>
+                        <!-- <salsah-sort-button *ngIf="allActiveUsers.length > 1" [sortProps]="sortProps" [(sortKey)]="sortKey">
+                        </salsah-sort-button> -->
+                        <kui-sort-button *ngIf="allActiveUsers.length > 1" [sortProps]="sortProps" [(sortKey)]="sortKey">
+                        </kui-sort-button>
                     </span>
                 </div>
 
-                <salsah-users-list-item [listData]="allActiveUsers" [sortProp]="sortKey"
-                                        [project]="project"></salsah-users-list-item>
+                <salsah-users-list-item [listData]="allActiveUsers" [sortProp]="sortKey" [project]="project"></salsah-users-list-item>
             </div>
-            <br><br>
+            <br>
+            <br>
             <div *ngIf="allInactiveUsers.length > 0">
                 <div class="salsah-list-toolbar">
                     <span class="salsah-list-title">
-                        <h4 class="salsah-sub-header">{{allInactiveUsers.length}} Inactive user<span
-                            *ngIf="allInactiveUsers.length > 1">s</span></h4>
+                        <h4 class="salsah-sub-header">{{allInactiveUsers.length}} Inactive user
+                            <span *ngIf="allInactiveUsers.length > 1">s</span>
+                        </h4>
                     </span>
                     <span class="fill-remaining-space"></span>
                     <span class="salsah-list-action">
-                        <salsah-sort-button *ngIf="allInactiveUsers.length > 1"
-                                            [sortProps]="sortProps"
-                                            [(sortKey)]="sortKeyIA">
-                        </salsah-sort-button>
+                        <!-- <salsah-sort-button *ngIf="allInactiveUsers.length > 1" [sortProps]="sortProps" [(sortKey)]="sortKeyIA">
+                        </salsah-sort-button> -->
+                        <kui-sort-button *ngIf="allInactiveUsers.length > 1" [sortProps]="sortProps" [(sortKey)]="sortKeyIA">
+                        </kui-sort-button>
                     </span>
                 </div>
-                <salsah-users-list-item [listData]="allInactiveUsers" [sortProp]="sortKey"
-                                        [project]="project"></salsah-users-list-item>
+                <salsah-users-list-item [listData]="allInactiveUsers" [sortProp]="sortKey" [project]="project"></salsah-users-list-item>
             </div>
         </div>
 
@@ -140,23 +134,17 @@
         <mat-list *ngSwitchDefault class="salsah-list">
             <h3 mat-subheader># Users: {{countActive}}
                 <span *ngIf="selectedRow === undefined && numberOfItems > 1"> | {{sortTitle}}
-                <button mat-button
-                        *ngIf="selectedRow == undefined"
-                        (click)="sortBy(sortKey)"
-                        [matTooltip]="sortTitle + sortLabel" matTooltipPosition="above">
-                    {{sortLabel}} <mat-icon>sort_by_alpha</mat-icon>
-                </button>
-            </span>
+                    <button mat-button *ngIf="selectedRow == undefined" (click)="sortBy(sortKey)" [matTooltip]="sortTitle + sortLabel" matTooltipPosition="above">
+                        {{sortLabel}}
+                        <mat-icon>sort_by_alpha</mat-icon>
+                    </button>
+                </span>
             </h3>
-            <mat-list-item *ngFor="let item of allUsers | sortBy: sortKey; let i = index"
-                           (click)="toggle(item.user_id, i);"
-                           [id]="item.user_id"
-                           class="salsah-link"
-                           [class.inactive]="!item.status"
-                           [class.highlight]="i == selectedRow">
+            <mat-list-item *ngFor="let item of allUsers | sortBy: sortKey; let i = index" (click)="toggle(item.user_id, i);" [id]="item.user_id"
+                class="salsah-link" [class.inactive]="!item.status" [class.highlight]="i == selectedRow">
                 <!--<mat-list-item *ngFor="let admin of project.admins">-->
                 <mat-icon mat-list-avatar class="salsah-avatar">
-                    <img salsahImage [image]="item?.email" [type]="'user'" class="salsah-avatar-image"/>
+                    <img salsahImage [image]="item?.email" [type]="'user'" class="salsah-avatar-image" />
                 </mat-icon>
                 <h4 mat-line>{{item?.givenName}} {{item?.familyName}}</h4>
                 <p mat-line> {{item?.email}} </p>

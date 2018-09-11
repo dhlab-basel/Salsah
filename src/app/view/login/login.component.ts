@@ -12,15 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {ApiServiceError} from '../../model/services/api-service-error';
-import {AuthenticationService} from '../../model/services/authentication.service';
-import {Title} from '@angular/platform-browser';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
-function getDocument(): any {
-    return document;
-}
+import { Title } from '@angular/platform-browser';
+import { LoginFormComponent } from '@knora/authentication';
 
 @Component({
     selector: 'salsah-login',
@@ -28,87 +24,26 @@ function getDocument(): any {
     styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
-    errorMessage: any;
-    isLoading = false;
-
-    loginErrorUser = false;
-    loginErrorPw = false;
-    loginErrorServer = false;
-
-    // session: Session = new Session();
-    // userProfile: UserProfile = new UserProfile();
-    // sessionId: string = undefined;
-
-    login = {
-        title: 'Already have an account?',
-        name: 'Username',
-        pw: 'Password',
-        button: 'Login',
-        remember: 'Remember me',
-        forgot_pw: 'Forgot password?',
-        error: {
-            failed: 'Password or username is wrong',
-            server: 'There\'s an error with the server connection. Try it again later or inform the Knora Team'
-        }
-    };
-
-    signup = {
-        title: 'New to Salsah?',
-        subtitle: 'Sign up to avail all of our services',
-        button: 'Contact us on how'
-    };
-    // end of language package for login
-    //
+    loading = false;
 
     constructor(private _title: Title,
-                private _route: ActivatedRoute,
-                private _authenticationService: AuthenticationService) {
+                private _dialog: MatDialog) {
     }
 
     ngOnInit() {
-        this._title.setTitle( 'Salsah | Login');
-
+        setTimeout(() => {
+            this.openDialog();
+        }, 500);
     }
 
-    onSubmit(lf: any): void {
+    ngOnDestroy() {
+        this._dialog.closeAll();
+    }
 
-        this._authenticationService.login(lf.email, lf.password).subscribe(
-            (result: boolean) => {
-
-                console.log(result);
-
-                // after successful login, we want to go back to the previous page e.g. search incl. query
-                // for this case, we stored the previous url parameters in the current login url as query params
-                let goToUrl = '/';
-                this._route.queryParams.subscribe(
-                    data => goToUrl = (data['h'] === undefined ? '/' : data['h'])
-                );
-
-                window.location.replace(goToUrl);
-
-            },
-            (error: ApiServiceError) => {
-                if (error.status === 0) {
-                    this.loginErrorUser = false;
-                    this.loginErrorPw = false;
-                    this.loginErrorServer = true;
-                }
-                if (error.status === 401) {
-                    this.loginErrorUser = false;
-                    this.loginErrorPw = true;
-                    this.loginErrorServer = false;
-                }
-                if (error.status === 404) {
-                    this.loginErrorUser = true;
-                    this.loginErrorPw = false;
-                    this.loginErrorServer = false;
-                }
-                this.errorMessage = <any>error;
-            }
-        );
-
+    openDialog() {
+        this._dialog.open(LoginFormComponent);
     }
 
 }

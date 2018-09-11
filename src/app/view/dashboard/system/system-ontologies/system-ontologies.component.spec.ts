@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {SystemOntologiesComponent} from './system-ontologies.component';
-import {AppModule} from '../../../../app.module';
-import {AppRoutingModule} from '../../../../app-routing.module';
+import { SystemOntologiesComponent } from './system-ontologies.component';
+import { AppModule } from '../../../../app.module';
+import { AppRoutingModule } from '../../../../app-routing.module';
 
 describe('SystemOntologiesComponent', () => {
     let component: SystemOntologiesComponent;
@@ -24,7 +24,7 @@ describe('SystemOntologiesComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should be created', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 });

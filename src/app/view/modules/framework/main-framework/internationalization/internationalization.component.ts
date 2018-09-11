@@ -1,7 +1,6 @@
-///<reference path="../../../../../../../node_modules/@angular/core/src/metadata/directives.d.ts"/>
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {LanguageService} from '../../../../../model/services/language.service';
 
 @Component({

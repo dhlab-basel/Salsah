@@ -12,12 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {BasicOntologyService} from '../../../../model/services/basic-ontology.service';
-import {BasicOntology, PropertyObject, ResourceClass} from '../../../../model/test-data/basic-ontology';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { ApiServiceError, ApiServiceResult } from '@knora/core';
+import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
+import { BasicOntology, PropertyObject, ResourceClass } from '../../../../model/test-data/basic-ontology';
 
 
 @Component({
@@ -116,7 +115,7 @@ export class ResourceClassFormComponent implements OnInit {
     ];
 
     constructor(public dialog: MatDialog,
-                private _basicOntologyService: BasicOntologyService) {
+        private _basicOntologyService: BasicOntologyService) {
     }
 
     ngOnInit() {
@@ -143,8 +142,8 @@ export class ResourceClassFormComponent implements OnInit {
 
     nextFormSection(cntr: number, e, resClassId?: string) {
 
-//        console.log(this.basicOntology);
-//        console.log(this.newResource);
+        //        console.log(this.basicOntology);
+        //        console.log(this.newResource);
 
         if (resClassId && cntr === 0) {
             // get the properties for this resClass and create a default resource class
@@ -153,14 +152,14 @@ export class ResourceClassFormComponent implements OnInit {
 
             this.newResource.id = resClassId;
 
-            for (let rcProp in this.basicOntology.resourceClasses[resClassId].properties) {
-//                this.newResource.properties[rcProp].permissions = this.basicOntology.defaultPermissions;
+            for (const rcProp in this.basicOntology.resourceClasses[resClassId].properties) {
+                //                this.newResource.properties[rcProp].permissions = this.basicOntology.defaultPermissions;
             }
 
             // add all default properties to the new resource properties
-            for (let prop in this.basicOntology.defaultProperties) {
-//                this.newResource.properties[prop] = this.basicOntology.defaultProperties[prop];
-//                this.newResource.properties[prop].permissions = this.basicOntology.defaultPermissions;
+            for (const prop in this.basicOntology.defaultProperties) {
+                //                this.newResource.properties[prop] = this.basicOntology.defaultProperties[prop];
+                //                this.newResource.properties[prop].permissions = this.basicOntology.defaultPermissions;
             }
 
             // set the resource default permissions:
@@ -187,16 +186,16 @@ export class ResourceClassFormComponent implements OnInit {
         this.counter = cntr - 1;
     }
 
-//    setPerm(prop: PropertyObject, group: any, event: any) {
+    //    setPerm(prop: PropertyObject, group: any, event: any) {
     setPerm(prop: PropertyObject, group: any, permission: any, event: any) {
         console.log(this.newResource);
-//        console.log(this.newResource.properties[prop.key].permissions[group.id]);
+        //        console.log(this.newResource.properties[prop.key].permissions[group.id]);
         console.log(prop);
         console.log(permission);
         console.log(group.id);
         console.log(event.value);
 
-//        prop.value.permissions[group.id] = event.value;
+        //        prop.value.permissions[group.id] = event.value;
 
     }
 
@@ -204,28 +203,31 @@ export class ResourceClassFormComponent implements OnInit {
     setProp(property: PropertyObject, event) {
 
         if (event.target.checked === true) {
-//            this.newResource.properties[property.key] = property.value;
+            //            this.newResource.properties[property.key] = property.value;
         } else {
             let i: number = 0;
-            for (let prop in this.newResource.properties) {
-                if (prop === property.key) {
-//                    this.newResource.properties.splice(i, 1); // <-- this solution is not working ;(
-                    this.newResource.properties[property.key] = undefined;
+            for (const prop in this.newResource.properties) {
+                if (this.newResource.properties.hasOwnProperty(prop)) {
+                    if (prop === property.key) {
+                        // this.newResource.properties.splice(i, 1); // <-- this solution is not working ;(
+                        this.newResource.properties[property.key] = undefined;
+                    }
+                    i++;
                 }
-                i++;
+
             }
 
         }
     }
 
     checkAll(ev) {
-//        this.newResource.properties.forEach(x => x.state = ev.target.checked)
+        //        this.newResource.properties.forEach(x => x.state = ev.target.checked)
         this.newResource.properties.forEach(x => x.label = ev.target.checked);
         console.log(ev.target);
     }
 
     isAllChecked() {
-//        return this.newResource.properties.every(_ => _.state);
+        //        return this.newResource.properties.every(_ => _.state);
     }
 
     toggleAll(properties: any, event) {
@@ -233,8 +235,7 @@ export class ResourceClassFormComponent implements OnInit {
         if (event.target.checked === true) {
             this.allProps = true;
             this.selectPropsText = 'Deselect all properties';
-        }
-        else {
+        } else {
             this.allProps = false;
             this.selectPropsText = 'Select all properties';
 

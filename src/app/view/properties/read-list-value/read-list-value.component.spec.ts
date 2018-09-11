@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReadListValueComponent } from './read-list-value.component';
+import { AppModule } from '../../../app.module';
+import { AppRoutingModule } from '../../../app-routing.module';
 
 describe('ReadListValueComponent', () => {
   let component: ReadListValueComponent;
@@ -8,9 +10,12 @@ describe('ReadListValueComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReadListValueComponent ]
+      imports: [
+        AppModule,
+        AppRoutingModule
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

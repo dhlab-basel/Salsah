@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../../../app.module';
-import {AppRoutingModule} from '../../../../../../app-routing.module';
-import {HeaderToolbarComponent} from './header-toolbar.component';
-import {AuthenticationService} from '../../../../../../model/services/authentication.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../../../app.module';
+import { AppRoutingModule } from '../../../../../../app-routing.module';
+import { HeaderToolbarComponent } from './header-toolbar.component';
+import { UsersService } from '@knora/core';
 
 describe('HeaderToolbarComponent', () => {
     let component: HeaderToolbarComponent;
@@ -14,6 +14,18 @@ describe('HeaderToolbarComponent', () => {
         'sysAdmin': false
     };
 
+    let originalTimeout;
+
+    beforeEach(function () {
+        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    });
+
+    afterEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
+
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -21,7 +33,7 @@ describe('HeaderToolbarComponent', () => {
                 AppRoutingModule
             ],
             providers: [
-                AuthenticationService
+                UsersService
             ],
         })
             .compileComponents();
@@ -55,7 +67,7 @@ describe('HeaderToolbarComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should get the user data', () => {
+    it('should get the user data', () => {
         expect<any>(localStorage.getItem('currentUser')).toBe(JSON.stringify(currentTestUser));
         expect(component).toBeTruthy();
     });

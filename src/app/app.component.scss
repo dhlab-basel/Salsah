@@ -4,7 +4,7 @@
   bottom: $footer-height;
   height: calc(100% - #{$header-height} - #{$footer-height});
   overflow: hidden;
-//  position: fixed;
+  position: fixed;
   top: $header-height;
   width: 100%;
 }

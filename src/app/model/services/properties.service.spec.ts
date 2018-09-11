@@ -1,8 +1,9 @@
-import {async, inject, TestBed} from '@angular/core/testing';
-import {ApiService} from './api.service';
-import {PropertiesService} from './properties.service';
-import {HttpClientModule} from '@angular/common/http';
-import {HttpModule} from '@angular/http';
+import { async, inject, TestBed } from '@angular/core/testing';
+
+import { PropertiesService } from './properties.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
+import { ApiService, KuiCoreConfig } from '@knora/core';
 
 describe('PropertiesService', () => {
     beforeEach(() => {
@@ -13,13 +14,14 @@ describe('PropertiesService', () => {
             ],
             providers: [
                 ApiService,
-                PropertiesService
+                PropertiesService,
+                { provide: 'config', useValue: KuiCoreConfig },
             ]
         });
     });
 
 
-    xit('should be created', async(inject(
+    it('should be created', async(inject(
         [PropertiesService], (service) => {
             expect(service).toBeDefined();
         }))

@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ReadIntervalValue} from 'app/model/webapi/knora/v2/read-property-item';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReadIntervalValue } from '@knora/core';
 
 @Component({
     selector: 'read-interval-value',

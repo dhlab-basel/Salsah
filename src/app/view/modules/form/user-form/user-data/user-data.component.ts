@@ -11,12 +11,9 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {AppConfig} from '../../../../../app.config';
-import {User} from '../../../../../model/webapi/knora';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ApiServiceError} from '../../../../../model/services/api-service-error';
-import {UsersService} from '../../../../../model/services/users.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiServiceError, UsersService, User, Utils } from '@knora/core';
 
 @Component({
     selector: 'salsah-user-data',
@@ -55,7 +52,7 @@ export class UserDataComponent implements OnInit, OnChanges {
     formErrors = {
         'givenName': '',
         'familyName': '',
-//        'email': '',
+        //        'email': '',
         'password': ''
     };
 
@@ -118,7 +115,7 @@ export class UserDataComponent implements OnInit, OnChanges {
     ];
 
     constructor(private _usersService: UsersService,
-                private _formBuilder: FormBuilder) {
+        private _formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
@@ -168,38 +165,38 @@ export class UserDataComponent implements OnInit, OnChanges {
             'givenName': new FormControl({
                 value: user.givenName, disabled: false
             }, [
-                Validators.required
-            ]),
+                    Validators.required
+                ]),
             'familyName': new FormControl({
                 value: user.familyName, disabled: false
             }, [
-                Validators.required
-            ]),
+                    Validators.required
+                ]),
             'email': new FormControl({
                 value: user.email, disabled: true
             }),
             'password': new FormControl({
                 value: user.password, disabled: (edit)
             }, [
-                Validators.required,
-                Validators.minLength(8),
-                Validators.pattern(AppConfig.RegexPassword)
-            ]),
+                    Validators.required,
+                    Validators.minLength(8),
+                    Validators.pattern(Utils.RegexPassword)
+                ]),
             'lang': new FormControl({
                 value: (user.lang ? user.lang : 'en'), disabled: false
             })
-//            'status': user.userData.status,
-//            'systemAdmin': this.sysAdminPermission,
-//            'group': null
+            //            'status': user.userData.status,
+            //            'systemAdmin': this.sysAdminPermission,
+            //            'group': null
         });
 
-//        this.isLoading = false;
+        //        this.isLoading = false;
 
 
         this.userDataForm.valueChanges
             .subscribe(data => this.onValueChanged(data));
 
-//        this.onValueChanged(); // (re)set validation messages now
+        //        this.onValueChanged(); // (re)set validation messages now
 
     }
 

@@ -12,14 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, HostListener, ElementRef} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {MessageDialogComponent} from 'app/view/modules/dialog/message-dialog/message-dialog.component';
-import {FormDialogComponent} from '../../../../dialog/form-dialog/form-dialog.component';
-import {MessageData} from '../../../../message/message.component';
-import {AuthenticationService} from '../../../../../../model/services/authentication.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { AuthenticationService } from '@knora/authentication';
+import { Session } from '@knora/core';
+import { MessageDialogComponent } from 'app/view/modules/dialog/message-dialog/message-dialog.component';
+import { FormDialogComponent } from '../../../../dialog/form-dialog/form-dialog.component';
+import { MessageData } from '../../../../message/message.component';
 
 
 @Component({
@@ -103,35 +104,51 @@ export class HeaderToolbarComponent implements OnInit {
                 private _dialog: MatDialog,
                 private _route: ActivatedRoute,
                 private _router: Router,
-                private _authenticationService: AuthenticationService) {
+                private _auth: AuthenticationService) {
+
+        this._router.events.forEach((event) => {
+            if (event instanceof NavigationStart) {
+
+                if (this._auth.session()) {
+                    // a user is logged-in, and the session is valid
+                    // get the user information
+                    const session: Session = JSON.parse(localStorage.getItem('session'));
+                    this.sysAdmin = session.user.sysAdmin;
+                    // TODO: fix this ugly construction
+                    let i: number = 0;
+                    for (const entry of this.userMenu) {
+                        // remove entry, if exists already
+                        if (entry.route === 'system') {
+                            this.userMenu.splice(i, 1);
+                        }
+                        i++;
+                    }
+
+                    if (this.sysAdmin) {
+                        this.userMenu.push({
+                            title: 'System',
+                            icon: 'build',
+                            route: 'system'
+                        });
+                    }
+
+                    this.userName = session.user.name;
+                }
+
+            }
+        });
+
     }
 
     ngOnInit() {
-        // check if a user is logged-in
-        this._authenticationService.authenticate().subscribe(result => this.activeSession = result);
-
-        if (JSON.parse(localStorage.getItem('currentUser'))) {
-
-            this.userName = JSON.parse(localStorage.getItem('currentUser')).email;
-
-            this.sysAdmin = JSON.parse(localStorage.getItem('currentUser')).sysAdmin;
-
-            if (this.sysAdmin === true) {
-                this.userMenu.push({
-                    title: 'System',
-                    icon: 'build',
-                    route: 'system'
-                });
-            }
-        }
     }
 
 
     @HostListener('document:click', ['$event'])
     public onClick(event) {
         if (!this._eleRef.nativeElement.contains(event.target)) {
-//            this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
-//            this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
+            //            this.focusOnUserMenu = (this.focusOnUserMenu === 'active' ? 'inactive' : 'active');
+            //            this.focusOnAddMenu = (this.focusOnAddMenu === 'active' ? 'inactive' : 'active');
             if (this.focusOnUserMenu === 'active') {
                 this.focusOnUserMenu = 'inactive';
             }
@@ -186,15 +203,18 @@ export class HeaderToolbarComponent implements OnInit {
         }
     }
 
-
     goToLoginPage() {
-        let goToUrl = '/login';
+        const goToUrl = '/login';
+        /*
+                // TODO: we have to fix the following idea: after login, go back to the previous url; right now (2018-09-05) it doesn't work with the setup of @knora/authentication)
+                //
+                if (this._router.url !== '/') {
+                    goToUrl += '/?h=' + encodeURIComponent(this._router.url);
+                }
+        */
 
-        if (this._router.url !== '/') {
-            goToUrl += '/?h=' + encodeURIComponent(this._router.url);
-        }
         window.location.replace(goToUrl);
-//        this._router.navigate([goToUrl]);
+        //        this._router.navigate([goToUrl]);
     }
 }
 

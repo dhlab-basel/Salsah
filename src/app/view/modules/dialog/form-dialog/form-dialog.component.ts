@@ -75,7 +75,7 @@ export class FormDialogComponent implements OnInit {
     toggleFullSize() {
         this.fullSize = (!this.fullSize);
 
-        if (this.data.form == 'ontology') {
+        if (this.fullSize) {
             this._dialogRef.updateSize('100vw', '100vh');
             this._dialogRef.updatePosition();
         } else {

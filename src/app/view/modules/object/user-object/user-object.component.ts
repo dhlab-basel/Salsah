@@ -12,14 +12,12 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnChanges} from '@angular/core';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {UsersService} from '../../../../model/services/users.service';
-import {Project, User} from '../../../../model/webapi/knora/';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
-import {MessageData} from '../../message/message.component';
-import {MessageDialogComponent} from '../../dialog/message-dialog/message-dialog.component';
+import { Component, Input, OnChanges } from '@angular/core';
+import { ApiServiceError, Project, User, UsersService } from '@knora/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
+import { MessageData } from '../../message/message.component';
+import { MessageDialogComponent } from '../../dialog/message-dialog/message-dialog.component';
 
 @Component({
     selector: 'salsah-user-object',
@@ -41,7 +39,7 @@ export class UserObjectComponent implements OnChanges {
     currentProject: Project;
 
     constructor(private _userService: UsersService,
-                public _dialog: MatDialog) {
+        public _dialog: MatDialog) {
     }
 
     ngOnChanges() {

@@ -11,16 +11,13 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {Project, User} from '../../../../../model/webapi/knora';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ProjectsService} from '../../../../../model/services/projects.service';
-import {ApiServiceError} from '../../../../../model/services/api-service-error';
-import {existingNamesValidator} from '../../../other/existing-name.directive';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material';
-import {ApiServiceResult} from '../../../../../model/services/api-service-result';
-import {MessageData} from '../../../message/message.component';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiServiceError, ApiServiceResult, Project, ProjectsService, User } from '@knora/core';
+import { existingNamesValidator } from '@knora/action';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material';
+import { MessageData } from '../../../message/message.component';
 
 @Component({
     selector: 'salsah-project-data',
@@ -81,8 +78,8 @@ export class ProjectDataComponent implements OnInit, OnChanges {
         'longname': '',
         'shortcode': '',
         'description': ''
-//        'institution': '',
-//        'keywords': '',
+        //        'institution': '',
+        //        'keywords': '',
     };
 
     validationMessages = {
@@ -107,10 +104,10 @@ export class ProjectDataComponent implements OnInit, OnChanges {
             'required': 'A description is required.',
             'maxlength': 'Description cannot be more than ' + this.descriptionMaxLength + ' characters long.'
         }
-//        'institution': {},
-//        'keywords': {
-//            'required': 'At least one keyword is required.'
-//        }
+        //        'institution': {},
+        //        'keywords': {
+        //            'required': 'At least one keyword is required.'
+        //        }
     };
 
     // keywords input field:
@@ -139,7 +136,7 @@ export class ProjectDataComponent implements OnInit, OnChanges {
     isLoading: boolean = true;
 
     constructor(private _projectsService: ProjectsService,
-                private _formBuilder: FormBuilder) {
+        private _formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
@@ -208,36 +205,36 @@ export class ProjectDataComponent implements OnInit, OnChanges {
             'shortname': new FormControl({
                 value: project.shortname, disabled: this.edit
             }, [
-                Validators.required,
-                Validators.minLength(this.shortnameMinLength),
-                Validators.maxLength(this.shortnameMaxLength),
-                existingNamesValidator(this.existingShortNames),
-                Validators.pattern(this.shortnameRegex)
-            ]),
+                    Validators.required,
+                    Validators.minLength(this.shortnameMinLength),
+                    Validators.maxLength(this.shortnameMaxLength),
+                    existingNamesValidator(this.existingShortNames),
+                    Validators.pattern(this.shortnameRegex)
+                ]),
 
             'longname': new FormControl({
                 value: project.longname, disabled: false
             }, [
-                Validators.required
-            ]),
+                    Validators.required
+                ]),
             'shortcode': new FormControl({
                 value: project.shortcode, disabled: (this.edit && project.shortcode !== null)
             }, [
-                Validators.required,
-                Validators.minLength(this.shortcodeMinLength),
-                Validators.maxLength(this.shortcodeMaxLength),
-                existingNamesValidator(this.existingShortcodes),
-                Validators.pattern(this.shortcodeRegex)
-            ]),
+                    Validators.required,
+                    Validators.minLength(this.shortcodeMinLength),
+                    Validators.maxLength(this.shortcodeMaxLength),
+                    existingNamesValidator(this.existingShortcodes),
+                    Validators.pattern(this.shortcodeRegex)
+                ]),
             'description': new FormControl({
                 value: project.description[0].value, disabled: false
             }, [
-                Validators.required,
-                Validators.maxLength(this.descriptionMaxLength)
-            ]),
-//            'institution': new FormControl({
-//                value: project.institution, disabled: false
-//            }),
+                    Validators.required,
+                    Validators.maxLength(this.descriptionMaxLength)
+                ]),
+            //            'institution': new FormControl({
+            //                value: project.institution, disabled: false
+            //            }),
             'logo': new FormControl({
                 value: project.logo, disabled: false
             }),

@@ -39,7 +39,8 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <form class="salsah-form new-user" [formGroup]="eRForm4class">
-                <mat-form-field dividerColor="{{ !resType.label ? 'warn' : 'primary' }}">
+                <mat-form-field>
+                    <!--dividerColor="{{ !resType.label ? 'warn' : 'primary' }}">-->
                     <input matInput
                            class="form-control"
                            placeholder={{editResFormLabels.resource.label}}

@@ -12,12 +12,10 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {ApiServiceError} from '../../../model/services/api-service-error';
-import {ProjectsService} from '../../../model/services/projects.service';
-import {Project} from '../../../model/webapi/knora';
-import {Title} from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ApiServiceError, Project, ProjectsService } from '@knora/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'salsah-project',
@@ -55,9 +53,9 @@ export class ProjectComponent implements OnInit {
     public currentProject: string = undefined;
 
     constructor(private _title: Title,
-                private _router: Router,
-                private _route: ActivatedRoute,
-                private _projectsService: ProjectsService) {
+        private _router: Router,
+        private _route: ActivatedRoute,
+        private _projectsService: ProjectsService) {
     }
 
     ngOnInit() {

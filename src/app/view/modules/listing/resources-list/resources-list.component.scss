@@ -4,7 +4,13 @@
   max-width: 840px;
 
   .mat-list-item {
+    padding: 16px 0;
     height: auto;
+
+    &.border-bottom {
+      border-bottom: 1px solid #cccccc;
+    }
+
   }
 
 }

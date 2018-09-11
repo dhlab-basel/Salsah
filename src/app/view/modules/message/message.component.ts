@@ -12,12 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ApiServiceError} from '../../../model/services/api-service-error';
-import {StatusMsgServiceService} from '../../../model/services/status-msg-service.service';
-import {ApiServiceResult} from '../../../model/services/api-service-result';
+import { Component, Input, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiServiceError, ApiServiceResult } from '@knora/core';
+import { StatusMsgService } from '../../../model/services/status-msg.service';
 
 export interface MessageData {
     status: number,
@@ -25,7 +24,7 @@ export interface MessageData {
     statusText?: string,
     type?: string,
     route?: string,
-    footnote?: string,
+    footnote?: string
 }
 
 @Component({
@@ -48,7 +47,7 @@ export class MessageComponent implements OnInit {
      */
     @Input() short?: boolean = false;
 
-//    message: MessageData;
+    //    message: MessageData;
 
     statusMsg: any;
 
@@ -94,10 +93,10 @@ export class MessageComponent implements OnInit {
         }
     };
 
-    constructor(private _statusMsgService: StatusMsgServiceService,
-                private _router: Router,
-                private _location: Location,
-                private _activatedRoute: ActivatedRoute) {
+    constructor(private _statusMsgService: StatusMsgService,
+        private _router: Router,
+        private _location: Location,
+        private _activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
@@ -106,8 +105,9 @@ export class MessageComponent implements OnInit {
         // TODO: we have to implement this data in the multilingual settings
         this._statusMsgService.getStatusMsg()
             .subscribe(
-                (result: ApiServiceResult) => {
-                    this.statusMsg = result.getBody();
+                (result: any) => {
+                    this.statusMsg = result;
+//                    this.statusMsg = result.getBody();
 
                     if (!this.message) {
                         this._activatedRoute
@@ -130,7 +130,6 @@ export class MessageComponent implements OnInit {
     }
 
     setMessage(msg: MessageData) {
-
         const tmpMsg: MessageData = <MessageData>{};
 
         const s: number = (msg.status === 0 ? 503 : msg.status);
@@ -146,17 +145,18 @@ export class MessageComponent implements OnInit {
             case (s > 0 && s < 300):
                 // the message is a note
                 tmpMsg.type = 'note';
-//                console.log('the message is a note');
+                //                console.log('the message is a note');
                 break;
             case (s >= 300 && s < 400):
                 // the message is a warning
                 tmpMsg.type = 'warning';
-//                console.log('the message is a warning');
+                //                console.log('the message is a warning');
 
                 break;
             case (s >= 400 && s < 500):
+
                 // the message is a client side (salsah-gui) error
-                // console.log('the message is a client side (salsah-gui) error');
+                // console.log('the message is a client side (salsah-gui) error', s);
                 tmpMsg.type = 'error';
                 tmpMsg.statusMsg = (msg.statusMsg !== undefined ? msg.statusMsg : this.statusMsg[s].message);
                 tmpMsg.statusText = (msg.statusText !== undefined ? msg.statusText : this.statusMsg[s].description);

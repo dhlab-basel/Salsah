@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AppModule} from '../../../../app.module';
-import {AppRoutingModule} from '../../../../app-routing.module';
-import {ProjectProfileComponent} from './project-profile.component';
-import {ProjectsService} from '../../../../model/services/projects.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../../../app.module';
+import { AppRoutingModule } from '../../../../app-routing.module';
+import { ProjectProfileComponent } from './project-profile.component';
+import { ProjectsService } from '@knora/core';
 
 describe('ProjectProfileComponent', () => {
     let component: ProjectProfileComponent;
@@ -27,7 +27,7 @@ describe('ProjectProfileComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should modify', () => {
+    it('should modify', () => {
         expect(component).toBeTruthy();
     });
 });

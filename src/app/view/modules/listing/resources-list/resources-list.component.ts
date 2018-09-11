@@ -12,18 +12,22 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {SearchService} from '../../../../model/services/search.service';
-import {ApiServiceResult} from '../../../../model/services/api-service-result';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {MessageData} from '../../message/message.component';
-import {ConvertJSONLD} from '../../../../model/webapi/knora/v2/convert-jsonld';
-import {OntologyCacheService, OntologyInformation} from '../../../../model/services/ontologycache.service';
-import {ReadResourcesSequence} from '../../../../model/webapi/knora/v2/read-resources-sequence';
-import {AppConfig} from "../../../../app.config";
-import {ReadResource} from "../../../../model/webapi/knora/v2/read-resource";
-import {ExtendedSearchParams, SearchParamsService} from "../../../../model/services/search-params.service";
-import {GravsearchGenerationService} from "../../../../model/services/gravsearch-generation.service";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import {
+    ApiServiceError,
+    ApiServiceResult,
+    ConvertJSONLD,
+    ExtendedSearchParams,
+    GravsearchGenerationService,
+    KnoraConstants,
+    OntologyCacheService,
+    OntologyInformation,
+    ReadResource,
+    ReadResourcesSequence,
+    SearchParamsService,
+    SearchService
+} from '@knora/core';
+import { MessageData } from '../../message/message.component';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -51,7 +55,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
 
     @Output() toggleItem = new EventEmitter<any>();
 
-    AppConfig = AppConfig;
+    KnoraConstants = KnoraConstants;
 
     // grid list settings
     columns: number = 3;
@@ -155,7 +159,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
 
                     } else {
                         // generate new Gravsearch with increased offset
-                        let gravsearch = extendedSearchParams.generateGravsearch(this._offset);
+                        const gravsearch = extendedSearchParams.generateGravsearch(this._offset);
 
                         this._searchService.doExtendedSearch(gravsearch)
                             .subscribe(
@@ -186,12 +190,12 @@ export class ResourcesListComponent implements OnInit, OnChanges {
      * @param {ApiServiceResult} countQueryResult the response to a count query.
      */
     private showNumberOfAllResults = (countQueryResult: ApiServiceResult) => {
-        let resPromises = jsonld.promises;
+        const resPromises = jsonld.promises;
         // compact JSON-LD using an empty context: expands all Iris
-        let resPromise = resPromises.compact(countQueryResult.body, {});
+        const resPromise = resPromises.compact(countQueryResult.body, {});
 
         resPromise.then((compacted) => {
-            this.numberOfAllResults = compacted[AppConfig.schemaNumberOfItems]
+            this.numberOfAllResults = compacted[KnoraConstants.schemaNumberOfItems]
         }, function (err) {
 
             console.log('JSONLD could not be expanded:' + err);
@@ -210,20 +214,20 @@ export class ResourcesListComponent implements OnInit, OnChanges {
      */
     private processSearchResults = (searchResult: ApiServiceResult) => {
 
-        let resPromises = jsonld.promises;
+        const resPromises = jsonld.promises;
         // compact JSON-LD using an empty context: expands all Iris
-        let resPromise = resPromises.compact(searchResult.body, {});
+        const resPromise = resPromises.compact(searchResult.body, {});
 
         resPromise.then((compacted) => {
 
             // get resource class Iris from response
-            let resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
+            const resourceClassIris: string[] = ConvertJSONLD.getResourceClassesFromJsonLD(compacted);
 
             // request ontology information about resource class Iris (properties are implied)
             this._cacheService.getResourceClassDefinitions(resourceClassIris).subscribe(
                 (resourceClassInfos: OntologyInformation) => {
 
-                    let resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
+                    const resources: ReadResourcesSequence = ConvertJSONLD.createReadResourcesSequenceFromJsonLD(compacted);
 
                     // assign ontology information to a variable so it can be used in the component's template
                     if (this.ontologyInfo === undefined) {
@@ -261,7 +265,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
                 this.listType = 'grid';
                 this.columns = 3;
             }
-            this.toggleItem.emit({id, index});
+            this.toggleItem.emit({ id, index });
         } else {
             // open the detail view
             this.selectedRow = index;
@@ -270,7 +274,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
                 this.listType = 'list';
                 this.columns = 1;
             }
-            this.toggleItem.emit({id, index});
+            this.toggleItem.emit({ id, index });
         }
 
     }

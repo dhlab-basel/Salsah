@@ -30,7 +30,7 @@ import { PropertyItem } from '../webapi/knora/v1/properties/property-item';
  * user:    logged in project user
  * admin:   logged in project (or system) admin user
  */
-@JsonObject
+@JsonObject('Permissions')
 export class Permissions {
 
     @JsonProperty('everyone', String)
@@ -46,7 +46,7 @@ export class Permissions {
     public admin: string = undefined;
 }
 
-@JsonObject
+@JsonObject('Gui')
 export class Gui {
 
     @JsonProperty('element', String)
@@ -60,7 +60,7 @@ export class Gui {
 
 }
 
-@JsonObject
+@JsonObject('Property')
 export class Property {
 
     @JsonProperty('label', String)
@@ -85,7 +85,7 @@ export class Property {
  * the class includes the default properties as an array. The property id is the key in the array
  */
 
-@JsonObject
+@JsonObject('ResourceClass')
 export class ResourceClass {
 
     @JsonProperty('id', String, true)
@@ -119,7 +119,7 @@ export class ResourceClass {
  * is an array of resource classes. The id of the resource class is the key in the array
  */
 
-@JsonObject
+@JsonObject('BasicOntology')
 export class BasicOntology {
 
     // defaultProperties
@@ -136,7 +136,7 @@ export class BasicOntology {
 
 }
 
-@JsonObject
+@JsonObject('PropertyObject')
 export class PropertyObject {
     @JsonProperty('key', String)
     public key: string = undefined;

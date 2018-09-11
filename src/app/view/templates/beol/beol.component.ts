@@ -1,14 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {BeolService} from "../../../model/services/beol.service";
-import {SearchService} from "../../../model/services/search.service";
-import {MatDialog, MatDialogConfig} from "@angular/material";
-import {ResourceObjectComponent} from "../../modules/object/resource-object/resource-object.component";
-import {ApiServiceResult} from "../../../model/services/api-service-result";
-import {ConvertJSONLD} from "../../../model/webapi/knora/v2/convert-jsonld";
-import {ReadResourcesSequence} from "../../../model/webapi/knora/v2/read-resources-sequence";
-import {OntologyCacheService, OntologyInformation} from "../../../model/services/ontologycache.service";
-import {ObjectDialogComponent} from "../../modules/dialog/object-dialog/object-dialog.component";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BeolService } from '../../../model/services/beol.service';
+import { ApiServiceResult, ConvertJSONLD, OntologyCacheService, OntologyInformation, ReadResourcesSequence, SearchService } from '@knora/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ResourceObjectComponent } from '../../modules/object/resource-object/resource-object.component';
+import { ObjectDialogComponent } from '../../modules/dialog/object-dialog/object-dialog.component';
 
 class Book {
 
@@ -79,11 +75,11 @@ let jsonld = require('jsonld');
 export class BeolComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute,
-                private _router: Router,
-                private _beol: BeolService,
-                private _searchService: SearchService,
-                private dialog: MatDialog,
-                private _cacheService: OntologyCacheService) {
+        private _router: Router,
+        private _beol: BeolService,
+        private _searchService: SearchService,
+        private dialog: MatDialog,
+        private _cacheService: OntologyCacheService) {
     }
 
     leoo: Book[];
@@ -431,9 +427,9 @@ export class BeolComponent implements OnInit {
                     new Correspondence(Jacob_Hermann, Johann_I_Bernoulli)
                 ]),
                 new Section("S", [
-                        new Correspondence(Jacob_Hermann, Johann_Jakob_Scheuchzer),
-                        new Correspondence(Jacob_Hermann, Johannes_Scheuchzer)
-                    ]
+                    new Correspondence(Jacob_Hermann, Johann_Jakob_Scheuchzer),
+                    new Correspondence(Jacob_Hermann, Johannes_Scheuchzer)
+                ]
                 )]
             )
         ];
@@ -494,7 +490,7 @@ export class BeolComponent implements OnInit {
      */
     private submitQuery(gravsearch: string) {
 
-        this._router.navigate(['/search/extended/', gravsearch], {relativeTo: this._route});
+        this._router.navigate(['/search/extended/', gravsearch], { relativeTo: this._route });
     }
 
 

@@ -12,13 +12,11 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
-import {ApiServiceError} from '../../../../model/services/api-service-error';
-import {ProjectsService} from '../../../../model/services/projects.service';
-import {Project} from '../../../../model/webapi/knora';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {FormDialogComponent} from '../../../modules/dialog/form-dialog/form-dialog.component';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { ApiServiceError, Project, ProjectsService } from '@knora/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { FormDialogComponent } from '../../../modules/dialog/form-dialog/form-dialog.component';
 
 
 @Component({
@@ -41,17 +39,17 @@ export class ProjectProfileComponent implements OnInit {
     };
 
     constructor(private _route: ActivatedRoute,
-                private _projectsService: ProjectsService,
-                public _dialog: MatDialog) {
+        private _projectsService: ProjectsService,
+        public _dialog: MatDialog) {
 
         _dialog.afterAllClosed
             .subscribe(() => {
-                    // update a variable or call a function when the dialog closes
-                    // get the project information
-                    _route.params.subscribe((params: Params) => {
-                        this.updateSession(params['pid']);
-                    });
-                }
+                // update a variable or call a function when the dialog closes
+                // get the project information
+                _route.params.subscribe((params: Params) => {
+                    this.updateSession(params['pid']);
+                });
+            }
             );
     }
 
@@ -81,10 +79,10 @@ export class ProjectProfileComponent implements OnInit {
         sessionStorage.removeItem(this.session);
         this._projectsService.getProjectByShortname(id)
             .subscribe((result: Project) => {
-                    this.project = result;
-                    sessionStorage.setItem(this.session, JSON.stringify(this.project));
-                    this.isLoading = false;
-                },
+                this.project = result;
+                sessionStorage.setItem(this.session, JSON.stringify(this.project));
+                this.isLoading = false;
+            },
                 (error: ApiServiceError) => {
                     this.errorMessage = <any>error;
                     sessionStorage.removeItem(this.session);
