@@ -370,9 +370,15 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/search@^1.0.3-alpha":
-  version "1.0.3-alpha"
-  resolved "https://registry.yarnpkg.com/@knora/search/-/search-1.0.3-alpha.tgz#5fd5f71ea02db9150b168c1e1217c1e11f9e24a1"
+"@knora/search@^1.0.0-beta":
+  version "1.0.0-beta"
+  resolved "https://registry.yarnpkg.com/@knora/search/-/search-1.0.0-beta.tgz#0546cfd6b7683ef4237479b89edbc95daf68f9ba"
+  dependencies:
+    tslib "^1.9.0"
+
+"@knora/viewer@^0.0.1-alpha":
+  version "0.0.1-alpha"
+  resolved "https://registry.yarnpkg.com/@knora/viewer/-/viewer-0.0.1-alpha.tgz#3305bb6bd12dc6ca6bfaf8aa2aa9fa2502246670"
   dependencies:
     tslib "^1.9.0"
 
