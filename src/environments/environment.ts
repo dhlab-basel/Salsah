@@ -19,7 +19,11 @@
 // The list of which environment maps to which file can be found in `..angular-cli.json`.
 
 export const environment = {
-    type: 'dev',
+    name: 'dev',
+    production: false
+};
+
+/*
     production: false,
     name: 'Salsah',
     media: 'http://localhost:1024/knora',   // perhaps we have to rename it into sipi?
@@ -37,4 +41,4 @@ export const environment = {
         storageBucket: "test-5034c.appspot.com",
         messagingSenderId: "44326559957"
     }
-};
+*/

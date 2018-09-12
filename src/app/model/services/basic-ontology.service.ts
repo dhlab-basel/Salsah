@@ -16,7 +16,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiService } from '@knora/core';
-import { environment } from '../../../environments/environment';
+
+import {AppConfig} from '../../app.config';
 
 
 @Injectable({
@@ -34,7 +35,7 @@ export class BasicOntologyService extends ApiService {
     //     return this.httpGet(url + '/data/base-data/basic-ontology.json', {withCredentials: false});
     // }
     getBasicOntology(): Observable<any> {
-        const url = environment.app;
+        const url = AppConfig.settings.appURL;
         return this.httpGet(url + '/data/base-data/basic-ontology.json');
         // return this.httpGet(url + '/data/base-data/basic-ontology.json', {withCredentials: false});
     }

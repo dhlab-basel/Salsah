@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { RdfDataObject, ResetTriplestoreContentResponse } from '@knora/core';
-import { environment } from '../../../environments/environment';
+import {AppConfig} from '../../app.config';
 
 
 @Injectable({
@@ -35,7 +35,7 @@ export class StoreService {
      */
     resetTriplestoreContent(rdfDataObjects: RdfDataObject[]): Observable<string> {
 
-        return this.http.post<ResetTriplestoreContentResponse>(environment.api + '/admin/store/ResetTriplestoreContent', rdfDataObjects)
+        return this.http.post<ResetTriplestoreContentResponse>(AppConfig.settings.apiURL + '/admin/store/ResetTriplestoreContent', rdfDataObjects)
             .pipe(
                 map(
                     (data) => {

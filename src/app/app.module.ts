@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA, APP_INITIALIZER} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor, KuiAuthenticationModule, LoginFormComponent } from '@knora/authentication';
@@ -133,11 +133,13 @@ import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-
 import { LeooComponent } from './view/templates/leoo/leoo.component';
 import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
 
-//
-// just to get the basic ontology form the json file
-//
-// import all app components
-//
+
+// Loads the application configuration file during application startup
+import {AppConfig} from './app.config';
+export function initializeApp(appConfig: AppConfig) {
+    return () => appConfig.loadAppConfig();
+}
+
 // Translate: AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
@@ -241,11 +243,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ],
     imports: [
         BrowserModule,
-        KuiCoreModule.forRoot({
-            name: environment.name,
-            api: environment.api,
-            media: environment.media,
-            app: environment.app
+        KuiCoreModule.initializeApp({
+            name: AppConfig.settings.appName,
+            api: AppConfig.settings.apiURL,
+            media: AppConfig.settings.iiifURL,
+            app: AppConfig.settings.appURL
         }),
         KuiSearchModule,
         KuiActionModule,
@@ -261,7 +263,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TreeModule,
         DndModule.forRoot(),
         HttpClientModule,
-        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireModule.initializeApp(AppConfig.settings.firebase),
         InfiniteScrollModule,
         RecaptchaModule.forRoot(),
         AngularSplitModule,
@@ -283,6 +285,13 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ResourceClassFormComponent // deprecated!!
     ],
     providers: [
+        AppConfig,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeApp,
+            deps: [AppConfig],
+            multi: true
+        },
         AngularFirestore,
         { provide: APP_BASE_HREF, useValue: '/' },
         {

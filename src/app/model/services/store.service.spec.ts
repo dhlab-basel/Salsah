@@ -1,7 +1,7 @@
-import { environment } from '../../../environments/environment';
 import { async, inject, TestBed } from '@angular/core/testing';
 import { StoreService } from './store.service';
 import { HttpClientModule } from '@angular/common/http';
+import {AppConfig} from '../../app.config';
 
 
 describe('StoreService', () => {
@@ -23,7 +23,7 @@ describe('StoreService', () => {
         }))
     );
 
-    if (environment.type === 'integration') {
+    if (AppConfig.settings.env.name === 'integration') {
 
         it('#resetTriplestoreContent should load test data [it]', async(inject(
             [StoreService], (service) => {

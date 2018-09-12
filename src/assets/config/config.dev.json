@@ -1,0 +1,22 @@
+{
+    "env": {
+        "name": "dev"
+    },
+    "ontologyIRI": "http://0.0.0.0:3333",
+    "apiURL": "http://0.0.0.0:3333",
+    "externalApiURL": "http://0.0.0.0:3333",
+    "iiifURL": "http://localhost:1024/knora",
+    "appURL": "http://localhost:4200",
+    "appName": "Salsah",
+    "localData": "data",
+    "pagingLimit": 25,
+    "startComponent": "dasch",
+    "firebase": {
+        "apiKey": "AIzaSyAGr-TWw1NaycUrL3IaJQ63D2YguVafYTA",
+        "authDomain": "test-5034c.firebaseapp.com",
+        "databaseURL": "https://test-5034c.firebaseio.com",
+        "projectId": "test-5034c",
+        "storageBucket": "test-5034c.appspot.com",
+        "messagingSenderId": "44326559957"
+    }
+}
