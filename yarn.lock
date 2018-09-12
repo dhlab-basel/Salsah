@@ -358,9 +358,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/authentication@^1.0.0-alpha.3":
-  version "1.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@knora/authentication/-/authentication-1.0.0-alpha.3.tgz#97bf960b0f370ec1881d015c0db529c55f0c092f"
+"@knora/authentication@^1.0.0-alpha.4":
+  version "1.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@knora/authentication/-/authentication-1.0.0-alpha.4.tgz#5c79637d7df2de11876ef532014eb140ec116b7c"
   dependencies:
     tslib "^1.9.0"
 
@@ -370,9 +370,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/search@^1.0.0-beta.1":
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@knora/search/-/search-1.0.0-beta.1.tgz#3306526186d7e02ddb7487f8ebfaed325028260b"
+"@knora/search@^1.0.0-beta.2":
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@knora/search/-/search-1.0.0-beta.2.tgz#77476713f862b781220c70eede63c07a46d37623"
   dependencies:
     tslib "^1.9.0"
 
