@@ -358,21 +358,21 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/authentication@^1.0.0-alpha.3":
-  version "1.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@knora/authentication/-/authentication-1.0.0-alpha.3.tgz#97bf960b0f370ec1881d015c0db529c55f0c092f"
+"@knora/authentication@^1.0.0-alpha.4":
+  version "1.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@knora/authentication/-/authentication-1.0.0-alpha.4.tgz#5c79637d7df2de11876ef532014eb140ec116b7c"
   dependencies:
     tslib "^1.9.0"
 
-"@knora/core@^1.0.0-beta.2":
+"@knora/core@^1.0.0-beta.3":
+  version "1.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.3.tgz#524ec33f6a34663ee9015886279a8a9fb85a3ae4"
+  dependencies:
+    tslib "^1.9.0"
+
+"@knora/search@^1.0.0-beta.2":
   version "1.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.2.tgz#52213d67380d963821acf8d100972ac8df01bb77"
-  dependencies:
-    tslib "^1.9.0"
-
-"@knora/search@^1.0.0-beta":
-  version "1.0.0-beta"
-  resolved "https://registry.yarnpkg.com/@knora/search/-/search-1.0.0-beta.tgz#0546cfd6b7683ef4237479b89edbc95daf68f9ba"
+  resolved "https://registry.yarnpkg.com/@knora/search/-/search-1.0.0-beta.2.tgz#77476713f862b781220c70eede63c07a46d37623"
   dependencies:
     tslib "^1.9.0"
 

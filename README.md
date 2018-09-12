@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dhlab-basel/Salsah.svg?branch=develop)](https://travis-ci.org/dhlab-basel/Salsah)
+[![Build Status](https://travis-ci.org/dhlab-basel/Salsah.svg?branch=master)](https://travis-ci.org/dhlab-basel/Salsah)
 
 
 # Salsah
@@ -24,7 +24,7 @@ If you're a developer and you want to improve the app, please have a look at the
 
 ### Prerequisites
 
-We develop the Salsah app with Angular (v5), especially with Angular-cli, which requires the following tools:
+We develop the Salsah app with Angular (v6), especially with Angular-cli, which requires the following tools:
 
 
 #### Node
@@ -44,11 +44,6 @@ To start the app or to create new components and services, you need [angular-cli
 
 `$ yarn global add @angular/cli`
 
-We develop the Salsah app with Angular (v5), especially with Angular-cli, which requires [Node](https://nodejs.org/en/download/) (version >=4 <=9) and [NPM](https://www.npmjs.com) or [yarn](https://yarnpkg.com/en/docs/cli/install). We recommend to use Yarn instead of npm!
-
-**Install [angular-cli](https://github.com/angular/angular-cli) globally**
-
-`yarn global add @angular/cli`
 
 ### Getting started
 #### Install the app dependencies
@@ -66,7 +61,7 @@ Now you can start the app with
 
 `$ ng serve`
 
-which will start a server with the app in a developer mode on [http://localhost:4200/](http://localhost:4200/). 
+which will run a server and the app in a developer mode on [http://localhost:4200/](http://localhost:4200/). 
 
 By changing the code, the app will automatically compile and reload the page.
 
@@ -80,14 +75,21 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 The SALSAH structure contents two main directories: model and view.
 * The **model** directory contains angular services and everything else for API data requests.
+    **&rarr; At the moment, there are only a few services left. We moved all main services (Knora API request services) to the [@knora/core module](https://www.npmjs.com/package/@knora/core).**
 
-* The **view** directory contains all templates (angular components), pipes and directives. Pipes and directives are should be placed in `view/modules/other/`. 
+* The **view** directory contains all templates (angular components), pipes and directives. Pipes and directives are should be placed in `view/modules/other/`. **&rarr; Here we also moving all generic components, pipes and directives to one of the [Knora-ui modules](https://www.npmjs.com/~knora).**
 
-The command to create a new component, like the e.g. a component to handle image objects, should look as follow:
+Get more information about the status of the Knora-ui modules in this repo: https://github.com/dhlab-basel/Knora-ui
+
+---
+
+The command to create new component, e.g. a component to handle image objects, should look as follow:
   
  `ng g component view/object/image-object`
  
 "image-object" is the name for the new component.
+
+Please read the [Angular-cli documentation about the "generate" command](https://github.com/angular/angular-cli/wiki/generate).
 
 
 #### Build
