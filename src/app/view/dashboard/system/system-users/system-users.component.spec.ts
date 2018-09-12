@@ -18,7 +18,7 @@ describe('SystemUsersComponent', () => {
     afterEach(function () {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     });
-    
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
