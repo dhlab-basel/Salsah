@@ -293,14 +293,20 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             multi: true
         },
         AngularFirestore,
-        { provide: APP_BASE_HREF, useValue: '/' },
+        {
+            provide: APP_BASE_HREF,
+            useValue: '/' },
         {
             provide: RECAPTCHA_SETTINGS,
             useValue: {
                 siteKey: '6LdmmUoUAAAAAPZ4Z_1xYEIwEgI1d9YdjlZKmVkV',
             } as RecaptchaSettings,
         },
-        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
