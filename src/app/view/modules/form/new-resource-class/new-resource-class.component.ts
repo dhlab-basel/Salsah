@@ -13,12 +13,11 @@
  * */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BasicOntology } from '../../../../model/test-data/basic-ontology';
 import { ResourceTypeInfo, ResourceType } from '../../../../model/webapi/knora/';
 import { PropertyItem } from '../../../../model/webapi/knora/v1/properties/property-item';
 
 import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
-import { ApiServiceError, ApiServiceResult } from '@knora/core';
+import { ApiServiceError, ApiServiceResult, BasicOntology } from '@knora/core';
 
 @Component({
     selector: 'salsah-new-resource-class',

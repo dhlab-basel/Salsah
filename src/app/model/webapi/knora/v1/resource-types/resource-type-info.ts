@@ -14,7 +14,7 @@
 
 import { JsonObject, JsonProperty } from 'json2typescript';
 import { PropertyItem } from '../properties/property-item';
-import { Permissions } from '../../../../test-data/basic-ontology';
+import { Permissions } from '@knora/core';
 
 @JsonObject('ResourceTypeInfo')
 export class ResourceTypeInfo {
