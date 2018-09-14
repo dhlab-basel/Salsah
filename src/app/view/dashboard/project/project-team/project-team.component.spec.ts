@@ -2,8 +2,8 @@ import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing'
 import { AppModule } from '../../../../app.module';
 import { AppRoutingModule } from '../../../../app-routing.module';
 import { ProjectTeamComponent } from './project-team.component';
-import { imagesProject, Project, ProjectsService, UsersService } from '@knora/core';
-
+import { Project, ProjectsService, UsersService } from '@knora/core';
+import { imagesProject } from '../../../../model/test-data/shared-test-data';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http } from '@angular/http';
 

@@ -14,8 +14,9 @@
 
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ApiServiceError, ApiServiceResult, BasicOntology, PropertyObject, ResourceClassTest } from '@knora/core';
+import { ApiServiceError, ApiServiceResult } from '@knora/core';
 import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
+import { BasicOntology, PropertyObject, ResourceClass } from '../../../../model/test-data/basic-ontology';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class ResourceClassFormComponent implements OnInit {
     basicOntology: BasicOntology = new BasicOntology();
 
     // result to send to the server
-    newResource: ResourceClassTest = new ResourceClassTest();
+    newResource: ResourceClass = new ResourceClass();
 
     // var for all selected properties (for the checkboxes)
     allProps: boolean = true;

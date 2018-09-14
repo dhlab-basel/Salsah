@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '../../../../app.module';
-import { imagesProject, Project, UsersService } from '@knora/core';
+import { Project, UsersService } from '@knora/core';
+import { imagesProject } from '../../../../model/test-data/shared-test-data';
 import { MatDialogRef } from '@angular/material';
 import { UserFormComponent } from './user-form.component';
 import { ProjectTeamComponent } from '../../../dashboard/project/project-team/project-team.component';
