@@ -7,9 +7,10 @@
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
+        "build-prod": "ng build --prod --build-optimizer",
         "test": "ng test",
-        "test-ci": "ng test --reporters=spec --browser=ChromeHeadless --single-run=true",
-        "test-it": "ng test --reporters=spec --browser=ChromeHeadless --single-run=true --env=it",
+        "test-ci": "ng test --watch=false --browsers=ChromeHeadless",
+        "test-it": "ng test --watch=false --browsers=ChromeHeadless --env=it",
         "lint": "ng lint",
         "e2e": "ng e2e"
     },

@@ -13,10 +13,10 @@
  * */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { BasicOntology } from '../../../../model/test-data/basic-ontology';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
 import { ApiServiceError } from '@knora/core';
+import { BasicOntology } from '../../../../model/test-data/basic-ontology';
 
 @Component({
     selector: 'salsah-ontology-form',
