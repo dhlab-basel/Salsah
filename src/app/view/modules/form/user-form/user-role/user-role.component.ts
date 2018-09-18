@@ -12,9 +12,8 @@
  * */
 
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AutocompleteItem } from '../../../../../app.interfaces';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiServiceError, Group, GroupsService, KnoraConstants, Project, ProjectsService, User } from '@knora/core';
+import { ApiServiceError, AutocompleteItem, Group, GroupsService, KnoraConstants, Project, ProjectsService, User } from '@knora/core';
 
 @Component({
     selector: 'salsah-user-role',
