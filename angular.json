@@ -82,6 +82,14 @@
                   "with": "src/environments/environment.integration.ts"
                 }
               ]
+            },
+            "deploy": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.deploy.ts"
+                }
+              ]
             }
           }
         },
@@ -105,6 +113,9 @@
             },
             "it": {
               "browserTarget": "salsah:build:it"
+            },
+            "deploy": {
+              "browserTarget": "salsah:build:deploy"
             }
           }
         },

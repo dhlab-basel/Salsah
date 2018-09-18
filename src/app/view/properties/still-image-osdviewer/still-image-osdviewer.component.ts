@@ -17,7 +17,8 @@ import {
     OnDestroy
 } from '@angular/core';
 import { KnoraConstants, Point2D, ReadStillImageFileValue, ReadGeomValue, ReadResource, RegionGeometry } from '@knora/core';
-import { environment } from '../../../../environments/environment';
+
+import {AppConfig} from '../../../app.config';
 
 // This component needs the openseadragon library itself, as well as the openseadragon plugin openseadragon-svg-overlay
 // Both libraries are installed via package.json, and loaded globally via the script tag in .angular-cli.json
@@ -250,7 +251,7 @@ export class StillImageOSDViewerComponent implements OnInit, OnChanges, OnDestro
             this.openImages();
             this.renderRegions();
 
-        } else if (this.images.length % environment.pagingLimit === 0) { // paging always returned full result lists, so there could be more data to fetch
+        } else if (this.images.length % AppConfig.settings.pagingLimit === 0) { // paging always returned full result lists, so there could be more data to fetch
             console.log(`request more images`);
             // this.images cannot display more images of length interval
             // request more images from the server using a positive offset

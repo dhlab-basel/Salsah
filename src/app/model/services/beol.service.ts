@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { ExtendedSearchParams, SearchParamsService } from '@knora/core';
+import {AppConfig} from '../../app.config';
 
 @Injectable({
     providedIn: 'root'
@@ -21,8 +21,8 @@ export class BeolService {
 
         const bookTemplate = `
     PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
-    PREFIX biblio: <${environment.apiExternal}/ontology/0802/biblio/simple/v2#>
-    PREFIX beol: <${environment.apiExternal}/ontology/0801/beol/simple/v2#>
+    PREFIX biblio: <${AppConfig.settings.externalApiURL}/ontology/0802/biblio/simple/v2#>
+    PREFIX beol: <${AppConfig.settings.externalApiURL}/ontology/0801/beol/simple/v2#>
       
     CONSTRUCT {
         
@@ -111,7 +111,7 @@ export class BeolService {
         }
 
         const correspondenceTemplate = `
-    PREFIX beol: <${environment.apiExternal}/ontology/0801/beol/simple/v2#>
+    PREFIX beol: <${AppConfig.settings.externalApiURL}/ontology/0801/beol/simple/v2#>
     PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>
     
     CONSTRUCT {
@@ -199,7 +199,7 @@ export class BeolService {
     searchForLetterFromLEOO(repertoriumNumber: string): string {
 
         const letterByNumberTemplate: string = `
-        PREFIX beol: <${environment.apiExternal}/ontology/0801/beol/simple/v2#>
+        PREFIX beol: <${AppConfig.settings.externalApiURL}/ontology/0801/beol/simple/v2#>
         PREFIX knora-api: <http://api.knora.org/ontology/knora-api/simple/v2#>  
         CONSTRUCT {
         
