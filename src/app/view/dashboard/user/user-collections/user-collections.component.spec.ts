@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '../../../../app.module';
 import { AppRoutingModule } from '../../../../app-routing.module';
 import { UserCollectionsComponent } from './user-collections.component';
-import { multiUser } from '../../../../model/test-data/shared-test-data';
 import { User } from '@knora/core';
+import { multiUser } from '../../../../model/test-data/shared-test-data';
 
 describe('UserCollectionsComponent', () => {
     let component: UserCollectionsComponent;
