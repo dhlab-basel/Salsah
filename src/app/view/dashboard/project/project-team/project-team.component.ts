@@ -12,15 +12,15 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
     AddData, ListData,
     SortData
 } from '../../../modules/framework/framework-for-listings/framework-for-listings.component';
 
-import {LanguageService} from '../../../../model/services/language.service';
-import {TranslateService} from '@ngx-translate/core';
-import {Subscription} from 'rxjs';
+import { LanguageService } from '@knora/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -68,7 +68,7 @@ export class ProjectTeamComponent implements OnInit, OnDestroy {
     // ------------------------------------------------------------------------
 
     constructor(public translate: TranslateService,
-                public _langService: LanguageService) {
+        public _langService: LanguageService) {
 
         if (translate.currentLang === null) {
             this.browserLang = translate.getBrowserLang();

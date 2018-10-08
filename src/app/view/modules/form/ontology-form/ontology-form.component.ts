@@ -14,8 +14,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
-import { ApiServiceError } from '@knora/core';
+import { ApiServiceError, BasicOntologyService } from '@knora/core';
 import { BasicOntology } from '../../../../model/test-data/basic-ontology';
 
 @Component({
@@ -49,8 +48,8 @@ export class OntologyFormComponent implements OnInit {
 
     useTransition: boolean = true;
     areas = [
-        {size: 40, order: 2, content: 'Resource Classes'},
-        {size: 40, order: 3, content: 'Properties'},
+        { size: 40, order: 2, content: 'Resource Classes' },
+        { size: 40, order: 3, content: 'Properties' },
     ]
 
     // result to send to the server
@@ -215,7 +214,7 @@ export class OntologyFormComponent implements OnInit {
 
 
     constructor(private _fb: FormBuilder,
-                private _basicOntologyService: BasicOntologyService) {
+        private _basicOntologyService: BasicOntologyService) {
     }
 
     ngOnInit() {
@@ -230,19 +229,19 @@ export class OntologyFormComponent implements OnInit {
             resName: new FormControl({ // this is the resource's short name
                 value: '', disabled: false
             }, [
-                // Validators.required,
-                // Validators.maxLength(4)
-            ]),
+                    // Validators.required,
+                    // Validators.maxLength(4)
+                ]),
             resLabel: new FormControl({ // this is the resource's label
                 value: '', disabled: false
             }, [
-                Validators.required,
-            ]),
+                    Validators.required,
+                ]),
             resType: new FormControl({
                 value: '', disabled: false
             }, [
-                // Validators.required
-            ]),
+                    // Validators.required
+                ]),
             resIcon: new FormControl({
                 value: '', disabled: false
             }),
@@ -261,29 +260,29 @@ export class OntologyFormComponent implements OnInit {
             propName: new FormControl({ // this is the property's short name
                 value: '', disabled: false
             }, [
-                // Validators.required,
-                // Validators.maxLength(4)
-            ]),
+                    // Validators.required,
+                    // Validators.maxLength(4)
+                ]),
             propLabel: new FormControl({ // this is the property's label
                 value: '', disabled: false
             }, [
-                Validators.required,
-            ]),
+                    Validators.required,
+                ]),
             propType: new FormControl({
                 value: '', disabled: false
             }, [
-                // Validators.required
-            ]),
+                    // Validators.required
+                ]),
             propGUItype: new FormControl({
                 value: '', disabled: false
             }, [
-                // Validators.required
-            ]),
+                    // Validators.required
+                ]),
             propCardinality: new FormControl({
                 value: '', disabled: false
             }, [
-                // Validators.required
-            ]),
+                    // Validators.required
+                ]),
             propDescription: new FormControl({
                 value: '', disabled: false
             }),

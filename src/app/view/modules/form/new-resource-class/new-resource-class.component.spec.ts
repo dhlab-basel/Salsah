@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewResourceClassComponent } from './new-resource-class.component';
 import { AppRoutingModule } from '../../../../app-routing.module';
 import { AppModule } from '../../../../app.module';
-import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
+import { BasicOntologyService } from '@knora/core';
 
 describe('NewResourceClassComponent', () => {
     let component: NewResourceClassComponent;

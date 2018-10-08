@@ -14,8 +14,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ApiServiceError, ApiServiceResult } from '@knora/core';
-import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
+import { ApiServiceError, ApiServiceResult, BasicOntologyService } from '@knora/core';
 import { BasicOntology, PropertyObject, ResourceClass } from '../../../../model/test-data/basic-ontology';
 
 
