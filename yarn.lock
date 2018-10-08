@@ -352,9 +352,9 @@
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.8.tgz#38a936b60b898a1ad0f3719543ff1a1031f60f8b"
 
-"@knora/action@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@knora/action/-/action-0.0.9.tgz#9bdb84311ca04f9996a88ae6d073c4987547f956"
+"@knora/action@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@knora/action/-/action-0.0.11.tgz#a8732cfb5b585ce85b8303320a38ccdba5504cc2"
   dependencies:
     tslib "^1.9.0"
 
@@ -364,9 +364,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/core@^1.0.0-beta.4":
-  version "1.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.4.tgz#73f6eef6817a87463606dfbbc5a67eaf77e6a3a3"
+"@knora/core@^1.0.0-beta.5":
+  version "1.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.5.tgz#7425b6c965f08f950b6f20f3c0f2c74ff8671b14"
   dependencies:
     tslib "^1.9.0"
 
