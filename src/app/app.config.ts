@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../environments/environment';
 
 export interface IAppConfig {
 
@@ -32,15 +30,33 @@ export class AppConfig {
 
     static settings: IAppConfig;
 
-    constructor(private http: HttpClient) { }
-
-    loadAppConfig() {
-        const jsonFile = `assets/config/config.${environment.name}.json`;
-        return this.http.get(jsonFile)
-            .toPromise()
-            .then(data => {
-                AppConfig.settings = <IAppConfig>data;
-                console.log('AppConfig.settings = ', AppConfig.settings);
-            });
+    constructor() {
+        const data = <IAppConfig> window['tempConfigStorage'];
+        console.log('AppConfig constructor: json', data);
+        AppConfig.settings = data;
     }
+
+    /*
+    loadAppConfig() {
+        const promise = new Promise((resolve, reject) => {
+            if (AppConfig.settings) {
+                resolve(AppConfig.settings);
+            }
+            else {
+                console.error('config object not set');
+                reject('config object not set.');
+            }
+        });
+        return promise;
+    }
+    */
 }
+
+/*
+export function initializeApp(appConfig: AppConfig) {
+    return () => {
+        console.log('Init App');
+        appConfig.loadAppConfig();
+    };
+}
+*/
