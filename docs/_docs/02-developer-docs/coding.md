@@ -8,6 +8,6 @@ We develop Salsah with with [angular-cli](https://cli.angular.io) and the [WebSt
 
 We use spaces instead of tabs (indent_style) with a size of 4 (indent_size). 
 
-There's one exception! For the styling we implemented [Material](https://material.angular.io) and write own style with [sass scss](https://sass-lang.com/guide) files, which has a indent size of 2.
+There's one exception! For the styling we implemented [Material](https://material.angular.io) and write own style with [sass scss](https://sass-lang.com/guide), which has an indent size of 2.
 
-For the typescript code styling, we’re following the TSLint recommendation. Please set your editor configuration as described there. It helps on reformat code (one cool function in WebStorm). One important point is to use single quotes always. Please set the TS punctuation settings to “use single quotes always”
+For the typescript code styling, we’re following the TSLint recommendation. Please set your editor configuration as described there. It helps on reformat code. One important point is to use single quotes always. Please set the TS punctuation settings to “use single quotes always” and for import/export set to the ES6 spaces definition.
