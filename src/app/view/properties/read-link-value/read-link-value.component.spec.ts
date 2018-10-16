@@ -4,26 +4,37 @@ import { AppMaterialModule } from '../../../app-material-module';
 import { ReadLinkValueComponent } from './read-link-value.component';
 
 describe('ReadLinkValueComponent', () => {
-  let component: ReadLinkValueComponent;
-  let fixture: ComponentFixture<ReadLinkValueComponent>;
+    let component: ReadLinkValueComponent;
+    let fixture: ComponentFixture<ReadLinkValueComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        AppModule,
-        AppMaterialModule
-      ]
-    })
-      .compileComponents();
-  }));
+    let originalTimeout;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ReadLinkValueComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(function () {
+        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    afterEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
+
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppModule,
+                AppMaterialModule
+            ]
+        })
+            .compileComponents();
+    }));
+
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ReadLinkValueComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -1,0 +1,27 @@
+---
+title: Release Notes
+layout: post
+---
+
+
+    <div class="section-content no-padding-top">
+        {% for release in site.posts %}
+        <!-- post header -->
+        <h3 class="mdl-typography--headline mdl-card__subtitle-text">
+            <span class="date">{{ release.date | date: "%B %d, %Y" }}</span> | <span class="badge {{ release.type }}">{{ release.type }}</span>
+        </h3>
+        <h2 class="mdl-typography--display-1 mdl-card__title-text">{{ release.title }}</h2>
+        <br>
+        <!-- post content -->
+        {{ release.content }}
+
+        {% if release.link %}
+        <p class="center">
+            <br>
+            <a href={{ release.link }}>&rarr; Read more on GitHub</a>
+        </p>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+

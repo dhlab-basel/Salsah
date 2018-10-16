@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BeolComponent } from './beol.component';
 import { AppModule } from '../../../app.module';
 
-describe('BeolComponent', () => {
+xdescribe('BeolComponent', () => {
   let component: BeolComponent;
   let fixture: ComponentFixture<BeolComponent>;
 
