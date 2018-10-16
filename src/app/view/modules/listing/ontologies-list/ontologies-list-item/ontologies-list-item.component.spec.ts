@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OntologiesListItemComponent } from './ontologies-list-item.component';
 import { AppModule } from '../../../../../app.module';
-import { ResourceTypesService } from '../../../../../model/services/resource-types.service';
+import { ResourceTypesService } from '@knora/core';
 
 describe('OntologiesListItemComponent', () => {
   let component: OntologiesListItemComponent;

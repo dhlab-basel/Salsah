@@ -16,8 +16,7 @@
 // animations are used to create collapsible cards content
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiServiceError, ApiServiceResult } from '@knora/core';
-import { ResourceTypesService } from '../../../../model/services/resource-types.service';
+import { ApiServiceError, ApiServiceResult, ResourceTypesService } from '@knora/core';
 import { map, startWith } from 'rxjs/operators';
 import {
     Properties,
