@@ -352,9 +352,9 @@
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.8.tgz#38a936b60b898a1ad0f3719543ff1a1031f60f8b"
 
-"@knora/action@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@knora/action/-/action-0.0.9.tgz#9bdb84311ca04f9996a88ae6d073c4987547f956"
+"@knora/action@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@knora/action/-/action-0.0.12.tgz#b1ea96ba8e067dde83025d512bff5b7916b1b70f"
   dependencies:
     tslib "^1.9.0"
 
@@ -364,9 +364,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/core@^1.0.0-beta.3":
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.3.tgz#524ec33f6a34663ee9015886279a8a9fb85a3ae4"
+"@knora/core@^1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.6.tgz#b8b80d3dd9fe6c11935f981fad5597d3dc3d2b2b"
   dependencies:
     tslib "^1.9.0"
 
@@ -376,9 +376,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/viewer@^0.0.1-alpha":
-  version "0.0.1-alpha"
-  resolved "https://registry.yarnpkg.com/@knora/viewer/-/viewer-0.0.1-alpha.tgz#3305bb6bd12dc6ca6bfaf8aa2aa9fa2502246670"
+"@knora/viewer@^0.0.2-alpha":
+  version "0.0.2-alpha"
+  resolved "https://registry.yarnpkg.com/@knora/viewer/-/viewer-0.0.2-alpha.tgz#d4284f567fcb20e4cd1ff3f0ba3c5b6742d0de05"
   dependencies:
     tslib "^1.9.0"
 
