@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/dhlab-basel/Salsah.svg?style=svg)](https://circleci.com/gh/dhlab-basel/Salsah)
 [![Build Status](https://travis-ci.org/dhlab-basel/Salsah.svg?branch=master)](https://travis-ci.org/dhlab-basel/Salsah)
 
 

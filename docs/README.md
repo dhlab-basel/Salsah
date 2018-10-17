@@ -1,35 +1,28 @@
 # Salsah documentation
 
-[GitHub page](https://dhlab-basel.github.io/Salsah) with documentation for [Salsah](https://github.com/dhlab-basel/Salsah).
+[GitHub page](https://dhlab-basel.github.io/Salsah) with documentation, manual (not ready yet) and landing page for [Salsah](https://github.com/dhlab-basel/Salsah) — the generic user interface / web application for [Knora](https://knora.org).
 
-## Run the documentation locally
+It uses the [Dokumentado theme](https://github.com/lakto/dokumentado) and is built with [Jekyll](http://jekyllrb.com/) version 3.3.1, but should support newer versions as well. 
 
-For the github page we're using Jekyll. To install Jekyll run:
+## Dependencies
 
-`$ gem install jekyll bundler`
+Bundler is required. 
+If it is not installed on your machine, run:
 
-From root of `docs/jekyll` install the needed jekyll files
+~~~bash
+$ gem install bundler
+~~~
 
-`$ bundle install`
+Install the dependencies with [Bundler](http://bundler.io/):
 
-and to run the site locally, run
+~~~bash
+$ bundle install
+~~~
 
-`$ bundle exec jekyll serve`
+Run `jekyll` commands through Bundler to ensure you're using the right versions:
 
-<!--
-## Publish on Github pages
-The documentation is accessible on the [repository's Github page](https://dhlab-basel.github.io/Salsah).
-To update this page, you must be on the develop branch, having committed any changes you made there.
-Run the update-gh-pages shell-script in docs/ which will push a commit to gh-pages branch.
+~~~bash
+$ bundle exec jekyll serve
+~~~
 
-`$ ./update-gh-pages.sh`
-
-The script updates the following folders and files:
-
-* _docs/
-* _posts/
-* assets/
-* _config.yml
-
-The directory `_docs` contains sub-pages of the documentation. The files in `_posts` are for release notes. By updating the release notes in `_posts` it's important to update the version in _config.yml as well. In `assets` you can store images, scripts and styling files.
--->
+To see the generated site, just visit `http://localhost:4000`.

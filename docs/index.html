@@ -1,0 +1,120 @@
+---
+layout: default
+title: Salsah
+---
+
+<!-- introduction -->
+<section>
+    <div class="section-content mdl-grid">
+        <div class="mdl-cell mdl-cell--7-col">
+            <h1 class="mdl-typography--display-13 mdl-typography--font-light">System for Annotation and Linkage of Sources in Arts and
+                Humanities</h1>
+            <h2 class="mdl-typography--headline  smaller-headline">{{site.description}}</h2>
+            <div class="action">
+                {% assign grouped = site.docs | group_by: 'category' %}
+                {% for group in grouped %}
+                {% assign items = group.items | sort: 'order' %}
+                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored rounded" href="{{ site.baseurl }}{{ items.first.url }}">{{ group.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="mdl-cell mdl-cell--5-col mdl-cell--hide-phone" style="position: relative">
+            <img class="desktop-only intro-image" src="{{ site.baseurl }}/assets/images/digital-typewriter.png" alt="Digital Typewriter">
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section>
+    <div class="section-content">
+        <h2 class="mdl-typography--display-1 mdl-typography--text-center">Features</h2>
+        <div class="mdl-grid">
+            {% for feature in site.features limit: 6 %}
+                {% include feature.html %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 1st short description -->
+<section>
+    <div class="section-content mdl-grid">
+        <div class="mdl-cell mdl-cell--5-col mdl-card__media mdl-cell--hide-phone">
+            <img class="desktop-only mdl-shadow--2dp image-left" src="{{ site.baseurl }}/assets/images/annotations.jpg" alt="Work with humanities data">
+        </div>
+        <div class="mdl-cell mdl-cell--7-col">
+            <h2 class="mdl-typography--display-1 mdl-typography--font-light">Create, Store, Share, and Work with Humanities Data</h2>
+            <p class="mdl-typography--headline mdl-typography--font-light smaller-headline">
+                A Knora repository is a place for doing research. Knora can store texts, images, audio and video
+                recordings,
+                metadata, annotations, text markup, and any other data created by humanities research. It is designed
+                for
+                long-term preservation, and at the same time it provides powerful tools for searching, annotating,
+                extending,
+                linking, sharing, and reusing data.</p>
+        </div>
+    </div>
+</section>
+
+<hr class="section-content">
+
+<!-- 2nd short description -->
+<section>
+    <div class="section-content mdl-grid">
+        <div class="mdl-cell mdl-cell--7-col">
+            <h2 class="mdl-typography--display-1 mdl-typography--font-light">Find and Link Data across Projects</h2>
+            <p class="mdl-typography--headline mdl-typography--font-light smaller-headline">
+                With Knora, you can search for and link data across projects, search for dates in
+                one calendar and find corresponding dates in other calendars, link a word in a text to an annotation of
+                part
+                of an image, and search for text markup across large numbers of texts.
+            </p>
+        </div>
+        <div class="mdl-cell mdl-cell--5-col mdl-card__media mdl-cell--hide-phone">
+            <img class="desktop-only mdl-shadow--2dp image-right" src="{{ site.baseurl }}/assets/images/search.jpg" alt="Find your data">
+        </div>
+    </div>
+</section>
+
+
+<!-- Contribute -->
+<section class="darker">
+    <div class="section-content mdl-typography--text-center">
+        <h2 class="mdl-typography--display-1">Contribute</h2>
+        <!-- <p style="text-align: center;">Test Knora today or improve the software</p> -->
+        <a class="mdl-button mdl-js-button mdl-button--raised rounded mdl-typography--display-1" href="https://github.com/dhlab-basel/Knora">
+            Code on GitHub
+        </a>
+    </div>
+</section>
+
+<!-- News: release notes -->
+<section>
+    <div class="section-content">
+        <h2 class="mdl-typography--display-1 mdl-typography--text-center">News</h2>
+        <div class="mdl-grid">
+            {% for post in site.posts limit: 3 %}
+            <div class="mdl-cell mdl-cell--4-col mdl-card simple-border no-hidden-overflow">
+                <div class="mdl-card__title">
+                    <p class="mdl-card__subtitle-text">{{ post.date | date: '%B %d, %Y' }}</p>
+                </div>
+                <div class="mdl-card__title">
+                    <h4 class="mdl-card__title-text">{{ post.title }}</h4>
+                </div>
+
+                <div class="mdl-card__supporting-text">
+                    <p class="mdl-typography--headline mdl-typography--font-light smaller-headline">
+                        {{ post.content }}
+                    </p>
+                </div>
+
+                <div class="mdl-card__actions mdl-typography--text-center">
+                    {% if post.link %}
+                        <a href={{ post.link }} target="_blank">&rarr; Release note on GitHub</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
