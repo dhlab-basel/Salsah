@@ -13,7 +13,7 @@
  * */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ApiServiceError, List, ListInfo, ListNode, ListsService, KnoraConstants, User, UsersService, ListResponse } from '@knora/core';
+import { ApiServiceError, List, ListInfo, ListNode, ListsService, KnoraConstants, User, UsersService, ListResponse, ListNodeInfo } from '@knora/core';
 import { MessageData } from '../../message/message.component';
 import { } from '../../../../model/webapi/knora';
 import { FormDialogComponent } from '../../dialog/form-dialog/form-dialog.component';
@@ -77,7 +77,7 @@ export class ListsListComponent implements OnInit {
         statusText: 'It seems there\'s no list yet. Add a new one with the button above &uarr;'
     };
 
-    lists: List[] = [];
+    lists: ListNodeInfo[] = [];
     numberOfItems: number;
 
     currentNodes: ListNode[];
@@ -116,7 +116,7 @@ export class ListsListComponent implements OnInit {
             //     get all project lists
             this._listsService.getLists(this.restrictedBy)
                 .subscribe(
-                    (result: List[]) => {
+                    (result: ListNodeInfo[]) => {
                         // console.log('lists with IRI from lists list: ', result);
                         this.lists = result;
                         this.numberOfItems = this.lists.length;
@@ -132,7 +132,7 @@ export class ListsListComponent implements OnInit {
             // get all system lists
             this._listsService.getLists()
                 .subscribe(
-                    (result: List[]) => {
+                    (result: ListNodeInfo[]) => {
                         // console.log('lists from lists list: ', result);
                         this.lists = result;
                         this.isLoading = false;
