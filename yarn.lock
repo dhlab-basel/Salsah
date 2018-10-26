@@ -400,6 +400,7 @@
 "@knora/action@^0.0.12":
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/@knora/action/-/action-0.0.12.tgz#b1ea96ba8e067dde83025d512bff5b7916b1b70f"
+  integrity sha512-gUX0YwPtWWGALxpBovJRrsgrc/SO/amkheGGXVK0MfHOT0+2eD98lgcEu3BWUFjn3xQml4PieUgtbKCTovNZKA==
   dependencies:
     tslib "^1.9.0"
 
@@ -410,9 +411,10 @@
   dependencies:
     tslib "^1.9.0"
 
-"@knora/core@^1.0.0-beta.6":
-  version "1.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.6.tgz#b8b80d3dd9fe6c11935f981fad5597d3dc3d2b2b"
+"@knora/core@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@knora/core/-/core-1.0.0-beta.8.tgz#7d276e3d6c0e5666849b9095d19cf2d09d84cb42"
+  integrity sha512-vclyXE9/llkm9mOaX9OUlM4baxFsP8TfBDdcz8vGl91wEKV1fM88lc5LyD0Yl/34PV5bFbvfRgobZfmIqYHzNw==
   dependencies:
     tslib "^1.9.0"
 
@@ -426,6 +428,7 @@
 "@knora/viewer@^0.0.2-alpha":
   version "0.0.2-alpha"
   resolved "https://registry.yarnpkg.com/@knora/viewer/-/viewer-0.0.2-alpha.tgz#d4284f567fcb20e4cd1ff3f0ba3c5b6742d0de05"
+  integrity sha512-rEbJwZtjoyDQbAcnvzCKmm032CRHMuJP3LvRIt0mhxRJ1o5Yhp7e4FCQ7eW08RW81HeqWhtuLYe0kpUaTOyEew==
   dependencies:
     tslib "^1.9.0"
 
