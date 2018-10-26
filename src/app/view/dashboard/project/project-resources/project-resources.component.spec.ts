@@ -2,9 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '../../../../app.module';
 import { AppRoutingModule } from '../../../../app-routing.module';
 import { ProjectResourcesComponent } from './project-resources.component';
-import { ResourceTypesService } from '../../../../model/services/resource-types.service';
 import { imagesProject } from '../../../../model/test-data/shared-test-data';
-import { Project } from '@knora/core';
+import { Project, ResourceTypesService } from '@knora/core';
 
 
 describe('ProjectResourcesComponent', () => {

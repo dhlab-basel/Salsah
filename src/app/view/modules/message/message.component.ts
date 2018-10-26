@@ -15,8 +15,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiServiceError, ApiServiceResult } from '@knora/core';
-import { StatusMsgService } from '../../../model/services/status-msg.service';
+import { ApiServiceError, ApiServiceResult, StatusMsgService } from '@knora/core';
 
 export interface MessageData {
     status: number,
@@ -107,7 +106,7 @@ export class MessageComponent implements OnInit {
             .subscribe(
                 (result: any) => {
                     this.statusMsg = result;
-//                    this.statusMsg = result.getBody();
+                    //                    this.statusMsg = result.getBody();
 
                     if (!this.message) {
                         this._activatedRoute

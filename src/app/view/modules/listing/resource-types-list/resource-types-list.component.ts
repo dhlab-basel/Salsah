@@ -13,14 +13,14 @@
  * */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ResourceTypesService } from '../../../../model/services/resource-types.service';
 import {
     ApiServiceError,
     ApiServiceResult,
     OntologyCacheService,
     OntologyInformation,
     Properties,
-    ResourceClass
+    ResourceClass,
+    ResourceTypesService
 } from '@knora/core';
 import { ResourceTypes, ResourceTypeItem } from '../../../../model/webapi/knora/';
 import { MessageData } from '../../message/message.component';

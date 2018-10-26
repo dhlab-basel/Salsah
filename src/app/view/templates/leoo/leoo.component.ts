@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BeolService } from '../../../model/services/beol.service';
+/* import { BeolService } from '../../../model/services/beol.service'; */
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApiServiceResult, ConvertJSONLD, ReadResourcesSequence, SearchService } from '@knora/core';
 
@@ -21,12 +21,12 @@ export class LeooComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute,
         private _router: Router,
-        private _beolService: BeolService,
+        /* private _beolService: BeolService, */
         private _searchService: SearchService) {
     }
 
     ngOnInit() {
-        this._route.params.subscribe((params: Params) => {
+        /* this._route.params.subscribe((params: Params) => {
 
             this.repertoriumNumber = params['rn'];
 
@@ -65,7 +65,7 @@ export class LeooComponent implements OnInit {
                     }
                 );
             }
-        });
+        });*/
     }
 
 }

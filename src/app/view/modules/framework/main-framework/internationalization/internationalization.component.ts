@@ -1,7 +1,7 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {Subscription} from 'rxjs';
-import {LanguageService} from '../../../../../model/services/language.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { LanguageService } from '@knora/core';
 
 @Component({
     selector: 'salsah-internationalization',
@@ -16,12 +16,12 @@ export class InternationalizationComponent implements OnInit, OnDestroy {
     subscription: Subscription;
 
     constructor(public translate: TranslateService,
-                public _langService: LanguageService) {
+        public _langService: LanguageService) {
 
         this.subscription = this._langService.getLanguage().subscribe(lang => {
-                this.lang = lang;
-                // console.log('lang: ' + lang.var);
-            }
+            this.lang = lang;
+            // console.log('lang: ' + lang.var);
+        }
         );
 
 

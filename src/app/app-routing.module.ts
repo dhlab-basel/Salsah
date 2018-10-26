@@ -44,8 +44,6 @@ import { MessageComponent } from './view/modules/message/message.component';
 import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
 import { ProgressStepperComponent } from './view/modules/other/progress-stepper/progress-stepper.component';
 import { SearchResultsComponent } from './view/search/search-results/search-results.component';
-import { BeolComponent } from './view/templates/beol/beol.component';
-import { LeooComponent } from './view/templates/leoo/leoo.component';
 import { DevelopmentComponent } from './view/test/development/development.component';
 import { DialogTestComponent } from './view/test/development/dialog-test/dialog-test.component';
 import { FormCreateComponent } from './view/test/development/form-create/form-create.component';
@@ -132,7 +130,7 @@ const appRoutes: Routes = [
             {
                 path: '**',
                 component: MessageComponent,
-                data: {status: 404}
+                data: { status: 404 }
             }
         ]
     },
@@ -154,7 +152,7 @@ const appRoutes: Routes = [
             {
                 path: '**',
                 component: MessageComponent,
-                data: {status: 404}
+                data: { status: 404 }
             }
         ]
     },
@@ -168,7 +166,7 @@ const appRoutes: Routes = [
     {
         path: 'denied',
         component: MessageComponent,
-        data: {status: 403}
+        data: { status: 403 }
     },
     {
         path: 'dev', component: DevelopmentComponent,
@@ -202,7 +200,7 @@ const appRoutes: Routes = [
             {
                 path: 'message',
                 component: MessageComponent,
-                data: {status: 400}
+                data: { status: 400 }
             },
             {
                 path: 'dialog',
@@ -214,18 +212,10 @@ const appRoutes: Routes = [
             }
         ]
     },
-    { // path to specific component for the BEOL project
-        path: 'beol',
-        component: BeolComponent,
-    },
-    { // path to specific component for the BEOL project
-        path: 'leoo/:rn',
-        component: LeooComponent
-    },
     {
         path: '**',
         component: MessageComponent,
-        data: {status: 404}
+        data: { status: 404 }
     }
 ];
 

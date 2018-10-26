@@ -2,8 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '../../../../app.module';
 import { AppRoutingModule } from '../../../../app-routing.module';
 import { ProjectAdvancedComponent } from './project-advanced.component';
-import { ProjectsService } from '@knora/core';
-import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
+import { BasicOntologyService, ProjectsService } from '@knora/core';
 
 describe('ProjectAdvancedComponent', () => {
     let component: ProjectAdvancedComponent;
