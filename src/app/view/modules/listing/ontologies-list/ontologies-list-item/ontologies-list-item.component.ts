@@ -14,10 +14,9 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ResourceTypeItem } from '../../../../../model/webapi/knora/v1/resource-types/resource-type-item';
-import { ApiServiceError, ApiServiceResult } from '@knora/core';
+import { ApiServiceError, ApiServiceResult, ResourceTypesService } from '@knora/core';
 import { ResourceTypes } from '../../../../../model/webapi/knora/v1/resource-types/resource-types';
 import { MessageData } from '../../../message/message.component';
-import { ResourceTypesService } from '../../../../../model/services/resource-types.service';
 
 @Component({
     selector: 'salsah-ontologies-list-item',

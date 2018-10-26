@@ -115,7 +115,6 @@ import { FormTestComponent } from './view/test/development/form-test/form-test.c
 import { UserDataComponent } from './view/modules/form/user-form/user-data/user-data.component';
 import { GndDirective } from './view/modules/other/gnd.directive';
 import { MatJDNConvertibleCalendarDateAdapterModule } from 'jdnconvertiblecalendardateadapter';
-import { BeolComponent } from './view/templates/beol/beol.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { AngularFireModule } from 'angularfire2';
@@ -130,8 +129,9 @@ import { UserPasswordComponent } from './view/modules/form/user-form/user-passwo
 import { ListFormComponent } from './view/modules/form/list-form/list-form.component';
 import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
 import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
-import { LeooComponent } from './view/templates/leoo/leoo.component';
 import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
+import { BeolComponent } from './view/templates/beol/beol.component';
+import { LeooComponent } from './view/templates/leoo/leoo.component';
 
 //
 // just to get the basic ontology form the json file
@@ -224,7 +224,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         InternationalizationComponent,
         ExistingNameDirective,
         ExistingNameDirective,
-        BeolComponent,
         GndDirective,
         InternationalizationComponent,
         ContactFormComponent,
@@ -236,8 +235,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ProjectDataComponent,
         ReadTextfileValueComponent,
         NodeFormComponent,
-        LeooComponent,
-        ObjectViewerComponent
+        ObjectViewerComponent,
+        BeolComponent,
+        LeooComponent
     ],
     imports: [
         BrowserModule,
@@ -291,7 +291,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
                 siteKey: '6LdmmUoUAAAAAPZ4Z_1xYEIwEgI1d9YdjlZKmVkV',
             } as RecaptchaSettings,
         },
-        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
     ],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

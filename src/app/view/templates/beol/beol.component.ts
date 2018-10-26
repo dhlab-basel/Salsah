@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BeolService } from '../../../model/services/beol.service';
+/* import { BeolService } from '../../../model/services/beol.service'; */
 import { ApiServiceResult, ConvertJSONLD, OntologyCacheService, OntologyInformation, ReadResourcesSequence, SearchService } from '@knora/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ResourceObjectComponent } from '../../modules/object/resource-object/resource-object.component';
@@ -76,7 +76,7 @@ export class BeolComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute,
         private _router: Router,
-        private _beol: BeolService,
+        /* private _beol: BeolService, */
         private _searchService: SearchService,
         private dialog: MatDialog,
         private _cacheService: OntologyCacheService) {
@@ -436,7 +436,7 @@ export class BeolComponent implements OnInit {
 
     }
 
-    searchForBook(isbn: string, sectionTitle: string) {
+    /*searchForBook(isbn: string, sectionTitle: string) {
 
         const gravsearch: string = this._beol.searchForBook(isbn, sectionTitle);
 
@@ -467,7 +467,7 @@ export class BeolComponent implements OnInit {
             }
         );
 
-    }
+    } */
 
     /**
      * Generate Gravsearch query to search for the correspondence between two persons.
@@ -476,22 +476,23 @@ export class BeolComponent implements OnInit {
      * @param {string} gnd2 GND of the second correspondent.
      * @param {boolean} noTranslations indicates if translations should be excluded.
      */
-    searchForCorrespondence(gnd1: string, gnd2: string, noTranslations: boolean = false) {
-
+    /* searchForCorrespondence(gnd1: string, gnd2: string, noTranslations: boolean = false) {
+ 
         const gravsearch: string = this._beol.searchForCorrespondence(gnd1, gnd2, noTranslations, 0);
-
+ 
         this.submitQuery(gravsearch);
-    }
+    } */
 
     /**
      * Show a correspondence between two persons.
      *
      * @param {string} gravsearch the Gravsearch query to be executed.
      */
-    private submitQuery(gravsearch: string) {
-
+    /* private submitQuery(gravsearch: string) {
+ 
         this._router.navigate(['/search/extended/', gravsearch], { relativeTo: this._route });
-    }
+    } */
+
 
 
 }

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '../../../../app.module';
 import { AppRoutingModule } from '../../../../app-routing.module';
 import { ResourceClassFormComponent } from './resource-class-form.component';
-import { BasicOntologyService } from '../../../../model/services/basic-ontology.service';
+import { BasicOntologyService } from '@knora/core';
 import { MatDialogRef } from '@angular/material';
 
 

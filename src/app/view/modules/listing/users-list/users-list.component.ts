@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { MessageDialogComponent } from '../../dialog/message-dialog/message-dialog.component';
 
-import { LanguageService } from '../../../../model/services/language.service';
+import { LanguageService } from '@knora/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
