@@ -1,0 +1,57 @@
+<div class="mdl-layout__header mdl-layout__header--transparent">
+    <!-- Top row, always visible -->
+    <div class="mdl-layout__header-row">
+        <!-- Title -->
+
+        <!--
+        {% unless page.layout != 'default' %}
+        <a href="{{ site.baseurl }}/" class="title">
+            {% if site.logo %}
+            <img src="{{ site.baseurl }}/{{ site.logo }}" class="logo">
+            {% else %}
+            <h1 class="mdl-typography--display-1">
+                {{ site.title }}
+            </h1>
+            {% endif %}
+        </a>
+        {% endunless %}
+        -->
+
+        <div class="mdl-layout-spacer"></div>
+
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                  mdl-textfield--floating-label mdl-textfield--align-right">
+            <label class="mdl-button mdl-js-button mdl-button--icon"
+                   for="search-input" title="Click to search">
+                <i class="material-icons">search</i>
+            </label>
+            <div class="mdl-textfield__expandable-holder">
+                <form action="{{ site.baseurl }}/search/" method="get">
+                    <input type="search" class="mdl-textfield__input" name="q" id="search-input" placeholder="Search">
+                    <input type="submit" value="Search" style="display: none">
+                </form>
+            </div>
+        </div>
+
+
+        <div class="github-icon desktop-only">
+            <a class="mdl-button mdl-js-button mdl-button--icon" href="{{ site.git.url }}" target="_blank">
+                <svg aria-labelledby="simpleicons-github-icon" role="img" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <title id="simpleicons-github-icon">Code on GitHub</title>
+                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                    />
+                </svg>
+            </span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Bottom row, not visible on scroll --
+    <div class="mdl-layout__header-row">
+        <div class="mdl-layout-spacer"></div>
+        <!-- Navigation in the header (not used at the moment) --
+        <!-- {!--% include navigation.html %--} --
+    </div>
+    -->
+</div>

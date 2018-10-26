@@ -1,0 +1,67 @@
+<footer class="mdl-mega-footer">
+    <div class="mdl-mega-footer__top-section mdl-grid">
+
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--hide-phone">
+            {{ site.company.mission_statement }}
+        </div>
+
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--6-col-phone">
+            <ul class="mdl-mega-footer__link-list">
+                {% if site.company.address %}
+                <li>
+                    {{ site.links.company }}<br>
+                </li>
+                <li>
+                    <address>
+                        <a href="https://www.google.com/maps/place/{{ site.company.address | url_encode }}">
+                            {% include icons/address.html icon="place" %} {{ site.company.address }}
+                        </a>
+                    </address>
+                </li>
+                {% endif %}
+                {% if site.company.email %}
+                <li class="email">
+                    <a href="mailto:{{ site.company.email }}">
+                        {% include icons/address.html icon="email" %} {{ site.company.email }}
+                    </a>
+                </li>
+                {% endif %}
+                {% if site.company.phone %}
+                <li class="phone">
+                    <a href="tel:{{ site.company.phone | replace: ' ', '-' }}">
+                        {% include icons/address.html icon="phone" %} {{ site.company.phone }}
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--6-col-phone">
+            <ul class="mdl-mega-footer__link-list">
+                {% if site.company.github %}
+                <li>
+                    <a class="github" href="https://www.github.com/{{ site.company.github }}">
+                        {% include icons/social-media.html social_icon="github" %}&nbsp;&nbsp;{{ site.company.github }}
+                    </a>
+                </li>
+                {% endif %}
+                {% if site.company.twitter %}
+                <li>
+                    <a class="twitter" href="https://twitter.com/{{ site.company.twitter }}">
+                        {% include icons/social-media.html social_icon="twitter" %}&nbsp;{{ site.company.twitter }}
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="mdl-mega-footer__bottom-section">
+        <div class="mdl-logo">{{ site.git.repository }}<br><a href="/">Documentation</a></div>
+        <ul class="mdl-mega-footer__link-list">
+            <li>Content<br>{{ site.links.company }}</li>
+            <li>Template<br><a href="https://lakto.design">lakto.design</a></li>
+        </ul>
+    </div>
+
+</footer>

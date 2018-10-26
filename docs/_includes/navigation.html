@@ -1,0 +1,85 @@
+<nav {% if site.show_full_navigation %} class="mdl-navigation" {% endif %}>
+
+    <a class="mdl-layout-title mdl-navigation__link" href="{{ site.baseurl }}/">
+        <span class="mdl-typography--title">{{ site.title }}</span><br>
+        <span class="mdl-card__subtitle-text">{{ site.version }}</span>
+    </a>
+
+    <hr class="no-spacing">
+
+    {% assign grouped = site.docs | group_by: 'category' %}
+    {% for group in grouped %}
+        {% assign items = group.items | sort: 'order' %}
+        <a class="mdl-navigation__link parent-item" href="{{ site.baseurl }}{{ items.first.url }}">{{ group.name }}</a>
+        <!-- child elements -->
+        {% for item in items %}
+        <a class="mdl-navigation__link child-item" href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
+        {% endfor %}
+
+    <hr class="no-spacing">
+    {% endfor %}
+
+    <!-- Manual (perhaps we could separate it later) -->
+    <!--
+    {% assign grouped = site.manual | group_by: 'category' %}
+    {% for group in grouped %}
+    {% assign items = group.items | sort: 'order' %}
+    <a class="mdl-navigation__link parent-item" href="{{ site.baseurl }}{{ items.first.url }}">{{ group.name }}</a>
+    <!-- child elements --
+    {% for item in items %}
+    <a class="mdl-navigation__link child-item" href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
+    {% endfor %}
+
+    <hr class="no-spacing">
+    {% endfor %}
+    -->
+
+    {% assign releasenotes = site.html_pages | where: 'url', '/releasenotes/' | first %}
+    <a class="mdl-navigation__link" href="{{ site.baseurl }}/releasenotes/">{{ releasenotes.title }}</a>
+
+    <a class="mdl-navigation__link" href="{{ site.git.url }}" target="_blank">Preview on {{ site.git.name }}</a>
+</nav>
+
+<!--
+
+    <ul>
+        {% assign grouped = site.docs | group_by: 'category' %}
+        {% for group in grouped %}
+        <li class="nav-item top-level {% if group.name == page.category %}current{% endif %}">
+            {% assign items = group.items | sort: 'order' %}
+            <a href="{{ site.baseurl }}{{ items.first.url }}">{{ group.name }}</a>
+            <ul>
+                {% for item in items %}
+                <li class="nav-item {% if item.url == page.url %}current{% endif %}"><a
+                    href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <ul>
+        <li class="nav-item top-level {% if page.url == '/changelog/' %}current{% endif %}">
+            {% assign changelog = site.html_pages | where: 'url', '/changelog/' | first %}
+            <a href="{{ site.baseurl }}/changelog/">{{ changelog.title }}</a>
+        </li>
+        <li class="nav-item top-level {% if page.url == '/releasenotes/' %}current{% endif %}">
+            {% assign releasenotes = site.html_pages | where: 'url', '/releasenotes/' | first %}
+            <a href="{{ site.baseurl }}/releasenotes/">{{ releasenotes.title }}</a>
+        </li>
+    </ul>
+
+    <ul>
+        <li class="nav-item top-level">
+            <a href="{{ site.git.url }}" target="_blank">Preview on {{ site.git.name }}</a>
+        </li>
+    </ul>
+</nav>
+
+<nav class="mdl-navigation">
+    <a class="mdl-navigation__link" href="">Link</a>
+    <a class="mdl-navigation__link" href="">Link</a>
+    <a class="mdl-navigation__link" href="">Link</a>
+    <a class="mdl-navigation__link" href="">Link</a>
+</nav>
+-->

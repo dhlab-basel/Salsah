@@ -3,7 +3,7 @@ import { AppModule } from '../../app.module';
 import { AppRoutingModule } from '../../app-routing.module';
 import { DocumentationComponent } from './documentation.component';
 
-describe('DocumentationComponent', () => {
+xdescribe('DocumentationComponent', () => {
     let component: DocumentationComponent;
     let fixture: ComponentFixture<DocumentationComponent>;
 
