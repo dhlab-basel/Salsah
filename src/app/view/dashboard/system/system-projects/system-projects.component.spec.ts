@@ -8,7 +8,6 @@ describe('SystemProjectsComponent', () => {
     let component: SystemProjectsComponent;
     let fixture: ComponentFixture<SystemProjectsComponent>;
 
-
     let originalTimeout;
 
     beforeEach(function () {
