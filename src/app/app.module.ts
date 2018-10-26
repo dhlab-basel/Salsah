@@ -130,6 +130,8 @@ import { ListFormComponent } from './view/modules/form/list-form/list-form.compo
 import { ProjectDataComponent } from './view/modules/form/project-form/project-data/project-data.component';
 import { NodeFormComponent } from './view/modules/form/list-form/node-form/node-form.component';
 import { ObjectViewerComponent } from './view/modules/object/object-viewer/object-viewer.component';
+import { BeolComponent } from './view/templates/beol/beol.component';
+import { LeooComponent } from './view/templates/leoo/leoo.component';
 
 //
 // just to get the basic ontology form the json file
@@ -233,7 +235,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ProjectDataComponent,
         ReadTextfileValueComponent,
         NodeFormComponent,
-        ObjectViewerComponent
+        ObjectViewerComponent,
+        BeolComponent,
+        LeooComponent
     ],
     imports: [
         BrowserModule,
