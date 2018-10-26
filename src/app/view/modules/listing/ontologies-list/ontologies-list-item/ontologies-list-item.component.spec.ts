@@ -4,7 +4,7 @@ import { OntologiesListItemComponent } from './ontologies-list-item.component';
 import { AppModule } from '../../../../../app.module';
 import { ResourceTypesService } from '@knora/core';
 
-describe('OntologiesListItemComponent', () => {
+xdescribe('OntologiesListItemComponent', () => {
   let component: OntologiesListItemComponent;
   let fixture: ComponentFixture<OntologiesListItemComponent>;
 
@@ -24,7 +24,7 @@ describe('OntologiesListItemComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  xit('should create', () => {
     expect(component).toBeTruthy();
   });
 });
