@@ -45,7 +45,7 @@ export class UserObjectComponent implements OnChanges {
     ngOnChanges() {
         this.iri = undefined;
         this.email = undefined;
-        this._userService.getUserByIri(this.id)
+        this._userService.getUser(this.id)
             .subscribe(
                 (result: User) => {
                     this.user = result;

@@ -33,9 +33,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        /*
         setTimeout(() => {
             this.openDialog();
         }, 500);
+        */
     }
 
     ngOnDestroy() {

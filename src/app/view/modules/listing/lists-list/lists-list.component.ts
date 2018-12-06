@@ -162,7 +162,7 @@ export class ListsListComponent implements OnInit {
                     allowDrop: this.nodeDrop,
                 };
             } else {
-                this._usersService.getUserByEmail(this.loggedInUser.email).subscribe(
+                this._usersService.getUser(this.loggedInUser.email).subscribe(
                     (result: User) => {
                         // return full user details and check if they have administrative permissions for this project
                         this.currentUser = result;

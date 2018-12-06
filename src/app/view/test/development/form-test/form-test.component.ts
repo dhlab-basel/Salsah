@@ -24,7 +24,7 @@ export class FormTestComponent implements OnInit {
         /*
          * get user info
          */
-        this._usersService.getUserByIri(this.userIri)
+        this._usersService.getUser(this.userIri)
             .subscribe(
                 (result: User) => {
                     this.user = result;
