@@ -4,7 +4,7 @@
 # Salsah
 
 The System for Annotation and Linkage of Sources in Arts and Humanities (Salsah) is the generic user interface for [Knora](https://github.com/dhlab-basel/Knora).
-**This version of Salsah works fine with Knora v 2.4 and it will not support higher versions!** Salsah will be replaced by a the simple user interface for DaSCH, which is called [Kuirl](https://github.com/dhlab-basel/kuirl).
+**This version of Salsah works fine with Knora v 2.4 and at the moment it will not support higher versions!** Salsah was replaced by a the simple user interface for DaSCH, which is called **[--> KUIRL](https://github.com/dhlab-basel/kuirl)**.
 
 ---
 
