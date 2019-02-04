@@ -1,7 +1,7 @@
 [![CircleCI](https://circleci.com/gh/dhlab-basel/Salsah.svg?style=svg)](https://circleci.com/gh/dhlab-basel/Salsah)
 [![Build Status](https://travis-ci.org/dhlab-basel/Salsah.svg?branch=master)](https://travis-ci.org/dhlab-basel/Salsah)
 
-# Salsah [Deprecated]
+# Salsah \[Deprecated]
 
 The System for Annotation and Linkage of Sources in Arts and Humanities (Salsah) is the generic user interface for [Knora](https://github.com/dhlab-basel/Knora).
 **This version of Salsah works fine with Knora v 2.4 and at the moment it will not support higher versions!** Salsah was replaced by the simple user interface for DaSCH, which is called **[--> KUIRL](https://github.com/dhlab-basel/kuirl)**.
