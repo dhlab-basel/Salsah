@@ -12,9 +12,8 @@
  * License along with SALSAH.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import {
-    ApiServiceError,
     ApiServiceResult,
     ConvertJSONLD,
     ExtendedSearchParams,
@@ -28,6 +27,8 @@ import {
     SearchService
 } from '@knora/core';
 import { MessageData } from '../../message/message.component';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 declare let require: any; // http://stackoverflow.com/questions/34730010/angular2-5-minute-install-bug-require-is-not-defined
 const jsonld = require('jsonld');
@@ -37,11 +38,14 @@ const jsonld = require('jsonld');
     templateUrl: './resources-list.component.html',
     styleUrls: ['./resources-list.component.scss']
 })
-export class ResourcesListComponent implements OnInit, OnChanges {
+export class ResourcesListComponent implements OnInit, OnDestroy {
 
     @Input() searchParam: string;
     @Input() searchMode: string;
     @Input() listType?: string;
+
+    searchQuery: string;
+    // searchMode: string;
 
     _offset: number;
     @Input()
@@ -52,6 +56,15 @@ export class ResourcesListComponent implements OnInit, OnChanges {
     get offset() {
         return this._offset;
     }
+
+    // offset = 0;
+    maxOffset = 0;
+
+    step: number = undefined;
+
+    rerender = false;
+
+    extendedSearchParamsSubscription: Subscription;
 
     @Output() toggleItem = new EventEmitter<any>();
 
@@ -86,14 +99,137 @@ export class ResourcesListComponent implements OnInit, OnChanges {
     numberOfItems: number; // number of items actually returned by the query (using paging)
     numberOfAllResults: number; // total number of results (count query)
 
-    constructor(private _searchService: SearchService, private _cacheService: OntologyCacheService, private _searchParamsService: SearchParamsService, private _gravsearchgenerationService: GravsearchGenerationService) {
+    constructor(
+        private _route: ActivatedRoute,
+        private _searchService: SearchService,
+        private _cacheService: OntologyCacheService,
+        private _searchParamsService: SearchParamsService,
+        private _gravsearchgenerationService: GravsearchGenerationService) {
     }
 
     ngOnInit() {
 
+        this._route.params.subscribe((params: Params) => {
+            this.searchMode = params['mode'];
+            this.searchQuery = params['q'];
+
+            // init offset to 0
+            this.offset = 0;
+
+            this.rerender = true;
+            this.getResult();
+            this.rerender = false;
+        });
+
     }
 
-    ngOnChanges() {
+    ngOnDestroy() {
+        // unsubscribe from extendedSearchParamsSubscription
+        // otherwise old queries are still active
+        if (this.searchMode === 'extended' && this.extendedSearchParamsSubscription !== undefined) {
+            this.extendedSearchParamsSubscription.unsubscribe();
+        }
+    }
+
+    /**
+     * Get search result from Knora - 2 cases: simple search and extended search
+     */
+    getResult() {
+
+        this.result = [];
+        this.resetStep();
+
+        // FULLTEXT SEARCH
+        if (this.searchMode === 'fulltext') {
+            // perform count query
+            if (this.offset === 0) {
+
+                this._searchService.doFulltextSearchCountQuery(this.searchQuery)
+                    .subscribe(
+                        this.showNumberOfAllResults,
+                        (error: any) => {
+                            this.errorMessage = <any>error;
+                            // console.log('numberOfAllResults', this.numberOfAllResults);
+                        }
+                    );
+            }
+
+            // perform full text search
+            this._searchService.doFulltextSearch(this.searchQuery, this.offset)
+                .subscribe(
+                    this.processSearchResults, // function pointer
+                    (error: any) => {
+                        this.errorMessage = <any>error;
+                    },
+                );
+
+            // EXTENDED SEARCH
+        } else if (this.searchMode === 'extended') {
+            // perform count query
+            if (this.offset === 0) {
+                this._searchService.doExtendedSearchCountQuery(this.searchQuery)
+                    .subscribe(
+                        this.showNumberOfAllResults,
+                        (error: any) => {
+                            this.errorMessage = <any>error;
+                        }
+                    );
+            }
+            // perform the extended search
+            this.extendedSearchParamsSubscription = this._searchParamsService.currentSearchParams
+                .subscribe((extendedSearchParams: ExtendedSearchParams) => {
+
+                    if (this.offset === 0) {
+
+                        // console.log(this.searchQuery);
+
+                        this._searchService.doExtendedSearch(this.searchQuery)
+                            .subscribe(
+                                this.processSearchResults, // function pointer
+                                (error: any) => {
+                                    this.errorMessage = <any>error;
+                                });
+                    } else {
+                        // generate new GravSearch
+                        const gravSearch = extendedSearchParams.generateGravsearch(this.offset);
+
+                        // console.log(gravSearch);
+
+                        this._searchService.doExtendedSearch(gravSearch)
+                            .subscribe(
+                                this.processSearchResults, // function pointer
+                                (error: any) => {
+                                    console.error('3', error);
+                                    this.errorMessage = <any>error;
+                                }
+                            );
+                    }
+                });
+
+        } else {
+            this.errorMessage = `search mode invalid: ${this.searchMode}`;
+        }
+    }
+
+    /* the following methods will be moved to @knora/viewer views */
+
+    setStep(index: number) {
+        this.step = index;
+    }
+
+    resetStep() {
+        this.step = undefined;
+    }
+
+    nextStep() {
+        this.step++;
+    }
+
+    prevStep() {
+        this.step--;
+    }
+
+    /*ngOnChanges() {
         if (this.listType === 'grid') {
             this.columns = 3;
         }
@@ -161,6 +297,8 @@ export class ResourcesListComponent implements OnInit, OnChanges {
                         // generate new Gravsearch with increased offset
                         const gravsearch = extendedSearchParams.generateGravsearch(this._offset);
 
+
+
                         this._searchService.doExtendedSearch(gravsearch)
                             .subscribe(
                                 this.processSearchResults, // function pointer
@@ -182,7 +320,7 @@ export class ResourcesListComponent implements OnInit, OnChanges {
             this.errorMessage = `search mode invalid: ${this.searchMode}`;
         }
 
-    }
+    }*/
 
     /**
      * Shows total number of results returned by a count query.

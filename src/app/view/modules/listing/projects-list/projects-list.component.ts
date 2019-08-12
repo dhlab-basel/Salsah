@@ -104,7 +104,7 @@ export class ProjectsListComponent implements OnInit {
         if (this.restrictedBy !== undefined) {
             // we have a user id
             // get all the projects where the user is member of
-            this._userService.getUserByIri(this.restrictedBy)
+            this._userService.getUser(this.restrictedBy)
                 .subscribe(
                     (result: User) => {
                         this.allProjects = result.projects;

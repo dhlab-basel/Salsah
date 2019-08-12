@@ -295,7 +295,7 @@ export class UserFormComponent implements OnInit {
         this.email = (username ? username : this.userFormGroup.controls['username'].value);
 
         // get user by username (email)
-        this._usersService.getUserByEmail(this.email)
+        this._usersService.getUser(this.email)
             .subscribe(
                 (result: User) => {
                     // case b) result in case the user exists

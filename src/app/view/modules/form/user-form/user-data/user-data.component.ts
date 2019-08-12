@@ -122,7 +122,7 @@ export class UserDataComponent implements OnInit, OnChanges {
 
         if (!this.user && this.userIri) {
 
-            this._usersService.getUserByIri(this.userIri)
+            this._usersService.getUser(this.userIri)
                 .subscribe(
                     (result: User) => {
                         this.user = result;

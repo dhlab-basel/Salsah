@@ -118,7 +118,7 @@ export class UserComponent implements OnInit {
         }
 
         if (this.email) {
-            this._userService.getUserByEmail(this.email)
+            this._userService.getUser(this.email)
                 .subscribe(
                     (result: User) => {
                         this.user = result;
